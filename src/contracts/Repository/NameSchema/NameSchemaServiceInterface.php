@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\NameSchema;
 
+use Ibexa\Contracts\Core\FieldType\Value;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
@@ -27,7 +29,7 @@ interface NameSchemaServiceInterface
     ): array;
 
     /**
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<int|string, array<string, Value>> $fieldMap
      * @param array<string> $languageCodes
      *
      * @return array<string, string>
@@ -42,12 +44,12 @@ interface NameSchemaServiceInterface
     /**
      * Returns the real name for a content name pattern.
      *
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
+     * @param array<int|string, array<string, Value>>  $fieldMap
      * @param array<string> $languageCodes
      *
      * @return array<string, string>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function resolveNameSchema(
         string $nameSchema,

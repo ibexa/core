@@ -24,10 +24,10 @@ class IbexaIOExtension extends Extension
 {
     public const string EXTENSION_NAME = 'ibexa_io';
 
-    /** @var \ArrayObject<string, \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory> */
+    /** @var ArrayObject<string, ConfigurationFactory> */
     private ArrayObject $metadataHandlerFactories;
 
-    /** @var \ArrayObject<string, \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory> */
+    /** @var ArrayObject<string, ConfigurationFactory> */
     private ArrayObject $binarydataHandlerFactories;
 
     public function __construct()
@@ -39,21 +39,25 @@ class IbexaIOExtension extends Extension
     /**
      * Registers a metadata handler configuration $factory for handler with $alias.
      */
-    public function addMetadataHandlerFactory(string $alias, ConfigurationFactory $factory): void
-    {
+    public function addMetadataHandlerFactory(
+        string $alias,
+        ConfigurationFactory $factory
+    ): void {
         $this->metadataHandlerFactories[$alias] = $factory;
     }
 
     /**
      * Registers a binary data handler configuration $factory for handler with $alias.
      */
-    public function addBinarydataHandlerFactory(string $alias, ConfigurationFactory $factory): void
-    {
+    public function addBinarydataHandlerFactory(
+        string $alias,
+        ConfigurationFactory $factory
+    ): void {
         $this->binarydataHandlerFactories[$alias] = $factory;
     }
 
     /**
-     * @return \ArrayObject<string, \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory>
+     * @return ArrayObject<string, ConfigurationFactory>
      */
     public function getMetadataHandlerFactories(): ArrayObject
     {
@@ -61,7 +65,7 @@ class IbexaIOExtension extends Extension
     }
 
     /**
-     * @return \ArrayObject<string, \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory>
+     * @return ArrayObject<string, ConfigurationFactory>
      */
     public function getBinarydataHandlerFactories(): ArrayObject
     {
@@ -76,11 +80,13 @@ class IbexaIOExtension extends Extension
     /**
      * @throws \Exception
      */
-    public function load(array $configs, ContainerBuilder $container): void
-    {
+    public function load(
+        array $configs,
+        ContainerBuilder $container
+    ): void {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
-        /** @var \Ibexa\Bundle\IO\DependencyInjection\Configuration $configuration */
+        /** @var Configuration $configuration */
         $configuration = $this->getConfiguration($configs, $container);
 
         $config = $this->processConfiguration($configuration, $configs);
@@ -98,8 +104,11 @@ class IbexaIOExtension extends Extension
      * @param array<mixed> $config
      * @param string $key Configuration key, either binary data or metadata
      */
-    private function processHandlers(ContainerBuilder $container, array $config, string $key): void
-    {
+    private function processHandlers(
+        ContainerBuilder $container,
+        array $config,
+        string $key
+    ): void {
         $handlers = [];
         if (isset($config[$key])) {
             foreach ($config[$key] as $name => $value) {
@@ -118,8 +127,10 @@ class IbexaIOExtension extends Extension
     /**
      * @param array<mixed> $config
      */
-    public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
-    {
+    public function getConfiguration(
+        array $config,
+        ContainerBuilder $container
+    ): ?ConfigurationInterface {
         $configuration = new Configuration();
         $configuration->setMetadataHandlerFactories($this->getMetadataHandlerFactories());
         $configuration->setBinarydataHandlerFactories($this->getBinarydataHandlerFactories());

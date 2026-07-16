@@ -22,6 +22,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
@@ -33,6 +34,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionException;
 
 /**
@@ -45,75 +47,75 @@ class ContentHandlerTest extends TestCase
     /**
      * Content handler to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Handler
+     * @var Handler
      */
     protected $contentHandler;
 
     /**
      * Gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
     /**
      * Location gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @var LocationGateway
      */
     protected $locationGatewayMock;
 
     /**
      * Type gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @var ContentTypeGateway
      */
     protected $typeGatewayMock;
 
     /**
      * Mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
     /**
      * Field handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @var FieldHandler
      */
     protected $fieldHandlerMock;
 
     /**
      * Location handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @var TreeHandler
      */
     protected $treeHandlerMock;
 
     /**
      * Slug converter mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
+     * @var SlugConverter
      */
     protected $slugConverterMock;
 
     /**
      * Location handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
+     * @var UrlAliasGateway
      */
     protected $urlAliasGatewayMock;
 
     /**
      * ContentType handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Handler
+     * @var ContentTypeHandler
      */
     protected $contentTypeHandlerMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @var MockObject&LanguageHandler
      */
     private LanguageHandler $languageHandlerMock;
 
@@ -614,10 +616,12 @@ class ContentHandlerTest extends TestCase
      * @param int $id Optional id
      * @param int $versionNo Optional version number
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
-    protected function getContentFixtureForDraft(int $id = 23, int $versionNo = 2)
-    {
+    protected function getContentFixtureForDraft(
+        int $id = 23,
+        int $versionNo = 2
+    ) {
         $content = new Content();
         $content->versionInfo = new VersionInfo();
         $content->versionInfo->versionNo = $versionNo;
@@ -928,7 +932,7 @@ class ContentHandlerTest extends TestCase
         $expectedRelationObject->type = RelationType::COMMON->value;
 
         // relation create struct
-        $relationCreateStruct = new Relation\CreateStruct();
+        $relationCreateStruct = new RelationCreateStruct();
         $relationCreateStruct->destinationContentId = 66;
         $relationCreateStruct->sourceContentId = 23;
         $relationCreateStruct->sourceContentVersionNo = 1;
@@ -989,7 +993,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a CreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\CreateStruct
+     * @return CreateStruct
      */
     public function getCreateStructFixture()
     {
@@ -1516,7 +1520,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns the handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Handler
+     * @return Handler
      */
     protected function getContentHandler()
     {
@@ -1542,7 +1546,7 @@ class ContentHandlerTest extends TestCase
      *
      * @param string[] $methods
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Handler
+     * @return Handler
      */
     protected function getPartlyMockedHandler(array $methods)
     {
@@ -1567,7 +1571,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a TreeHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @return MockObject|TreeHandler
      */
     protected function getTreeHandlerMock()
     {
@@ -1581,7 +1585,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a ContentTypeHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Type\Handler
+     * @return MockObject|ContentTypeHandler
      */
     protected function getContentTypeHandlerMock()
     {
@@ -1593,7 +1597,7 @@ class ContentHandlerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @return MockObject&LanguageHandler
      */
     protected function getLanguageHandlerMock(): LanguageHandler
     {
@@ -1607,7 +1611,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a FieldHandler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @return FieldHandler
      */
     protected function getFieldHandlerMock()
     {
@@ -1621,7 +1625,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a Mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return Mapper
      */
     protected function getMapperMock()
     {
@@ -1635,7 +1639,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a Location Gateway mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @return LocationGateway
      */
     protected function getLocationGatewayMock()
     {
@@ -1649,7 +1653,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a content type gateway mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @return ContentTypeGateway
      */
     protected function getTypeGatewayMock()
     {
@@ -1663,7 +1667,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a mock object for the Content Gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Gateway|\PHPUnit\Framework\MockObject\MockObject
+     * @return Gateway|MockObject
      */
     protected function getGatewayMock()
     {
@@ -1681,7 +1685,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a mock object for the UrlAlias Handler.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
+     * @return SlugConverter
      */
     protected function getSlugConverterMock()
     {
@@ -1695,7 +1699,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a mock object for the UrlAlias Gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
+     * @return UrlAliasGateway
      */
     protected function getUrlAliasGatewayMock()
     {

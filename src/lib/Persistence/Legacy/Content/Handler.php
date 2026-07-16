@@ -11,6 +11,7 @@ use Exception;
 use Ibexa\Contracts\Core\FieldType\ReferenceAwareExternalStorage;
 use Ibexa\Contracts\Core\Options\Context;
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as BaseContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
@@ -20,6 +21,8 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCr
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
@@ -35,14 +38,14 @@ class Handler implements BaseContentHandler
     /**
      * Content gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGateway;
 
     /**
      * Location gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @var LocationGateway
      */
     protected $locationGateway;
 
@@ -56,55 +59,55 @@ class Handler implements BaseContentHandler
     /**
      * FieldHandler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @var FieldHandler
      */
     protected $fieldHandler;
 
     /**
      * URL slug converter.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
+     * @var SlugConverter
      */
     protected $slugConverter;
 
     /**
      * UrlAlias gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
+     * @var UrlAliasGateway
      */
     protected $urlAliasGateway;
 
     /**
      * ContentType handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+     * @var ContentTypeHandler
      */
     protected $contentTypeHandler;
 
     /**
      * Tree handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @var TreeHandler
      */
     protected $treeHandler;
 
     protected LanguageHandler $languageHandler;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
     /**
      * Creates a new content handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway $locationGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Mapper $mapper
-     * @param \Ibexa\Core\Persistence\Legacy\Content\FieldHandler $fieldHandler
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter $slugConverter
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway $urlAliasGateway
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Handler $contentTypeHandler
-     * @param \Ibexa\Core\Persistence\Legacy\Content\TreeHandler $treeHandler
-     * @param \Psr\Log\LoggerInterface|null $logger
+     * @param Gateway $contentGateway
+     * @param LocationGateway $locationGateway
+     * @param Mapper $mapper
+     * @param FieldHandler $fieldHandler
+     * @param SlugConverter $slugConverter
+     * @param UrlAliasGateway $urlAliasGateway
+     * @param ContentTypeHandler $contentTypeHandler
+     * @param TreeHandler $treeHandler
+     * @param LoggerInterface|null $logger
      */
     public function __construct(
         Gateway $contentGateway,
@@ -138,9 +141,9 @@ class Handler implements BaseContentHandler
      *
      * Will contain always a complete list of fields.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\CreateStruct $struct Content creation struct.
+     * @param CreateStruct $struct Content creation struct.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content Content value object
+     * @return Content Content value object
      */
     public function create(CreateStruct $struct)
     {
@@ -155,13 +158,15 @@ class Handler implements BaseContentHandler
      *
      * Will contain always a complete list of fields.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\CreateStruct $struct Content creation struct.
+     * @param CreateStruct $struct Content creation struct.
      * @param mixed $versionNo Used by self::copy() to maintain version numbers
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content Content value object
+     * @return Content Content value object
      */
-    protected function internalCreate(CreateStruct $struct, $versionNo = 1)
-    {
+    protected function internalCreate(
+        CreateStruct $struct,
+        $versionNo = 1
+    ) {
         $content = new Content();
 
         $content->fields = $struct->fields;
@@ -213,15 +218,18 @@ class Handler implements BaseContentHandler
      *
      * @param int $contentId
      * @param int $versionNo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct $metaDataUpdateStruct
+     * @param MetadataUpdateStruct $metaDataUpdateStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content The published Content
+     * @return Content The published Content
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws BadStateException
+     * @throws NotFoundException
      */
-    public function publish($contentId, $versionNo, MetadataUpdateStruct $metaDataUpdateStruct)
-    {
+    public function publish(
+        $contentId,
+        $versionNo,
+        MetadataUpdateStruct $metaDataUpdateStruct
+    ) {
         // Archive currently published version
         $versionInfo = $this->loadVersionInfo($contentId, $versionNo);
         if ($versionInfo->contentInfo->currentVersionNo != $versionNo) {
@@ -261,9 +269,9 @@ class Handler implements BaseContentHandler
      * @param mixed $srcVersion
      * @param mixed $userId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function createDraftFromVersion(
         $contentId,
@@ -332,8 +340,11 @@ class Handler implements BaseContentHandler
     /**
      * {@inheritdoc}
      */
-    public function load($id, $version = null, ?array $translations = null)
-    {
+    public function load(
+        $id,
+        $version = null,
+        ?array $translations = null
+    ) {
         $rows = $this->contentGateway->load($id, $version, $translations);
 
         if (empty($rows)) {
@@ -360,8 +371,10 @@ class Handler implements BaseContentHandler
     /**
      * {@inheritdoc}
      */
-    public function loadContentList(array $contentIds, ?array $translations = null): array
-    {
+    public function loadContentList(
+        array $contentIds,
+        ?array $translations = null
+    ): array {
         $rawList = $this->contentGateway->loadContentList($contentIds, $translations);
         if (empty($rawList)) {
             return [];
@@ -440,7 +453,7 @@ class Handler implements BaseContentHandler
      *
      * @param int|string $contentId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
+     * @return ContentInfo
      */
     public function loadContentInfo($contentId)
     {
@@ -466,7 +479,7 @@ class Handler implements BaseContentHandler
      *
      * @param mixed $remoteId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
+     * @return ContentInfo
      */
     public function loadContentInfoByRemoteId($remoteId)
     {
@@ -475,8 +488,10 @@ class Handler implements BaseContentHandler
         );
     }
 
-    public function loadVersionInfo($contentId, $versionNo = null): VersionInfo
-    {
+    public function loadVersionInfo(
+        $contentId,
+        $versionNo = null
+    ): VersionInfo {
         $rows = $this->contentGateway->loadVersionInfo((int)$contentId, $versionNo);
         if (empty($rows)) {
             throw new NotFound('content', $contentId);
@@ -495,8 +510,10 @@ class Handler implements BaseContentHandler
         return $versionInfo;
     }
 
-    public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
-    {
+    public function loadVersionNoArchivedWithin(
+        int $contentId,
+        int $seconds
+    ): array {
         $rows = $this->contentGateway->loadVersionNoArchivedWithin($contentId, $seconds);
         if (empty($rows)) {
             throw new NotFound('content', $contentId);
@@ -520,7 +537,7 @@ class Handler implements BaseContentHandler
      *
      * @param int $userId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[]
+     * @return VersionInfo[]
      */
     public function loadDraftsForUser($userId)
     {
@@ -543,8 +560,11 @@ class Handler implements BaseContentHandler
         return $this->mapper->extractVersionInfoListFromRows($rows, $nameRows);
     }
 
-    public function loadDraftListForUser(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadDraftListForUser(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         $rows = $this->contentGateway->loadVersionsForUser($userId, VersionInfo::STATUS_DRAFT, $offset, $limit);
         if (empty($rows)) {
             return [];
@@ -576,8 +596,11 @@ class Handler implements BaseContentHandler
      *
      * @return bool
      */
-    public function setStatus($contentId, $status, $version)
-    {
+    public function setStatus(
+        $contentId,
+        $status,
+        $version
+    ) {
         return $this->contentGateway->setStatus($contentId, $version, $status);
     }
 
@@ -585,12 +608,14 @@ class Handler implements BaseContentHandler
      * Updates a content object meta data, identified by $contentId.
      *
      * @param int $contentId
-     * @param \Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct $content
+     * @param MetadataUpdateStruct $content
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
+     * @return ContentInfo
      */
-    public function updateMetadata($contentId, MetadataUpdateStruct $content)
-    {
+    public function updateMetadata(
+        $contentId,
+        MetadataUpdateStruct $content
+    ) {
         $this->contentGateway->updateContent($contentId, $content);
         $this->updatePathIdentificationString($contentId, $content);
 
@@ -604,10 +629,12 @@ class Handler implements BaseContentHandler
      * This is specific to the Legacy storage engine, as path identification string is deprecated.
      *
      * @param int $contentId
-     * @param \Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct $content
+     * @param MetadataUpdateStruct $content
      */
-    protected function updatePathIdentificationString($contentId, MetadataUpdateStruct $content)
-    {
+    protected function updatePathIdentificationString(
+        $contentId,
+        MetadataUpdateStruct $content
+    ) {
         if (isset($content->mainLanguageId)) {
             $contentLocationsRows = $this->locationGateway->loadLocationDataByContent($contentId);
             foreach ($contentLocationsRows as $row) {
@@ -638,12 +665,15 @@ class Handler implements BaseContentHandler
      *
      * @param int $contentId
      * @param int $versionNo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\UpdateStruct $updateStruct
+     * @param UpdateStruct $updateStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
-    public function updateContent($contentId, $versionNo, UpdateStruct $updateStruct)
-    {
+    public function updateContent(
+        $contentId,
+        $versionNo,
+        UpdateStruct $updateStruct
+    ) {
         $content = $this->load($contentId, $versionNo);
         $this->contentGateway->updateVersion($contentId, $versionNo, $updateStruct);
         $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
@@ -703,8 +733,10 @@ class Handler implements BaseContentHandler
      *
      * @return bool
      */
-    public function deleteVersion($contentId, $versionNo)
-    {
+    public function deleteVersion(
+        $contentId,
+        $versionNo
+    ) {
         $versionInfo = $this->loadVersionInfo($contentId, $versionNo);
 
         $this->locationGateway->deleteNodeAssignment($contentId, $versionNo);
@@ -725,10 +757,13 @@ class Handler implements BaseContentHandler
      * @param mixed|null $status Optional argument to filter versions by status, like {@see VersionInfo::STATUS_ARCHIVED}.
      * @param int $limit Limit for items returned, -1 means none.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[]
+     * @return VersionInfo[]
      */
-    public function listVersions($contentId, $status = null, $limit = -1)
-    {
+    public function listVersions(
+        $contentId,
+        $status = null,
+        $limit = -1
+    ) {
         return $this->treeHandler->listVersions($contentId, $status, $limit);
     }
 
@@ -737,16 +772,19 @@ class Handler implements BaseContentHandler
      *
      * {@inheritdoc}
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If content or version is not found
+     * @throws NotFoundException If content or version is not found
      *
      * @param mixed $contentId
      * @param mixed|null $versionNo Copy all versions if left null
      * @param int|null $newOwnerId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
-    public function copy($contentId, $versionNo = null, $newOwnerId = null)
-    {
+    public function copy(
+        $contentId,
+        $versionNo = null,
+        $newOwnerId = null
+    ) {
         $currentVersionNo = isset($versionNo) ?
             $versionNo :
             $this->loadContentInfo($contentId)->currentVersionNo;
@@ -810,9 +848,9 @@ class Handler implements BaseContentHandler
      *
      * @todo Should the existence verifications happen here or is this supposed to be handled at a higher level?
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct $createStruct
+     * @param RelationCreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation
+     * @return Relation
      */
     public function addRelation(RelationCreateStruct $createStruct)
     {
@@ -824,7 +862,7 @@ class Handler implements BaseContentHandler
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function loadRelation(int $relationId): Relation
     {
@@ -844,13 +882,19 @@ class Handler implements BaseContentHandler
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
      */
-    public function removeRelation($relationId, $type, ?int $destinationContentId = null): void
-    {
+    public function removeRelation(
+        $relationId,
+        $type,
+        ?int $destinationContentId = null
+    ): void {
         $this->contentGateway->deleteRelation($relationId, $type);
     }
 
-    public function countRelations(int $sourceContentId, ?int $sourceContentVersionNo = null, ?int $type = null): int
-    {
+    public function countRelations(
+        int $sourceContentId,
+        ?int $sourceContentVersionNo = null,
+        ?int $type = null
+    ): int {
         return $this->contentGateway->countRelations($sourceContentId, $sourceContentVersionNo, $type);
     }
 
@@ -869,8 +913,10 @@ class Handler implements BaseContentHandler
     /**
      * {@inheritdoc}
      */
-    public function countReverseRelations(int $destinationContentId, ?int $type = null): int
-    {
+    public function countReverseRelations(
+        int $destinationContentId,
+        ?int $type = null
+    ): int {
         return $this->contentGateway->countReverseRelations($destinationContentId, $type);
     }
 
@@ -885,10 +931,12 @@ class Handler implements BaseContentHandler
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation[]
+     * @return Relation[]
      */
-    public function loadReverseRelations($destinationContentId, $type = null)
-    {
+    public function loadReverseRelations(
+        $destinationContentId,
+        $type = null
+    ) {
         return $this->mapper->extractRelationsFromRows(
             $this->contentGateway->loadReverseRelations($destinationContentId, $type)
         );
@@ -911,8 +959,10 @@ class Handler implements BaseContentHandler
     /**
      * {@inheritdoc}
      */
-    public function deleteTranslationFromContent($contentId, $languageCode)
-    {
+    public function deleteTranslationFromContent(
+        $contentId,
+        $languageCode
+    ) {
         $this->fieldHandler->deleteTranslationFromContentFields(
             $contentId,
             $this->listVersions($contentId),
@@ -924,8 +974,11 @@ class Handler implements BaseContentHandler
     /**
      * {@inheritdoc}
      */
-    public function deleteTranslationFromDraft($contentId, $versionNo, $languageCode)
-    {
+    public function deleteTranslationFromDraft(
+        $contentId,
+        $versionNo,
+        $languageCode
+    ) {
         $versionInfo = $this->loadVersionInfo($contentId, $versionNo);
 
         $this->fieldHandler->deleteTranslationFromVersionFields(
@@ -961,7 +1014,7 @@ class Handler implements BaseContentHandler
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function loadVersionInfoList(array $contentIds): array
     {

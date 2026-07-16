@@ -146,7 +146,7 @@ class SimplifiedRequest extends ValueObject
      *
      * @internal
      *
-     * @return \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest
+     * @return SimplifiedRequest
      */
     public static function fromUrl($url)
     {

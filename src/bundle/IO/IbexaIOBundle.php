@@ -19,7 +19,7 @@ class IbexaIOBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
-        /** @var \Ibexa\Bundle\IO\DependencyInjection\IbexaIOExtension $extension */
+        /** @var IbexaIOExtension $extension */
         $extension = $this->getContainerExtension();
         $container->addCompilerPass(
             new Compiler\IOConfigurationPass(

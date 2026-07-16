@@ -15,7 +15,7 @@ use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
 
 class ParameterProvider implements ParameterProviderInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     private $userService;
 
     public function __construct(UserService $userService)

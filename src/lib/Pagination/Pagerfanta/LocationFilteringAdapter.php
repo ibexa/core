@@ -21,7 +21,7 @@ final class LocationFilteringAdapter implements AdapterInterface
 {
     private LocationService $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\Filter */
+    /** @var Filter */
     private Filter $filter;
 
     /** @phpstan-var TFilteringLanguageFilter|null */
@@ -49,8 +49,10 @@ final class LocationFilteringAdapter implements AdapterInterface
         return $this->totalCount;
     }
 
-    public function getSlice($offset, $length): iterable
-    {
+    public function getSlice(
+        $offset,
+        $length
+    ): iterable {
         $selectFilter = clone $this->filter;
         $selectFilter->sliceBy($length, $offset);
 

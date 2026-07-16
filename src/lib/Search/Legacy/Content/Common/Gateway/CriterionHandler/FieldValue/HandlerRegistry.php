@@ -18,14 +18,14 @@ class HandlerRegistry
      * Map of Criterion field value handlers where key is field type identifier
      * and value is field value handler.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler[]
+     * @var Handler[]
      */
     protected $map = [];
 
     /**
      * Create field value handler registry with handler map.
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler[] $map
+     * @param Handler[] $map
      *        Map of Criterion field value handlers where key is field type identifier and value field value handler
      */
     public function __construct(array $map = [])
@@ -39,21 +39,23 @@ class HandlerRegistry
      * Register $handler for $fieldTypeIdentifier.
      *
      * @param string $fieldTypeIdentifier
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler $handler
+     * @param Handler $handler
      */
-    public function register($fieldTypeIdentifier, $handler)
-    {
+    public function register(
+        $fieldTypeIdentifier,
+        $handler
+    ) {
         $this->map[$fieldTypeIdentifier] = $handler;
     }
 
     /**
      * Returns handler for given $fieldTypeIdentifier.
      *
-     * @throws \OutOfBoundsException If handler is not registered for a given $fieldTypeIdentifier
+     * @throws OutOfBoundsException If handler is not registered for a given $fieldTypeIdentifier
      *
      * @param string $fieldTypeIdentifier
      *
-     * @return \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
+     * @return Handler
      */
     public function get($fieldTypeIdentifier)
     {

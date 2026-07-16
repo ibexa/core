@@ -49,7 +49,7 @@ class FieldValueConverterRegistryTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @return Converter
      */
     protected function getFieldValueConverterMock()
     {

@@ -23,7 +23,7 @@ final class AggregateTest extends TestCase
 {
     private const MAPPED_VALUE = true;
 
-    /** @var \Ibexa\Core\Search\Common\FieldValueMapper\Aggregate */
+    /** @var Aggregate */
     private $aggregateMapper;
 
     public function setUp(): void

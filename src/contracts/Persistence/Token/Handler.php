@@ -8,14 +8,17 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Token;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+
 /**
  * @internal
  */
 interface Handler
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function getToken(
         string $tokenType,
@@ -31,7 +34,10 @@ interface Handler
 
     public function revokeTokenById(int $tokenId): void;
 
-    public function revokeTokenByIdentifier(string $tokenType, ?string $identifier): void;
+    public function revokeTokenByIdentifier(
+        string $tokenType,
+        ?string $identifier
+    ): void;
 
     public function deleteToken(Token $token): void;
 

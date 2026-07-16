@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
 use DateTime;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Core\FieldType\TextLine;
@@ -26,7 +27,7 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
     private const CONTENT_TYPE_IDENTIFIER = 'custom';
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testCopyTranslationsFromPublishedVersionCopiesEmptyValues(): void
     {

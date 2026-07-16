@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as UrlWildcardH
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Psr\Cache\InvalidArgumentException;
 
 class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerInterface
 {
@@ -23,8 +24,11 @@ class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerIn
     private const URL_WILDCARD_NOT_FOUND_IDENTIFIER = 'url_wildcard_not_found';
     private const URL_WILDCARD_SOURCE_IDENTIFIER = 'url_wildcard_source';
 
-    public function create($sourceUrl, $destinationUrl, $forward = false)
-    {
+    public function create(
+        $sourceUrl,
+        $destinationUrl,
+        $forward = false
+    ) {
         $this->logger->logCall(
             __METHOD__,
             [
@@ -46,7 +50,7 @@ class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerIn
     /**
      * {@inheritdoc}
      *
-     * @throws \Psr\Cache\InvalidArgumentException&\Throwable
+     * @throws InvalidArgumentException&\Throwable
      */
     public function update(
         int $id,
@@ -115,15 +119,17 @@ class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerIn
         return $urlWildcard;
     }
 
-    public function loadAll($offset = 0, $limit = -1)
-    {
+    public function loadAll(
+        $offset = 0,
+        $limit = -1
+    ) {
         $this->logger->logCall(__METHOD__, ['offset' => $offset, 'limit' => $limit]);
 
         return $this->persistenceHandler->urlWildcardHandler()->loadAll($offset, $limit);
     }
 
     /**
-     * @see \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard::find
+     * @see UrlWildcard::find
      */
     public function find(URLWildcardQuery $query): array
     {

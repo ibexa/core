@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\Core\DependencyInjection;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
+use Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
@@ -20,17 +21,16 @@ class Configuration extends SiteAccessConfiguration
 {
     public const array CUSTOM_TAG_ATTRIBUTE_TYPES = ['number', 'string', 'boolean', 'choice'];
 
-    /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter[] */
+    /** @var SiteAccessConfigurationFilter[] */
     private array $siteAccessConfigurationFilters;
 
     public function __construct(
         private readonly ParserInterface $mainSiteAccessConfigParser,
         private readonly RepositoryConfigParserInterface $mainRepositoryConfigParser
-    ) {
-    }
+    ) {}
 
     /**
-     * @param \Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter[] $filters
+     * @param SiteAccessConfigurationFilter[] $filters
      */
     public function setSiteAccessConfigurationFilters(array $filters): void
     {
@@ -40,7 +40,7 @@ class Configuration extends SiteAccessConfiguration
     /**
      * Generates the configuration tree builder.
      *
-     * @phpstan-return \Symfony\Component\Config\Definition\Builder\TreeBuilder<'array'> The tree builder
+     * @phpstan-return TreeBuilder<'array'> The tree builder
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {

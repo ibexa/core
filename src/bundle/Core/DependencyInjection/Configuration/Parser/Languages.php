@@ -32,8 +32,10 @@ class Languages extends AbstractParser
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer): void
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ): void {
         $contextualizer->mapConfigArray('languages', $config, ContextualizerInterface::UNIQUE);
         $contextualizer->mapConfigArray('translation_siteaccesses', $config, ContextualizerInterface::UNIQUE);
 
@@ -45,8 +47,11 @@ class Languages extends AbstractParser
         }
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ) {
         $container = $contextualizer->getContainer();
         if ($container->hasParameter("ibexa.site_access.config.$currentScope.languages")) {
             $languages = $container->getParameter("ibexa.site_access.config.$currentScope.languages");
@@ -57,8 +62,10 @@ class Languages extends AbstractParser
         }
     }
 
-    public function postMap(array $config, ContextualizerInterface $contextualizer): void
-    {
+    public function postMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ): void {
         $contextualizer->getContainer()->setParameter(
             'ibexa.site_access.by_language',
             $this->siteAccessesByLanguages

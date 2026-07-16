@@ -21,7 +21,7 @@ trait MultiLanguageTestTrait
     /**
      * @depends testNewClassWithMultiLanguageProperties
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
+     * @param MultiLanguageName $object tested ValueObject
      */
     public function testGetMultiLanguagePrioritizedName($object)
     {
@@ -40,7 +40,7 @@ trait MultiLanguageTestTrait
     /**
      * @depends testNewClassWithMultiLanguageProperties
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
+     * @param MultiLanguageName $object tested ValueObject
      */
     public function testGetMultiLanguageDefaultName($object)
     {
@@ -70,7 +70,7 @@ trait MultiLanguageTestTrait
     /**
      * @depends testNewClassWithMultiLanguageProperties
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
+     * @param MultiLanguageDescription $object tested ValueObject
      */
     public function testGetMultiLanguagePrioritizedDescription($object)
     {
@@ -89,7 +89,7 @@ trait MultiLanguageTestTrait
     /**
      * @depends testNewClassWithMultiLanguageProperties
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
+     * @param MultiLanguageDescription $object tested ValueObject
      */
     public function testGetMultiLanguageDefaultDescription($object)
     {

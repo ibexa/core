@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  */
 class KeywordTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter */
+    /** @var KeywordConverter */
     protected $converter;
 
     protected function setUp(): void

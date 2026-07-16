@@ -13,7 +13,10 @@ use Ibexa\Core\FieldType\Validator;
 
 abstract class BaseNumericValidator extends Validator
 {
-    abstract protected function getConstraintsValidationErrorMessage(string $name, mixed $value): ?string;
+    abstract protected function getConstraintsValidationErrorMessage(
+        string $name,
+        mixed $value
+    ): ?string;
 
     /**
      * @param array<string, mixed> $constraints

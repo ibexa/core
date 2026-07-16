@@ -7,6 +7,8 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content;
 
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
@@ -22,44 +24,44 @@ class TreeHandler
     /**
      * Gateway for handling location data.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @var LocationGateway
      */
     protected $locationGateway;
 
     /**
      * Location Mapper.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @var LocationMapper
      */
     protected $locationMapper;
 
     /**
      * Content gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var ContentGateway
      */
     protected $contentGateway;
 
     /**
      * Content handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @var ContentMapper
      */
     protected $contentMapper;
 
     /**
      * FieldHandler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @var FieldHandler
      */
     protected $fieldHandler;
 
     /**
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway $locationGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper $locationMapper
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Mapper $contentMapper
-     * @param \Ibexa\Core\Persistence\Legacy\Content\FieldHandler $fieldHandler
+     * @param LocationGateway $locationGateway
+     * @param LocationMapper $locationMapper
+     * @param ContentGateway $contentGateway
+     * @param ContentMapper $contentMapper
+     * @param FieldHandler $fieldHandler
      */
     public function __construct(
         LocationGateway $locationGateway,
@@ -80,9 +82,9 @@ class TreeHandler
      *
      * @param int|string $contentId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
+     * @return ContentInfo
      */
     public function loadContentInfo($contentId)
     {
@@ -96,7 +98,7 @@ class TreeHandler
      *
      * @param int $contentId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function removeRawContent($contentId)
     {
@@ -128,8 +130,11 @@ class TreeHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[]
      */
-    public function listVersions($contentId, $status = null, $limit = -1)
-    {
+    public function listVersions(
+        $contentId,
+        $status = null,
+        $limit = -1
+    ) {
         $rows = $this->contentGateway->listVersions($contentId, $status, $limit);
         if (empty($rows)) {
             return [];
@@ -159,12 +164,15 @@ class TreeHandler
      * @param string[]|null $translations If set, NotFound is thrown if content is not in given translation.
      * @param bool $useAlwaysAvailable Respect always available flag on content, where main language is valid translation fallback.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location
+     * @return Location
      */
-    public function loadLocation($locationId, ?array $translations = null, bool $useAlwaysAvailable = true)
-    {
+    public function loadLocation(
+        $locationId,
+        ?array $translations = null,
+        bool $useAlwaysAvailable = true
+    ) {
         $data = $this->locationGateway->getBasicNodeData($locationId, $translations, $useAlwaysAvailable);
 
         return $this->locationMapper->createLocationFromRow($data);
@@ -181,7 +189,7 @@ class TreeHandler
      *
      * @param mixed $locationId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      *
      * @return bool
      */
@@ -219,7 +227,7 @@ class TreeHandler
     /**
      * Removes draft contents assigned to the given parent location and its descendant locations.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function deleteChildrenDrafts(int $locationId): void
     {
@@ -242,10 +250,12 @@ class TreeHandler
      * @param mixed $locationId
      * @param mixed $sectionId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function setSectionForSubtree($locationId, $sectionId)
-    {
+    public function setSectionForSubtree(
+        $locationId,
+        $sectionId
+    ) {
         $nodeData = $this->locationGateway->getBasicNodeData($locationId);
 
         $this->locationGateway->setSectionForSubtree($nodeData['path_string'], $sectionId);
@@ -259,10 +269,12 @@ class TreeHandler
      * @param mixed $contentId
      * @param mixed $locationId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function changeMainLocation($contentId, $locationId)
-    {
+    public function changeMainLocation(
+        $contentId,
+        $locationId
+    ) {
         $parentLocationId = $this->loadLocation($locationId)->parentId;
 
         // Update ibexa_content_tree and ibexa_node_assignment tables

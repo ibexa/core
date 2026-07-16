@@ -72,8 +72,10 @@ final class RoutingExtensionTest extends IntegrationTestCase
         return new Location(['id' => $id]);
     }
 
-    protected function getExampleRouteReference($name, array $parameters = []): RouteReference
-    {
+    protected function getExampleRouteReference(
+        $name,
+        array $parameters = []
+    ): RouteReference {
         return new RouteReference($name, $parameters);
     }
 
@@ -103,7 +105,11 @@ final class RoutingExtensionTest extends IntegrationTestCase
         $generator = $this->createMock(UrlGeneratorInterface::class);
         $generator
             ->method('generate')
-            ->willReturnCallback(static function ($name, $parameters, $referenceType): string {
+            ->willReturnCallback(static function (
+                $name,
+                $parameters,
+                $referenceType
+            ): string {
                 return json_encode([
                     '$name' => $name,
                     '$parameters' => $parameters,

@@ -23,8 +23,11 @@ final class StaticStrategy implements ThumbnailStrategy
         $this->staticThumbnail = $staticThumbnail;
     }
 
-    public function getThumbnail(ContentType $contentType, array $fields, ?VersionInfo $versionInfo = null): Thumbnail
-    {
+    public function getThumbnail(
+        ContentType $contentType,
+        array $fields,
+        ?VersionInfo $versionInfo = null
+    ): Thumbnail {
         return new Thumbnail([
             'resource' => $this->staticThumbnail,
         ]);

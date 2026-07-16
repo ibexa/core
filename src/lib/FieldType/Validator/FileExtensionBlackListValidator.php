@@ -27,7 +27,7 @@ class FileExtensionBlackListValidator extends Validator
     ];
 
     /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
+     * @param ConfigResolverInterface $configResolver
      */
     public function __construct(ConfigResolverInterface $configResolver)
     {
@@ -47,8 +47,10 @@ class FileExtensionBlackListValidator extends Validator
     /**
      * {@inheritdoc}
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null): bool
-    {
+    public function validate(
+        BaseValue $value,
+        ?FieldDefinition $fieldDefinition = null
+    ): bool {
         $this->errors = [];
 
         $this->validateFileExtension($value->fileName);

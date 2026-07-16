@@ -11,6 +11,4 @@ namespace Ibexa\Contracts\Core\Repository\Values\Filter;
 /**
  * Marker for Content & Location filtering Sort Clause.
  */
-interface FilteringSortClause
-{
-}
+interface FilteringSortClause {}

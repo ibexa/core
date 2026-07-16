@@ -15,8 +15,11 @@ final class DateMetadataTest extends TestCase
     /**
      * @dataProvider provideValidConstructorArguments
      */
-    public function testConstruction(string $target, string $operator, $value): void
-    {
+    public function testConstruction(
+        string $target,
+        string $operator,
+        $value
+    ): void {
         $criterion = new DateMetadata($target, $operator, $value);
         self::assertSame($target, $criterion->target);
     }

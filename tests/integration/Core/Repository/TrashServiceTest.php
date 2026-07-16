@@ -8,8 +8,10 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use DateTime;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -657,9 +659,9 @@ class TrashServiceTest extends BaseTrashServiceTestCase
 
     /**
      * @throws \ErrorException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testFindTrashItemsSortedByDateTrashed(): void
     {
@@ -1249,13 +1251,15 @@ class TrashServiceTest extends BaseTrashServiceTestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param int $parentLocationId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function createNewContentInPlaceTrashedOne(Repository $repository, $parentLocationId)
-    {
+    protected function createNewContentInPlaceTrashedOne(
+        Repository $repository,
+        $parentLocationId
+    ) {
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
         $contentTypeService = $repository->getContentTypeService();
@@ -1274,8 +1278,10 @@ class TrashServiceTest extends BaseTrashServiceTestCase
     /**
      * @param string $urlPath Url alias path
      */
-    private function assertAliasNotExists(URLAliasService $urlAliasService, $urlPath)
-    {
+    private function assertAliasNotExists(
+        URLAliasService $urlAliasService,
+        $urlPath
+    ) {
         try {
             $this->getRepository()->getURLAliasService()->lookup($urlPath);
             self::fail(sprintf('Alias [%s] should not exist', $urlPath));
@@ -1291,10 +1297,13 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * @param int $contentId
      * @param int $parentLocationId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem
+     * @return APITrashItem
      */
-    private function getTrashItemDouble(int $trashId, int $contentId = 44, int $parentLocationId = 2): APITrashItem
-    {
+    private function getTrashItemDouble(
+        int $trashId,
+        int $contentId = 44,
+        int $parentLocationId = 2
+    ): APITrashItem {
         return new TrashItem([
             'id' => $trashId,
             'parentLocationId' => $parentLocationId,

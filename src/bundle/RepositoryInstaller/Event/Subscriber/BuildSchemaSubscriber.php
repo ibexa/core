@@ -38,7 +38,7 @@ class BuildSchemaSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent $event
+     * @param SchemaBuilderEvent $event
      */
     public function onBuildSchema(SchemaBuilderEvent $event): void
     {

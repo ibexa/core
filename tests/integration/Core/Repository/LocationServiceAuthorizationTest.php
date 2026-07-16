@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 
 /**
  * Test case for operations in the LocationService using in memory storage.
@@ -477,7 +478,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
         $roleDraft = $roleService->createRoleDraft($role);
 
         $removePolicy = null;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'remove' != $policy->function) {
                 continue;

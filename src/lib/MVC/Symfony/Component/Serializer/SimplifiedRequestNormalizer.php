@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class SimplifiedRequestNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     /**
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $data
+     * @param SimplifiedRequest $data
      *
      * @return array{
      *     scheme: ?string,
@@ -29,10 +29,13 @@ final class SimplifiedRequestNormalizer implements NormalizerInterface, Denormal
      *     headers: ?array{}
      * }
      *
-     * @see \Symfony\Component\Serializer\Normalizer\NormalizerInterface::normalize
+     * @see NormalizerInterface::normalize
      */
-    public function normalize(mixed $data, ?string $format = null, array $context = []): array
-    {
+    public function normalize(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): array {
         return [
             'scheme' => $data->getScheme(),
             'host' => $data->getHost(),
@@ -44,13 +47,20 @@ final class SimplifiedRequestNormalizer implements NormalizerInterface, Denormal
         ];
     }
 
-    public function supportsNormalization($data, $format = null, array $context = []): bool
-    {
+    public function supportsNormalization(
+        $data,
+        $format = null,
+        array $context = []
+    ): bool {
         return $data instanceof SimplifiedRequest;
     }
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
-    {
+    public function denormalize(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): mixed {
         return new SimplifiedRequest(
             $data['scheme'] ?? null,
             $data['host'] ?? null,

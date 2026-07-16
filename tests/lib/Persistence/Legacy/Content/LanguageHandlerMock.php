@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 /**
  * Simple mock for a Language\Handler.
@@ -46,9 +47,9 @@ class LanguageHandlerMock implements LanguageHandler
     /**
      * Create a new language.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct $struct
+     * @param CreateStruct $struct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function create(CreateStruct $struct)
     {
@@ -58,7 +59,7 @@ class LanguageHandlerMock implements LanguageHandler
     /**
      * Update language.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language $struct
+     * @param Language $struct
      */
     public function update(Language $struct)
     {
@@ -70,9 +71,9 @@ class LanguageHandlerMock implements LanguageHandler
      *
      * @param mixed $id
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $id
+     * @throws NotFoundException If language could not be found by $id
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function load($id)
     {
@@ -89,9 +90,9 @@ class LanguageHandlerMock implements LanguageHandler
      *
      * @param string $languageCode
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $languageCode
+     * @throws NotFoundException If language could not be found by $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function loadByLanguageCode($languageCode)
     {
@@ -108,7 +109,7 @@ class LanguageHandlerMock implements LanguageHandler
      *
      * Return list of languages where key of hash is language code.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
+     * @return Language[]
      */
     public function loadAll()
     {

@@ -197,7 +197,7 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             [
                 'loadList',
                 [[12],
-                ['eng-GB', 'bra-PG'], false, ],
+                    ['eng-GB', 'bra-PG'], false, ],
                 'ibx-l-12-bra-PG|eng-GB|0',
                 [
                     ['content', [15], false],

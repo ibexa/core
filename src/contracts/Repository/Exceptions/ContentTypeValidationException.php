@@ -11,6 +11,4 @@ namespace Ibexa\Contracts\Core\Repository\Exceptions;
 /**
  * This Exception is thrown on create or update content type when content type is not valid.
  */
-abstract class ContentTypeValidationException extends ForbiddenException
-{
-}
+abstract class ContentTypeValidationException extends ForbiddenException {}

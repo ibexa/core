@@ -19,7 +19,7 @@ interface MatcherInterface extends ViewMatcherInterface
     /**
      * Checks if a Location object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
      * @return bool
      */
@@ -28,7 +28,7 @@ interface MatcherInterface extends ViewMatcherInterface
     /**
      * Checks if a ContentInfo object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      *
      * @return bool
      */

@@ -27,7 +27,7 @@ final class ContentTypeGroupName implements CriterionHandlerInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupName $criterion
+     * @param ContentTypeGroupNameCriterion $criterion
      */
     public function apply(
         CriterionVisitor $criterionVisitor,

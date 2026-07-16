@@ -7,10 +7,12 @@
 
 namespace Ibexa\Core\FieldType\Keyword;
 
+use Ibexa\Contracts\Core\FieldType\FieldStorage;
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway;
 
 /**
  * Converter for Keyword field type external storage.
@@ -21,31 +23,37 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
  */
 class KeywordStorage extends GatewayBasedStorage
 {
-    /** @var \Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway */
+    /** @var Gateway */
     protected StorageGatewayInterface $gateway;
 
     /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
+     * @see FieldStorage
      *
      * @return mixed
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $contentTypeId = $this->gateway->getContentTypeId($field);
 
         return $this->gateway->storeFieldData($field, $contentTypeId);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         return $this->gateway->getFieldData($field);
     }
 
     /**
      * @param array $fieldIds
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds
+    ): bool {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->deleteFieldData($fieldId, $versionInfo->versionNo);
         }

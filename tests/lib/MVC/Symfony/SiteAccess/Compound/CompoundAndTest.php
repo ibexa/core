@@ -34,7 +34,7 @@ class CompoundAndTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalAnd
+     * @return LogicalAnd
      */
     private function buildMatcher(): LogicalAnd
     {
@@ -88,11 +88,13 @@ class CompoundAndTest extends TestCase
     /**
      * @dataProvider matchProvider
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      * @param $expectedMatch
      */
-    public function testMatch(SimplifiedRequest $request, $expectedMatch): void
-    {
+    public function testMatch(
+        SimplifiedRequest $request,
+        $expectedMatch
+    ): void {
         $compoundMatcher = $this->buildMatcher();
         $compoundMatcher->setRequest($request);
         $compoundMatcher->setMatcherBuilder(new MatcherBuilder());

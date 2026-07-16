@@ -21,8 +21,10 @@ final class BeforeUpdateLocationEvent extends BeforeEvent
 
     private ?Location $updatedLocation = null;
 
-    public function __construct(Location $location, LocationUpdateStruct $locationUpdateStruct)
-    {
+    public function __construct(
+        Location $location,
+        LocationUpdateStruct $locationUpdateStruct
+    ) {
         $this->location = $location;
         $this->locationUpdateStruct = $locationUpdateStruct;
     }

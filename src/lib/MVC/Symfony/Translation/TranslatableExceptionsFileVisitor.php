@@ -18,6 +18,7 @@ use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
 use PhpParser\Node;
+use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
@@ -52,8 +53,10 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
         'forbiddenexception',
     ];
 
-    public function __construct(DocParser $docParser, FileSourceFactory $fileSourceFactory)
-    {
+    public function __construct(
+        DocParser $docParser,
+        FileSourceFactory $fileSourceFactory
+    ) {
         $this->docParser = $docParser;
         $this->fileSourceFactory = $fileSourceFactory;
         $this->traverser = new NodeTraverser();
@@ -68,7 +71,7 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
     public function enterNode(Node $node): null
     {
         if (!$node instanceof Node\Expr\Throw_
-            || !$node->expr instanceof Node\Expr\New_
+            || !$node->expr instanceof New_
             || !$node->expr->class instanceof Node\Name
         ) {
             $this->previousNode = $node;
@@ -126,12 +129,15 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
     }
 
     /**
-     * @param \SplFileInfo $file
-     * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
-     * @param array<\PhpParser\Node> $ast
+     * @param SplFileInfo $file
+     * @param MessageCatalogue $catalogue
+     * @param array<Node> $ast
      */
-    public function visitPhpFile(SplFileInfo $file, MessageCatalogue $catalogue, array $ast): void
-    {
+    public function visitPhpFile(
+        SplFileInfo $file,
+        MessageCatalogue $catalogue,
+        array $ast
+    ): void {
         $this->file = $file;
         $this->catalogue = $catalogue;
         $this->traverser->traverse($ast);
@@ -153,24 +159,27 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
     }
 
     /**
-     * @param \SplFileInfo $file
-     * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
+     * @param SplFileInfo $file
+     * @param MessageCatalogue $catalogue
      */
-    public function visitFile(SplFileInfo $file, MessageCatalogue $catalogue): void
-    {
-    }
+    public function visitFile(
+        SplFileInfo $file,
+        MessageCatalogue $catalogue
+    ): void {}
 
     /**
-     * @param \SplFileInfo $file
-     * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
-     * @param \Twig\Node\Node $ast
+     * @param SplFileInfo $file
+     * @param MessageCatalogue $catalogue
+     * @param TwigNode $ast
      */
-    public function visitTwigFile(SplFileInfo $file, MessageCatalogue $catalogue, TwigNode $ast): void
-    {
-    }
+    public function visitTwigFile(
+        SplFileInfo $file,
+        MessageCatalogue $catalogue,
+        TwigNode $ast
+    ): void {}
 
     /**
-     * @param \PhpParser\Node\Expr\New_ $node
+     * @param New_ $node
      */
     private function getDocCommentForNode(Node $node): ?string
     {

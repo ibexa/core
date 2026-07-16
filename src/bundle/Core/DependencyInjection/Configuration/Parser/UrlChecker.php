@@ -27,8 +27,11 @@ class UrlChecker extends AbstractParser
             ->end();
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ) {
         if (isset($scopeSettings['url_checker']) && !empty($scopeSettings['url_checker']['handlers'])) {
             foreach ($scopeSettings['url_checker']['handlers'] as $name => $options) {
                 $contextualizer->setContextualParameter('url_handler.' . $name . '.options', $currentScope, $options);

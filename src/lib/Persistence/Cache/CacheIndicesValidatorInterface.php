@@ -16,5 +16,9 @@ interface CacheIndicesValidatorInterface
     /**
      * @param mixed $object
      */
-    public function validate(string $keyPrefix, $object, callable $cacheIndices): void;
+    public function validate(
+        string $keyPrefix,
+        $object,
+        callable $cacheIndices
+    ): void;
 }

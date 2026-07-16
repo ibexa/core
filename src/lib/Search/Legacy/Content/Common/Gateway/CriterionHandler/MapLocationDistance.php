@@ -41,7 +41,7 @@ class MapLocationDistance extends FieldBase
     /**
      * Returns a list of IDs of searchable FieldDefinitions for the given criterion target.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
+     * @throws InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      */
     protected function getFieldDefinitionIds(?string $fieldIdentifier): array
     {
@@ -85,7 +85,7 @@ class MapLocationDistance extends FieldBase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MapLocationDistance $criterion
+     * @param Criterion\MapLocationDistance $criterion
      */
     public function handle(
         CriteriaConverter $converter,
@@ -96,7 +96,7 @@ class MapLocationDistance extends FieldBase
         $fieldDefinitionIds = $this->getFieldDefinitionIds($criterion->target);
         $subSelect = $this->connection->createQueryBuilder();
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value\MapLocationValue $location */
+        /** @var MapLocationValue $location */
         $location = $criterion->valueData;
 
         // note: avoid using literal names for parameters to account for multiple visits of the same Criterion
@@ -245,7 +245,7 @@ class MapLocationDistance extends FieldBase
      *
      * Credits: http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value\MapLocationValue $location
+     * @param MapLocationValue $location
      * @param float $distance
      *
      * @return array
@@ -253,8 +253,10 @@ class MapLocationDistance extends FieldBase
      * @todo it should also be possible to calculate inner bounding box, which could be applied for the
      * operators GT, GTE and lower distance of the BETWEEN operator.
      */
-    protected function getBoundingCoordinates(MapLocationValue $location, $distance)
-    {
+    protected function getBoundingCoordinates(
+        MapLocationValue $location,
+        $distance
+    ) {
         $radiansLatitude = deg2rad($location->latitude);
         $radiansLongitude = deg2rad($location->longitude);
         $angularDistance = $distance / self::EARTH_RADIUS;

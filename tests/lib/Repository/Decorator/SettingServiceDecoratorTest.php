@@ -23,8 +23,7 @@ class SettingServiceDecoratorTest extends TestCase
 
     protected function createDecorator(MockObject $service): SettingService
     {
-        return new class($service) extends SettingServiceDecorator {
-        };
+        return new class($service) extends SettingServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

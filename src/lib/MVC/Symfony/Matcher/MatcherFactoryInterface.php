@@ -17,7 +17,7 @@ interface MatcherFactoryInterface
      *
      * $valueObject can be for example a Location or a Content object.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\View $view
+     * @param View $view
      *
      * @return array|null The matched configuration as a hash, containing template or controller to use, or null if not matched.
      */

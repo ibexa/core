@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 
 /**
@@ -18,12 +19,12 @@ interface SiteAccessServiceInterface
     public function exists(string $name): bool;
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function get(string $name): SiteAccess;
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess[]
+     * @return SiteAccess[]
      */
     public function getAll(): iterable;
 

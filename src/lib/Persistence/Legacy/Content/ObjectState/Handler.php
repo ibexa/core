@@ -7,6 +7,8 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\ObjectState;
 
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as BaseObjectStateHandler;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -19,25 +21,27 @@ class Handler implements BaseObjectStateHandler
     /**
      * ObjectState Gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway
+     * @var Gateway
      */
     protected $objectStateGateway;
 
     /**
      * ObjectState Mapper.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
+     * @var Mapper
      */
     protected $objectStateMapper;
 
     /**
      * Creates a new ObjectState Handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway $objectStateGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper $objectStateMapper
+     * @param Gateway $objectStateGateway
+     * @param Mapper $objectStateMapper
      */
-    public function __construct(Gateway $objectStateGateway, Mapper $objectStateMapper)
-    {
+    public function __construct(
+        Gateway $objectStateGateway,
+        Mapper $objectStateMapper
+    ) {
         $this->objectStateGateway = $objectStateGateway;
         $this->objectStateMapper = $objectStateMapper;
     }
@@ -45,9 +49,9 @@ class Handler implements BaseObjectStateHandler
     /**
      * Creates a new object state group.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     public function createGroup(InputStruct $input)
     {
@@ -64,7 +68,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the group was not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     public function loadGroup($groupId)
     {
@@ -84,7 +88,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the group was not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     public function loadGroupByIdentifier($identifier)
     {
@@ -103,10 +107,12 @@ class Handler implements BaseObjectStateHandler
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group[]
+     * @return Group[]
      */
-    public function loadAllGroups($offset = 0, $limit = -1)
-    {
+    public function loadAllGroups(
+        $offset = 0,
+        $limit = -1
+    ) {
         $data = $this->objectStateGateway->loadObjectStateGroupListData($offset, $limit);
 
         return $this->objectStateMapper->createObjectStateGroupListFromData($data);
@@ -117,7 +123,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @param mixed $groupId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState[]
+     * @return ObjectState[]
      */
     public function loadObjectStates($groupId)
     {
@@ -130,12 +136,14 @@ class Handler implements BaseObjectStateHandler
      * Updates an object state group.
      *
      * @param mixed $groupId
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
-    public function updateGroup($groupId, InputStruct $input)
-    {
+    public function updateGroup(
+        $groupId,
+        InputStruct $input
+    ) {
         $objectStateGroup = $this->objectStateMapper->createObjectStateGroupFromInputStruct($input);
         $objectStateGroup->id = (int)$groupId;
 
@@ -167,12 +175,14 @@ class Handler implements BaseObjectStateHandler
      * set to this state.
      *
      * @param mixed $groupId
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
-    public function create($groupId, InputStruct $input)
-    {
+    public function create(
+        $groupId,
+        InputStruct $input
+    ) {
         $objectState = $this->objectStateMapper->createObjectStateFromInputStruct($input);
         $this->objectStateGateway->insertObjectState($objectState, $groupId);
 
@@ -186,7 +196,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the state was not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     public function load($stateId)
     {
@@ -207,10 +217,12 @@ class Handler implements BaseObjectStateHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the state was not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
-    public function loadByIdentifier($identifier, $groupId)
-    {
+    public function loadByIdentifier(
+        $identifier,
+        $groupId
+    ) {
         $data = $this->objectStateGateway->loadObjectStateDataByIdentifier($identifier, $groupId);
 
         if (empty($data)) {
@@ -224,12 +236,14 @@ class Handler implements BaseObjectStateHandler
      * Updates an object state.
      *
      * @param mixed $stateId
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
-    public function update($stateId, InputStruct $input)
-    {
+    public function update(
+        $stateId,
+        InputStruct $input
+    ) {
         $objectState = $this->objectStateMapper->createObjectStateFromInputStruct($input);
         $objectState->id = (int)$stateId;
 
@@ -244,8 +258,10 @@ class Handler implements BaseObjectStateHandler
      * @param mixed $stateId
      * @param int $priority
      */
-    public function setPriority($stateId, $priority)
-    {
+    public function setPriority(
+        $stateId,
+        $priority
+    ) {
         $objectState = $this->load($stateId);
         $groupObjectStates = $this->loadObjectStates($objectState->groupId);
 
@@ -309,8 +325,11 @@ class Handler implements BaseObjectStateHandler
      *
      * @return bool
      */
-    public function setContentState($contentId, $groupId, $stateId): bool
-    {
+    public function setContentState(
+        $contentId,
+        $groupId,
+        $stateId
+    ): bool {
         $this->objectStateGateway->setContentState($contentId, $groupId, $stateId);
 
         return true;
@@ -326,10 +345,12 @@ class Handler implements BaseObjectStateHandler
      * @param mixed $contentId
      * @param mixed $stateGroupId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
-    public function getContentState($contentId, $stateGroupId)
-    {
+    public function getContentState(
+        $contentId,
+        $stateGroupId
+    ) {
         $data = $this->objectStateGateway->loadObjectStateDataForContent($contentId, $stateGroupId);
 
         if (empty($data)) {

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
-use function array_filter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
@@ -19,8 +18,10 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
-use function iterator_to_array;
 use Traversable;
+
+use function array_filter;
+use function iterator_to_array;
 
 /**
  * @internal for internal use by Legacy Storage
@@ -60,14 +61,15 @@ final class DoctrineGateway implements Gateway
         private readonly CriterionVisitor $criterionVisitor,
         private readonly SortClauseVisitor $sortClauseVisitor,
         private readonly CountQueryBuilder $countQueryBuilder
-    ) {
-    }
+    ) {}
 
     /**
      * @phpstan-param positive-int $limit
      */
-    public function count(FilteringCriterion $criterion, ?int $limit = null): int
-    {
+    public function count(
+        FilteringCriterion $criterion,
+        ?int $limit = null
+    ): int {
         $query = $this->buildQuery(
             ['COUNT(DISTINCT content.id)'],
             $criterion
@@ -154,8 +156,11 @@ final class DoctrineGateway implements Gateway
      *
      * Process data fetched by {@see bulkFetchVersionNames}
      */
-    private function extractVersionNames(array $names, int $contentId, int $versionNo): array
-    {
+    private function extractVersionNames(
+        array $names,
+        int $contentId,
+        int $versionNo
+    ): array {
         $rawVersionNames = $this->extractVersionData($names, $contentId, $versionNo);
 
         $names = [];
@@ -166,16 +171,22 @@ final class DoctrineGateway implements Gateway
         return $names;
     }
 
-    private function extractFieldValues(array $fieldValues, int $contentId, int $versionNo): array
-    {
+    private function extractFieldValues(
+        array $fieldValues,
+        int $contentId,
+        int $versionNo
+    ): array {
         return $this->extractVersionData($fieldValues, $contentId, $versionNo);
     }
 
     /**
      * Extract Version-specific data from bulk-loaded rows.
      */
-    private function extractVersionData(array $rows, int $contentId, int $versionNo): array
-    {
+    private function extractVersionData(
+        array $rows,
+        int $contentId,
+        int $versionNo
+    ): array {
         return array_filter(
             $rows,
             static function (array $row) use ($contentId, $versionNo): bool {

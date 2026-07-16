@@ -18,8 +18,10 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
     /**
      * @dataProvider testSetRequestsProvider
      */
-    public function testSetLocale(Request $request, $shouldHaveCustomLocale)
-    {
+    public function testSetLocale(
+        Request $request,
+        $shouldHaveCustomLocale
+    ) {
         $event = new RequestEvent(
             $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
             $request,

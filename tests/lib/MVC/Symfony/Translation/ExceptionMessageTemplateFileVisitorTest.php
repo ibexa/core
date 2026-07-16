@@ -57,8 +57,10 @@ final class ExceptionMessageTemplateFileVisitorTest extends BaseMessageExtractor
         );
     }
 
-    protected function buildVisitor(DocParser $docParser, FileSourceFactory $fileSourceFactory): FileVisitorInterface
-    {
+    protected function buildVisitor(
+        DocParser $docParser,
+        FileSourceFactory $fileSourceFactory
+    ): FileVisitorInterface {
         return new ExceptionMessageTemplateFileVisitor(
             $docParser,
             $fileSourceFactory

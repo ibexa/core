@@ -117,8 +117,7 @@ final class ImageFileVariationPurgerTest extends TestCase
      */
     private function createPurger(array $fileList): ImageFileVariationPurger
     {
-        $imageFileList = new class($fileList) extends ArrayIterator implements ImageFileList {
-        };
+        $imageFileList = new class($fileList) extends ArrayIterator implements ImageFileList {};
 
         return new ImageFileVariationPurger($imageFileList, $this->ioServiceMock, $this->pathGeneratorMock);
     }

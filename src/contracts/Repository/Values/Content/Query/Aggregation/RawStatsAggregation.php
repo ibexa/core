@@ -12,8 +12,10 @@ final class RawStatsAggregation extends AbstractStatsAggregation implements RawA
 {
     private string $fieldName;
 
-    public function __construct(string $name, string $fieldName)
-    {
+    public function __construct(
+        string $name,
+        string $fieldName
+    ) {
         parent::__construct($name);
 
         $this->fieldName = $fieldName;

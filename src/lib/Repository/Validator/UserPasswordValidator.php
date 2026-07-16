@@ -194,10 +194,12 @@ class UserPasswordValidator
      * @param string $message
      * @param array $values
      *
-     * @return \Ibexa\Core\FieldType\ValidationError
+     * @return ValidationError
      */
-    private function createValidationError(string $message, array $values = []): ValidationError
-    {
+    private function createValidationError(
+        string $message,
+        array $values = []
+    ): ValidationError {
         return new ValidationError($message, null, $values, 'password');
     }
 }

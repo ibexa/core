@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\User;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct;
 
 class RoleCopyStruct extends ValueObject
 {
@@ -36,7 +37,7 @@ class RoleCopyStruct extends ValueObject
     /**
      * Contains an array of role policies.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct[]
+     * @var PolicyCreateStruct[]
      */
     public $policies = [];
 }

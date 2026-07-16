@@ -11,6 +11,4 @@ namespace Ibexa\Contracts\Core\Repository\Exceptions;
 use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
 use OutOfBoundsException as BaseOutOfBoundsException;
 
-class OutOfBoundsException extends BaseOutOfBoundsException implements RepositoryException
-{
-}
+class OutOfBoundsException extends BaseOutOfBoundsException implements RepositoryException {}

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Controller;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Core\MVC\Symfony\Controller\QueryRenderController;
 use Ibexa\Core\MVC\Symfony\View\QueryView;
@@ -91,7 +92,7 @@ final class QueryRenderControllerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testRenderQueryWithAllOptions(): void
     {
@@ -116,7 +117,7 @@ final class QueryRenderControllerTest extends TestCase
      *
      * @template TItem
      *
-     * @phpstan-return \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter<TItem>
+     * @phpstan-return SearchResultAdapter<TItem>
      */
     private function configureMocks(array $options): SearchResultAdapter
     {

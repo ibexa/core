@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\IO;
 
 use Ibexa\Bundle\IO\BinaryStreamResponse;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 final class BinaryStreamResponseTest extends TestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testSendContent(): void
     {

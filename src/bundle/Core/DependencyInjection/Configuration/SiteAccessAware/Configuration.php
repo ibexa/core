@@ -43,8 +43,10 @@ abstract class Configuration implements ConfigurationInterface
      *
      * @phpstan-return NodeBuilder<TRootNode>
      */
-    public function generateScopeBaseNode(ArrayNodeDefinition $rootNode, string $scopeNodeName = 'system'): NodeBuilder
-    {
+    public function generateScopeBaseNode(
+        ArrayNodeDefinition $rootNode,
+        string $scopeNodeName = 'system'
+    ): NodeBuilder {
         return $rootNode
             ->children()
                 ->arrayNode($scopeNodeName)

@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Checkbox\Type as Checkbox;
+use Ibexa\Core\FieldType\Checkbox\Value;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
 
 /**
@@ -151,7 +152,7 @@ class CheckboxTest extends FieldTypeTestCase
 
     /**
      * @return iterable<array{
-     *     \Ibexa\Core\FieldType\Checkbox\Value,
+     *     Value,
      * }>
      */
     public function provideForValueIsNeverEmpty(): iterable

@@ -26,7 +26,7 @@ final class IsContainerQueryBuilder implements CriterionQueryBuilder
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsContainer $criterion
+     * @param IsContainer $criterion
      */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,

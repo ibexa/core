@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\LocationResolver;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
@@ -17,9 +20,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 interface LocationResolver
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws NotFoundException
+     * @throws ForbiddenException
+     * @throws BadStateException
      */
     public function resolveLocation(ContentInfo $contentInfo): Location;
 }

@@ -10,6 +10,4 @@ namespace Ibexa\Core\MVC\Symfony\Routing;
 
 use Symfony\Cmf\Component\Routing\ChainRouter as BaseChainRouter;
 
-class ChainRouter extends BaseChainRouter
-{
-}
+class ChainRouter extends BaseChainRouter {}

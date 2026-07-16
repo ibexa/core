@@ -27,14 +27,14 @@ final class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @var Gateway
      */
     private $innerGateway;
 
     /**
      * Create a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -45,7 +45,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertGroup($group);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -54,7 +54,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateGroup($group);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -72,16 +72,18 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countTypesInGroup($groupId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function countGroupsForType(int $typeId, int $status): int
-    {
+    public function countGroupsForType(
+        int $typeId,
+        int $status
+    ): int {
         try {
             return $this->innerGateway->countGroupsForType($typeId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -90,7 +92,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteGroup($groupId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -99,7 +101,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadGroupData($groupIds);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -108,7 +110,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadGroupDataByIdentifier($identifier);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -117,52 +119,64 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadAllGroupsData();
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadTypesDataForGroup(int $groupId, int $status): array
-    {
+    public function loadTypesDataForGroup(
+        int $groupId,
+        int $status
+    ): array {
         try {
             return $this->innerGateway->loadTypesDataForGroup($groupId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function insertType(Type $type, ?int $typeId = null): int
-    {
+    public function insertType(
+        Type $type,
+        ?int $typeId = null
+    ): int {
         try {
             return $this->innerGateway->insertType($type, $typeId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function insertGroupAssignment(int $groupId, int $typeId, int $status): void
-    {
+    public function insertGroupAssignment(
+        int $groupId,
+        int $typeId,
+        int $status
+    ): void {
         try {
             $this->innerGateway->insertGroupAssignment($groupId, $typeId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteGroupAssignment(int $groupId, int $typeId, int $status): void
-    {
+    public function deleteGroupAssignment(
+        int $groupId,
+        int $typeId,
+        int $status
+    ): void {
         try {
             $this->innerGateway->deleteGroupAssignment($groupId, $typeId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadFieldDefinition(int $id, int $status): array
-    {
+    public function loadFieldDefinition(
+        int $id,
+        int $status
+    ): array {
         try {
             return $this->innerGateway->loadFieldDefinition($id, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -180,7 +194,7 @@ final class ExceptionConversion extends Gateway
                 $fieldDefinition,
                 $storageFieldDef
             );
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -192,7 +206,7 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->deleteFieldDefinition($typeId, $status, $fieldDefinitionId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -205,16 +219,19 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->updateFieldDefinition($typeId, $status, $fieldDefinition, $storageFieldDef);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function updateType(int $typeId, int $status, Type $type): void
-    {
+    public function updateType(
+        int $typeId,
+        int $status,
+        Type $type
+    ): void {
         try {
             $this->innerGateway->updateType($typeId, $status, $type);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -223,34 +240,40 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadTypesListData($typeIds);
-        } catch (PDOException|DBALException $e) {
+        } catch (PDOException | DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadTypeData(int $typeId, int $status): array
-    {
+    public function loadTypeData(
+        int $typeId,
+        int $status
+    ): array {
         try {
             return $this->innerGateway->loadTypeData($typeId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadTypeDataByIdentifier(string $identifier, int $status): array
-    {
+    public function loadTypeDataByIdentifier(
+        string $identifier,
+        int $status
+    ): array {
         try {
             return $this->innerGateway->loadTypeDataByIdentifier($identifier, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadTypeDataByRemoteId(string $remoteId, int $status): array
-    {
+    public function loadTypeDataByRemoteId(
+        string $remoteId,
+        int $status
+    ): array {
         try {
             return $this->innerGateway->loadTypeDataByRemoteId($remoteId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -268,52 +291,63 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countInstancesOfType($typeId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function delete(int $typeId, int $status): void
-    {
+    public function delete(
+        int $typeId,
+        int $status
+    ): void {
         try {
             $this->innerGateway->delete($typeId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteFieldDefinitionsForType(int $typeId, int $status): void
-    {
+    public function deleteFieldDefinitionsForType(
+        int $typeId,
+        int $status
+    ): void {
         try {
             $this->innerGateway->deleteFieldDefinitionsForType($typeId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteType(int $typeId, int $status): void
-    {
+    public function deleteType(
+        int $typeId,
+        int $status
+    ): void {
         try {
             $this->innerGateway->deleteType($typeId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteGroupAssignmentsForType(int $typeId, int $status): void
-    {
+    public function deleteGroupAssignmentsForType(
+        int $typeId,
+        int $status
+    ): void {
         try {
             $this->innerGateway->deleteGroupAssignmentsForType($typeId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function publishTypeAndFields(int $typeId, int $sourceStatus, int $targetStatus): void
-    {
+    public function publishTypeAndFields(
+        int $typeId,
+        int $sourceStatus,
+        int $targetStatus
+    ): void {
         try {
             $this->innerGateway->publishTypeAndFields($typeId, $sourceStatus, $targetStatus);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -322,7 +356,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getSearchableFieldMapData();
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -338,27 +372,33 @@ final class ExceptionConversion extends Gateway
                 $languageCode,
                 $status
             );
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function removeByUserAndVersion(int $userId, int $version): void
-    {
+    public function removeByUserAndVersion(
+        int $userId,
+        int $version
+    ): void {
         $this->removeByUserAndStatus($userId, $version);
     }
 
-    public function removeByUserAndStatus(int $userId, int $status): void
-    {
+    public function removeByUserAndStatus(
+        int $userId,
+        int $status
+    ): void {
         try {
             $this->innerGateway->removeByUserAndStatus($userId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
-    {
+    public function findContentTypes(
+        ?ContentTypeQuery $query = null,
+        array $prioritizedLanguages = []
+    ): array {
         try {
             return $this->innerGateway->findContentTypes($query, $prioritizedLanguages);
         } catch (DBALException | PDOException $e) {

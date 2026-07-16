@@ -37,7 +37,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ObjectStateService extends ObjectStateServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
     public function __construct(

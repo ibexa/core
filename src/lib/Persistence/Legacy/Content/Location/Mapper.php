@@ -24,12 +24,15 @@ class Mapper
      *
      * @param array $data
      * @param string $prefix
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location|null $location
+     * @param Location|null $location
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location
+     * @return Location
      */
-    public function createLocationFromRow(array $data, $prefix = '', ?Location $location = null)
-    {
+    public function createLocationFromRow(
+        array $data,
+        $prefix = '',
+        ?Location $location = null
+    ) {
         $location = $location ?: new Location();
 
         $location->id = (int)$data[$prefix . 'node_id'];
@@ -56,12 +59,15 @@ class Mapper
      *
      * @param array $rows
      * @param string $prefix
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location|null $location
+     * @param Location|null $location
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
+     * @return Location[]
      */
-    public function createLocationsFromRows(array $rows, $prefix = '', ?Location $location = null): array
-    {
+    public function createLocationsFromRows(
+        array $rows,
+        $prefix = '',
+        ?Location $location = null
+    ): array {
         $locations = [];
 
         foreach ($rows as $row) {
@@ -79,7 +85,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct
+     * @return CreateStruct
      */
     public function getLocationCreateStruct(array $data)
     {

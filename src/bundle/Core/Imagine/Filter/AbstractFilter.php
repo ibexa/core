@@ -20,13 +20,17 @@ abstract class AbstractFilter implements FilterInterface
         $this->options = $options;
     }
 
-    public function setOption($optionName, $value)
-    {
+    public function setOption(
+        $optionName,
+        $value
+    ) {
         $this->options[$optionName] = $value;
     }
 
-    public function getOption($optionName, $defaultValue = null)
-    {
+    public function getOption(
+        $optionName,
+        $defaultValue = null
+    ) {
         return isset($this->options[$optionName]) ? $this->options[$optionName] : $defaultValue;
     }
 

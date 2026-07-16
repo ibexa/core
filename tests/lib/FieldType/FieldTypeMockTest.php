@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldType;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FieldTypeMockTest extends TestCase
@@ -17,7 +18,7 @@ class FieldTypeMockTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
+        /** @var FieldType|MockObject $stub */
         $stub = $this->getMockForAbstractClass(
             FieldType::class,
             [],
@@ -35,9 +36,11 @@ class FieldTypeMockTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\FieldType::applyDefaultSettings
      */
-    public function testApplyDefaultSettings(mixed $initialSettings, mixed $expectedSettings): void
-    {
-        /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
+    public function testApplyDefaultSettings(
+        mixed $initialSettings,
+        mixed $expectedSettings
+    ): void {
+        /** @var FieldType|MockObject $stub */
         $stub = $this->getMockForAbstractClass(
             FieldType::class,
             [],
@@ -166,7 +169,7 @@ class FieldTypeMockTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
+        /** @var FieldType|MockObject $stub */
         $stub = $this->getMockForAbstractClass(
             FieldType::class,
             [],
@@ -180,11 +183,11 @@ class FieldTypeMockTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testApplyDefaultValidatorConfigurationEmpty(): void
     {
-        /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
+        /** @var FieldType|MockObject $stub */
         $stub = $this->getMockForAbstractClass(
             FieldType::class,
             [],
@@ -211,11 +214,13 @@ class FieldTypeMockTest extends TestCase
     /**
      * @dataProvider providerForTestApplyDefaultValidatorConfiguration
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function testApplyDefaultValidatorConfiguration(mixed $initialConfiguration, mixed $expectedConfiguration): void
-    {
-        /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
+    public function testApplyDefaultValidatorConfiguration(
+        mixed $initialConfiguration,
+        mixed $expectedConfiguration
+    ): void {
+        /** @var FieldType|MockObject $stub */
         $stub = $this->getMockForAbstractClass(
             FieldType::class,
             [],
@@ -251,7 +256,7 @@ class FieldTypeMockTest extends TestCase
 
     /**
      * @return iterable<array{
-     *     null|array<string, mixed>,
+     *     array<string, mixed>|null,
      *     array<string, mixed>
      * }>
      */

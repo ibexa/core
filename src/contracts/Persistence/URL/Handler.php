@@ -7,6 +7,7 @@
 
 namespace Ibexa\Contracts\Core\Persistence\URL;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 
 /**
@@ -18,16 +19,19 @@ interface Handler
      * Updates a existing URL.
      *
      * @param int $id
-     * @param \Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct $urlUpdateStruct
+     * @param URLUpdateStruct $urlUpdateStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\URL\URL
+     * @return URL
      */
-    public function updateUrl($id, URLUpdateStruct $urlUpdateStruct);
+    public function updateUrl(
+        $id,
+        URLUpdateStruct $urlUpdateStruct
+    );
 
     /**
      * Selects URLs data using $query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLQuery $query
+     * @param URLQuery $query
      *
      * @return array
      */
@@ -47,9 +51,9 @@ interface Handler
      *
      * @param int $id
      *
-     * @return \Ibexa\Contracts\Core\Persistence\URL\URL
+     * @return URL
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function loadById($id);
 
@@ -58,9 +62,9 @@ interface Handler
      *
      * @param string $url
      *
-     * @return \Ibexa\Contracts\Core\Persistence\URL\URL
+     * @return URL
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function loadByUrl($url);
 }

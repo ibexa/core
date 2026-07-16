@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\URL;
 
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
@@ -18,14 +20,14 @@ class URLQuery extends ValueObject
     /**
      * The Query filter.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion
+     * @var Criterion
      */
     public $filter;
 
     /**
      * Query sorting clauses.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause[]
+     * @var SortClause[]
      */
     public $sortClauses = [];
 

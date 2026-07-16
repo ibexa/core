@@ -16,11 +16,12 @@ use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseTestCase extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $repositoryMock;
 
     protected function setUp(): void
@@ -32,7 +33,7 @@ abstract class BaseTestCase extends TestCase
     /**
      * @param array $matchingConfig
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getPartiallyMockedViewProvider(array $matchingConfig = [])
     {
@@ -49,7 +50,7 @@ abstract class BaseTestCase extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getRepositoryMock()
     {
@@ -70,7 +71,7 @@ abstract class BaseTestCase extends TestCase
     /**
      * @param array $properties
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getLocationMock(array $properties = [])
     {
@@ -83,7 +84,7 @@ abstract class BaseTestCase extends TestCase
     /**
      * @param array $properties
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getContentInfoMock(array $properties = [])
     {

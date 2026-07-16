@@ -8,6 +8,4 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform;
 
-final class FallbackGateway extends AbstractGateway
-{
-}
+final class FallbackGateway extends AbstractGateway {}

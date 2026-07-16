@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
+use Ibexa\Core\MVC\Symfony\Security\User\BaseProvider;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Stringable;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -27,8 +28,10 @@ class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthen
     /**
      * @param string[] $roles
      */
-    public function __construct(APIUser $user, array $roles = [])
-    {
+    public function __construct(
+        APIUser $user,
+        array $roles = []
+    ) {
         $this->user = $user;
         $this->reference = new UserReference($user->getUserId());
         $this->roles = $roles;
@@ -95,9 +98,7 @@ class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthen
      * This is important if, at any given point, sensitive information like
      * the plain-text password is stored on this object.
      */
-    public function eraseCredentials(): void
-    {
-    }
+    public function eraseCredentials(): void {}
 
     public function getAPIUserReference(): UserReference
     {
@@ -140,7 +141,7 @@ class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthen
 
     /**
      * Make sure we don't serialize the whole API user object given it's a full fledged api content object. We set
-     * (& either way refresh) the user object in {@see \Ibexa\Core\MVC\Symfony\Security\User\BaseProvider::refreshUser}
+     * (& either way refresh) the user object in {@see BaseProvider::refreshUser}
      * when object wakes back up from session.
      *
      * @return string[]

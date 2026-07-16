@@ -7,18 +7,18 @@
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
 return [
-  Gateway::CONTENT_LANGUAGE_TABLE => [
-    0 => [
-      'disabled' => '0',
-      'id' => '2',
-      'locale' => 'eng-US',
-      'name' => 'English (American)',
+    Gateway::CONTENT_LANGUAGE_TABLE => [
+        0 => [
+            'disabled' => '0',
+            'id' => '2',
+            'locale' => 'eng-US',
+            'name' => 'English (American)',
+        ],
+        1 => [
+            'disabled' => '0',
+            'id' => '4',
+            'locale' => 'eng-GB',
+            'name' => 'English (United Kingdom)',
+        ],
     ],
-    1 => [
-      'disabled' => '0',
-      'id' => '4',
-      'locale' => 'eng-GB',
-      'name' => 'English (United Kingdom)',
-    ],
-  ],
 ];

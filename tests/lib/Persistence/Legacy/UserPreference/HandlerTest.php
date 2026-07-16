@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Handler;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,13 +23,13 @@ class HandlerTest extends TestCase
 {
     public const USER_PREFERENCE_ID = 1;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Mapper|MockObject */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Handler */
+    /** @var Handler */
     private $handler;
 
     protected function setUp(): void

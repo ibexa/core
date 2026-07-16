@@ -175,7 +175,7 @@ class SlugConverter
     /**
      * Transformation processor to normalize URL strings.
      *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
+     * @var TransformationProcessor
      */
     protected $transformationProcessor;
 
@@ -185,7 +185,7 @@ class SlugConverter
     /**
      * Creates a new URL slug converter.
      *
-     * @param \Ibexa\Core\Persistence\TransformationProcessor $transformationProcessor
+     * @param TransformationProcessor $transformationProcessor
      * @param array $configuration
      */
     public function __construct(
@@ -217,8 +217,11 @@ class SlugConverter
      *
      * @return string
      */
-    public function convert($text, $defaultText = '_1', $transformation = null)
-    {
+    public function convert(
+        $text,
+        $defaultText = '_1',
+        $transformation = null
+    ) {
         if (!isset($transformation)) {
             $transformation = $this->configuration['transformation'];
         }
@@ -262,8 +265,10 @@ class SlugConverter
      *
      * @return int
      */
-    public function getUniqueCounterValue($text, $isRootLevel = true)
-    {
+    public function getUniqueCounterValue(
+        $text,
+        $isRootLevel = true
+    ) {
         if ($isRootLevel) {
             foreach ($this->configuration['reservedNames'] as $reservedName) {
                 // Case insensitive comparison
@@ -284,8 +289,10 @@ class SlugConverter
      *
      * @return string
      */
-    protected function cleanupText($text, $method)
-    {
+    protected function cleanupText(
+        $text,
+        $method
+    ) {
         switch ($method) {
             case 'url_cleanup':
                 $sep = $this->getWordSeparator();

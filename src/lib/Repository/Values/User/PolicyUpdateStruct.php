@@ -21,14 +21,14 @@ class PolicyUpdateStruct extends APIPolicyUpdateStruct
     /**
      * List of limitations added to policy.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     * @var Limitation[]
      */
     protected $limitations = [];
 
     /**
      * Returns list of limitations added to policy.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     * @return Limitation[]
      */
     public function getLimitations(): iterable
     {
@@ -39,7 +39,7 @@ class PolicyUpdateStruct extends APIPolicyUpdateStruct
      * Adds a limitation to the policy - if a Limitation exists with the same identifier
      * the existing limitation is replaced.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
+     * @param Limitation $limitation
      */
     public function addLimitation(Limitation $limitation): void
     {

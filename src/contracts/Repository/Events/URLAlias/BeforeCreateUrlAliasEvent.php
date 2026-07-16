@@ -27,8 +27,13 @@ final class BeforeCreateUrlAliasEvent extends BeforeEvent
 
     private ?URLAlias $urlAlias = null;
 
-    public function __construct(Location $location, string $path, string $languageCode, bool $forwarding, bool $alwaysAvailable)
-    {
+    public function __construct(
+        Location $location,
+        string $path,
+        string $languageCode,
+        bool $forwarding,
+        bool $alwaysAvailable
+    ) {
         $this->location = $location;
         $this->path = $path;
         $this->languageCode = $languageCode;

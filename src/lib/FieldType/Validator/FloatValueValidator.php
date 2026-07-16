@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\Float\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
@@ -38,8 +39,10 @@ class FloatValueValidator extends BaseNumericValidator
         ],
     ];
 
-    protected function getConstraintsValidationErrorMessage(string $name, mixed $value): ?string
-    {
+    protected function getConstraintsValidationErrorMessage(
+        string $name,
+        mixed $value
+    ): ?string {
         return match ($name) {
             'minFloatValue', 'maxFloatValue' => $value !== null && !is_numeric($value)
                 ? "Validator parameter '%parameter%' value must be of numeric type"
@@ -49,10 +52,12 @@ class FloatValueValidator extends BaseNumericValidator
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Float\Value $value
+     * @param Value $value
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null): bool
-    {
+    public function validate(
+        BaseValue $value,
+        ?FieldDefinition $fieldDefinition = null
+    ): bool {
         $isValid = true;
 
         if (isset($this->constraints['maxFloatValue']) && $value->value > $this->constraints['maxFloatValue']) {

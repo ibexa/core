@@ -20,7 +20,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
  */
 final class LogicalNotQueryBuilder implements CriterionQueryBuilder
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor */
+    /** @var CriterionVisitor */
     private $criterionVisitor;
 
     public function __construct(CriterionVisitor $criterionVisitor)
@@ -40,7 +40,7 @@ final class LogicalNotQueryBuilder implements CriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalNot $criterion */
+        /** @var LogicalNot $criterion */
         if (!$criterion->criteria[0] instanceof FilteringCriterion) {
             throw new InvalidArgumentException(
                 '$criterion',

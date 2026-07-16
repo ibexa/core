@@ -14,17 +14,20 @@ use Twig\Environment;
 
 class SecurityController
 {
-    /** @var \Twig\Environment */
+    /** @var Environment */
     protected $templateEngine;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
-    /** @var \Symfony\Component\Security\Http\Authentication\AuthenticationUtils */
+    /** @var AuthenticationUtils */
     protected $authenticationUtils;
 
-    public function __construct(Environment $templateEngine, ConfigResolverInterface $configResolver, AuthenticationUtils $authenticationUtils)
-    {
+    public function __construct(
+        Environment $templateEngine,
+        ConfigResolverInterface $configResolver,
+        AuthenticationUtils $authenticationUtils
+    ) {
         $this->templateEngine = $templateEngine;
         $this->configResolver = $configResolver;
         $this->authenticationUtils = $authenticationUtils;

@@ -8,6 +8,8 @@
 namespace Ibexa\Contracts\Core\Persistence\User;
 
 use Ibexa\Contracts\Core\Persistence\User;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 /**
  * Storage Engine handler for user module.
@@ -20,9 +22,9 @@ interface Handler
      * The User struct used to create the user will contain an ID which is used
      * to reference the user.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User $user
+     * @param User $user
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function create(User $user);
 
@@ -31,9 +33,9 @@ interface Handler
      *
      * @param mixed $userId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
+     * @throws NotFoundException If user is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function load($userId);
 
@@ -44,9 +46,9 @@ interface Handler
      *
      * @param string $login
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
+     * @throws NotFoundException If user is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function loadByLogin($login);
 
@@ -57,7 +59,7 @@ interface Handler
      *
      * @param string $email
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function loadByEmail(string $email): User;
 
@@ -71,7 +73,7 @@ interface Handler
      *
      * @param string $email
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User[]
+     * @return User[]
      */
     public function loadUsersByEmail(string $email): array;
 
@@ -80,16 +82,16 @@ interface Handler
      *
      * @param string $hash
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
+     * @throws NotFoundException If user is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function loadUserByToken($hash);
 
     /**
      * Update the user information specified by the user struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User $user
+     * @param User $user
      */
     public function update(User $user);
 
@@ -98,7 +100,7 @@ interface Handler
     /**
      * Update the user information specified by the user token struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct $userTokenUpdateStruct
+     * @param UserTokenUpdateStruct $userTokenUpdateStruct
      */
     public function updateUserToken(UserTokenUpdateStruct $userTokenUpdateStruct);
 
@@ -121,9 +123,9 @@ interface Handler
     /**
      * Create new role.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct $createStruct
+     * @param RoleCreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
     public function createRole(RoleCreateStruct $createStruct);
 
@@ -134,9 +136,9 @@ interface Handler
      *
      * @param mixed $roleId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role with defined status is not found
+     * @throws NotFoundException If role with defined status is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
     public function createRoleDraft($roleId);
 
@@ -151,11 +153,14 @@ interface Handler
      * @param mixed $roleId
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
+     * @throws NotFoundException If role is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
-    public function loadRole($roleId, $status = Role::STATUS_DEFINED);
+    public function loadRole(
+        $roleId,
+        $status = Role::STATUS_DEFINED
+    );
 
     /**
      * Loads a specified role (draft) by $identifier.
@@ -163,27 +168,30 @@ interface Handler
      * @param string $identifier
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
+     * @throws NotFoundException If role is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
-    public function loadRoleByIdentifier($identifier, $status = Role::STATUS_DEFINED);
+    public function loadRoleByIdentifier(
+        $identifier,
+        $status = Role::STATUS_DEFINED
+    );
 
     /**
      * Loads a role draft by the original role ID.
      *
      * @param mixed $roleId ID of the role the draft was created from.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
+     * @throws NotFoundException If role is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
     public function loadRoleDraftByRoleId($roleId);
 
     /**
      * Loads all roles.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role[]
+     * @return Role[]
      */
     public function loadRoles();
 
@@ -192,9 +200,9 @@ interface Handler
      *
      * @param mixed $roleAssignmentId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role assignment is not found
+     * @throws NotFoundException If role assignment is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment
+     * @return RoleAssignment
      */
     public function loadRoleAssignment($roleAssignmentId);
 
@@ -205,16 +213,20 @@ interface Handler
      *
      * @param mixed $roleId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[]
+     * @return RoleAssignment[]
      */
     public function loadRoleAssignmentsByRoleId($roleId);
 
     /**
      * Loads Role's assignments based on provided $offset and $limit arguments.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[]
+     * @return RoleAssignment[]
      */
-    public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(int $roleId, int $offset, ?int $limit): array;
+    public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(
+        int $roleId,
+        int $offset,
+        ?int $limit
+    ): array;
 
     /**
      * Counts Role's assignments taking into consideration related and existing user and user group objects.
@@ -230,14 +242,17 @@ interface Handler
      *                      By the nature of legacy this can currently also be used to get by $userId.
      * @param bool $inherit If true also return inherited role assignments from user groups.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[]
+     * @return RoleAssignment[]
      */
-    public function loadRoleAssignmentsByGroupId($groupId, $inherit = false);
+    public function loadRoleAssignmentsByGroupId(
+        $groupId,
+        $inherit = false
+    );
 
     /**
      * Update role (draft).
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct $role
+     * @param RoleUpdateStruct $role
      */
     public function updateRole(RoleUpdateStruct $role);
 
@@ -247,7 +262,10 @@ interface Handler
      * @param mixed $roleId
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      */
-    public function deleteRole($roleId, $status = Role::STATUS_DEFINED);
+    public function deleteRole(
+        $roleId,
+        $status = Role::STATUS_DEFINED
+    );
 
     /**
      * Publish the specified role draft.
@@ -260,38 +278,44 @@ interface Handler
      * Adds a policy to a role draft.
      *
      * @param mixed $roleId
-     * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
+     * @param Policy $policy
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Policy
+     * @return Policy
      *
      * @todo Throw on invalid Role Id?
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
+     * @throws InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
      */
-    public function addPolicyByRoleDraft($roleId, Policy $policy);
+    public function addPolicyByRoleDraft(
+        $roleId,
+        Policy $policy
+    );
 
     /**
      * Adds a policy to a role.
      *
      * @param mixed $roleId
-     * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
+     * @param Policy $policy
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Policy
+     * @return Policy
      *
      * @todo Throw on invalid Role Id?
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
+     * @throws InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
      */
-    public function addPolicy($roleId, Policy $policy);
+    public function addPolicy(
+        $roleId,
+        Policy $policy
+    );
 
     /**
      * Update a policy.
      *
      * Replaces limitations values with new values.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
+     * @param Policy $policy
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
+     * @throws InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
      */
     public function updatePolicy(Policy $policy);
 
@@ -303,7 +327,10 @@ interface Handler
      *
      * @todo Throw exception on missing role / policy?
      */
-    public function deletePolicy($policyId, $roleId);
+    public function deletePolicy(
+        $policyId,
+        $roleId
+    );
 
     /**
      * Assigns role to a user or user group with given limitations.
@@ -327,7 +354,11 @@ interface Handler
      * @param mixed $roleId
      * @param array $limitation
      */
-    public function assignRole($contentId, $roleId, ?array $limitation = null);
+    public function assignRole(
+        $contentId,
+        $roleId,
+        ?array $limitation = null
+    );
 
     /**
      * Un-assign a role.
@@ -335,7 +366,10 @@ interface Handler
      * @param mixed $contentId The user or user group Id to un-assign the role from.
      * @param mixed $roleId
      */
-    public function unassignRole($contentId, $roleId);
+    public function unassignRole(
+        $contentId,
+        $roleId
+    );
 
     /**
      * Un-assign a role, by assignment ID.

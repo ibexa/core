@@ -8,6 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
@@ -24,26 +29,30 @@ interface URLWildcardService
     /**
      * Creates a new url wildcard.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the $sourceUrl pattern already exists
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create url wildcards
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if the number of "*" patterns in $sourceUrl and
+     * @throws InvalidArgumentException if the $sourceUrl pattern already exists
+     * @throws UnauthorizedException if the user is not allowed to create url wildcards
+     * @throws ContentValidationException if the number of "*" patterns in $sourceUrl and
      *          the number of {\d} placeholders in $destinationUrl doesn't match or
      *          if the placeholders aren't a valid number sequence({1}/{2}/{3}), starting with 1.
      */
-    public function create(string $sourceUrl, string $destinationUrl, bool $forward = false): URLWildcard;
+    public function create(
+        string $sourceUrl,
+        string $destinationUrl,
+        bool $forward = false
+    ): URLWildcard;
 
     /**
      * Update an url wildcard.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct $updateStruct
+     * @param URLWildcard $urlWildcard
+     * @param URLWildcardUpdateStruct $updateStruct
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update url wildcards
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if the number of "*" patterns in $sourceUrl and
+     * @throws UnauthorizedException if the user is not allowed to update url wildcards
+     * @throws ContentValidationException if the number of "*" patterns in $sourceUrl and
      *          the number of {\d} placeholders in $destinationUrl doesn't match or
      *          if the placeholders aren't a valid number sequence({1}/{2}/{3}), starting with 1.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the $sourceUrl pattern already exists
+     * @throws BadStateException
+     * @throws InvalidArgumentException if the $sourceUrl pattern already exists
      */
     public function update(
         URLWildcard $urlWildcard,
@@ -53,16 +62,16 @@ interface URLWildcardService
     /**
      * Removes an url wildcard.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to remove url wildcards
+     * @throws UnauthorizedException if the user is not allowed to remove url wildcards
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard the url wildcard to remove
+     * @param URLWildcard $urlWildcard the url wildcard to remove
      */
     public function remove(URLWildcard $urlWildcard): void;
 
     /**
      * Loads a url wild card.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws NotFoundException if the url wild card was not found
      */
     public function load(int $id): URLWildcard;
 
@@ -72,13 +81,16 @@ interface URLWildcardService
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard[]
+     * @return URLWildcard[]
      */
-    public function loadAll(int $offset = 0, int $limit = -1): iterable;
+    public function loadAll(
+        int $offset = 0,
+        int $limit = -1
+    ): iterable;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws InvalidArgumentException
      */
     public function findUrlWildcards(URLWildcardQuery $query): SearchResult;
 
@@ -86,11 +98,11 @@ interface URLWildcardService
      * Translates an url to an existing uri resource based on the
      * source/destination patterns of the url wildcard.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url could not be translated
+     * @throws NotFoundException if the url could not be translated
      *
      * @param string $url
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult
+     * @return URLWildcardTranslationResult
      */
     public function translate(string $url): URLWildcardTranslationResult;
 

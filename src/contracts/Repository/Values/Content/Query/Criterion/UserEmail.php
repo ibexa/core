@@ -17,13 +17,15 @@ class UserEmail extends Criterion implements FilteringCriterion
     /**
      * @param string|string[] $value
      */
-    public function __construct(string|array $value, ?string $operator = null)
-    {
+    public function __construct(
+        string | array $value,
+        ?string $operator = null
+    ) {
         parent::__construct(null, $operator, $value);
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications[]
+     * @return Specifications[]
      */
     public function getSpecifications(): array
     {

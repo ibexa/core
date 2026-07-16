@@ -8,8 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Values\User;
 
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation as APIRoleLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Role;
 use Ibexa\Contracts\Core\Repository\Values\User\Role as APIRole;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup as APIUserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupRoleAssignment as APIUserGroupRoleAssignment;
 
@@ -23,28 +26,28 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
     /**
      * the limitation of this role assignment.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation|null
+     * @var RoleLimitation|null
      */
     protected $limitation;
 
     /**
      * the role which is assigned to the user group.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\Role
+     * @var Role
      */
     protected $role;
 
     /**
      * user group to which the role is assigned to.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @var UserGroup
      */
     protected $userGroup;
 
     /**
      * Returns the limitation of the role assignment.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation|null
+     * @return RoleLimitation|null
      */
     public function getRoleLimitation(): ?APIRoleLimitation
     {
@@ -54,7 +57,7 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
     /**
      * Returns the role to which the user group is assigned to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
+     * @return Role
      */
     public function getRole(): APIRole
     {
@@ -64,7 +67,7 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
     /**
      * Returns the user group to which the role is assigned to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return UserGroup
      */
     public function getUserGroup(): APIUserGroup
     {

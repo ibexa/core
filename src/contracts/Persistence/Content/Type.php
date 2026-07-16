@@ -7,6 +7,7 @@
 
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
@@ -106,12 +107,12 @@ class Type extends ValueObject
     /**
      * URL alias schema.
      *
-     * Same as {@see \Ibexa\Contracts\Core\Persistence\Content\Type::$nameSchema}.
+     * Same as {@see Type::$nameSchema}.
      * If nothing is provided, $nameSchema will be used instead.
      *
      * @var string|null
      *
-     * @see \Ibexa\Contracts\Core\Persistence\Content\Type::$nameSchema
+     * @see Type::$nameSchema
      */
     public $urlAliasSchema;
 
@@ -169,7 +170,7 @@ class Type extends ValueObject
     /**
      * Definitions for Content fields in this type.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition[]
+     * @var FieldDefinition[]
      */
     public $fieldDefinitions = [];
 

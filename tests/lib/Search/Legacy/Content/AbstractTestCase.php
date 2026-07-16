@@ -7,6 +7,8 @@
 
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
+use Doctrine\DBAL\Exception;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
 use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
 use Ibexa\Core\FieldType\FieldTypeAliasResolver;
@@ -36,11 +38,11 @@ class AbstractTestCase extends LanguageAwareTestCase
     /**
      * Field registry mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @var ConverterRegistry
      */
     private $converterRegistry;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
+    /** @var Handler */
     private $contentTypeHandler;
 
     /**
@@ -62,8 +64,10 @@ class AbstractTestCase extends LanguageAwareTestCase
     /**
      * Assert that the elements are.
      */
-    protected function assertSearchResults($expectedIds, $searchResult)
-    {
+    protected function assertSearchResults(
+        $expectedIds,
+        $searchResult
+    ) {
         $ids = $this->getIds($searchResult);
         self::assertEquals($expectedIds, $ids);
     }
@@ -83,7 +87,7 @@ class AbstractTestCase extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     protected function getContentTypeHandler(): SPIContentTypeHandler
     {

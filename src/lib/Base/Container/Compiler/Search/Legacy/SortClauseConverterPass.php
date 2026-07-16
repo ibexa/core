@@ -52,8 +52,10 @@ class SortClauseConverterPass implements CompilerPassInterface
     /**
      * @param array<string, array<array<string, mixed>>> $handlers
      */
-    protected function addHandlers(Definition $definition, array $handlers): void
-    {
+    protected function addHandlers(
+        Definition $definition,
+        array $handlers
+    ): void {
         foreach ($handlers as $id => $attributes) {
             $definition->addMethodCall('addHandler', [new Reference($id)]);
         }

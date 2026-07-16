@@ -7,12 +7,14 @@
 
 namespace Ibexa\Bundle\Core\URLChecker;
 
+use Ibexa\Contracts\Core\Repository\Values\URL\URL;
+
 interface URLHandlerInterface
 {
     /**
      * Validates given list of URLs.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL[] $urls
+     * @param URL[] $urls
      */
     public function validate(array $urls);
 }

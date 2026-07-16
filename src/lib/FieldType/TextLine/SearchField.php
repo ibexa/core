@@ -13,6 +13,4 @@ use Ibexa\Core\FieldType\BaseSingleTextLineSearchField;
 /**
  * Indexable definition for TextLine field type.
  */
-class SearchField extends BaseSingleTextLineSearchField
-{
-}
+class SearchField extends BaseSingleTextLineSearchField {}

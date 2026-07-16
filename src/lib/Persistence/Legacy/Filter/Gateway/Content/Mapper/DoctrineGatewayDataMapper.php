@@ -12,13 +12,16 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine\DoctrineGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
 
 /**
@@ -26,16 +29,16 @@ use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
  */
 final class DoctrineGatewayDataMapper implements GatewayDataMapper
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry */
+    /** @var ConverterRegistry */
     private $converterRegistry;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
+    /** @var MaskGenerator */
     private $languageMaskGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
+    /** @var Handler */
     private $languageHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
+    /** @var ContentTypeHandler */
     private $contentTypeHandler;
 
     public function __construct(
@@ -55,9 +58,9 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
      * {@inheritdoc}
      *
      * Column names come from query built by
-     * {@see \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine\DoctrineGateway::buildQuery}
+     * {@see DoctrineGateway::buildQuery}
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function mapRawDataToPersistenceContentItem(array $row): Content\ContentItem
     {
@@ -77,7 +80,7 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function mapContentDataToPersistenceContent(array $row): Content
     {
@@ -92,9 +95,9 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    private function mapVersionDataToPersistenceVersionInfo(array $row): Content\VersionInfo
+    private function mapVersionDataToPersistenceVersionInfo(array $row): VersionInfo
     {
         $versionInfo = new VersionInfo();
         $versionInfo->id = (int)$row['content_version_id'];
@@ -117,9 +120,9 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field[]
+     * @return Field[]
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function mapFieldDataToPersistenceFieldList(
         array $rawVersionFields,
@@ -163,7 +166,7 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function buildFieldValue(
         StorageFieldValue $storageFieldValue,
@@ -178,7 +181,7 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function mapContentMetadataToPersistenceContentInfo(array $row): ContentInfo
     {

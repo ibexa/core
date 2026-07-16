@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Events\Trash\DeleteTrashItemEvent;
 use Ibexa\Contracts\Core\Repository\Events\Trash\EmptyTrashEvent;
 use Ibexa\Contracts\Core\Repository\Events\Trash\RecoverEvent;
 use Ibexa\Contracts\Core\Repository\Events\Trash\TrashEvent;
+use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -63,7 +64,7 @@ class TrashEventSubscriber extends AbstractSearchEventSubscriber implements Even
 
         $results = $event->getResultList()->getIterator();
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult $result */
+        /** @var TrashItemDeleteResult $result */
         foreach ($results as $result) {
             $reverseRelationContentIds = $result->reverseRelationContentIds;
             foreach ($reverseRelationContentIds as $contentId) {

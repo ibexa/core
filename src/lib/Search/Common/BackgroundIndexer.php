@@ -29,7 +29,7 @@ interface BackgroundIndexer
      *
      * .. then item is removed from index, if not it is added/updated.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      */
     public function registerContent(ContentInfo $contentInfo);
 
@@ -42,7 +42,7 @@ interface BackgroundIndexer
      *
      * .. then item is removed from index, if not it is added/updated.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location $location
+     * @param Location $location
      */
     public function registerLocation(Location $location);
 }

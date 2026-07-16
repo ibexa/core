@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\SearchService\SortClause;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -29,12 +30,15 @@ final class ScoreTest extends AbstractSortClauseTestCase
     /**
      * @param string[] $values
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      *
      * @dataProvider dataProviderForTestSortingByScore
      */
-    public function testSortingByScore(iterable $inputValues, Query $query, array $expectedOrderedIds): void
-    {
+    public function testSortingByScore(
+        iterable $inputValues,
+        Query $query,
+        array $expectedOrderedIds
+    ): void {
         $this->createContentForScoreSortTesting($inputValues);
 
         $searchService = $this->getRepository()->getSearchService();
@@ -104,7 +108,7 @@ final class ScoreTest extends AbstractSortClauseTestCase
     /**
      * @param string[] $values
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     private function createContentForScoreSortTesting(iterable $values): void
     {

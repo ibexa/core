@@ -26,7 +26,7 @@ class Priority extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\Priority $criterion
+     * @param Criterion\Location\Priority $criterion
      */
     public function handle(
         CriteriaConverter $converter,

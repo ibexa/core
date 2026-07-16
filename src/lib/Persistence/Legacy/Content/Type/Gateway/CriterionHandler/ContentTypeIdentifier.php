@@ -27,7 +27,7 @@ final class ContentTypeIdentifier implements CriterionHandlerInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeIdentifier $criterion
+     * @param ContentTypeIdentifierCriterion $criterion
      */
     public function apply(
         CriterionVisitor $criterionVisitor,

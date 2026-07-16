@@ -9,6 +9,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Section;
 
 use Ibexa\Contracts\Core\Persistence\Content\Section;
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as BaseSectionHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use RuntimeException;
 
@@ -20,14 +21,14 @@ class Handler implements BaseSectionHandler
     /**
      * Section Gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway
+     * @var Gateway
      */
     protected $sectionGateway;
 
     /**
      * Creates a new Section Handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway $sectionGateway
+     * @param Gateway $sectionGateway
      */
     public function __construct(Gateway $sectionGateway)
     {
@@ -40,10 +41,12 @@ class Handler implements BaseSectionHandler
      * @param string $name
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section
+     * @return Section
      */
-    public function create($name, $identifier)
-    {
+    public function create(
+        $name,
+        $identifier
+    ) {
         $section = new Section();
 
         $section->name = $name;
@@ -61,10 +64,13 @@ class Handler implements BaseSectionHandler
      * @param string $name
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section
+     * @return Section
      */
-    public function update($id, $name, $identifier)
-    {
+    public function update(
+        $id,
+        $name,
+        $identifier
+    ) {
         $this->sectionGateway->updateSection($id, $name, $identifier);
 
         $section = new Section();
@@ -80,9 +86,9 @@ class Handler implements BaseSectionHandler
      *
      * @param mixed $id
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If section is not found
+     * @throws NotFoundException If section is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section
+     * @return Section
      */
     public function load($id)
     {
@@ -98,7 +104,7 @@ class Handler implements BaseSectionHandler
     /**
      * Get all section data.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section[]
+     * @return Section[]
      */
     public function loadAll()
     {
@@ -112,9 +118,9 @@ class Handler implements BaseSectionHandler
      *
      * @param string $identifier
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If section is not found
+     * @throws NotFoundException If section is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section
+     * @return Section
      */
     public function loadByIdentifier($identifier)
     {
@@ -132,7 +138,7 @@ class Handler implements BaseSectionHandler
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section
+     * @return Section
      */
     protected function createSectionFromArray(array $data)
     {
@@ -150,7 +156,7 @@ class Handler implements BaseSectionHandler
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section[]
+     * @return Section[]
      */
     protected function createSectionsFromArray(array $data)
     {
@@ -189,8 +195,10 @@ class Handler implements BaseSectionHandler
      * @param mixed $sectionId
      * @param mixed $contentId
      */
-    public function assign($sectionId, $contentId)
-    {
+    public function assign(
+        $sectionId,
+        $contentId
+    ) {
         $this->sectionGateway->assignSectionToContent($sectionId, $contentId);
     }
 

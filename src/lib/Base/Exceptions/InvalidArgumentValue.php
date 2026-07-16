@@ -42,7 +42,7 @@ class InvalidArgumentValue extends InvalidArgumentException
         parent::__construct($argumentName, $whatIsWrong, $previous);
 
         // Alter the message template & inject new parameters.
-        $this->setMessageTemplate(/** @Ignore */str_replace('%whatIsWrong%', $whatIsWrong, $this->getMessageTemplate()));
+        $this->setMessageTemplate(/** @Ignore */ str_replace('%whatIsWrong%', $whatIsWrong, $this->getMessageTemplate()));
         $this->addParameters($parameters);
         $this->message = $this->getBaseTranslation();
     }

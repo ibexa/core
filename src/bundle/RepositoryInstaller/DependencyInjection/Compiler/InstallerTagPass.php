@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Injects services tagged as "ibexa.installer" into
- * {@see \Ibexa\Bundle\RepositoryInstaller\Command\InstallPlatformCommand::$installers}.
+ * {@see InstallPlatformCommand::$installers}.
  */
 class InstallerTagPass implements CompilerPassInterface
 {

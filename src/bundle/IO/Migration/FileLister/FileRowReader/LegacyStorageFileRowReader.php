@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\IO\Migration\FileLister\FileRowReader;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Result;
 use Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface;
 use LogicException;
@@ -40,7 +41,7 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
     abstract protected function getStorageTable(): string;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     final public function getRow(): ?string
     {
@@ -66,8 +67,10 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
     /**
      * Prepends $path with the first part of the given $mimeType.
      */
-    private function prependMimeToPath(string $path, string $mimeType): string
-    {
+    private function prependMimeToPath(
+        string $path,
+        string $mimeType
+    ): string {
         return substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
     }
 }

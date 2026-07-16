@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\FieldType\Indexable;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Search;
+use Ibexa\Contracts\Core\Search\FieldType;
 
 /**
  * @internal
@@ -19,38 +20,40 @@ use Ibexa\Contracts\Core\Search;
 abstract class AbstractBinarySearchField implements Indexable
 {
     /**
-     * @return \Ibexa\Contracts\Core\Search\Field[]
+     * @return Search\Field[]
      */
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
-    {
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    ): array {
         return [
             new Search\Field(
                 'file_name',
                 $field->value->externalData['fileName'] ?? null,
-                new Search\FieldType\StringField()
+                new FieldType\StringField()
             ),
             new Search\Field(
                 'file_size',
                 $field->value->externalData['fileSize'] ?? null,
-                new Search\FieldType\IntegerField()
+                new FieldType\IntegerField()
             ),
             new Search\Field(
                 'mime_type',
                 $field->value->externalData['mimeType'] ?? null,
-                new Search\FieldType\StringField()
+                new FieldType\StringField()
             ),
         ];
     }
 
     /**
-     * @return array<string, \Ibexa\Contracts\Core\Search\FieldType>
+     * @return array<string, FieldType>
      */
     public function getIndexDefinition(): array
     {
         return [
-            'file_name' => new Search\FieldType\StringField(),
-            'file_size' => new Search\FieldType\IntegerField(),
-            'mime_type' => new Search\FieldType\StringField(),
+            'file_name' => new FieldType\StringField(),
+            'file_size' => new FieldType\IntegerField(),
+            'mime_type' => new FieldType\StringField(),
         ];
     }
 

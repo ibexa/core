@@ -32,7 +32,7 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
         'ezpublish:command',
     ];
 
-    /** @var \Ibexa\Bundle\Core\EventListener\BackwardCompatibleCommandListener */
+    /** @var BackwardCompatibleCommandListener */
     private $listener;
 
     protected function setUp(): void
@@ -109,16 +109,20 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Bundle\Core\Command\BackwardCompatibleCommand|\Symfony\Component\Console\Command\Command
+     * @return BackwardCompatibleCommand|Command
      */
-    private function createBackwardCompatibleCommand(string $name, array $aliases = []): Command
-    {
+    private function createBackwardCompatibleCommand(
+        string $name,
+        array $aliases = []
+    ): Command {
         return new class($name, $aliases) extends Command implements BackwardCompatibleCommand {
             /** @var string[] */
             private $deprecatedAliases;
 
-            public function __construct(string $name, array $deprecatedAliases)
-            {
+            public function __construct(
+                string $name,
+                array $deprecatedAliases
+            ) {
                 $this->deprecatedAliases = $deprecatedAliases;
 
                 parent::__construct($name);

@@ -27,5 +27,9 @@ interface ConfigurationMapperInterface
      * @param string $currentScope
      * @param ContextualizerInterface $contextualizer
      */
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer);
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    );
 }

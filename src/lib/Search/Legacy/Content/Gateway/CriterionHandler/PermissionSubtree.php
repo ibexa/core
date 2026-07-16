@@ -25,7 +25,7 @@ class PermissionSubtree extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Core\Repository\Values\Content\Query\Criterion\PermissionSubtree $criterion
+     * @param PermissionSubtreeCriterion $criterion
      */
     public function handle(
         CriteriaConverter $converter,

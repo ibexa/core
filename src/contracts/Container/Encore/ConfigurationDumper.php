@@ -11,6 +11,7 @@ namespace Ibexa\Contracts\Core\Container\Encore;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Scans project and bundles resources for the given configuration paths.
@@ -66,7 +67,7 @@ final class ConfigurationDumper
         foreach ($configFiles as $configFile => $options) {
             $finder = $this->createFinder($bundlesMetadata, $configFile, $rootPath);
 
-            /** @var \Symfony\Component\Finder\SplFileInfo $fileInfo */
+            /** @var SplFileInfo $fileInfo */
             foreach ($finder as $fileInfo) {
                 if ($options['deprecated'] ?? false) {
                     trigger_deprecation(

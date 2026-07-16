@@ -7,6 +7,8 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 
 /**
@@ -18,7 +20,7 @@ abstract class BaseNonRedundantFieldSetTestCase extends BaseTestCase
     /**
      * Creates a fully functional ContentType and returns it.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     protected function createContentType()
     {
@@ -120,10 +122,12 @@ abstract class BaseNonRedundantFieldSetTestCase extends BaseTestCase
      * @param string $mainLanguageCode
      * @param array $fieldValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function createTestContent($mainLanguageCode, array $fieldValues)
-    {
+    protected function createTestContent(
+        $mainLanguageCode,
+        array $fieldValues
+    ) {
         $repository = $this->getRepository();
 
         $contentService = $repository->getContentService();
@@ -180,8 +184,10 @@ abstract class BaseNonRedundantFieldSetTestCase extends BaseTestCase
         return $this->createTestContent('eng-US', $fieldValues);
     }
 
-    protected function updateTestContent($initialLanguageCode, array $fieldValues)
-    {
+    protected function updateTestContent(
+        $initialLanguageCode,
+        array $fieldValues
+    ) {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 

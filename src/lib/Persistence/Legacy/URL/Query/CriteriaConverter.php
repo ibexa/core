@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Legacy\URL\Query;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
@@ -16,14 +17,14 @@ class CriteriaConverter
     /**
      * Criterion handlers.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler[]
+     * @var CriterionHandler[]
      */
     protected $handlers;
 
     /**
      * Construct from an optional array of Criterion handlers.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler[] $handlers
+     * @param CriterionHandler[] $handlers
      */
     public function __construct(array $handlers = [])
     {
@@ -33,7 +34,7 @@ class CriteriaConverter
     /**
      * Adds handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler $handler
+     * @param CriterionHandler $handler
      */
     public function addHandler(CriterionHandler $handler)
     {
@@ -43,12 +44,14 @@ class CriteriaConverter
     /**
      * Generic converter of criteria into query fragments.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if Criterion is not applicable to its target
+     * @throws NotImplementedException if Criterion is not applicable to its target
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return CompositeExpression|string
      */
-    public function convertCriteria(QueryBuilder $queryBuilder, Criterion $criterion)
-    {
+    public function convertCriteria(
+        QueryBuilder $queryBuilder,
+        Criterion $criterion
+    ) {
         foreach ($this->handlers as $handler) {
             if ($handler->accept($criterion)) {
                 return $handler->handle($this, $queryBuilder, $criterion);

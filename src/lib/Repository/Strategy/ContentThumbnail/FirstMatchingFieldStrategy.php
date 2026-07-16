@@ -18,10 +18,10 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
 final class FirstMatchingFieldStrategy implements ThumbnailStrategy
 {
-    /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService */
+    /** @var FieldTypeService */
     private $fieldTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\ThumbnailStrategy */
+    /** @var ContentFieldThumbnailStrategy */
     private $contentFieldStrategy;
 
     public function __construct(
@@ -32,8 +32,11 @@ final class FirstMatchingFieldStrategy implements ThumbnailStrategy
         $this->fieldTypeService = $fieldTypeService;
     }
 
-    public function getThumbnail(ContentType $contentType, array $fields, ?VersionInfo $versionInfo = null): ?Thumbnail
-    {
+    public function getThumbnail(
+        ContentType $contentType,
+        array $fields,
+        ?VersionInfo $versionInfo = null
+    ): ?Thumbnail {
         $fieldDefinitions = $contentType->getFieldDefinitions();
 
         foreach ($fieldDefinitions as $fieldDefinition) {
@@ -60,9 +63,11 @@ final class FirstMatchingFieldStrategy implements ThumbnailStrategy
         return null;
     }
 
-    private function getFieldByIdentifier(string $identifier, array $fields): ?Field
-    {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field $field */
+    private function getFieldByIdentifier(
+        string $identifier,
+        array $fields
+    ): ?Field {
+        /** @var Field $field */
         foreach ($fields as $field) {
             if ($field->getFieldDefinitionIdentifier() === $identifier) {
                 return $field;

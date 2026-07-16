@@ -56,7 +56,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test for the createLanguage() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @return Language
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
      *
@@ -88,7 +88,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test for the createLanguage() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
      *
@@ -102,7 +102,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test for the createLanguage() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
      *

@@ -22,15 +22,20 @@ final class ContentFilteringAdapter implements BatchIteratorAdapter
     /** @var string[]|null */
     private ?array $languages;
 
-    public function __construct(ContentService $contentService, Filter $filter, ?array $languages = null)
-    {
+    public function __construct(
+        ContentService $contentService,
+        Filter $filter,
+        ?array $languages = null
+    ) {
         $this->contentService = $contentService;
         $this->filter = $filter;
         $this->languages = $languages;
     }
 
-    public function fetch(int $offset, int $limit): Iterator
-    {
+    public function fetch(
+        int $offset,
+        int $limit
+    ): Iterator {
         $filter = clone $this->filter;
         $filter->sliceBy($limit, $offset);
 

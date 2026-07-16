@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
@@ -25,19 +26,24 @@ final class LocationFilteringAdapter implements BatchIteratorAdapter
     /**
      * @param string[]|null $languages
      */
-    public function __construct(LocationService $locationService, Filter $filter, ?array $languages = null)
-    {
+    public function __construct(
+        LocationService $locationService,
+        Filter $filter,
+        ?array $languages = null
+    ) {
         $this->locationService = $locationService;
         $this->filter = $filter;
         $this->languages = $languages;
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws \Exception
      */
-    public function fetch(int $offset, int $limit): Iterator
-    {
+    public function fetch(
+        int $offset,
+        int $limit
+    ): Iterator {
         $filter = clone $this->filter;
         $filter->sliceBy($limit, $offset);
 

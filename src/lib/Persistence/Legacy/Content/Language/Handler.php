@@ -21,25 +21,27 @@ class Handler implements BaseLanguageHandler
     /**
      * Language Gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
+     * @var Gateway
      */
     protected $languageGateway;
 
     /**
      * Language Mapper.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Mapper
+     * @var Mapper
      */
     protected $languageMapper;
 
     /**
      * Creates a new Language Handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway $languageGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Language\Mapper $languageMapper
+     * @param Gateway $languageGateway
+     * @param Mapper $languageMapper
      */
-    public function __construct(Gateway $languageGateway, Mapper $languageMapper)
-    {
+    public function __construct(
+        Gateway $languageGateway,
+        Mapper $languageMapper
+    ) {
         $this->languageGateway = $languageGateway;
         $this->languageMapper = $languageMapper;
     }
@@ -47,9 +49,9 @@ class Handler implements BaseLanguageHandler
     /**
      * Create a new language.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct $struct
+     * @param CreateStruct $struct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function create(CreateStruct $struct)
     {
@@ -64,7 +66,7 @@ class Handler implements BaseLanguageHandler
     /**
      * Update language.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language $language
+     * @param Language $language
      */
     public function update(Language $language)
     {
@@ -78,7 +80,7 @@ class Handler implements BaseLanguageHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $id
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function load($id): Language
     {
@@ -111,7 +113,7 @@ class Handler implements BaseLanguageHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function loadByLanguageCode($languageCode): Language
     {
@@ -139,7 +141,7 @@ class Handler implements BaseLanguageHandler
     /**
      * Get all languages.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
+     * @return Language[]
      */
     public function loadAll()
     {
@@ -153,7 +155,7 @@ class Handler implements BaseLanguageHandler
      *
      * @param mixed $id
      *
-     * @throws \LogicException If language could not be deleted
+     * @throws LogicException If language could not be deleted
      */
     public function delete($id)
     {

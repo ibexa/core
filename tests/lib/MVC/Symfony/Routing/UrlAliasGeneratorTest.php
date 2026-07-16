@@ -21,34 +21,35 @@ use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class UrlAliasGeneratorTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $repository;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $urlAliasService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $locationService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $router;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $logger;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator */
+    /** @var UrlAliasGenerator */
     private $urlAliasGenerator;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $siteAccessRouter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
     protected function setUp(): void
@@ -123,8 +124,10 @@ class UrlAliasGeneratorTest extends TestCase
     /**
      * @dataProvider providerTestIsPrefixExcluded
      */
-    public function testIsPrefixExcluded($uri, $expectedIsExcluded)
-    {
+    public function testIsPrefixExcluded(
+        $uri,
+        $expectedIsExcluded
+    ) {
         $this->urlAliasGenerator->setExcludedUriPrefixes(
             [
                 '/products',
@@ -167,8 +170,11 @@ class UrlAliasGeneratorTest extends TestCase
     /**
      * @dataProvider providerTestDoGenerate
      */
-    public function testDoGenerate(URLAlias $urlAlias, array $parameters, $expected)
-    {
+    public function testDoGenerate(
+        URLAlias $urlAlias,
+        array $parameters,
+        $expected
+    ) {
         $location = new Location(['id' => 123]);
         $this->urlAliasService
             ->expects(self::once())
@@ -212,8 +218,11 @@ class UrlAliasGeneratorTest extends TestCase
      *
      * @param array $parameters
      */
-    public function testDoGenerateWithSiteAccessParam(URLAlias $urlAlias, array $parameters, string $expected)
-    {
+    public function testDoGenerateWithSiteAccessParam(
+        URLAlias $urlAlias,
+        array $parameters,
+        string $expected
+    ) {
         $siteaccessName = 'foo';
         $parameters += ['siteaccess' => $siteaccessName];
         $languages = ['esl-ES', 'fre-FR', 'eng-GB'];
@@ -293,7 +302,7 @@ class UrlAliasGeneratorTest extends TestCase
                 '/baz',
             ],
             [
-                new UrlAlias(['path' => '/special-chars-"<>\'']),
+                new URLAlias(['path' => '/special-chars-"<>\'']),
                 [],
                 '/special-chars-%22%3C%3E%27',
             ],
@@ -308,12 +317,12 @@ class UrlAliasGeneratorTest extends TestCase
                 '/baz#qux',
             ],
             'fragment_and_special_chars' => [
-                new UrlAlias(['path' => '/special-chars-"<>\'']),
+                new URLAlias(['path' => '/special-chars-"<>\'']),
                 ['_fragment' => 'qux'],
                 '/special-chars-%22%3C%3E%27#qux',
             ],
             'fragment_site_siteaccess_and_params' => [
-                new UrlAlias(['path' => '/foo/bar/baz']),
+                new URLAlias(['path' => '/foo/bar/baz']),
                 ['_fragment' => 'qux', 'siteaccess' => 'bar', 'some' => 'foo'],
                 '/baz?some=foo#qux',
             ],
@@ -422,8 +431,12 @@ class UrlAliasGeneratorTest extends TestCase
     /**
      * @dataProvider providerTestDoGenerateRootLocation
      */
-    public function testDoGenerateRootLocation(URLAlias $urlAlias, $isOutsideAndNotExcluded, $expected, $pathPrefix)
-    {
+    public function testDoGenerateRootLocation(
+        URLAlias $urlAlias,
+        $isOutsideAndNotExcluded,
+        $expected,
+        $pathPrefix
+    ) {
         $excludedPrefixes = ['/products', '/shared'];
         $rootLocationId = 456;
         $this->urlAliasGenerator->setRootLocationId($rootLocationId);
@@ -462,61 +475,61 @@ class UrlAliasGeneratorTest extends TestCase
     {
         return [
             [
-                new UrlAlias(['path' => '/my/root-folder/foo/bar']),
+                new URLAlias(['path' => '/my/root-folder/foo/bar']),
                 false,
                 '/foo/bar',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/my/root-folder/something']),
+                new URLAlias(['path' => '/my/root-folder/something']),
                 false,
                 '/something',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/my/root-folder']),
+                new URLAlias(['path' => '/my/root-folder']),
                 false,
                 '/',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/foo/bar']),
+                new URLAlias(['path' => '/foo/bar']),
                 false,
                 '/foo/bar',
                 '/',
             ],
             [
-                new UrlAlias(['path' => '/something']),
+                new URLAlias(['path' => '/something']),
                 false,
                 '/something',
                 '/',
             ],
             [
-                new UrlAlias(['path' => '/']),
+                new URLAlias(['path' => '/']),
                 false,
                 '/',
                 '/',
             ],
             [
-                new UrlAlias(['path' => '/outside/tree/foo/bar']),
+                new URLAlias(['path' => '/outside/tree/foo/bar']),
                 true,
                 '/outside/tree/foo/bar',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/products/ibexa-dxp']),
+                new URLAlias(['path' => '/products/ibexa-dxp']),
                 false,
                 '/products/ibexa-dxp',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/shared/some-content']),
+                new URLAlias(['path' => '/shared/some-content']),
                 false,
                 '/shared/some-content',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/products/ibexa-dxp']),
+                new URLAlias(['path' => '/products/ibexa-dxp']),
                 false,
                 '/products/ibexa-dxp',
                 '/prod',

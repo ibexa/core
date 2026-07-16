@@ -21,8 +21,10 @@ class RemoteProvider implements PlaceholderProvider
     /**
      * {@inheritdoc}
      */
-    public function getPlaceholder(ImageValue $value, array $options = []): string
-    {
+    public function getPlaceholder(
+        ImageValue $value,
+        array $options = []
+    ): string {
         $options = $this->resolveOptions($options);
 
         $path = $this->getTemporaryPath();
@@ -68,8 +70,10 @@ class RemoteProvider implements PlaceholderProvider
         return $path;
     }
 
-    private function getPlaceholderUrl(string $urlPattern, ImageValue $value): string
-    {
+    private function getPlaceholderUrl(
+        string $urlPattern,
+        ImageValue $value
+    ): string {
         return strtr($urlPattern, [
             '%id%' => $value->id,
             '%width%' => $value->width,

@@ -11,6 +11,7 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User;
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserLogin;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
@@ -28,7 +29,7 @@ final class UserLoginQueryBuilder extends BaseUserCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserId $criterion */
+        /** @var UserId $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         $expr = $queryBuilder->expr();

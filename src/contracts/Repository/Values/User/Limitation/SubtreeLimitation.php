@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 class SubtreeLimitation extends RoleLimitation
 {
     /**
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation::getIdentifier()
+     * @see Limitation::getIdentifier()
      *
      * @return string
      */

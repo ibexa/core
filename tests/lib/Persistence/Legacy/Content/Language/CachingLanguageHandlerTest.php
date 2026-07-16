@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct as SPILanguageCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as SPILanguageHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
@@ -15,7 +16,9 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
@@ -25,25 +28,25 @@ class CachingLanguageHandlerTest extends TestCase
     /**
      * Language handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @var Handler
      */
     protected $languageHandler;
 
     /**
      * Inner language handler mock.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+     * @var SPILanguageHandler
      */
     protected $innerHandlerMock;
 
     /**
      * Language cache mock.
      *
-     * @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
+     * @var InMemoryCache
      */
     protected $languageCacheMock;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
+    /** @var CacheIdentifierGeneratorInterface */
     protected $cacheIdentifierGeneratorMock;
 
     public function testCreate()
@@ -79,17 +82,17 @@ class CachingLanguageHandlerTest extends TestCase
     /**
      * Returns a Language CreateStruct.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct
+     * @return CreateStruct
      */
     protected function getCreateStructFixture()
     {
-        return new Language\CreateStruct();
+        return new CreateStruct();
     }
 
     /**
      * Returns a Language.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     protected function getLanguageFixture()
     {
@@ -280,7 +283,7 @@ class CachingLanguageHandlerTest extends TestCase
     /**
      * Returns the language handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
+     * @return CachingHandler
      */
     protected function getLanguageHandler()
     {
@@ -298,7 +301,7 @@ class CachingLanguageHandlerTest extends TestCase
     /**
      * Returns a mock for the inner language handler.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return SPILanguageHandler|MockObject
      */
     protected function getInnerLanguageHandlerMock()
     {
@@ -312,7 +315,7 @@ class CachingLanguageHandlerTest extends TestCase
     /**
      * Returns a mock for the in-memory cache.
      *
-     * @return \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache|\PHPUnit\Framework\MockObject\MockObject
+     * @return InMemoryCache|MockObject
      */
     protected function getLanguageCacheMock()
     {
@@ -324,7 +327,7 @@ class CachingLanguageHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return CacheIdentifierGeneratorInterface|MockObject
      */
     protected function getCacheIdentifierGeneratorMock()
     {
@@ -338,7 +341,7 @@ class CachingLanguageHandlerTest extends TestCase
     /**
      * Returns an array with 2 languages.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
+     * @return Language[]
      */
     protected function getLanguagesFixture()
     {

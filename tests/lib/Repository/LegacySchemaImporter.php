@@ -24,7 +24,7 @@ use RuntimeException;
  */
 final class LegacySchemaImporter
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     public function __construct(Connection $connection)

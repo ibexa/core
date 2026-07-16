@@ -13,6 +13,8 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 /**
  * Legacy Image IOService.
@@ -57,11 +59,11 @@ class Legacy implements IOServiceInterface
     private OptionsProvider $optionsProvider;
 
     /**
-     * @param \Ibexa\Core\FieldType\Image\IO\OptionsProvider $optionsProvider Path options. Known keys: var_dir, storage_dir, draft_images_dir, published_images_dir.
+     * @param OptionsProvider $optionsProvider Path options. Known keys: var_dir, storage_dir, draft_images_dir, published_images_dir.
      *
-     * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     * @throws InvalidOptionsException
      *         If any of the passed options has not been defined or does not contain an allowed value
-     * @throws \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
+     * @throws MissingOptionsException
      *         If a required option is missing.
      */
     public function __construct(

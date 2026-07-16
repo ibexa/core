@@ -17,8 +17,10 @@ final class BeforeMoveUserGroupEvent extends BeforeEvent
 
     private UserGroup $newParent;
 
-    public function __construct(UserGroup $userGroup, UserGroup $newParent)
-    {
+    public function __construct(
+        UserGroup $userGroup,
+        UserGroup $newParent
+    ) {
         $this->userGroup = $userGroup;
         $this->newParent = $newParent;
     }

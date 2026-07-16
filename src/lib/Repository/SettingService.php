@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
+use Ibexa\Contracts\Core\Persistence\Setting\Handler;
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandler;
 use Ibexa\Contracts\Core\Persistence\Setting\Setting as SPISetting;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
@@ -21,10 +22,10 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 
 final class SettingService implements SettingServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Setting\Handler */
+    /** @var Handler */
     private $settingHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
     public function __construct(
@@ -35,15 +36,19 @@ final class SettingService implements SettingServiceInterface
         $this->permissionResolver = $permissionResolver;
     }
 
-    public function loadSetting(string $group, string $identifier): Setting
-    {
+    public function loadSetting(
+        string $group,
+        string $identifier
+    ): Setting {
         return $this->buildSettingDomainObject(
             $this->settingHandler->load($group, $identifier)
         );
     }
 
-    public function updateSetting(Setting $setting, SettingUpdateStruct $settingUpdateStruct): Setting
-    {
+    public function updateSetting(
+        Setting $setting,
+        SettingUpdateStruct $settingUpdateStruct
+    ): Setting {
         if (!$this->permissionResolver->canUser('setting', 'update', $setting)) {
             throw new UnauthorizedException('setting', 'update');
         }

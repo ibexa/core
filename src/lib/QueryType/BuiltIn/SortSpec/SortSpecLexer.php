@@ -20,16 +20,16 @@ final class SortSpecLexer implements SortSpecLexerInterface
     /** @var string */
     private $input;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\Token[] */
+    /** @var Token[] */
     private $tokens = [];
 
     /** @var int|null */
     private $position;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\Token|null */
+    /** @var Token|null */
     private $current;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\Token|null */
+    /** @var Token|null */
     private $next;
 
     public function getAll(): iterable

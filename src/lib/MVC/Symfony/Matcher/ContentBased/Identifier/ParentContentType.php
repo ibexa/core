@@ -9,6 +9,7 @@ namespace Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier;
 
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Core\MVC\Symfony\View\ContentValueView;
@@ -20,7 +21,7 @@ class ParentContentType extends MultipleValued
     /**
      * Checks if a Location object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
      * @return bool
      */
@@ -42,7 +43,7 @@ class ParentContentType extends MultipleValued
     /**
      * Checks if a ContentInfo object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      *
      * @return bool
      */

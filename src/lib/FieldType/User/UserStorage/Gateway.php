@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\FieldType\User\UserStorage;
 
+use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\Core\FieldType\StorageGateway;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -37,19 +38,28 @@ abstract class Gateway extends StorageGateway
      *
      * @return array
      */
-    abstract public function getFieldData($fieldId, $userId = null);
+    abstract public function getFieldData(
+        $fieldId,
+        $userId = null
+    );
 
-    abstract public function storeFieldData(VersionInfo $versionInfo, Field $field): bool;
+    abstract public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): bool;
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      * @param int[] $fieldIds
      *
      * @return bool
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
-    abstract public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool;
+    abstract public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds
+    ): bool;
 
     /**
      * @param int[] $supportedHashTypes

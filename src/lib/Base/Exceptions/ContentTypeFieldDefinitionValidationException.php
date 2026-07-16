@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Base\Exceptions;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException as APIContentTypeFieldDefinitionValidationException;
 use Ibexa\Core\Base\Translatable;
 use Ibexa\Core\Base\TranslatableBase;
@@ -19,13 +20,13 @@ class ContentTypeFieldDefinitionValidationException extends APIContentTypeFieldD
 {
     use TranslatableBase;
 
-    /** @var array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]> */
+    /** @var array<string, ValidationError[]> */
     protected array $errors;
 
     /**
      * Generates: Content type field definitions did not validate.
      *
-     * @param array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]> $errors
+     * @param array<string, ValidationError[]> $errors
      */
     public function __construct(array $errors)
     {
@@ -35,7 +36,7 @@ class ContentTypeFieldDefinitionValidationException extends APIContentTypeFieldD
     }
 
     /**
-     * @return array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>
+     * @return array<string, ValidationError[]>
      */
     public function getFieldErrors(): array
     {

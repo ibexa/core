@@ -31,7 +31,11 @@ interface ConfigResolverInterface
      *
      * @return mixed
      */
-    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null);
+    public function getParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    );
 
     /**
      * Checks if $paramName exists in $namespace.
@@ -40,7 +44,11 @@ interface ConfigResolverInterface
      * @param string|null $namespace Namespace for the parameter name. If null, the default namespace should be used.
      * @param string|null $scope The scope you need $paramName value for.
      */
-    public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool;
+    public function hasParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): bool;
 
     /**
      * Changes the default namespace to look parameter into.

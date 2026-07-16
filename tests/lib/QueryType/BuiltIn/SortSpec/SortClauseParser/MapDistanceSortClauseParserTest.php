@@ -22,7 +22,7 @@ final class MapDistanceSortClauseParserTest extends TestCase
     private const EXAMPLE_LAT = 50.0647;
     private const EXAMPLE_LON = 19.9450;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\MapDistanceSortClauseParser */
+    /** @var MapDistanceSortClauseParser */
     private $mapDistanceSortClauseParser;
 
     protected function setUp(): void

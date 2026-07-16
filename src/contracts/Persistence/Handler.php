@@ -16,52 +16,52 @@ use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandler;
 interface Handler
 {
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Handler
+     * @return Content\Handler
      */
     public function contentHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+     * @return Content\Type\Handler
      */
     public function contentTypeHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+     * @return Content\Language\Handler
      */
     public function contentLanguageHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location\Handler
+     * @return Content\Location\Handler
      */
     public function locationHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler
+     * @return Content\ObjectState\Handler
      */
     public function objectStateHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler
+     * @return Content\Location\Trash\Handler
      */
     public function trashHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\User\Handler
+     * @return User\Handler
      */
     public function userHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section\Handler
+     * @return Content\Section\Handler
      */
     public function sectionHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler
+     * @return Content\UrlAlias\Handler
      */
     public function urlAliasHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler
+     * @return Content\UrlWildcard\Handler
      */
     public function urlWildcardHandler();
 
@@ -71,22 +71,22 @@ interface Handler
     public function urlHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Bookmark\Handler
+     * @return Bookmark\Handler
      */
     public function bookmarkHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Handler
+     * @return Notification\Handler
      */
     public function notificationHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\UserPreference\Handler
+     * @return UserPreference\Handler
      */
     public function userPreferenceHandler();
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\TransactionHandler
+     * @return TransactionHandler
      */
     public function transactionHandler();
 

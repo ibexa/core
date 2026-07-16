@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStru
 /**
  * this class is used for creating content types.
  *
- * @property \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct[] $fieldDefinitions the collection of field definitions
+ * @property FieldDefinitionCreateStruct[] $fieldDefinitions the collection of field definitions
  *
  * @internal Meant for internal use by Repository, type hint against API instead.
  */
@@ -22,14 +22,14 @@ class ContentTypeCreateStruct extends APIContentTypeCreateStruct
     /**
      * Holds the collection of field definitions.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct[]
+     * @var FieldDefinitionCreateStruct[]
      */
     public $fieldDefinitions = [];
 
     /**
      * Adds a new field definition.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDef
+     * @param FieldDefinitionCreateStruct $fieldDef
      */
     public function addFieldDefinition(FieldDefinitionCreateStruct $fieldDef): void
     {

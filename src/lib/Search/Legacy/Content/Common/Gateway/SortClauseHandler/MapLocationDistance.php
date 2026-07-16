@@ -10,6 +10,8 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target\FieldTarget;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target\MapLocationTarget;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -22,7 +24,7 @@ class MapLocationDistance extends Field
     /**
      * Check if this sort clause handler accepts to handle the given sort clause.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
+     * @param SortClause $sortClause
      *
      * @return bool
      */
@@ -36,7 +38,7 @@ class MapLocationDistance extends Field
         SortClause $sortClause,
         int $number
     ): array {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target\MapLocationTarget $target */
+        /** @var MapLocationTarget $target */
         $target = $sortClause->targetData;
         $externalTable = $this->getSortTableName($number, DoctrineStorage::MAP_LOCATION_TABLE);
 
@@ -67,7 +69,7 @@ class MapLocationDistance extends Field
         int $number,
         array $languageSettings
     ): void {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target\FieldTarget $fieldTarget */
+        /** @var FieldTarget $fieldTarget */
         $fieldTarget = $sortClause->targetData;
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();
 

@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserPreferenceExtension;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserPreferenceRuntime;
+use Twig\Extension\ExtensionInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 use Twig\RuntimeLoader\RuntimeLoaderInterface;
 use Twig\Test\IntegrationTestCase;
@@ -51,7 +52,7 @@ final class UserPreferenceExtensionTest extends IntegrationTestCase
     }
 
     /**
-     * @return \Twig\Extension\ExtensionInterface[]
+     * @return ExtensionInterface[]
      */
     protected function getExtensions(): array
     {

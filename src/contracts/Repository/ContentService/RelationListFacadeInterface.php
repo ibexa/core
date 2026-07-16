@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\ContentService;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 /**
@@ -16,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 interface RelationListFacadeInterface
 {
     /**
-     * @return iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Relation>
+     * @return iterable<Relation>
      */
     public function getRelations(VersionInfo $versionInfo): iterable;
 }

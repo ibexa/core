@@ -46,7 +46,7 @@ class URLAlias extends ValueObject
      * If type = URLAlias::LOCATION it is a Location id
      * otherwise a string (e.g. /content/search).
      */
-    protected string|int $destination;
+    protected string | int $destination;
 
     /**
      * the full path of the alias.

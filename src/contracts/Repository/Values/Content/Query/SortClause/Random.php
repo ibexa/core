@@ -20,8 +20,10 @@ class Random extends SortClause
     /**
      * @param int|null $seed as this depends on storage implementation.
      */
-    public function __construct(?int $seed = null, string $sortDirection = Query::SORT_ASC)
-    {
+    public function __construct(
+        ?int $seed = null,
+        string $sortDirection = Query::SORT_ASC
+    ) {
         parent::__construct('random', $sortDirection, new RandomTarget($seed));
     }
 }

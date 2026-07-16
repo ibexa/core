@@ -27,7 +27,7 @@ interface ViewMatcherInterface
     /**
      * Matches the $view against a set of matchers.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\View $view
+     * @param View $view
      *
      * @return bool
      */

@@ -33,7 +33,7 @@ class HandlerRegistry
     }
 
     /**
-     * @throws \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException If the requested handler doesn't exist
+     * @throws InvalidConfigurationException If the requested handler doesn't exist
      *
      * @phpstan-return THandlerType
      */

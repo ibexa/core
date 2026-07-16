@@ -62,8 +62,11 @@ class InMemoryCache
      * @param int $limit Limit for values to keep in cache, by default 100 cache values.
      * @param bool $enabled For use by configuration to be able to disable or enable depending on needs.
      */
-    public function __construct(int $ttl = 300, int $limit = 100, bool $enabled = true)
-    {
+    public function __construct(
+        int $ttl = 300,
+        int $limit = 100,
+        bool $enabled = true
+    ) {
         $this->ttl = $ttl / 1000;
         $this->limit = $limit;
         $this->enabled = $enabled;
@@ -114,8 +117,11 @@ class InMemoryCache
      * @param callable $objectIndexes Return array of indexes per object (first argument), must return at least 1 primary index
      * @param string|null $listIndex Optional index for list of items
      */
-    public function setMulti(array $objects, callable $objectIndexes, ?string $listIndex = null): void
-    {
+    public function setMulti(
+        array $objects,
+        callable $objectIndexes,
+        ?string $listIndex = null
+    ): void {
         // If objects accounts for more than 20% of our limit, assume it's bulk load and skip saving in-memory
         if ($this->enabled === false || \count($objects) >= $this->limit / 5) {
             return;

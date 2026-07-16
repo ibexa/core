@@ -9,6 +9,7 @@ namespace Ibexa\Core\FieldType\Keyword;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
@@ -37,10 +38,13 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Keyword\Value|\Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value|SPIValue $value
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return implode(', ', $value->values);
     }
 
@@ -48,7 +52,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return \Ibexa\Core\FieldType\Keyword\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
@@ -60,7 +64,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param mixed $inputValue
      *
-     * @return \Ibexa\Core\FieldType\Keyword\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -78,9 +82,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\Keyword\Value $value
+     * @param Value $value
      */
     protected function checkValueStructure(BaseValue $value)
     {
@@ -104,10 +108,12 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Keyword\Value $fieldValue
+     * @param Value $fieldValue
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        SPIValue $fieldValue
+    ): array {
         $validationErrors = [];
 
         foreach ($fieldValue->values as $keyword) {
@@ -144,7 +150,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param mixed $hash
      *
-     * @return \Ibexa\Core\FieldType\Keyword\Value $value
+     * @return Value $value
      */
     public function fromHash($hash)
     {
@@ -154,7 +160,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\Keyword\Value $value
+     * @param Value $value
      *
      * @return mixed
      */
@@ -176,9 +182,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $value to a persistence value.
      *
-     * @param \Ibexa\Core\FieldType\Keyword\Value $value
+     * @param Value $value
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @return FieldValue
      */
     public function toPersistenceValue(SPIValue $value)
     {
@@ -194,9 +200,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a persistence $fieldValue to a Value.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param FieldValue $fieldValue
      *
-     * @return \Ibexa\Core\FieldType\Keyword\Value
+     * @return Value
      */
     public function fromPersistenceValue(FieldValue $fieldValue)
     {

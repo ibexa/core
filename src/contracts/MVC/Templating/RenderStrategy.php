@@ -21,5 +21,8 @@ interface RenderStrategy
 {
     public function supports(ValueObject $valueObject): bool;
 
-    public function render(ValueObject $valueObject, RenderOptions $options): string;
+    public function render(
+        ValueObject $valueObject,
+        RenderOptions $options
+    ): string;
 }

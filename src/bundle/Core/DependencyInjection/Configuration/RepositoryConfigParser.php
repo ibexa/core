@@ -13,11 +13,11 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 final class RepositoryConfigParser implements RepositoryConfigParserInterface
 {
-    /** @var iterable<\Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface> */
+    /** @var iterable<RepositoryConfigParserInterface> */
     private $configParsers;
 
     /**
-     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface[] $configParsers
+     * @param RepositoryConfigParserInterface[] $configParsers
      */
     public function __construct(iterable $configParsers = [])
     {

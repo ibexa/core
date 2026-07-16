@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigBuilderInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
 /**
  * Interface for DIC extensions which provide policies to be exposed for permissions in the Repository.
@@ -18,7 +19,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigBuilderInterface;
  *
  * Each function can provide a collection of limitations.
  * These need to be implemented as "limitation types" and declared as services with "ibexa.permissions.limitation_type" service tag.
- * Limitation types also provide value objects based on {@see \Ibexa\Contracts\Core\Repository\Values\User\Limitation} abstract class.
+ * Limitation types also provide value objects based on {@see Limitation} abstract class.
  *
  * @since 6.0
  */

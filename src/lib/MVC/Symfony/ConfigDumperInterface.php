@@ -22,5 +22,8 @@ interface ConfigDumperInterface
      * @param array $configArray Hash of settings.
      * @param int $options A binary combination of options. See class OPT_* class constants in {@link \Ibexa\Core\MVC\Symfony\ConfigDumperInterface}
      */
-    public function dump(array $configArray, $options = self::OPT_DEFAULT);
+    public function dump(
+        array $configArray,
+        $options = self::OPT_DEFAULT
+    );
 }

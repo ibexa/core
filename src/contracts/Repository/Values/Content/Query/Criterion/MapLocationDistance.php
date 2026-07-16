@@ -35,8 +35,13 @@ class MapLocationDistance extends Criterion implements CustomFieldInterface
      * @param float $latitude Latitude of the location that distance is calculated from
      * @param float $longitude Longitude of the location that distance is calculated from
      */
-    public function __construct(string $target, string $operator, float|array $distance, float $latitude, float $longitude)
-    {
+    public function __construct(
+        string $target,
+        string $operator,
+        float | array $distance,
+        float $latitude,
+        float $longitude
+    ) {
         $distanceStart = new MapLocationValue($latitude, $longitude);
         parent::__construct($target, $operator, $distance, $distanceStart);
     }
@@ -59,8 +64,11 @@ class MapLocationDistance extends Criterion implements CustomFieldInterface
      *
      * Set a custom field to query for a defined field in a defined type.
      */
-    public function setCustomField(string $type, string $field, string $customField): void
-    {
+    public function setCustomField(
+        string $type,
+        string $field,
+        string $customField
+    ): void {
         $this->customFields[$type][$field] = $customField;
     }
 
@@ -69,8 +77,10 @@ class MapLocationDistance extends Criterion implements CustomFieldInterface
      *
      * If no custom field is set, return null
      */
-    public function getCustomField(string $type, string $field): ?string
-    {
+    public function getCustomField(
+        string $type,
+        string $field
+    ): ?string {
         return $this->customFields[$type][$field] ?? null;
     }
 }

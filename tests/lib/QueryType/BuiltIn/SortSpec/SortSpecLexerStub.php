@@ -12,11 +12,11 @@ use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecLexerInterface;
 use Ibexa\Core\QueryType\BuiltIn\SortSpec\Token;
 
 /**
- * Dummy {@see \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecLexerInterface} implementation.
+ * Dummy {@see SortSpecLexerInterface} implementation.
  */
 final class SortSpecLexerStub implements SortSpecLexerInterface
 {
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\Token[] */
+    /** @var Token[] */
     private $tokens;
 
     /** @var string|null */

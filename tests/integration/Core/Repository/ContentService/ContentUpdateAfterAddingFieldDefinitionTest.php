@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
@@ -19,7 +20,7 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
     private const string TEXT_LINE_FIELD_TYPE_IDENTIFIER = 'ibexa_string';
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testUpdateFields(): void
     {
@@ -60,8 +61,11 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
         $this->updateContent($engDraft, $engUpdateStruct);
     }
 
-    private function createFieldDefinitionStruct(string $identifier, string $name, bool $isTranslatable): FieldDefinitionCreateStruct
-    {
+    private function createFieldDefinitionStruct(
+        string $identifier,
+        string $name,
+        bool $isTranslatable
+    ): FieldDefinitionCreateStruct {
         $contentTypeService = self::getContentTypeService();
 
         $fieldDefCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct(
@@ -91,10 +95,13 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
     /**
      * @param string[] $languages
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
-    protected function createNewContent(string $name, array $languages = ['eng-US'], int $parentLocationId = 2): Content
-    {
+    protected function createNewContent(
+        string $name,
+        array $languages = ['eng-US'],
+        int $parentLocationId = 2
+    ): Content {
         $contentTypeService = self::getContentTypeService();
         $contentService = self::getContentService();
         $locationService = self::getLocationService();
@@ -115,8 +122,11 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
     /**
      * @param string[] $languages
      */
-    protected function createUpdateStruct(Content $content, string $translatedName, array $languages): ContentUpdateStruct
-    {
+    protected function createUpdateStruct(
+        Content $content,
+        string $translatedName,
+        array $languages
+    ): ContentUpdateStruct {
         $contentService = self::getContentService();
 
         $updateStruct = $contentService->newContentUpdateStruct();
@@ -138,10 +148,12 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
-    protected function createContentDraft(Content $content, string $languageCode): Content
-    {
+    protected function createContentDraft(
+        Content $content,
+        string $languageCode
+    ): Content {
         $contentLanguageService = self::getLanguageService();
 
         $language = $contentLanguageService->loadLanguage($languageCode);
@@ -150,10 +162,12 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
-    protected function updateContent(Content $draft, ContentUpdateStruct $updateStruct): Content
-    {
+    protected function updateContent(
+        Content $draft,
+        ContentUpdateStruct $updateStruct
+    ): Content {
         return self::getContentService()->updateContent($draft->versionInfo, $updateStruct);
     }
 }

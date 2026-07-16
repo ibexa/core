@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\MVC\Symfony\View\Builder\Registry;
 
+use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder;
 use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
 
 /**
@@ -15,7 +16,7 @@ use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
  */
 class ControllerMatch implements ViewBuilderRegistry
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder[] */
+    /** @var ViewBuilder[] */
     private $registry = [];
 
     public function __construct(iterable $viewBuilders = [])
@@ -28,7 +29,7 @@ class ControllerMatch implements ViewBuilderRegistry
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder[] $viewBuilders
+     * @param ViewBuilder[] $viewBuilders
      */
     public function addToRegistry(array $viewBuilders)
     {
@@ -40,7 +41,7 @@ class ControllerMatch implements ViewBuilderRegistry
      *
      * @param string $controllerString A controller string to match against. Example: ibexa_content::viewAction.
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder|null
+     * @return ViewBuilder|null
      */
     public function getFromRegistry($controllerString)
     {

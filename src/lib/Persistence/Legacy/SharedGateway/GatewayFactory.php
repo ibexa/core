@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\SharedGateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 
 /**
  * Builds a Shared Gateway object based on the database connection.
@@ -18,14 +19,15 @@ use Doctrine\DBAL\Connection;
 final readonly class GatewayFactory
 {
     /**
-     * @param iterable<string, \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway> $gateways
+     * @param iterable<string, Gateway> $gateways
      */
-    public function __construct(private Gateway $fallbackGateway, private iterable $gateways)
-    {
-    }
+    public function __construct(
+        private Gateway $fallbackGateway,
+        private iterable $gateways
+    ) {}
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function buildSharedGateway(Connection $connection): Gateway
     {

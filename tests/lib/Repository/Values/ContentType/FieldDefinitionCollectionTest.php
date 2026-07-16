@@ -288,8 +288,10 @@ final class FieldDefinitionCollectionTest extends TestCase
         );
     }
 
-    private function createFieldDefinitionsWith(string $property, array $values): array
-    {
+    private function createFieldDefinitionsWith(
+        string $property,
+        array $values
+    ): array {
         return array_map(
             fn (string $value): APIFieldDefinition => $this->createFieldDefinition(
                 uniqid('field_def_identifier', true),

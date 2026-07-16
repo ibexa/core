@@ -7,7 +7,9 @@
 
 namespace Ibexa\Core\Repository\Values\ContentType;
 
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft as APIContentTypeDraft;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
 use Ibexa\Core\Repository\Values\MultiLanguageTrait;
@@ -32,8 +34,10 @@ class ContentTypeDraft extends APIContentTypeDraft
      *
      * @return array
      */
-    protected function getProperties($dynamicProperties = ['contentTypeGroups', 'fieldDefinitions'])
-    {
+    protected function getProperties(
+        $dynamicProperties = ['contentTypeGroups',
+            'fieldDefinitions']
+    ) {
         return parent::getProperties($dynamicProperties);
     }
 
@@ -55,8 +59,10 @@ class ContentTypeDraft extends APIContentTypeDraft
      * @param string $property
      * @param mixed $propertyValue
      */
-    public function __set($property, $propertyValue)
-    {
+    public function __set(
+        $property,
+        $propertyValue
+    ) {
         $this->innerContentType->$property = $propertyValue;
     }
 
@@ -75,7 +81,7 @@ class ContentTypeDraft extends APIContentTypeDraft
     /**
      * Holds internal content type object.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @var ContentType
      *
      * @todo document
      */
@@ -116,7 +122,7 @@ class ContentTypeDraft extends APIContentTypeDraft
     /**
      * This method returns the content type groups this content type is assigned to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[]
+     * @return ContentTypeGroup[]
      */
     public function getContentTypeGroups(): array
     {
@@ -126,7 +132,7 @@ class ContentTypeDraft extends APIContentTypeDraft
     /**
      * This method returns the content type field definitions from this type.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[]
+     * @return FieldDefinition[]
      */
     public function getFieldDefinitions(): APIFieldDefinitionCollection
     {
@@ -138,7 +144,7 @@ class ContentTypeDraft extends APIContentTypeDraft
      *
      * @param string $fieldDefinitionIdentifier
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition
+     * @return FieldDefinition
      */
     public function getFieldDefinition(string $fieldDefinitionIdentifier): ?FieldDefinition
     {

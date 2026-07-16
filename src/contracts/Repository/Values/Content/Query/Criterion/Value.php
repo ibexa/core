@@ -11,6 +11,4 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 /**
  * Struct that stores extra value information for a Criterion object.
  */
-abstract class Value
-{
-}
+abstract class Value {}

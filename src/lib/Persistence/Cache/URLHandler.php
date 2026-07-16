@@ -19,8 +19,10 @@ class URLHandler extends AbstractHandler implements URLHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function updateUrl($id, URLUpdateStruct $struct)
-    {
+    public function updateUrl(
+        $id,
+        URLUpdateStruct $struct
+    ) {
         $this->logger->logCall(__METHOD__, [
             'url' => $id,
             'struct' => $struct,

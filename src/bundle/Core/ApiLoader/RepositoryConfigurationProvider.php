@@ -12,13 +12,11 @@ use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInte
 
 /**
  * @deprecated 5.0.0 The "\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider" class is deprecated, will be removed in 6.0.0.
- * Inject {@see \Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface} from Dependency Injection Container instead.
+ * Inject {@see RepositoryConfigurationProviderInterface} from Dependency Injection Container instead.
  */
 final readonly class RepositoryConfigurationProvider implements RepositoryConfigurationProviderInterface
 {
-    public function __construct(private RepositoryConfigurationProviderInterface $configurationProvider)
-    {
-    }
+    public function __construct(private RepositoryConfigurationProviderInterface $configurationProvider) {}
 
     public function getRepositoryConfig(): array
     {

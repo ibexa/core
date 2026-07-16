@@ -17,7 +17,7 @@ class MultipleRemoteIdentifierField extends FieldType
     /**
      * Search engine field type corresponding to remote ID list. The same MultipleIdentifierField due to BC.
      *
-     * @see \Ibexa\Contracts\Core\Search\FieldType\MultipleIdentifierField
+     * @see MultipleIdentifierField
      *
      * @var string
      */

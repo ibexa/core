@@ -11,15 +11,17 @@ namespace Ibexa\Core\Persistence\Legacy\Filter;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor as FilteringCriterionVisitor;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+
 use function sprintf;
 
 /**
- * @internal Type-hint {@see \Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor} instead
+ * @internal Type-hint {@see FilteringCriterionVisitor} instead
  */
 final class CriterionVisitor implements FilteringCriterionVisitor
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder[] */
+    /** @var CriterionQueryBuilder[] */
     private $criterionQueryBuilders;
 
     public function __construct(iterable $criterionQueryBuilders)
@@ -33,7 +35,7 @@ final class CriterionVisitor implements FilteringCriterionVisitor
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if there's no builder for a criterion
+     * @throws NotImplementedException if there's no builder for a criterion
      */
     public function visitCriteria(
         FilteringQueryBuilder $queryBuilder,

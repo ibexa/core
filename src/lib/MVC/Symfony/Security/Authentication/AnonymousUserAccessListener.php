@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Security\Authentication;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +30,7 @@ final class AnonymousUserAccessListener extends AbstractListener
         private readonly Security $security,
         private readonly array $firewallLoginPaths,
         private readonly AccessMapInterface $map,
-    ) {
-    }
+    ) {}
 
     public function supports(Request $request): bool
     {
@@ -55,8 +56,8 @@ final class AnonymousUserAccessListener extends AbstractListener
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
      */
     public function authenticate(RequestEvent $event): void
     {

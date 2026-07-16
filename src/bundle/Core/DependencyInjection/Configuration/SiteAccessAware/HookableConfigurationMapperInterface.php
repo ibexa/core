@@ -22,7 +22,10 @@ interface HookableConfigurationMapperInterface extends ConfigurationMapperInterf
      *
      * @param array<string, mixed> $config Complete parsed semantic configuration
      */
-    public function preMap(array $config, ContextualizerInterface $contextualizer);
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    );
 
     /**
      * This method is called by the ConfigurationProcessor after looping over available scopes.
@@ -33,5 +36,8 @@ interface HookableConfigurationMapperInterface extends ConfigurationMapperInterf
      *
      * @param array<string, mixed> $config Complete parsed semantic configuration
      */
-    public function postMap(array $config, ContextualizerInterface $contextualizer);
+    public function postMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    );
 }

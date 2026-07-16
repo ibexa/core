@@ -9,14 +9,16 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Values\ContentType;
 
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldTypeInterface;
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\FieldType as FieldTypeInterface;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 
 /**
  * This class represents a FieldType available to Public API users.
  *
- * @see \Ibexa\Contracts\Core\Repository\FieldType
+ * @see FieldTypeInterface
  *
  * @internal Meant for internal use by Repository, type hint against API object instead.
  */
@@ -30,7 +32,7 @@ class FieldType implements FieldTypeInterface
     protected $internalFieldType;
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType $fieldType
+     * @param SPIFieldTypeInterface $fieldType
      */
     public function __construct(SPIFieldTypeInterface $fieldType)
     {
@@ -47,8 +49,11 @@ class FieldType implements FieldTypeInterface
         return $this->internalFieldType->getFieldTypeIdentifier();
     }
 
-    public function getName(Value $value, APIFieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        Value $value,
+        APIFieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return $this->internalFieldType->getName($value, $fieldDefinition, $languageCode);
     }
 
@@ -262,7 +267,7 @@ class FieldType implements FieldTypeInterface
      *
      * @param mixed $validatorConfiguration
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     public function validateValidatorConfiguration($validatorConfiguration): iterable
     {
@@ -277,7 +282,7 @@ class FieldType implements FieldTypeInterface
      *
      * @param mixed $fieldSettings
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     public function validateFieldSettings($fieldSettings): iterable
     {
@@ -287,13 +292,15 @@ class FieldType implements FieldTypeInterface
     /**
      * Validates a field value based on the validator configuration in the field definition.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value The field value for which an action is performed
+     * @param FieldDefinition $fieldDef The field definition of the field
+     * @param Value $value The field value for which an action is performed
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
-    public function validateValue(APIFieldDefinition $fieldDef, Value $value): iterable
-    {
+    public function validateValue(
+        APIFieldDefinition $fieldDef,
+        Value $value
+    ): iterable {
         return $this->internalFieldType->validate($fieldDef, $value);
     }
 }

@@ -26,7 +26,7 @@ use Ibexa\Core\Persistence\Legacy\Exception;
 
 class Handler implements BaseContentTypeHandler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway */
+    /** @var Gateway */
     protected $contentTypeGateway;
 
     /**
@@ -39,7 +39,7 @@ class Handler implements BaseContentTypeHandler
     /**
      * Content type update handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
+     * @var UpdateHandler
      */
     protected $updateHandler;
 
@@ -48,9 +48,9 @@ class Handler implements BaseContentTypeHandler
     /**
      * Creates a new content type handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway $contentTypeGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper $mapper
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler $updateHandler
+     * @param Gateway $contentTypeGateway
+     * @param Mapper $mapper
+     * @param UpdateHandler $updateHandler
      */
     public function __construct(
         Gateway $contentTypeGateway,
@@ -66,9 +66,9 @@ class Handler implements BaseContentTypeHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct $createStruct
+     * @param GroupCreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     * @return Group
      */
     public function createGroup(GroupCreateStruct $createStruct)
     {
@@ -84,9 +84,9 @@ class Handler implements BaseContentTypeHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct $struct
+     * @param GroupUpdateStruct $struct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     * @return Group
      */
     public function updateGroup(GroupUpdateStruct $struct)
     {
@@ -116,7 +116,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type group with $groupId is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     * @return Group
      */
     public function loadGroup($groupId)
     {
@@ -153,7 +153,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type group with $identifier is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     * @return Group
      */
     public function loadGroupByIdentifier($identifier)
     {
@@ -169,7 +169,7 @@ class Handler implements BaseContentTypeHandler
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
+     * @return Group[]
      */
     public function loadAllGroups()
     {
@@ -182,10 +182,12 @@ class Handler implements BaseContentTypeHandler
      * @param mixed $groupId
      * @param int $status
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return Type[]
      */
-    public function loadContentTypes($groupId, $status = 0)
-    {
+    public function loadContentTypes(
+        $groupId,
+        $status = 0
+    ) {
         return $this->mapper->extractTypesFromRows(
             $this->contentTypeGateway->loadTypesDataForGroup($groupId, $status)
         );
@@ -199,8 +201,10 @@ class Handler implements BaseContentTypeHandler
         );
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
-    {
+    public function findContentTypes(
+        ?ContentTypeQuery $query = null,
+        array $prioritizedLanguages = []
+    ): array {
         $rows = $this->contentTypeGateway->findContentTypes($query, $prioritizedLanguages);
         $items = $this->mapper->extractTypesFromRows(
             $rows['items'],
@@ -214,7 +218,7 @@ class Handler implements BaseContentTypeHandler
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return Type[]
      */
     public function loadContentTypesByFieldDefinitionIdentifier(string $identifier): array
     {
@@ -231,10 +235,12 @@ class Handler implements BaseContentTypeHandler
      * @param int $contentTypeId
      * @param int $status
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    public function load($contentTypeId, $status = Type::STATUS_DEFINED)
-    {
+    public function load(
+        $contentTypeId,
+        $status = Type::STATUS_DEFINED
+    ) {
         return $this->loadFromRows(
             $this->contentTypeGateway->loadTypeData($contentTypeId, $status),
             $contentTypeId,
@@ -251,7 +257,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If defined type is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     public function loadByIdentifier($identifier)
     {
@@ -269,7 +275,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If defined type is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     public function loadByRemoteId($remoteId)
     {
@@ -287,10 +293,13 @@ class Handler implements BaseContentTypeHandler
      * @param mixed $typeIdentifier
      * @param int $status
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    protected function loadFromRows(array $rows, $typeIdentifier, $status)
-    {
+    protected function loadFromRows(
+        array $rows,
+        $typeIdentifier,
+        $status
+    ) {
         $types = $this->mapper->extractTypesFromRows($rows);
         if (count($types) !== 1) {
             throw new Exception\TypeNotFound($typeIdentifier, $status);
@@ -300,9 +309,9 @@ class Handler implements BaseContentTypeHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct $createStruct
+     * @param CreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     public function create(CreateStruct $createStruct)
     {
@@ -314,13 +323,15 @@ class Handler implements BaseContentTypeHandler
      *
      * Used by self::create(), self::createDraft() and self::copy()
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct $createStruct
+     * @param CreateStruct $createStruct
      * @param mixed|null $contentTypeId Used by self::createDraft() to retain ContentType id in the draft
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    protected function internalCreate(CreateStruct $createStruct, $contentTypeId = null)
-    {
+    protected function internalCreate(
+        CreateStruct $createStruct,
+        $contentTypeId = null
+    ) {
         foreach ($createStruct->fieldDefinitions as $fieldDef) {
             if (!is_int($fieldDef->position)) {
                 throw new InvalidArgumentException(
@@ -368,12 +379,15 @@ class Handler implements BaseContentTypeHandler
     /**
      * @param mixed $typeId
      * @param int $status
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct $updateStruct
+     * @param UpdateStruct $updateStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    public function update($typeId, $status, UpdateStruct $updateStruct)
-    {
+    public function update(
+        $typeId,
+        $status,
+        UpdateStruct $updateStruct
+    ) {
         $contentType = $this->mapper->createTypeFromUpdateStruct(
             $updateStruct
         );
@@ -390,8 +404,10 @@ class Handler implements BaseContentTypeHandler
      *
      * @return bool
      */
-    public function delete($contentTypeId, $status): bool
-    {
+    public function delete(
+        $contentTypeId,
+        $status
+    ): bool {
         if (Type::STATUS_DEFINED === $status && $this->contentTypeGateway->countInstancesOfType($contentTypeId)) {
             throw new BadStateException(
                 '$contentTypeId',
@@ -425,10 +441,12 @@ class Handler implements BaseContentTypeHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type with defined status is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    public function createDraft($modifierId, $contentTypeId)
-    {
+    public function createDraft(
+        $modifierId,
+        $contentTypeId
+    ) {
         $createStruct = $this->mapper->createCreateStructFromType(
             $this->load($contentTypeId, Type::STATUS_DEFINED)
         );
@@ -444,10 +462,13 @@ class Handler implements BaseContentTypeHandler
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    public function copy($userId, $contentTypeId, $status)
-    {
+    public function copy(
+        $userId,
+        $contentTypeId,
+        $status
+    ) {
         $createStruct = $this->mapper->createCreateStructFromType(
             $this->load($contentTypeId, $status)
         );
@@ -487,8 +508,11 @@ class Handler implements BaseContentTypeHandler
      *
      * @todo Add throws for NotFound and BadState when group is not assigned to type
      */
-    public function unlink($groupId, $contentTypeId, $status): bool
-    {
+    public function unlink(
+        $groupId,
+        $contentTypeId,
+        $status
+    ): bool {
         $groupCount = $this->contentTypeGateway->countGroupsForType($contentTypeId, $status);
         if ($groupCount < 2) {
             throw new Exception\RemoveLastGroupFromType($contentTypeId, $status);
@@ -510,8 +534,11 @@ class Handler implements BaseContentTypeHandler
      *
      * @todo Above throws are not implemented
      */
-    public function link($groupId, $contentTypeId, $status): bool
-    {
+    public function link(
+        $groupId,
+        $contentTypeId,
+        $status
+    ): bool {
         $this->contentTypeGateway->insertGroupAssignment($groupId, $contentTypeId, $status);
 
         // @todo FIXME: What is to be returned?
@@ -526,10 +553,12 @@ class Handler implements BaseContentTypeHandler
      * @param mixed $id
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      */
-    public function getFieldDefinition($id, $status)
-    {
+    public function getFieldDefinition(
+        $id,
+        $status
+    ) {
         $rows = $this->contentTypeGateway->loadFieldDefinition($id, $status);
 
         if (count($rows) === 0) {
@@ -568,10 +597,13 @@ class Handler implements BaseContentTypeHandler
      *
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDefinition
+     * @param FieldDefinition $fieldDefinition
      */
-    public function addFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition)
-    {
+    public function addFieldDefinition(
+        $contentTypeId,
+        $status,
+        FieldDefinition $fieldDefinition
+    ) {
         $storageFieldDef = new StorageFieldDefinition();
         $this->mapper->toStorageFieldDefinition($fieldDefinition, $storageFieldDef);
         $fieldDefinition->id = $this->contentTypeGateway->insertFieldDefinition(
@@ -623,10 +655,13 @@ class Handler implements BaseContentTypeHandler
      * field (default) values.
      *
      * @param mixed $contentTypeId
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDefinition
+     * @param FieldDefinition $fieldDefinition
      */
-    public function updateFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition)
-    {
+    public function updateFieldDefinition(
+        $contentTypeId,
+        $status,
+        FieldDefinition $fieldDefinition
+    ) {
         $storageFieldDef = new StorageFieldDefinition();
         $this->mapper->toStorageFieldDefinition($fieldDefinition, $storageFieldDef);
         $this->contentTypeGateway->updateFieldDefinition($contentTypeId, $status, $fieldDefinition, $storageFieldDef);
@@ -685,10 +720,12 @@ class Handler implements BaseContentTypeHandler
      * @param int $contentTypeId
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    public function removeContentTypeTranslation(int $contentTypeId, string $languageCode): Type
-    {
+    public function removeContentTypeTranslation(
+        int $contentTypeId,
+        string $languageCode
+    ): Type {
         $type = $this->load($contentTypeId, Type::STATUS_DRAFT);
 
         unset($type->name[$languageCode]);
@@ -723,8 +760,10 @@ class Handler implements BaseContentTypeHandler
         return $this->update($type->id, Type::STATUS_DRAFT, $updateStruct);
     }
 
-    public function deleteByUserAndStatus(int $userId, int $status): void
-    {
+    public function deleteByUserAndStatus(
+        int $userId,
+        int $status
+    ): void {
         $this->contentTypeGateway->removeByUserAndVersion($userId, $status);
     }
 }

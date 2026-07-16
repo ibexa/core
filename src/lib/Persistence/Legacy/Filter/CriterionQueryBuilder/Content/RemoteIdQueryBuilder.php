@@ -28,7 +28,7 @@ final class RemoteIdQueryBuilder implements CriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\RemoteId $criterion */
+        /** @var RemoteId $criterion */
         return $queryBuilder->expr()->in(
             'content.remote_id',
             $queryBuilder->createNamedParameter(

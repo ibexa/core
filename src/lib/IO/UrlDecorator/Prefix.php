@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\IO\UrlDecorator;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\IO\Exception\InvalidBinaryPrefixException;
 use Ibexa\Core\IO\IOConfigProvider;
 use Ibexa\Core\IO\UrlDecorator;
@@ -17,9 +18,7 @@ use Ibexa\Core\IO\UrlDecorator;
  */
 class Prefix implements UrlDecorator
 {
-    public function __construct(protected readonly IOConfigProvider $ioConfigResolver)
-    {
-    }
+    public function __construct(protected readonly IOConfigProvider $ioConfigResolver) {}
 
     public function getPrefix(): string
     {
@@ -39,7 +38,7 @@ class Prefix implements UrlDecorator
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function undecorate(string $uri): string
     {

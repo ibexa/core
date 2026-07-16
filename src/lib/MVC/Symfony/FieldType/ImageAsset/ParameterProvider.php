@@ -9,24 +9,26 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\FieldType\ImageAsset;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
+use Ibexa\Core\Repository\FieldTypeService;
 
 class ParameterProvider implements ParameterProviderInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionsResolver;
 
-    /** @var \Ibexa\Core\Repository\FieldTypeService */
+    /** @var FieldTypeService */
     private $fieldTypeService;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      */
     public function __construct(Repository $repository)
     {
@@ -66,9 +68,9 @@ class ParameterProvider implements ParameterProviderInterface
     /**
      * @param int $id
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function loadContentInfo(int $id): ContentInfo
     {
@@ -80,7 +82,7 @@ class ParameterProvider implements ParameterProviderInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      *
      * @return bool
      */

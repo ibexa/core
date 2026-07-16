@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\QueryType\BuiltIn;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Core\QueryType\BuiltIn\SortSpec\Exception\SyntaxErrorException;
 use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParserInterface;
 use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecLexer;
 use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecParser;
@@ -17,7 +19,7 @@ use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecParser;
  */
 final class SortClausesFactory implements SortClausesFactoryInterface
 {
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParserInterface */
+    /** @var SortClauseParserInterface */
     private $sortClauseParser;
 
     public function __construct(SortClauseParserInterface $sortClauseArgsParser)
@@ -26,9 +28,9 @@ final class SortClausesFactory implements SortClausesFactoryInterface
     }
 
     /**
-     * @throws \Ibexa\Core\QueryType\BuiltIn\SortSpec\Exception\SyntaxErrorException
+     * @throws SyntaxErrorException
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
+     * @return SortClause[]
      */
     public function createFromSpecification(string $specification): array
     {

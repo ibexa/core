@@ -83,9 +83,7 @@ abstract class AbstractAggregationTestCase extends BaseTestCase
         yield from $this->dataProviderForTestFindContentWithAggregation();
     }
 
-    protected function createFixturesForAggregation(Aggregation $aggregation): void
-    {
-    }
+    protected function createFixturesForAggregation(Aggregation $aggregation): void {}
 
     protected function createContentQuery(Aggregation $aggregation): Query
     {

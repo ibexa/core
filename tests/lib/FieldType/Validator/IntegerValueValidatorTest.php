@@ -119,8 +119,10 @@ final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
      *
      * @dataProvider providerForValidateKO
      */
-    public function testValidateWrongValues(int $value, string $message): void
-    {
+    public function testValidateWrongValues(
+        int $value,
+        string $message
+    ): void {
         $validator = $this->getValidatorInstance();
         $validator->minIntegerValue = $this->getMinIntegerValue();
         $validator->maxIntegerValue = $this->getMaxIntegerValue();

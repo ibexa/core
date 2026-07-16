@@ -14,11 +14,11 @@ use Traversable;
 
 class TrashItemDeleteResultList extends ValueObject implements \IteratorAggregate
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult[] */
+    /** @var TrashItemDeleteResult[] */
     public array $items = [];
 
     /**
-     * @return \ArrayIterator<\Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult>
+     * @return ArrayIterator<TrashItemDeleteResult>
      */
     public function getIterator(): Traversable
     {

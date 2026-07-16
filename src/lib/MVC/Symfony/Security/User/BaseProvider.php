@@ -22,10 +22,10 @@ use Symfony\Component\Security\Core\User\UserInterface as CoreUserInterface;
 
 abstract class BaseProvider implements APIUserProviderInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     protected $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     protected $userService;
 
     public function __construct(
@@ -74,9 +74,9 @@ abstract class BaseProvider implements APIUserProviderInterface
     /**
      * Loads a regular user object, usable by Symfony Security component, from a user object returned by Public API.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $apiUser
+     * @param APIUser $apiUser
      *
-     * @return \Ibexa\Core\MVC\Symfony\Security\User
+     * @return User
      */
     public function loadUserByAPIUser(APIUser $apiUser)
     {
@@ -86,9 +86,9 @@ abstract class BaseProvider implements APIUserProviderInterface
     /**
      * Creates user object, usable by Symfony Security component, from a user object returned by Public API.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $apiUser
+     * @param APIUser $apiUser
      *
-     * @return \Ibexa\Core\MVC\Symfony\Security\User
+     * @return User
      */
     protected function createSecurityUser(APIUser $apiUser): User
     {

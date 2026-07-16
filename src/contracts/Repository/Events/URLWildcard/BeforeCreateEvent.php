@@ -22,8 +22,11 @@ final class BeforeCreateEvent extends BeforeEvent
 
     private ?URLWildcard $urlWildcard = null;
 
-    public function __construct(string $sourceUrl, string $destinationUrl, bool $forward)
-    {
+    public function __construct(
+        string $sourceUrl,
+        string $destinationUrl,
+        bool $forward
+    ) {
         $this->sourceUrl = $sourceUrl;
         $this->destinationUrl = $destinationUrl;
         $this->forward = $forward;

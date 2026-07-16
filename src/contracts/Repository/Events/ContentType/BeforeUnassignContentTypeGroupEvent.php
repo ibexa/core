@@ -18,8 +18,10 @@ final class BeforeUnassignContentTypeGroupEvent extends BeforeEvent
 
     private ContentTypeGroup $contentTypeGroup;
 
-    public function __construct(ContentType $contentType, ContentTypeGroup $contentTypeGroup)
-    {
+    public function __construct(
+        ContentType $contentType,
+        ContentTypeGroup $contentTypeGroup
+    ) {
         $this->contentType = $contentType;
         $this->contentTypeGroup = $contentTypeGroup;
     }

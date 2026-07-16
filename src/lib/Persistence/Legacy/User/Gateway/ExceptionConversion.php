@@ -23,14 +23,14 @@ final class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Gateway
+     * @var Gateway
      */
     private $innerGateway;
 
     /**
      * Create a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\User\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -41,7 +41,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->load($userId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -50,7 +50,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadByLogin($login);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -59,7 +59,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadByEmail($email);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -68,7 +68,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUserByToken($hash);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -77,7 +77,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateUserPassword($user);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -86,7 +86,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateUserToken($userTokenUpdateStruct);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -95,25 +95,30 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->expireUserToken($hash);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function assignRole(int $contentId, int $roleId, array $limitation): void
-    {
+    public function assignRole(
+        int $contentId,
+        int $roleId,
+        array $limitation
+    ): void {
         try {
             $this->innerGateway->assignRole($contentId, $roleId, $limitation);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function removeRole(int $contentId, int $roleId): void
-    {
+    public function removeRole(
+        int $contentId,
+        int $roleId
+    ): void {
         try {
             $this->innerGateway->removeRole($contentId, $roleId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -122,7 +127,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->removeRoleAssignmentById($roleAssignmentId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

@@ -8,10 +8,16 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use DateTime;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -57,7 +63,7 @@ class SearchEngineIndexingTest extends BaseTestCase
      *
      * @depends testFindContentInfoFullTextIsSearchable
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      */
     public function testFindLocationsFullTextIsSearchable(ContentInfo $contentInfo)
     {
@@ -139,10 +145,12 @@ class SearchEngineIndexingTest extends BaseTestCase
      * @param string $searchText
      * @param bool $isSearchable
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function createFullTextIsSearchableContent($searchText, $isSearchable)
-    {
+    protected function createFullTextIsSearchableContent(
+        $searchText,
+        $isSearchable
+    ) {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
@@ -819,8 +827,10 @@ class SearchEngineIndexingTest extends BaseTestCase
      *
      * @dataProvider getSpecialFullTextCases
      */
-    public function testIndexingSpecialFullTextCases($text, $searchForText)
-    {
+    public function testIndexingSpecialFullTextCases(
+        $text,
+        $searchForText
+    ) {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
 
@@ -848,8 +858,10 @@ class SearchEngineIndexingTest extends BaseTestCase
      *
      * @dataProvider getEmailAddressesCases
      */
-    public function testIndexingEmailFieldCases(string $email, string $searchForText): void
-    {
+    public function testIndexingEmailFieldCases(
+        string $email,
+        string $searchForText
+    ): void {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
 
@@ -971,12 +983,15 @@ class SearchEngineIndexingTest extends BaseTestCase
     /**
      * Check if children locations are/are not ivisible.
      *
-     * @param \Ibexa\Contracts\Core\Repository\SearchService $searchService
+     * @param SearchService $searchService
      * @param int $parentLocationId parent location Id
      * @param bool $expected expected value of {invisible} property in subtree
      */
-    private function assertSubtreeInvisibleProperty(SearchService $searchService, $parentLocationId, $expected)
-    {
+    private function assertSubtreeInvisibleProperty(
+        SearchService $searchService,
+        $parentLocationId,
+        $expected
+    ) {
         $criterion = new Criterion\ParentLocationId($parentLocationId);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
@@ -1037,7 +1052,7 @@ class SearchEngineIndexingTest extends BaseTestCase
 
         $newContentMetadataUpdateStruct = $contentService->newContentMetadataUpdateStruct();
         $newContentMetadataUpdateStruct->remoteId = md5('Test');
-        $newContentMetadataUpdateStruct->publishedDate = new \DateTime();
+        $newContentMetadataUpdateStruct->publishedDate = new DateTime();
         $newContentMetadataUpdateStruct->publishedDate->add(new \DateInterval('P1D'));
         $newContentMetadataUpdateStruct->mainLocationId = $newLocation->id;
 
@@ -1115,7 +1130,7 @@ class SearchEngineIndexingTest extends BaseTestCase
         $query = new Query(['filter' => $criterion]);
         $results = $searchService->findContentInfo($query);
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo */
+        /** @var ContentInfo $contentInfo */
         $contentInfo = $results->searchHits[0]->valueObject;
         self::assertEquals($section->id, $contentInfo->getSectionId());
     }
@@ -1211,8 +1226,10 @@ class SearchEngineIndexingTest extends BaseTestCase
      *
      * @param int[] $parentLocationIdList
      */
-    protected function createContentWithName(string $contentName, array $parentLocationIdList = []): Content
-    {
+    protected function createContentWithName(
+        string $contentName,
+        array $parentLocationIdList = []
+    ): Content {
         $testableContentType = $this->createTestContentType();
 
         return $this->createContent($testableContentType, $contentName, 'name', $parentLocationIdList);
@@ -1225,14 +1242,16 @@ class SearchEngineIndexingTest extends BaseTestCase
      * @param string $address
      * @param int[] $parentLocationIdList
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
-    protected function createContentEmailWithAddress(string $address, array $parentLocationIdList = []): Content
-    {
+    protected function createContentEmailWithAddress(
+        string $address,
+        array $parentLocationIdList = []
+    ): Content {
         $testableContentType = $this->createTestContentType('email', 'ibexa_email', 'test-email-type');
 
         return $this->createContent($testableContentType, $address, 'email', $parentLocationIdList);
@@ -1268,10 +1287,13 @@ class SearchEngineIndexingTest extends BaseTestCase
      * @param $contentDescription
      * @param array $parentLocationIdList
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function createContentWithNameAndDescription($contentName, $contentDescription, array $parentLocationIdList = [])
-    {
+    protected function createContentWithNameAndDescription(
+        $contentName,
+        $contentDescription,
+        array $parentLocationIdList = []
+    ) {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
@@ -1301,10 +1323,13 @@ class SearchEngineIndexingTest extends BaseTestCase
      * @param int $parentLocationId
      * @param bool $alwaysAvailable
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function createMultiLanguageContent(array $names, $parentLocationId, $alwaysAvailable)
-    {
+    protected function createMultiLanguageContent(
+        array $names,
+        $parentLocationId,
+        $alwaysAvailable
+    ) {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
@@ -1339,8 +1364,10 @@ class SearchEngineIndexingTest extends BaseTestCase
      * @param int $contentId
      * @param int $expectedCount
      */
-    protected function assertContentIdSearch($contentId, $expectedCount)
-    {
+    protected function assertContentIdSearch(
+        $contentId,
+        $expectedCount
+    ) {
         $searchService = $this->getRepository()->getSearchService();
 
         $criterion = new Criterion\ContentId($contentId);
@@ -1361,7 +1388,7 @@ class SearchEngineIndexingTest extends BaseTestCase
     /**
      * Create & get new Location for tests.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
+     * @return Location
      */
     protected function createNewTestLocation()
     {

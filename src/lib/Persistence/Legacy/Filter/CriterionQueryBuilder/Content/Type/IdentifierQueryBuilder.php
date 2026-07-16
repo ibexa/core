@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 /**
  * Content type Identifier Criterion visitor query builder.
  *
- * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier
+ * @see ContentTypeIdentifier
  *
  * @internal for internal use by Repository Filtering
  */
@@ -31,7 +31,7 @@ final class IdentifierQueryBuilder extends BaseQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier $criterion */
+        /** @var ContentTypeIdentifier $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         return $queryBuilder->expr()->in(

@@ -13,19 +13,20 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Handler;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
     public const BOOKMARK_ID = 7;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Mapper|MockObject */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Handler */
+    /** @var Handler */
     private $handler;
 
     protected function setUp(): void

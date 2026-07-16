@@ -20,7 +20,7 @@ final class ContentName extends Criterion implements TrashCriterion
     }
 
     /**
-     * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications>
+     * @return array<Specifications>
      */
     public function getSpecifications(): array
     {

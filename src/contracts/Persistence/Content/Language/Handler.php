@@ -8,6 +8,7 @@
 namespace Ibexa\Contracts\Core\Persistence\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 /**
  * Language Handler interface.
@@ -17,16 +18,16 @@ interface Handler
     /**
      * Create a new language.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct $struct
+     * @param CreateStruct $struct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function create(CreateStruct $struct);
 
     /**
      * Update language.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language $struct
+     * @param Language $struct
      */
     public function update(Language $struct);
 
@@ -35,9 +36,9 @@ interface Handler
      *
      * @param mixed $id
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $id
+     * @throws NotFoundException If language could not be found by $id
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function load($id);
 
@@ -49,7 +50,7 @@ interface Handler
      *
      * @param array $ids
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]|iterable
+     * @return Language[]|iterable
      */
     public function loadList(array $ids): iterable;
 
@@ -58,9 +59,9 @@ interface Handler
      *
      * @param string $languageCode
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $languageCode
+     * @throws NotFoundException If language could not be found by $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function loadByLanguageCode($languageCode);
 
@@ -72,7 +73,7 @@ interface Handler
      *
      * @param string[] $languageCodes
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]|iterable
+     * @return Language[]|iterable
      */
     public function loadListByLanguageCodes(array $languageCodes): iterable;
 
@@ -81,7 +82,7 @@ interface Handler
      *
      * Return list of languages where key of hash is language code.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
+     * @return Language[]
      */
     public function loadAll();
 

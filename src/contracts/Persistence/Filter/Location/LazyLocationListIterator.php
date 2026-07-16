@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\Filter\Location;
 
 use Ibexa\Contracts\Core\Persistence\Filter\LazyListIterator;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
 use ReturnTypeWillChange;
 
 /**
@@ -16,12 +17,12 @@ use ReturnTypeWillChange;
  *
  * @internal for internal use by Repository Filtering
  *
- * @see \Ibexa\Contracts\Core\Repository\Values\Content\LocationList
+ * @see LocationList
  */
 class LazyLocationListIterator extends LazyListIterator
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationList[]
+     * @return LocationList[]
      *
      * @throws \Exception
      */

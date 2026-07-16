@@ -11,5 +11,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 
 interface QueryFactoryInterface
 {
-    public function create(string $type, array $parameters = []): Query;
+    public function create(
+        string $type,
+        array $parameters = []
+    ): Query;
 }

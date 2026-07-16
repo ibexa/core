@@ -15,7 +15,7 @@ use Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver;
  */
 final class LanguageResolver extends AbstractLanguageResolver
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(

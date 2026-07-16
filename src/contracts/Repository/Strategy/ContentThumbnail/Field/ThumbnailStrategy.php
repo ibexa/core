@@ -14,5 +14,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 interface ThumbnailStrategy
 {
-    public function getThumbnail(Field $field, ?VersionInfo $versionInfo = null): ?Thumbnail;
+    public function getThumbnail(
+        Field $field,
+        ?VersionInfo $versionInfo = null
+    ): ?Thumbnail;
 }

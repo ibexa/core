@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Search\Common\EventSubscriber;
 
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Search\Handler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 
 /**
@@ -15,10 +16,10 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
  */
 abstract class AbstractSearchEventSubscriber
 {
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
+    /** @var Handler */
     protected $searchHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var PersistenceHandler */
     protected $persistenceHandler;
 
     public function __construct(

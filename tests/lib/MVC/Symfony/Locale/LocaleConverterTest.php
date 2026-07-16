@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Locale;
 
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -18,7 +19,7 @@ final class LocaleConverterTest extends TestCase
 {
     private LocaleConverter $localeConverter;
 
-    /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface&MockObject */
     private LoggerInterface $logger;
 
     /**
@@ -51,8 +52,10 @@ final class LocaleConverterTest extends TestCase
     /**
      * @dataProvider convertToPOSIXProvider
      */
-    public function testConvertToPOSIX(string $repositoryLocale, ?string $expected): void
-    {
+    public function testConvertToPOSIX(
+        string $repositoryLocale,
+        ?string $expected
+    ): void {
         if ($expected === null) {
             $this->logger
                 ->expects(self::once())
@@ -77,8 +80,10 @@ final class LocaleConverterTest extends TestCase
     /**
      * @dataProvider convertToRepositoryProvider
      */
-    public function testConvertToRepository(string $posixLocale, ?string $expected): void
-    {
+    public function testConvertToRepository(
+        string $posixLocale,
+        ?string $expected
+    ): void {
         if ($expected === null) {
             $this->logger
                 ->expects(self::once())

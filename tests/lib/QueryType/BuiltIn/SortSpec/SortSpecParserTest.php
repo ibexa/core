@@ -23,8 +23,10 @@ final class SortSpecParserTest extends TestCase
     /**
      * @dataProvider dataProviderForParseSortDirection
      */
-    public function testParseSortDirection(array $input, string $expectedDirection): void
-    {
+    public function testParseSortDirection(
+        array $input,
+        string $expectedDirection
+    ): void {
         $lexer = new SortSpecLexerStub($input);
         $parser = new SortSpecParser($this->createMock(SortClauseParserInterface::class), $lexer);
 

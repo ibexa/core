@@ -44,8 +44,10 @@ final class InMemoryContentLocationMapper implements ContentLocationMapper
         return $this->map[$locationId];
     }
 
-    public function setMapping(int $locationId, int $contentId): void
-    {
+    public function setMapping(
+        int $locationId,
+        int $contentId
+    ): void {
         $this->map[$locationId] = $contentId;
     }
 

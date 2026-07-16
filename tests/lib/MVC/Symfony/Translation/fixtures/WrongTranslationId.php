@@ -12,11 +12,12 @@ use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
 use Ibexa\Core\Base\Translatable;
 use Ibexa\Core\Base\TranslatableBase;
+use Ibexa\Tests\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitorTest;
 
 /**
  * Broken code stub for ExceptionMessageTemplateFileVisitorTest.
  *
- * @see \Ibexa\Tests\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitorTest
+ * @see ExceptionMessageTemplateFileVisitorTest
  */
 final class WrongTranslationId extends APIInvalidArgumentException implements Translatable
 {

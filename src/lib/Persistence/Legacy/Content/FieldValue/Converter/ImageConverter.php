@@ -19,14 +19,16 @@ use SimpleXMLElement;
 
 class ImageConverter extends BinaryFileConverter
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $imageIoService;
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface */
+    /** @var UrlRedecoratorInterface */
     private $urlRedecorator;
 
-    public function __construct(IOServiceInterface $imageIoService, UrlRedecoratorInterface $urlRedecorator)
-    {
+    public function __construct(
+        IOServiceInterface $imageIoService,
+        UrlRedecoratorInterface $urlRedecorator
+    ) {
         $this->imageIoService = $imageIoService;
         $this->urlRedecorator = $urlRedecorator;
     }
@@ -34,11 +36,13 @@ class ImageConverter extends BinaryFileConverter
     /**
      * Converts data from $value to $storageFieldValue.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
+     * @param FieldValue $value
+     * @param StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ) {
         if (isset($value->data)) {
             // Determine what needs to be stored
             if (isset($value->data['width']) && isset($value->data['fieldId'])) {
@@ -110,8 +114,11 @@ class ImageConverter extends BinaryFileConverter
      *
      * @return string
      */
-    protected function fillXml($imageData, $pathInfo, $timestamp): string
-    {
+    protected function fillXml(
+        $imageData,
+        $pathInfo,
+        $timestamp
+    ): string {
         $additionalData = $this->buildAdditionalDataTag($imageData['additionalData'] ?? []);
 
         $xml = <<<EOT
@@ -169,11 +176,13 @@ EOT;
     /**
      * Converts data from $value to $fieldValue.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param StorageFieldValue $value
+     * @param FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ) {
         if (empty($value->dataText)) {
             // Special case for anonymous user
             return;
@@ -181,8 +190,10 @@ EOT;
         $fieldValue->data = $this->parseLegacyXml($value->dataText);
     }
 
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ): void {
         $validators = $fieldDef->fieldTypeConstraints->validators;
 
         $storageDef->dataFloat1 = $validators['FileSizeValidator']['maxFileSize'] ?? 0.0;
@@ -194,8 +205,10 @@ EOT;
         $storageDef->dataText5 = json_encode($fieldSettings['mimeTypes'] ?? [], JSON_THROW_ON_ERROR);
     }
 
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ): void {
         $fieldDef->fieldTypeConstraints = new FieldTypeConstraints(
             [
                 'validators' => [

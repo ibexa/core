@@ -25,8 +25,10 @@ class FieldTypeNotFoundException extends RuntimeException implements Httpable, T
     /**
      * Creates a FieldType Not Found exception with info on how to fix.
      */
-    public function __construct(string $fieldType, ?Exception $previous = null)
-    {
+    public function __construct(
+        string $fieldType,
+        ?Exception $previous = null
+    ) {
         $this->setMessageTemplate(
             "Field Type '%fieldType%' not found. It must be implemented or configured to use %nullType%"
         );

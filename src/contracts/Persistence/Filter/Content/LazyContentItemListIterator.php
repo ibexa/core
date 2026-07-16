@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Filter\Content;
 
+use Ibexa\Contracts\Core\Persistence\Content\ContentItem;
 use Ibexa\Contracts\Core\Persistence\Filter\LazyListIterator;
 use ReturnTypeWillChange;
 
@@ -16,12 +17,12 @@ use ReturnTypeWillChange;
  *
  * @internal for internal use by Repository Filtering
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\ContentItem
+ * @see ContentItem
  */
 class LazyContentItemListIterator extends LazyListIterator
 {
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentItem[]
+     * @return ContentItem[]
      *
      * @throws \Exception
      */

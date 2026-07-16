@@ -47,12 +47,16 @@ abstract class Criterion implements CriterionInterface
      *        The operator the Criterion uses. If null is given, will default to {@see Operator::IN} if $value is an array,
      *        {@see Operator::EQ} if it isn't.
      * @param array<int, scalar>|scalar $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value|null $valueData
+     * @param Value|null $valueData
      *
-     * @throws \InvalidArgumentException if the provided operator isn't supported
+     * @throws InvalidArgumentException if the provided operator isn't supported
      */
-    public function __construct(?string $target, ?string $operator, mixed $value, ?Value $valueData = null)
-    {
+    public function __construct(
+        ?string $target,
+        ?string $operator,
+        mixed $value,
+        ?Value $valueData = null
+    ) {
         if ($operator === null) {
             $operator = is_array($value) ? Operator::IN : Operator::EQ;
         }
@@ -111,7 +115,7 @@ abstract class Criterion implements CriterionInterface
      * Criterion description function.
      *
      * Returns the combination of the Criterion's supported operator/value,
-     * as an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications} objects
+     * as an array of {@see Specifications} objects
      * - {@see Specifications::$operator} is a supported {@see Operator} constant.
      * - {@see Specifications::$valueFormat} is the type of input value this operator requires, either array ({@see Specifications::FORMAT_ARRAY}) or single ({@see Specifications::FORMAT_SINGLE}).
      * - {@see Specifications::$valueTypes} are bitwise flags of types the operator will accept ({@see Specifications::TYPE_BOOLEAN}, {@see Specifications::TYPE_INTEGER}, and/or {@see Specifications::TYPE_STRING}).
@@ -135,7 +139,7 @@ abstract class Criterion implements CriterionInterface
      * ]
      * ```
      *
-     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications>
+     * @return array<int, Specifications>
      */
     abstract public function getSpecifications(): array;
 

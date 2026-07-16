@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class PreviewRequestListener implements EventSubscriberInterface
 {
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    /** @var RequestStack */
     private $requestStack;
 
     public function __construct(RequestStack $requestStack)
@@ -32,7 +32,7 @@ class PreviewRequestListener implements EventSubscriberInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+     * @param RequestEvent $event
      */
     public function onKernelRequest(RequestEvent $event): void
     {

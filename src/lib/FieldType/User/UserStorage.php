@@ -7,10 +7,12 @@
 
 namespace Ibexa\Core\FieldType\User;
 
+use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\User\UserStorage\Gateway;
 
 /**
  * Description of UserStorage.
@@ -32,17 +34,21 @@ class UserStorage extends GatewayBasedStorage
     /**
      * Field Type External Storage Gateway.
      *
-     * @var \Ibexa\Core\FieldType\User\UserStorage\Gateway
+     * @var Gateway
      */
     protected StorageGatewayInterface $gateway;
 
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         return $this->gateway->storeFieldData($versionInfo, $field);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $field->value->externalData = $this->gateway->getFieldData($field->id);
     }
 
@@ -51,10 +57,12 @@ class UserStorage extends GatewayBasedStorage
      *
      * @return bool
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds
+    ) {
         return $this->gateway->deleteFieldData($versionInfo, $fieldIds);
     }
 

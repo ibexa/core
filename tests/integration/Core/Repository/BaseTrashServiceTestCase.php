@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 
 /**
@@ -19,7 +20,7 @@ abstract class BaseTrashServiceTestCase extends BaseTestCase
      * Creates a trashed item from the <b>Community</b> page location and stores
      * this item in a location variable named <b>$trashItem</b>.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem
+     * @return TrashItem
      */
     protected function createTrashItem()
     {
@@ -47,8 +48,10 @@ abstract class BaseTrashServiceTestCase extends BaseTestCase
     /**
      * @throws \ErrorException
      */
-    protected function updateTrashedDate(int $locationId, int $newTimestamp): void
-    {
+    protected function updateTrashedDate(
+        int $locationId,
+        int $newTimestamp
+    ): void {
         $connection = $this->getRawDatabaseConnection();
         $query = $connection->createQueryBuilder();
         $query

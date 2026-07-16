@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Helper;
 
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
@@ -15,17 +16,18 @@ use Ibexa\Core\Helper\PreviewLocationProvider;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class PreviewLocationProviderTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LocationService|MockObject */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $locationHandler;
 
-    /** @var \Ibexa\Core\Helper\PreviewLocationProvider */
+    /** @var PreviewLocationProvider */
     private $provider;
 
     protected function setUp(): void
@@ -105,8 +107,11 @@ class PreviewLocationProviderTest extends TestCase
         self::assertNull($this->provider->loadMainLocationByContent($content));
     }
 
-    private function getContentMock(int $contentId, ?int $mainLocationId = null, bool $published = false): Content
-    {
+    private function getContentMock(
+        int $contentId,
+        ?int $mainLocationId = null,
+        bool $published = false
+    ): Content {
         $contentInfo = new APIContentInfo([
             'id' => $contentId,
             'mainLocationId' => $mainLocationId,

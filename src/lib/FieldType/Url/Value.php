@@ -34,8 +34,10 @@ class Value extends BaseValue
      * @param string $link
      * @param string $text
      */
-    public function __construct($link = null, $text = null)
-    {
+    public function __construct(
+        $link = null,
+        $text = null
+    ) {
         $this->link = $link;
         $this->text = $text;
     }

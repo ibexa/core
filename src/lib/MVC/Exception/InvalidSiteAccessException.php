@@ -17,7 +17,7 @@ class InvalidSiteAccessException extends RuntimeException
 {
     /**
      * @param string $siteAccess The invalid SiteAccess
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface $siteAccessProvider
+     * @param SiteAccessProviderInterface $siteAccessProvider
      * @param string $matchType How $siteAccess was matched
      * @param bool $debug If true, Symfony environment is a debug one (like 'dev')
      */

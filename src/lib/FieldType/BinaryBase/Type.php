@@ -9,6 +9,7 @@ namespace Ibexa\Core\FieldType\BinaryBase;
 
 use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -16,6 +17,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Media\Value;
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
@@ -32,17 +34,19 @@ abstract class Type extends FieldType
         ],
     ];
 
-    /** @var \Ibexa\Core\FieldType\Validator[] */
+    /** @var Validator[] */
     private $validators;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator|null */
+    /** @var RouteAwarePathGenerator|null */
     protected $routeAwarePathGenerator;
 
     /**
-     * @param \Ibexa\Core\FieldType\Validator[] $validators
+     * @param Validator[] $validators
      */
-    public function __construct(array $validators, ?RouteAwarePathGenerator $routeAwarePathGenerator = null)
-    {
+    public function __construct(
+        array $validators,
+        ?RouteAwarePathGenerator $routeAwarePathGenerator = null
+    ) {
         $this->validators = $validators;
         $this->routeAwarePathGenerator = $routeAwarePathGenerator;
     }
@@ -52,7 +56,7 @@ abstract class Type extends FieldType
      *
      * @param array $inputValue
      *
-     * @return \Ibexa\Core\FieldType\Media\Value
+     * @return Value
      */
     abstract protected function createValue(array $inputValue);
 
@@ -71,10 +75,13 @@ abstract class Type extends FieldType
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\BinaryBase\Value|\Ibexa\Contracts\Core\FieldType\Value $value
+     * @param \Ibexa\Core\FieldType\BinaryBase\Value|SPIValue $value
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return (string)$value->fileName;
     }
 
@@ -243,7 +250,7 @@ abstract class Type extends FieldType
      *
      * This method builds a field type value from the $data and $externalData properties.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param FieldValue $fieldValue
      *
      * @return \Ibexa\Core\FieldType\BinaryBase\Value
      */
@@ -275,13 +282,15 @@ abstract class Type extends FieldType
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
+     * @param FieldDefinition $fieldDefinition The field definition of the field
      * @param \Ibexa\Core\FieldType\BinaryBase\Value $fieldValue The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        SPIValue $fieldValue
+    ) {
         $errors = [];
 
         if ($this->isEmptyValue($fieldValue)) {

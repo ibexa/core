@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\Events\Location\CreateLocationEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -21,6 +22,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Search\Common\EventSubscriber\LocationEventSubscriber;
 use Ibexa\Core\Search\Legacy\Content\Handler as SearchHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class LocationEventSubscriberTest extends TestCase
@@ -29,13 +31,13 @@ final class LocationEventSubscriberTest extends TestCase
     private const EXAMPLE_CONTENT_ID = 56;
     private const EXAMPLE_VERSION_NO = 3;
 
-    /** @var \Ibexa\Core\Search\Legacy\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SearchHandler|MockObject */
     private $searchHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $persistenceHandler;
 
-    /** @var \Ibexa\Core\Search\Common\EventSubscriber\LocationEventSubscriber */
+    /** @var LocationEventSubscriber */
     private $subscriber;
 
     protected function setUp(): void
@@ -68,8 +70,10 @@ final class LocationEventSubscriberTest extends TestCase
         );
     }
 
-    private function configurePersistenceHandler(SPIContent $spiContent, SPILocation $spiLocation): void
-    {
+    private function configurePersistenceHandler(
+        SPIContent $spiContent,
+        SPILocation $spiLocation
+    ): void {
         $contentHandler = $this->createMock(ContentHandler::class);
         $contentHandler
             ->method('loadContentInfo')

@@ -13,12 +13,15 @@ interface ValueSerializerInterface
     /**
      * Normalizes an object into a hash.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value $value
      * @param array $context
      *
      * @return array|null
      */
-    public function normalize(Value $value, array $context = []): ?array;
+    public function normalize(
+        Value $value,
+        array $context = []
+    ): ?array;
 
     /**
      * Denormalize data into an object of the given class.
@@ -27,9 +30,13 @@ interface ValueSerializerInterface
      * @param string $valueClass
      * @param array $context
      *
-     * @return \Ibexa\Contracts\Core\FieldType\Value
+     * @return Value
      */
-    public function denormalize(?array $data, string $valueClass, array $context = []): Value;
+    public function denormalize(
+        ?array $data,
+        string $valueClass,
+        array $context = []
+    ): Value;
 
     /**
      * Encode normalized data.
@@ -39,7 +46,10 @@ interface ValueSerializerInterface
      *
      * @return string|null
      */
-    public function encode(?array $data, array $context = []): ?string;
+    public function encode(
+        ?array $data,
+        array $context = []
+    ): ?string;
 
     /**
      * Decodes a string into PHP data.
@@ -49,5 +59,8 @@ interface ValueSerializerInterface
      *
      * @return array|null
      */
-    public function decode(?string $data, array $context = []): ?array;
+    public function decode(
+        ?string $data,
+        array $context = []
+    ): ?array;
 }

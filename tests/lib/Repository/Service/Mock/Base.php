@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository as APIRepository;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
@@ -50,65 +51,65 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 abstract class Base extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var APIRepository */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var APIRepository|MockObject */
     private $repositoryMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionService|MockObject */
     private $permissionServiceMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $persistenceMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ThumbnailStrategy|MockObject */
     private $thumbnailStrategyMock;
 
     /**
      * The Content / Location / Search ... handlers for the persistence / Search / .. handler mocks.
      *
-     * @var \PHPUnit\Framework\MockObject\MockObject[] Key is relative to "Ibexa\Contracts\Core\"
+     * @var MockObject[] Key is relative to "Ibexa\Contracts\Core\"
      *
      * @see getPersistenceMockHandler()
      */
     private $spiMockHandlers = [];
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper */
+    /** @var MockObject|ContentTypeDomainMapper */
     private $contentTypeDomainMapperMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentDomainMapper */
+    /** @var MockObject|ContentDomainMapper */
     private $contentDomainMapperMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Permission\LimitationService */
+    /** @var MockObject|LimitationService */
     private $limitationServiceMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LanguageResolver|MockObject */
     private $languageResolverMock;
 
-    /** @var \Ibexa\Core\Repository\Mapper\RoleDomainMapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var RoleDomainMapper|MockObject */
     protected $roleDomainMapperMock;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentMapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentMapper|MockObject */
     protected $contentMapperMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Validator\ContentValidator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentValidator|MockObject */
     protected $contentValidatorStrategyMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentFilteringHandler|MockObject */
     private $contentFilteringHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LocationFilteringHandler|MockObject */
     private $locationFilteringHandlerMock;
 
-    private TransactionHandler&MockObject $transactionHandlerMock;
+    private TransactionHandler & MockObject $transactionHandlerMock;
 
     /**
      * Get Real repository with mocked dependencies.
      *
      * @param array $serviceSettings If set then non shared instance of Repository is returned
      *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
+     * @return APIRepository
      */
     protected function getRepository(array $serviceSettings = [])
     {
@@ -153,7 +154,7 @@ abstract class Base extends TestCase
     protected $fieldTypeServiceMock;
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\FieldTypeService
+     * @return MockObject|\Ibexa\Contracts\Core\Repository\FieldTypeService
      */
     protected function getFieldTypeServiceMock()
     {
@@ -167,7 +168,7 @@ abstract class Base extends TestCase
     protected $fieldTypeRegistryMock;
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\FieldType\FieldTypeRegistry
+     * @return MockObject|FieldTypeRegistry
      */
     protected function getFieldTypeRegistryMock()
     {
@@ -181,7 +182,7 @@ abstract class Base extends TestCase
     protected EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @return \Symfony\Contracts\EventDispatcher\EventDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @return EventDispatcherInterface&MockObject
      */
     protected function getEventDispatcher(): EventDispatcherInterface
     {
@@ -193,7 +194,7 @@ abstract class Base extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy|\PHPUnit\Framework\MockObject\MockObject
+     * @return ThumbnailStrategy|MockObject
      */
     protected function getThumbnailStrategy()
     {
@@ -205,7 +206,7 @@ abstract class Base extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
+     * @return APIRepository|MockObject
      */
     protected function getRepositoryMock()
     {
@@ -217,7 +218,7 @@ abstract class Base extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @return PermissionResolver|MockObject
      */
     protected function getPermissionResolverMock()
     {
@@ -225,7 +226,7 @@ abstract class Base extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\PermissionService|\PHPUnit\Framework\MockObject\MockObject
+     * @return PermissionService|MockObject
      */
     protected function getPermissionServiceMock(): PermissionService
     {
@@ -237,7 +238,7 @@ abstract class Base extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentDomainMapper
+     * @return MockObject|ContentDomainMapper
      */
     protected function getContentDomainMapperMock(): MockObject
     {
@@ -249,7 +250,7 @@ abstract class Base extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper
+     * @return MockObject|ContentTypeDomainMapper
      */
     protected function getContentTypeDomainMapperMock()
     {
@@ -263,7 +264,7 @@ abstract class Base extends TestCase
     /**
      * Returns a persistence Handler mock.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return Handler|MockObject
      */
     protected function getPersistenceMock()
     {
@@ -318,7 +319,7 @@ abstract class Base extends TestCase
         return $this->persistenceMock;
     }
 
-    protected function getTransactionHandlerMock(): MockObject&TransactionHandler
+    protected function getTransactionHandlerMock(): MockObject & TransactionHandler
     {
         if (!isset($this->transactionHandlerMock)) {
             $this->transactionHandlerMock = $this->createMock(TransactionHandler::class);
@@ -337,7 +338,7 @@ abstract class Base extends TestCase
      *
      * @param string $handler For instance "Content\Type\Handler" or "Search\Handler", must be relative to "Ibexa\Contracts\Core"
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getSPIMockHandler($handler)
     {
@@ -357,7 +358,7 @@ abstract class Base extends TestCase
      *
      * @param string $handler For instance "Content\Type\Handler", must be relative to "Ibexa\Contracts\Core\Persistence"
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getPersistenceMockHandler($handler)
     {
@@ -390,7 +391,7 @@ abstract class Base extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Permission\LimitationService
+     * @return MockObject|LimitationService
      */
     protected function getLimitationServiceMock(): MockObject
     {
@@ -413,7 +414,7 @@ abstract class Base extends TestCase
     /**
      * @param string[] $methods
      *
-     * @return \Ibexa\Core\Repository\Mapper\RoleDomainMapper|\PHPUnit\Framework\MockObject\MockObject
+     * @return RoleDomainMapper|MockObject
      */
     protected function getRoleDomainMapperMock(array $methods = []): RoleDomainMapper
     {

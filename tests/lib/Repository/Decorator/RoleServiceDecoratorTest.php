@@ -31,8 +31,7 @@ class RoleServiceDecoratorTest extends TestCase
 
     protected function createDecorator(MockObject $service): RoleService
     {
-        return new class($service) extends RoleServiceDecorator {
-        };
+        return new class($service) extends RoleServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

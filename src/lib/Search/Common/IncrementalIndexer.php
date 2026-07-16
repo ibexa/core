@@ -33,7 +33,10 @@ abstract class IncrementalIndexer extends Indexer
      * @param int[] $contentIds
      * @param bool $commit
      */
-    abstract public function updateSearchIndex(array $contentIds, $commit);
+    abstract public function updateSearchIndex(
+        array $contentIds,
+        $commit
+    );
 
     /**
      * Purges whole index, should only be done if user asked for it.

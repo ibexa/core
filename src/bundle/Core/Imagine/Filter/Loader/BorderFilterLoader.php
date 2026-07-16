@@ -24,8 +24,10 @@ class BorderFilterLoader implements LoaderInterface
 
     public const DEFAULT_BORDER_COLOR = '#000';
 
-    public function load(ImageInterface $image, array $options = []): ImageInterface
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ): ImageInterface {
         $optionsCount = count($options);
         if ($optionsCount < 2) {
             throw new InvalidArgumentException('Invalid options for border filter. You must provide array(width, height)');

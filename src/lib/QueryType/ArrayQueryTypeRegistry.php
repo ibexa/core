@@ -17,8 +17,10 @@ class ArrayQueryTypeRegistry implements QueryTypeRegistry
     /** @var QueryType[] */
     private $registry = [];
 
-    public function addQueryType($name, QueryType $queryType)
-    {
+    public function addQueryType(
+        $name,
+        QueryType $queryType
+    ) {
         $this->registry[$name] = $queryType;
     }
 

@@ -22,7 +22,7 @@ final class MatcherStub implements Matcher
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function setRequest(SimplifiedRequest $request): never
     {
@@ -30,7 +30,7 @@ final class MatcherStub implements Matcher
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function match(): never
     {
@@ -38,7 +38,7 @@ final class MatcherStub implements Matcher
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function getName(): never
     {

@@ -8,7 +8,9 @@
 namespace Ibexa\Core\FieldType\Relation;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
@@ -54,10 +56,10 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
+    /** @var Handler */
     private $handler;
 
-    /** @var \Ibexa\Core\Repository\Validator\TargetContentValidatorInterface */
+    /** @var TargetContentValidatorInterface */
     private $targetContentValidator;
 
     public function __construct(
@@ -153,10 +155,13 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Relation\Value $value
+     * @param Value $value
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         if (empty($value->destinationContentId)) {
             return '';
         }
@@ -178,10 +183,12 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @return \Ibexa\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        SPIValue $fieldValue
+    ): array {
         $validationErrors = [];
 
         if ($this->isEmptyValue($fieldValue)) {
@@ -202,7 +209,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return \Ibexa\Core\FieldType\Relation\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
@@ -224,9 +231,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Inspects given $inputValue and potentially converts it into a dedicated value object.
      *
-     * @param int|string|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Core\FieldType\Relation\Value $inputValue
+     * @param int|string|ContentInfo|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\Relation\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -243,9 +250,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\Relation\Value $value
+     * @param Value $value
      */
     protected function checkValueStructure(BaseValue $value)
     {
@@ -262,7 +269,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns information for FieldValue->$sortKey relevant to the field type.
      * For this FieldType, the related object's name is returned.
      *
-     * @param \Ibexa\Core\FieldType\Relation\Value $value
+     * @param Value $value
      *
      * @return string
      */
@@ -276,7 +283,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param mixed $hash
      *
-     * @return \Ibexa\Core\FieldType\Relation\Value $value
+     * @return Value $value
      */
     public function fromHash($hash)
     {
@@ -293,7 +300,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\Relation\Value $value
+     * @param Value $value
      *
      * @return mixed
      */
@@ -325,7 +332,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON type relations,
      * there is an API for handling those.
      *
-     * @param \Ibexa\Core\FieldType\Relation\Value $fieldValue
+     * @param Value $fieldValue
      *
      * @return array Hash with relation type as key and array of destination content ids as value.
      *

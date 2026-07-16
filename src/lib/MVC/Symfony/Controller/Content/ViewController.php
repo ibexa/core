@@ -52,9 +52,9 @@ class ViewController extends Controller
      *
      * Cache is in both cases handled by the CacheViewResponseListener.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\ContentView $view
+     * @param ContentView $view
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\ContentView
+     * @return ContentView
      */
     public function viewAction(ContentView $view)
     {
@@ -65,9 +65,9 @@ class ViewController extends Controller
      * Embed a content.
      * Behaves mostly like viewAction(), but with specific content load permission handling.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\ContentView $view
+     * @param ContentView $view
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\ContentView
+     * @return ContentView
      */
     public function embedAction(ContentView $view)
     {
@@ -78,12 +78,14 @@ class ViewController extends Controller
      * Build the response so that depending on settings it's cacheable.
      *
      * @param string|null $etag
-     * @param \DateTime|null $lastModified
+     * @param DateTime|null $lastModified
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    protected function buildResponse($etag = null, ?DateTime $lastModified = null)
-    {
+    protected function buildResponse(
+        $etag = null,
+        ?DateTime $lastModified = null
+    ) {
         $request = $this->getRequest();
         $response = new Response();
         if ($this->getParameter('content.view_cache') === true) {
@@ -113,8 +115,14 @@ class ViewController extends Controller
         return $response;
     }
 
-    protected function handleViewException(Response $response, $params, Exception $e, $viewType, $contentId = null, $locationId = null)
-    {
+    protected function handleViewException(
+        Response $response,
+        $params,
+        Exception $e,
+        $viewType,
+        $contentId = null,
+        $locationId = null
+    ) {
         $event = new APIContentExceptionEvent(
             $e,
             [
@@ -141,30 +149,38 @@ class ViewController extends Controller
     /**
      * Creates the content to be returned when viewing a Location.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param string $viewType
      * @param bool $layout
      * @param array $params
      *
      * @return string
      */
-    protected function renderLocation(Location $location, $viewType, $layout = false, array $params = [])
-    {
+    protected function renderLocation(
+        Location $location,
+        $viewType,
+        $layout = false,
+        array $params = []
+    ) {
         return $this->viewManager->renderLocation($location, $viewType, $params + ['no_layout' => !$layout]);
     }
 
     /**
      * Creates the content to be returned when viewing a Content.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      * @param string $viewType
      * @param bool $layout
      * @param array $params
      *
      * @return string
      */
-    protected function renderContent(Content $content, $viewType, $layout = false, array $params = [])
-    {
+    protected function renderContent(
+        Content $content,
+        $viewType,
+        $layout = false,
+        array $params = []
+    ) {
         return $this->viewManager->renderContent($content, $viewType, $params + ['no_layout' => !$layout]);
     }
 

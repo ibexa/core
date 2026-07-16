@@ -21,14 +21,16 @@ use League\Flysystem\Visibility;
 /**
  * @internal type-hint \Ibexa\Core\IO\IOBinarydataHandler instead
  */
-final class Flysystem implements IOBinaryDataHandler
+final class Flysystem implements IOBinarydataHandler
 {
     private FilesystemOperator $filesystem;
 
     private ?UrlDecorator $urlDecorator;
 
-    public function __construct(FilesystemOperator $filesystem, ?UrlDecorator $urlDecorator = null)
-    {
+    public function __construct(
+        FilesystemOperator $filesystem,
+        ?UrlDecorator $urlDecorator = null
+    ) {
         $this->filesystem = $filesystem;
         $this->urlDecorator = $urlDecorator;
     }

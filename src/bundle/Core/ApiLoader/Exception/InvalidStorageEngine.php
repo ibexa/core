@@ -10,6 +10,4 @@ namespace Ibexa\Bundle\Core\ApiLoader\Exception;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 
-final class InvalidStorageEngine extends InvalidArgumentException
-{
-}
+final class InvalidStorageEngine extends InvalidArgumentException {}

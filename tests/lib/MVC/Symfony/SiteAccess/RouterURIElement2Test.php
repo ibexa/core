@@ -74,8 +74,11 @@ class RouterURIElement2Test extends RouterBaseTestCase
      *
      * @dataProvider analyseProvider
      */
-    public function testAnalyseURI($level, $uri, $expectedFixedUpURI)
-    {
+    public function testAnalyseURI(
+        $level,
+        $uri,
+        $expectedFixedUpURI
+    ) {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $uri)
@@ -90,8 +93,11 @@ class RouterURIElement2Test extends RouterBaseTestCase
      *
      * @dataProvider analyseProvider
      */
-    public function testAnalyseURILevelAsInt($level, $uri, $expectedFixedUpURI)
-    {
+    public function testAnalyseURILevelAsInt(
+        $level,
+        $uri,
+        $expectedFixedUpURI
+    ) {
         $matcher = new URIElementMatcher($level);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $uri)
@@ -106,8 +112,11 @@ class RouterURIElement2Test extends RouterBaseTestCase
      *
      * @dataProvider analyseProvider
      */
-    public function testAnalyseLink($level, $fullUri, $linkUri)
-    {
+    public function testAnalyseLink(
+        $level,
+        $fullUri,
+        $linkUri
+    ) {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $fullUri)
@@ -136,8 +145,10 @@ class RouterURIElement2Test extends RouterBaseTestCase
     /**
      * @dataProvider reverseMatchProvider
      */
-    public function testReverseMatch($siteAccessName, $originalPathinfo)
-    {
+    public function testReverseMatch(
+        $siteAccessName,
+        $originalPathinfo
+    ) {
         $expectedSiteAccessPath = str_replace('_', '/', $siteAccessName);
         $matcher = new URIElementMatcher([2]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, $originalPathinfo));
@@ -201,7 +212,7 @@ class RouterURIElement2Test extends RouterBaseTestCase
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

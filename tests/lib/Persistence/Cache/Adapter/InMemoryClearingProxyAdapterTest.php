@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Cache\Adapter;
 
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Cache\CacheItem;
@@ -19,13 +20,13 @@ use Symfony\Component\Cache\CacheItem;
  */
 class InMemoryClearingProxyAdapterTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter */
+    /** @var TransactionalInMemoryCacheAdapter */
     protected $cache;
 
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TagAwareAdapterInterface|MockObject */
     protected $innerPool;
 
-    /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var InMemoryCache|MockObject */
     protected $inMemory;
 
     /** @var \Closure */
@@ -47,7 +48,13 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         );
 
         $this->cacheItemsClosure = \Closure::bind(
-            static function ($key, $value, $isHit, $defaultLifetime = 0, $tags = []) {
+            static function (
+                $key,
+                $value,
+                $isHit,
+                $defaultLifetime = 0,
+                $tags = []
+            ) {
                 $item = new CacheItem();
                 $item->isTaggable = true;
                 $item->key = $key;
@@ -148,8 +155,10 @@ class InMemoryClearingProxyAdapterTest extends TestCase
     /**
      * @dataProvider providerForDelete
      */
-    public function testDelete(string $method, $argument)
-    {
+    public function testDelete(
+        string $method,
+        $argument
+    ) {
         $this->innerPool
             ->expects(self::once())
             ->method($method)
@@ -179,8 +188,10 @@ class InMemoryClearingProxyAdapterTest extends TestCase
      *
      * @dataProvider providerForClearAndInvalidation
      */
-    public function testClearAndInvalidation(string $method, $argument)
-    {
+    public function testClearAndInvalidation(
+        string $method,
+        $argument
+    ) {
         if ($argument) {
             $this->innerPool
                 ->expects(self::once())
@@ -216,10 +227,13 @@ class InMemoryClearingProxyAdapterTest extends TestCase
      * @param array $tags Optional.
      * @param mixed $value Optional, if value evaluates to false the cache item will be assumed to be a cache miss here.
      *
-     * @return \Symfony\Component\Cache\CacheItem
+     * @return CacheItem
      */
-    private function createCacheItem($key, $tags = [], $value = true)
-    {
+    private function createCacheItem(
+        $key,
+        $tags = [],
+        $value = true
+    ) {
         $cacheItemsClosure = $this->cacheItemsClosure;
 
         return $cacheItemsClosure($key, $value, (bool) $value, 0, $tags);

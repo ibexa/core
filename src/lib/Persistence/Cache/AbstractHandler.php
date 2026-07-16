@@ -7,10 +7,12 @@
 
 namespace Ibexa\Core\Persistence\Cache;
 
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
+use Symfony\Component\Cache\CacheItem;
 
 /**
  * Class AbstractHandler.
@@ -19,33 +21,33 @@ use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
  */
 abstract class AbstractHandler
 {
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
+    /** @var TagAwareAdapterInterface */
     protected $cache;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var Handler */
     protected $persistenceHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
+    /** @var PersistenceLogger */
     protected $logger;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
+    /** @var CacheIdentifierGeneratorInterface */
     protected $cacheIdentifierGenerator;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer */
+    /** @var CacheIdentifierSanitizer */
     protected $cacheIdentifierSanitizer;
 
-    /** @var \Ibexa\Core\Persistence\Cache\LocationPathConverter */
+    /** @var LocationPathConverter */
     protected $locationPathConverter;
 
     /**
      * Setups current handler with everything needed.
      *
-     * @param \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface $cache
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $persistenceHandler
-     * @param \Ibexa\Core\Persistence\Cache\PersistenceLogger $logger
-     * @param \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
-     * @param \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer $cacheIdentifierSanitizer
-     * @param \Ibexa\Core\Persistence\Cache\LocationPathConverter $locationPathConverter
+     * @param TagAwareAdapterInterface $cache
+     * @param Handler $persistenceHandler
+     * @param PersistenceLogger $logger
+     * @param CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
+     * @param CacheIdentifierSanitizer $cacheIdentifierSanitizer
+     * @param LocationPathConverter $locationPathConverter
      */
     public function __construct(
         TagAwareAdapterInterface $cache,
@@ -102,7 +104,7 @@ abstract class AbstractHandler
         }
 
         // Load cache items by cache keys (will contain hits and misses)
-        /** @var \Symfony\Component\Cache\CacheItem[] $list */
+        /** @var CacheItem[] $list */
         $list = [];
         $cacheMisses = [];
         foreach ($this->cache->getItems($cacheKeys) as $key => $cacheItem) {

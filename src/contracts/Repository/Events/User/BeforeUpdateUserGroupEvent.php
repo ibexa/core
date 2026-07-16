@@ -21,8 +21,10 @@ final class BeforeUpdateUserGroupEvent extends BeforeEvent
 
     private ?UserGroup $updatedUserGroup = null;
 
-    public function __construct(UserGroup $userGroup, UserGroupUpdateStruct $userGroupUpdateStruct)
-    {
+    public function __construct(
+        UserGroup $userGroup,
+        UserGroupUpdateStruct $userGroupUpdateStruct
+    ) {
         $this->userGroup = $userGroup;
         $this->userGroupUpdateStruct = $userGroupUpdateStruct;
     }

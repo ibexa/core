@@ -21,8 +21,10 @@ final class BeforeUpdateObjectStateEvent extends BeforeEvent
 
     private ?ObjectState $updatedObjectState = null;
 
-    public function __construct(ObjectState $objectState, ObjectStateUpdateStruct $objectStateUpdateStruct)
-    {
+    public function __construct(
+        ObjectState $objectState,
+        ObjectStateUpdateStruct $objectStateUpdateStruct
+    ) {
         $this->objectState = $objectState;
         $this->objectStateUpdateStruct = $objectStateUpdateStruct;
     }

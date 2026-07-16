@@ -62,16 +62,22 @@ class UrlAliasServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesLookupExpectedArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         $arguments[$languageArgumentIndex] = $languages;
         $arguments[$languageArgumentIndex - 1] = true;
 
         return $arguments;
     }
 
-    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesPassTroughArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         return $this->setLanguagesLookupExpectedArguments($arguments, $languageArgumentIndex, $languages);
     }
 }

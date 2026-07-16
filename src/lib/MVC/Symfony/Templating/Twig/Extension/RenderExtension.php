@@ -23,10 +23,10 @@ use Twig\TwigFunction;
  */
 final class RenderExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Contracts\Core\MVC\Templating\RenderStrategy */
+    /** @var RenderStrategy */
     private $renderStrategy;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     public function __construct(
@@ -51,8 +51,10 @@ final class RenderExtension extends AbstractExtension
     /**
      * @param array<string, mixed> $options
      */
-    public function render(ValueObject|ContentAwareInterface $object, array $options = []): string
-    {
+    public function render(
+        ValueObject | ContentAwareInterface $object,
+        array $options = []
+    ): string {
         if ($object instanceof ContentAwareInterface) {
             $object = $object->getContent();
         }

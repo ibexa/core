@@ -21,10 +21,10 @@ use Twig\TwigFunction;
  */
 final class RenderLocationExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\RenderLocationStrategy */
+    /** @var RenderLocationStrategy */
     private $renderLocationStrategy;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     public function __construct(
@@ -46,8 +46,10 @@ final class RenderLocationExtension extends AbstractExtension
         ];
     }
 
-    public function renderLocation(Location $location, array $options = []): string
-    {
+    public function renderLocation(
+        Location $location,
+        array $options = []
+    ): string {
         $renderOptions = new RenderOptions($options);
         $event = $this->eventDispatcher->dispatch(
             new ResolveRenderOptionsEvent($renderOptions)

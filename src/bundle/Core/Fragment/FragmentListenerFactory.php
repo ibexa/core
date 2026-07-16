@@ -18,8 +18,11 @@ class FragmentListenerFactory
 {
     use RequestStackAware;
 
-    public function buildFragmentListener(UriSigner $uriSigner, $fragmentPath, $fragmentListenerClass)
-    {
+    public function buildFragmentListener(
+        UriSigner $uriSigner,
+        $fragmentPath,
+        $fragmentListenerClass
+    ) {
         // no request when executing over CLI
         if (!$request = $this->getCurrentRequest()) {
             return null;

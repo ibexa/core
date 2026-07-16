@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsMainLocation;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
 /**
@@ -19,17 +19,17 @@ final class IsMainLocationQueryBuilder extends BaseLocationCriterionQueryBuilder
 {
     public function accepts(FilteringCriterion $criterion): bool
     {
-        return $criterion instanceof Location\IsMainLocation;
+        return $criterion instanceof IsMainLocation;
     }
 
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsMainLocation $criterion */
+        /** @var IsMainLocation $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
-        return $criterion->value[0] === Location\IsMainLocation::MAIN
+        return $criterion->value[0] === IsMainLocation::MAIN
             ? 'location.node_id = location.main_node_id'
             : 'location.node_id <> location.main_node_id';
     }

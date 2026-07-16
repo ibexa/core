@@ -18,8 +18,10 @@ use Ibexa\Contracts\Core\Search\FieldType\MultipleIdentifierField;
  */
 class SearchField implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
-    {
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    ) {
         $name = [];
         $id = [];
         $email = [];

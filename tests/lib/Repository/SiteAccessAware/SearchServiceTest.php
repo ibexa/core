@@ -60,8 +60,10 @@ class SearchServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    protected function setLanguagesLookupArguments(array $arguments, $languageArgumentIndex)
-    {
+    protected function setLanguagesLookupArguments(
+        array $arguments,
+        $languageArgumentIndex
+    ) {
         $arguments[$languageArgumentIndex] = [
             'languages' => [],
             'useAlwaysAvailable' => null,
@@ -70,8 +72,11 @@ class SearchServiceTest extends AbstractServiceTestCase
         return $arguments;
     }
 
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesLookupExpectedArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         $arguments[$languageArgumentIndex] = [
             'languages' => $languages,
             'useAlwaysAvailable' => true,
@@ -80,8 +85,11 @@ class SearchServiceTest extends AbstractServiceTestCase
         return $arguments;
     }
 
-    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesPassTroughArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         $arguments[$languageArgumentIndex] = [
             'languages' => $languages,
             'useAlwaysAvailable' => true,

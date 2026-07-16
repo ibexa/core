@@ -40,7 +40,7 @@ final class IsBookmarked extends CriterionHandler
 
     /**
      * @param array{languages: string[]} $languageSettings
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsBookmarked $criterion
+     * @param Criterion\Location\IsBookmarked $criterion
      */
     public function handle(
         CriteriaConverter $converter,

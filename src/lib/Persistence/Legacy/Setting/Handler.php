@@ -9,11 +9,12 @@ namespace Ibexa\Core\Persistence\Legacy\Setting;
 
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as BaseSettingHandler;
 use Ibexa\Contracts\Core\Persistence\Setting\Setting;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 
 class Handler implements BaseSettingHandler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Setting\Gateway */
+    /** @var Gateway */
     protected $settingGateway;
 
     public function __construct(Gateway $settingGateway)
@@ -21,8 +22,11 @@ class Handler implements BaseSettingHandler
         $this->settingGateway = $settingGateway;
     }
 
-    public function create(string $group, string $identifier, string $serializedValue): Setting
-    {
+    public function create(
+        string $group,
+        string $identifier,
+        string $serializedValue
+    ): Setting {
         $lastId = $this->settingGateway->insertSetting(
             $group,
             $identifier,
@@ -43,10 +47,13 @@ class Handler implements BaseSettingHandler
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function update(string $group, string $identifier, string $serializedValue): Setting
-    {
+    public function update(
+        string $group,
+        string $identifier,
+        string $serializedValue
+    ): Setting {
         $this->settingGateway->updateSetting(
             $group,
             $identifier,
@@ -67,10 +74,12 @@ class Handler implements BaseSettingHandler
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function load(string $group, string $identifier): Setting
-    {
+    public function load(
+        string $group,
+        string $identifier
+    ): Setting {
         $setting = $this->settingGateway->loadSetting($group, $identifier);
 
         if (empty($setting)) {
@@ -84,13 +93,17 @@ class Handler implements BaseSettingHandler
         ]);
     }
 
-    public function delete(string $group, string $identifier): void
-    {
+    public function delete(
+        string $group,
+        string $identifier
+    ): void {
         $this->settingGateway->deleteSetting($group, $identifier);
     }
 
-    private function createNotFoundException(string $group, string $identifier): NotFound
-    {
+    private function createNotFoundException(
+        string $group,
+        string $identifier
+    ): NotFound {
         return new NotFound('Setting', [
             'group' => $group,
             'identifier' => $identifier,

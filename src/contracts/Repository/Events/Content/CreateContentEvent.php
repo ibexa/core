@@ -11,12 +11,13 @@ namespace Ibexa\Contracts\Core\Repository\Events\Content;
 use Ibexa\Contracts\Core\Repository\Event\AfterEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 
 final class CreateContentEvent extends AfterEvent
 {
     private ContentCreateStruct $contentCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] */
+    /** @var LocationCreateStruct[] */
     private array $locationCreateStructs;
 
     private Content $content;
@@ -25,7 +26,7 @@ final class CreateContentEvent extends AfterEvent
     private ?array $fieldIdentifiersToValidate;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[]  $locationCreateStructs
+     * @param LocationCreateStruct[]  $locationCreateStructs
      * @param string[]|null $fieldIdentifiersToValidate
      */
     public function __construct(
@@ -46,7 +47,7 @@ final class CreateContentEvent extends AfterEvent
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[]
+     * @return LocationCreateStruct[]
      */
     public function getLocationCreateStructs(): array
     {

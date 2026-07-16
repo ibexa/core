@@ -7,18 +7,20 @@
 
 namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 
+use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 
 interface SiteAccessRouterInterface
 {
     /**
      * Performs SiteAccess matching given the $request.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      *
-     * @throws \Ibexa\Core\MVC\Exception\InvalidSiteAccessException
+     * @throws InvalidSiteAccessException
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function match(SimplifiedRequest $request);
 
@@ -31,7 +33,7 @@ interface SiteAccessRouterInterface
      *
      * @throws \InvalidArgumentException If $siteAccessName is invalid (i.e. not present in configured list).
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function matchByName($siteAccessName);
 }

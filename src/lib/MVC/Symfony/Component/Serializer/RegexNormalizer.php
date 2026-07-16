@@ -18,18 +18,24 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class RegexNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-    {
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $data instanceof Regex;
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Regex $data
+     * @param Regex $data
      *
      * @return array{type: class-string, regex: string, itemNumber: int}
      */
-    public function normalize(mixed $data, ?string $format = null, array $context = []): array
-    {
+    public function normalize(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): array {
         return [
             'type' => $data::class,
             'regex' => $data->getRegex(),
@@ -37,8 +43,12 @@ final class RegexNormalizer implements NormalizerInterface, DenormalizerInterfac
         ];
     }
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): Regex
-    {
+    public function denormalize(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): Regex {
         $mapMatcherType = $data['type'] ?? throw new LogicException('Unknown Regex matcher type');
         if (!is_a($mapMatcherType, Regex::class, true)) {
             throw new LogicException(sprintf('%s is not a subtype of %s', $mapMatcherType, Regex::class));

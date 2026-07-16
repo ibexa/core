@@ -17,14 +17,14 @@ interface SuggestionCollectorInterface
     /**
      * Adds a config suggestion to the list.
      *
-     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion $suggestion
+     * @param ConfigSuggestion $suggestion
      */
     public function addSuggestion(ConfigSuggestion $suggestion);
 
     /**
      * Returns all config suggestions.
      *
-     * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion[]
+     * @return ConfigSuggestion[]
      */
     public function getSuggestions();
 

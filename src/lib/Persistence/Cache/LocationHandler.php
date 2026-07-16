@@ -46,7 +46,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
             return $tags;
         };
 
-        $this->getLocationKeys = function (Location $location, $keySuffix = '-1') {
+        $this->getLocationKeys = function (
+            Location $location,
+            $keySuffix = '-1'
+        ) {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::LOCATION_IDENTIFIER, [$location->id], true) . $keySuffix,
                 $this->cacheIdentifierGenerator->generateKey(
@@ -61,8 +64,11 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function load($locationId, ?array $translations = null, bool $useAlwaysAvailable = true)
-    {
+    public function load(
+        $locationId,
+        ?array $translations = null,
+        bool $useAlwaysAvailable = true
+    ) {
         $keySuffix = '-' . $this->getCacheTranslationKey($translations, $useAlwaysAvailable);
         $getLocationKeysFn = $this->getLocationKeys;
 
@@ -81,8 +87,11 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         );
     }
 
-    public function loadList(array $locationIds, ?array $translations = null, bool $useAlwaysAvailable = true): iterable
-    {
+    public function loadList(
+        array $locationIds,
+        ?array $translations = null,
+        bool $useAlwaysAvailable = true
+    ): iterable {
         $keySuffix = '-' . $this->getCacheTranslationKey($translations, $useAlwaysAvailable);
         $getLocationKeysFn = $this->getLocationKeys;
 
@@ -136,8 +145,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function loadLocationsByContent($contentId, $rootLocationId = null)
-    {
+    public function loadLocationsByContent(
+        $contentId,
+        $rootLocationId = null
+    ) {
         $keySuffix = '';
         $cacheTags = [
             $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$contentId]),
@@ -178,8 +189,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function loadLocationsByTrashContent(int $contentId, ?int $rootLocationId = null): array
-    {
+    public function loadLocationsByTrashContent(
+        int $contentId,
+        ?int $rootLocationId = null
+    ): array {
         $this->logger->logCall(__METHOD__, ['content' => $contentId, 'root' => $rootLocationId]);
 
         return $this->persistenceHandler->locationHandler()->loadLocationsByTrashContent($contentId, $rootLocationId);
@@ -223,8 +236,11 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function loadByRemoteId($remoteId, ?array $translations = null, bool $useAlwaysAvailable = true)
-    {
+    public function loadByRemoteId(
+        $remoteId,
+        ?array $translations = null,
+        bool $useAlwaysAvailable = true
+    ) {
         $keySuffix = '-' . $this->getCacheTranslationKey($translations, $useAlwaysAvailable);
         $getLocationKeysFn = $this->getLocationKeys;
 
@@ -246,8 +262,11 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function copySubtree($sourceId, $destinationParentId, $newOwnerId = null)
-    {
+    public function copySubtree(
+        $sourceId,
+        $destinationParentId,
+        $newOwnerId = null
+    ) {
         $this->logger->logCall(__METHOD__, [
             'source' => $sourceId,
             'destination' => $destinationParentId,
@@ -257,8 +276,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $this->persistenceHandler->locationHandler()->copySubtree($sourceId, $destinationParentId, $newOwnerId);
     }
 
-    public function getSubtreeSize(string $path, ?int $limit = null): int
-    {
+    public function getSubtreeSize(
+        string $path,
+        ?int $limit = null
+    ): int {
         $this->logger->logCall(__METHOD__, [
             'path' => $path,
             'limit' => $limit,
@@ -270,8 +291,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function move($sourceId, $destinationParentId)
-    {
+    public function move(
+        $sourceId,
+        $destinationParentId
+    ) {
         $this->logger->logCall(__METHOD__, ['source' => $sourceId, 'destination' => $destinationParentId]);
         $return = $this->persistenceHandler->locationHandler()->move($sourceId, $destinationParentId);
 
@@ -345,8 +368,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function swap($locationId1, $locationId2)
-    {
+    public function swap(
+        $locationId1,
+        $locationId2
+    ) {
         $this->logger->logCall(__METHOD__, ['location1' => $locationId1, 'location2' => $locationId2]);
         $locationHandler = $this->persistenceHandler->locationHandler();
 
@@ -365,8 +390,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function update(UpdateStruct $struct, $locationId)
-    {
+    public function update(
+        UpdateStruct $struct,
+        $locationId
+    ) {
         $this->logger->logCall(__METHOD__, ['location' => $locationId, 'struct' => $struct]);
         $this->persistenceHandler->locationHandler()->update($struct, $locationId);
 
@@ -425,8 +452,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function setSectionForSubtree($locationId, $sectionId)
-    {
+    public function setSectionForSubtree(
+        $locationId,
+        $sectionId
+    ) {
         $this->logger->logCall(__METHOD__, ['location' => $locationId, 'section' => $sectionId]);
         $this->persistenceHandler->locationHandler()->setSectionForSubtree($locationId, $sectionId);
 
@@ -438,8 +467,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function changeMainLocation($contentId, $locationId)
-    {
+    public function changeMainLocation(
+        $contentId,
+        $locationId
+    ) {
         $this->logger->logCall(__METHOD__, ['location' => $locationId, 'content' => $contentId]);
         $this->persistenceHandler->locationHandler()->changeMainLocation($contentId, $locationId);
 
@@ -466,10 +497,12 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
+     * @return Location[]
      */
-    public function loadAllLocations($offset, $limit)
-    {
+    public function loadAllLocations(
+        $offset,
+        $limit
+    ) {
         $this->logger->logCall(__METHOD__, ['offset' => $offset, 'limit' => $limit]);
 
         return $this->persistenceHandler->locationHandler()->loadAllLocations($offset, $limit);
@@ -482,8 +515,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
      *
      * @return array
      */
-    private function getCacheTags(Location $location, $tags = [])
-    {
+    private function getCacheTags(
+        Location $location,
+        $tags = []
+    ) {
         $tags[] = $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$location->contentId]);
         $tags[] = $this->cacheIdentifierGenerator->generateTag(self::LOCATION_IDENTIFIER, [$location->id]);
 
@@ -495,8 +530,10 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $tags;
     }
 
-    private function getCacheTranslationKey(?array $translations = null, bool $useAlwaysAvailable = true): string
-    {
+    private function getCacheTranslationKey(
+        ?array $translations = null,
+        bool $useAlwaysAvailable = true
+    ): string {
         if (empty($translations)) {
             return (int)$useAlwaysAvailable;
         }

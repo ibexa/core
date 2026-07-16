@@ -26,7 +26,7 @@ class LocationId extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId $criterion
+     * @param Criterion\LocationId $criterion
      */
     public function handle(
         CriteriaConverter $converter,

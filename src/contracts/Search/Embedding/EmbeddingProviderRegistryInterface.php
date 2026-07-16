@@ -11,7 +11,7 @@ namespace Ibexa\Contracts\Core\Search\Embedding;
 interface EmbeddingProviderRegistryInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderInterface[]
+     * @return EmbeddingProviderInterface[]
      */
     public function getEmbeddingProviders(): iterable;
 

@@ -8,10 +8,15 @@
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -26,35 +31,35 @@ use RuntimeException;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
+    /** @var AbstractPlatform */
     private $dbPlatform;
 
     /**
      * Criteria converter.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
+     * @var CriteriaConverter
      */
     private $criteriaConverter;
 
     /**
      * Sort clause converter.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter
+     * @var SortClauseConverter
      */
     private $sortClauseConverter;
 
     /**
      * Language handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+     * @var Handler
      */
     private $languageHandler;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function __construct(
         Connection $connection,
@@ -102,7 +107,7 @@ final class DoctrineDatabase extends Gateway
      *
      * @return int
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function getLanguageMask(array $languageSettings): int
     {
@@ -123,7 +128,7 @@ final class DoctrineDatabase extends Gateway
      *
      * @return string
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     private function getQueryCondition(
         CriterionInterface $filter,
@@ -169,8 +174,10 @@ final class DoctrineDatabase extends Gateway
      *
      * @return int
      */
-    private function getResultCount(CriterionInterface $filter, array $languageFilter): int
-    {
+    private function getResultCount(
+        CriterionInterface $filter,
+        array $languageFilter
+    ): int {
         $query = $this->connection->createQueryBuilder();
 
         $columnName = 'c.id';
@@ -203,7 +210,7 @@ final class DoctrineDatabase extends Gateway
      *
      * @return int[]
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     private function getContentInfoList(
         CriterionInterface $filter,

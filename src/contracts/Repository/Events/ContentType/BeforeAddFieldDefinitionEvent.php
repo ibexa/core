@@ -18,8 +18,10 @@ final class BeforeAddFieldDefinitionEvent extends BeforeEvent
 
     private FieldDefinitionCreateStruct $fieldDefinitionCreateStruct;
 
-    public function __construct(ContentTypeDraft $contentTypeDraft, FieldDefinitionCreateStruct $fieldDefinitionCreateStruct)
-    {
+    public function __construct(
+        ContentTypeDraft $contentTypeDraft,
+        FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+    ) {
         $this->contentTypeDraft = $contentTypeDraft;
         $this->fieldDefinitionCreateStruct = $fieldDefinitionCreateStruct;
     }

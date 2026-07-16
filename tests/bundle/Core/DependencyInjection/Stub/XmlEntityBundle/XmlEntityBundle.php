@@ -10,6 +10,4 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\XmlEntityBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class XmlEntityBundle extends Bundle
-{
-}
+class XmlEntityBundle extends Bundle {}

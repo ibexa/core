@@ -17,17 +17,19 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 final class RangeAggregationResultEntry extends ValueObject
 {
     /**
-     * @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>
+     * @phpstan-var Range<TValue>
      */
     private Range $key;
 
     private int $count;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue> $key
+     * @param Range<TValue> $key
      */
-    public function __construct(Range $key, int $count)
-    {
+    public function __construct(
+        Range $key,
+        int $count
+    ) {
         parent::__construct();
 
         $this->key = $key;
@@ -35,7 +37,7 @@ final class RangeAggregationResultEntry extends ValueObject
     }
 
     /**
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>
+     * @phpstan-return Range<TValue>
      */
     public function getKey(): Range
     {

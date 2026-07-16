@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class CoreVoter implements VoterInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
     public function __construct(PermissionResolver $permissionResolver)
@@ -52,14 +52,17 @@ class CoreVoter implements VoterInterface
      * This method must return one of the following constants:
      * ACCESS_GRANTED, ACCESS_DENIED, or ACCESS_ABSTAIN.
      *
-     * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token A TokenInterface instance
+     * @param TokenInterface $token A TokenInterface instance
      * @param object $object The object to secure
      * @param array $attributes An array of attributes associated with the method being invoked
      *
      * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
-    public function vote(TokenInterface $token, $object, array $attributes): int
-    {
+    public function vote(
+        TokenInterface $token,
+        $object,
+        array $attributes
+    ): int {
         foreach ($attributes as $attribute) {
             if ($this->supportsAttribute($attribute)) {
                 if ($this->permissionResolver->hasAccess($attribute->module, $attribute->function) === false) {

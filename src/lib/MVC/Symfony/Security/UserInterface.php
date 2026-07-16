@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\MVC\Symfony\Security;
 
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
@@ -16,14 +17,14 @@ use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 interface UserInterface extends BaseUserInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      */
     public function getAPIUser();
 
     /**
      * @deprecated Will be replaced by {@link ReferenceUserInterface::getAPIUser()}, adding LogicException to signature.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $apiUser
+     * @param User $apiUser
      */
     public function setAPIUser(APIUser $apiUser);
 }

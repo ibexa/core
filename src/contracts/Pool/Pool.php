@@ -31,8 +31,10 @@ final class Pool implements PoolInterface
     /**
      * @phpstan-param iterable<string,T> $entries
      */
-    public function __construct(string $class, iterable $entries = [])
-    {
+    public function __construct(
+        string $class,
+        iterable $entries = []
+    ) {
         $this->class = $class;
         $this->entries = $entries;
     }

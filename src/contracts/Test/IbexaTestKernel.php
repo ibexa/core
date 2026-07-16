@@ -16,6 +16,7 @@ use Ibexa\Bundle\LegacySearchEngine\IbexaLegacySearchEngineBundle;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapter;
 use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapterInterface;
@@ -118,7 +119,7 @@ class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
     }
 
     /**
-     * @return iterable<\Ibexa\Contracts\Core\Test\Persistence\Fixture>
+     * @return iterable<Fixture>
      */
     public function getFixtures(): iterable
     {
@@ -278,8 +279,11 @@ class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
      *
      * @phpstan-param class-string $class
      */
-    protected static function addSyntheticService(ContainerBuilder $container, string $class, ?string $id = null): void
-    {
+    protected static function addSyntheticService(
+        ContainerBuilder $container,
+        string $class,
+        ?string $id = null
+    ): void {
         $id = $id ?? $class;
         if ($container->has($id)) {
             throw new LogicException(sprintf(

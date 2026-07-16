@@ -22,8 +22,10 @@ final class BeforeUpdateContentMetadataEvent extends BeforeEvent
 
     private ?Content $content = null;
 
-    public function __construct(ContentInfo $contentInfo, ContentMetadataUpdateStruct $contentMetadataUpdateStruct)
-    {
+    public function __construct(
+        ContentInfo $contentInfo,
+        ContentMetadataUpdateStruct $contentMetadataUpdateStruct
+    ) {
         $this->contentInfo = $contentInfo;
         $this->contentMetadataUpdateStruct = $contentMetadataUpdateStruct;
     }

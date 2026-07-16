@@ -18,8 +18,10 @@ class TypeStillHasContent extends BadStateException
     /**
      * Creates a new exception for `$typeId` of `$status`.
      */
-    public function __construct(int $typeId, int $status)
-    {
+    public function __construct(
+        int $typeId,
+        int $status
+    ) {
         parent::__construct(
             '$typeId',
             sprintf(

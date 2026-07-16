@@ -11,22 +11,25 @@ namespace Ibexa\Contracts\Core\Repository\Events\ContentType;
 use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
 use UnexpectedValueException;
 
 final class BeforeCreateContentTypeEvent extends BeforeEvent
 {
     private ContentTypeCreateStruct $contentTypeCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] */
+    /** @var ContentTypeGroup[] */
     private array $contentTypeGroups;
 
     private ?ContentTypeDraft $contentTypeDraft = null;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups
+     * @param ContentTypeGroup[] $contentTypeGroups
      */
-    public function __construct(ContentTypeCreateStruct $contentTypeCreateStruct, array $contentTypeGroups)
-    {
+    public function __construct(
+        ContentTypeCreateStruct $contentTypeCreateStruct,
+        array $contentTypeGroups
+    ) {
         $this->contentTypeCreateStruct = $contentTypeCreateStruct;
         $this->contentTypeGroups = $contentTypeGroups;
     }
@@ -37,7 +40,7 @@ final class BeforeCreateContentTypeEvent extends BeforeEvent
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[]
+     * @return ContentTypeGroup[]
      */
     public function getContentTypeGroups(): array
     {

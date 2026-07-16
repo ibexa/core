@@ -13,11 +13,11 @@ use Ibexa\Contracts\Core\Variation\VariationHandler;
 
 final class VariationHandlerRegistry
 {
-    /** @var array<string, \Ibexa\Contracts\Core\Variation\VariationHandler> */
+    /** @var array<string, VariationHandler> */
     private array $variationHandlers;
 
     /**
-     * @param iterable<string, \Ibexa\Contracts\Core\Variation\VariationHandler> $variationHandlers
+     * @param iterable<string, VariationHandler> $variationHandlers
      */
     public function __construct(iterable $variationHandlers)
     {
@@ -40,8 +40,10 @@ final class VariationHandlerRegistry
         return $this->variationHandlers[$identifier];
     }
 
-    public function setVariationHandler(string $identifier, VariationHandler $variationHandler): void
-    {
+    public function setVariationHandler(
+        string $identifier,
+        VariationHandler $variationHandler
+    ): void {
         $this->variationHandlers[$identifier] = $variationHandler;
     }
 }

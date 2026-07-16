@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 use PHPUnit\Framework\TestCase;
 
 abstract class RouterBaseTestCase extends TestCase
@@ -22,10 +23,10 @@ abstract class RouterBaseTestCase extends TestCase
 
     protected const DEFAULT_SA_NAME = 'default_sa';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder */
+    /** @var MatcherBuilder */
     protected $matcherBuilder;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
+    /** @var SiteAccessProviderInterface */
     protected $siteAccessProvider;
 
     protected function setUp(): void
@@ -43,8 +44,10 @@ abstract class RouterBaseTestCase extends TestCase
     /**
      * @dataProvider matchProvider
      */
-    public function testMatch(SimplifiedRequest $request, string $siteAccess)
-    {
+    public function testMatch(
+        SimplifiedRequest $request,
+        string $siteAccess
+    ) {
         $router = $this->createRouter();
         $sa = $router->match($request);
         self::assertInstanceOf(SiteAccess::class, $sa);
@@ -58,7 +61,7 @@ abstract class RouterBaseTestCase extends TestCase
 
     abstract protected function createRouter(): Router;
 
-    private function createSiteAccessProviderMock(): SiteAccess\SiteAccessProviderInterface
+    private function createSiteAccessProviderMock(): SiteAccessProviderInterface
     {
         $isDefinedMap = [];
         $getSiteAccessMap = [];
@@ -72,7 +75,7 @@ abstract class RouterBaseTestCase extends TestCase
                 ),
             ];
         }
-        $siteAccessProviderMock = $this->createMock(SiteAccess\SiteAccessProviderInterface::class);
+        $siteAccessProviderMock = $this->createMock(SiteAccessProviderInterface::class);
         $siteAccessProviderMock
             ->method('isDefined')
             ->willReturnMap($isDefinedMap);
@@ -84,7 +87,7 @@ abstract class RouterBaseTestCase extends TestCase
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     abstract public function getSiteAccessProviderSettings(): array;
 }

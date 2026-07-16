@@ -24,7 +24,7 @@ class SearchResult extends ValueObject implements \IteratorAggregate
     /**
      * The value objects found for the query.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\URL\URL[]
+     * @var URL[]
      */
     public $items = [];
 

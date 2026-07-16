@@ -28,17 +28,17 @@ use Symfony\Component\Security\Http\Firewall\AccessListener;
 
 final class AnonymousUserAccessListenerTest extends TestCase
 {
-    private MockObject&PermissionResolver $permissionResolver;
+    private MockObject & PermissionResolver $permissionResolver;
 
     private AccessListener $innerListener;
 
-    private MockObject&Security $security;
+    private MockObject & Security $security;
 
     private AnonymousUserAccessListener $listener;
 
-    private MockObject&AccessDecisionManagerInterface $accessDecisionManager;
+    private MockObject & AccessDecisionManagerInterface $accessDecisionManager;
 
-    private MockObject&AccessMapInterface $accessMap;
+    private MockObject & AccessMapInterface $accessMap;
 
     /**
      * @var array<mixed, mixed>
@@ -54,8 +54,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         $this->accessMap = $this->createMock(AccessMapInterface::class);
         $this->accessDecisionManager = $this->createMock(AccessDecisionManagerInterface::class);
 
-        $token = new class() extends AbstractToken {
-        };
+        $token = new class() extends AbstractToken {};
         $tokenStorage = new TokenStorage();
         $tokenStorage->setToken($token);
 

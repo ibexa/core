@@ -12,21 +12,23 @@ use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 
 class ChainConfigResolver implements ConfigResolverInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
+    /** @var ConfigResolverInterface[] */
     protected $resolvers = [];
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
+    /** @var ConfigResolverInterface[] */
     protected $sortedResolvers;
 
     /**
      * Registers $mapper as a valid mapper to be used in the configuration mapping chain.
      * When this mapper will be called in the chain depends on $priority. The highest $priority is, the earliest the router will be called.
      *
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $resolver
+     * @param ConfigResolverInterface $resolver
      * @param int $priority
      */
-    public function addResolver(ConfigResolverInterface $resolver, $priority = 0)
-    {
+    public function addResolver(
+        ConfigResolverInterface $resolver,
+        $priority = 0
+    ) {
         $priority = (int)$priority;
         if (!isset($this->resolvers[$priority])) {
             $this->resolvers[$priority] = [];
@@ -37,7 +39,7 @@ class ChainConfigResolver implements ConfigResolverInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[]
+     * @return ConfigResolverInterface[]
      */
     public function getAllResolvers()
     {
@@ -52,7 +54,7 @@ class ChainConfigResolver implements ConfigResolverInterface
      * Sort the registered mappers by priority.
      * The highest priority number is the highest priority (reverse sorting).
      *
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[]
+     * @return ConfigResolverInterface[]
      */
     protected function sortResolvers()
     {
@@ -69,10 +71,13 @@ class ChainConfigResolver implements ConfigResolverInterface
     /**
      * @return mixed
      *
-     * @throws \Ibexa\Core\MVC\Exception\ParameterNotFoundException
+     * @throws ParameterNotFoundException
      */
-    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
-    {
+    public function getParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ) {
         foreach ($this->getAllResolvers() as $resolver) {
             try {
                 return $resolver->getParameter($paramName, $namespace, $scope);
@@ -85,8 +90,11 @@ class ChainConfigResolver implements ConfigResolverInterface
         throw new ParameterNotFoundException($paramName, $namespace, [$scope]);
     }
 
-    public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
-    {
+    public function hasParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): bool {
         foreach ($this->getAllResolvers() as $resolver) {
             $hasParameter = $resolver->hasParameter($paramName, $namespace, $scope);
             if ($hasParameter) {

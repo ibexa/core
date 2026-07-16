@@ -42,7 +42,7 @@ final class LocationTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Core\Repository\Values\Content\Location, string[]}>
+     * @return iterable<string, array{Location, string[]}>
      */
     public static function getDataForTestPathComputedPropertyGetter(): iterable
     {
@@ -77,8 +77,10 @@ final class LocationTest extends TestCase
      *
      * @param string[] $expectedPathValue
      */
-    public function testPathComputedPropertyGetter(Location $location, array $expectedPathValue): void
-    {
+    public function testPathComputedPropertyGetter(
+        Location $location,
+        array $expectedPathValue
+    ): void {
         self::assertSame($expectedPathValue, $location->getPath());
     }
 

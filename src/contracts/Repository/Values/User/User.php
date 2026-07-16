@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
  * @property-read string $email
  * @property-read string $passwordHash @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see User::getPasswordHash()} instead.
  * @property-read string $hashAlgorithm Hash algorithm used to hash the password
- * @property-read \DateTimeInterface|null $passwordUpdatedAt
+ * @property-read DateTimeInterface|null $passwordUpdatedAt
  * @property-read bool $enabled User can not login if false
  * @property-read int $maxLogin Max number of time user is allowed to login
  */

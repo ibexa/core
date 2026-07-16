@@ -27,8 +27,7 @@ class FieldNameGenerator
     public function __construct(
         protected array $fieldNameMapping,
         private readonly array $fallbackPrefixes = []
-    ) {
-    }
+    ) {}
 
     /**
      * Get name for document field.
@@ -41,8 +40,11 @@ class FieldNameGenerator
      *
      * @return string
      */
-    public function getName($name, $field = null, $type = null): string
-    {
+    public function getName(
+        $name,
+        $field = null,
+        $type = null
+    ): string {
         return implode('_', array_filter([$type, $field, $name]));
     }
 
@@ -57,8 +59,10 @@ class FieldNameGenerator
      *
      * Only the field with the name 'id' remains untouched.
      */
-    public function getTypedName(string $name, FieldType $type): string
-    {
+    public function getTypedName(
+        string $name,
+        FieldType $type
+    ): string {
         if ($name === 'id') {
             return $name;
         }

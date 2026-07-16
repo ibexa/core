@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
@@ -25,10 +26,13 @@ class LogicalAnd implements CriterionHandler
     /**
      * {@inheritdoc}
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
-    public function handle(CriteriaConverter $converter, QueryBuilder $queryBuilder, Criterion $criterion)
-    {
+    public function handle(
+        CriteriaConverter $converter,
+        QueryBuilder $queryBuilder,
+        Criterion $criterion
+    ) {
         $subexpressions = [];
         foreach ($criterion->criteria as $subCriterion) {
             $subexpressions[] = $converter->convertCriteria($queryBuilder, $subCriterion);

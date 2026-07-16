@@ -17,6 +17,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\User\Type;
 use Ibexa\Core\FieldType\User\Type as UserType;
+use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\FieldType\User\Value as UserValue;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Persistence\Cache\UserHandler;
@@ -206,7 +207,7 @@ class UserTest extends FieldTypeTestCase
      *
      * @dataProvider providerForTestValidate
      *
-     * @param \Ibexa\Core\FieldType\User\Value $userValue
+     * @param Value $userValue
      * @param array $expectedValidationErrors
      * @param callable|null $loadByLoginBehaviorCallback
      *
@@ -359,8 +360,10 @@ class UserTest extends FieldTypeTestCase
      *
      * @dataProvider providerForTestCreatePersistenceValue
      */
-    public function testCreatePersistenceValue(array $userValueDate, array $expectedFieldValueExternalData): void
-    {
+    public function testCreatePersistenceValue(
+        array $userValueDate,
+        array $expectedFieldValueExternalData
+    ): void {
         $passwordHashServiceMock = $this->createMock(PasswordHashService::class);
         $passwordHashServiceMock->method('getDefaultHashType')->willReturn(RepositoryUser::DEFAULT_PASSWORD_HASH);
         $userType = new UserType(

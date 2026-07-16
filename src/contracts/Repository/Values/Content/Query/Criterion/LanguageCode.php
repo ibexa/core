@@ -36,8 +36,10 @@ class LanguageCode extends Criterion implements FilteringCriterion
      * @throws \InvalidArgumentException if non string value is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct(string|array $value, bool $matchAlwaysAvailable = true)
-    {
+    public function __construct(
+        string | array $value,
+        bool $matchAlwaysAvailable = true
+    ) {
         parent::__construct(null, null, $value);
 
         $this->matchAlwaysAvailable = $matchAlwaysAvailable;

@@ -52,7 +52,7 @@ class StorageRegistryTest extends TestCase
     /**
      * Returns a mock for Storage.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldStorage
+     * @return FieldStorage
      */
     protected function getStorageMock()
     {

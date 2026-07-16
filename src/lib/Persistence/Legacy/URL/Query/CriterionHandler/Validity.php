@@ -31,7 +31,7 @@ class Validity implements CriterionHandler
         QueryBuilder $queryBuilder,
         Criterion $criterion
     ) {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\Validity $criterion */
+        /** @var Criterion\Validity $criterion */
         return $queryBuilder->expr()->eq(
             'is_valid',
             $queryBuilder->createNamedParameter(

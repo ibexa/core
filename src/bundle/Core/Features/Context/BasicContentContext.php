@@ -28,13 +28,13 @@ class BasicContentContext implements Context
      */
     private $contentPaths = [];
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeService */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
     public function __construct(
@@ -56,8 +56,11 @@ class BasicContentContext implements Context
      *
      * @return mixed The content's main location id
      */
-    public function createContent($contentType, $fields, $parentLocationId)
-    {
+    public function createContent(
+        $contentType,
+        $fields,
+        $parentLocationId
+    ) {
         $languageCode = self::DEFAULT_LANGUAGE;
         $content = $this->createContentDraft($parentLocationId, $contentType, $fields, $languageCode);
         $content = $this->contentService->publishVersion($content->versionInfo);
@@ -81,10 +84,14 @@ class BasicContentContext implements Context
      * @param string $languageCode
      * @param array $fields Fields, as primitives understood by setField
      *
-     * @return \Ibexa\Core\Repository\Values\Content\Content an unpublished Content draft
+     * @return Content an unpublished Content draft
      */
-    public function createContentDraft($parentLocationId, $contentTypeIdentifier, $fields, $languageCode = null)
-    {
+    public function createContentDraft(
+        $parentLocationId,
+        $contentTypeIdentifier,
+        $fields,
+        $languageCode = null
+    ) {
         $languageCode = $languageCode ?: self::DEFAULT_LANGUAGE;
         $locationCreateStruct = $this->repository->getLocationService()->newLocationCreateStruct($parentLocationId);
         $contentTypeIdentifier = $this->contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
@@ -106,8 +113,11 @@ class BasicContentContext implements Context
      *
      * @return mixed location id of the created content
      */
-    public function createContentWithPath($path, $fields, $contentType)
-    {
+    public function createContentWithPath(
+        $path,
+        $fields,
+        $contentType
+    ) {
         $contentsName = explode('/', $path);
         $currentPath = '';
         $location = '2';

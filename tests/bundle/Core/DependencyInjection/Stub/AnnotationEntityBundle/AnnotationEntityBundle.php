@@ -10,6 +10,4 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AnnotationEntityBundl
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AnnotationEntityBundle extends Bundle
-{
-}
+class AnnotationEntityBundle extends Bundle {}

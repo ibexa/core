@@ -10,12 +10,15 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -26,6 +29,7 @@ use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
+
 use function sprintf;
 
 /**
@@ -33,7 +37,7 @@ use function sprintf;
  *
  * @internal Gateway implementation is considered internal. Use Persistence content type Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
@@ -98,9 +102,8 @@ final class DoctrineDatabase extends Gateway
         private readonly Connection $connection,
         private readonly SharedGateway $sharedGateway,
         private readonly MaskGenerator $languageMaskGenerator,
-        private readonly Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor
-    ) {
-    }
+        private readonly CriterionVisitor\CriterionVisitor $criterionVisitor
+    ) {}
 
     public function insertGroup(Group $group): int
     {
@@ -222,8 +225,10 @@ final class DoctrineDatabase extends Gateway
         return (int)$query->executeQuery()->fetchOne();
     }
 
-    public function countGroupsForType(int $typeId, int $status): int
-    {
+    public function countGroupsForType(
+        int $typeId,
+        int $status
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
@@ -263,8 +268,11 @@ final class DoctrineDatabase extends Gateway
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if at least one of the used languages does not exist
      */
-    private function insertTypeNameData(int $typeId, int $typeStatus, array $languages): void
-    {
+    private function insertTypeNameData(
+        int $typeId,
+        int $typeStatus,
+        array $languages
+    ): void {
         $tmpLanguages = $languages;
         if (isset($tmpLanguages['always-available'])) {
             unset($tmpLanguages['always-available']);
@@ -333,8 +341,10 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    public function insertType(Type $type, ?int $typeId = null): int
-    {
+    public function insertType(
+        Type $type,
+        ?int $typeId = null
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $query
             ->insert(self::CONTENT_TYPE_TABLE)
@@ -424,8 +434,11 @@ final class DoctrineDatabase extends Gateway
         ];
     }
 
-    public function insertGroupAssignment(int $groupId, int $typeId, int $status): void
-    {
+    public function insertGroupAssignment(
+        int $groupId,
+        int $typeId,
+        int $status
+    ): void {
         $groups = $this->loadGroupData([$groupId]);
         if (empty($groups)) {
             throw new NotFoundException('Content type group', $groupId);
@@ -459,8 +472,11 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function deleteGroupAssignment(int $groupId, int $typeId, int $status): void
-    {
+    public function deleteGroupAssignment(
+        int $groupId,
+        int $typeId,
+        int $status
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
@@ -542,8 +558,10 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
-    public function loadTypesDataForGroup(int $groupId, int $status): array
-    {
+    public function loadTypesDataForGroup(
+        int $groupId,
+        int $status
+    ): array {
         $query = $this->getLoadTypeQueryBuilder();
         $expr = $query->expr();
         $query
@@ -691,8 +709,10 @@ final class DoctrineDatabase extends Gateway
         ];
     }
 
-    public function loadFieldDefinition(int $id, int $status): array
-    {
+    public function loadFieldDefinition(
+        int $id,
+        int $status
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $this
@@ -884,8 +904,10 @@ final class DoctrineDatabase extends Gateway
     /**
      * Delete entire name data for the given content type of the given status.
      */
-    private function deleteTypeNameData(int $typeId, int $typeStatus): void
-    {
+    private function deleteTypeNameData(
+        int $typeId,
+        int $typeStatus
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
@@ -905,8 +927,11 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function updateType(int $typeId, int $status, Type $type): void
-    {
+    public function updateType(
+        int $typeId,
+        int $status,
+        Type $type
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query->update(self::CONTENT_TYPE_TABLE);
 
@@ -968,8 +993,10 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    public function loadTypeData(int $typeId, int $status): array
-    {
+    public function loadTypeData(
+        int $typeId,
+        int $status
+    ): array {
         $query = $this->getLoadTypeQueryBuilder();
         $expr = $query->expr();
         $query
@@ -981,8 +1008,10 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    public function loadTypeDataByIdentifier(string $identifier, int $status): array
-    {
+    public function loadTypeDataByIdentifier(
+        string $identifier,
+        int $status
+    ): array {
         $query = $this->getLoadTypeQueryBuilder();
         $expr = $query->expr();
         $query
@@ -994,8 +1023,10 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    public function loadTypeDataByRemoteId(string $remoteId, int $status): array
-    {
+    public function loadTypeDataByRemoteId(
+        string $remoteId,
+        int $status
+    ): array {
         $query = $this->getLoadTypeQueryBuilder();
         $query
             ->where($query->expr()->eq('c.remote_id', ':remote'))
@@ -1117,8 +1148,10 @@ final class DoctrineDatabase extends Gateway
         return (int)$stmt->fetchOne();
     }
 
-    public function deleteFieldDefinitionsForType(int $typeId, int $status): void
-    {
+    public function deleteFieldDefinitionsForType(
+        int $typeId,
+        int $status
+    ): void {
         $ctMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
@@ -1160,16 +1193,20 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function delete(int $typeId, int $status): void
-    {
+    public function delete(
+        int $typeId,
+        int $status
+    ): void {
         $this->deleteGroupAssignmentsForType($typeId, $status);
         $this->deleteFieldDefinitionsForType($typeId, $status);
         $this->deleteTypeNameData($typeId, $status);
         $this->deleteType($typeId, $status);
     }
 
-    public function deleteType(int $typeId, int $status): void
-    {
+    public function deleteType(
+        int $typeId,
+        int $status
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete(self::CONTENT_TYPE_TABLE)
@@ -1188,8 +1225,10 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function deleteGroupAssignmentsForType(int $typeId, int $status): void
-    {
+    public function deleteGroupAssignmentsForType(
+        int $typeId,
+        int $status
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
@@ -1270,8 +1309,11 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function publishTypeAndFields(int $typeId, int $sourceStatus, int $targetStatus): void
-    {
+    public function publishTypeAndFields(
+        int $typeId,
+        int $sourceStatus,
+        int $targetStatus
+    ): void {
         $this->internalChangeContentTypeStatus(
             $typeId,
             $sourceStatus,
@@ -1377,8 +1419,10 @@ final class DoctrineDatabase extends Gateway
         $deleteQuery->executeStatement();
     }
 
-    public function removeByUserAndStatus(int $userId, int $status): void
-    {
+    public function removeByUserAndStatus(
+        int $userId,
+        int $status
+    ): void {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->delete(self::CONTENT_TYPE_TABLE)
             ->where('creator_id = :user or modifier_id = :user')
@@ -1394,7 +1438,7 @@ final class DoctrineDatabase extends Gateway
             $this->cleanupAssociations();
 
             $this->connection->commit();
-        } catch (\Doctrine\DBAL\Exception $e) {
+        } catch (Exception $e) {
             $this->connection->rollBack();
 
             throw $e;
@@ -1403,12 +1447,14 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
-     * @throws \Doctrine\DBAL\Exception
+     * @throws InvalidArgumentException
+     * @throws NotImplementedException
+     * @throws Exception
      */
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
-    {
+    public function findContentTypes(
+        ?ContentTypeQuery $query = null,
+        array $prioritizedLanguages = []
+    ): array {
         $totalCount = $this->countTypes($query);
         if ($totalCount === 0) {
             return [
@@ -1533,15 +1579,17 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
-    public function removeByUserAndVersion(int $userId, int $version): void
-    {
+    public function removeByUserAndVersion(
+        int $userId,
+        int $version
+    ): void {
         $this->removeByUserAndStatus($userId, $version);
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function cleanupAssociations(): void
     {
@@ -1552,7 +1600,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function cleanupClassAttributeTable(): void
     {
@@ -1570,7 +1618,7 @@ SQL;
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function cleanupClassAttributeMLTable(): void
     {
@@ -1588,7 +1636,7 @@ SQL;
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function cleanupClassGroupTable(): void
     {
@@ -1606,7 +1654,7 @@ SQL;
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function cleanupClassNameTable(): void
     {

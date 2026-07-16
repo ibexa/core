@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class TimeTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TimeConverter */
+    /** @var TimeConverter */
     protected $converter;
 
     /** @var int */

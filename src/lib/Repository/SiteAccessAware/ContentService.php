@@ -34,17 +34,17 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 class ContentService implements ContentServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentServiceInterface */
     protected $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
+    /** @var LanguageResolver */
     protected $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.
      *
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $service
-     * @param \Ibexa\Contracts\Core\Repository\LanguageResolver $languageResolver
+     * @param ContentServiceInterface $service
+     * @param LanguageResolver $languageResolver
      */
     public function __construct(
         ContentServiceInterface $service,
@@ -72,13 +72,17 @@ class ContentService implements ContentServiceInterface
         return $this->service->loadContentInfoByRemoteId($remoteId);
     }
 
-    public function loadVersionInfo(ContentInfo $contentInfo, ?int $versionNo = null): VersionInfo
-    {
+    public function loadVersionInfo(
+        ContentInfo $contentInfo,
+        ?int $versionNo = null
+    ): VersionInfo {
         return $this->service->loadVersionInfo($contentInfo, $versionNo);
     }
 
-    public function loadVersionInfoById(int $contentId, ?int $versionNo = null): VersionInfo
-    {
+    public function loadVersionInfoById(
+        int $contentId,
+        ?int $versionNo = null
+    ): VersionInfo {
         return $this->service->loadVersionInfoById($contentId, $versionNo);
     }
 
@@ -87,8 +91,12 @@ class ContentService implements ContentServiceInterface
         return $this->service->loadVersionInfoListByContentInfo($contentInfoList);
     }
 
-    public function loadContentByContentInfo(ContentInfo $contentInfo, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content
-    {
+    public function loadContentByContentInfo(
+        ContentInfo $contentInfo,
+        ?array $languages = null,
+        ?int $versionNo = null,
+        bool $useAlwaysAvailable = true
+    ): Content {
         return $this->service->loadContentByContentInfo(
             $contentInfo,
             $this->languageResolver->getPrioritizedLanguages($languages),
@@ -97,8 +105,11 @@ class ContentService implements ContentServiceInterface
         );
     }
 
-    public function loadContentByVersionInfo(VersionInfo $versionInfo, ?array $languages = null, bool $useAlwaysAvailable = true): Content
-    {
+    public function loadContentByVersionInfo(
+        VersionInfo $versionInfo,
+        ?array $languages = null,
+        bool $useAlwaysAvailable = true
+    ): Content {
         return $this->service->loadContentByVersionInfo(
             $versionInfo,
             $this->languageResolver->getPrioritizedLanguages($languages),
@@ -106,8 +117,12 @@ class ContentService implements ContentServiceInterface
         );
     }
 
-    public function loadContent(int $contentId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content
-    {
+    public function loadContent(
+        int $contentId,
+        ?array $languages = null,
+        ?int $versionNo = null,
+        bool $useAlwaysAvailable = true
+    ): Content {
         return $this->service->loadContent(
             $contentId,
             $this->languageResolver->getPrioritizedLanguages($languages),
@@ -116,8 +131,12 @@ class ContentService implements ContentServiceInterface
         );
     }
 
-    public function loadContentByRemoteId(string $remoteId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content
-    {
+    public function loadContentByRemoteId(
+        string $remoteId,
+        ?array $languages = null,
+        ?int $versionNo = null,
+        bool $useAlwaysAvailable = true
+    ): Content {
         return $this->service->loadContentByRemoteId(
             $remoteId,
             $this->languageResolver->getPrioritizedLanguages($languages),
@@ -134,8 +153,10 @@ class ContentService implements ContentServiceInterface
         return $this->service->createContent($contentCreateStruct, $locationCreateStructs, $fieldIdentifiersToValidate);
     }
 
-    public function updateContentMetadata(ContentInfo $contentInfo, ContentMetadataUpdateStruct $contentMetadataUpdateStruct): Content
-    {
+    public function updateContentMetadata(
+        ContentInfo $contentInfo,
+        ContentMetadataUpdateStruct $contentMetadataUpdateStruct
+    ): Content {
         return $this->service->updateContentMetadata($contentInfo, $contentMetadataUpdateStruct);
     }
 
@@ -159,18 +180,26 @@ class ContentService implements ContentServiceInterface
         return $this->service->countContentDrafts($user);
     }
 
-    public function loadContentDraftList(?User $user = null, int $offset = 0, int $limit = -1): ContentDraftList
-    {
+    public function loadContentDraftList(
+        ?User $user = null,
+        int $offset = 0,
+        int $limit = -1
+    ): ContentDraftList {
         return $this->service->loadContentDraftList($user, $offset, $limit);
     }
 
-    public function updateContent(VersionInfo $versionInfo, ContentUpdateStruct $contentUpdateStruct, ?array $fieldIdentifiersToValidate = null): Content
-    {
+    public function updateContent(
+        VersionInfo $versionInfo,
+        ContentUpdateStruct $contentUpdateStruct,
+        ?array $fieldIdentifiersToValidate = null
+    ): Content {
         return $this->service->updateContent($versionInfo, $contentUpdateStruct, $fieldIdentifiersToValidate);
     }
 
-    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): Content
-    {
+    public function publishVersion(
+        VersionInfo $versionInfo,
+        array $translations = Language::ALL
+    ): Content {
         return $this->service->publishVersion($versionInfo, $translations);
     }
 
@@ -179,18 +208,25 @@ class ContentService implements ContentServiceInterface
         $this->service->deleteVersion($versionInfo);
     }
 
-    public function loadVersions(ContentInfo $contentInfo, ?int $status = null): iterable
-    {
+    public function loadVersions(
+        ContentInfo $contentInfo,
+        ?int $status = null
+    ): iterable {
         return $this->service->loadVersions($contentInfo, $status);
     }
 
-    public function copyContent(ContentInfo $contentInfo, LocationCreateStruct $destinationLocationCreateStruct, ?VersionInfo $versionInfo = null): Content
-    {
+    public function copyContent(
+        ContentInfo $contentInfo,
+        LocationCreateStruct $destinationLocationCreateStruct,
+        ?VersionInfo $versionInfo = null
+    ): Content {
         return $this->service->copyContent($contentInfo, $destinationLocationCreateStruct, $versionInfo);
     }
 
-    public function countRelations(VersionInfo $versionInfo, ?RelationType $type = null): int
-    {
+    public function countRelations(
+        VersionInfo $versionInfo,
+        ?RelationType $type = null
+    ): int {
         return $this->service->countRelations($versionInfo, $type);
     }
 
@@ -206,13 +242,17 @@ class ContentService implements ContentServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function countReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): int
-    {
+    public function countReverseRelations(
+        ContentInfo $contentInfo,
+        ?RelationType $type = null
+    ): int {
         return $this->service->countReverseRelations($contentInfo, $type);
     }
 
-    public function loadReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): iterable
-    {
+    public function loadReverseRelations(
+        ContentInfo $contentInfo,
+        ?RelationType $type = null
+    ): iterable {
         return $this->service->loadReverseRelations($contentInfo, $type);
     }
 
@@ -225,28 +265,39 @@ class ContentService implements ContentServiceInterface
         return $this->service->loadReverseRelationList($contentInfo, $offset, $limit, $type);
     }
 
-    public function addRelation(VersionInfo $sourceVersion, ContentInfo $destinationContent): Relation
-    {
+    public function addRelation(
+        VersionInfo $sourceVersion,
+        ContentInfo $destinationContent
+    ): Relation {
         return $this->service->addRelation($sourceVersion, $destinationContent);
     }
 
-    public function deleteRelation(VersionInfo $sourceVersion, ContentInfo $destinationContent): void
-    {
+    public function deleteRelation(
+        VersionInfo $sourceVersion,
+        ContentInfo $destinationContent
+    ): void {
         $this->service->deleteRelation($sourceVersion, $destinationContent);
     }
 
-    public function deleteTranslation(ContentInfo $contentInfo, string $languageCode): void
-    {
+    public function deleteTranslation(
+        ContentInfo $contentInfo,
+        string $languageCode
+    ): void {
         $this->service->deleteTranslation($contentInfo, $languageCode);
     }
 
-    public function deleteTranslationFromDraft(VersionInfo $versionInfo, string $languageCode): Content
-    {
+    public function deleteTranslationFromDraft(
+        VersionInfo $versionInfo,
+        string $languageCode
+    ): Content {
         return $this->service->deleteTranslationFromDraft($versionInfo, $languageCode);
     }
 
-    public function loadContentListByContentInfo(array $contentInfoList, ?array $languages = null, bool $useAlwaysAvailable = true): iterable
-    {
+    public function loadContentListByContentInfo(
+        array $contentInfoList,
+        ?array $languages = null,
+        bool $useAlwaysAvailable = true
+    ): iterable {
         return $this->service->loadContentListByContentInfo(
             $contentInfoList,
             $this->languageResolver->getPrioritizedLanguages($languages),
@@ -264,8 +315,10 @@ class ContentService implements ContentServiceInterface
         $this->service->revealContent($contentInfo);
     }
 
-    public function newContentCreateStruct(ContentType $contentType, string $mainLanguageCode): ContentCreateStruct
-    {
+    public function newContentCreateStruct(
+        ContentType $contentType,
+        string $mainLanguageCode
+    ): ContentCreateStruct {
         return $this->service->newContentCreateStruct($contentType, $mainLanguageCode);
     }
 
@@ -287,16 +340,21 @@ class ContentService implements ContentServiceInterface
         return $this->service->validate($object, $context, $fieldIdentifiersToValidate);
     }
 
-    public function find(Filter $filter, ?array $languages = null): ContentList
-    {
+    public function find(
+        Filter $filter,
+        ?array $languages = null
+    ): ContentList {
         return $this->service->find(
             $filter,
             $this->languageResolver->getPrioritizedLanguages($languages)
         );
     }
 
-    public function count(Filter $filter, ?array $languages = null, ?int $limit = null): int
-    {
+    public function count(
+        Filter $filter,
+        ?array $languages = null,
+        ?int $limit = null
+    ): int {
         return $this->service->count(
             $filter,
             $this->languageResolver->getPrioritizedLanguages($languages),

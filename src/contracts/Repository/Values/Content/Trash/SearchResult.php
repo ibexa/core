@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Trash;
 
 use ArrayIterator;
+use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Traversable;
 
@@ -24,7 +25,7 @@ class SearchResult extends ValueObject implements \IteratorAggregate
     /**
      * The Trash items found for the query.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem[]
+     * @var TrashItem[]
      */
     public array $items = [];
 

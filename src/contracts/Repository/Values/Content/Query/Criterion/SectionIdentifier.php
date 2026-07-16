@@ -17,13 +17,13 @@ class SectionIdentifier extends Criterion implements FilteringCriterion
     /**
      * @param string|string[] $value
      */
-    public function __construct(string|array $value)
+    public function __construct(string | array $value)
     {
         parent::__construct(null, null, $value);
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications[]
+     * @return Specifications[]
      */
     public function getSpecifications(): array
     {

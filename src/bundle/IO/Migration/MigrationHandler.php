@@ -31,8 +31,8 @@ abstract class MigrationHandler implements MigrationHandlerInterface, LoggerAwar
     protected IOBinarydataHandler $toBinarydataHandler;
 
     /**
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler> $metadataHandlerRegistry
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler> $binarydataHandlerRegistry
+     * @param HandlerRegistry<IOMetadataHandler> $metadataHandlerRegistry
+     * @param HandlerRegistry<IOBinarydataHandler> $binarydataHandlerRegistry
      */
     public function __construct(
         private readonly HandlerRegistry $metadataHandlerRegistry,

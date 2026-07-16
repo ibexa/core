@@ -21,7 +21,7 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 final class VersionValidator implements ContentValidator
 {
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
+    /** @var FieldTypeRegistry */
     private $fieldTypeRegistry;
 
     public function __construct(
@@ -37,7 +37,7 @@ final class VersionValidator implements ContentValidator
 
     /**
      * @phpstan-param array{
-     *     content?: \Ibexa\Contracts\Core\Repository\Values\Content\Content,
+     *     content?: Content,
      *     translations?: string[],
      * } $context
      */

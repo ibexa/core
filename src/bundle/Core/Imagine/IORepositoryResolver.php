@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Variation\PathResolver;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Contracts\Core\Variation\VariationPurger;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
@@ -37,13 +38,17 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
         parent::__construct($requestContext, $variationPathGenerator);
     }
 
-    public function isStored($path, $filter): bool
-    {
+    public function isStored(
+        $path,
+        $filter
+    ): bool {
         return $this->ioService->exists($this->getFilePath($path, $filter));
     }
 
-    public function resolve($path, $filter): string
-    {
+    public function resolve(
+        $path,
+        $filter
+    ): string {
         try {
             $binaryFile = $this->ioService->loadBinaryFile($path);
 
@@ -74,10 +79,13 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
      * Stores image alias in the IO Repository.
      * A temporary file is created to dump the filtered image and is used as basis for creation in the IO Repository.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function store(BinaryInterface $binary, $path, $filter): void
-    {
+    public function store(
+        BinaryInterface $binary,
+        $path,
+        $filter
+    ): void {
         $tmpFile = tmpfile();
         fwrite($tmpFile, $binary->getContent());
         $tmpMetadata = stream_get_meta_data($tmpFile);
@@ -98,8 +106,10 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
      * @param string[] $paths The paths where the original files are expected to be.
      * @param string[] $filters The imagine filters in effect.
      */
-    public function remove(array $paths, array $filters): void
-    {
+    public function remove(
+        array $paths,
+        array $filters
+    ): void {
         if (empty($filters)) {
             $filters = array_keys($this->filterConfiguration->all());
         }

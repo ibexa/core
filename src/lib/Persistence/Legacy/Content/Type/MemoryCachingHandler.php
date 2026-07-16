@@ -95,7 +95,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
+     * @return Group[]
      */
     public function loadGroups(array $groupIds): array
     {
@@ -138,7 +138,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
+     * @return Group[]
      */
     public function loadAllGroups(): array
     {
@@ -154,10 +154,12 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return Type[]
      */
-    public function loadContentTypes($groupId, $status = Type::STATUS_DEFINED): array
-    {
+    public function loadContentTypes(
+        $groupId,
+        $status = Type::STATUS_DEFINED
+    ): array {
         if ($status !== Type::STATUS_DEFINED) {
             return $this->innerHandler->loadContentTypes($groupId, $status);
         }
@@ -173,13 +175,15 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $types;
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
-    {
+    public function findContentTypes(
+        ?ContentTypeQuery $query = null,
+        array $prioritizedLanguages = []
+    ): array {
         return $this->innerHandler->findContentTypes($query, $prioritizedLanguages);
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return Type[]
      */
     public function loadContentTypeList(array $contentTypeIds): array
     {
@@ -232,8 +236,10 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     /**
      * {@inheritdoc}
      */
-    public function load($contentTypeId, $status = Type::STATUS_DEFINED)
-    {
+    public function load(
+        $contentTypeId,
+        $status = Type::STATUS_DEFINED
+    ) {
         $contentType = $this->cache->get(
             $this->generator->generateKey(self::CONTENT_TYPE, [$contentTypeId], true) . '-' . $status
         );
@@ -285,22 +291,29 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $contentType;
     }
 
-    public function update($typeId, $status, UpdateStruct $contentType): Type
-    {
+    public function update(
+        $typeId,
+        $status,
+        UpdateStruct $contentType
+    ): Type {
         $contentType = $this->innerHandler->update($typeId, $status, $contentType);
         $this->storeTypeCache([$contentType]);
 
         return $contentType;
     }
 
-    public function delete($contentTypeId, $status): void
-    {
+    public function delete(
+        $contentTypeId,
+        $status
+    ): void {
         $this->innerHandler->delete($contentTypeId, $status);
         $this->deleteTypeCache($contentTypeId, $status);
     }
 
-    public function createDraft($modifierId, $contentTypeId): Type
-    {
+    public function createDraft(
+        $modifierId,
+        $contentTypeId
+    ): Type {
         $contentType = $this->innerHandler->createDraft($modifierId, $contentTypeId);
         // Don't store as FieldTypeConstraints is not setup fully here from Legacy SE side
         $this->deleteTypeCache($contentType->id, $contentType->status);
@@ -308,16 +321,22 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $contentType;
     }
 
-    public function copy($userId, $contentTypeId, $status): Type
-    {
+    public function copy(
+        $userId,
+        $contentTypeId,
+        $status
+    ): Type {
         $contentType = $this->innerHandler->copy($userId, $contentTypeId, $status);
         $this->storeTypeCache([$contentType]);
 
         return $contentType;
     }
 
-    public function unlink($groupId, $contentTypeId, $status): bool
-    {
+    public function unlink(
+        $groupId,
+        $contentTypeId,
+        $status
+    ): bool {
         $keys = [
             $this->generator->generateKey(self::CONTENT_TYPE, [$contentTypeId], true) . '-' . $status,
         ];
@@ -331,8 +350,11 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $this->innerHandler->unlink($groupId, $contentTypeId, $status);
     }
 
-    public function link($groupId, $contentTypeId, $status): bool
-    {
+    public function link(
+        $groupId,
+        $contentTypeId,
+        $status
+    ): bool {
         $keys = [
             $this->generator->generateKey(self::CONTENT_TYPE, [$contentTypeId], true) . '-' . $status,
         ];
@@ -346,8 +368,10 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $this->innerHandler->link($groupId, $contentTypeId, $status);
     }
 
-    public function getFieldDefinition($id, $status): FieldDefinition
-    {
+    public function getFieldDefinition(
+        $id,
+        $status
+    ): FieldDefinition {
         return $this->innerHandler->getFieldDefinition($id, $status);
     }
 
@@ -356,8 +380,11 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $this->innerHandler->getContentCount($contentTypeId);
     }
 
-    public function addFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition)
-    {
+    public function addFieldDefinition(
+        $contentTypeId,
+        $status,
+        FieldDefinition $fieldDefinition
+    ) {
         $this->deleteTypeCache($contentTypeId, $status);
 
         return $this->innerHandler->addFieldDefinition($contentTypeId, $status, $fieldDefinition);
@@ -372,8 +399,11 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         $this->innerHandler->removeFieldDefinition($contentTypeId, $status, $fieldDefinition);
     }
 
-    public function updateFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition): void
-    {
+    public function updateFieldDefinition(
+        $contentTypeId,
+        $status,
+        FieldDefinition $fieldDefinition
+    ): void {
         $this->deleteTypeCache($contentTypeId, $status);
 
         $this->innerHandler->updateFieldDefinition($contentTypeId, $status, $fieldDefinition);
@@ -409,8 +439,10 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $map;
     }
 
-    public function removeContentTypeTranslation(int $contentTypeId, string $languageCode): Type
-    {
+    public function removeContentTypeTranslation(
+        int $contentTypeId,
+        string $languageCode
+    ): Type {
         $this->clearCache();
 
         return $this->innerHandler->removeContentTypeTranslation($contentTypeId, $languageCode);
@@ -424,8 +456,10 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         $this->cache->clear();
     }
 
-    protected function deleteTypeCache(int $contentTypeId, int $status = Type::STATUS_DEFINED): void
-    {
+    protected function deleteTypeCache(
+        int $contentTypeId,
+        int $status = Type::STATUS_DEFINED
+    ): void {
         if ($status !== Type::STATUS_DEFINED) {
             // Delete by primary key will remove the object, so we don't need to clear other variants here.
             $this->cache->deleteMulti([
@@ -438,8 +472,10 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         }
     }
 
-    protected function storeTypeCache(array $types, ?string $listIndex = null): void
-    {
+    protected function storeTypeCache(
+        array $types,
+        ?string $listIndex = null
+    ): void {
         $this->cache->setMulti(
             $types,
             function (Type $type): array {
@@ -467,8 +503,10 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         ]);
     }
 
-    protected function storeGroupCache(array $groups, ?string $listIndex = null): void
-    {
+    protected function storeGroupCache(
+        array $groups,
+        ?string $listIndex = null
+    ): void {
         $this->cache->setMulti(
             $groups,
             function (Group $group): array {
@@ -482,8 +520,10 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         );
     }
 
-    public function deleteByUserAndStatus(int $userId, int $status): void
-    {
+    public function deleteByUserAndStatus(
+        int $userId,
+        int $status
+    ): void {
         $this->innerHandler->deleteByUserAndStatus($userId, $status);
     }
 }

@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Psr\Log\LoggerInterface;
@@ -22,20 +23,24 @@ use Symfony\Component\Routing\RouterInterface;
 
 class RequestEventListener implements EventSubscriberInterface
 {
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     /** @var string */
     private $defaultSiteAccess;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
+    /** @var RouterInterface */
     private $router;
 
-    public function __construct(ConfigResolverInterface $configResolver, RouterInterface $router, $defaultSiteAccess, ?LoggerInterface $logger = null)
-    {
+    public function __construct(
+        ConfigResolverInterface $configResolver,
+        RouterInterface $router,
+        $defaultSiteAccess,
+        ?LoggerInterface $logger = null
+    ) {
         $this->configResolver = $configResolver;
         $this->defaultSiteAccess = $defaultSiteAccess;
         $this->router = $router;
@@ -53,7 +58,7 @@ class RequestEventListener implements EventSubscriberInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+     * @param RequestEvent $event
      */
     public function onKernelRequestForward(RequestEvent $event)
     {
@@ -102,9 +107,9 @@ class RequestEventListener implements EventSubscriberInterface
      *
      * Note: The event propagation will be stopped to ensure that no response can be set later and override the redirection.
      *
-     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+     * @param RequestEvent $event
      *
-     * @see \Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter
+     * @see UrlAliasRouter
      */
     public function onKernelRequestRedirect(RequestEvent $event)
     {

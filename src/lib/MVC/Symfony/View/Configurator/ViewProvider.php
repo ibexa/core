@@ -19,13 +19,13 @@ use Ibexa\Core\MVC\Symfony\View\View;
  */
 class ViewProvider implements Configurator
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Provider\Registry */
+    /** @var Registry */
     private $providerRegistry;
 
     /**
      * ViewProvider constructor.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\Provider\Registry $providersRegistry
+     * @param Registry $providersRegistry
      */
     public function __construct(Registry $providersRegistry)
     {

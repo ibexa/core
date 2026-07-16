@@ -26,8 +26,10 @@ final class DefaultSortClauseParser implements SortClauseParserInterface
         $this->valueObjectClassMap = $valueObjectClassMap;
     }
 
-    public function parse(SortSpecParserInterface $parser, string $name): SortClause
-    {
+    public function parse(
+        SortSpecParserInterface $parser,
+        string $name
+    ): SortClause {
         if (isset($this->valueObjectClassMap[$name])) {
             $class = $this->valueObjectClassMap[$name];
 

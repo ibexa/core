@@ -66,8 +66,11 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
      * @param TFieldsData $fieldsData
      * @param array<string, string> $namesData
      */
-    protected function getContent(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): Content
-    {
+    protected function getContent(
+        string $contentTypeIdentifier,
+        array $fieldsData,
+        array $namesData = []
+    ): Content {
         $contentTypeId = $this->getContentTypeId($contentTypeIdentifier);
 
         $fields = $this->buildFieldsFromData($fieldsData, $contentTypeIdentifier);
@@ -101,8 +104,11 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
      * @param array<string, mixed>  $fieldsData
      * @param array<mixed>  $namesData
      */
-    protected function getContentAwareObject(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): ContentAwareInterface
-    {
+    protected function getContentAwareObject(
+        string $contentTypeIdentifier,
+        array $fieldsData,
+        array $namesData = []
+    ): ContentAwareInterface {
         $content = $this->getContent($contentTypeIdentifier, $fieldsData, $namesData);
 
         $mock = $this->createMock(ContentAwareInterface::class);

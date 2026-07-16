@@ -20,7 +20,7 @@ final class TwigVariableProviderExtension implements ExpressionFunctionProviderI
     public const VIEW_PARAMETER = 'view';
 
     /**
-     * @return \Symfony\Component\ExpressionLanguage\ExpressionFunction[]
+     * @return ExpressionFunction[]
      */
     public function getFunctions(): array
     {
@@ -30,7 +30,10 @@ final class TwigVariableProviderExtension implements ExpressionFunctionProviderI
                 static function (string $identifier): string {
                     return 'Not implemented: Not a Dependency Injection expression';
                 },
-                function (array $variables, string $identifier) {
+                function (
+                    array $variables,
+                    string $identifier
+                ) {
                     if (!$this->hasParameterProvider($variables)) {
                         throw new InvalidArgumentException(
                             self::PROVIDER_REGISTRY_PARAMETER,

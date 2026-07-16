@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -20,9 +22,8 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  */
 final class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
-    private const string MATCHER_NORMALIZER_ALREADY_WORKED = self::class . '_ALREADY_CALLED';
-
     use DenormalizerAwareTrait;
+    private const string MATCHER_NORMALIZER_ALREADY_WORKED = self::class . '_ALREADY_CALLED';
 
     private SiteAccessMatcherRegistryInterface $registry;
 
@@ -32,11 +33,15 @@ final class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAw
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws NotFoundException
+     * @throws ExceptionInterface
      */
-    public function denormalize($data, string $type, ?string $format = null, array $context = []): object
-    {
+    public function denormalize(
+        $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): object {
         $matcher = $this->registry->getMatcher($type);
 
         return $this->denormalizer->denormalize($data, $type, $format, $context + [
@@ -48,8 +53,12 @@ final class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAw
     /**
      * @phpstan-param array<string, mixed> $context
      */
-    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
-    {
+    public function supportsDenormalization(
+        $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         if ($context[self::MATCHER_NORMALIZER_ALREADY_WORKED] ?? false) {
             return false;
         }

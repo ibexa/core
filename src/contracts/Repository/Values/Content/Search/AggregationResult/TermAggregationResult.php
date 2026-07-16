@@ -24,14 +24,16 @@ use IteratorAggregate;
  */
 class TermAggregationResult extends AggregationResult implements IteratorAggregate, Countable
 {
-    /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>[] */
+    /** @phpstan-var TermAggregationResultEntry<TKey>[] */
     private iterable $entries;
 
     /**
-     * @phpstan-param iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>> $entries
+     * @phpstan-param iterable<TermAggregationResultEntry<TKey>> $entries
      */
-    public function __construct(string $name, iterable $entries = [])
-    {
+    public function __construct(
+        string $name,
+        iterable $entries = []
+    ) {
         parent::__construct($name);
 
         $this->entries = $entries;
@@ -43,7 +45,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     }
 
     /**
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>[]
+     * @phpstan-return TermAggregationResultEntry<TKey>[]
      */
     public function getEntries(): iterable
     {
@@ -53,7 +55,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     /**
      * @phpstan-param TKey $key
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>|null
+     * @phpstan-return TermAggregationResultEntry<TKey>|null
      */
     public function getEntry(mixed $key): ?TermAggregationResultEntry
     {
@@ -105,12 +107,14 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     /**
      * Creates a TermAggregationResult from an Aggregation object.
      *
-     * @phpstan-param iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>> $entries
+     * @phpstan-param iterable<TermAggregationResultEntry<TKey>> $entries
      *
      * @phpstan-return self<TKey>
      */
-    public static function createForAggregation(Aggregation $aggregation, iterable $entries = []): self
-    {
+    public static function createForAggregation(
+        Aggregation $aggregation,
+        iterable $entries = []
+    ): self {
         return new self($aggregation->getName(), $entries);
     }
 }

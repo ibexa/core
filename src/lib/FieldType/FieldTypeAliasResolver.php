@@ -12,8 +12,7 @@ final readonly class FieldTypeAliasResolver implements FieldTypeAliasResolverInt
 {
     public function __construct(
         private FieldTypeAliasRegistry $fieldTypeAliasRegistry,
-    ) {
-    }
+    ) {}
 
     public function resolveIdentifier(string $alias): string
     {

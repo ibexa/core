@@ -21,8 +21,10 @@ final class BeforeUpdateUrlEvent extends BeforeEvent
 
     private ?URL $updatedUrl = null;
 
-    public function __construct(URL $url, URLUpdateStruct $struct)
-    {
+    public function __construct(
+        URL $url,
+        URLUpdateStruct $struct
+    ) {
         $this->url = $url;
         $this->struct = $struct;
     }

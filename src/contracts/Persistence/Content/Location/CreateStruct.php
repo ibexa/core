@@ -8,6 +8,7 @@
 namespace Ibexa\Contracts\Core\Persistence\Content\Location;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 class CreateStruct extends ValueObject
 {
@@ -48,7 +49,7 @@ class CreateStruct extends ValueObject
     /**
      * Content ID.
      *
-     * ID of the corresponding {@see \Ibexa\Contracts\Core\Repository\Values\Content\Content}.
+     * ID of the corresponding {@see Content}.
      *
      * @var int
      */
@@ -57,7 +58,7 @@ class CreateStruct extends ValueObject
     /**
      * Content version.
      *
-     * Version of the corresponding {@see \Ibexa\Contracts\Core\Repository\Values\Content\Content}.
+     * Version of the corresponding {@see Content}.
      *
      * @todo Rename to $contentVersionNo?
      *

@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Collection;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
+
 /**
  * @template TValue
  *
@@ -20,7 +22,7 @@ interface ListInterface extends CollectionInterface
      *
      * @return TValue
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException if collection is empty
+     * @throws OutOfBoundsException if collection is empty
      */
     public function first(): mixed;
 
@@ -29,7 +31,7 @@ interface ListInterface extends CollectionInterface
      *
      * @return TValue
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException if collection is empty
+     * @throws OutOfBoundsException if collection is empty
      */
     public function last(): mixed;
 

@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
@@ -16,6 +17,7 @@ use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Core\Persistence\Cache\ContentHandler;
 use Ibexa\Core\Persistence\Cache\LocationHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Persistence\Cache\SectionHandler.
@@ -81,7 +83,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $contentId = 42;
         $roleId = 1;
 
-        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerHandler = $this->setUpRoleAssignmentInvalidation($locationId, $contentId, $roleId);
 
@@ -96,10 +98,13 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
-    private function setUpRoleAssignmentInvalidation(int $locationId, int $contentId, int $roleId): object
-    {
+    private function setUpRoleAssignmentInvalidation(
+        int $locationId,
+        int $contentId,
+        int $roleId
+    ): object {
         $tags = [
             'c-' . $contentId,
             'lp-' . $locationId,
@@ -227,7 +232,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             ->method('invalidateTags')
             ->with($tags);
 
-        /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler $handler */
+        /** @var Handler $handler */
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
         $handler->deleteTrashItem($trashedId);
     }
@@ -291,7 +296,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             ->method('invalidateTags')
             ->with($tags);
 
-        /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler $handler */
+        /** @var Handler $handler */
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
         $handler->emptyTrash();
     }

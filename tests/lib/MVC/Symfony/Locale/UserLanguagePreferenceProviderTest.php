@@ -12,6 +12,8 @@ use Ibexa\Contracts\Core\Repository\UserPreferenceService;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProvider;
+use Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProviderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,13 +26,13 @@ class UserLanguagePreferenceProviderTest extends TestCase
     private const LANGUAGE_PREFERENCE_NAME = 'language';
     private const LANGUAGE_PREFERENCE_VALUE = 'no';
 
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProviderInterface */
+    /** @var UserLanguagePreferenceProviderInterface */
     private $userLanguagePreferenceProvider;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\HttpFoundation\RequestStack */
+    /** @var MockObject|RequestStack */
     private $requestStackMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserPreferenceService */
+    /** @var UserPreferenceService */
     private $userPreferenceServiceMock;
 
     protected function setUp(): void
@@ -62,8 +64,10 @@ class UserLanguagePreferenceProviderTest extends TestCase
      * @param array $userLanguages
      * @param array $expectedEzLanguageCodes
      */
-    public function testGetPreferredLanguagesWithoutUserLanguage(array $userLanguages, array $expectedEzLanguageCodes): void
-    {
+    public function testGetPreferredLanguagesWithoutUserLanguage(
+        array $userLanguages,
+        array $expectedEzLanguageCodes
+    ): void {
         $request = new Request();
         $request->headers = new HeaderBag(
             [
@@ -101,8 +105,10 @@ class UserLanguagePreferenceProviderTest extends TestCase
      * @param array $userLanguages
      * @param array $expectedEzLanguageCodes
      */
-    public function testGetPreferredLanguagesWithUserPreferredLanguage(array $userLanguages, array $expectedEzLanguageCodes): void
-    {
+    public function testGetPreferredLanguagesWithUserPreferredLanguage(
+        array $userLanguages,
+        array $expectedEzLanguageCodes
+    ): void {
         $request = new Request();
         $request->headers = new HeaderBag(
             [

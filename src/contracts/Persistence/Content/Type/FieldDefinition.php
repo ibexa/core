@@ -100,14 +100,14 @@ class FieldDefinition extends ValueObject
      *   - validators
      *   - fieldSettings.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints
+     * @var FieldTypeConstraints
      */
     public $fieldTypeConstraints;
 
     /**
      * Default value of the field.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @var FieldValue
      */
     public $defaultValue;
 

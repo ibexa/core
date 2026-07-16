@@ -20,8 +20,10 @@ final class SpellcheckResult
      */
     private bool $incorrect;
 
-    public function __construct(?string $query, bool $incorrect = true)
-    {
+    public function __construct(
+        ?string $query,
+        bool $incorrect = true
+    ) {
         $this->query = $query;
         $this->incorrect = $incorrect;
     }

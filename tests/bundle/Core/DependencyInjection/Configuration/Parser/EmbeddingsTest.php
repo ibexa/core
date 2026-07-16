@@ -77,8 +77,10 @@ final class EmbeddingsTest extends AbstractParserTestCase
      *
      * @dataProvider embeddingsSettingsProvider
      */
-    public function testEmbeddingsSettings(array $config, array $expected): void
-    {
+    public function testEmbeddingsSettings(
+        array $config,
+        array $expected
+    ): void {
         $this->load(
             [
                 'system' => [

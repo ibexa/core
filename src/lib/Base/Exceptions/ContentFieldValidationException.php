@@ -57,8 +57,10 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *
      * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
      */
-    public static function createNewWithMultiline(array $errors, ?string $contentName = null): self
-    {
+    public static function createNewWithMultiline(
+        array $errors,
+        ?string $contentName = null
+    ): self {
         $exception = new self($errors);
         $exception->contentName = $contentName;
 
@@ -104,7 +106,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     }
 
     /**
-     * @return array<\Ibexa\Contracts\Core\Repository\Values\Translation>
+     * @return array<Translation>
      */
     private function collectValidationErrors(): array
     {

@@ -11,11 +11,13 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextu
 
 abstract class AbstractParser implements ParserInterface
 {
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
-    {
-    }
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {}
 
-    public function postMap(array $config, ContextualizerInterface $contextualizer)
-    {
-    }
+    public function postMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {}
 }

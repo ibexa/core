@@ -26,7 +26,7 @@ use Ibexa\Core\Repository\Values\User\User;
 class StatusLimitationTypeTest extends Base
 {
     /**
-     * @return \Ibexa\Core\Limitation\StatusLimitationType
+     * @return StatusLimitationType
      */
     public function testConstruct()
     {
@@ -60,11 +60,13 @@ class StatusLimitationTypeTest extends Base
      *
      * @dataProvider providerForTestAcceptValue
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation $limitation
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitation $limitation
+     * @param StatusLimitationType $limitationType
      */
-    public function testAcceptValue(StatusLimitation $limitation, StatusLimitationType $limitationType)
-    {
+    public function testAcceptValue(
+        StatusLimitation $limitation,
+        StatusLimitationType $limitationType
+    ) {
         $limitationType->acceptValue($limitation);
     }
 
@@ -84,11 +86,13 @@ class StatusLimitationTypeTest extends Base
      *
      * @dataProvider providerForTestAcceptValueException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param StatusLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, StatusLimitationType $limitationType)
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        StatusLimitationType $limitationType
+    ) {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -153,12 +157,15 @@ class StatusLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation $limitation
+     * @param StatusLimitation $limitation
      * @param int $errorCount
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitationType $limitationType
      */
-    public function testValidateError(StatusLimitation $limitation, $errorCount, StatusLimitationType $limitationType)
-    {
+    public function testValidateError(
+        StatusLimitation $limitation,
+        $errorCount,
+        StatusLimitationType $limitationType
+    ) {
         $validationErrors = $limitationType->validate($limitation);
         self::assertCount($errorCount, $validationErrors);
     }
@@ -166,7 +173,7 @@ class StatusLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitationType $limitationType
      */
     public function testBuildValue(StatusLimitationType $limitationType)
     {
@@ -337,7 +344,7 @@ class StatusLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitationType $limitationType
      */
     public function testGetCriterion(StatusLimitationType $limitationType)
     {
@@ -349,7 +356,7 @@ class StatusLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitationType $limitationType
      */
     public function testValueSchema(StatusLimitationType $limitationType)
     {

@@ -25,6 +25,7 @@ use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -38,25 +39,25 @@ class ContentViewBuilderTest extends TestCase
 {
     private const int EXAMPLE_LOCATION_ID = 743;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Repository\Repository|MockObject */
     private $repository;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Configurator|MockObject */
     private $viewConfigurator;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\ParametersInjector|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ParametersInjector|MockObject */
     private $parametersInjector;
 
-    /** @var \Ibexa\Core\Helper\ContentInfoLocationLoader|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentInfoLocationLoader|MockObject */
     private $contentInfoLocationLoader;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentViewBuilder|MockObject */
     private $contentViewBuilder;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
-    /** @var \Symfony\Component\HttpFoundation\RequestStack|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var RequestStack|MockObject */
     private $requestStack;
 
     protected function setUp(): void
@@ -317,7 +318,7 @@ class ContentViewBuilderTest extends TestCase
             [
                 'invisible' => false,
                 'contentInfo' => new ContentInfo([
-                   'id' => 120,
+                    'id' => 120,
                 ]),
                 'content' => new Content([
                     'versionInfo' => new VersionInfo([

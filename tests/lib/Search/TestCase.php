@@ -12,6 +12,4 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 /**
  * Base test case for Search Engine related tests.
  */
-abstract class TestCase extends BaseTestCase
-{
-}
+abstract class TestCase extends BaseTestCase {}

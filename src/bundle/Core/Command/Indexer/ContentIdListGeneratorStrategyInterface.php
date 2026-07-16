@@ -18,5 +18,8 @@ interface ContentIdListGeneratorStrategyInterface
 {
     public function shouldPurgeIndex(InputInterface $input): bool;
 
-    public function getBatchList(InputInterface $input, int $batchSize): ContentIdBatchList;
+    public function getBatchList(
+        InputInterface $input,
+        int $batchSize
+    ): ContentIdBatchList;
 }

@@ -14,8 +14,10 @@ final class AndSpecification extends AbstractSpecification
 
     private SpecificationInterface $two;
 
-    public function __construct(SpecificationInterface $one, SpecificationInterface $two)
-    {
+    public function __construct(
+        SpecificationInterface $one,
+        SpecificationInterface $two
+    ) {
         $this->one = $one;
         $this->two = $two;
     }

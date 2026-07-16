@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\ObjectState;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 /**
  * Base class for Object State gateways.
@@ -58,19 +59,25 @@ abstract class Gateway
     /**
      * Load data for all object state groups, filtered by $offset and $limit.
      */
-    abstract public function loadObjectStateGroupListData(int $offset, int $limit): array;
+    abstract public function loadObjectStateGroupListData(
+        int $offset,
+        int $limit
+    ): array;
 
     /**
      * Insert a new object state into database.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    abstract public function insertObjectState(ObjectState $objectState, int $groupId): void;
+    abstract public function insertObjectState(
+        ObjectState $objectState,
+        int $groupId
+    ): void;
 
     /**
      * Update the stored object state with provided data.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function updateObjectState(ObjectState $objectState): void;
 
@@ -82,7 +89,10 @@ abstract class Gateway
     /**
      * Update object state links from $oldStateId to $newStateId.
      */
-    abstract public function updateObjectStateLinks(int $oldStateId, int $newStateId): void;
+    abstract public function updateObjectStateLinks(
+        int $oldStateId,
+        int $newStateId
+    ): void;
 
     /**
      * Delete object state links identified by $stateId.
@@ -92,14 +102,14 @@ abstract class Gateway
     /**
      * Insert a new object state group into database.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if Object State Group language does not exist
+     * @throws NotFoundException if Object State Group language does not exist
      */
     abstract public function insertObjectStateGroup(Group $objectStateGroup): void;
 
     /**
      * Update the stored object state group with provided data.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function updateObjectStateGroup(Group $objectStateGroup): void;
 
@@ -111,7 +121,11 @@ abstract class Gateway
     /**
      * Set the object state $stateId to content with $contentId ID.
      */
-    abstract public function setContentState(int $contentId, int $groupId, int $stateId): void;
+    abstract public function setContentState(
+        int $contentId,
+        int $groupId,
+        int $stateId
+    ): void;
 
     /**
      * Load object state data for $contentId content from $stateGroupId state group.
@@ -129,5 +143,8 @@ abstract class Gateway
     /**
      * Update the object state priority to provided value.
      */
-    abstract public function updateObjectStatePriority(int $stateId, int $priority): void;
+    abstract public function updateObjectStatePriority(
+        int $stateId,
+        int $priority
+    ): void;
 }

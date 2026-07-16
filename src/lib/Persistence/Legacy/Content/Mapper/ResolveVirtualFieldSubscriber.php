@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\NullStorage;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
@@ -73,7 +74,7 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
+     * @throws NotFound
      */
     public function persistExternalStorageField(ResolveMissingFieldEvent $event): void
     {
@@ -174,7 +175,7 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function createEmptyField(
         VersionInfo $versionInfo,
@@ -192,7 +193,7 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function getDefaultValue(FieldDefinition $fieldDefinition): FieldValue
     {

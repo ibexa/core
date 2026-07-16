@@ -12,11 +12,13 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\AliasCleanerInterface;
 use Ibexa\Core\FieldType\Image\ImageStorage;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\FieldType\Image\PathGenerator;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
+use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
@@ -72,11 +74,13 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
     /**
      * @dataProvider providerOfFieldData
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws InvalidArgumentException
+     * @throws InvalidBinaryFileIdException
      */
-    public function testStoreFieldDataDuringCreate(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataDuringCreate(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $binaryFile = $this->runCommonStoreFieldDataMocks($field);
 
         $this->redecorator
@@ -95,8 +99,10 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
      *
      * @depends testStoreFieldDataDuringCreate
      */
-    public function testStoreFieldDataDuringUpdate(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataDuringUpdate(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $binaryFile = $this->runCommonStoreFieldDataMocks($field);
 
         $this->redecorator
@@ -115,8 +121,10 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
      *
      * @depends testStoreFieldDataDuringUpdate
      */
-    public function testStoreFieldDataDuringUpdateWithDifferentImage(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataDuringUpdateWithDifferentImage(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $versionInfo->versionNo = 2;
         $field->versionNo = 2;
 
@@ -155,8 +163,10 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
     /**
      * @dataProvider providerOfFieldData
      */
-    public function testStoreFieldDataWithSameImageOnAutosave(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataWithSameImageOnAutosave(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $targetPath = '1/8/6/232-eng-GB/' . $field->value->externalData['fileName'];
 
         $binaryFile = new BinaryFile([
@@ -252,8 +262,8 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     /**
      * @return iterable<array{
-     *     \Ibexa\Contracts\Core\Persistence\Content\VersionInfo,
-     *     \Ibexa\Contracts\Core\Persistence\Content\Field
+     *     VersionInfo,
+     *     Field
      * }>
      */
     public function providerOfFieldData(): iterable

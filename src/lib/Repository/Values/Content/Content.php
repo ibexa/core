@@ -10,37 +10,39 @@ namespace Ibexa\Core\Repository\Values\Content;
 
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
 /**
  * this class represents a content object in a specific version.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo convenience getter for $versionInfo->contentInfo
- * @property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType convenience getter for $versionInfo->contentInfo->contentType
+ * @property-read ContentInfo $contentInfo convenience getter for $versionInfo->contentInfo
+ * @property-read ContentType $contentType convenience getter for $versionInfo->contentInfo->contentType
  * @property-read int $id convenience getter for retrieving the contentId: $versionInfo->content->id
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo calls getVersionInfo()
+ * @property-read VersionInfo $versionInfo calls getVersionInfo()
  * @property-read array<string, array<string, \Ibexa\Core\FieldType\Value>> $fields an array of <code>[field definition identifier => [language code => field value]]</code>
  *
  * @internal Meant for internal use by Repository, type hint against API object instead.
  */
 class Content extends APIContent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail|null */
+    /** @var Thumbnail|null */
     protected $thumbnail;
 
     /** @var array<string, array<string, \Ibexa\Core\FieldType\Value>> An array of field values like <code>[field definition identifier => [language code => field value]] => */
     protected array $fields = [];
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
+    /** @var VersionInfo */
     protected $versionInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
+    /** @var ContentType */
     protected $contentType;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] An array of {@link Field} */
+    /** @var Field[] An array of {@link Field} */
     private $internalFields;
 
     /**
@@ -107,8 +109,10 @@ class Content extends APIContent
     /**
      * {@inheritdoc}
      */
-    public function getFieldValue(string $fieldDefIdentifier, ?string $languageCode = null): ?Value
-    {
+    public function getFieldValue(
+        string $fieldDefIdentifier,
+        ?string $languageCode = null
+    ): ?Value {
         if (null === $languageCode) {
             $languageCode = $this->getDefaultLanguageCode();
         }
@@ -155,8 +159,10 @@ class Content extends APIContent
     /**
      * {@inheritdoc}
      */
-    public function getField(string $fieldDefIdentifier, ?string $languageCode = null): ?Field
-    {
+    public function getField(
+        string $fieldDefIdentifier,
+        ?string $languageCode = null
+    ): ?Field {
         if (null === $languageCode) {
             $languageCode = $this->getDefaultLanguageCode();
         }
@@ -172,8 +178,10 @@ class Content extends APIContent
     /**
      * {@inheritdoc}
      */
-    protected function getProperties($dynamicProperties = ['id', 'contentInfo'])
-    {
+    protected function getProperties(
+        $dynamicProperties = ['id',
+            'contentInfo']
+    ) {
         return parent::getProperties($dynamicProperties);
     }
 

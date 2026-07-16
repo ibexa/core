@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\Core\ApiLoader;
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngine;
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngineIndexer;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
+use Ibexa\Core\Search\Common\Indexer;
 use Ibexa\Core\Search\Common\Indexer as SearchEngineIndexer;
 
 /**
@@ -21,32 +22,33 @@ class SearchEngineIndexerFactory
      * Hash of registered search engine indexers.
      * Key is the search engine identifier, value indexer itself.
      *
-     * @var \Ibexa\Core\Search\Common\Indexer[]
+     * @var Indexer[]
      */
     protected $searchEngineIndexers = [];
 
     public function __construct(
         private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
-    ) {
-    }
+    ) {}
 
     /**
      * Registers $searchEngineIndexer as a valid search engine indexer with identifier $searchEngineIdentifier.
      *
      * note: It is strongly recommended to register indexer as a lazy service.
      *
-     * @param \Ibexa\Core\Search\Common\Indexer $searchEngineIndexer
+     * @param Indexer $searchEngineIndexer
      * @param string $searchEngineIdentifier
      */
-    public function registerSearchEngineIndexer(SearchEngineIndexer $searchEngineIndexer, $searchEngineIdentifier)
-    {
+    public function registerSearchEngineIndexer(
+        SearchEngineIndexer $searchEngineIndexer,
+        $searchEngineIdentifier
+    ) {
         $this->searchEngineIndexers[$searchEngineIdentifier] = $searchEngineIndexer;
     }
 
     /**
      * Returns registered search engine indexers.
      *
-     * @return \Ibexa\Core\Search\Common\Indexer[]
+     * @return Indexer[]
      */
     public function getSearchEngineIndexers()
     {
@@ -57,9 +59,9 @@ class SearchEngineIndexerFactory
      * Build search engine indexer identified by its identifier (the "alias" attribute in the service tag),
      * resolved for current SiteAccess.
      *
-     * @throws \Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngineIndexer
+     * @throws InvalidSearchEngineIndexer
      *
-     * @return \Ibexa\Core\Search\Common\Indexer
+     * @return Indexer
      */
     public function buildSearchEngineIndexer(): SearchEngineIndexer
     {

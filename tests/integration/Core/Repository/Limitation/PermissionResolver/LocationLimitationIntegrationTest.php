@@ -9,6 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver;
 
 use Ibexa\Contracts\Core\Limitation\Target\Version;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 
@@ -32,12 +35,14 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
      * @param array $limitations
      * @param bool $expectedResult
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    public function testCanUserEditContent(array $limitations, bool $expectedResult): void
-    {
+    public function testCanUserEditContent(
+        array $limitations,
+        bool $expectedResult
+    ): void {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
 
@@ -67,12 +72,14 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
     /**
      * @dataProvider providerForCanUserEditOrPublishContent
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    public function testCanUserReadTrashedContent(array $limitations, bool $expectedResult): void
-    {
+    public function testCanUserReadTrashedContent(
+        array $limitations,
+        bool $expectedResult
+    ): void {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
 

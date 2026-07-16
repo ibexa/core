@@ -21,10 +21,13 @@ final class RawRangeAggregation extends AbstractRangeAggregation implements RawA
     private string $fieldName;
 
     /**
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>[] $ranges
+     * @phpstan-param Range<TValue>[] $ranges
      */
-    public function __construct(string $name, string $fieldName, array $ranges = [])
-    {
+    public function __construct(
+        string $name,
+        string $fieldName,
+        array $ranges = []
+    ) {
         parent::__construct($name, $ranges);
 
         $this->fieldName = $fieldName;
@@ -36,7 +39,7 @@ final class RawRangeAggregation extends AbstractRangeAggregation implements RawA
     }
 
     /**
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface<TValue> $generator
+     * @phpstan-param RangesGeneratorInterface<TValue> $generator
      *
      * @phpstan-return self<TValue>
      */

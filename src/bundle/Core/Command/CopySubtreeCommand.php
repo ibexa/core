@@ -8,6 +8,8 @@
 namespace Ibexa\Bundle\Core\Command;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -44,11 +46,11 @@ class CopySubtreeCommand extends Command
     private SearchService $searchService;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\LocationService $locationService
-     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $permissionResolver
-     * @param \Ibexa\Contracts\Core\Repository\UserService $userService
-     * @param \Ibexa\Contracts\Core\Repository\ContentTypeService $contentTypeService
-     * @param \Ibexa\Contracts\Core\Repository\SearchService $searchService
+     * @param LocationService $locationService
+     * @param PermissionResolver $permissionResolver
+     * @param UserService $userService
+     * @param ContentTypeService $contentTypeService
+     * @param SearchService $searchService
      */
     public function __construct(
         LocationService $locationService,
@@ -88,14 +90,16 @@ class CopySubtreeCommand extends Command
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
+    protected function initialize(
+        InputInterface $input,
+        OutputInterface $output
+    ): void {
         parent::initialize($input, $output);
         $this->permissionResolver->setCurrentUserReference(
             $this->userService->loadUserByLogin($input->getOption('user'))
@@ -103,13 +107,15 @@ class CopySubtreeCommand extends Command
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $sourceLocationId = $input->getArgument('source-location-id');
         $targetLocationId = $input->getArgument('target-location-id');
 

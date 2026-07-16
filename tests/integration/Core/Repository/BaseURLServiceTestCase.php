@@ -23,8 +23,12 @@ abstract class BaseURLServiceTestCase extends BaseTestCase
 {
     private const URL_CONTENT_TYPE_IDENTIFIER = 'link_ct';
 
-    protected function doTestFindUrls(URLQuery $query, array $expectedUrls, ?int $expectedTotalCount, bool $ignoreOrder = true)
-    {
+    protected function doTestFindUrls(
+        URLQuery $query,
+        array $expectedUrls,
+        ?int $expectedTotalCount,
+        bool $ignoreOrder = true
+    ) {
         $repository = $this->getRepository();
 
         /* BEGIN: Use Case */
@@ -36,8 +40,11 @@ abstract class BaseURLServiceTestCase extends BaseTestCase
         $this->assertSearchResultItems($searchResult, $expectedUrls, $ignoreOrder);
     }
 
-    protected function assertSearchResultItems(SearchResult $searchResult, array $expectedUrls, $ignoreOrder)
-    {
+    protected function assertSearchResultItems(
+        SearchResult $searchResult,
+        array $expectedUrls,
+        $ignoreOrder
+    ) {
         self::assertCount(count($expectedUrls), $searchResult->items);
 
         foreach ($searchResult->items as $i => $item) {
@@ -64,8 +71,10 @@ abstract class BaseURLServiceTestCase extends BaseTestCase
         }
     }
 
-    protected function assertUsagesSearchResultItems(UsageSearchResult $searchResult, array $expectedContentInfoIds)
-    {
+    protected function assertUsagesSearchResultItems(
+        UsageSearchResult $searchResult,
+        array $expectedContentInfoIds
+    ) {
         self::assertCount(count($expectedContentInfoIds), $searchResult->items);
         foreach ($searchResult->items as $contentInfo) {
             self::assertContains($contentInfo->id, $expectedContentInfoIds);

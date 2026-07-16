@@ -12,8 +12,10 @@ namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO;
  */
 class SwappedLocationProperties
 {
-    public function __construct($id, $parentId)
-    {
+    public function __construct(
+        $id,
+        $parentId
+    ) {
         $this->id = $id;
         $this->parentId = $parentId;
     }

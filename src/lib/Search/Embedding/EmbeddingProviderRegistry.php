@@ -15,11 +15,11 @@ use Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderRegistryInterface;
 
 final class EmbeddingProviderRegistry implements EmbeddingProviderRegistryInterface
 {
-    /** @var \Ibexa\Contracts\Core\Pool\PoolInterface<\Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderInterface> */
+    /** @var PoolInterface<EmbeddingProviderInterface> */
     private PoolInterface $pool;
 
     /**
-     * @param iterable<\Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderInterface> $embeddingProviders
+     * @param iterable<EmbeddingProviderInterface> $embeddingProviders
      */
     public function __construct(iterable $embeddingProviders = [])
     {

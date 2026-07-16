@@ -7,8 +7,10 @@
 
 namespace Ibexa\Bundle\IO\Command;
 
+use Ibexa\Bundle\IO\Migration\FileListerInterface;
 use Ibexa\Bundle\IO\Migration\FileListerRegistry;
 use Ibexa\Bundle\IO\Migration\FileMigratorInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -24,14 +26,14 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 )]
 final class MigrateFilesCommand extends Command
 {
-    /** @var \Ibexa\Bundle\IO\Migration\FileListerInterface[] */
+    /** @var FileListerInterface[] */
     private array $fileListers = [];
 
     /**
      * @param array<string, array<string, mixed>> $configuredMetadataHandlers
      * @param array<string, array<string, mixed>> $configuredBinarydataHandlers
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function __construct(
         private array $configuredMetadataHandlers,
@@ -84,8 +86,10 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         if ($input->getOption('list-io-handlers')) {
             $this->outputConfiguredHandlers($output);
 
@@ -180,7 +184,7 @@ EOT
     /**
      * Output the configured meta/binary data handlers.
      *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      */
     protected function outputConfiguredHandlers(OutputInterface $output): void
     {

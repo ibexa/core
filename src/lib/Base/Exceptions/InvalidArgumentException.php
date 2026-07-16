@@ -28,8 +28,11 @@ class InvalidArgumentException extends APIInvalidArgumentException implements Tr
     /**
      * Generates: "Argument '{$argumentName}' is invalid: {$whatIsWrong}".
      */
-    public function __construct(string $argumentName, string $whatIsWrong, ?Exception $previous = null)
-    {
+    public function __construct(
+        string $argumentName,
+        string $whatIsWrong,
+        ?Exception $previous = null
+    ) {
         $this->setMessageTemplate("Argument '%argumentName%' is invalid: %whatIsWrong%");
         $this->setParameters(['%argumentName%' => $argumentName, '%whatIsWrong%' => $whatIsWrong]);
         parent::__construct($this->getBaseTranslation(), 0, $previous);

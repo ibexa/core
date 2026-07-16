@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
@@ -25,35 +26,35 @@ class AddField extends Action
     /**
      * Field definition of the field to add.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @var FieldDefinition
      */
     protected $fieldDefinition;
 
     /**
      * Storage handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $storageHandler;
 
     /**
      * Field value converter.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @var Converter
      */
     protected $fieldValueConverter;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var Mapper */
     protected $contentMapper;
 
     /**
      * Creates a new action.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
-     * @param \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter $converter
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageHandler $storageHandler
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Mapper $contentMapper
+     * @param Gateway $contentGateway
+     * @param FieldDefinition $fieldDef
+     * @param Converter $converter
+     * @param StorageHandler $storageHandler
+     * @param Mapper $contentMapper
      */
     public function __construct(
         Gateway $contentGateway,
@@ -131,13 +132,15 @@ class AddField extends Action
      * If $field->id is null, creating new field id will be created.
      * Otherwise it will be inserted for the given $content version, reusing existing Field id.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $content
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param Content $content
+     * @param Field $field
      *
      * @return int The ID of the field that was inserted
      */
-    protected function insertField(Content $content, Field $field)
-    {
+    protected function insertField(
+        Content $content,
+        Field $field
+    ) {
         $storageValue = new StorageFieldValue();
         $this->fieldValueConverter->toStorageValue(
             $field->value,
@@ -187,10 +190,13 @@ class AddField extends Action
      * @param int $versionNo
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field
+     * @return Field
      */
-    protected function createField($id, $versionNo, $languageCode)
-    {
+    protected function createField(
+        $id,
+        $versionNo,
+        $languageCode
+    ) {
         $field = new Field();
 
         $field->id = $id;

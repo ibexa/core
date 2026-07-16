@@ -18,9 +18,12 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 interface Handler
 {
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Filter\Content\LazyContentItemListIterator
+     * @return LazyContentItemListIterator
      */
     public function find(Filter $filter): iterable;
 
-    public function count(Filter $filter, ?int $limit = null): int;
+    public function count(
+        Filter $filter,
+        ?int $limit = null
+    ): int;
 }

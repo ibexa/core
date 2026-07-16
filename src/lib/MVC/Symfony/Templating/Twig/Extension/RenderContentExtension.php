@@ -22,10 +22,10 @@ use Twig\TwigFunction;
  */
 final class RenderContentExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy */
+    /** @var RenderContentStrategy */
     private $renderContentStrategy;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     public function __construct(
@@ -47,8 +47,10 @@ final class RenderContentExtension extends AbstractExtension
         ];
     }
 
-    public function renderContent(Content|ContentAwareInterface $data, array $options = []): string
-    {
+    public function renderContent(
+        Content | ContentAwareInterface $data,
+        array $options = []
+    ): string {
         $renderOptions = new RenderOptions($options);
         $event = $this->eventDispatcher->dispatch(
             new ResolveRenderOptionsEvent($renderOptions)
@@ -57,7 +59,7 @@ final class RenderContentExtension extends AbstractExtension
         return $this->renderContentStrategy->render($this->getContent($data), $event->getRenderOptions());
     }
 
-    private function getContent(Content|ContentAwareInterface $data): Content
+    private function getContent(Content | ContentAwareInterface $data): Content
     {
         if ($data instanceof Content) {
             return $data;

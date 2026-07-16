@@ -8,14 +8,15 @@
 namespace Ibexa\Bundle\Core\Imagine\Filter\Gmagick;
 
 use Ibexa\Bundle\Core\Imagine\Filter\AbstractFilter;
+use Imagine\Gmagick\Image;
 use Imagine\Image\ImageInterface;
 
 class ReduceNoiseFilter extends AbstractFilter
 {
     /**
-     * @param \Imagine\Image\ImageInterface|\Imagine\Gmagick\Image $image
+     * @param ImageInterface|Image $image
      *
-     * @return \Imagine\Image\ImageInterface
+     * @return ImageInterface
      */
     public function apply(ImageInterface $image)
     {

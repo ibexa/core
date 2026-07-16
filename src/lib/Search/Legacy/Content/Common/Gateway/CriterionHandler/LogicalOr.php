@@ -24,7 +24,7 @@ class LogicalOr extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr $criterion
+     * @param Criterion\LogicalOr $criterion
      */
     public function handle(
         CriteriaConverter $converter,

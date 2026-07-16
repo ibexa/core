@@ -18,20 +18,22 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
  */
 class Handler implements HandlerInterface
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Gateway */
+    /** @var Gateway */
     private $urlGateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper */
+    /** @var Mapper */
     private $urlMapper;
 
     /**
      * Handler constructor.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Gateway $gateway
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Mapper $mapper
+     * @param Gateway $gateway
+     * @param Mapper $mapper
      */
-    public function __construct(Gateway $gateway, Mapper $mapper)
-    {
+    public function __construct(
+        Gateway $gateway,
+        Mapper $mapper
+    ) {
         $this->urlGateway = $gateway;
         $this->urlMapper = $mapper;
     }
@@ -39,8 +41,10 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function updateUrl($id, URLUpdateStruct $urlUpdateStruct)
-    {
+    public function updateUrl(
+        $id,
+        URLUpdateStruct $urlUpdateStruct
+    ) {
         $url = $this->urlMapper->createURLFromUpdateStruct(
             $urlUpdateStruct
         );

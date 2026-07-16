@@ -15,18 +15,20 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 final class LookupPolicyLimitations extends ValueObject
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Policy */
+    /** @var Policy */
     protected $policy;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] */
+    /** @var Limitation[] */
     protected $limitations;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Policy $policy
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
+     * @param Policy $policy
+     * @param Limitation[] $limitations
      */
-    public function __construct(Policy $policy, array $limitations = [])
-    {
+    public function __construct(
+        Policy $policy,
+        array $limitations = []
+    ) {
         parent::__construct();
 
         $this->policy = $policy;

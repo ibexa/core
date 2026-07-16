@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
@@ -29,7 +30,7 @@ final class ObjectStateIdentifierQueryBuilder implements CriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId $criterion */
+        /** @var ContentId $criterion */
         $queryBuilder
             ->joinOnce(
                 'content',

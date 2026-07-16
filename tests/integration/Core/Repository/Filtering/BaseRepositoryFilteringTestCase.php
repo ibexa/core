@@ -9,6 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
 use Ibexa\Contracts\Core\Repository\Collections\TotalCountAwareInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -31,17 +35,23 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
     private const PAGINATION_LIMIT = 3;
     private const PAGINATION_OFFSET = 2;
 
-    /** @var \Ibexa\Tests\Core\Repository\Filtering\TestContentProvider */
+    /** @var TestContentProvider */
     protected $contentProvider;
 
-    abstract protected function find(Filter $filter, ?array $contextLanguages = null): iterable;
+    abstract protected function find(
+        Filter $filter,
+        ?array $contextLanguages = null
+    ): iterable;
 
     abstract protected function assertFoundContentItemsByRemoteIds(
         iterable $list,
         array $expectedContentRemoteIds
     ): void;
 
-    abstract protected function compareWithSearchResults(Filter $filter, IteratorAggregate $list): void;
+    abstract protected function compareWithSearchResults(
+        Filter $filter,
+        IteratorAggregate $list
+    ): void;
 
     abstract protected function getDefaultSortClause(): FilteringSortClause;
 
@@ -51,9 +61,9 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::find
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::find
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testFind(callable $filterFactory): void
     {
@@ -68,7 +78,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
 
         // validate the result using search service
         $list = $this->find($filter);
-        /** @var \IteratorAggregate $list */
+        /** @var IteratorAggregate $list */
         $this->compareWithSearchResults($filter, $list);
     }
 
@@ -79,9 +89,9 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testFindDoesNotFindDrafts(): void
     {
@@ -100,7 +110,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testFindPaginated(): void
     {
@@ -118,7 +128,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
         $filter = new Filter();
         $filter
             ->withCriterion(
-                new Criterion\ParentLocationId($parentLocationId)
+                new ParentLocationId($parentLocationId)
             )
             ->withLimit(self::PAGINATION_LIMIT)
             ->withOffset(self::PAGINATION_OFFSET);
@@ -134,12 +144,12 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
      *
      * @dataProvider getUserLimitationData
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
+     * @param Limitation[] $limitations
      * @param string[] $expectedContentRemoteIds
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testFindByUserWithLimitations(
         array $limitations,
@@ -176,7 +186,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
             static function (Content $parentFolder): Filter {
                 return (new Filter())
                     ->withCriterion(
-                        new Criterion\ParentLocationId($parentFolder->contentInfo->mainLocationId)
+                        new ParentLocationId($parentFolder->contentInfo->mainLocationId)
                     );
             },
             5,
@@ -186,7 +196,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
             static function (Content $parentFolder): Filter {
                 return (new Filter())
                     ->withCriterion(
-                        new Criterion\ParentLocationId($parentFolder->contentInfo->mainLocationId)
+                        new ParentLocationId($parentFolder->contentInfo->mainLocationId)
                     )
                     ->andWithCriterion(new Criterion\LanguageCode(['eng-GB']));
             },
@@ -197,7 +207,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
             static function (Content $parentFolder): Filter {
                 return (new Filter())
                     ->withCriterion(
-                        new Criterion\ParentLocationId($parentFolder->contentInfo->mainLocationId)
+                        new ParentLocationId($parentFolder->contentInfo->mainLocationId)
                     )
                     ->withSortClause(new SortClause\DatePublished(Query::SORT_ASC))
                     ->withSortClause(new SortClause\ContentId(Query::SORT_ASC));
@@ -223,7 +233,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
      * Note: this is a quick attempt to cover all supported Filtering Criteria. In the future it
      * should be refactored to rely on shared data structure created at runtime.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion[]
+     * @return FilteringCriterion[]
      *
      * @see getFilterFactories
      */
@@ -259,7 +269,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
             ['not_locked'],
             'ibexa_lock'
         );
-        yield 'ParentLocationId=1' => new Criterion\ParentLocationId(1);
+        yield 'ParentLocationId=1' => new ParentLocationId(1);
         yield 'RemoteId=8a9c9c761004866fb458d89910f52bee' => new Criterion\RemoteId(
             '8a9c9c761004866fb458d89910f52bee'
         );
@@ -290,8 +300,10 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
         yield 'Visibility=VISIBLE' => new Criterion\Visibility(Criterion\Visibility::VISIBLE);
     }
 
-    protected function assertTotalCount(FilteringCriterion $criterion, int $searchTotalCount): void
-    {
+    protected function assertTotalCount(
+        FilteringCriterion $criterion,
+        int $searchTotalCount
+    ): void {
         if (!$criterion instanceof Criterion\MatchNone) {
             self::assertGreaterThan(
                 0,
@@ -312,8 +324,8 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function getUserLimitationData(): iterable
     {
@@ -418,8 +430,10 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
      * Build Repository Filter from a callable factory accepting Content item as a container for
      * all items under test.
      */
-    protected function buildFilter(callable $filterFactory, Content $parentFolder): Filter
-    {
+    protected function buildFilter(
+        callable $filterFactory,
+        Content $parentFolder
+    ): Filter {
         return $filterFactory($parentFolder);
     }
 }

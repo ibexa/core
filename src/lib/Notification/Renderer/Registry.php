@@ -10,22 +10,24 @@ namespace Ibexa\Core\Notification\Renderer;
 
 class Registry
 {
-    /** @var \Ibexa\Core\Notification\Renderer\NotificationRenderer[] */
+    /** @var NotificationRenderer[] */
     protected $registry = [];
 
     /**
      * @param string $alias
-     * @param \Ibexa\Core\Notification\Renderer\NotificationRenderer $notificationRenderer
+     * @param NotificationRenderer $notificationRenderer
      */
-    public function addRenderer(string $alias, NotificationRenderer $notificationRenderer): void
-    {
+    public function addRenderer(
+        string $alias,
+        NotificationRenderer $notificationRenderer
+    ): void {
         $this->registry[$alias] = $notificationRenderer;
     }
 
     /**
      * @param string $alias
      *
-     * @return \Ibexa\Core\Notification\Renderer\NotificationRenderer
+     * @return NotificationRenderer
      */
     public function getRenderer(string $alias): NotificationRenderer
     {

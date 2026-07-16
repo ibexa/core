@@ -32,8 +32,10 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
 
     private APIUserReference $apiUserReference;
 
-    public function __construct(UserInterface $wrappedUser, APIUser $apiUser)
-    {
+    public function __construct(
+        UserInterface $wrappedUser,
+        APIUser $apiUser
+    ) {
         $this->setWrappedUser($wrappedUser);
         $this->apiUser = $apiUser;
         $this->apiUserReference = new UserReference($apiUser->getUserId());
@@ -67,7 +69,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @throws \InvalidArgumentException If $wrappedUser is instance of self or User to avoid duplicated APIUser in
+     * @throws InvalidArgumentException If $wrappedUser is instance of self or User to avoid duplicated APIUser in
      *     session.
      */
     public function setWrappedUser(UserInterface $wrappedUser): void
@@ -108,7 +110,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @see \Ibexa\Core\MVC\Symfony\Security\User::__sleep
+     * @see User::__sleep
      */
     public function __sleep(): array
     {

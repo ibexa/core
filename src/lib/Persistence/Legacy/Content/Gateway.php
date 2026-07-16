@@ -10,11 +10,15 @@ namespace Ibexa\Core\Persistence\Legacy\Content;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
 
 /**
  * Base class for content gateways.
@@ -37,7 +41,7 @@ abstract class Gateway
     /**
      * Insert a new Content item.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function insertContentObject(
         CreateStruct $struct,
@@ -47,16 +51,19 @@ abstract class Gateway
     /**
      * Insert a new Version.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $fields
+     * @param Field[] $fields
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    abstract public function insertVersion(VersionInfo $versionInfo, array $fields): int;
+    abstract public function insertVersion(
+        VersionInfo $versionInfo,
+        array $fields
+    ): int;
 
     /**
      * Update an existing content identified by $contentId based on $struct.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function updateContent(
         int $contentId,
@@ -67,12 +74,16 @@ abstract class Gateway
     /**
      * Updates version $versionNo for content identified by $contentId, in respect to $struct.
      */
-    abstract public function updateVersion(int $contentId, int $versionNo, UpdateStruct $struct): void;
+    abstract public function updateVersion(
+        int $contentId,
+        int $versionNo,
+        UpdateStruct $struct
+    ): void;
 
     /**
      * Update "always available" flag for content identified by $contentId based on $alwaysAvailable.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function updateAlwaysAvailableFlag(
         int $contentId,
@@ -84,9 +95,13 @@ abstract class Gateway
      *
      * @param int $status the one of STATUS_DRAFT, STATUS_PUBLISHED, STATUS_ARCHIVED
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
-    abstract public function setStatus(int $contentId, int $version, int $status): bool;
+    abstract public function setStatus(
+        int $contentId,
+        int $version,
+        int $status
+    ): bool;
 
     /**
      * Dedicated operation which sets Version status as published, similar to setStatus, but checking
@@ -96,9 +111,12 @@ abstract class Gateway
      *
      * @see setStatus
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if other operation affected publishing process
+     * @throws BadStateException if other operation affected publishing process
      */
-    abstract public function setPublishedStatus(int $contentId, int $status): void;
+    abstract public function setPublishedStatus(
+        int $contentId,
+        int $status
+    ): void;
 
     /**
      * Insert a new field.
@@ -118,7 +136,7 @@ abstract class Gateway
      *
      * Used to insert a field with an existing ID but a new version number.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function insertExistingField(
         Content $content,
@@ -129,7 +147,10 @@ abstract class Gateway
     /**
      * Update an existing field.
      */
-    abstract public function updateField(Field $field, StorageFieldValue $value): void;
+    abstract public function updateField(
+        Field $field,
+        StorageFieldValue $value
+    ): void;
 
     /**
      * Update an existing, non-translatable field.
@@ -162,14 +183,17 @@ abstract class Gateway
      *
      * @return array[]
      */
-    abstract public function loadContentList(array $contentIds, ?array $translations = null): array;
+    abstract public function loadContentList(
+        array $contentIds,
+        ?array $translations = null
+    ): array;
 
     /**
      * Load info for a content object identified by its remote ID.
      *
      * Returns an array with the relevant data.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function loadContentInfoByRemoteId(string $remoteId): array;
 
@@ -178,7 +202,7 @@ abstract class Gateway
      *
      * Returns an array with the relevant data.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function loadContentInfoByLocationId(int $locationId): array;
 
@@ -188,7 +212,7 @@ abstract class Gateway
      *  - always_available => Boolean indicating if content's language mask contains alwaysAvailable bit field
      *  - main_language_code => Language code for main (initial) language. E.g. "eng-GB".
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function loadContentInfo(int $contentId): array;
 
@@ -196,7 +220,7 @@ abstract class Gateway
      * Loads rows of info for content identified by $contentIds.
      *
      * @see loadContentInfo For the returned structure.
-     * @see \Ibexa\Contracts\Core\Persistence\Content\Handler::loadContentInfoList For how this will only return items found and not throw.
+     * @see Handler::loadContentInfoList For how this will only return items found and not throw.
      *
      * @param int[] $contentIds
      */
@@ -211,12 +235,18 @@ abstract class Gateway
      *
      * @param int|null $versionNo Load current version if null.
      */
-    abstract public function loadVersionInfo(int $contentId, ?int $versionNo = null): array;
+    abstract public function loadVersionInfo(
+        int $contentId,
+        ?int $versionNo = null
+    ): array;
 
     /**
      * @return array<mixed>
      */
-    abstract public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array;
+    abstract public function loadVersionNoArchivedWithin(
+        int $contentId,
+        int $seconds
+    ): array;
 
     /**
      * Return the number of all versions with given status created by the given $userId.
@@ -300,7 +330,10 @@ abstract class Gateway
      * Deletes relations to and from $contentId.
      * If $versionNo is set only relations for that version are deleted.
      */
-    abstract public function deleteRelations(int $contentId, ?int $versionNo = null): void;
+    abstract public function deleteRelations(
+        int $contentId,
+        ?int $versionNo = null
+    ): void;
 
     /**
      * Remove relations to Content with $contentId from Relation and RelationList field type fields.
@@ -322,26 +355,35 @@ abstract class Gateway
      *
      * If $versionNo is set only fields for that version are deleted.
      */
-    abstract public function deleteFields(int $contentId, ?int $versionNo = null): void;
+    abstract public function deleteFields(
+        int $contentId,
+        ?int $versionNo = null
+    ): void;
 
     /**
      * Delete all versions of $contentId.
      *
      * If $versionNo is set only that version is deleted.
      */
-    abstract public function deleteVersions(int $contentId, ?int $versionNo = null): void;
+    abstract public function deleteVersions(
+        int $contentId,
+        ?int $versionNo = null
+    ): void;
 
     /**
      * Delete all names of $contentId.
      *
      * If $versionNo is set only names for that version are deleted.
      */
-    abstract public function deleteNames(int $contentId, ?int $versionNo = null): void;
+    abstract public function deleteNames(
+        int $contentId,
+        ?int $versionNo = null
+    ): void;
 
     /**
      * Set the content object name.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function setName(
         int $contentId,
@@ -358,7 +400,7 @@ abstract class Gateway
     /**
      * Load data of related to/from $contentId.
      *
-     * @return array Content data, array structured like {@see \Ibexa\Core\Persistence\Legacy\Content\Gateway::load}
+     * @return array Content data, array structured like {@see Gateway::load}
      */
     abstract public function loadRelations(
         int $contentId,
@@ -391,14 +433,20 @@ abstract class Gateway
     /**
      * Counts number of related to/from $contentId.
      */
-    abstract public function countReverseRelations(int $contentId, ?int $relationType = null): int;
+    abstract public function countReverseRelations(
+        int $contentId,
+        ?int $relationType = null
+    ): int;
 
     /**
      * Load data of related to/from $contentId.
      *
-     * @return array Content data, array structured like {@see \Ibexa\Core\Persistence\Legacy\Content\Gateway::load}
+     * @return array Content data, array structured like {@see Gateway::load}
      */
-    abstract public function loadReverseRelations(int $contentId, ?int $relationType = null): array;
+    abstract public function loadReverseRelations(
+        int $contentId,
+        ?int $relationType = null
+    ): array;
 
     /**
      * Load paginated data of related to/from $contentId.
@@ -415,9 +463,12 @@ abstract class Gateway
      *
      * @param int $type one of Relation type constants.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation
+     * @see Relation
      */
-    abstract public function deleteRelation(int $relationId, int $type): void;
+    abstract public function deleteRelation(
+        int $relationId,
+        int $type
+    ): void;
 
     /**
      * Insert a new content relation.
@@ -427,7 +478,7 @@ abstract class Gateway
     /**
      * Load Relation object.
      *
-     * @see \Ibexa\Contracts\Core\Persistence\Content\Relation
+     * @see Content\Relation
      */
     abstract public function loadRelation(int $relationId): array;
 
@@ -465,8 +516,8 @@ abstract class Gateway
     /**
      * Remove the specified translation from the Content Object Version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws NotFoundException
+     * @throws BadStateException
      */
     abstract public function deleteTranslationFromContent(
         int $contentId,
@@ -487,8 +538,8 @@ abstract class Gateway
     /**
      * Delete the specified Translation from the given Version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws NotFoundException
+     * @throws BadStateException
      */
     abstract public function deleteTranslationFromVersion(
         int $contentId,
@@ -499,7 +550,7 @@ abstract class Gateway
     /**
      * @param array<int> $contentIds
      *
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException
+     * @throws DatabaseException
      */
     abstract public function loadVersionInfoList(array $contentIds): array;
 }

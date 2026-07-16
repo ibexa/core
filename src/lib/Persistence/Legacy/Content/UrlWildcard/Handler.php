@@ -9,6 +9,8 @@ namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as BaseUrlWildcardHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 
@@ -25,25 +27,27 @@ class Handler implements BaseUrlWildcardHandler
     /**
      * UrlWildcard Gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway
+     * @var Gateway
      */
     protected $gateway;
 
     /**
      * UrlWildcard Mapper.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper
+     * @var Mapper
      */
     protected $mapper;
 
     /**
      * Creates a new UrlWildcard Handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway $gateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper $mapper
+     * @param Gateway $gateway
+     * @param Mapper $mapper
      */
-    public function __construct(Gateway $gateway, Mapper $mapper)
-    {
+    public function __construct(
+        Gateway $gateway,
+        Mapper $mapper
+    ) {
         $this->gateway = $gateway;
         $this->mapper = $mapper;
     }
@@ -55,10 +59,13 @@ class Handler implements BaseUrlWildcardHandler
      * @param string $destinationUrl
      * @param bool $forward
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
+     * @return UrlWildcard
      */
-    public function create($sourceUrl, $destinationUrl, $forward = false)
-    {
+    public function create(
+        $sourceUrl,
+        $destinationUrl,
+        $forward = false
+    ) {
         $urlWildcard = $this->mapper->createUrlWildcard(
             $sourceUrl,
             $destinationUrl,
@@ -113,7 +120,7 @@ class Handler implements BaseUrlWildcardHandler
      *
      * @param mixed $id
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
+     * @return UrlWildcard
      */
     public function load($id)
     {
@@ -132,18 +139,20 @@ class Handler implements BaseUrlWildcardHandler
      * @param mixed $offset
      * @param mixed $limit
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard[]
+     * @return UrlWildcard[]
      */
-    public function loadAll($offset = 0, $limit = -1)
-    {
+    public function loadAll(
+        $offset = 0,
+        $limit = -1
+    ) {
         return $this->mapper->extractUrlWildcardsFromRows(
             $this->gateway->loadUrlWildcardsData($offset, $limit)
         );
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws InvalidArgumentException
+     * @throws NotImplementedException
      */
     public function find(URLWildcardQuery $query): array
     {
@@ -168,7 +177,7 @@ class Handler implements BaseUrlWildcardHandler
      *
      * @param string $sourceUrl
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
+     * @return UrlWildcard
      */
     public function translate(string $sourceUrl): UrlWildcard
     {
@@ -183,7 +192,10 @@ class Handler implements BaseUrlWildcardHandler
         $rows = $this->gateway->loadUrlWildcardsData();
         uasort(
             $rows,
-            static function ($row1, $row2): int {
+            static function (
+                $row1,
+                $row2
+            ): int {
                 return strlen($row2['source_url']) - strlen($row1['source_url']);
             }
         );
@@ -232,8 +244,10 @@ class Handler implements BaseUrlWildcardHandler
      *
      * @return string|null
      */
-    private function match(string $url, array $wildcard): ?string
-    {
+    private function match(
+        string $url,
+        array $wildcard
+    ): ?string {
         if (preg_match($this->compile($wildcard['source_url']), $url, $match)) {
             return $this->substitute($wildcard['destination_url'], $match);
         }
@@ -262,8 +276,10 @@ class Handler implements BaseUrlWildcardHandler
      *
      * @return string
      */
-    private function substitute(string $destinationUrl, array $values): string
-    {
+    private function substitute(
+        string $destinationUrl,
+        array $values
+    ): string {
         preg_match_all(self::PLACEHOLDERS_REGEXP, $destinationUrl, $matches);
 
         foreach ($matches[1] as $match) {

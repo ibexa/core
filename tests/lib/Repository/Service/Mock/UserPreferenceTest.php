@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
+use Ibexa\Contracts\Core\Persistence\UserPreference\Handler;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -18,6 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruc
 use Ibexa\Core\Repository\UserPreferenceService;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UserPreferenceTest extends BaseServiceMockTest
 {
@@ -25,7 +27,7 @@ class UserPreferenceTest extends BaseServiceMockTest
     public const USER_PREFERENCE_NAME = 'setting';
     public const USER_PREFERENCE_VALUE = 'value';
 
-    /** @var \Ibexa\Contracts\Core\Persistence\UserPreference\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $userSPIPreferenceHandler;
 
     protected function setUp(): void
@@ -91,7 +93,7 @@ class UserPreferenceTest extends BaseServiceMockTest
      */
     public function testSetUserPreferenceWithRollback()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $apiUserPreferenceSetStruct = new APIUserPreferenceSetStruct([
             'name' => 'setting',
@@ -189,7 +191,7 @@ class UserPreferenceTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\UserPreferenceService|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Repository\UserPreferenceService|MockObject
      */
     private function createAPIUserPreferenceService(?array $methods = null)
     {

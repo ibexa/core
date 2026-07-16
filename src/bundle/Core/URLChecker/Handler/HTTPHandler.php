@@ -111,10 +111,14 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
     /**
      * Initialize and return a cURL session for given URL.
      *
-     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\URL\URL> $handlers
+     * @param array<int, URL> $handlers
      */
-    private function createCurlHandlerForUrl(URL $url, array &$handlers, int $connectionTimeout, int $timeout): CurlHandle
-    {
+    private function createCurlHandlerForUrl(
+        URL $url,
+        array &$handlers,
+        int $connectionTimeout,
+        int $timeout
+    ): CurlHandle {
         $options = $this->getOptions();
         $handler = curl_init();
         if ($handler === false) {
@@ -152,11 +156,13 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
     /**
      * Validate single response.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL $url
+     * @param URL $url
      * @param resource $handler CURL handler
      */
-    private function doValidate(URL $url, $handler)
-    {
+    private function doValidate(
+        URL $url,
+        $handler
+    ) {
         $this->setUrlStatus($url, $this->isSuccessful(curl_getinfo($handler, CURLINFO_HTTP_CODE)));
     }
 

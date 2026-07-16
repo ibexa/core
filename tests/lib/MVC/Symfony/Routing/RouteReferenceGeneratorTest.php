@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator;
 use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RouteReferenceGeneratorTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $dispatcher;
 
     protected function setUp(): void
@@ -81,8 +82,10 @@ class RouteReferenceGeneratorTest extends TestCase
     /**
      * @dataProvider generateGenerator
      */
-    public function testGenerate($resource, array $params)
-    {
+    public function testGenerate(
+        $resource,
+        array $params
+    ) {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
 

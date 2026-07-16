@@ -19,8 +19,7 @@ class LanguageServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): LanguageService
     {
-        return new class($service) extends LanguageServiceDecorator {
-        };
+        return new class($service) extends LanguageServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

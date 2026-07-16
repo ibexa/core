@@ -18,8 +18,10 @@ class RoleNotFound extends NotFoundException
     /**
      * Creates a new exception for `$roleIdentifier` of `$status`.
      */
-    public function __construct(string $roleIdentifier, int $status)
-    {
+    public function __construct(
+        string $roleIdentifier,
+        int $status
+    ) {
         parent::__construct(
             'Persistence User Role',
             sprintf('ID: %s, Status: %d', $roleIdentifier, $status)

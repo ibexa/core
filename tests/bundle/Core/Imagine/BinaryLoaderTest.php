@@ -15,15 +15,16 @@ use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Liip\ImagineBundle\Model\Binary;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mime\MimeTypes;
 
 class BinaryLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\BinaryLoader */
+    /** @var BinaryLoader */
     private $binaryLoader;
 
     protected function setUp(): void
@@ -35,7 +36,7 @@ class BinaryLoaderTest extends TestCase
 
     public function testFindNotFound()
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
+        $this->expectException(NotLoadableException::class);
 
         $path = 'something.jpg';
         $this->ioService
@@ -49,7 +50,7 @@ class BinaryLoaderTest extends TestCase
 
     public function testFindMissing()
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
+        $this->expectException(NotLoadableException::class);
 
         $path = 'something.jpg';
         $this->ioService

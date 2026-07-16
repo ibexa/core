@@ -9,26 +9,29 @@ declare(strict_types=1);
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Factory;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom;
 
 class RandomSortClauseHandlerFactory
 {
-    /** @var iterable|\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom[] */
+    /** @var iterable|AbstractRandom[] */
     private $randomSortClauseGateways = [];
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
-    public function __construct(Connection $connection, iterable $randomSortClauseGateways)
-    {
+    public function __construct(
+        Connection $connection,
+        iterable $randomSortClauseGateways
+    ) {
         $this->connection = $connection;
         $this->randomSortClauseGateways = $randomSortClauseGateways;
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function getGateway(): AbstractRandom
     {

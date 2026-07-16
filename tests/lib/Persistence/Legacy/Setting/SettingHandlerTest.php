@@ -19,10 +19,10 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 final class SettingHandlerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Setting\Handler */
+    /** @var Handler */
     private $settingHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Setting\Gateway */
+    /** @var Gateway */
     private $gatewayMock;
 
     public function testCreate(): void
@@ -103,7 +103,7 @@ final class SettingHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testUpdate(): void
     {
@@ -185,7 +185,7 @@ final class SettingHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testLoad(): void
     {
@@ -222,7 +222,7 @@ final class SettingHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testLoadFailsToLoad(): void
     {
@@ -281,7 +281,7 @@ final class SettingHandlerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Setting\Gateway
+     * @return MockObject|Gateway
      */
     protected function getGatewayMock(): MockObject
     {
