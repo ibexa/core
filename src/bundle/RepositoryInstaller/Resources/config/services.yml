@@ -5,6 +5,30 @@ services:
         arguments:
             - '@=service("kernel").locateResource("@IbexaCoreBundle/Resources/config/storage/legacy/schema.yaml")'
 
+    Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner:
+        public: false
+        arguments:
+            # Optional: only resolves to a service if doctrine/migrations-bundle is installed and
+            # configured. Not defined here, since it belongs to that package, not this one.
+            # Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory::SERVICE_ID
+            $dependencyFactory: '@?ibexa.doctrine_migrations.dependency_factory.ibexa_migrations_only'
+
     Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller:
         abstract: true
         arguments: ['@ibexa.persistence.connection']
@@ -13,13 +37,15 @@ services:
     Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller:
         autowire: true
         parent: Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller
+        arguments:
+            $schemaBuilderEventEnabled: '%ibexa.installer.schema_builder_event.enabled%'
         tags:
             - { name: ibexa.installer, type: ibexa-oss }
 
     Ibexa\Bundle\RepositoryInstaller\Command\InstallPlatformCommand:
         arguments:
             $connection: '@ibexa.persistence.connection'
-            $installers: []
+            $installers: !tagged_locator { tag: 'ibexa.installer', index_by: 'type' }
             $cachePool: '@ibexa.cache_pool'
             $environment: "%kernel.environment%"
             $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
