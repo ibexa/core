@@ -25,31 +25,39 @@ final class SynchronousContentPublicationStrategyTest extends TestCase
         self::assertTrue($strategy->supports());
     }
 
-    public function testPublishVersionDelegatesToContentService(): void
-    {
+    /**
+     * @dataProvider providerForTestPublishVersionDelegatesToContentService
+     *
+     * @param list<string>|null $translations
+     * @param list<string> $expectedTranslations
+     */
+    public function testPublishVersionDelegatesToContentService(
+        ?array $translations,
+        array $expectedTranslations
+    ): void {
         $versionInfo = $this->createStub(VersionInfo::class);
 
         $contentService = $this->createMock(ContentService::class);
         $contentService
             ->expects(self::once())
             ->method('publishVersion')
-            ->with(self::identicalTo($versionInfo), ['ger-DE']);
+            ->with(self::identicalTo($versionInfo), $expectedTranslations);
 
-        $strategy = new SynchronousContentPublicationStrategy($contentService);
-        $strategy->publishVersion($versionInfo, ['ger-DE']);
+        $publishArguments = ['versionInfo' => $versionInfo];
+        if (null !== $translations) {
+            $publishArguments['translations'] = $translations;
+        }
+
+        (new SynchronousContentPublicationStrategy($contentService))
+            ->publishVersion(...$publishArguments);
     }
 
-    public function testPublishVersionDefaultsToAllTranslations(): void
+    /**
+     * @return iterable<string, array{list<string>|null, list<string>}>
+     */
+    public static function providerForTestPublishVersionDelegatesToContentService(): iterable
     {
-        $versionInfo = $this->createMock(VersionInfo::class);
-
-        $contentService = $this->createMock(ContentService::class);
-        $contentService
-            ->expects(self::once())
-            ->method('publishVersion')
-            ->with(self::identicalTo($versionInfo), Language::ALL);
-
-        $strategy = new SynchronousContentPublicationStrategy($contentService);
-        $strategy->publishVersion($versionInfo);
+        yield 'explicit translations' => [['ger-DE'], ['ger-DE']];
+        yield 'defaults to all translations' => [null, Language::ALL];
     }
 }

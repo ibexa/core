@@ -27,7 +27,7 @@ interface ContentPublicationStrategyInterface
 
     /**
      * @param list<string> $translations List of language codes of translations which will be
-     *                                         included in a published version
+     * included in a published version
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
