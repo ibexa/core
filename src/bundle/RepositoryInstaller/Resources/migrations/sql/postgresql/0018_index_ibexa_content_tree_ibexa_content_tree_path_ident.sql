@@ -1,1 +1,0 @@
-CREATE INDEX ibexa_content_tree_path_ident ON ibexa_content_tree (path_identification_string);

@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_content_relation (id SERIAL NOT NULL, content_type_field_definition_id INT DEFAULT 0 NOT NULL, from_contentobject_id INT DEFAULT 0 NOT NULL, from_contentobject_version INT DEFAULT 0 NOT NULL, relation_type INT DEFAULT 1 NOT NULL, to_contentobject_id INT DEFAULT 0 NOT NULL, PRIMARY KEY(id));

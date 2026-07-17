@@ -1,1 +1,0 @@
-CREATE INDEX ibexa_content_type_field_definition_dts ON ibexa_content_type_field_definition (data_type_string);

@@ -1,1 +1,0 @@
-ALTER TABLE ibexa_content_bookmark ADD CONSTRAINT ibexa_content_bookmark_user_fk FOREIGN KEY (user_id) REFERENCES ibexa_user (contentobject_id) ON UPDATE NO ACTION ON DELETE CASCADE;

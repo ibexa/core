@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_binary_file (contentobject_attribute_id INTEGER DEFAULT 0 NOT NULL, version INTEGER DEFAULT 0 NOT NULL, download_count INTEGER DEFAULT 0 NOT NULL, filename VARCHAR(255) DEFAULT '' NOT NULL, mime_type VARCHAR(255) DEFAULT '' NOT NULL, original_filename VARCHAR(255) DEFAULT '' NOT NULL, PRIMARY KEY(contentobject_attribute_id, version));

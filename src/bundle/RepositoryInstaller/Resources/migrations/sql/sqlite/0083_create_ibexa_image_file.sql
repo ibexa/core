@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_image_file (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, contentobject_attribute_id INTEGER DEFAULT 0 NOT NULL, filepath CLOB NOT NULL);

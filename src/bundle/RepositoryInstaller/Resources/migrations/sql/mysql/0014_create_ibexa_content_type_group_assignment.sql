@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_content_type_group_assignment (content_type_id INT DEFAULT 0 NOT NULL, content_type_status INT DEFAULT 0 NOT NULL, group_id INT DEFAULT 0 NOT NULL, group_name VARCHAR(255) DEFAULT NULL, PRIMARY KEY(content_type_id, content_type_status, group_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
