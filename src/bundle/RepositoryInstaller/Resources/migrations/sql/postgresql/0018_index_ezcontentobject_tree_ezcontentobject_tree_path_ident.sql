@@ -1,1 +1,0 @@
-CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree (path_identification_string);

@@ -1,1 +1,0 @@
-CREATE INDEX ezcobj_trash_path_ident ON ezcontentobject_trash (path_identification_string);

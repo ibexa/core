@@ -1,1 +1,0 @@
-CREATE TABLE ezcontentobject_link (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, contentclassattribute_id INTEGER DEFAULT 0 NOT NULL, from_contentobject_id INTEGER DEFAULT 0 NOT NULL, from_contentobject_version INTEGER DEFAULT 0 NOT NULL, relation_type INTEGER DEFAULT 1 NOT NULL, to_contentobject_id INTEGER DEFAULT 0 NOT NULL);
