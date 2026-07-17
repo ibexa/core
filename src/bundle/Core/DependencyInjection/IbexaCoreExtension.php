@@ -370,6 +370,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $coreLoader->load('user_preference.yml');
         $coreLoader->load('events.yml');
         $coreLoader->load('thumbnails.yml');
+        $coreLoader->load('content_publication.yaml');
         $coreLoader->load('tokens.yml');
         $coreLoader->load('content_location_mapper.yml');
 
