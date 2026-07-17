@@ -47,6 +47,7 @@
         "symfony/http-foundation": "^7.4",
         "symfony/http-kernel": "^7.4",
         "symfony/mime": "^7.4",
+        "symfony/options-resolver": "^7.4",
         "symfony/polyfill-php80": "^1.27",
         "symfony/process": "^7.4",
         "symfony/security-bundle": "^7.4",
