@@ -34,7 +34,6 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
 
     private string $environment;
 
-    /** @var \Symfony\Component\DependencyInjection\ServiceLocator<\Ibexa\Bundle\RepositoryInstaller\Installer\Installer> */
     private ServiceLocator $installers;
 
     private RepositoryConfigurationProvider $repositoryConfigurationProvider;
@@ -44,9 +43,6 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
     public const EXIT_UNKNOWN_INSTALL_TYPE = 6;
     public const EXIT_MISSING_PERMISSIONS = 7;
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ServiceLocator<\Ibexa\Bundle\RepositoryInstaller\Installer\Installer> $installers
-     */
     public function __construct(
         Connection $connection,
         ServiceLocator $installers,
