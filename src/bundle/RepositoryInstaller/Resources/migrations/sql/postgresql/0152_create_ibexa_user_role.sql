@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_user_role (id SERIAL NOT NULL, contentobject_id INT DEFAULT NULL, limit_identifier VARCHAR(255) DEFAULT '', limit_value VARCHAR(255) DEFAULT '', role_id INT DEFAULT NULL, PRIMARY KEY(id));

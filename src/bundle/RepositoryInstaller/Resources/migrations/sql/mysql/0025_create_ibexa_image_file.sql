@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_image_file (id INT AUTO_INCREMENT NOT NULL, contentobject_attribute_id INT DEFAULT 0 NOT NULL, filepath LONGTEXT NOT NULL, INDEX ibexa_image_file_file (filepath(191)), INDEX ibexa_image_file_coid (contentobject_attribute_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

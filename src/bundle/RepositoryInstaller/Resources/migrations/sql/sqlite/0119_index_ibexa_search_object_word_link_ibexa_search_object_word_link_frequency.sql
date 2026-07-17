@@ -1,1 +1,0 @@
-CREATE INDEX ibexa_search_object_word_link_frequency ON ibexa_search_object_word_link (frequency);

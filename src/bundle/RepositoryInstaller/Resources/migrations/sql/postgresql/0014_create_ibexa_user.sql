@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_user (contentobject_id INT DEFAULT 0 NOT NULL, email VARCHAR(150) DEFAULT '' NOT NULL, login VARCHAR(150) DEFAULT '' NOT NULL, password_hash VARCHAR(255) DEFAULT NULL, password_hash_type INT DEFAULT 1 NOT NULL, password_updated_at INT DEFAULT NULL, PRIMARY KEY(contentobject_id));

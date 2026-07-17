@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_user_accountkey (id SERIAL NOT NULL, hash_key VARCHAR(32) DEFAULT '' NOT NULL, time INT DEFAULT 0 NOT NULL, user_id INT DEFAULT 0 NOT NULL, PRIMARY KEY(id));

@@ -1,1 +1,0 @@
-CREATE INDEX ibexa_content_trash_path_ident ON ibexa_content_trash (path_identification_string);

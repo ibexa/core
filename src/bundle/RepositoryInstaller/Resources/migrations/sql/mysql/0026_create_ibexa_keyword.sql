@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_keyword (id INT AUTO_INCREMENT NOT NULL, class_id INT DEFAULT 0 NOT NULL, keyword VARCHAR(255) DEFAULT NULL, INDEX ibexa_keyword_keyword (keyword(191)), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

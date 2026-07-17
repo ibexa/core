@@ -1,1 +1,0 @@
-CREATE INDEX ibexa_content_relation_to_co_id ON ibexa_content_relation (to_contentobject_id);

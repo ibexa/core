@@ -1,1 +1,0 @@
-CREATE INDEX ibexa_object_state_group_lmask ON ibexa_object_state_group (language_mask);

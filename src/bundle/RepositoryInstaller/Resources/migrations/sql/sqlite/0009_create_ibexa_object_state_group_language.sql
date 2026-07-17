@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_object_state_group_language (contentobject_state_group_id INTEGER DEFAULT 0 NOT NULL, real_language_id BIGINT DEFAULT 0 NOT NULL, description CLOB NOT NULL, language_id BIGINT DEFAULT 0 NOT NULL, name VARCHAR(45) DEFAULT '' NOT NULL, PRIMARY KEY(contentobject_state_group_id, real_language_id));

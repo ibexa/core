@@ -1,1 +1,0 @@
-CREATE INDEX ibexa_keyword_field_link_oaid ON ibexa_keyword_field_link (objectattribute_id);
