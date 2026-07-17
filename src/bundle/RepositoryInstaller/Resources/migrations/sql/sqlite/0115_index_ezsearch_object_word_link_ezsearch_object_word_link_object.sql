@@ -1,1 +1,0 @@
-CREATE INDEX ezsearch_object_word_link_object ON ezsearch_object_word_link (contentobject_id);

@@ -1,1 +1,0 @@
-CREATE INDEX IDX_B5412887C54C8C93 ON ibexa_token (type_id);

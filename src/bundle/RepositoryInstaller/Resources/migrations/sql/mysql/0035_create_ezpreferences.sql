@@ -1,1 +1,0 @@
-CREATE TABLE ezpreferences (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(100) DEFAULT NULL, user_id INT DEFAULT 0 NOT NULL, value LONGTEXT DEFAULT NULL, INDEX ezpreferences_user_id_idx (user_id, name), INDEX ezpreferences_name (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_setting (id INT AUTO_INCREMENT NOT NULL, `group` VARCHAR(128) NOT NULL, identifier VARCHAR(128) NOT NULL, value JSON NOT NULL, INDEX ibexa_setting_id (id), UNIQUE INDEX ibexa_setting_group_identifier (`group`, identifier), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

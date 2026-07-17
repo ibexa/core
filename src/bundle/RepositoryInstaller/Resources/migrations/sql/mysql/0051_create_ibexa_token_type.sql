@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_token_type (id INT AUTO_INCREMENT NOT NULL, identifier VARCHAR(64) NOT NULL, UNIQUE INDEX ibexa_token_type_unique (identifier), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
