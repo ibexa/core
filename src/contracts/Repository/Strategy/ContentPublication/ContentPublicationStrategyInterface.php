@@ -20,9 +20,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
  */
 interface ContentPublicationStrategyInterface
 {
-    /**
-     * Whether this strategy handles content publication.
-     */
     public function supports(): bool;
 
     /**
