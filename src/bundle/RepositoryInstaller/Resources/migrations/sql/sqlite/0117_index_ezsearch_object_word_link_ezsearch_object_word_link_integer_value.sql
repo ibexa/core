@@ -1,1 +1,0 @@
-CREATE INDEX ezsearch_object_word_link_integer_value ON ezsearch_object_word_link (integer_value);

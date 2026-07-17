@@ -1,1 +1,0 @@
-CREATE INDEX ezcontentobject_attribute_language_code ON ezcontentobject_attribute (language_code);

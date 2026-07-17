@@ -1,1 +1,0 @@
-CREATE TABLE ezsite_data (name VARCHAR(60) DEFAULT '' NOT NULL, value TEXT NOT NULL, PRIMARY KEY(name));

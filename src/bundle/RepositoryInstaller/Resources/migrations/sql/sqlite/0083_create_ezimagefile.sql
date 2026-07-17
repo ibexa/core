@@ -1,1 +1,0 @@
-CREATE TABLE ezimagefile (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, contentobject_attribute_id INTEGER DEFAULT 0 NOT NULL, filepath CLOB NOT NULL);

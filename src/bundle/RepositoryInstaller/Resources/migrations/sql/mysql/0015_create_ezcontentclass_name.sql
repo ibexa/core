@@ -1,1 +1,0 @@
-CREATE TABLE ezcontentclass_name (contentclass_id INT DEFAULT 0 NOT NULL, contentclass_version INT DEFAULT 0 NOT NULL, language_id BIGINT DEFAULT 0 NOT NULL, language_locale VARCHAR(20) DEFAULT '' NOT NULL, name VARCHAR(255) DEFAULT '' NOT NULL, PRIMARY KEY(contentclass_id, contentclass_version, language_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

@@ -1,1 +1,0 @@
-CREATE TABLE ibexa_setting (id SERIAL NOT NULL, "group" VARCHAR(128) NOT NULL, identifier VARCHAR(128) NOT NULL, value JSON NOT NULL, PRIMARY KEY(id));

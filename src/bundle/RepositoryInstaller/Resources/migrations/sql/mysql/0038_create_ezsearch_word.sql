@@ -1,1 +1,0 @@
-CREATE TABLE ezsearch_word (id INT AUTO_INCREMENT NOT NULL, object_count INT DEFAULT 0 NOT NULL, word VARCHAR(150) DEFAULT NULL, INDEX ezsearch_word_word_i (word), INDEX ezsearch_word_obj_count (object_count), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
