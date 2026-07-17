@@ -1,1 +1,0 @@
-CREATE TABLE ezcontentclass_attribute_ml (contentclass_attribute_id INT NOT NULL, version INT NOT NULL, language_id BIGINT NOT NULL, name VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, data_text TEXT DEFAULT NULL, data_json TEXT DEFAULT NULL, PRIMARY KEY(contentclass_attribute_id, version, language_id));

@@ -1,1 +1,0 @@
-CREATE TABLE ezurlalias (id SERIAL NOT NULL, destination_url TEXT NOT NULL, forward_to_id INT DEFAULT 0 NOT NULL, is_imported INT DEFAULT 0 NOT NULL, is_internal INT DEFAULT 1 NOT NULL, is_wildcard INT DEFAULT 0 NOT NULL, source_md5 VARCHAR(32) DEFAULT NULL, source_url TEXT NOT NULL, PRIMARY KEY(id));

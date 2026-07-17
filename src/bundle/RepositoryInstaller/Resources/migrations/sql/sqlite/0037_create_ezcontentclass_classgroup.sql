@@ -1,1 +1,0 @@
-CREATE TABLE ezcontentclass_classgroup (contentclass_id INTEGER DEFAULT 0 NOT NULL, contentclass_version INTEGER DEFAULT 0 NOT NULL, group_id INTEGER DEFAULT 0 NOT NULL, group_name VARCHAR(255) DEFAULT NULL, PRIMARY KEY(contentclass_id, contentclass_version, group_id));

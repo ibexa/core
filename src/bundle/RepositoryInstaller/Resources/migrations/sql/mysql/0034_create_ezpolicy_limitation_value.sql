@@ -1,1 +1,0 @@
-CREATE TABLE ezpolicy_limitation_value (id INT AUTO_INCREMENT NOT NULL, limitation_id INT DEFAULT NULL, value VARCHAR(255) DEFAULT NULL, INDEX ezpolicy_limit_value_limit_id (limitation_id), INDEX ezpolicy_limitation_value_val (value(191)), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

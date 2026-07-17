@@ -1,1 +1,0 @@
-ALTER TABLE ezcontentbrowsebookmark ADD CONSTRAINT ezcontentbrowsebookmark_user_fk FOREIGN KEY (user_id) REFERENCES ezuser (contentobject_id) ON UPDATE NO ACTION ON DELETE CASCADE;

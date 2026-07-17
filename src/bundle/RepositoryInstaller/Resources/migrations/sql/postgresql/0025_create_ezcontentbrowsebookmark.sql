@@ -1,1 +1,0 @@
-CREATE TABLE ezcontentbrowsebookmark (id SERIAL NOT NULL, node_id INT DEFAULT 0 NOT NULL, user_id INT DEFAULT 0 NOT NULL, name VARCHAR(255) DEFAULT '' NOT NULL, PRIMARY KEY(id));

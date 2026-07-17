@@ -1,1 +1,0 @@
-CREATE TABLE ezuser_accountkey (id INT AUTO_INCREMENT NOT NULL, hash_key VARCHAR(32) DEFAULT '' NOT NULL, time INT DEFAULT 0 NOT NULL, user_id INT DEFAULT 0 NOT NULL, INDEX hash_key (hash_key), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
