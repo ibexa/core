@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Strategy\Publication;
 
+use Ibexa\Contracts\Core\Repository\Strategy\ContentPublication\ContentPublicationResult;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentPublication\ContentPublicationStrategyInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Strategy\ContentPublication\ChainContentPublicationStrategy;
@@ -19,6 +20,7 @@ final class ChainContentPublicationStrategyTest extends TestCase
     public function testPublishVersionExecutesFirstSupportingStrategy(): void
     {
         $versionInfo = $this->createStub(VersionInfo::class);
+        $result = new ContentPublicationResult(null);
 
         $notSupportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
         $notSupportingStrategy
@@ -37,7 +39,8 @@ final class ChainContentPublicationStrategyTest extends TestCase
         $supportingStrategy
             ->expects(self::once())
             ->method('publishVersion')
-            ->with(self::identicalTo($versionInfo), ['eng-GB']);
+            ->with(self::identicalTo($versionInfo), ['eng-GB'])
+            ->willReturn($result);
 
         $neverConsultedStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
         $neverConsultedStrategy
@@ -53,7 +56,7 @@ final class ChainContentPublicationStrategyTest extends TestCase
             $neverConsultedStrategy,
         ]);
 
-        $chain->publishVersion($versionInfo, ['eng-GB']);
+        self::assertSame($result, $chain->publishVersion($versionInfo, ['eng-GB']));
     }
 
     public function testSupportsReturnsTrueWhenAnyStrategySupports(): void

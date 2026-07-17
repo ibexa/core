@@ -29,5 +29,5 @@ interface ContentPublicationStrategyInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): void;
+    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): ContentPublicationResult;
 }

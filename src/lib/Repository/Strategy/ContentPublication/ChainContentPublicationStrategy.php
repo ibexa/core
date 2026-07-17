@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Strategy\ContentPublication;
 
+use Ibexa\Contracts\Core\Repository\Strategy\ContentPublication\ContentPublicationResult;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentPublication\ContentPublicationStrategyInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
@@ -40,13 +41,11 @@ final readonly class ChainContentPublicationStrategy implements ContentPublicati
         return false;
     }
 
-    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): void
+    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): ContentPublicationResult
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->supports()) {
-                $strategy->publishVersion($versionInfo, $translations);
-
-                return;
+                return $strategy->publishVersion($versionInfo, $translations);
             }
         }
 

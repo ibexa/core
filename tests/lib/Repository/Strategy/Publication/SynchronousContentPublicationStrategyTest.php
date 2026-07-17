@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Repository\Strategy\Publication;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Strategy\ContentPublication\SynchronousContentPublicationStrategy;
@@ -36,20 +37,24 @@ final class SynchronousContentPublicationStrategyTest extends TestCase
         array $expectedTranslations
     ): void {
         $versionInfo = $this->createStub(VersionInfo::class);
+        $content = $this->createStub(Content::class);
 
         $contentService = $this->createMock(ContentService::class);
         $contentService
             ->expects(self::once())
             ->method('publishVersion')
-            ->with(self::identicalTo($versionInfo), $expectedTranslations);
+            ->with(self::identicalTo($versionInfo), $expectedTranslations)
+            ->willReturn($content);
 
         $publishArguments = ['versionInfo' => $versionInfo];
         if (null !== $translations) {
             $publishArguments['translations'] = $translations;
         }
 
-        (new SynchronousContentPublicationStrategy($contentService))
+        $result = (new SynchronousContentPublicationStrategy($contentService))
             ->publishVersion(...$publishArguments);
+
+        self::assertSame($content, $result->publishedContent);
     }
 
     /**
