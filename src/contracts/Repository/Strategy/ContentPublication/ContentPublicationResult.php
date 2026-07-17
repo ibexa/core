@@ -10,6 +10,9 @@ namespace Ibexa\Contracts\Core\Repository\Strategy\ContentPublication;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
+/**
+ * @experimental This contract may change in future.
+ */
 final readonly class ContentPublicationResult
 {
     public function __construct(
