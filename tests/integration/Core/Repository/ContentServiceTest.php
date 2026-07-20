@@ -3697,7 +3697,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
             $demoDesign
         );
 
-        $demoDesignLocation = $this->locationService->loadLocation($demoDesign->mainLocationId);
+        $demoDesignMainLocationId = $demoDesign->getMainLocationId();
+        self::assertNotNull($demoDesignMainLocationId, 'Expected mainLocationId to be set for this test case.');
+        $demoDesignLocation = $this->locationService->loadLocation($demoDesignMainLocationId);
 
         // Trashing Content's last Location will change its status to archived,
         // in this case relation towards it will not be loaded.
@@ -4083,7 +4085,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $this->contentService->publishVersion($mediaDraft->getVersionInfo());
         $this->contentService->publishVersion($demoDesignDraft->getVersionInfo());
 
-        $demoDesignLocation = $this->locationService->loadLocation($demoDesignDraft->contentInfo->mainLocationId);
+        $demoDesignLocationId = $demoDesignDraft->getContentInfo()->getMainLocationId();
+        self::assertNotNull($demoDesignLocationId, 'Expected mainLocationId to be set for this test case.');
+        $demoDesignLocation = $this->locationService->loadLocation($demoDesignLocationId);
 
         // Trashing Content's last Location will change its status to archived,
         // in this case relation from it will not be loaded.
@@ -4286,7 +4290,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
             $draft3,
         ]);
 
-        $locationToTrash = $this->locationService->loadLocation($draft3->contentInfo->mainLocationId);
+        $draft3MainLocationId = $draft3->getContentInfo()->getMainLocationId();
+        self::assertNotNull($draft3MainLocationId, 'Expected mainLocationId to be set for this test case.');
+        $locationToTrash = $this->locationService->loadLocation($draft3MainLocationId);
 
         // Trashing Content's last Location will change its status to archived, in this case relation from it will not be loaded.
         $trashService->trash($locationToTrash);
@@ -5287,9 +5293,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // Automatically creates a new URLAlias for the content
         $liveContent = $this->contentService->publishVersion($draft->getVersionInfo());
 
-        $location = $this->locationService->loadLocation(
-            $liveContent->getVersionInfo()->getContentInfo()->mainLocationId
-        );
+        $liveContentInfoMainLocationId = $liveContent->getVersionInfo()->getContentInfo()->getMainLocationId();
+        self::assertNotNull($liveContentInfoMainLocationId, 'Expected mainLocationId to be set for this test case.');
+        $location = $this->locationService->loadLocation($liveContentInfoMainLocationId);
 
         $aliases = $urlAliasService->listLocationAliases($location, false);
 
@@ -5315,9 +5321,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $draft = $this->createUpdatedDraftVersion2();
 
-        $location = $this->locationService->loadLocation(
-            $draft->getVersionInfo()->getContentInfo()->mainLocationId
-        );
+        $draftMainLocationId = $draft->getVersionInfo()->getContentInfo()->getMainLocationId();
+        self::assertNotNull($draftMainLocationId, 'Expected mainLocationId to be set for this test case.');
+        $location = $this->locationService->loadLocation($draftMainLocationId);
 
         // Load and assert URL aliases before publishing updated Content, so that
         // SPI cache is warmed up and cache invalidation is also tested.
@@ -5343,9 +5349,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // and creates new aliases, based on the changes
         $liveContent = $this->contentService->publishVersion($draft->getVersionInfo());
 
-        $location = $this->locationService->loadLocation(
-            $liveContent->getVersionInfo()->getContentInfo()->mainLocationId
-        );
+        $liveContentInfoMainLocationId = $liveContent->getVersionInfo()->getContentInfo()->getMainLocationId();
+        self::assertNotNull($liveContentInfoMainLocationId, 'Expected mainLocationId to be set for this test case.');
+        $location = $this->locationService->loadLocation($liveContentInfoMainLocationId);
 
         $aliases = $urlAliasService->listLocationAliases($location, false);
 
@@ -5382,11 +5388,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $content = $this->createContentVersion1();
 
+        $contentMainLocationId = $content->getVersionInfo()->getContentInfo()->getMainLocationId();
+        self::assertNotNull($contentMainLocationId, 'Expected mainLocationId to be set for this test case.');
         // Create a custom URL alias
         $urlAliasService->createUrlAlias(
-            $this->locationService->loadLocation(
-                $content->getVersionInfo()->getContentInfo()->mainLocationId
-            ),
+            $this->locationService->loadLocation($contentMainLocationId),
             '/my/fancy/story-about-ibexa-dxp',
             self::ENG_US
         );
@@ -5406,9 +5412,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // the custom one is left untouched
         $liveContent = $this->contentService->publishVersion($draftVersion2->getVersionInfo());
 
-        $location = $this->locationService->loadLocation(
-            $liveContent->getVersionInfo()->getContentInfo()->mainLocationId
-        );
+        $liveContentMainLocationId = $liveContent->getVersionInfo()->getContentInfo()->getMainLocationId();
+        self::assertNotNull($liveContentMainLocationId, 'Expected mainLocationId to be set for this test case.');
+        $location = $this->locationService->loadLocation($liveContentMainLocationId);
 
         $aliases = $urlAliasService->listLocationAliases($location);
 
@@ -5578,7 +5584,12 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
         $content = $this->createContentVersion2();
-        $mainLocation = $this->locationService->loadLocation($content->contentInfo->mainLocationId);
+        $contentMainLocationId = $content->getContentInfo()->getMainLocationId();
+        self::assertNotNull(
+            $contentMainLocationId,
+            'Expected mainLocationId to be set for this test case.'
+        );
+        $mainLocation = $this->locationService->loadLocation($contentMainLocationId);
 
         // create custom URL alias for Content main Location
         $urlAliasService->createUrlAlias($mainLocation, '/my-custom-url', self::ENG_GB);
@@ -6417,6 +6428,171 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     */
+    public function testPublishHiddenDraft(): void
+    {
+        $draft = $this->createFolderDraft();
+        $draftContentInfo = $draft->getContentInfo();
+        $this->contentService->hideContent($draftContentInfo);
+
+        $publishedContent = $this->contentService->publishVersion($draft->getVersionInfo());
+        $contentInfo = $publishedContent->getContentInfo();
+
+        self::assertTrue($contentInfo->isHidden(), 'Content is not hidden');
+
+        $mainLocationId = $contentInfo->getMainLocationId();
+
+        self::assertNotNull(
+            $mainLocationId,
+            'Expected mainLocationId to be set for this test case.'
+        );
+
+        $location = $this->locationService->loadLocation($mainLocationId);
+        self::assertTrue($location->isHidden(), 'Location is visible');
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     */
+    public function testPublishRevealedDraft(): void
+    {
+        $draft = $this->createFolderDraft();
+        $draftContentInfo = $draft->getContentInfo();
+
+        $this->contentService->hideContent($draftContentInfo);
+        self::assertTrue(
+            $this->contentService
+                ->loadContent($draftContentInfo->getId())
+                ->getContentInfo()
+                ->isHidden()
+        );
+
+        $this->contentService->revealContent($draftContentInfo);
+        self::assertFalse(
+            $this->contentService
+                ->loadContent($draftContentInfo->getId())
+                ->getContentInfo()
+                ->isHidden()
+        );
+
+        $publishedContent = $this->contentService->publishVersion(
+            $draft->getVersionInfo()
+        );
+
+        $contentInfo = $publishedContent->getContentInfo();
+        $mainLocationId = $contentInfo->getMainLocationId();
+
+        self::assertFalse($contentInfo->isHidden(), 'Content is hidden');
+        self::assertNotNull(
+            $mainLocationId,
+            'Expected mainLocationId to be set for this test case.'
+        );
+
+        $location = $this->locationService->loadLocation($mainLocationId);
+
+        self::assertFalse($location->isHidden(), 'Location is hidden');
+    }
+
+    /**
+     * @dataProvider draftVisibilityTransitionsProvider
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     */
+    public function testDraftVisibilityTransitions(
+        bool $initiallyHidden,
+        bool $secondDraftHidden
+    ): void {
+        $draft = $this->createFolderDraft();
+
+        if ($initiallyHidden) {
+            $this->contentService->hideContent($draft->getContentInfo());
+        }
+
+        $publishedContent = $this->contentService->publishVersion($draft->getVersionInfo());
+        $draft2 = $this->contentService->createContentDraft($publishedContent->getContentInfo());
+
+        if ($secondDraftHidden) {
+            $this->contentService->hideContent($draft2->getContentInfo());
+        } else {
+            $this->contentService->revealContent($draft2->getContentInfo());
+        }
+
+        $publishedContent2 = $this->contentService->publishVersion($draft2->getVersionInfo());
+        $contentInfo = $publishedContent2->getContentInfo();
+
+        self::assertSame(
+            $secondDraftHidden,
+            $contentInfo->isHidden(),
+            'Unexpected final hidden state for content.'
+        );
+
+        $mainLocationId = $contentInfo->getMainLocationId();
+
+        self::assertNotNull(
+            $mainLocationId,
+            'Expected mainLocationId to be set.'
+        );
+
+        $location = $this->locationService->loadLocation($mainLocationId);
+
+        self::assertSame(
+            $secondDraftHidden,
+            $location->isHidden(),
+            'Unexpected final hidden state for location.'
+        );
+    }
+
+    /**
+     * @return iterable<string, array{bool, bool}>
+     */
+    public static function draftVisibilityTransitionsProvider(): iterable
+    {
+        yield 'hidden -> hidden' => [true, true];
+        yield 'hidden -> visible' => [true, false];
+        yield 'visible -> hidden' => [false, true];
+        yield 'visible -> visible' => [false, false];
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     */
+    private function createFolderDraft(): Content
+    {
+        $contentTypeService = $this->getRepository()->getContentTypeService();
+        $locationCreateStructs = $this->locationService->newLocationCreateStruct(2);
+        $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
+
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate->setField('name', 'Folder to hide');
+
+        return $this->contentService->createContent(
+            $contentCreate,
+            [$locationCreateStructs]
+        );
+    }
+
+    /**
      * @depends testRevealContent
      */
     public function testRevealContentWithHiddenParent()
@@ -6457,7 +6633,13 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $this->contentService->revealContent($contents[2]->contentInfo);
 
         $parentContent = $this->contentService->loadContent($contents[0]->id);
-        $parentLocation = $this->locationService->loadLocation($parentContent->contentInfo->mainLocationId);
+        $parentContentMainLocationId = $parentContent->getContentInfo()->getMainLocationId();
+
+        self::assertNotNull(
+            $parentContentMainLocationId,
+            'Expected mainLocationId to be set for this test case.'
+        );
+        $parentLocation = $this->locationService->loadLocation($parentContentMainLocationId);
         $parentSublocations = $this->locationService->loadLocationList([
             $contents[1]->contentInfo->mainLocationId,
             $contents[2]->contentInfo->mainLocationId,
@@ -6515,10 +6697,20 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $this->contentService->revealContent($contents[0]->contentInfo);
 
         $directChildContent = $this->contentService->loadContent($contents[1]->id);
-        $directChildLocation = $this->locationService->loadLocation($directChildContent->contentInfo->mainLocationId);
+        $directChildContentMainLocationId = $directChildContent->getContentInfo()->getMainLocationId();
+        self::assertNotNull(
+            $directChildContentMainLocationId,
+            'Expected mainLocationId to be set for this test case.'
+        );
+        $directChildLocation = $this->locationService->loadLocation($directChildContentMainLocationId);
 
         $childContent = $this->contentService->loadContent($contents[2]->id);
-        $childLocation = $this->locationService->loadLocation($childContent->contentInfo->mainLocationId);
+        $childContentMainLocationId = $childContent->getContentInfo()->getMainLocationId();
+        self::assertNotNull(
+            $childContentMainLocationId,
+            'Expected mainLocationId to be set for this test case.'
+        );
+        $childLocation = $this->locationService->loadLocation($childContentMainLocationId);
         $childSublocations = $this->locationService->loadLocationList([
             $contents[3]->contentInfo->mainLocationId,
             $contents[4]->contentInfo->mainLocationId,
