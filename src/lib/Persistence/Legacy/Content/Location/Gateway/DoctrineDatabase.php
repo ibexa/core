@@ -899,30 +899,36 @@ final class DoctrineDatabase extends Gateway
         // select all node assignments with OP_CODE_CREATE (3) for this content
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select('*')
-            ->from(self::NODE_ASSIGNMENT_TABLE)
+            ->select('na.*', 'co.is_hidden AS content_is_hidden')
+            ->from(self::NODE_ASSIGNMENT_TABLE, 'na')
+            ->innerJoin(
+                'na',
+                ContentGateway::CONTENT_ITEM_TABLE,
+                'co',
+                'co.id = na.contentobject_id'
+            )
             ->where(
                 $query->expr()->eq(
-                    'contentobject_id',
+                    'na.contentobject_id',
                     $query->createPositionalParameter($contentId, ParameterType::INTEGER)
                 )
             )
             ->andWhere(
                 $query->expr()->eq(
-                    'contentobject_version',
+                    'na.contentobject_version',
                     $query->createPositionalParameter($versionNo, ParameterType::INTEGER)
                 )
             )
             ->andWhere(
                 $query->expr()->eq(
-                    'op_code',
+                    'na.op_code',
                     $query->createPositionalParameter(
                         self::NODE_ASSIGNMENT_OP_CODE_CREATE,
                         ParameterType::INTEGER
                     )
                 )
             )
-            ->orderBy('id');
+            ->orderBy('na.id');
         $statement = $query->executeQuery();
 
         // convert all these assignments to nodes
@@ -933,7 +939,11 @@ final class DoctrineDatabase extends Gateway
             $mainLocationId = $isMain ? null : $this->getMainNodeId($contentId);
 
             $parentLocationData = $this->getBasicNodeData((int)$row['parent_node']);
-            $isInvisible = $row['is_hidden'] || $parentLocationData['is_hidden'] || $parentLocationData['is_invisible'];
+            $isInvisible =
+                (bool) $row['is_hidden']
+                || (bool) $row['content_is_hidden']
+                || $parentLocationData['is_hidden']
+                || $parentLocationData['is_invisible'];
             $this->create(
                 new CreateStruct(
                     [

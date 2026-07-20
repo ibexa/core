@@ -2523,12 +2523,15 @@ class ContentService implements ContentServiceInterface
      */
     public function hideContent(ContentInfo $contentInfo): void
     {
-        $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
+        // If ContentInfo is in draft state, mainLocationId is yet not set
+        $targets = $contentInfo->isDraft()
+            ? []
+            : [new DestinationLocationTarget($contentInfo->getMainLocationId(), $contentInfo)];
         if (!$this->permissionResolver->canUser(
             'content',
             'hide',
             $contentInfo,
-            [$locationTarget]
+            $targets
         )) {
             throw new UnauthorizedException('content', 'hide', ['contentId' => $contentInfo->id]);
         }
@@ -2563,12 +2566,16 @@ class ContentService implements ContentServiceInterface
      */
     public function revealContent(ContentInfo $contentInfo): void
     {
-        $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
+        // If ContentInfo is in draft state, mainLocationId is yet not set
+        $targets = $contentInfo->isDraft()
+            ? []
+            : [new DestinationLocationTarget($contentInfo->getMainLocationId(), $contentInfo)];
+
         if (!$this->permissionResolver->canUser(
             'content',
             'hide',
             $contentInfo,
-            [$locationTarget]
+            $targets
         )) {
             throw new UnauthorizedException('content', 'hide', ['contentId' => $contentInfo->id]);
         }
