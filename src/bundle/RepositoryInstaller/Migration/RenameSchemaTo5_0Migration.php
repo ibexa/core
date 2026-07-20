@@ -216,7 +216,6 @@ final class RenameSchemaTo5_0Migration extends AbstractMigration implements Ibex
             $this->addSql('ALTER TABLE ibexa_content_relation RENAME COLUMN contentclassattribute_id TO content_type_field_definition_id');
             $this->addSql('ALTER TABLE ibexa_content_relation RENAME INDEX ibexa_content_relation_cca_id TO ibexa_content_relation_ccfd_id');
             $this->addSql('ALTER TABLE ibexa_search_object_word_link RENAME COLUMN contentclass_attribute_id TO content_type_field_definition_id');
-
             $this->addSql('UPDATE ibexa_object_state_group SET identifier = \'ibexa_lock\' WHERE identifier = \'ez_lock\'');
             $this->addSql('UPDATE ibexa_content_type_field_definition SET data_type_string = \'ibexa_string\' WHERE data_type_string = \'ezstring\'');
             $this->addSql('UPDATE ibexa_content_field SET data_type_string = \'ibexa_string\' WHERE data_type_string = \'ezstring\'');
@@ -426,7 +425,6 @@ final class RenameSchemaTo5_0Migration extends AbstractMigration implements Ibex
             $this->addSql('ALTER SEQUENCE ezurlwildcard_id_seq RENAME TO ibexa_url_wildcard_id_seq');
             $this->addSql('ALTER SEQUENCE ezuser_accountkey_id_seq RENAME TO ibexa_user_accountkey_id_seq');
             $this->addSql('ALTER SEQUENCE ezuser_role_id_seq RENAME TO ibexa_user_role_id_seq');
-
             $this->addSql('UPDATE ibexa_object_state_group SET identifier = \'ibexa_lock\' WHERE identifier = \'ez_lock\'');
             $this->addSql('UPDATE ibexa_content_type_field_definition SET data_type_string = \'ibexa_string\' WHERE data_type_string = \'ezstring\'');
             $this->addSql('UPDATE ibexa_content_field SET data_type_string = \'ibexa_string\' WHERE data_type_string = \'ezstring\'');
@@ -706,7 +704,6 @@ final class RenameSchemaTo5_0Migration extends AbstractMigration implements Ibex
             $this->addSql('DROP INDEX ibexa_content_relation_cca_id');
             $this->addSql('CREATE INDEX ibexa_content_relation_ccfd_id ON ibexa_content_relation (content_type_field_definition_id)');
             $this->addSql('ALTER TABLE ibexa_search_object_word_link RENAME COLUMN contentclass_attribute_id TO content_type_field_definition_id');
-
             $this->addSql('UPDATE ibexa_object_state_group SET identifier = \'ibexa_lock\' WHERE identifier = \'ez_lock\'');
             $this->addSql('UPDATE ibexa_content_type_field_definition SET data_type_string = \'ibexa_string\' WHERE data_type_string = \'ezstring\'');
             $this->addSql('UPDATE ibexa_content_field SET data_type_string = \'ibexa_string\' WHERE data_type_string = \'ezstring\'');
