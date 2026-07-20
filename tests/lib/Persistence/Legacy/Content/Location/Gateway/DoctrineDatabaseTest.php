@@ -1478,6 +1478,129 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             )
         );
     }
+
+    public function testCreateLocationsFromNodeAssignmentsCreatesMainLocation(): void
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+
+        $gateway = $this->getLocationGateway();
+
+        $gateway->createNodeAssignment(
+            new CreateStruct([
+                'contentId' => 68,
+                'contentVersion' => 1,
+                'mainLocationId' => true,
+                'remoteId' => 'some_id',
+            ]),
+            77,
+            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+        );
+
+        $gateway->createLocationsFromNodeAssignments(68, 1);
+
+        $this->assertQueryResult(
+            [[68, 77, 0, 0]],
+            $this->buildContentTreeSelectContentWithParentQuery(
+                68,
+                77,
+                ['contentobject_id', 'parent_node_id', 'is_hidden', 'is_invisible']
+            )
+        );
+    }
+
+    public function testCreateLocationsFromNodeAssignmentsUpdatesNodeAssignmentOpcode(): void
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+
+        $gateway = $this->getLocationGateway();
+
+        $gateway->createNodeAssignment(
+            new CreateStruct([
+                'contentId' => 68,
+                'contentVersion' => 1,
+                'mainLocationId' => true,
+                'remoteId' => 'some_id',
+            ]),
+            77,
+            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+        );
+
+        $gateway->createLocationsFromNodeAssignments(68, 1);
+
+        $this->assertQueryResult(
+            [[DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE_NOP]],
+            $this->buildNodeAssignmentSelectContentWithParentQuery(
+                68,
+                77,
+                ['op_code']
+            )
+        );
+    }
+
+    public function testCreateLocationsFromNodeAssignmentsCreatesSecondaryLocation(): void
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+
+        $gateway = $this->getLocationGateway();
+
+        $gateway->createNodeAssignment(
+            new CreateStruct([
+                'contentId' => 75,
+                'contentVersion' => 1,
+                'mainLocationId' => 77,
+                'remoteId' => 'secondary',
+            ]),
+            69,
+            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+        );
+
+        $gateway->createLocationsFromNodeAssignments(75, 1);
+
+        $this->assertQueryResult(
+            [[75, 69]],
+            $this->buildContentTreeSelectContentWithParentQuery(
+                75,
+                69,
+                ['contentobject_id', 'parent_node_id']
+            )
+        );
+    }
+
+    public function testCreateLocationsFromNodeAssignmentsCreatesInvisibleLocationForHiddenContent(): void
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+
+        $query = $this->getDatabaseConnection()->createQueryBuilder();
+        $query
+            ->update('ezcontentobject')
+            ->set('is_hidden', $query->createPositionalParameter(1, ParameterType::INTEGER))
+            ->where('id = 68')
+            ->execute();
+
+        $gateway = $this->getLocationGateway();
+
+        $gateway->createNodeAssignment(
+            new CreateStruct([
+                'contentId' => 68,
+                'contentVersion' => 1,
+                'mainLocationId' => true,
+                'remoteId' => 'some_id',
+            ]),
+            77,
+            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+        );
+
+        $gateway->createLocationsFromNodeAssignments(68, 1);
+
+        $this->assertQueryResult(
+            [[0, 1]],
+            $this->buildContentTreeSelectContentWithParentQuery(
+                68,
+                77,
+                ['is_hidden', 'is_invisible']
+            )
+        );
+    }
 }
 
 class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Location\Gateway\DoctrineDatabaseTest');
