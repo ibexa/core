@@ -12,6 +12,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
+use Ibexa\DoctrineMigrations\Migration\SqlPlatform;
 
 final class ImportDataMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
@@ -32,6 +33,8 @@ final class ImportDataMigration extends AbstractSqlMigration implements IbexaMig
 
     public function up(Schema $schema): void
     {
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+
         if ($this->isMySQL()) {
             $this->addSqlFile(__DIR__ . '/sql/import-data-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
