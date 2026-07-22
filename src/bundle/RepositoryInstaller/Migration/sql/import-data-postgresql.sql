@@ -1,16 +1,16 @@
 INSERT INTO "ezcobj_state" ("default_language_id", "group_id", "id", "identifier", "language_mask", "priority")
 VALUES (2, 2, 1, 'not_locked', 3, 0),
-       (2, 2, 2, 'locked', 3, 1)
+       (2, 2, 2, 'locked', 3, 1);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcobj_state_group" ("default_language_id", "id", "identifier", "language_mask")
-VALUES (2, 2, 'ez_lock', 3)
+VALUES (2, 2, 'ez_lock', 3);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcobj_state_group_language" ("contentobject_state_group_id", "description","language_id", "name", "real_language_id")
-VALUES (2, '', 3, 'Lock', 2)
+VALUES (2, '', 3, 'Lock', 2);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcobj_state_language" ("contentobject_state_id", "description", "language_id", "name")
 VALUES (1,'',3,'Not locked'),
-       (2,'',3,'Locked')
+       (2,'',3,'Locked');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcobj_state_link" ("contentobject_id", "contentobject_state_id")
 VALUES ( 1, 1),
@@ -24,10 +24,10 @@ VALUES ( 1, 1),
        (42, 1),
        (49, 1),
        (50, 1),
-       (51, 1)
+       (51, 1);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontent_language" ("disabled", "id", "locale", "name")
-VALUES (0, 2, 'eng-GB', 'English (United Kingdom)')
+VALUES (0, 2, 'eng-GB', 'English (United Kingdom)');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentclass" ("always_available", "contentobject_name", "created", "creator_id", "id", "identifier", "initial_language_id", "is_container", "language_mask", "modified", "modifier_id", "remote_id", "serialized_description_list", "serialized_name_list", "sort_field", "sort_order", "url_alias_name", "version")
 VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,2,1448831672,14,'a3d405b81be900468eb153d774f4f0d2','a:0:{}','a:1:{s:6:"eng-GB";s:6:"Folder";}',1,1,NULL,0),
@@ -35,7 +35,7 @@ VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,2,1448831672,14,'a3d4
        (1,'<name>',1024392098,14,3,'user_group',2,1,3,1048494743,14,'25b4268cdcd01921b808a0d854b877ef',NULL,'a:2:{s:6:"eng-GB";s:10:"User group";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
        (1,'<first_name> <last_name>',1024392098,14,4,'user',2,0,3,1082018364,14,'40faa822edc579b02c25f6bb7beec3ad',NULL,'a:2:{s:6:"eng-GB";s:4:"User";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
        (1,'<name>',1031484992,14,5,'image',2,0,3,1048494784,14,'f6df12aa74e36230eb675f364fccd25a',NULL,'a:2:{s:6:"eng-GB";s:5:"Image";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
-       (1,'<name>',1052385472,14,12,'file',2,0,3,1052385669,14,'637d58bfddf164627bdfd265733280a0',NULL,'a:2:{s:6:"eng-GB";s:4:"File";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0)
+       (1,'<name>',1052385472,14,12,'file',2,0,3,1052385669,14,'637d58bfddf164627bdfd265733280a0',NULL,'a:2:{s:6:"eng-GB";s:4:"File";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentclass_attribute" ("can_translate", "category", "contentclass_id", "data_float1", "data_float2", "data_float3", "data_float4", "data_int1", "data_int2", "data_int3", "data_int4", "data_text1", "data_text2", "data_text3", "data_text4", "data_text5", "data_type_string", "id", "identifier", "is_information_collector", "is_required", "is_searchable", "is_thumbnail", "placement", "serialized_data_text", "serialized_description_list", "serialized_name_list", "version")
 VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ezstring',1,'title',0,1,1,FALSE,1,NULL,NULL,'a:2:{s:6:"eng-GB";s:5:"Title";s:16:"always-available";s:6:"eng-GB";}',0),
@@ -61,7 +61,7 @@ VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ezstring',1,'title',
        (1,'',1,NULL,NULL,NULL,NULL,100,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ezstring',155,'short_name',0,0,1,FALSE,2,'N;','a:0:{}','a:1:{s:6:"eng-GB";s:10:"Short name";}',0),
        (1,'',1,NULL,NULL,NULL,NULL,20,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ezrichtext',156,'description',0,0,1,FALSE,4,'N;','a:0:{}','a:1:{s:6:"eng-GB";s:11:"Description";}',0),
        (1,'',4,0,0,0,0,10,0,0,0,'','','','','','eztext',179,'signature',0,0,1,FALSE,4,NULL,NULL,'a:2:{s:6:"eng-GB";s:9:"Signature";s:16:"always-available";s:6:"eng-GB";}',0),
-       (1,'',4,10.0,0,0,0,0,0,0,0,'MB','','','','','ezimage',180,'image',0,0,0,TRUE,5,NULL,NULL,'a:2:{s:6:"eng-GB";s:5:"Image";s:16:"always-available";s:6:"eng-GB";}',0)
+       (1,'',4,10.0,0,0,0,0,0,0,0,'MB','','','','','ezimage',180,'image',0,0,0,TRUE,5,NULL,NULL,'a:2:{s:6:"eng-GB";s:5:"Image";s:16:"always-available";s:6:"eng-GB";}',0);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentclass_classgroup" ("contentclass_id", "contentclass_version", "group_id", "group_name")
 VALUES (1,0,1,'Content'),
@@ -69,7 +69,7 @@ VALUES (1,0,1,'Content'),
        (3,0,2,'Users'),
        (4,0,2,'Users'),
        (5,0,3,'Media'),
-       (12,0,3,'Media')
+       (12,0,3,'Media');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentclass_name" ("contentclass_id", "contentclass_version", "language_id", "language_locale", "name")
 VALUES (1,0,2,'eng-GB','Folder'),
@@ -77,12 +77,12 @@ VALUES (1,0,2,'eng-GB','Folder'),
        (3,0,3,'eng-GB','User group'),
        (4,0,3,'eng-GB','User'),
        (5,0,3,'eng-GB','Image'),
-       (12,0,3,'eng-GB','File')
+       (12,0,3,'eng-GB','File');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentclassgroup" ("created", "creator_id", "id", "modified", "modifier_id", "name")
 VALUES (1031216928, 14, 1, 1033922106, 14, 'Content'),
        (1031216941, 14, 2, 1033922113, 14, 'Users'),
-       (1032009743, 14, 3, 1033922120, 14, 'Media')
+       (1032009743, 14, 3, 1033922120, 14, 'Media');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentobject" ("contentclass_id", "current_version", "id", "initial_language_id", "language_mask", "modified", "name", "owner_id", "published", "remote_id", "section_id", "status")
 VALUES (1,9,1,2,3,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e45197295722c7ade',1,1),
@@ -96,7 +96,7 @@ VALUES (1,9,1,2,3,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e451
        (3,1,42,2,3,1072180330,'Anonymous users',14,1072180330,'15b256dbea2ae72418ff5facc999e8f9',2,1),
        (1,1,49,2,3,1080220197,'Images',14,1080220197,'e7ff633c6b8e0fd3531e74c6e712bead',3,1),
        (1,1,50,2,3,1080220220,'Files',14,1080220220,'732a5acd01b51a6fe6eab448ad4138a9',3,1),
-       (1,1,51,2,3,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1)
+       (1,1,51,2,3,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentobject_attribute" ("attribute_original_id", "contentclassattribute_id", "contentobject_id", "data_float", "data_int", "data_text", "data_type_string", "id", "language_code", "language_id", "sort_key_int", "sort_key_string", "version")
 VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ezstring',1,'eng-GB',3,0,'ibexa platform',9),
@@ -138,7 +138,7 @@ VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ezstring',1,'eng-GB',3,0,'ibexa platfo
        (0,179,10,0,0,'','eztext',177,'eng-GB',3,0,'',2),
        (0,179,14,0,0,'','eztext',178,'eng-GB',3,0,'',3),
        (0,180,10,0,0,'','ezimage',179,'eng-GB',3,0,'',2),
-       (0,180,14,0,0,E'<?xml version="1.0" encoding="utf-8"?>\n<ezimage serial_number="1" is_valid="" filename="" suffix="" basename="" dirpath="" url="" original_filename="" mime_type="" width="" height="" alternative_text="" alias_key="1293033771" timestamp="1301057722"><original attribute_id="180" attribute_version="3" attribute_language="eng-GB"/></ezimage>\n','ezimage',180,'eng-GB',3,0,'',3)
+       (0,180,14,0,0,E'<?xml version="1.0" encoding="utf-8"?>\n<ezimage serial_number="1" is_valid="" filename="" suffix="" basename="" dirpath="" url="" original_filename="" mime_type="" width="" height="" alternative_text="" alias_key="1293033771" timestamp="1301057722"><original attribute_id="180" attribute_version="3" attribute_language="eng-GB"/></ezimage>\n','ezimage',180,'eng-GB',3,0,'',3);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentobject_name" ("content_translation", "content_version", "contentobject_id", "language_id", "name", "real_translation")
 VALUES ('eng-GB',9,1,2,'Ibexa Platform','eng-GB'),
@@ -152,7 +152,7 @@ VALUES ('eng-GB',9,1,2,'Ibexa Platform','eng-GB'),
        ('eng-GB',1,42,3,'Anonymous users','eng-GB'),
        ('eng-GB',1,49,3,'Images','eng-GB'),
        ('eng-GB',1,50,3,'Files','eng-GB'),
-       ('eng-GB',1,51,3,'Multimedia','eng-GB')
+       ('eng-GB',1,51,3,'Multimedia','eng-GB');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentobject_tree" ("contentobject_id", "contentobject_is_published", "contentobject_version", "depth", "is_hidden", "is_invisible", "main_node_id", "modified_subnode", "node_id", "parent_node_id", "path_identification_string", "path_string", "priority", "remote_id", "sort_field", "sort_order")
 VALUES (0,1,1,0,0,0,1,1448999778,1,1,'','/1/',0,'629709ba256fe317c3ddcee35453a96a',1,1),
@@ -167,7 +167,7 @@ VALUES (0,1,1,0,0,0,1,1448999778,1,1,'','/1/',0,'629709ba256fe317c3ddcee35453a96
        (10,1,2,3,0,0,45,1081860719,45,44,'users/anonymous_users/anonymous_user','/1/5/44/45/',0,'2cf8343bee7b482bab82b269d8fecd76',9,1),
        (49,1,1,2,0,0,51,1081860720,51,43,'media/images','/1/43/51/',0,'1b26c0454b09bb49dfb1b9190ffd67cb',9,1),
        (50,1,1,2,0,0,52,1081860720,52,43,'media/files','/1/43/52/',0,'0b113a208f7890f9ad3c24444ff5988c',9,1),
-       (51,1,1,2,0,0,53,1081860720,53,43,'media/multimedia','/1/43/53/',0,'4f18b82c75f10aad476cae5adf98c11f',9,1)
+       (51,1,1,2,0,0,53,1081860720,53,43,'media/multimedia','/1/43/53/',0,'4f18b82c75f10aad476cae5adf98c11f',9,1);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezcontentobject_version" ("contentobject_id", "created", "creator_id", "id", "initial_language_id", "language_mask", "modified", "status", "user_id", "version", "workflow_event_pos")
 VALUES (4,0,14,4,2,3,0,1,0,1,1),
@@ -181,7 +181,7 @@ VALUES (4,0,14,4,2,3,0,1,0,1,1),
        (50,1080220211,14,489,2,3,1080220220,1,0,1,0),
        (51,1080220225,14,490,2,3,1080220233,1,0,1,0),
        (14,1301061783,14,499,2,3,1301062024,1,0,3,0),
-       (1,1448889045,14,506,2,3,1448889046,1,0,9,0)
+       (1,1448889045,14,506,2,3,1448889046,1,0,9,0);
 -- ibexa:sql-statement-separator
 INSERT INTO "eznode_assignment" ("contentobject_id", "contentobject_version", "from_node_id", "id", "is_main", "op_code", "parent_node", "parent_remote_id", "remote_id", "sort_field", "sort_order", "priority", "is_hidden")
 VALUES (8,2,0,4,1,2,5,'','0',1,1,0,0),
@@ -195,7 +195,7 @@ VALUES (8,2,0,4,1,2,5,'','0',1,1,0,0),
        (49,1,0,27,1,2,43,'','0',9,1,0,0),
        (50,1,0,28,1,2,43,'','0',9,1,0,0),
        (51,1,0,29,1,2,43,'','0',9,1,0,0),
-       (14,3,-1,38,1,2,13,'','0',1,1,0,0)
+       (14,3,-1,38,1,2,13,'','0',1,1,0,0);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezpolicy" ("function_name", "id", "module_name", "original_id", "role_id")
 VALUES ('*',317,'content',0,3),
@@ -205,7 +205,7 @@ VALUES ('*',317,'content',0,3),
        ('*',332,'*',0,2),
        ('read',333,'content',0,4),
        ('view_embed',334,'content',0,1),
-       ('*',340,'url',0,3)
+       ('*',340,'url',0,3);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezpolicy_limitation" ("id", "identifier", "policy_id")
 VALUES (251,'Section',328),
@@ -213,7 +213,7 @@ VALUES (251,'Section',328),
        (253,'SiteAccess',331),
        (254,'Class',333),
        (255,'Owner',333),
-       (256,'Class',334)
+       (256,'Class',334);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezpolicy_limitation_value" ("id", "limitation_id", "value")
 VALUES (477,251,'1'),
@@ -222,21 +222,21 @@ VALUES (477,251,'1'),
        (480,254,'4'),
        (481,255,'1'),
        (482,256,'5'),
-       (483,256,'12')
+       (483,256,'12');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezrole" ("id", "is_new", "name", "value", "version")
 VALUES (1,0,'Anonymous','',0),
        (2,0,'Administrator','0',0),
        (3,0,'Editor','',0),
-       (4,0,'Member','',0)
+       (4,0,'Member','',0);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezsection" ("id", "identifier", "locale", "name", "navigation_part_identifier")
 VALUES (1,'standard','','Standard','ezcontentnavigationpart'),
        (2,'users','','Users','ezusernavigationpart'),
-       (3,'media','','Media','ezmedianavigationpart')
+       (3,'media','','Media','ezmedianavigationpart');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezsite_data" ("name", "value")
-VALUES ('ibexa-release','4.6')
+VALUES ('ibexa-release','4.6');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezurlalias" ("destination_url", "forward_to_id", "id", "is_imported", "is_internal", "is_wildcard", "source_md5", "source_url")
 VALUES ('content/view/full/2',0,12,1,1,0,'d41d8cd98f00b204e9800998ecf8427e',''),
@@ -250,7 +250,7 @@ VALUES ('content/view/full/2',0,12,1,1,0,'d41d8cd98f00b204e9800998ecf8427e',''),
        ('content/view/full/45',0,22,1,1,0,'aad93975f09371695ba08292fd9698db','users/anonymous_users/anonymous_user'),
        ('content/view/full/51',0,28,1,1,0,'38985339d4a5aadfc41ab292b4527046','media/images'),
        ('content/view/full/52',0,29,1,1,0,'ad5a8c6f6aac3b1b9df267fe22e7aef6','media/files'),
-       ('content/view/full/53',0,30,1,1,0,'562a0ac498571c6c3529173184a2657c','media/multimedia')
+       ('content/view/full/53',0,30,1,1,0,'562a0ac498571c6c3529173184a2657c','media/multimedia');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezurlalias_ml" ("action", "action_type", "alias_redirects", "id", "is_alias", "is_original", "lang_mask", "link", "parent", "text", "text_md5")
 VALUES ('nop:','nop',1,17,0,0,1,17,0,'media2','50e2736330de124f6edea9b008556fe6'),
@@ -277,16 +277,16 @@ VALUES ('nop:','nop',1,17,0,0,1,17,0,'media2','50e2736330de124f6edea9b008556fe6'
        ('eznode:45','eznode',1,31,0,0,1,12,11,'anonymous_user','c593ec85293ecb0e02d50d4c5c6c20eb'),
        ('eznode:53','eznode',1,34,0,0,1,20,17,'multimedia','2e5bc8831f7ae6a29530e7f1bbf2de9c'),
        ('eznode:52','eznode',1,33,0,0,1,19,17,'files','45b963397aa40d4a0063e0d85e4fe7a1'),
-       ('eznode:51','eznode',1,32,0,0,1,18,17,'images','59b514174bffe4ae402b3d63aad79fe0')
+       ('eznode:51','eznode',1,32,0,0,1,18,17,'images','59b514174bffe4ae402b3d63aad79fe0');
 -- ibexa:sql-statement-separator
 INSERT INTO "ezurlalias_ml_incr" ("id")
 VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15), (16), (17),
        (18), (19), (20), (21), (22), (24), (25), (26), (27), (28), (29), (30), (31), (32), (33),
-       (34), (35), (36), (37)
+       (34), (35), (36), (37);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezuser" ("contentobject_id", "email", "login", "password_hash", "password_hash_type")
 VALUES (10,'anonymous@link.invalid','anonymous','$2y$10$35gOSQs6JK4u4whyERaeUuVeQBi2TUBIZIfP7HEj7sfz.MxvTuOeC',7),
-       (14,'admin@link.invalid','admin','$2y$10$FDn9NPwzhq85cLLxfD5Wu.L3SL3Z/LNCvhkltJUV0wcJj7ciJg2oy',7)
+       (14,'admin@link.invalid','admin','$2y$10$FDn9NPwzhq85cLLxfD5Wu.L3SL3Z/LNCvhkltJUV0wcJj7ciJg2oy',7);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezuser_role" ("contentobject_id", "id", "limit_identifier", "limit_value", "role_id")
 VALUES (11,28,'','',1),
@@ -294,74 +294,74 @@ VALUES (11,28,'','',1),
        (13,32,'Subtree','/1/2/',3),
        (13,33,'Subtree','/1/43/',3),
        (12,34,'','',2),
-       (13,35,'','',4)
+       (13,35,'','',4);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezuser_setting" ("is_enabled", "max_login", "user_id")
 VALUES (1, 1000, 10),
-       (1, 10, 14)
+       (1, 10, 14);
 -- ibexa:sql-statement-separator
 INSERT INTO "ezpreferences" ("name", "user_id", "value")
-SELECT 'focus_mode', u.contentobject_id, '0' FROM "ezuser" u WHERE u.login = 'admin'
+SELECT 'focus_mode', u.contentobject_id, '0' FROM "ezuser" u WHERE u.login = 'admin';
 -- ibexa:sql-statement-separator
 -- Set proper sequence values after inserting data
-SELECT SETVAL('ezcobj_state_group_id_seq', COALESCE(MAX(id), 1) ) FROM ezcobj_state_group
+SELECT SETVAL('ezcobj_state_group_id_seq', COALESCE(MAX(id), 1) ) FROM ezcobj_state_group;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcobj_state_id_seq', COALESCE(MAX(id), 1) ) FROM ezcobj_state
+SELECT SETVAL('ezcobj_state_id_seq', COALESCE(MAX(id), 1) ) FROM ezcobj_state;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcontentbrowsebookmark_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentbrowsebookmark
+SELECT SETVAL('ezcontentbrowsebookmark_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentbrowsebookmark;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcontentclass_attribute_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentclass_attribute
+SELECT SETVAL('ezcontentclass_attribute_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentclass_attribute;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcontentclass_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentclass
+SELECT SETVAL('ezcontentclass_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentclass;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcontentclassgroup_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentclassgroup
+SELECT SETVAL('ezcontentclassgroup_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentclassgroup;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcontentobject_attribute_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentobject_attribute
+SELECT SETVAL('ezcontentobject_attribute_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentobject_attribute;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcontentobject_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentobject
+SELECT SETVAL('ezcontentobject_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentobject;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcontentobject_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentobject_link
+SELECT SETVAL('ezcontentobject_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentobject_link;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcontentobject_tree_node_id_seq', COALESCE(MAX(node_id), 1) ) FROM ezcontentobject_tree
+SELECT SETVAL('ezcontentobject_tree_node_id_seq', COALESCE(MAX(node_id), 1) ) FROM ezcontentobject_tree;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezcontentobject_version_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentobject_version
+SELECT SETVAL('ezcontentobject_version_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentobject_version;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezimagefile_id_seq', COALESCE(MAX(id), 1) ) FROM ezimagefile
+SELECT SETVAL('ezimagefile_id_seq', COALESCE(MAX(id), 1) ) FROM ezimagefile;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezkeyword_attribute_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezkeyword_attribute_link
+SELECT SETVAL('ezkeyword_attribute_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezkeyword_attribute_link;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezkeyword_id_seq', COALESCE(MAX(id), 1) ) FROM ezkeyword
+SELECT SETVAL('ezkeyword_id_seq', COALESCE(MAX(id), 1) ) FROM ezkeyword;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('eznode_assignment_id_seq', COALESCE(MAX(id), 1) ) FROM eznode_assignment
+SELECT SETVAL('eznode_assignment_id_seq', COALESCE(MAX(id), 1) ) FROM eznode_assignment;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('eznotification_id_seq', COALESCE(MAX(id), 1) ) FROM eznotification
+SELECT SETVAL('eznotification_id_seq', COALESCE(MAX(id), 1) ) FROM eznotification;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezpackage_id_seq', COALESCE(MAX(id), 1) ) FROM ezpackage
+SELECT SETVAL('ezpackage_id_seq', COALESCE(MAX(id), 1) ) FROM ezpackage;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezpolicy_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy
+SELECT SETVAL('ezpolicy_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezpolicy_limitation_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy_limitation
+SELECT SETVAL('ezpolicy_limitation_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy_limitation;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezpolicy_limitation_value_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy_limitation_value
+SELECT SETVAL('ezpolicy_limitation_value_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy_limitation_value;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezpreferences_id_seq', COALESCE(MAX(id), 1) ) FROM ezpreferences
+SELECT SETVAL('ezpreferences_id_seq', COALESCE(MAX(id), 1) ) FROM ezpreferences;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezrole_id_seq', COALESCE(MAX(id), 1) ) FROM ezrole
+SELECT SETVAL('ezrole_id_seq', COALESCE(MAX(id), 1) ) FROM ezrole;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezsearch_object_word_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_object_word_link
+SELECT SETVAL('ezsearch_object_word_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_object_word_link;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezsearch_word_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_word
+SELECT SETVAL('ezsearch_word_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_word;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezsection_id_seq', COALESCE(MAX(id), 1) ) FROM ezsection
+SELECT SETVAL('ezsection_id_seq', COALESCE(MAX(id), 1) ) FROM ezsection;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezurl_id_seq', COALESCE(MAX(id), 1) ) FROM ezurl
+SELECT SETVAL('ezurl_id_seq', COALESCE(MAX(id), 1) ) FROM ezurl;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezurlalias_id_seq', COALESCE(MAX(id), 1) ) FROM ezurlalias
+SELECT SETVAL('ezurlalias_id_seq', COALESCE(MAX(id), 1) ) FROM ezurlalias;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezurlalias_ml_incr_id_seq', COALESCE(MAX(id), 1) ) FROM ezurlalias_ml_incr
+SELECT SETVAL('ezurlalias_ml_incr_id_seq', COALESCE(MAX(id), 1) ) FROM ezurlalias_ml_incr;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezurlwildcard_id_seq', COALESCE(MAX(id), 1) ) FROM ezurlwildcard
+SELECT SETVAL('ezurlwildcard_id_seq', COALESCE(MAX(id), 1) ) FROM ezurlwildcard;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezuser_accountkey_id_seq', COALESCE(MAX(id), 1) ) FROM ezuser_accountkey
+SELECT SETVAL('ezuser_accountkey_id_seq', COALESCE(MAX(id), 1) ) FROM ezuser_accountkey;
 -- ibexa:sql-statement-separator
-SELECT SETVAL('ezuser_role_id_seq', COALESCE(MAX(id), 1) ) FROM ezuser_role
+SELECT SETVAL('ezuser_role_id_seq', COALESCE(MAX(id), 1) ) FROM ezuser_role;
