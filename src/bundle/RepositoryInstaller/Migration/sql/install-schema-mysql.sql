@@ -6,7 +6,7 @@ CREATE TABLE ezbinaryfile (
     mime_type VARCHAR(255) DEFAULT '' NOT NULL,
     original_filename VARCHAR(255) DEFAULT '' NOT NULL,
     PRIMARY KEY(contentobject_attribute_id, version)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcobj_state (
     id INT AUTO_INCREMENT NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE ezcobj_state (
     INDEX ezcobj_state_lmask (language_mask),
     UNIQUE INDEX ezcobj_state_identifier (group_id, identifier),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcobj_state_group (
     id INT AUTO_INCREMENT NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE ezcobj_state_group (
     INDEX ezcobj_state_group_lmask (language_mask),
     UNIQUE INDEX ezcobj_state_group_identifier (identifier),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcobj_state_group_language (
     contentobject_state_group_id INT DEFAULT 0 NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE ezcobj_state_group_language (
     language_id BIGINT DEFAULT 0 NOT NULL,
     name VARCHAR(45) DEFAULT '' NOT NULL,
     PRIMARY KEY(contentobject_state_group_id, real_language_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcobj_state_language (
     contentobject_state_id INT DEFAULT 0 NOT NULL,
@@ -46,13 +46,13 @@ CREATE TABLE ezcobj_state_language (
     description LONGTEXT NOT NULL,
     name VARCHAR(45) DEFAULT '' NOT NULL,
     PRIMARY KEY(contentobject_state_id, language_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcobj_state_link (
     contentobject_id INT DEFAULT 0 NOT NULL,
     contentobject_state_id INT DEFAULT 0 NOT NULL,
     PRIMARY KEY(contentobject_id, contentobject_state_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontent_language (
     id BIGINT DEFAULT 0 NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE ezcontent_language (
     name VARCHAR(255) DEFAULT '' NOT NULL,
     INDEX ezcontent_language_name (name(191)),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezuser (
     contentobject_id INT DEFAULT 0 NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE ezuser (
     password_updated_at INT DEFAULT NULL,
     UNIQUE INDEX ezuser_login (login),
     PRIMARY KEY(contentobject_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentobject_tree (
     node_id INT AUTO_INCREMENT NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE ezcontentobject_tree (
     INDEX modified_subnode (modified_subnode),
     INDEX ezcontentobject_tree_remote_id (remote_id),
     PRIMARY KEY(node_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentbrowsebookmark (
     id INT AUTO_INCREMENT NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE ezcontentbrowsebookmark (
     INDEX ezcontentbrowsebookmark_user (user_id),
     INDEX ezcontentbrowsebookmark_user_location (user_id, node_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentclass (
     id INT AUTO_INCREMENT NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE ezcontentclass (
     INDEX ezcontentclass_version (version),
     INDEX ezcontentclass_identifier (identifier, version),
     PRIMARY KEY(id, version)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentclass_attribute (
     id INT AUTO_INCREMENT NOT NULL,
@@ -169,7 +169,7 @@ CREATE TABLE ezcontentclass_attribute (
     INDEX ezcontentclass_attr_ccid (contentclass_id),
     INDEX ezcontentclass_attr_dts (data_type_string),
     PRIMARY KEY(id, version)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentclass_attribute_ml (
     contentclass_attribute_id INT NOT NULL,
@@ -181,7 +181,7 @@ CREATE TABLE ezcontentclass_attribute_ml (
     data_json TEXT DEFAULT NULL,
     INDEX ezcontentclass_attribute_ml_lang_fk (language_id),
     PRIMARY KEY(contentclass_attribute_id, version, language_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentclass_classgroup (
     contentclass_id INT DEFAULT 0 NOT NULL,
@@ -189,7 +189,7 @@ CREATE TABLE ezcontentclass_classgroup (
     group_id INT DEFAULT 0 NOT NULL,
     group_name VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY(contentclass_id, contentclass_version, group_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentclass_name (
     contentclass_id INT DEFAULT 0 NOT NULL,
@@ -198,7 +198,7 @@ CREATE TABLE ezcontentclass_name (
     language_locale VARCHAR(20) DEFAULT '' NOT NULL,
     name VARCHAR(255) DEFAULT '' NOT NULL,
     PRIMARY KEY(contentclass_id, contentclass_version, language_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentclassgroup (
     id INT AUTO_INCREMENT NOT NULL,
@@ -209,7 +209,7 @@ CREATE TABLE ezcontentclassgroup (
     name VARCHAR(255) DEFAULT NULL,
     is_system TINYINT(1) DEFAULT '0' NOT NULL,
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentobject (
     id INT AUTO_INCREMENT NOT NULL,
@@ -234,7 +234,7 @@ CREATE TABLE ezcontentobject (
     INDEX ezcontentobject_status (status),
     UNIQUE INDEX ezcontentobject_remote_id (remote_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentobject_attribute (
     id INT AUTO_INCREMENT NOT NULL,
@@ -257,7 +257,7 @@ CREATE TABLE ezcontentobject_attribute (
     INDEX sort_key_int (sort_key_int),
     INDEX ezcontentobject_attribute_co_id_ver (contentobject_id, version),
     PRIMARY KEY(id, version)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentobject_link (
     id INT AUTO_INCREMENT NOT NULL,
@@ -270,7 +270,7 @@ CREATE TABLE ezcontentobject_link (
     INDEX ezco_link_from (from_contentobject_id, from_contentobject_version, contentclassattribute_id),
     INDEX ezco_link_cca_id (contentclassattribute_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentobject_name (
     contentobject_id INT DEFAULT 0 NOT NULL,
@@ -283,7 +283,7 @@ CREATE TABLE ezcontentobject_name (
     INDEX ezcontentobject_name_cov_id (content_version),
     INDEX ezcontentobject_name_name (name(191)),
     PRIMARY KEY(contentobject_id, content_version, content_translation)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentobject_trash (
     node_id INT DEFAULT 0 NOT NULL,
@@ -309,7 +309,7 @@ CREATE TABLE ezcontentobject_trash (
     INDEX ezcobj_trash_modified_subnode (modified_subnode),
     INDEX ezcobj_trash_path (path_string(191)),
     PRIMARY KEY(node_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentobject_version (
     id INT AUTO_INCREMENT NOT NULL,
@@ -328,7 +328,7 @@ CREATE TABLE ezcontentobject_version (
     INDEX ezcontobj_version_obj_status (contentobject_id, status),
     INDEX ezcobj_version_creator_id (creator_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezdfsfile (
     name_hash VARCHAR(34) DEFAULT '' NOT NULL,
@@ -345,7 +345,7 @@ CREATE TABLE ezdfsfile (
     INDEX ezdfsfile_name (name(191)),
     INDEX ezdfsfile_mtime (mtime),
     PRIMARY KEY(name_hash)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezgmaplocation (
     contentobject_attribute_id INT DEFAULT 0 NOT NULL,
@@ -355,7 +355,7 @@ CREATE TABLE ezgmaplocation (
     address VARCHAR(150) DEFAULT NULL,
     INDEX latitude_longitude_key (latitude, longitude),
     PRIMARY KEY(contentobject_attribute_id, contentobject_version)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezimagefile (
     id INT AUTO_INCREMENT NOT NULL,
@@ -364,7 +364,7 @@ CREATE TABLE ezimagefile (
     INDEX ezimagefile_file (filepath(191)),
     INDEX ezimagefile_coid (contentobject_attribute_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezkeyword (
     id INT AUTO_INCREMENT NOT NULL,
@@ -372,7 +372,7 @@ CREATE TABLE ezkeyword (
     keyword VARCHAR(255) DEFAULT NULL,
     INDEX ezkeyword_keyword (keyword(191)),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezkeyword_attribute_link (
     id INT AUTO_INCREMENT NOT NULL,
@@ -383,7 +383,7 @@ CREATE TABLE ezkeyword_attribute_link (
     INDEX ezkeyword_attr_link_kid_oaid (keyword_id, objectattribute_id),
     INDEX ezkeyword_attr_link_oaid_ver (objectattribute_id, version),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezmedia (
     contentobject_attribute_id INT DEFAULT 0 NOT NULL,
@@ -400,7 +400,7 @@ CREATE TABLE ezmedia (
     quality VARCHAR(50) DEFAULT NULL,
     width INT DEFAULT NULL,
     PRIMARY KEY(contentobject_attribute_id, version)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE eznode_assignment (
     id INT AUTO_INCREMENT NOT NULL,
@@ -421,7 +421,7 @@ CREATE TABLE eznode_assignment (
     INDEX eznode_assignment_parent_node (parent_node),
     INDEX eznode_assignment_co_version (contentobject_version),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE eznotification (
     id INT AUTO_INCREMENT NOT NULL,
@@ -433,7 +433,7 @@ CREATE TABLE eznotification (
     INDEX eznotification_owner_is_pending (owner_id, is_pending),
     INDEX eznotification_owner (owner_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezpackage (
     id INT AUTO_INCREMENT NOT NULL,
@@ -441,7 +441,7 @@ CREATE TABLE ezpackage (
     name VARCHAR(100) DEFAULT '' NOT NULL,
     version VARCHAR(30) DEFAULT '0' NOT NULL,
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezpolicy (
     id INT AUTO_INCREMENT NOT NULL,
@@ -452,7 +452,7 @@ CREATE TABLE ezpolicy (
     INDEX ezpolicy_role_id (role_id),
     INDEX ezpolicy_original_id (original_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezpolicy_limitation (
     id INT AUTO_INCREMENT NOT NULL,
@@ -460,7 +460,7 @@ CREATE TABLE ezpolicy_limitation (
     policy_id INT DEFAULT NULL,
     INDEX policy_id (policy_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezpolicy_limitation_value (
     id INT AUTO_INCREMENT NOT NULL,
@@ -469,7 +469,7 @@ CREATE TABLE ezpolicy_limitation_value (
     INDEX ezpolicy_limit_value_limit_id (limitation_id),
     INDEX ezpolicy_limitation_value_val (value(191)),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezpreferences (
     id INT AUTO_INCREMENT NOT NULL,
@@ -479,7 +479,7 @@ CREATE TABLE ezpreferences (
     INDEX ezpreferences_user_id_idx (user_id, name),
     INDEX ezpreferences_name (name),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezrole (
     id INT AUTO_INCREMENT NOT NULL,
@@ -488,7 +488,7 @@ CREATE TABLE ezrole (
     value CHAR(1) DEFAULT NULL,
     version INT DEFAULT 0,
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezsearch_object_word_link (
     id INT AUTO_INCREMENT NOT NULL,
@@ -511,7 +511,7 @@ CREATE TABLE ezsearch_object_word_link (
     INDEX ezsearch_object_word_link_word (word_id),
     INDEX ezsearch_object_word_link_frequency (frequency),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezsearch_word (
     id INT AUTO_INCREMENT NOT NULL,
@@ -520,7 +520,7 @@ CREATE TABLE ezsearch_word (
     INDEX ezsearch_word_word_i (word),
     INDEX ezsearch_word_obj_count (object_count),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezsection (
     id INT AUTO_INCREMENT NOT NULL,
@@ -529,13 +529,13 @@ CREATE TABLE ezsection (
     name VARCHAR(255) DEFAULT NULL,
     navigation_part_identifier VARCHAR(100) DEFAULT 'ezcontentnavigationpart',
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezsite_data (
     name VARCHAR(60) DEFAULT '' NOT NULL,
     value LONGTEXT NOT NULL,
     PRIMARY KEY(name)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezurl (
     id INT AUTO_INCREMENT NOT NULL,
@@ -547,7 +547,7 @@ CREATE TABLE ezurl (
     url LONGTEXT DEFAULT NULL,
     INDEX ezurl_url (url(191)),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezurl_object_link (
     contentobject_attribute_id INT DEFAULT 0 NOT NULL,
@@ -557,7 +557,7 @@ CREATE TABLE ezurl_object_link (
     INDEX ezurl_ol_url_id (url_id),
     INDEX ezurl_ol_coa_version (contentobject_attribute_version),
     INDEX ezurl_ol_coa_id_cav (contentobject_attribute_id, contentobject_attribute_version)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezurlalias (
     id INT AUTO_INCREMENT NOT NULL,
@@ -575,7 +575,7 @@ CREATE TABLE ezurlalias (
     INDEX ezurlalias_source_url (source_url(191)),
     INDEX ezurlalias_desturl (destination_url(191)),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezurlalias_ml (
     parent INT DEFAULT 0 NOT NULL,
@@ -598,12 +598,12 @@ CREATE TABLE ezurlalias_ml (
     INDEX ezurlalias_ml_link (link),
     INDEX ezurlalias_ml_id (id),
     PRIMARY KEY(parent, text_md5)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezurlalias_ml_incr (
     id INT AUTO_INCREMENT NOT NULL,
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezurlwildcard (
     id INT AUTO_INCREMENT NOT NULL,
@@ -611,7 +611,7 @@ CREATE TABLE ezurlwildcard (
     source_url LONGTEXT NOT NULL,
     type INT DEFAULT 0 NOT NULL,
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezuser_accountkey (
     id INT AUTO_INCREMENT NOT NULL,
@@ -620,7 +620,7 @@ CREATE TABLE ezuser_accountkey (
     user_id INT DEFAULT 0 NOT NULL,
     INDEX hash_key (hash_key),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezuser_role (
     id INT AUTO_INCREMENT NOT NULL,
@@ -631,14 +631,14 @@ CREATE TABLE ezuser_role (
     INDEX ezuser_role_role_id (role_id),
     INDEX ezuser_role_contentobject_id (contentobject_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ezuser_setting (
     user_id INT DEFAULT 0 NOT NULL,
     is_enabled INT DEFAULT 0 NOT NULL,
     max_login INT DEFAULT NULL,
     PRIMARY KEY(user_id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ibexa_setting (
     id INT AUTO_INCREMENT NOT NULL,
@@ -648,14 +648,14 @@ CREATE TABLE ibexa_setting (
     INDEX ibexa_setting_id (id),
     UNIQUE INDEX ibexa_setting_group_identifier (`group`, identifier),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ibexa_token_type (
     id INT AUTO_INCREMENT NOT NULL,
     identifier VARCHAR(64) NOT NULL,
     UNIQUE INDEX ibexa_token_type_unique (identifier),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
 CREATE TABLE ibexa_token (
     id INT AUTO_INCREMENT NOT NULL,
@@ -668,12 +668,12 @@ CREATE TABLE ibexa_token (
     INDEX IDX_B5412887C54C8C93 (type_id),
     UNIQUE INDEX ibexa_token_unique (token, identifier, type_id),
     PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB
+) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
-ALTER TABLE ezcontentbrowsebookmark ADD CONSTRAINT ezcontentbrowsebookmark_location_fk FOREIGN KEY (node_id) REFERENCES ezcontentobject_tree (node_id) ON UPDATE NO ACTION ON DELETE CASCADE
+ALTER TABLE ezcontentbrowsebookmark ADD CONSTRAINT ezcontentbrowsebookmark_location_fk FOREIGN KEY (node_id) REFERENCES ezcontentobject_tree (node_id) ON UPDATE NO ACTION ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
-ALTER TABLE ezcontentbrowsebookmark ADD CONSTRAINT ezcontentbrowsebookmark_user_fk FOREIGN KEY (user_id) REFERENCES ezuser (contentobject_id) ON UPDATE NO ACTION ON DELETE CASCADE
+ALTER TABLE ezcontentbrowsebookmark ADD CONSTRAINT ezcontentbrowsebookmark_user_fk FOREIGN KEY (user_id) REFERENCES ezuser (contentobject_id) ON UPDATE NO ACTION ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
-ALTER TABLE ezcontentclass_attribute_ml ADD CONSTRAINT ezcontentclass_attribute_ml_lang_fk FOREIGN KEY (language_id) REFERENCES ezcontent_language (id) ON UPDATE CASCADE ON DELETE CASCADE
+ALTER TABLE ezcontentclass_attribute_ml ADD CONSTRAINT ezcontentclass_attribute_ml_lang_fk FOREIGN KEY (language_id) REFERENCES ezcontent_language (id) ON UPDATE CASCADE ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_token ADD CONSTRAINT ibexa_token_type_id_fk FOREIGN KEY (type_id) REFERENCES ibexa_token_type (id) ON DELETE CASCADE
+ALTER TABLE ibexa_token ADD CONSTRAINT ibexa_token_type_id_fk FOREIGN KEY (type_id) REFERENCES ibexa_token_type (id) ON DELETE CASCADE;
