@@ -1,6 +1,12 @@
 parameters:
 	ignoreErrors:
 		-
+			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:getDateIntervalFromXML\(\) should return DateInterval but returns DateInterval\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
+
+		-
 			message: "#^Class SensitiveParameterValue not found\\.$#"
 			count: 1
 			path: tests/lib/Repository/User/PasswordHashServiceTest.php

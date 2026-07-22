@@ -69662,6 +69662,12 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
+			message: '#^Call to new Ibexa\\Core\\Repository\\ContentService\(\) on a separate line has no effect\.$#'
+			identifier: new.resultUnused
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:assertForCreateContentContentValidationException\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
