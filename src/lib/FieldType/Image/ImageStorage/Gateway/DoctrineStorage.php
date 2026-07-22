@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
@@ -119,7 +120,7 @@ class DoctrineStorage extends Gateway
                 )
             )
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
-            ->setParameter('fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
         ;
 
         $statement = $selectQuery->executeQuery();

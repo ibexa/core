@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
@@ -21,6 +22,10 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\Criterio
  */
 final class IsSystem implements CriterionHandlerInterface
 {
+    public function __construct(private readonly Connection $connection)
+    {
+    }
+
     public function supports(CriterionInterface $criterion): bool
     {
         return $criterion instanceof IsSystemCriterion;
@@ -34,7 +39,7 @@ final class IsSystem implements CriterionHandlerInterface
         QueryBuilder $qb,
         CriterionInterface $criterion
     ): string {
-        $subQuery = $qb->getConnection()->createQueryBuilder();
+        $subQuery = $this->connection->createQueryBuilder();
         $subQuery
             ->select('g.content_type_id')
             ->from(Gateway::CONTENT_TYPE_GROUP_TABLE, 'ctg')

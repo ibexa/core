@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
@@ -157,7 +158,7 @@ class Field extends FieldBase
                     'content_type_field_definition_id',
                     $queryBuilder->createNamedParameter(
                         $fieldsInfo['ids'],
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 ),
                 $filter

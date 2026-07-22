@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -66,7 +67,7 @@ class UserEmail extends CriterionHandler
             $value = (array)$criterion->value;
             $expression = $queryBuilder->expr()->in(
                 't1.email',
-                $queryBuilder->createNamedParameter($value, Connection::PARAM_STR_ARRAY)
+                $queryBuilder->createNamedParameter($value, ArrayParameterType::STRING)
             );
         }
 

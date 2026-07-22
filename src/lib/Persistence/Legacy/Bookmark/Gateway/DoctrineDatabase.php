@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
@@ -95,7 +96,7 @@ class DoctrineDatabase extends Gateway
                 $query->expr()->in(self::COLUMN_LOCATION_ID, ':location_id')
             ))
             ->setParameter('user_id', $userId, PDO::PARAM_INT)
-            ->setParameter('location_id', $locationIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('location_id', $locationIds, ArrayParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }

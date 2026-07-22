@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -37,7 +37,7 @@ class SectionId extends CriterionHandler
 
         return $queryBuilder->expr()->in(
             'c.section_id',
-            $queryBuilder->createNamedParameter($sectionIds, Connection::PARAM_INT_ARRAY)
+            $queryBuilder->createNamedParameter($sectionIds, ArrayParameterType::INTEGER)
         );
     }
 }

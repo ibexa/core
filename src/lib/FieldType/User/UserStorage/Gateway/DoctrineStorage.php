@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\FieldType\User\UserStorage\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\ParameterType;
@@ -367,7 +368,7 @@ class DoctrineStorage extends Gateway
                     ':fieldIds'
                 )
             )
-            ->setParameter('fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
             ->groupBy('id')
             ->having($countExpr . ' > 1');
 
@@ -386,7 +387,7 @@ class DoctrineStorage extends Gateway
             ->andWhere(
                 $selectQuery->expr()->notIn('u.password_hash_type', ':supportedPasswordHashes')
             )
-            ->setParameter('supportedPasswordHashes', $supportedHashTypes, Connection::PARAM_INT_ARRAY);
+            ->setParameter('supportedPasswordHashes', $supportedHashTypes, ArrayParameterType::INTEGER);
 
         return $selectQuery
             ->executeQuery()

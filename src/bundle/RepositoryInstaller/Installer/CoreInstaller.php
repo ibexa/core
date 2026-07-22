@@ -60,7 +60,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
                 '<info>Executing %d queries on database <comment>%s</comment> (<comment>%s</comment>)</info>',
                 $queriesCount,
                 $this->db->getDatabase(),
-                $databasePlatform->getName()
+                $this->getDBMSDataDirectoryName($databasePlatform)
             )
         );
         $progressBar = new ProgressBar($this->output);
@@ -97,7 +97,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         Schema $newSchema,
         AbstractPlatform $databasePlatform
     ): array {
-        $existingSchema = $this->db->getSchemaManager()->createSchema();
+        $existingSchema = $this->db->createSchemaManager()->introspectSchema();
         $statements = [];
         // reverse table order for clean-up (due to FKs)
         $tables = array_reverse($newSchema->getTables());

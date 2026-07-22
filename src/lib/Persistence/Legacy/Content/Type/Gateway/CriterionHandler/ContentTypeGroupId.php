@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -22,6 +23,10 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\Criterio
  */
 final class ContentTypeGroupId implements CriterionHandlerInterface
 {
+    public function __construct(private readonly Connection $connection)
+    {
+    }
+
     public function supports(CriterionInterface $criterion): bool
     {
         return $criterion instanceof ContentTypeGroupIdCriterion;
@@ -35,11 +40,11 @@ final class ContentTypeGroupId implements CriterionHandlerInterface
         QueryBuilder $qb,
         CriterionInterface $criterion
     ): string {
-        $subQuery = $qb->getConnection()->createQueryBuilder();
+        $subQuery = $this->connection->createQueryBuilder();
         $whereClause = is_array($criterion->getValue())
             ? $subQuery->expr()->in(
                 'c_group.group_id',
-                $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
+                $qb->createNamedParameter($criterion->getValue(), ArrayParameterType::INTEGER)
             ) : $subQuery->expr()->eq(
                 'c_group.group_id',
                 $qb->createNamedParameter($criterion->getValue(), ParameterType::INTEGER)

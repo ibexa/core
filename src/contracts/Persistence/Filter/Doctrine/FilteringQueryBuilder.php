@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Filter\Doctrine;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -29,6 +29,114 @@ use function sprintf;
 final class FilteringQueryBuilder extends QueryBuilder
 {
     public const SORT_ORDER_MAP = [Query::SORT_ASC => 'ASC', Query::SORT_DESC => 'DESC'];
+
+    /** @var array<string, string> Map of join target alias => join condition. */
+    private array $joinConditionsByAlias = [];
+
+    /** @var array<string, true> Set of aliases a join has been created FROM. */
+    private array $joinedFromAliases = [];
+
+    /** @var array<string, true> Set of root FROM aliases. */
+    private array $fromAliases = [];
+
+    /**
+     * Inherited from \Doctrine\DBAL\Query\QueryBuilder::from.
+     *
+     * @param string $from
+     * @param string|null $alias
+     *
+     * @return $this
+     */
+    public function from($from, $alias = null): self
+    {
+        if ($alias !== null) {
+            $this->fromAliases[$alias] = true;
+        }
+
+        return parent::from($from, $alias);
+    }
+
+    /**
+     * Inherited from \Doctrine\DBAL\Query\QueryBuilder::join.
+     *
+     * @param string $fromAlias
+     * @param string $join
+     * @param string $alias
+     * @param string|null $condition
+     *
+     * @return $this
+     */
+    public function join($fromAlias, $join, $alias, $condition = null): self
+    {
+        $this->trackJoin($fromAlias, $alias, $condition);
+
+        return parent::join($fromAlias, $join, $alias, $condition);
+    }
+
+    /**
+     * Inherited from \Doctrine\DBAL\Query\QueryBuilder::innerJoin.
+     *
+     * @param string $fromAlias
+     * @param string $join
+     * @param string $alias
+     * @param string|null $condition
+     *
+     * @return $this
+     */
+    public function innerJoin($fromAlias, $join, $alias, $condition = null): self
+    {
+        $this->trackJoin($fromAlias, $alias, $condition);
+
+        return parent::innerJoin($fromAlias, $join, $alias, $condition);
+    }
+
+    /**
+     * Inherited from \Doctrine\DBAL\Query\QueryBuilder::leftJoin.
+     *
+     * @param string $fromAlias
+     * @param string $join
+     * @param string $alias
+     * @param string|null $condition
+     *
+     * @return $this
+     */
+    public function leftJoin($fromAlias, $join, $alias, $condition = null): self
+    {
+        $this->trackJoin($fromAlias, $alias, $condition);
+
+        return parent::leftJoin($fromAlias, $join, $alias, $condition);
+    }
+
+    /**
+     * Inherited from \Doctrine\DBAL\Query\QueryBuilder::rightJoin.
+     *
+     * @param string $fromAlias
+     * @param string $join
+     * @param string $alias
+     * @param string|null $condition
+     *
+     * @return $this
+     */
+    public function rightJoin($fromAlias, $join, $alias, $condition = null): self
+    {
+        $this->trackJoin($fromAlias, $alias, $condition);
+
+        return parent::rightJoin($fromAlias, $join, $alias, $condition);
+    }
+
+    private function trackJoin(string $fromAlias, string $alias, string|\Stringable|null $condition): void
+    {
+        $this->joinedFromAliases[$fromAlias] = true;
+        $this->joinConditionsByAlias[$alias] = $condition !== null ? (string)$condition : '';
+    }
+
+    /**
+     * Whether $alias has been registered as a root FROM alias (via {@see from()}).
+     */
+    public function hasFromAlias(string $alias): bool
+    {
+        return isset($this->fromAliases[$alias]);
+    }
 
     /**
      * Create table JOIN, but only if it hasn't been already joined (determined based on $tableAlias).
@@ -101,21 +209,9 @@ final class FilteringQueryBuilder extends QueryBuilder
      */
     public function getExistingTableAliasJoinCondition(string $tableAlias): ?string
     {
-        $joinPart = $this->getQueryPart('join');
-        // joins are stored per each $fromAlias (as an assoc. key), but a flat list of joins is needed here
-        $joins = !empty($joinPart) ? array_merge(...array_values($joinPart)) : [];
-        $existingTableAliasJoins = array_values(
-            array_filter(
-                $joins,
-                static function (array $joinData) use ($tableAlias): bool {
-                    return $joinData['joinAlias'] === $tableAlias;
-                }
-            )
-        );
+        $joinCondition = $this->joinConditionsByAlias[$tableAlias] ?? null;
 
-        $joinCondition = $existingTableAliasJoins[0]['joinCondition'] ?? null;
-
-        return null !== $joinCondition ? (string)$joinCondition : null;
+        return '' !== $joinCondition && null !== $joinCondition ? $joinCondition : null;
     }
 
     /**
@@ -162,7 +258,7 @@ final class FilteringQueryBuilder extends QueryBuilder
 
     private function isJoinedAsFromTableAlias(string $tableAlias): bool
     {
-        return array_key_exists($tableAlias, $this->getQueryPart('join'));
+        return isset($this->joinedFromAliases[$tableAlias]);
     }
 
     /**
@@ -177,13 +273,12 @@ final class FilteringQueryBuilder extends QueryBuilder
             case Operator::IN:
                 return $this->expr()->in(
                     $columnName,
-                    $this->createNamedParameter($criterionValue, Connection::PARAM_INT_ARRAY)
+                    $this->createNamedParameter($criterionValue, ArrayParameterType::INTEGER)
                 );
 
             case Query\Criterion\Operator::BETWEEN:
-                $databasePlatform = $this->getConnection()->getDatabasePlatform();
-
-                return $databasePlatform->getBetweenExpression(
+                return sprintf(
+                    '%s BETWEEN %s AND %s',
                     $columnName,
                     $this->createNamedParameter($criterionValue[0], ParameterType::INTEGER),
                     $this->createNamedParameter($criterionValue[1], ParameterType::INTEGER)

@@ -8,6 +8,10 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -87,7 +91,7 @@ class DbBasedInstaller
      */
     final protected function getKernelSQLFileForDBMS($relativeFilePath)
     {
-        $databasePlatform = $this->db->getDatabasePlatform()->getName();
+        $databasePlatform = $this->getDBMSDataDirectoryName($this->db->getDatabasePlatform());
         $filePath = "{$this->baseDataDir}/{$databasePlatform}/{$relativeFilePath}";
 
         if (!is_readable($filePath)) {
@@ -103,5 +107,25 @@ class DbBasedInstaller
 
         // apply realpath for more user-friendly Console output
         return realpath($filePath);
+    }
+
+    protected function getDBMSDataDirectoryName(AbstractPlatform $platform): string
+    {
+        if ($platform instanceof AbstractMySQLPlatform) {
+            return 'mysql';
+        }
+
+        if ($platform instanceof PostgreSQLPlatform) {
+            return 'postgresql';
+        }
+
+        if ($platform instanceof SqlitePlatform) {
+            return 'sqlite';
+        }
+
+        throw new InvalidArgumentException(
+            'platform',
+            sprintf('Unsupported database platform: %s', get_class($platform))
+        );
     }
 }

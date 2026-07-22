@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\Core\Command;
 
 use DateTime;
 use DateTimeZone;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use RuntimeException;
@@ -302,7 +303,7 @@ EOT
             ->where(
                 $query->expr()->in(
                     'a.data_type_string',
-                    $query->createNamedParameter(self::MODES[$this->mode], Connection::PARAM_STR_ARRAY)
+                    $query->createNamedParameter(self::MODES[$this->mode], ArrayParameterType::STRING)
                 )
             )
             ->andWhere('a.data_int is not null')
@@ -342,7 +343,7 @@ EOT
             ->where(
                 $query->expr()->in(
                     'a.data_type_string',
-                    $query->createNamedParameter(self::MODES[$this->mode], Connection::PARAM_STR_ARRAY)
+                    $query->createNamedParameter(self::MODES[$this->mode], ArrayParameterType::STRING)
                 )
             )
             ->andWhere('a.data_int is not null')

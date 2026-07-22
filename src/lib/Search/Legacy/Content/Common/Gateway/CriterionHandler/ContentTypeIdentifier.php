@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
@@ -87,7 +88,7 @@ class ContentTypeIdentifier extends CriterionHandler
 
         return $queryBuilder->expr()->in(
             'c.content_type_id',
-            $queryBuilder->createNamedParameter($idList, Connection::PARAM_INT_ARRAY)
+            $queryBuilder->createNamedParameter($idList, ArrayParameterType::INTEGER)
         );
     }
 }

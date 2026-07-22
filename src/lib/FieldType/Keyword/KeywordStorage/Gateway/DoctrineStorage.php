@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
@@ -155,7 +156,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $query->executeQuery();
 
-        $row = $statement->fetch(\PDO::FETCH_ASSOC);
+        $row = $statement->fetchAssociative();
 
         if ($row === false) {
             throw new RuntimeException(
@@ -207,7 +208,7 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('keywordList', $keywordList, Connection::PARAM_STR_ARRAY)
+            ->setParameter('keywordList', $keywordList, ArrayParameterType::STRING)
             ->setParameter('contentTypeId', $contentTypeId);
 
         $statement = $query->executeQuery();
@@ -260,9 +261,7 @@ class DoctrineStorage extends Gateway
             foreach (array_keys($keywordsToInsert) as $keyword) {
                 $insertQuery->setParameter('keyword', $keyword);
                 $insertQuery->executeStatement();
-                $keywordIdMap[$keyword] = (int)$this->connection->lastInsertId(
-                    $this->getSequenceName(self::KEYWORD_TABLE, 'id')
-                );
+                $keywordIdMap[$keyword] = (int)$this->connection->lastInsertId();
             }
         }
 
@@ -362,7 +361,7 @@ class DoctrineStorage extends Gateway
             ->where(
                 $deleteQuery->expr()->in($this->connection->quoteIdentifier('id'), ':ids')
             )
-            ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $ids, ArrayParameterType::INTEGER);
 
         $deleteQuery->executeStatement();
     }

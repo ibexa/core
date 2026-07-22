@@ -79,7 +79,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             ]
         );
 
-        return (int)$this->connection->lastInsertId(self::TOKEN_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     public function revoke(int $tokenId): void

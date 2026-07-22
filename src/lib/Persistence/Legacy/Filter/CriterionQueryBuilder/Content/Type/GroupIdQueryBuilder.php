@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeGroupId;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
@@ -53,7 +53,7 @@ final class GroupIdQueryBuilder extends BaseQueryBuilder
             'content_type_group.id',
             $queryBuilder->createNamedParameter(
                 $criterion->value,
-                Connection::PARAM_INT_ARRAY
+                ArrayParameterType::INTEGER
             )
         );
     }

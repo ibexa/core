@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value\MapLocationValue;
@@ -125,26 +125,18 @@ class MapLocationDistance extends FieldBase
                 $distanceInDegrees = $this->kilometersToDegrees($criterion->value) ** 2;
                 $distanceFilter = $expr->$operatorFunction(
                     $distanceExpression,
-                    $this->dbPlatform->getRoundExpression(
-                        $queryBuilder->createNamedParameter($distanceInDegrees),
-                        10
-                    )
+                    sprintf('ROUND(%s, 10)', $queryBuilder->createNamedParameter($distanceInDegrees))
                 );
                 break;
 
             case Criterion\Operator::BETWEEN:
                 $distanceInDegrees1 = $this->kilometersToDegrees($criterion->value[0]) ** 2;
                 $distanceInDegrees2 = $this->kilometersToDegrees($criterion->value[1]) ** 2;
-                $distanceFilter = $this->dbPlatform->getBetweenExpression(
+                $distanceFilter = sprintf(
+                    '%s BETWEEN %s AND %s',
                     $distanceExpression,
-                    $this->dbPlatform->getRoundExpression(
-                        $queryBuilder->createNamedParameter($distanceInDegrees1),
-                        10
-                    ),
-                    $this->dbPlatform->getRoundExpression(
-                        $queryBuilder->createNamedParameter($distanceInDegrees2),
-                        10
-                    ),
+                    sprintf('ROUND(%s, 10)', $queryBuilder->createNamedParameter($distanceInDegrees1)),
+                    sprintf('ROUND(%s, 10)', $queryBuilder->createNamedParameter($distanceInDegrees2))
                 );
                 break;
 
@@ -195,7 +187,7 @@ class MapLocationDistance extends FieldBase
             ->andWhere(
                 $expr->in(
                     'f_def.content_type_field_definition_id',
-                    $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($fieldDefinitionIds, ArrayParameterType::INTEGER)
                 )
             )
             ->andWhere($distanceFilter)

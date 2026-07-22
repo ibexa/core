@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -230,7 +231,7 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
             ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
         ;
 

@@ -73,18 +73,32 @@ abstract class CriterionHandler
         array $languageSettings
     );
 
+    /** @var \WeakMap<QueryBuilder, array<string, true>>|null */
+    private static ?\WeakMap $joinedAliasesByQueryBuilder = null;
+
     protected function hasJoinedTableAs(QueryBuilder $queryBuilder, string $tableAlias): bool
     {
-        // find table name in a structure: ['fromAlias' => [['joinTable' => '<table_name>'], ...]]
-        $joinedParts = $queryBuilder->getQueryPart('join');
-        foreach ($joinedParts as $joinedTables) {
-            foreach ($joinedTables as $join) {
-                if ($join['joinAlias'] === $tableAlias) {
-                    return true;
-                }
-            }
-        }
+        return isset(self::getJoinedAliases($queryBuilder)[$tableAlias]);
+    }
 
-        return false;
+    /**
+     * Marks $tableAlias as already joined on $queryBuilder, for {@see hasJoinedTableAs()} to detect.
+     */
+    protected function markTableJoinedAs(QueryBuilder $queryBuilder, string $tableAlias): void
+    {
+        $joined = self::getJoinedAliases($queryBuilder);
+        $joined[$tableAlias] = true;
+        self::$joinedAliasesByQueryBuilder ??= new \WeakMap();
+        self::$joinedAliasesByQueryBuilder[$queryBuilder] = $joined;
+    }
+
+    /**
+     * @return array<string, true>
+     */
+    private static function getJoinedAliases(QueryBuilder $queryBuilder): array
+    {
+        self::$joinedAliasesByQueryBuilder ??= new \WeakMap();
+
+        return self::$joinedAliasesByQueryBuilder[$queryBuilder] ?? [];
     }
 }

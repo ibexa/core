@@ -47,7 +47,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             self::COLUMN_IDENTIFIER => $identifier,
         ]);
 
-        return (int)$this->connection->lastInsertId(self::TOKEN_TYPE_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     /**

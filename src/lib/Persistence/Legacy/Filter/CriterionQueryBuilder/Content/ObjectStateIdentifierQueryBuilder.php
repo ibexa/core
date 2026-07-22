@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
@@ -54,7 +54,7 @@ final class ObjectStateIdentifierQueryBuilder implements CriterionQueryBuilder
 
         return $queryBuilder->expr()->in(
             'object_state.identifier',
-            $queryBuilder->createNamedParameter($value, Connection::PARAM_STR_ARRAY)
+            $queryBuilder->createNamedParameter($value, ArrayParameterType::STRING)
         );
     }
 }

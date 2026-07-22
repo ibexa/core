@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
@@ -108,7 +109,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->createFindQuery();
         $query
             ->where('id IN (:ids)')
-            ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $ids, ArrayParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -118,7 +119,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->createFindQuery();
         $query
             ->where('locale IN (:locale)')
-            ->setParameter('locale', $languageCodes, Connection::PARAM_STR_ARRAY);
+            ->setParameter('locale', $languageCodes, ArrayParameterType::STRING);
 
         return $query->executeQuery()->fetchAllAssociative();
     }

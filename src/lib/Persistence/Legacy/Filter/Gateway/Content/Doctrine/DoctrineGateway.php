@@ -10,7 +10,6 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
 use function array_filter;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
@@ -79,7 +78,7 @@ final class DoctrineGateway implements Gateway
             $limit
         );
 
-        return (int)$query->executeQuery()->fetch(FetchMode::COLUMN);
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function find(
@@ -210,7 +209,7 @@ final class DoctrineGateway implements Gateway
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
             ->setMaxResults(null)
             ->setFirstResult(0)
-            ->resetQueryPart('orderBy');
+            ->resetOrderBy();
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -246,7 +245,7 @@ final class DoctrineGateway implements Gateway
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
             ->setMaxResults(null)
             ->setFirstResult(0)
-            ->resetQueryPart('orderBy');
+            ->resetOrderBy();
 
         return $query->executeQuery()->fetchAllAssociative();
     }

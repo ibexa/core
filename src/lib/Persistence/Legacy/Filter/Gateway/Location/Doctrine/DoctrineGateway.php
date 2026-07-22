@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Location\Doctrine;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
@@ -47,7 +46,7 @@ final readonly class DoctrineGateway implements Gateway
             $limit
         );
 
-        return (int)$query->executeQuery()->fetch(FetchMode::COLUMN);
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function find(
@@ -66,7 +65,7 @@ final readonly class DoctrineGateway implements Gateway
 
         $resultStatement = $query->executeQuery();
 
-        while (false !== ($row = $resultStatement->fetch(FetchMode::ASSOCIATIVE))) {
+        while (false !== ($row = $resultStatement->fetchAssociative())) {
             yield $row;
         }
     }

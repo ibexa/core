@@ -10,6 +10,22 @@ services:
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\:
         resource: '../../../../Persistence/Legacy/Content/Type/Gateway/CriterionHandler/*'
 
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\ContentTypeGroupName:
+        arguments:
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\ContainsFieldDefinitionId:
+        arguments:
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\ContentTypeGroupId:
+        arguments:
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\IsSystem:
+        arguments:
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
         arguments:

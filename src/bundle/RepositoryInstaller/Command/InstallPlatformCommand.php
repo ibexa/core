@@ -87,7 +87,7 @@ final class InstallPlatformCommand extends Command
         $this->checkCreateDatabase($output);
 
         $io = new SymfonyStyle($input, $output);
-        $schemaManager = $this->connection->getSchemaManager();
+        $schemaManager = $this->connection->createSchemaManager();
         if (!empty($schemaManager->listTables())) {
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
                 return self::SUCCESS;

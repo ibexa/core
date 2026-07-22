@@ -7,9 +7,9 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -73,7 +73,7 @@ final class DoctrineDatabase extends Gateway
         $query->andWhere(
             $query->expr()->in(
                 't.node_id',
-                $query->createNamedParameter($locationIds, Connection::PARAM_INT_ARRAY)
+                $query->createNamedParameter($locationIds, ArrayParameterType::INTEGER)
             )
         );
 
@@ -606,7 +606,7 @@ final class DoctrineDatabase extends Gateway
                     't.node_id',
                     $query->createPositionalParameter(
                         array_filter(explode('/', $pathString)),
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             );
@@ -675,7 +675,7 @@ final class DoctrineDatabase extends Gateway
                     ':locationIds'
                 )
             )
-            ->setParameter('locationIds', [$locationId1, $locationId2], Connection::PARAM_INT_ARRAY)
+            ->setParameter('locationIds', [$locationId1, $locationId2], ArrayParameterType::INTEGER)
         ;
         $statement = $queryBuilder->executeQuery();
         $contentObjects = [];
@@ -933,7 +933,7 @@ final class DoctrineDatabase extends Gateway
 
         // convert all these assignments to nodes
 
-        while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
+        while ($row = $statement->fetchAssociative()) {
             $isMain = (bool)$row['is_main'];
             // set null for main to indicate that new Location ID is required
             $mainLocationId = $isMain ? null : $this->getMainNodeId($contentId);
@@ -1211,7 +1211,7 @@ final class DoctrineDatabase extends Gateway
             );
         $statement = $query->executeQuery();
 
-        if ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
+        if ($row = $statement->fetchAssociative()) {
             return $row;
         }
 
@@ -1376,7 +1376,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return (int) $statement->fetch(FetchMode::COLUMN);
+        return (int) $statement->fetchOne();
     }
 
     public function loadAllLocationsData(int $offset, int $limit): array
@@ -1555,7 +1555,7 @@ final class DoctrineDatabase extends Gateway
             );
         $query->executeStatement();
 
-        $location->id = (int)$this->connection->lastInsertId(self::CONTENT_TREE_SEQ);
+        $location->id = (int)$this->connection->lastInsertId();
 
         return $location;
     }

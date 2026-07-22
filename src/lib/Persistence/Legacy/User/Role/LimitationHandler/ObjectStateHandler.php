@@ -7,8 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
@@ -117,7 +116,7 @@ class ObjectStateHandler extends LimitationHandler
                     's.id',
                     $query->createPositionalParameter(
                         array_map('intval', $limitIds),
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             );
@@ -126,7 +125,7 @@ class ObjectStateHandler extends LimitationHandler
         $statement = $query->executeQuery();
 
         $map = [];
-        $groupValues = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $groupValues = $statement->fetchAllAssociative();
         foreach ($groupValues as $groupValue) {
             $map[self::STATE_GROUP . $groupValue['identifier']][] = (int)$groupValue['id'];
         }

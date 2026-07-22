@@ -55,6 +55,7 @@ class PermissionSubtree extends CriterionHandler
                         'c.id'
                     )
                 );
+            $this->markTableJoinedAs($queryBuilder, $locationTableAlias);
         }
 
         return $queryBuilder->expr()->or(...$statements);

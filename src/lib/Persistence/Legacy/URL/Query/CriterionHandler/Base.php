@@ -27,6 +27,7 @@ abstract class Base implements CriterionHandler
                 'u_lnk',
                 'url.id = u_lnk.url_id'
             );
+            $this->markTableJoined($query, DoctrineDatabase::URL_LINK_TABLE);
         }
     }
 
@@ -42,6 +43,7 @@ abstract class Base implements CriterionHandler
                 'c',
                 'c.id = f_def.contentobject_id'
             );
+            $this->markTableJoined($query, ContentGateway::CONTENT_ITEM_TABLE);
         }
     }
 
@@ -60,21 +62,33 @@ abstract class Base implements CriterionHandler
                     'u_lnk.contentobject_attribute_version = f_def.version'
                 )
             );
+            $this->markTableJoined($query, ContentGateway::CONTENT_FIELD_TABLE);
         }
     }
 
+    /** @var \WeakMap<QueryBuilder, array<string, true>>|null */
+    private static ?\WeakMap $joinedTablesByQueryBuilder = null;
+
     protected function hasJoinedTable(QueryBuilder $queryBuilder, string $tableName): bool
     {
-        // find table name in a structure: ['fromAlias' => [['joinTable' => '<table_name>'], ...]]
-        $joinedParts = $queryBuilder->getQueryPart('join');
-        foreach ($joinedParts as $joinedTables) {
-            foreach ($joinedTables as $join) {
-                if ($join['joinTable'] === $tableName) {
-                    return true;
-                }
-            }
-        }
+        return isset(self::getJoinedTables($queryBuilder)[$tableName]);
+    }
 
-        return false;
+    private function markTableJoined(QueryBuilder $queryBuilder, string $tableName): void
+    {
+        $joined = self::getJoinedTables($queryBuilder);
+        $joined[$tableName] = true;
+        self::$joinedTablesByQueryBuilder ??= new \WeakMap();
+        self::$joinedTablesByQueryBuilder[$queryBuilder] = $joined;
+    }
+
+    /**
+     * @return array<string, true>
+     */
+    private static function getJoinedTables(QueryBuilder $queryBuilder): array
+    {
+        self::$joinedTablesByQueryBuilder ??= new \WeakMap();
+
+        return self::$joinedTablesByQueryBuilder[$queryBuilder] ?? [];
     }
 }

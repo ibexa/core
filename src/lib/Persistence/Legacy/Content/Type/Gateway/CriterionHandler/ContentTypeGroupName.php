@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
@@ -21,6 +22,10 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\Criterio
  */
 final class ContentTypeGroupName implements CriterionHandlerInterface
 {
+    public function __construct(private readonly Connection $connection)
+    {
+    }
+
     public function supports(CriterionInterface $criterion): bool
     {
         return $criterion instanceof ContentTypeGroupNameCriterion;
@@ -34,7 +39,7 @@ final class ContentTypeGroupName implements CriterionHandlerInterface
         QueryBuilder $qb,
         CriterionInterface $criterion
     ): string {
-        $subQuery = $qb->getConnection()->createQueryBuilder();
+        $subQuery = $this->connection->createQueryBuilder();
         $value = $criterion->getValue();
         if (!is_array($value)) {
             $value = [$value];
@@ -42,7 +47,7 @@ final class ContentTypeGroupName implements CriterionHandlerInterface
 
         $whereClause = $subQuery->expr()->in(
             'LOWER(ctg.name)',
-            $qb->createNamedParameter(array_map('strtolower', $value), Connection::PARAM_STR_ARRAY)
+            $qb->createNamedParameter(array_map('strtolower', $value), ArrayParameterType::STRING)
         );
 
         $subQuery

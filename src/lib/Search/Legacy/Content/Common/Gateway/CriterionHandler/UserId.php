@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -40,7 +40,7 @@ class UserId extends CriterionHandler
             ->where(
                 $queryBuilder->expr()->in(
                     't1.contentobject_id',
-                    $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
                 )
             );
 

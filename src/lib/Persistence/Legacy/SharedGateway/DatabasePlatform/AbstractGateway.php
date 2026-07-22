@@ -55,6 +55,6 @@ abstract class AbstractGateway implements Gateway
 
     public function getLastInsertedId(string $sequenceName): int
     {
-        return (int)$this->connection->lastInsertId($sequenceName);
+        return (int)$this->connection->lastInsertId();
     }
 }
