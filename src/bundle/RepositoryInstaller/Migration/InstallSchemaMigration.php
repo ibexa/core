@@ -39,7 +39,7 @@ final class InstallSchemaMigration extends AbstractSqlMigration implements Ibexa
         // migration creates): an install that built its schema via schema.yaml (rather than
         // through this migration) never has "ezcontentobject" -- it already has
         // "ibexa_content" directly.
-        if ($schema->hasTable('ibexa_content')) {
+        if ($schema->hasTable('ezcontentobject')) {
             return;
         }
 
