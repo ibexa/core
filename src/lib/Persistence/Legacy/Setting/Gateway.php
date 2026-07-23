@@ -13,7 +13,6 @@ namespace Ibexa\Core\Persistence\Legacy\Setting;
  */
 abstract class Gateway
 {
-    public const SETTING_SEQ = 'ibexa_setting_id_seq';
     public const SETTING_TABLE = 'ibexa_setting';
 
     /**

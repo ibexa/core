@@ -32,8 +32,6 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
     public const COLUMN_EXPIRES = 'expires';
     public const COLUMN_REVOKED = 'revoked';
 
-    public const TOKEN_SEQ = 'ibexa_token_id_seq';
-
     private Connection $connection;
 
     public function __construct(Connection $connection)

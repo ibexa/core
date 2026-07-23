@@ -24,7 +24,6 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
 
     public const COLUMN_ID = 'id';
     public const COLUMN_IDENTIFIER = 'identifier';
-    public const TOKEN_TYPE_SEQ = 'ibexa_token_type_id_seq';
 
     private Connection $connection;
 

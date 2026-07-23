@@ -36,7 +36,6 @@ abstract class Gateway
     public const NODE_ASSIGNMENT_OP_CODE_SET = 9;
 
     public const CONTENT_TREE_TABLE = 'ibexa_content_tree';
-    public const CONTENT_TREE_SEQ = 'ibexa_content_tree_node_id_seq';
 
     /**
      * Returns an array with basic node data.
