@@ -54,23 +54,10 @@ final class DownloadControllerTest extends TestCase
         self::assertInstanceOf(Field::class, $field);
 
         $request = new Request(['inLanguage' => 'eng-GB']);
-        $binaryFile = new BinaryFile([
-            'id' => 'binary-file-id',
-            'mtime' => new DateTime(),
-            'size' => 123,
-            'uri' => 'binary-file-uri',
-        ]);
+        $binaryFile = $this->createBinaryFile();
 
-        $this->contentService
-            ->expects(self::once())
-            ->method('loadContent')
-            ->with(42)
-            ->willReturn($content);
-        $this->translationHelper
-            ->expects(self::once())
-            ->method('getTranslatedField')
-            ->with($content, 'file', 'eng-GB')
-            ->willReturn($field);
+        $this->expectContentLoaded(42, $content);
+        $this->expectTranslatedField($content, 'file', $field);
         $this->ioService
             ->expects(self::once())
             ->method('loadBinaryFile')
@@ -91,19 +78,9 @@ final class DownloadControllerTest extends TestCase
 
         $request = new Request(['inLanguage' => 'eng-GB']);
 
-        $this->contentService
-            ->expects(self::once())
-            ->method('loadContent')
-            ->with(42)
-            ->willReturn($content);
-        $this->translationHelper
-            ->expects(self::once())
-            ->method('getTranslatedField')
-            ->with($content, 'file', 'eng-GB')
-            ->willReturn($field);
-        $this->ioService
-            ->expects($this->never())
-            ->method('loadBinaryFile');
+        $this->expectContentLoaded(42, $content);
+        $this->expectTranslatedField($content, 'file', $field);
+        $this->expectBinaryFileNotLoaded();
 
         $this->assertFileNotFound(function () use ($request): void {
             $this->createController()->downloadBinaryFileAction(42, 'file', 'SomeRandomText.txt', $request);
@@ -115,19 +92,9 @@ final class DownloadControllerTest extends TestCase
         $content = $this->createContent(393, 'New file');
         $request = new Request(['inLanguage' => 'eng-GB']);
 
-        $this->contentService
-            ->expects(self::once())
-            ->method('loadContent')
-            ->with(393)
-            ->willReturn($content);
-        $this->translationHelper
-            ->expects(self::once())
-            ->method('getTranslatedField')
-            ->with($content, 'file5', 'eng-GB')
-            ->willReturn(null);
-        $this->ioService
-            ->expects($this->never())
-            ->method('loadBinaryFile');
+        $this->expectContentLoaded(393, $content);
+        $this->expectTranslatedField($content, 'file5', null);
+        $this->expectBinaryFileNotLoaded();
 
         $this->assertFileNotFound(function () use ($request): void {
             $this->createController()->downloadBinaryFileAction(393, 'file5', 'snorelax_snooze.png', $request);
@@ -146,9 +113,7 @@ final class DownloadControllerTest extends TestCase
         $this->translationHelper
             ->expects($this->never())
             ->method('getTranslatedField');
-        $this->ioService
-            ->expects($this->never())
-            ->method('loadBinaryFile');
+        $this->expectBinaryFileNotLoaded();
 
         $this->assertFileNotFound(function () use ($request): void {
             $this->createController()->downloadBinaryFileAction(393, 'file', 'snorelax_snooze.png', $request);
@@ -168,9 +133,7 @@ final class DownloadControllerTest extends TestCase
         $this->translationHelper
             ->expects($this->never())
             ->method('getTranslatedField');
-        $this->ioService
-            ->expects($this->never())
-            ->method('loadBinaryFile');
+        $this->expectBinaryFileNotLoaded();
 
         $this->assertFileNotFound(function () use ($request): void {
             $this->createController()->downloadBinaryFileByIdAction($request, 42, 123);
@@ -184,6 +147,41 @@ final class DownloadControllerTest extends TestCase
             $this->ioService,
             $this->translationHelper
         );
+    }
+
+    private function createBinaryFile(): BinaryFile
+    {
+        return new BinaryFile([
+            'id' => 'binary-file-id',
+            'mtime' => new DateTime(),
+            'size' => 123,
+            'uri' => 'binary-file-uri',
+        ]);
+    }
+
+    private function expectContentLoaded(int $contentId, Content $content): void
+    {
+        $this->contentService
+            ->expects(self::once())
+            ->method('loadContent')
+            ->with($contentId)
+            ->willReturn($content);
+    }
+
+    private function expectTranslatedField(Content $content, string $fieldIdentifier, ?Field $field): void
+    {
+        $this->translationHelper
+            ->expects(self::once())
+            ->method('getTranslatedField')
+            ->with($content, $fieldIdentifier, 'eng-GB')
+            ->willReturn($field);
+    }
+
+    private function expectBinaryFileNotLoaded(): void
+    {
+        $this->ioService
+            ->expects(self::never())
+            ->method('loadBinaryFile');
     }
 
     private function assertFileNotFound(callable $callback): void
