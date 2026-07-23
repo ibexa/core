@@ -39,9 +39,7 @@ final class InstallSchemaMigration extends AbstractSqlMigration implements Ibexa
         // migration creates): an install that built its schema via schema.yaml (rather than
         // through this migration) never has "ezcontentobject" -- it already has
         // "ibexa_content" directly.
-        if ($schema->hasTable('ezcontentobject')) {
-            return;
-        }
+        $this->skipIf($schema->hasTable('ibexa_content'), 'Schema already migrated: table "ibexa_content" already exists.');
 
         if ($this->isMySQL()) {
             $this->addSqlFile(__DIR__ . '/sql/install-schema-mysql.sql');
