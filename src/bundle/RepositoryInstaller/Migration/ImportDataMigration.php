@@ -35,6 +35,13 @@ final class ImportDataMigration extends AbstractSqlMigration implements IbexaMig
     {
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
+        // This migration inserts into "ezcontentobject" (the pre-rename name) since it runs
+        // before the 5.0.0 rename. Migrations execute in a strict, deterministic order, so if
+        // that table is missing here, this system never went through this migration at all --
+        // it built its schema (and presumably its own bootstrap data) via schema.yaml directly,
+        // straight to the final "ibexa_content" naming.
+        $this->skipIf(!$schema->hasTable('ezcontentobject'), 'Schema already migrated: table "ezcontentobject" no longer exists.');
+
         if ($this->isMySQL()) {
             $this->addSqlFile(__DIR__ . '/sql/import-data-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
