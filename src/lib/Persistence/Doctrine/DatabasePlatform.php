@@ -19,7 +19,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
  *
  * Replaces the DBAL 3.10-deprecated/DBAL 4-removed `AbstractPlatform::getName()`.
  */
-final class DatabasePlatform
+final readonly class DatabasePlatform
 {
     private function __construct()
     {
