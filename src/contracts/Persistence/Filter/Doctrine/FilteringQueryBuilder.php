@@ -62,7 +62,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @param string $fromAlias
      * @param string $join
      * @param string $alias
-     * @param string|null $condition
+     * @param string|\Stringable|null $condition
      *
      * @return $this
      */
@@ -79,7 +79,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @param string $fromAlias
      * @param string $join
      * @param string $alias
-     * @param string|null $condition
+     * @param string|\Stringable|null $condition
      *
      * @return $this
      */
@@ -96,7 +96,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @param string $fromAlias
      * @param string $join
      * @param string $alias
-     * @param string|null $condition
+     * @param string|\Stringable|null $condition
      *
      * @return $this
      */
@@ -113,7 +113,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @param string $fromAlias
      * @param string $join
      * @param string $alias
-     * @param string|null $condition
+     * @param string|\Stringable|null $condition
      *
      * @return $this
      */
