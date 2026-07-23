@@ -8,11 +8,9 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Doctrine\DatabasePlatform;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DbBasedInstaller
@@ -111,21 +109,6 @@ class DbBasedInstaller
 
     protected function getDBMSDataDirectoryName(AbstractPlatform $platform): string
     {
-        if ($platform instanceof AbstractMySQLPlatform) {
-            return 'mysql';
-        }
-
-        if ($platform instanceof PostgreSQLPlatform) {
-            return 'postgresql';
-        }
-
-        if ($platform instanceof SqlitePlatform) {
-            return 'sqlite';
-        }
-
-        throw new InvalidArgumentException(
-            'platform',
-            sprintf('Unsupported database platform: %s', get_class($platform))
-        );
+        return DatabasePlatform::resolveName($platform);
     }
 }
