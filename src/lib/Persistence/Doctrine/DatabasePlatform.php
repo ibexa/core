@@ -14,17 +14,17 @@ use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
-/**
- * Resolves a Doctrine platform instance to its short driver name.
- *
- * Replaces the DBAL 3.10-deprecated/DBAL 4-removed `AbstractPlatform::getName()`.
- */
 final readonly class DatabasePlatform
 {
     private function __construct()
     {
     }
 
+    /**
+     * Resolves a Doctrine platform instance to its short driver name.
+     *
+     * Replaces the DBAL 3.10-deprecated/DBAL 4-removed `AbstractPlatform::getName()`.
+     */
     public static function resolveName(AbstractPlatform $platform): string
     {
         if ($platform instanceof AbstractMySQLPlatform) {
