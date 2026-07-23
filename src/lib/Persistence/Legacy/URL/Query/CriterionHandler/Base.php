@@ -9,12 +9,15 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Core\Persistence\Doctrine\TracksJoinedTablesTrait;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 abstract class Base implements CriterionHandler
 {
+    use TracksJoinedTablesTrait;
+
     /**
      * Inner join `ibexa_url_content_link` table if not joined yet.
      */
@@ -66,29 +69,13 @@ abstract class Base implements CriterionHandler
         }
     }
 
-    /** @var \WeakMap<QueryBuilder, array<string, true>>|null */
-    private static ?\WeakMap $joinedTablesByQueryBuilder = null;
-
     protected function hasJoinedTable(QueryBuilder $queryBuilder, string $tableName): bool
     {
-        return isset(self::getJoinedTables($queryBuilder)[$tableName]);
+        return $this->isTableJoined($queryBuilder, $tableName);
     }
 
     private function markTableJoined(QueryBuilder $queryBuilder, string $tableName): void
     {
-        $joined = self::getJoinedTables($queryBuilder);
-        $joined[$tableName] = true;
-        self::$joinedTablesByQueryBuilder ??= new \WeakMap();
-        self::$joinedTablesByQueryBuilder[$queryBuilder] = $joined;
-    }
-
-    /**
-     * @return array<string, true>
-     */
-    private static function getJoinedTables(QueryBuilder $queryBuilder): array
-    {
-        self::$joinedTablesByQueryBuilder ??= new \WeakMap();
-
-        return self::$joinedTablesByQueryBuilder[$queryBuilder] ?? [];
+        $this->markTableAsJoined($queryBuilder, $tableName);
     }
 }

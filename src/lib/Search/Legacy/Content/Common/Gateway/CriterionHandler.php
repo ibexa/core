@@ -12,9 +12,12 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Doctrine\TracksJoinedTablesTrait;
 
 abstract class CriterionHandler
 {
+    use TracksJoinedTablesTrait;
+
     /**
      * Map of criterion operators to the respective function names in the zeta
      * Database abstraction layer.
@@ -73,12 +76,9 @@ abstract class CriterionHandler
         array $languageSettings
     );
 
-    /** @var \WeakMap<QueryBuilder, array<string, true>>|null */
-    private static ?\WeakMap $joinedAliasesByQueryBuilder = null;
-
     protected function hasJoinedTableAs(QueryBuilder $queryBuilder, string $tableAlias): bool
     {
-        return isset(self::getJoinedAliases($queryBuilder)[$tableAlias]);
+        return $this->isTableJoined($queryBuilder, $tableAlias);
     }
 
     /**
@@ -86,19 +86,6 @@ abstract class CriterionHandler
      */
     protected function markTableJoinedAs(QueryBuilder $queryBuilder, string $tableAlias): void
     {
-        $joined = self::getJoinedAliases($queryBuilder);
-        $joined[$tableAlias] = true;
-        self::$joinedAliasesByQueryBuilder ??= new \WeakMap();
-        self::$joinedAliasesByQueryBuilder[$queryBuilder] = $joined;
-    }
-
-    /**
-     * @return array<string, true>
-     */
-    private static function getJoinedAliases(QueryBuilder $queryBuilder): array
-    {
-        self::$joinedAliasesByQueryBuilder ??= new \WeakMap();
-
-        return self::$joinedAliasesByQueryBuilder[$queryBuilder] ?? [];
+        $this->markTableAsJoined($queryBuilder, $tableAlias);
     }
 }
