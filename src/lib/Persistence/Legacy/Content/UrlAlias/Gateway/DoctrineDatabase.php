@@ -13,6 +13,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
@@ -1370,7 +1371,7 @@ final class DoctrineDatabase extends Gateway
      */
     private function getIntegerType(): string
     {
-        return $this->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\AbstractMySQLPlatform
+        return $this->getDatabasePlatform() instanceof AbstractMySQLPlatform
             ? 'signed'
             : 'integer';
     }
