@@ -35,6 +35,12 @@ final class InstallSchemaMigration extends AbstractSqlMigration implements Ibexa
     {
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
+        // Checks the final, post-rename table name (not "ezcontentobject", which this
+        // migration creates): an install that built its schema via schema.yaml (rather than
+        // through this migration) never has "ezcontentobject" -- it already has
+        // "ibexa_content" directly.
+        $this->skipIf($schema->hasTable('ibexa_content'), 'Schema already migrated: table "ibexa_content" already exists.');
+
         if ($this->isMySQL()) {
             $this->addSqlFile(__DIR__ . '/sql/install-schema-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
