@@ -40,7 +40,14 @@ final class ImportDataMigration extends AbstractSqlMigration implements IbexaMig
         // that table is missing here, this system never went through this migration at all --
         // it built its schema (and presumably its own bootstrap data) via schema.yaml directly,
         // straight to the final "ibexa_content" naming.
-        if (!$schema->hasTable('ezcontentobject')) {
+        // Two different "already done" signals, since "ezcontentobject" behaves
+        // differently depending on the branch: on 5.0/6.0 it's renamed away to
+        // "ibexa_content", so its outright absence means a legacy install already skipped
+        // straight to that final name. On 4.6 it's the table's real, permanent name (never
+        // renamed), so it always exists once the baseline has run -- there, only the actual
+        // bootstrap row (the root content object always has id = 1) distinguishes "not yet
+        // imported" from "already imported".
+        if (!$schema->hasTable('ezcontentobject') || $this->connection->fetchOne('SELECT 1 FROM ezcontentobject WHERE id = 1') !== false) {
             return;
         }
 
