@@ -14653,12 +14653,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Filter/Gateway/Content/Doctrine/DoctrineGateway.php
 
 		-
-			message: '#^Parameter \#4 \$condition of method Ibexa\\Contracts\\Core\\Persistence\\Filter\\Doctrine\\FilteringQueryBuilder\:\:leftJoin\(\) expects string\|null, Doctrine\\DBAL\\Query\\Expression\\CompositeExpression given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/Gateway/Content/Doctrine/DoctrineGateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\Gateway\\Content\\GatewayDataMapper\:\:mapContentMetadataToPersistenceContentInfo\(\) has parameter \$row with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

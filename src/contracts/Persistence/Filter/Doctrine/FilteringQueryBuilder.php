@@ -70,7 +70,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     {
         $this->trackJoin($fromAlias, $alias, $condition);
 
-        return parent::join($fromAlias, $join, $alias, $condition);
+        return parent::join($fromAlias, $join, $alias, $condition !== null ? (string)$condition : null);
     }
 
     /**
@@ -87,7 +87,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     {
         $this->trackJoin($fromAlias, $alias, $condition);
 
-        return parent::innerJoin($fromAlias, $join, $alias, $condition);
+        return parent::innerJoin($fromAlias, $join, $alias, $condition !== null ? (string)$condition : null);
     }
 
     /**
@@ -104,7 +104,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     {
         $this->trackJoin($fromAlias, $alias, $condition);
 
-        return parent::leftJoin($fromAlias, $join, $alias, $condition);
+        return parent::leftJoin($fromAlias, $join, $alias, $condition !== null ? (string)$condition : null);
     }
 
     /**
@@ -121,7 +121,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     {
         $this->trackJoin($fromAlias, $alias, $condition);
 
-        return parent::rightJoin($fromAlias, $join, $alias, $condition);
+        return parent::rightJoin($fromAlias, $join, $alias, $condition !== null ? (string)$condition : null);
     }
 
     private function trackJoin(string $fromAlias, string $alias, string|\Stringable|null $condition): void
