@@ -8,7 +8,6 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Doctrine\DatabasePlatform;
 use Symfony\Component\Filesystem\Filesystem;
@@ -89,7 +88,7 @@ class DbBasedInstaller
      */
     final protected function getKernelSQLFileForDBMS($relativeFilePath)
     {
-        $databasePlatform = $this->getDBMSDataDirectoryName($this->db->getDatabasePlatform());
+        $databasePlatform = $this->getDBMSDataDirectoryName();
         $filePath = "{$this->baseDataDir}/{$databasePlatform}/{$relativeFilePath}";
 
         if (!is_readable($filePath)) {
@@ -107,8 +106,8 @@ class DbBasedInstaller
         return realpath($filePath);
     }
 
-    protected function getDBMSDataDirectoryName(AbstractPlatform $platform): string
+    protected function getDBMSDataDirectoryName(): string
     {
-        return DatabasePlatform::resolveName($platform);
+        return DatabasePlatform::resolveName($this->db->getDatabasePlatform());
     }
 }

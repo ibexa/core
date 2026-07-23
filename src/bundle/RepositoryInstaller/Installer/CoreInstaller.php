@@ -60,7 +60,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
                 '<info>Executing %d queries on database <comment>%s</comment> (<comment>%s</comment>)</info>',
                 $queriesCount,
                 $this->db->getDatabase(),
-                $this->getDBMSDataDirectoryName($databasePlatform)
+                $this->getDBMSDataDirectoryName()
             )
         );
         $progressBar = new ProgressBar($this->output);
