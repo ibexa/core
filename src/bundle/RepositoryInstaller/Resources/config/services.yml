@@ -29,6 +29,10 @@ services:
             # Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory::SERVICE_ID
             $dependencyFactory: '@?ibexa.doctrine_migrations.dependency_factory.ibexa_migrations_only'
 
+    Ibexa\Bundle\RepositoryInstaller\Migration\SchemaBuilderEventSchemaProvider:
+        autowire: true
+        public: false
+
     Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller:
         abstract: true
         arguments: ['@ibexa.persistence.connection']
