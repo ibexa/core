@@ -345,3 +345,9 @@ ALTER TABLE ibexa_content_relation RENAME COLUMN contentclassattribute_id TO con
 ALTER TABLE ibexa_content_relation RENAME INDEX ibexa_content_relation_cca_id TO ibexa_content_relation_ccfd_id;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_search_object_word_link RENAME COLUMN contentclass_attribute_id TO content_type_field_definition_id;
+-- ibexa:sql-statement-separator
+UPDATE ibexa_object_state_group SET identifier = 'ibexa_lock' WHERE identifier = 'ez_lock';
+-- ibexa:sql-statement-separator
+UPDATE ibexa_content_type_field_definition SET data_type_string = 'ibexa_string' WHERE data_type_string = 'ezstring';
+-- ibexa:sql-statement-separator
+UPDATE ibexa_content_field SET data_type_string = 'ibexa_string' WHERE data_type_string = 'ezstring';
