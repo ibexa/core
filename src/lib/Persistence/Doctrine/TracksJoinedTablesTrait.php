@@ -20,12 +20,12 @@ trait TracksJoinedTablesTrait
     /** @var \WeakMap<QueryBuilder, array<string, true>>|null */
     private static ?WeakMap $joinedTablesByQueryBuilder = null;
 
-    private function isTableJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
+    protected function isTableJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
     {
         return isset(self::getJoinedTables($queryBuilder)[$tableIdentifier]);
     }
 
-    private function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): void
+    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): void
     {
         $joined = self::getJoinedTables($queryBuilder);
         $joined[$tableIdentifier] = true;

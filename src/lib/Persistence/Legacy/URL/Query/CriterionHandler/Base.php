@@ -23,14 +23,14 @@ abstract class Base implements CriterionHandler
      */
     protected function joinContentObjectLink(QueryBuilder $query): void
     {
-        if (!$this->hasJoinedTable($query, DoctrineDatabase::URL_LINK_TABLE)) {
+        if (!$this->isTableJoined($query, DoctrineDatabase::URL_LINK_TABLE)) {
             $query->innerJoin(
                 'url',
                 DoctrineDatabase::URL_LINK_TABLE,
                 'u_lnk',
                 'url.id = u_lnk.url_id'
             );
-            $this->markTableJoined($query, DoctrineDatabase::URL_LINK_TABLE);
+            $this->markTableAsJoined($query, DoctrineDatabase::URL_LINK_TABLE);
         }
     }
 
@@ -39,14 +39,14 @@ abstract class Base implements CriterionHandler
      */
     protected function joinContentObject(QueryBuilder $query): void
     {
-        if (!$this->hasJoinedTable($query, ContentGateway::CONTENT_ITEM_TABLE)) {
+        if (!$this->isTableJoined($query, ContentGateway::CONTENT_ITEM_TABLE)) {
             $query->innerJoin(
                 'f_def',
                 ContentGateway::CONTENT_ITEM_TABLE,
                 'c',
                 'c.id = f_def.contentobject_id'
             );
-            $this->markTableJoined($query, ContentGateway::CONTENT_ITEM_TABLE);
+            $this->markTableAsJoined($query, ContentGateway::CONTENT_ITEM_TABLE);
         }
     }
 
@@ -55,7 +55,7 @@ abstract class Base implements CriterionHandler
      */
     protected function joinContentObjectAttribute(QueryBuilder $query): void
     {
-        if (!$this->hasJoinedTable($query, ContentGateway::CONTENT_FIELD_TABLE)) {
+        if (!$this->isTableJoined($query, ContentGateway::CONTENT_FIELD_TABLE)) {
             $query->innerJoin(
                 'u_lnk',
                 ContentGateway::CONTENT_FIELD_TABLE,
@@ -65,17 +65,7 @@ abstract class Base implements CriterionHandler
                     'u_lnk.contentobject_attribute_version = f_def.version'
                 )
             );
-            $this->markTableJoined($query, ContentGateway::CONTENT_FIELD_TABLE);
+            $this->markTableAsJoined($query, ContentGateway::CONTENT_FIELD_TABLE);
         }
-    }
-
-    protected function hasJoinedTable(QueryBuilder $queryBuilder, string $tableName): bool
-    {
-        return $this->isTableJoined($queryBuilder, $tableName);
-    }
-
-    private function markTableJoined(QueryBuilder $queryBuilder, string $tableName): void
-    {
-        $this->markTableAsJoined($queryBuilder, $tableName);
     }
 }

@@ -75,17 +75,4 @@ abstract class CriterionHandler
         CriterionInterface $criterion,
         array $languageSettings
     );
-
-    protected function hasJoinedTableAs(QueryBuilder $queryBuilder, string $tableAlias): bool
-    {
-        return $this->isTableJoined($queryBuilder, $tableAlias);
-    }
-
-    /**
-     * Marks $tableAlias as already joined on $queryBuilder, for {@see hasJoinedTableAs()} to detect.
-     */
-    protected function markTableJoinedAs(QueryBuilder $queryBuilder, string $tableAlias): void
-    {
-        $this->markTableAsJoined($queryBuilder, $tableAlias);
-    }
 }
