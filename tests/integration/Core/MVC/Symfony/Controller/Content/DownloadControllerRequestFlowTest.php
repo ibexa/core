@@ -25,8 +25,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * @group integration
@@ -55,7 +55,7 @@ final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
 
     public function testDownloadsFileWithUrlEncodedFilename(): void
     {
-        $routes = $this->createRouteCollection();
+        $routes = $this->getAppRouteCollection();
         $context = new RequestContext();
         $url = (new UrlGenerator($routes, $context))->generate(
             'ibexa.content.download',
@@ -119,15 +119,11 @@ final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
         );
     }
 
-    private function createRouteCollection(): RouteCollection
+    private function getAppRouteCollection(): RouteCollection
     {
-        $routes = new RouteCollection();
-        $routes->add('ibexa.content.download', new Route(
-            '/content/download/{contentId}/{fieldIdentifier}/{filename}',
-            [],
-            ['contentId' => '\d+']
-        ));
+        $router = self::getContainer()->get('router.default');
+        self::assertInstanceOf(RouterInterface::class, $router);
 
-        return $routes;
+        return clone $router->getRouteCollection();
     }
 }
