@@ -134,6 +134,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $this->registerUrlWildcardsConfiguration($config, $container);
         $this->registerOrmConfiguration($config, $container);
         $this->registerUITranslationsConfiguration($config, $container);
+        $this->registerInstallerConfiguration($config, $container);
 
         // Routing
         $this->handleRouting($config, $container, $loader);
@@ -306,6 +307,17 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     private function registerUITranslationsConfiguration(array $config, ContainerBuilder $container): void
     {
         $container->setParameter('ibexa.ui.translations.enabled', $config['ui']['translations']['enabled'] ?? false);
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     */
+    private function registerInstallerConfiguration(array $config, ContainerBuilder $container): void
+    {
+        $container->setParameter(
+            'ibexa.installer.schema_builder_event.enabled',
+            $config['installer']['schema_builder_event']['enabled'] ?? true
+        );
     }
 
     /**
