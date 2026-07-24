@@ -10,8 +10,10 @@ namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
+use Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
@@ -48,6 +50,14 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         // note: schema is built using Schema Builder event-driven API
         $schema = $this->schemaBuilder->buildSchema();
         $databasePlatform = $this->db->getDatabasePlatform();
+        // SQLite: substitute SqliteDbPlatform so composite-PK tables (e.g. ibexa_content_field
+        // with PRIMARY KEY(id, version)) are not given AUTOINCREMENT on the id column,
+        // which SQLite does not support on composite-PK tables. Without this substitution
+        // editing content produces a UNIQUE constraint failure because the same field id
+        // appears across multiple draft versions.
+        if ($databasePlatform instanceof SqlitePlatform && !($databasePlatform instanceof SqliteDbPlatform)) {
+            $databasePlatform = new SqliteDbPlatform();
+        }
         $queries = array_merge(
             $this->getDropSqlStatementsForExistingSchema($schema, $databasePlatform),
             // generate schema DDL queries

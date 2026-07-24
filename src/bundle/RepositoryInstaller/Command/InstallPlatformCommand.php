@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use LogicException;
@@ -146,6 +147,26 @@ final class InstallPlatformCommand extends Command
 
     private function checkCreateDatabase(OutputInterface $output): void
     {
+        // SQLite creates the database file automatically on first connection.
+        // doctrine:database:create fails for SQLite (getListDatabasesSQL not supported),
+        // so skip it and only ensure the parent directory exists.
+        if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+            $dbPath = $this->connection->getDatabase();
+            if ($dbPath !== null && $dbPath !== ':memory:') {
+                $dir = dirname($dbPath);
+                if ($dir !== '.' && !is_dir($dir) && !mkdir($dir, 0o755, true) && !is_dir($dir)) {
+                    $this->output->writeln(sprintf('<error>Could not create SQLite database directory: %s</error>', $dir));
+                    exit(self::EXIT_GENERAL_DATABASE_ERROR);
+                }
+            }
+            $output->writeln(sprintf(
+                'Using SQLite database <comment>%s</comment> (file created automatically on first connection).',
+                $this->connection->getDatabase()
+            ));
+
+            return;
+        }
+
         $output->writeln(
             sprintf(
                 'Creating connection <comment>%s</comment> if it does not exist, using doctrine:database:create --if-not-exists',
