@@ -3,6 +3,12 @@
     "description": "Ibexa DXP and Open Source core. Provides the Content Repository, its APIs, and the application's Symfony framework integration.",
     "homepage": "https://ibexa.co",
     "license": "(GPL-2.0-only or proprietary)",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ibexa/doctrine-migrations.git"
+        }
+    ],
     "suggest": {
         "php-64bit": "For support of more than 30 languages, a 64bit php installation on all involved prod/dev machines is required"
     },
