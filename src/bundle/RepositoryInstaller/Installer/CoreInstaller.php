@@ -86,9 +86,10 @@ class CoreInstaller extends DbBasedInstaller implements Installer
             $schema->toSql($databasePlatform)
         );
 
-        return array_map(static function (string $sql): Query {
-            return new Query($sql);
-        }, $sqls);
+        return array_map(
+            static fn (string $sql): Query => new Query($sql),
+            $sqls
+        );
     }
 
     /**
@@ -144,10 +145,8 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      * When the "ibexa.installer.schema_builder_event.enabled" setting is enabled (the default), this imports
      * the DBMS-specific "cleandata.sql" file directly.
      *
-     * Otherwise, this also delegates to {@see TaggedMigrationsRunner}, same as {@see importSchema()}. Since
-     * {@see \Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration} is tagged and run the same way,
-     * calling the runner here typically executes nothing new (it already ran as part of importSchema()) -
-     * this call only matters if importData() is invoked on its own.
+     * Otherwise, this is a no-op: {@see \Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration} is
+     * tagged and already runs as part of {@see importSchema()}'s call to {@see TaggedMigrationsRunner}.
      *
      * @throws \Doctrine\DBAL\DBALException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
@@ -156,15 +155,11 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     {
         if ($this->schemaBuilderEventEnabled) {
             $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
-
-            return;
         }
-
-        $this->reportExecutedQueries($this->taggedMigrationsRunner->run());
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     protected function getDropSqlStatementsForExistingSchema(
         Schema $newSchema,
