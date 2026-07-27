@@ -47,6 +47,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      *
      * @return $this
      */
+    #[\Override]
     public function from($from, $alias = null): self
     {
         if ($alias !== null) {
@@ -66,6 +67,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      *
      * @return $this
      */
+    #[\Override]
     public function join($fromAlias, $join, $alias, $condition = null): self
     {
         $this->trackJoin($fromAlias, $alias, $condition);
@@ -83,6 +85,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      *
      * @return $this
      */
+    #[\Override]
     public function innerJoin($fromAlias, $join, $alias, $condition = null): self
     {
         $this->trackJoin($fromAlias, $alias, $condition);
@@ -100,6 +103,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      *
      * @return $this
      */
+    #[\Override]
     public function leftJoin($fromAlias, $join, $alias, $condition = null): self
     {
         $this->trackJoin($fromAlias, $alias, $condition);
@@ -117,6 +121,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      *
      * @return $this
      */
+    #[\Override]
     public function rightJoin($fromAlias, $join, $alias, $condition = null): self
     {
         $this->trackJoin($fromAlias, $alias, $condition);
@@ -220,6 +225,7 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @param string $sort
      * @param string|null $order
      */
+    #[\Override]
     public function addOrderBy($sort, $order = null): FilteringQueryBuilder
     {
         return parent::addOrderBy($sort, $this->mapLegacyOrderToDoctrine($order));
