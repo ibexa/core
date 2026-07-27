@@ -41,6 +41,12 @@ final class TaggedMigrationsRunner
 {
     private ?DependencyFactory $dependencyFactory;
 
+    /**
+     * @param \Doctrine\Migrations\DependencyFactory|null $dependencyFactory Null when
+     *     "ibexa/doctrine-migrations" isn't installed/enabled ({@see services.yml}'s optional
+     *     "@?ibexa.doctrine_migrations.dependency_factory.ibexa_migrations_only" reference) —
+     *     {@see run()} throws a clear exception rather than allowing a silent no-op in that state.
+     */
     public function __construct(?DependencyFactory $dependencyFactory = null)
     {
         $this->dependencyFactory = $dependencyFactory;
