@@ -33,6 +33,9 @@ final class FilteringQueryBuilder extends QueryBuilder
     /** @var array<string, string> Map of join target alias => join condition. */
     private array $joinConditionsByAlias = [];
 
+    /** @var array<string, true> Set of aliases a join has been created for (even with an empty condition). */
+    private array $joinedAliases = [];
+
     /** @var array<string, true> Set of aliases a join has been created FROM. */
     private array $joinedFromAliases = [];
 
@@ -132,6 +135,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     private function trackJoin(string $fromAlias, string $alias, string|\Stringable|null $condition): void
     {
         $this->joinedFromAliases[$fromAlias] = true;
+        $this->joinedAliases[$alias] = true;
         $this->joinConditionsByAlias[$alias] = $condition !== null ? (string)$condition : '';
     }
 
@@ -214,9 +218,11 @@ final class FilteringQueryBuilder extends QueryBuilder
      */
     public function getExistingTableAliasJoinCondition(string $tableAlias): ?string
     {
-        $joinCondition = $this->joinConditionsByAlias[$tableAlias] ?? null;
+        if (!isset($this->joinedAliases[$tableAlias])) {
+            return null;
+        }
 
-        return '' !== $joinCondition && null !== $joinCondition ? $joinCondition : null;
+        return $this->joinConditionsByAlias[$tableAlias] ?? '';
     }
 
     /**
