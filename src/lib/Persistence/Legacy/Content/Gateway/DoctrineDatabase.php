@@ -443,7 +443,7 @@ final class DoctrineDatabase extends Gateway
                         ':languageMaskOperand'
                     )
                 )
-                ->setParameter('languageMaskOperand', $alwaysAvailable ? 1 : self::REMOVE_ALWAYS_AVAILABLE_LANG_MASK_OPERAND)
+                ->setParameter('languageMaskOperand', 1)
                 ->andWhere(
                     $mainLanguageExpr->gt(
                         $this->getDatabasePlatform()->getBitAndComparisonExpression(
