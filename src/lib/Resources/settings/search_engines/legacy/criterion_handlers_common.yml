@@ -36,10 +36,16 @@ parameters:
             - "greek_lowercase"
 
 services:
+    Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker: ~
+
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler:
         abstract: true
         arguments:
             $connection: '@ibexa.persistence.connection'
+        calls:
+            - method: setJoinedTablesTracker
+              arguments:
+                  - '@Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
 
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler

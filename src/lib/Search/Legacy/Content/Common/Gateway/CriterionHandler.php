@@ -16,7 +16,7 @@ use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 
 abstract class CriterionHandler
 {
-    private readonly JoinedTablesTracker $joinedTablesTracker;
+    private ?JoinedTablesTracker $joinedTablesTracker = null;
 
     /**
      * Map of criterion operators to the respective function names in the zeta
@@ -42,11 +42,15 @@ abstract class CriterionHandler
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    public function __construct(Connection $connection, ?JoinedTablesTracker $joinedTablesTracker = null)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
         $this->dbPlatform = $connection->getDatabasePlatform();
-        $this->joinedTablesTracker = $joinedTablesTracker ?? new JoinedTablesTracker();
+    }
+
+    public function setJoinedTablesTracker(JoinedTablesTracker $joinedTablesTracker): void
+    {
+        $this->joinedTablesTracker = $joinedTablesTracker;
     }
 
     /**
@@ -56,6 +60,8 @@ abstract class CriterionHandler
      */
     protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
     {
+        $this->joinedTablesTracker ??= new JoinedTablesTracker();
+
         return $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
     }
 
