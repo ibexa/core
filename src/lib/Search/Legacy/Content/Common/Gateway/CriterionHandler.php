@@ -12,11 +12,11 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
-use Ibexa\Core\Persistence\Doctrine\TracksJoinedTablesTrait;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 
 abstract class CriterionHandler
 {
-    use TracksJoinedTablesTrait;
+    private readonly JoinedTablesTracker $joinedTablesTracker;
 
     /**
      * Map of criterion operators to the respective function names in the zeta
@@ -42,10 +42,21 @@ abstract class CriterionHandler
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, ?JoinedTablesTracker $joinedTablesTracker = null)
     {
         $this->connection = $connection;
         $this->dbPlatform = $connection->getDatabasePlatform();
+        $this->joinedTablesTracker = $joinedTablesTracker ?? new JoinedTablesTracker();
+    }
+
+    protected function isTableJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
+    {
+        return $this->joinedTablesTracker->isTableJoined($queryBuilder, $tableIdentifier);
+    }
+
+    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): void
+    {
+        $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
     }
 
     /**

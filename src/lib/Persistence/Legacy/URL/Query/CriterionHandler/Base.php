@@ -9,14 +9,29 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Core\Persistence\Doctrine\TracksJoinedTablesTrait;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 abstract class Base implements CriterionHandler
 {
-    use TracksJoinedTablesTrait;
+    private readonly JoinedTablesTracker $joinedTablesTracker;
+
+    public function __construct(?JoinedTablesTracker $joinedTablesTracker = null)
+    {
+        $this->joinedTablesTracker = $joinedTablesTracker ?? new JoinedTablesTracker();
+    }
+
+    protected function isTableJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
+    {
+        return $this->joinedTablesTracker->isTableJoined($queryBuilder, $tableIdentifier);
+    }
+
+    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): void
+    {
+        $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
+    }
 
     /**
      * Inner join `ibexa_url_content_link` table if not joined yet.
