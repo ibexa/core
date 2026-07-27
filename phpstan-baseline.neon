@@ -11845,12 +11845,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Ternary operator condition is always true\.$#'
-			identifier: ternary.alwaysTrue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 14
