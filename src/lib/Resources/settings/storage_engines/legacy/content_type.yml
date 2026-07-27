@@ -1,4 +1,8 @@
 services:
+    _defaults:
+        bind:
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+
     _instanceof:
         Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface:
             tags: [ 'ibexa.content_type.criterion_handler' ]
@@ -10,26 +14,9 @@ services:
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\:
         resource: '../../../../Persistence/Legacy/Content/Type/Gateway/CriterionHandler/*'
 
-    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\ContentTypeGroupName:
-        arguments:
-            $connection: '@ibexa.api.storage_engine.legacy.connection'
-
-    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\ContainsFieldDefinitionId:
-        arguments:
-            $connection: '@ibexa.api.storage_engine.legacy.connection'
-
-    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\ContentTypeGroupId:
-        arguments:
-            $connection: '@ibexa.api.storage_engine.legacy.connection'
-
-    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\IsSystem:
-        arguments:
-            $connection: '@ibexa.api.storage_engine.legacy.connection'
-
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
         arguments:
-            $connection: '@ibexa.api.storage_engine.legacy.connection'
             $sharedGateway: '@Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway'
             $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
             $criterionVisitor: '@Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor'
