@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
@@ -79,9 +80,10 @@ class FullText extends CriterionHandler
         Connection $connection,
         protected TransformationProcessor $processor,
         private readonly MaskGenerator $languageMaskGenerator,
+        JoinedTablesTracker $joinedTablesTracker,
         array $configuration = []
     ) {
-        parent::__construct($connection);
+        parent::__construct($connection, $joinedTablesTracker);
 
         $this->configuration = $configuration + $this->configuration;
 

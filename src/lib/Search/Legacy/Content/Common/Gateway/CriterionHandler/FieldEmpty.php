@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -43,9 +44,10 @@ class FieldEmpty extends FieldBase
         ContentTypeHandler $contentTypeHandler,
         LanguageHandler $languageHandler,
         Registry $fieldConverterRegistry,
-        FieldTypeService $fieldTypeService
+        FieldTypeService $fieldTypeService,
+        JoinedTablesTracker $joinedTablesTracker
     ) {
-        parent::__construct($connection, $contentTypeHandler, $languageHandler);
+        parent::__construct($connection, $contentTypeHandler, $languageHandler, $joinedTablesTracker);
 
         $this->fieldConverterRegistry = $fieldConverterRegistry;
         $this->fieldTypeService = $fieldTypeService;

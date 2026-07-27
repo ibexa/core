@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
@@ -49,6 +50,7 @@ class HandlerLocationSortTest extends AbstractTestCase
     protected function getContentSearchHandler()
     {
         $connection = $this->getDatabaseConnection();
+        $joinedTablesTracker = new JoinedTablesTracker();
 
         return new Content\Handler(
             $this->createMock(ContentGateway::class),
@@ -56,14 +58,15 @@ class HandlerLocationSortTest extends AbstractTestCase
                 $connection,
                 new CriteriaConverter(
                     [
-                        new LocationCriterionHandler\LocationId($connection),
-                        new LocationCriterionHandler\ParentLocationId($connection),
-                        new CommonCriterionHandler\LogicalAnd($connection),
-                        new CommonCriterionHandler\MatchAll($connection),
-                        new CommonCriterionHandler\SectionId($connection),
+                        new LocationCriterionHandler\LocationId($connection, $joinedTablesTracker),
+                        new LocationCriterionHandler\ParentLocationId($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\LogicalAnd($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\MatchAll($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\SectionId($connection, $joinedTablesTracker),
                         new CommonCriterionHandler\ContentTypeIdentifier(
                             $connection,
-                            $this->getContentTypeHandler()
+                            $this->getContentTypeHandler(),
+                            $joinedTablesTracker
                         ),
                     ]
                 ),

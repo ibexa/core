@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\TransformationProcessor;
@@ -53,9 +54,10 @@ class Field extends FieldBase
         LanguageHandler $languageHandler,
         Registry $fieldConverterRegistry,
         FieldValueConverter $fieldValueConverter,
-        TransformationProcessor $transformationProcessor
+        TransformationProcessor $transformationProcessor,
+        JoinedTablesTracker $joinedTablesTracker
     ) {
-        parent::__construct($connection, $contentTypeHandler, $languageHandler);
+        parent::__construct($connection, $contentTypeHandler, $languageHandler, $joinedTablesTracker);
 
         $this->fieldConverterRegistry = $fieldConverterRegistry;
         $this->fieldValueConverter = $fieldValueConverter;

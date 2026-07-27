@@ -16,9 +16,9 @@ use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 abstract class Base implements CriterionHandler
 {
-    private ?JoinedTablesTracker $joinedTablesTracker = null;
+    private readonly JoinedTablesTracker $joinedTablesTracker;
 
-    public function setJoinedTablesTracker(JoinedTablesTracker $joinedTablesTracker): void
+    public function __construct(JoinedTablesTracker $joinedTablesTracker)
     {
         $this->joinedTablesTracker = $joinedTablesTracker;
     }
@@ -30,8 +30,6 @@ abstract class Base implements CriterionHandler
      */
     protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
     {
-        $this->joinedTablesTracker ??= new JoinedTablesTracker();
-
         return $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
     }
 

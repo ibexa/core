@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
@@ -43,18 +44,20 @@ class HandlerContentSortTest extends AbstractTestCase
     protected function getContentSearchHandler(array $fullTextSearchConfiguration = [])
     {
         $connection = $this->getDatabaseConnection();
+        $joinedTablesTracker = new JoinedTablesTracker();
 
         return new Content\Handler(
             new Content\Gateway\DoctrineDatabase(
                 $connection,
                 new Content\Common\Gateway\CriteriaConverter(
                     [
-                        new Content\Common\Gateway\CriterionHandler\MatchAll($connection),
-                        new Content\Common\Gateway\CriterionHandler\LogicalAnd($connection),
-                        new Content\Common\Gateway\CriterionHandler\SectionId($connection),
+                        new Content\Common\Gateway\CriterionHandler\MatchAll($connection, $joinedTablesTracker),
+                        new Content\Common\Gateway\CriterionHandler\LogicalAnd($connection, $joinedTablesTracker),
+                        new Content\Common\Gateway\CriterionHandler\SectionId($connection, $joinedTablesTracker),
                         new Content\Common\Gateway\CriterionHandler\ContentTypeIdentifier(
                             $connection,
-                            $this->getContentTypeHandler()
+                            $this->getContentTypeHandler(),
+                            $joinedTablesTracker
                         ),
                     ]
                 ),

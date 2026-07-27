@@ -1,4 +1,8 @@
 services:
+   _defaults:
+       bind:
+           $joinedTablesTracker: '@Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
+
    Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker: ~
 
    ibexa.persistence.legacy.url.criterion_handler.base:
@@ -49,29 +53,17 @@ services:
    Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly:
        parent: ibexa.persistence.legacy.url.criterion_handler.base
        class: Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly
-       calls:
-           - method: setJoinedTablesTracker
-             arguments:
-                 - '@Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
        tags:
            - { name: ibexa.storage.legacy.url.criterion.handler }
 
    Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\SectionId:
        parent: ibexa.persistence.legacy.url.criterion_handler.base
        class: Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\SectionId
-       calls:
-           - method: setJoinedTablesTracker
-             arguments:
-                 - '@Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
        tags:
            - { name: ibexa.storage.legacy.url.criterion.handler }
 
    Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\SectionIdentifier:
        parent: ibexa.persistence.legacy.url.criterion_handler.base
        class: Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\SectionIdentifier
-       calls:
-           - method: setJoinedTablesTracker
-             arguments:
-                 - '@Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
        tags:
            - { name: ibexa.storage.legacy.url.criterion.handler }
