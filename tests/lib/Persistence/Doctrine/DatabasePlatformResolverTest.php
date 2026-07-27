@@ -15,10 +15,10 @@ use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Persistence\Doctrine\DatabasePlatform;
+use Ibexa\Core\Persistence\Doctrine\DatabasePlatformResolver;
 use PHPUnit\Framework\TestCase;
 
-final class DatabasePlatformTest extends TestCase
+final class DatabasePlatformResolverTest extends TestCase
 {
     /**
      * @return iterable<string, array{\Doctrine\DBAL\Platforms\AbstractPlatform, string}>
@@ -36,13 +36,13 @@ final class DatabasePlatformTest extends TestCase
      */
     public function testResolveName(AbstractPlatform $platform, string $expectedName): void
     {
-        self::assertSame($expectedName, DatabasePlatform::resolveName($platform));
+        self::assertSame($expectedName, DatabasePlatformResolver::resolveName($platform));
     }
 
     public function testResolveNameThrowsForUnsupportedPlatform(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        DatabasePlatform::resolveName(new OraclePlatform());
+        DatabasePlatformResolver::resolveName(new OraclePlatform());
     }
 }

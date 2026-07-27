@@ -14,7 +14,7 @@ use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
-final readonly class DatabasePlatform
+final readonly class DatabasePlatformResolver
 {
     private function __construct()
     {

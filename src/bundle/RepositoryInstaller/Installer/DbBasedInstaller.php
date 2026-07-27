@@ -9,7 +9,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Persistence\Doctrine\DatabasePlatform;
+use Ibexa\Core\Persistence\Doctrine\DatabasePlatformResolver;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DbBasedInstaller
@@ -108,6 +108,6 @@ class DbBasedInstaller
 
     protected function getDBMSDataDirectoryName(): string
     {
-        return DatabasePlatform::resolveName($this->db->getDatabasePlatform());
+        return DatabasePlatformResolver::resolveName($this->db->getDatabasePlatform());
     }
 }
