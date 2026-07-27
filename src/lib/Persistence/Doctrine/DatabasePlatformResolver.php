@@ -18,6 +18,7 @@ final readonly class DatabasePlatformResolver
 {
     private function __construct()
     {
+        // intentionally prevent instantiation
     }
 
     /**
