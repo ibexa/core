@@ -25,16 +25,22 @@ final class JoinedTablesTracker
         $this->joinedTablesByQueryBuilder = new WeakMap();
     }
 
-    public function isTableJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
-    {
-        return isset($this->getJoinedTables($queryBuilder)[$tableIdentifier]);
-    }
-
-    public function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): void
+    /**
+     * Marks $tableIdentifier as joined for $queryBuilder.
+     *
+     * @return bool true if the table was not already joined (i.e. the caller still needs to perform the join)
+     */
+    public function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
     {
         $joined = $this->getJoinedTables($queryBuilder);
+        if (isset($joined[$tableIdentifier])) {
+            return false;
+        }
+
         $joined[$tableIdentifier] = true;
         $this->joinedTablesByQueryBuilder[$queryBuilder] = $joined;
+
+        return true;
     }
 
     /**

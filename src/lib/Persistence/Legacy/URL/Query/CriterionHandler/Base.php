@@ -23,14 +23,14 @@ abstract class Base implements CriterionHandler
         $this->joinedTablesTracker = $joinedTablesTracker ?? new JoinedTablesTracker();
     }
 
-    protected function isTableJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
+    /**
+     * Marks $tableIdentifier as joined for $queryBuilder.
+     *
+     * @return bool true if the table was not already joined (i.e. the caller still needs to perform the join)
+     */
+    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
     {
-        return $this->joinedTablesTracker->isTableJoined($queryBuilder, $tableIdentifier);
-    }
-
-    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): void
-    {
-        $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
+        return $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
     }
 
     /**
@@ -38,14 +38,13 @@ abstract class Base implements CriterionHandler
      */
     protected function joinContentObjectLink(QueryBuilder $query): void
     {
-        if (!$this->isTableJoined($query, DoctrineDatabase::URL_LINK_TABLE)) {
+        if ($this->markTableAsJoined($query, DoctrineDatabase::URL_LINK_TABLE)) {
             $query->innerJoin(
                 'url',
                 DoctrineDatabase::URL_LINK_TABLE,
                 'u_lnk',
                 'url.id = u_lnk.url_id'
             );
-            $this->markTableAsJoined($query, DoctrineDatabase::URL_LINK_TABLE);
         }
     }
 
@@ -54,14 +53,13 @@ abstract class Base implements CriterionHandler
      */
     protected function joinContentObject(QueryBuilder $query): void
     {
-        if (!$this->isTableJoined($query, ContentGateway::CONTENT_ITEM_TABLE)) {
+        if ($this->markTableAsJoined($query, ContentGateway::CONTENT_ITEM_TABLE)) {
             $query->innerJoin(
                 'f_def',
                 ContentGateway::CONTENT_ITEM_TABLE,
                 'c',
                 'c.id = f_def.contentobject_id'
             );
-            $this->markTableAsJoined($query, ContentGateway::CONTENT_ITEM_TABLE);
         }
     }
 
@@ -70,7 +68,7 @@ abstract class Base implements CriterionHandler
      */
     protected function joinContentObjectAttribute(QueryBuilder $query): void
     {
-        if (!$this->isTableJoined($query, ContentGateway::CONTENT_FIELD_TABLE)) {
+        if ($this->markTableAsJoined($query, ContentGateway::CONTENT_FIELD_TABLE)) {
             $query->innerJoin(
                 'u_lnk',
                 ContentGateway::CONTENT_FIELD_TABLE,
@@ -80,7 +78,6 @@ abstract class Base implements CriterionHandler
                     'u_lnk.contentobject_attribute_version = f_def.version'
                 )
             );
-            $this->markTableAsJoined($query, ContentGateway::CONTENT_FIELD_TABLE);
         }
     }
 }

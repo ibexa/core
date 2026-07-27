@@ -44,7 +44,7 @@ class PermissionSubtree extends CriterionHandler
         }
 
         $locationTableAlias = $this->connection->quoteIdentifier($table);
-        if (!$this->isTableJoined($queryBuilder, $locationTableAlias)) {
+        if ($this->markTableAsJoined($queryBuilder, $locationTableAlias)) {
             $queryBuilder
                 ->leftJoin(
                     'c',
@@ -55,7 +55,6 @@ class PermissionSubtree extends CriterionHandler
                         'c.id'
                     )
                 );
-            $this->markTableAsJoined($queryBuilder, $locationTableAlias);
         }
 
         return $queryBuilder->expr()->or(...$statements);

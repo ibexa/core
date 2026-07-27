@@ -49,14 +49,14 @@ abstract class CriterionHandler
         $this->joinedTablesTracker = $joinedTablesTracker ?? new JoinedTablesTracker();
     }
 
-    protected function isTableJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
+    /**
+     * Marks $tableIdentifier as joined for $queryBuilder.
+     *
+     * @return bool true if the table was not already joined (i.e. the caller still needs to perform the join)
+     */
+    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
     {
-        return $this->joinedTablesTracker->isTableJoined($queryBuilder, $tableIdentifier);
-    }
-
-    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): void
-    {
-        $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
+        return $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
     }
 
     /**
