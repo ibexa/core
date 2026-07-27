@@ -49,6 +49,8 @@ final class FlysystemTest extends IbexaKernelTestCase
     protected function tearDown(): void
     {
         $this->filesystem->deleteDirectory('/');
+
+        parent::tearDown();
     }
 
     public function testCreateSetsCorrectPermissions(): void
