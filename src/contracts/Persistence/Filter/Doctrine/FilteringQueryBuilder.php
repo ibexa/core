@@ -205,7 +205,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     }
 
     /**
-     * @return string conditions, null if table is not joined yet.
+     * @return string|null conditions, null if table is not joined yet.
      */
     public function getExistingTableAliasJoinCondition(string $tableAlias): ?string
     {
