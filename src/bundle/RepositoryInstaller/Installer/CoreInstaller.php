@@ -13,7 +13,9 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Query\Query;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
+use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
@@ -26,13 +28,13 @@ class CoreInstaller extends DbBasedInstaller implements Installer
 
     private bool $schemaBuilderEventEnabled;
 
-    private TaggedMigrationsRunner $taggedMigrationsRunner;
+    private ?TaggedMigrationsRunner $taggedMigrationsRunner;
 
     public function __construct(
         Connection $db,
         SchemaBuilderInterface $schemaBuilder,
         bool $schemaBuilderEventEnabled,
-        TaggedMigrationsRunner $taggedMigrationsRunner
+        ?TaggedMigrationsRunner $taggedMigrationsRunner = null
     ) {
         parent::__construct($db);
 
@@ -54,6 +56,8 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      * package's) via the application's Doctrine Migrations DependencyFactory.
      *
      * @throws \Doctrine\DBAL\DBALException
+     * @throws \RuntimeException if "ibexa.installer.schema_builder_event.enabled" is disabled but
+     *     "ibexa/doctrine-migrations" isn't installed/enabled to run the migrations-based path instead
      */
     public function importSchema()
     {
@@ -61,6 +65,14 @@ class CoreInstaller extends DbBasedInstaller implements Installer
             $this->executeQueries($this->getQueriesFromSchemaBuilderEvent());
 
             return;
+        }
+
+        if ($this->taggedMigrationsRunner === null) {
+            throw new RuntimeException(
+                'Disabling "ibexa.installer.schema_builder_event.enabled" requires the "' .
+                IbexaOnlyDependencyFactory::SERVICE_ID . '" service (provided by "ibexa/doctrine-migrations", ' .
+                'with Ibexa\Bundle\DoctrineMigrations\IbexaDoctrineMigrationsBundle registered) to be available.'
+            );
         }
 
         $this->reportExecutedQueries($this->taggedMigrationsRunner->run());
