@@ -16,7 +16,6 @@ use Doctrine\Migrations\Metadata\MigrationPlan;
 use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\Version\ExecutionResult;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
-use RuntimeException;
 
 /**
  * Runs every not-yet-executed migration tagged with
@@ -36,37 +35,26 @@ use RuntimeException;
  * Doctrine Migrations' Migrator/Executor/AliasResolver classes are marked `@internal`. Only the
  * DependencyFactory's public accessors ({@see DependencyFactory::getMigrationPlanCalculator()},
  * {@see DependencyFactory::getMetadataStorage()}, {@see DependencyFactory::getConnection()}) are used.
+ *
+ * This service isn't registered at all when "ibexa/doctrine-migrations" isn't installed/enabled
+ * ({@see \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RemoveTaggedMigrationsRunnerPass}
+ * removes its definition), so callers should depend on it as an optional (nullable) service rather
+ * than expecting this class itself to handle that unavailability.
  */
 final class TaggedMigrationsRunner
 {
-    private ?DependencyFactory $dependencyFactory;
+    private DependencyFactory $dependencyFactory;
 
-    /**
-     * @param \Doctrine\Migrations\DependencyFactory|null $dependencyFactory Null when
-     *     "ibexa/doctrine-migrations" isn't installed/enabled ({@see services.yml}'s optional
-     *     "@?ibexa.doctrine_migrations.dependency_factory.ibexa_migrations_only" reference) —
-     *     {@see run()} throws a clear exception rather than allowing a silent no-op in that state.
-     */
-    public function __construct(?DependencyFactory $dependencyFactory = null)
+    public function __construct(DependencyFactory $dependencyFactory)
     {
         $this->dependencyFactory = $dependencyFactory;
     }
 
     /**
      * @return \Doctrine\Migrations\Query\Query[] All SQL statements that were executed, across all migrations run
-     *
-     * @throws \RuntimeException if the "{@see IbexaOnlyDependencyFactory::SERVICE_ID}" service isn't available
      */
     public function run(): array
     {
-        if ($this->dependencyFactory === null) {
-            throw new RuntimeException(
-                'Running tagged Doctrine migrations requires the "' . IbexaOnlyDependencyFactory::SERVICE_ID . '" ' .
-                'service (provided by doctrine/migrations-bundle, with Ibexa\Bundle\DoctrineMigrations\IbexaDoctrineMigrationsBundle ' .
-                'registered) to be available.'
-            );
-        }
-
         $metadataStorage = $this->dependencyFactory->getMetadataStorage();
         // Mirrors what the "doctrine:migrations:migrate" console command does before migrating.
         $metadataStorage->ensureInitialized();
