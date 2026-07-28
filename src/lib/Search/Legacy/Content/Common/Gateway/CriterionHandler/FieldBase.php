@@ -13,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 /**
@@ -40,9 +41,10 @@ abstract class FieldBase extends CriterionHandler
     public function __construct(
         Connection $connection,
         ContentTypeHandler $contentTypeHandler,
-        LanguageHandler $languageHandler
+        LanguageHandler $languageHandler,
+        JoinedTablesTracker $joinedTablesTracker
     ) {
-        parent::__construct($connection);
+        parent::__construct($connection, $joinedTablesTracker);
 
         $this->contentTypeHandler = $contentTypeHandler;
         $this->languageHandler = $languageHandler;

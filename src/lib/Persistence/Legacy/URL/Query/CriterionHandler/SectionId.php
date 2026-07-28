@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
@@ -39,7 +39,7 @@ class SectionId extends Base
             'c.section_id',
             $queryBuilder->createNamedParameter(
                 $criterion->sectionIds,
-                Connection::PARAM_INT_ARRAY,
+                ArrayParameterType::INTEGER,
                 ':section_ids'
             )
         );

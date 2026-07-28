@@ -62,14 +62,7 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
 
     private function isLocationFilteringContext(FilteringQueryBuilder $queryBuilder): bool
     {
-        $fromParts = $queryBuilder->getQueryPart('from');
-        foreach ($fromParts as $fromPart) {
-            if (($fromPart['alias'] ?? null) === 'location') {
-                return true;
-            }
-        }
-
-        return false;
+        return $queryBuilder->hasFromAlias('location');
     }
 
     private function joinMainLocationOnly(FilteringQueryBuilder $queryBuilder, string $alias): void

@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\User\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\User;
@@ -28,19 +27,8 @@ use function time;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
     public function load(int $userId): array
@@ -66,7 +54,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->where(
                 $expr->eq(
-                    $this->dbPlatform->getLowerExpression('u.login'),
+                    'LOWER(u.login)',
                     // Index is case in-sensitive, on some db's lowercase, so we lowercase $login
                     $query->createPositionalParameter(
                         mb_strtolower($login, 'UTF-8'),
@@ -305,6 +293,6 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return !empty($query->executeQuery()->fetch(FetchMode::ASSOCIATIVE));
+        return $query->executeQuery()->fetchAssociative() !== false;
     }
 }

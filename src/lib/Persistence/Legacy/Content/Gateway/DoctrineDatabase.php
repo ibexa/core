@@ -7,9 +7,9 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
@@ -117,7 +117,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId(self::CONTENT_ITEM_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     public function insertVersion(VersionInfo $versionInfo, array $fields): int
@@ -170,7 +170,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId(self::CONTENT_VERSION_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     public function updateContent(
@@ -212,6 +212,8 @@ final class DoctrineDatabase extends Gateway
             ],
         ];
 
+        $hasSetClause = false;
+
         foreach ($fieldsForUpdateMap as $fieldName => $field) {
             if (null === $field['value']) {
                 continue;
@@ -220,6 +222,7 @@ final class DoctrineDatabase extends Gateway
                 $fieldName,
                 $query->createNamedParameter($field['value'], $field['type'], ":{$fieldName}")
             );
+            $hasSetClause = true;
         }
 
         if ($prePublishVersionInfo !== null) {
@@ -231,6 +234,7 @@ final class DoctrineDatabase extends Gateway
                 'language_mask',
                 $query->createNamedParameter($mask, ParameterType::INTEGER, ':languageMask')
             );
+            $hasSetClause = true;
         }
 
         $query->where(
@@ -240,7 +244,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        if (!empty($query->getQueryPart('set'))) {
+        if ($hasSetClause) {
             $query->executeStatement();
         }
 
@@ -413,11 +417,25 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('languageMaskOperand', self::REMOVE_ALWAYS_AVAILABLE_LANG_MASK_OPERAND)
         ;
         $query->executeStatement();
-        $query->resetQueryPart('set');
 
         // 2. If Content is always available set the flag only on fields in main language
         if ($alwaysAvailable) {
-            $query
+            $mainLanguageQuery = $this->connection->createQueryBuilder();
+            $mainLanguageExpr = $mainLanguageQuery->expr();
+            $mainLanguageQuery
+                ->update(self::CONTENT_FIELD_TABLE)
+                ->where(
+                    $mainLanguageExpr->eq(
+                        'contentobject_id',
+                        $mainLanguageQuery->createNamedParameter($contentId, ParameterType::INTEGER, ':contentId')
+                    )
+                )
+                ->andWhere(
+                    $mainLanguageExpr->eq(
+                        'version',
+                        $mainLanguageQuery->createNamedParameter($versionNo, ParameterType::INTEGER, ':versionNo')
+                    )
+                )
                 ->set(
                     'language_id',
                     $this->getDatabasePlatform()->getBitOrComparisonExpression(
@@ -425,21 +443,17 @@ final class DoctrineDatabase extends Gateway
                         ':languageMaskOperand'
                     )
                 )
-                ->setParameter(
-                    'languageMaskOperand',
-                    $alwaysAvailable ? 1 : self::REMOVE_ALWAYS_AVAILABLE_LANG_MASK_OPERAND
+                ->setParameter('languageMaskOperand', 1)
+                ->andWhere(
+                    $mainLanguageExpr->gt(
+                        $this->getDatabasePlatform()->getBitAndComparisonExpression(
+                            'language_id',
+                            $mainLanguageQuery->createNamedParameter($initialLanguageId, ParameterType::INTEGER, ':initialLanguageId')
+                        ),
+                        $mainLanguageQuery->createNamedParameter(0, ParameterType::INTEGER, ':zero')
+                    )
                 );
-
-            $query->andWhere(
-                $expr->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        'language_id',
-                        $query->createNamedParameter($initialLanguageId, ParameterType::INTEGER, ':initialLanguageId')
-                    ),
-                    $query->createNamedParameter(0, ParameterType::INTEGER, ':zero')
-                )
-            );
-            $query->executeStatement();
+            $mainLanguageQuery->executeStatement();
         }
     }
 
@@ -764,7 +778,7 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder->where(
             $expr->in(
                 'c.id',
-                $queryBuilder->createNamedParameter($contentIds, Connection::PARAM_INT_ARRAY)
+                $queryBuilder->createNamedParameter($contentIds, ArrayParameterType::INTEGER)
             )
         );
 
@@ -772,7 +786,7 @@ final class DoctrineDatabase extends Gateway
             $queryBuilder->andWhere(
                 $expr->in(
                     'a.language_code',
-                    $queryBuilder->createNamedParameter($translations, Connection::PARAM_STR_ARRAY)
+                    $queryBuilder->createNamedParameter($translations, ArrayParameterType::STRING)
                 )
             );
         }
@@ -800,7 +814,7 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder = $this->queryBuilder->createLoadContentInfoQueryBuilder();
         $queryBuilder
             ->where('c.id IN (:ids)')
-            ->setParameter('ids', $contentIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $contentIds, ArrayParameterType::INTEGER);
 
         return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
@@ -1149,7 +1163,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
+        while ($row = $statement->fetchAssociative()) {
             if ($row['data_type_string'] === 'ibexa_object_relation') {
                 $this->removeRelationFromRelationField($row);
             }
@@ -1236,12 +1250,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param array{
-     *     id: int|string,
-     *     version: int|string,
-     *     data_type_string: string,
-     *     data_text: string|null
-     * } $row
+     * @param array<string, mixed> $row
      */
     private function removeRelationFromAssetField(array $row): void
     {
@@ -1343,7 +1352,7 @@ final class DoctrineDatabase extends Gateway
 
         $stmt = $query->executeQuery();
 
-        return (int)$stmt->fetch(FetchMode::COLUMN) > 0;
+        return (int)$stmt->fetchOne() > 0;
     }
 
     public function setName(int $contentId, int $version, string $name, string $languageCode): void
@@ -1684,7 +1693,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId(self::CONTENT_RELATION_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     /**
@@ -2103,7 +2112,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 $expr->in(
                     'c.id',
-                    $queryBuilder->createNamedParameter($contentIds, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($contentIds, ArrayParameterType::INTEGER)
                 )
             )
             ->andWhere(

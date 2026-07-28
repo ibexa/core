@@ -12,9 +12,12 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 
 abstract class CriterionHandler
 {
+    private readonly JoinedTablesTracker $joinedTablesTracker;
+
     /**
      * Map of criterion operators to the respective function names in the zeta
      * Database abstraction layer.
@@ -39,10 +42,21 @@ abstract class CriterionHandler
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, JoinedTablesTracker $joinedTablesTracker)
     {
         $this->connection = $connection;
         $this->dbPlatform = $connection->getDatabasePlatform();
+        $this->joinedTablesTracker = $joinedTablesTracker;
+    }
+
+    /**
+     * Marks $tableIdentifier as joined for $queryBuilder.
+     *
+     * @return bool true if the table was not already joined (i.e. the caller still needs to perform the join)
+     */
+    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
+    {
+        return $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
     }
 
     /**
@@ -72,19 +86,4 @@ abstract class CriterionHandler
         CriterionInterface $criterion,
         array $languageSettings
     );
-
-    protected function hasJoinedTableAs(QueryBuilder $queryBuilder, string $tableAlias): bool
-    {
-        // find table name in a structure: ['fromAlias' => [['joinTable' => '<table_name>'], ...]]
-        $joinedParts = $queryBuilder->getQueryPart('join');
-        foreach ($joinedParts as $joinedTables) {
-            foreach ($joinedTables as $join) {
-                if ($join['joinAlias'] === $tableAlias) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 }

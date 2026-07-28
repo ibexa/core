@@ -9,18 +9,36 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 abstract class Base implements CriterionHandler
 {
+    private readonly JoinedTablesTracker $joinedTablesTracker;
+
+    public function __construct(JoinedTablesTracker $joinedTablesTracker)
+    {
+        $this->joinedTablesTracker = $joinedTablesTracker;
+    }
+
+    /**
+     * Marks $tableIdentifier as joined for $queryBuilder.
+     *
+     * @return bool true if the table was not already joined (i.e. the caller still needs to perform the join)
+     */
+    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
+    {
+        return $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
+    }
+
     /**
      * Inner join `ibexa_url_content_link` table if not joined yet.
      */
     protected function joinContentObjectLink(QueryBuilder $query): void
     {
-        if (!$this->hasJoinedTable($query, DoctrineDatabase::URL_LINK_TABLE)) {
+        if ($this->markTableAsJoined($query, DoctrineDatabase::URL_LINK_TABLE)) {
             $query->innerJoin(
                 'url',
                 DoctrineDatabase::URL_LINK_TABLE,
@@ -35,7 +53,7 @@ abstract class Base implements CriterionHandler
      */
     protected function joinContentObject(QueryBuilder $query): void
     {
-        if (!$this->hasJoinedTable($query, ContentGateway::CONTENT_ITEM_TABLE)) {
+        if ($this->markTableAsJoined($query, ContentGateway::CONTENT_ITEM_TABLE)) {
             $query->innerJoin(
                 'f_def',
                 ContentGateway::CONTENT_ITEM_TABLE,
@@ -50,7 +68,7 @@ abstract class Base implements CriterionHandler
      */
     protected function joinContentObjectAttribute(QueryBuilder $query): void
     {
-        if (!$this->hasJoinedTable($query, ContentGateway::CONTENT_FIELD_TABLE)) {
+        if ($this->markTableAsJoined($query, ContentGateway::CONTENT_FIELD_TABLE)) {
             $query->innerJoin(
                 'u_lnk',
                 ContentGateway::CONTENT_FIELD_TABLE,
@@ -61,20 +79,5 @@ abstract class Base implements CriterionHandler
                 )
             );
         }
-    }
-
-    protected function hasJoinedTable(QueryBuilder $queryBuilder, string $tableName): bool
-    {
-        // find table name in a structure: ['fromAlias' => [['joinTable' => '<table_name>'], ...]]
-        $joinedParts = $queryBuilder->getQueryPart('join');
-        foreach ($joinedParts as $joinedTables) {
-            foreach ($joinedTables as $join) {
-                if ($join['joinTable'] === $tableName) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 }

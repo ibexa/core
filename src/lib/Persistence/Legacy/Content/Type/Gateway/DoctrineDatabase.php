@@ -137,7 +137,7 @@ final class DoctrineDatabase extends Gateway
             );
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId(self::CONTENT_TYPE_GROUP_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     public function updateGroup(GroupUpdateStruct $group): void
@@ -491,7 +491,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->createGroupLoadQuery();
         $query
             ->where($query->expr()->in('id', ':ids'))
-            ->setParameter('ids', $groupIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $groupIds, ArrayParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -949,7 +949,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->where($query->expr()->in('c.id', ':ids'))
             ->andWhere($query->expr()->eq('c.status', Type::STATUS_DEFINED))
-            ->setParameter('ids', $typeIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $typeIds, ArrayParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }

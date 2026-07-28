@@ -39,7 +39,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId(Gateway::CONTENT_SECTION_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     public function updateSection(int $id, string $name, string $identifier): void

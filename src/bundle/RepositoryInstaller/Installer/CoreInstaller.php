@@ -11,6 +11,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
@@ -60,7 +61,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
                 '<info>Executing %d queries on database <comment>%s</comment> (<comment>%s</comment>)</info>',
                 $queriesCount,
                 $this->db->getDatabase(),
-                $databasePlatform->getName()
+                $this->getDBMSDataDirectoryName()
             )
         );
         $progressBar = new ProgressBar($this->output);
@@ -97,13 +98,16 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         Schema $newSchema,
         AbstractPlatform $databasePlatform
     ): array {
-        $existingSchema = $this->db->getSchemaManager()->createSchema();
+        $existingTableNames = array_map(
+            static fn (Table $table): string => $table->getName(),
+            $this->db->createSchemaManager()->listTables()
+        );
         $statements = [];
         // reverse table order for clean-up (due to FKs)
         $tables = array_reverse($newSchema->getTables());
         // cleanup pre-existing database
         foreach ($tables as $table) {
-            if ($existingSchema->hasTable($table->getName())) {
+            if (in_array($table->getName(), $existingTableNames, true)) {
                 $statements[] = $databasePlatform->getDropTableSQL($table);
             }
         }

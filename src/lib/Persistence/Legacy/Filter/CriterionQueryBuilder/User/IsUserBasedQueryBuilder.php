@@ -41,10 +41,10 @@ final class IsUserBasedQueryBuilder extends BaseUserCriterionQueryBuilder
             );
 
         $isUserBased = (bool)reset($criterion->value);
-        $databasePlatform = $queryBuilder->getConnection()->getDatabasePlatform();
+        $column = 'user_storage.contentobject_id';
 
         return $isUserBased
-            ? $databasePlatform->getIsNotNullExpression('user_storage.contentobject_id')
-            : $databasePlatform->getIsNullExpression('user_storage.contentobject_id');
+            ? $queryBuilder->expr()->isNotNull($column)
+            : $queryBuilder->expr()->isNull($column);
     }
 }

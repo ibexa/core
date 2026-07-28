@@ -1,4 +1,9 @@
 services:
+   _defaults:
+       autowire: true
+
+   Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker: ~
+
    ibexa.persistence.legacy.url.criterion_handler.base:
         abstract: true
 

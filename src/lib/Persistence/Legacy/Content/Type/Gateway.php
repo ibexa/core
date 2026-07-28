@@ -30,7 +30,6 @@ abstract class Gateway
     public const FIELD_DEFINITION_TABLE = 'ibexa_content_type_field_definition';
     public const MULTILINGUAL_FIELD_DEFINITION_TABLE = 'ibexa_content_type_field_definition_ml';
 
-    public const CONTENT_TYPE_GROUP_SEQ = 'ibexa_content_type_group_id_seq';
     public const CONTENT_TYPE_SEQ = 'ibexa_content_type_id_seq';
     public const FIELD_DEFINITION_SEQ = 'ibexa_content_type_field_definition_id_seq';
 

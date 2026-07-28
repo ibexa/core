@@ -49,6 +49,7 @@ class HandlerContentTest extends AbstractTestCase
             $ruleFiles
         );
         $connection = $this->getDatabaseConnection();
+        $joinedTablesTracker = new Persistence\Doctrine\JoinedTablesTracker();
         $commaSeparatedCollectionValueHandler = new Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Collection(
             $connection,
             $transformationProcessor,
@@ -74,52 +75,67 @@ class HandlerContentTest extends AbstractTestCase
                 new Content\Common\Gateway\CriteriaConverter(
                     [
                         new Content\Common\Gateway\CriterionHandler\ContentId(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\LogicalNot(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\LogicalAnd(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\LogicalOr(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Gateway\CriterionHandler\Subtree(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\ContentTypeId(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\ContentTypeIdentifier(
                             $connection,
-                            $this->getContentTypeHandler()
+                            $this->getContentTypeHandler(),
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\ContentTypeGroupId(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\DateMetadata(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Gateway\CriterionHandler\LocationId(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Gateway\CriterionHandler\ParentLocationId(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\RemoteId(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Gateway\CriterionHandler\LocationRemoteId(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\SectionId(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\FullText(
                             $connection,
                             $transformationProcessor,
                             $this->getLanguageMaskGenerator(),
+                            $joinedTablesTracker,
                             $fullTextSearchConfiguration
                         ),
                         new Content\Common\Gateway\CriterionHandler\Field(
@@ -144,28 +160,35 @@ class HandlerContentTest extends AbstractTestCase
                                 ),
                                 $compositeValueHandler
                             ),
-                            $transformationProcessor
+                            $transformationProcessor,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\ObjectStateId(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\LanguageCode(
                             $connection,
-                            $this->getLanguageMaskGenerator()
+                            $this->getLanguageMaskGenerator(),
+                            $joinedTablesTracker
                         ),
                         new Content\Gateway\CriterionHandler\Visibility(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\MatchAll(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\UserMetadata(
-                            $connection
+                            $connection,
+                            $joinedTablesTracker
                         ),
                         new Content\Common\Gateway\CriterionHandler\FieldRelation(
                             $connection,
                             $this->getContentTypeHandler(),
-                            $this->getLanguageHandler()
+                            $this->getLanguageHandler(),
+                            $joinedTablesTracker
                         ),
                     ]
                 ),

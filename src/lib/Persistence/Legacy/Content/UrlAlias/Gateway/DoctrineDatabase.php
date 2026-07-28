@@ -8,11 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
@@ -230,7 +231,11 @@ final class DoctrineDatabase extends Gateway
             );
         $statement = $query->executeQuery();
 
-        $row = $statement->fetch(FetchMode::ASSOCIATIVE);
+        $row = $statement->fetchAssociative();
+
+        if ($row === false) {
+            return false;
+        }
 
         return strlen($row['text']) == 0 && $row['parent'] == 0;
     }
@@ -298,7 +303,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        $row = $statement->fetch(FetchMode::ASSOCIATIVE);
+        $row = $statement->fetchAssociative();
 
         if (!empty($row)) {
             $this->archiveUrlAliasForDeletedTranslation(
@@ -623,7 +628,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId(self::INCR_TABLE_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     public function loadRow(int $parentId, string $textMD5): array
@@ -650,7 +655,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $result = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetchAssociative();
 
         return false !== $result ? $result : [];
     }
@@ -702,7 +707,7 @@ final class DoctrineDatabase extends Gateway
         }
         $query->setMaxResults(1);
 
-        $result = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetchAssociative();
 
         return false !== $result ? $result : [];
     }
@@ -743,7 +748,7 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $entry = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
+        $entry = $query->executeQuery()->fetchAssociative();
 
         return false !== $entry ? $entry : [];
     }
@@ -1000,7 +1005,7 @@ final class DoctrineDatabase extends Gateway
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('lang_mask', 'lang_mask & ~ ' . $languageId)
             ->where('action IN (:actions)')
-            ->setParameter('actions', $actions, Connection::PARAM_STR_ARRAY);
+            ->setParameter('actions', $actions, ArrayParameterType::STRING);
         $query->executeStatement();
 
         // cleanup: delete single language rows (including alwaysAvailable)
@@ -1009,7 +1014,7 @@ final class DoctrineDatabase extends Gateway
             ->delete($this->connection->quoteIdentifier($this->table))
             ->where('action IN (:actions)')
             ->andWhere('lang_mask IN (0, 1)')
-            ->setParameter('actions', $actions, Connection::PARAM_STR_ARRAY);
+            ->setParameter('actions', $actions, ArrayParameterType::STRING);
         $query->executeStatement();
     }
 
@@ -1366,7 +1371,9 @@ final class DoctrineDatabase extends Gateway
      */
     private function getIntegerType(): string
     {
-        return $this->getDatabasePlatform()->getName() === 'mysql' ? 'signed' : 'integer';
+        return $this->getDatabasePlatform() instanceof AbstractMySQLPlatform
+            ? 'signed'
+            : 'integer';
     }
 
     /**

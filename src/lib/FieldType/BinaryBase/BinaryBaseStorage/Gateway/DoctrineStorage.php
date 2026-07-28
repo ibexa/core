@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -333,7 +334,7 @@ abstract class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
@@ -402,7 +403,7 @@ abstract class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
@@ -456,7 +457,7 @@ abstract class DoctrineStorage extends Gateway
                     [$this, 'removeMimeFromPath'],
                     $files
                 ),
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             )
         ;
 

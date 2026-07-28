@@ -24,9 +24,6 @@ abstract class Gateway
     public const OBJECT_STATE_GROUP_LANGUAGE_TABLE = 'ibexa_object_state_group_language';
     public const OBJECT_STATE_LINK_TABLE = 'ibexa_object_state_link';
 
-    public const OBJECT_STATE_TABLE_SEQ = 'ibexa_object_state_id_seq';
-    public const OBJECT_STATE_GROUP_TABLE_SEQ = 'ibexa_object_state_group_id_seq';
-
     /**
      * Load data for an object state.
      */

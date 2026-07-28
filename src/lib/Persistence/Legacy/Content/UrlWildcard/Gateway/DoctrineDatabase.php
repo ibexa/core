@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
@@ -70,7 +69,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId(self::URL_WILDCARD_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     public function updateUrlWildcard(
@@ -150,7 +149,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $result = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetchAssociative();
 
         return false !== $result ? $result : [];
     }
@@ -218,7 +217,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $result = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetchAssociative();
 
         return false !== $result ? $result : [];
     }

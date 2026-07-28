@@ -12,7 +12,7 @@ use function array_filter;
 use function array_map;
 use function array_unique;
 use function array_values;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use function explode;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Ancestor;
@@ -53,7 +53,7 @@ final class AncestorQueryBuilder extends BaseLocationCriterionQueryBuilder
             'location.node_id',
             $queryBuilder->createNamedParameter(
                 array_values(array_unique($locationIDs)),
-                Connection::PARAM_INT_ARRAY
+                ArrayParameterType::INTEGER
             )
         );
     }

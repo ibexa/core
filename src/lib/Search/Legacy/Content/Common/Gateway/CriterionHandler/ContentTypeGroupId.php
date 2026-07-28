@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -43,7 +43,7 @@ class ContentTypeGroupId extends CriterionHandler
             )->where(
                 $queryBuilder->expr()->in(
                     'group_id',
-                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($criterion->value, ArrayParameterType::INTEGER)
                 )
             );
 

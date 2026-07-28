@@ -68,7 +68,7 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
 
         if (!isset($role->id) || (int)$role->id < 1 || $role->status === Role::STATUS_DRAFT) {
-            $role->id = (int)$this->connection->lastInsertId(self::ROLE_SEQ);
+            $role->id = (int)$this->connection->lastInsertId();
         }
 
         $role->originalId = $roleOriginalId;
@@ -100,7 +100,7 @@ final class DoctrineDatabase extends Gateway
             );
         $query->executeStatement();
 
-        $role->id = (int)$this->connection->lastInsertId(self::ROLE_SEQ);
+        $role->id = (int)$this->connection->lastInsertId();
 
         return $role;
     }
@@ -241,7 +241,7 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $expr->in(
                     'urs.contentobject_id',
-                    $query->createPositionalParameter($contentIds, Connection::PARAM_INT_ARRAY)
+                    $query->createPositionalParameter($contentIds, ArrayParameterType::INTEGER)
                 )
             );
 
@@ -506,7 +506,7 @@ final class DoctrineDatabase extends Gateway
             );
         $query->executeStatement();
 
-        $policy->id = (int)$this->connection->lastInsertId(self::POLICY_SEQ);
+        $policy->id = (int)$this->connection->lastInsertId();
         $policy->roleId = $roleId;
 
         // Handle the only valid non-array value "*" by not inserting
@@ -539,7 +539,7 @@ final class DoctrineDatabase extends Gateway
                 );
             $query->executeStatement();
 
-            $limitationId = (int)$this->connection->lastInsertId(self::POLICY_LIMITATION_SEQ);
+            $limitationId = (int)$this->connection->lastInsertId();
 
             foreach ($values as $value) {
                 $query = $this->connection->createQueryBuilder();
@@ -591,7 +591,7 @@ final class DoctrineDatabase extends Gateway
                     'id',
                     $query->createPositionalParameter(
                         $limitationIds,
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             );
@@ -611,7 +611,7 @@ final class DoctrineDatabase extends Gateway
                     'id',
                     $query->createPositionalParameter(
                         $limitationValueIds,
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             );

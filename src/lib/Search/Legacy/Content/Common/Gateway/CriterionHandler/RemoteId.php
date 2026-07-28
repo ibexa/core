@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -37,7 +37,7 @@ class RemoteId extends CriterionHandler
 
         return $queryBuilder->expr()->in(
             'c.remote_id',
-            $queryBuilder->createNamedParameter($remoteIds, Connection::PARAM_STR_ARRAY)
+            $queryBuilder->createNamedParameter($remoteIds, ArrayParameterType::STRING)
         );
     }
 }

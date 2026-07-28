@@ -174,7 +174,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        $objectState->id = (int)$this->connection->lastInsertId(self::OBJECT_STATE_TABLE_SEQ);
+        $objectState->id = (int)$this->connection->lastInsertId();
 
         $this->insertObjectStateTranslations($objectState);
 
@@ -382,9 +382,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        $objectStateGroup->id = (int)$this->connection->lastInsertId(
-            self::OBJECT_STATE_GROUP_TABLE_SEQ
-        );
+        $objectStateGroup->id = (int)$this->connection->lastInsertId();
 
         $this->insertObjectStateGroupTranslations($objectStateGroup);
     }

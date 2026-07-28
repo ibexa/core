@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -23,9 +24,9 @@ class LanguageCode extends CriterionHandler
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
     private $maskGenerator;
 
-    public function __construct(Connection $connection, MaskGenerator $maskGenerator)
+    public function __construct(Connection $connection, MaskGenerator $maskGenerator, JoinedTablesTracker $joinedTablesTracker)
     {
-        parent::__construct($connection);
+        parent::__construct($connection, $joinedTablesTracker);
 
         $this->maskGenerator = $maskGenerator;
     }

@@ -51,6 +51,7 @@ class HandlerLocationTest extends AbstractTestCase
             $ruleFiles
         );
         $connection = $this->getDatabaseConnection();
+        $joinedTablesTracker = new Persistence\Doctrine\JoinedTablesTracker();
         $commaSeparatedCollectionValueHandler = new CommonCriterionHandler\FieldValue\Handler\Collection(
             $connection,
             $transformationProcessor,
@@ -76,22 +77,23 @@ class HandlerLocationTest extends AbstractTestCase
                 $connection,
                 new CriteriaConverter(
                     [
-                        new LocationCriterionHandler\LocationId($connection),
-                        new LocationCriterionHandler\ParentLocationId($connection),
-                        new LocationCriterionHandler\LocationRemoteId($connection),
-                        new LocationCriterionHandler\Subtree($connection),
-                        new LocationCriterionHandler\Visibility($connection),
-                        new LocationCriterionHandler\Location\Depth($connection),
-                        new LocationCriterionHandler\Location\Priority($connection),
-                        new LocationCriterionHandler\Location\IsMainLocation($connection),
-                        new CommonCriterionHandler\ContentId($connection),
-                        new CommonCriterionHandler\ContentTypeGroupId($connection),
-                        new CommonCriterionHandler\ContentTypeId($connection),
+                        new LocationCriterionHandler\LocationId($connection, $joinedTablesTracker),
+                        new LocationCriterionHandler\ParentLocationId($connection, $joinedTablesTracker),
+                        new LocationCriterionHandler\LocationRemoteId($connection, $joinedTablesTracker),
+                        new LocationCriterionHandler\Subtree($connection, $joinedTablesTracker),
+                        new LocationCriterionHandler\Visibility($connection, $joinedTablesTracker),
+                        new LocationCriterionHandler\Location\Depth($connection, $joinedTablesTracker),
+                        new LocationCriterionHandler\Location\Priority($connection, $joinedTablesTracker),
+                        new LocationCriterionHandler\Location\IsMainLocation($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\ContentId($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\ContentTypeGroupId($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\ContentTypeId($connection, $joinedTablesTracker),
                         new CommonCriterionHandler\ContentTypeIdentifier(
                             $connection,
-                            $this->getContentTypeHandler()
+                            $this->getContentTypeHandler(),
+                            $joinedTablesTracker
                         ),
-                        new CommonCriterionHandler\DateMetadata($connection),
+                        new CommonCriterionHandler\DateMetadata($connection, $joinedTablesTracker),
                         new CommonCriterionHandler\Field(
                             $connection,
                             $this->getContentTypeHandler(),
@@ -114,36 +116,41 @@ class HandlerLocationTest extends AbstractTestCase
                                 ),
                                 $compositeValueHandler
                             ),
-                            $transformationProcessor
+                            $transformationProcessor,
+                            $joinedTablesTracker
                         ),
                         new CommonCriterionHandler\FullText(
                             $connection,
                             $transformationProcessor,
                             $this->getLanguageMaskGenerator(),
+                            $joinedTablesTracker,
                             $fullTextSearchConfiguration
                         ),
                         new CommonCriterionHandler\LanguageCode(
                             $connection,
-                            $this->getLanguageMaskGenerator()
+                            $this->getLanguageMaskGenerator(),
+                            $joinedTablesTracker
                         ),
-                        new CommonCriterionHandler\LogicalAnd($connection),
-                        new CommonCriterionHandler\LogicalNot($connection),
-                        new CommonCriterionHandler\LogicalOr($connection),
+                        new CommonCriterionHandler\LogicalAnd($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\LogicalNot($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\LogicalOr($connection, $joinedTablesTracker),
                         new CommonCriterionHandler\MapLocationDistance(
                             $connection,
                             $this->getContentTypeHandler(),
-                            $this->getLanguageHandler()
+                            $this->getLanguageHandler(),
+                            $joinedTablesTracker
                         ),
-                        new CommonCriterionHandler\MatchAll($connection),
-                        new CommonCriterionHandler\ObjectStateId($connection),
+                        new CommonCriterionHandler\MatchAll($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\ObjectStateId($connection, $joinedTablesTracker),
                         new CommonCriterionHandler\FieldRelation(
                             $connection,
                             $this->getContentTypeHandler(),
-                            $this->getLanguageHandler()
+                            $this->getLanguageHandler(),
+                            $joinedTablesTracker
                         ),
-                        new CommonCriterionHandler\RemoteId($connection),
-                        new CommonCriterionHandler\SectionId($connection),
-                        new CommonCriterionHandler\UserMetadata($connection),
+                        new CommonCriterionHandler\RemoteId($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\SectionId($connection, $joinedTablesTracker),
+                        new CommonCriterionHandler\UserMetadata($connection, $joinedTablesTracker),
                     ]
                 ),
                 new SortClauseConverter(

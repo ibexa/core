@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway as SectionGateway;
@@ -47,7 +47,7 @@ class SectionIdentifier extends Base
             's.identifier',
             $queryBuilder->createNamedParameter(
                 $criterion->sectionIdentifiers,
-                Connection::PARAM_STR_ARRAY,
+                ArrayParameterType::STRING,
                 ':section_identifiers'
             )
         );

@@ -7,12 +7,14 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Psr\Log\LoggerInterface;
@@ -38,9 +40,10 @@ class ContentTypeIdentifier extends CriterionHandler
     public function __construct(
         Connection $connection,
         ContentTypeHandler $contentTypeHandler,
+        JoinedTablesTracker $joinedTablesTracker,
         ?LoggerInterface $logger = null
     ) {
-        parent::__construct($connection);
+        parent::__construct($connection, $joinedTablesTracker);
 
         $this->contentTypeHandler = $contentTypeHandler;
         $this->logger = $logger ?? new NullLogger();
@@ -87,7 +90,7 @@ class ContentTypeIdentifier extends CriterionHandler
 
         return $queryBuilder->expr()->in(
             'c.content_type_id',
-            $queryBuilder->createNamedParameter($idList, Connection::PARAM_INT_ARRAY)
+            $queryBuilder->createNamedParameter($idList, ArrayParameterType::INTEGER)
         );
     }
 }

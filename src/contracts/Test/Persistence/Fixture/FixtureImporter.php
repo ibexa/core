@@ -112,8 +112,7 @@ final class FixtureImporter
         $queryTemplate = 'SELECT setval(\'%s\', %s) FROM %s';
 
         $unvisitedTables = array_diff($affectedTables, array_keys(self::$resetSequenceStatements));
-        $schemaManager = $this->connection->getSchemaManager();
-        $databasePlatform = $this->connection->getDatabasePlatform();
+        $schemaManager = $this->connection->createSchemaManager();
 
         foreach ($unvisitedTables as $tableName) {
             $columns = $schemaManager->listTableColumns($tableName);
@@ -131,7 +130,7 @@ final class FixtureImporter
             self::$resetSequenceStatements[$tableName] = sprintf(
                 $queryTemplate,
                 $sequenceName,
-                $databasePlatform->getMaxExpression($this->connection->quoteIdentifier($columnName)),
+                sprintf('MAX(%s)', $this->connection->quoteIdentifier($columnName)),
                 $this->connection->quoteIdentifier($tableName)
             );
         }

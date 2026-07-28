@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\User\Gateway;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -24,9 +26,10 @@ class UserLogin extends CriterionHandler
 
     public function __construct(
         Connection $connection,
-        TransformationProcessor $transformationProcessor
+        TransformationProcessor $transformationProcessor,
+        JoinedTablesTracker $joinedTablesTracker
     ) {
-        parent::__construct($connection);
+        parent::__construct($connection, $joinedTablesTracker);
 
         $this->transformationProcessor = $transformationProcessor;
     }
@@ -67,7 +70,7 @@ class UserLogin extends CriterionHandler
             $value = (array)$criterion->value;
             $expression = $expr->in(
                 't1.login',
-                $queryBuilder->createNamedParameter($value, Connection::PARAM_STR_ARRAY)
+                $queryBuilder->createNamedParameter($value, ArrayParameterType::STRING)
             );
         }
 

@@ -7,8 +7,8 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -41,9 +41,9 @@ class SearchIndex
             ->from(self::SEARCH_WORD_TABLE)
             ->where($query->expr()->in('word', ':words'))
             // use array_map as some DBMS-es do not cast integers to strings by default
-            ->setParameter('words', array_map('strval', $words), Connection::PARAM_STR_ARRAY);
+            ->setParameter('words', array_map('strval', $words), ArrayParameterType::STRING);
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -206,7 +206,7 @@ class SearchIndex
                 )
             );
 
-        return $query->executeQuery()->fetchAll(FetchMode::COLUMN);
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**
@@ -258,7 +258,7 @@ class SearchIndex
             ->where(
                 $query->expr()->in(
                     'id',
-                    $query->createPositionalParameter($wordIds, Connection::PARAM_INT_ARRAY)
+                    $query->createPositionalParameter($wordIds, ArrayParameterType::INTEGER)
                 )
             );
 

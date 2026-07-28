@@ -29,10 +29,7 @@ abstract class Gateway
     public const CONTENT_VERSION_TABLE = 'ibexa_content_version';
     public const CONTENT_RELATION_TABLE = 'ibexa_content_relation';
 
-    public const CONTENT_ITEM_SEQ = 'ibexa_content_id_seq';
-    public const CONTENT_VERSION_SEQ = 'ibexa_content_version_id_seq';
     public const CONTENT_FIELD_SEQ = 'ibexa_content_field_id_seq';
-    public const CONTENT_RELATION_SEQ = 'ibexa_content_relation_id_seq';
 
     /**
      * Insert a new Content item.

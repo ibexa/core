@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -42,11 +42,12 @@ class DateMetadata extends CriterionHandler
             case Criterion\Operator::IN:
                 return $queryBuilder->expr()->in(
                     $column,
-                    $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
                 );
 
             case Criterion\Operator::BETWEEN:
-                return $this->dbPlatform->getBetweenExpression(
+                return sprintf(
+                    '%s BETWEEN %s AND %s',
                     $column,
                     $queryBuilder->createNamedParameter($value[0], ParameterType::INTEGER),
                     $queryBuilder->createNamedParameter($value[1], ParameterType::INTEGER)

@@ -42,13 +42,6 @@ abstract class BaseLocationCriterionQueryBuilder implements CriterionQueryBuilde
 
     private function isLocationFilteringContext(FilteringQueryBuilder $queryBuilder): bool
     {
-        $fromParts = $queryBuilder->getQueryPart('from');
-        foreach ($fromParts as $fromPart) {
-            if (($fromPart['alias'] ?? null) === 'location') {
-                return true;
-            }
-        }
-
-        return false;
+        return $queryBuilder->hasFromAlias('location');
     }
 }

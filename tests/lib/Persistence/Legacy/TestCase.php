@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture\FileFixtureFactory;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\SharedGateway;
 use Ibexa\Core\Search\Legacy\Content;
@@ -318,15 +319,16 @@ abstract class TestCase extends BaseTestCase
     protected function getTrashCriteriaConverterDependency(): CriteriaConverter
     {
         $connection = $this->getDatabaseConnection();
+        $joinedTablesTracker = new JoinedTablesTracker();
 
         return new CriteriaConverter(
             [
-                new CriterionHandler\LogicalAnd($connection),
-                new CriterionHandler\SectionId($connection),
-                new CriterionHandler\ContentTypeId($connection),
-                new CriterionHandler\DateMetadata($connection),
-                new CriterionHandler\UserMetadata($connection),
-                new CriterionHandler\ContentName($connection),
+                new CriterionHandler\LogicalAnd($connection, $joinedTablesTracker),
+                new CriterionHandler\SectionId($connection, $joinedTablesTracker),
+                new CriterionHandler\ContentTypeId($connection, $joinedTablesTracker),
+                new CriterionHandler\DateMetadata($connection, $joinedTablesTracker),
+                new CriterionHandler\UserMetadata($connection, $joinedTablesTracker),
+                new CriterionHandler\ContentName($connection, $joinedTablesTracker),
             ]
         );
     }

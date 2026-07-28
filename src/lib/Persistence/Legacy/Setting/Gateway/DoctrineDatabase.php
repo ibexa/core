@@ -42,7 +42,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId(Gateway::SETTING_SEQ);
+        return (int)$this->connection->lastInsertId();
     }
 
     public function updateSetting(string $group, string $identifier, string $serializedValue): void

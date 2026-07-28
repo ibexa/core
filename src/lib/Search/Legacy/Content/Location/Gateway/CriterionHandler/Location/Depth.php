@@ -44,7 +44,8 @@ class Depth extends CriterionHandler
                 );
 
             case Criterion\Operator::BETWEEN:
-                return $this->dbPlatform->getBetweenExpression(
+                return sprintf(
+                    '%s BETWEEN %s AND %s',
                     $column,
                     $queryBuilder->createNamedParameter($criterion->value[0], ParameterType::STRING),
                     $queryBuilder->createNamedParameter($criterion->value[1], ParameterType::STRING)

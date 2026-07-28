@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
+use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly as VisibleOnlyHandler;
 
@@ -25,7 +26,7 @@ class VisibleOnlyTest extends CriterionHandlerTestCase
      */
     public function testAccept(): void
     {
-        $handler = new VisibleOnlyHandler();
+        $handler = new VisibleOnlyHandler(new JoinedTablesTracker());
 
         $this->assertHandlerAcceptsCriterion($handler, Criterion\VisibleOnly::class);
         $this->assertHandlerRejectsCriterion($handler, Criterion::class);
@@ -41,7 +42,7 @@ class VisibleOnlyTest extends CriterionHandlerTestCase
         $expectedQueryParameters = ['location_is_invisible' => 0];
 
         $criterion = new Criterion\VisibleOnly();
-        $handler = new VisibleOnlyHandler();
+        $handler = new VisibleOnlyHandler(new JoinedTablesTracker());
         $converter = $this->createMock(CriteriaConverter::class);
         $queryBuilder = $this->createDoctrineQueryBuilder();
 

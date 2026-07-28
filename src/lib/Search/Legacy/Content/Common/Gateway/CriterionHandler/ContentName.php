@@ -93,6 +93,6 @@ final class ContentName extends CriterionHandler
      */
     private function toLowerCase(string $value): string
     {
-        return $this->connection->getDatabasePlatform()->getLowerExpression($value);
+        return sprintf('LOWER(%s)', $value);
     }
 }

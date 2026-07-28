@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserEmail;
@@ -42,7 +42,7 @@ final class UserEmailQueryBuilder extends BaseUserCriterionQueryBuilder
             $value = (array)$criterion->value;
             $expression = $queryBuilder->expr()->in(
                 'user_storage.email',
-                $queryBuilder->createNamedParameter($value, Connection::PARAM_STR_ARRAY)
+                $queryBuilder->createNamedParameter($value, ArrayParameterType::STRING)
             );
         }
 
