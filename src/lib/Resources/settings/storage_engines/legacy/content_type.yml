@@ -1,7 +1,7 @@
 services:
     _defaults:
         bind:
-            $connection: '@ibexa.api.storage_engine.legacy.connection'
+            Doctrine\DBAL\Connection $connection: '@ibexa.api.storage_engine.legacy.connection'
 
     _instanceof:
         Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface:
