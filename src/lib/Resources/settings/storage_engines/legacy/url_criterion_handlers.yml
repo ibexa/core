@@ -1,7 +1,6 @@
 services:
    _defaults:
-       bind:
-           $joinedTablesTracker: '@Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
+       autowire: true
 
    Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker: ~
 
