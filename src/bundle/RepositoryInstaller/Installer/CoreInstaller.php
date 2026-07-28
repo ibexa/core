@@ -86,7 +86,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      * @see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent
      * @see \Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber
      *
-     * @return \Doctrine\Migrations\Query\Query[]
+     * @return list<\Doctrine\Migrations\Query\Query>
      */
     private function getQueriesFromSchemaBuilderEvent(): array
     {
@@ -100,7 +100,8 @@ class CoreInstaller extends DbBasedInstaller implements Installer
 
         return array_map(
             static fn (string $sql): Query => new Query($sql),
-            $sqls
+            $sqls,
+            []
         );
     }
 
