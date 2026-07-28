@@ -3721,6 +3721,12 @@ parameters:
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
 
 		-
+			message: '#^Strict comparison using \=\=\= between bool and 1 will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
+
+		-
 			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:cacheClear\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -3755,6 +3761,24 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
+
+		-
+			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\ValidatePasswordHashesCommand\:\:configure\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/bundle/RepositoryInstaller/Command/ValidatePasswordHashesCommand.php
+
+		-
+			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\DependencyInjection\\Compiler\\InstallerTagPass\:\:process\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/bundle/RepositoryInstaller/DependencyInjection/Compiler/InstallerTagPass.php
+
+		-
+			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\DependencyInjection\\IbexaRepositoryInstallerExtension\:\:load\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/bundle/RepositoryInstaller/DependencyInjection/IbexaRepositoryInstallerExtension.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Event\\Subscriber\\BuildSchemaSubscriber\:\:getSubscribedEvents\(\) return type has no value type specified in iterable type array\.$#'

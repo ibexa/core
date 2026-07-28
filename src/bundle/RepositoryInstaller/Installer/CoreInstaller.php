@@ -11,63 +11,139 @@ namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\Query\Query;
+use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
+use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
- * Installer which uses SchemaBuilder.
+ * Installer which creates the core database schema.
  */
 class CoreInstaller extends DbBasedInstaller implements Installer
 {
     /** @var \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface */
     protected $schemaBuilder;
 
-    /**
-     * @param \Doctrine\DBAL\Connection $db
-     * @param \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface $schemaBuilder
-     */
-    public function __construct(Connection $db, SchemaBuilderInterface $schemaBuilder)
-    {
+    private bool $schemaBuilderEventEnabled;
+
+    private ?TaggedMigrationsRunner $taggedMigrationsRunner;
+
+    public function __construct(
+        Connection $db,
+        SchemaBuilderInterface $schemaBuilder,
+        bool $schemaBuilderEventEnabled,
+        ?TaggedMigrationsRunner $taggedMigrationsRunner = null
+    ) {
         parent::__construct($db);
 
         $this->schemaBuilder = $schemaBuilder;
+        $this->schemaBuilderEventEnabled = $schemaBuilderEventEnabled;
+        $this->taggedMigrationsRunner = $taggedMigrationsRunner;
     }
 
     /**
-     * Import Schema using event-driven Schema Builder API from Ibexa DoctrineSchema Bundle.
+     * Imports the core database schema.
      *
-     * If you wish to extend schema, implement your own EventSubscriber
+     * When the "ibexa.installer.schema_builder_event.enabled" setting is enabled (the default), the schema
+     * is built by dispatching the legacy event-driven {@see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent},
+     * allowing other packages to contribute their own tables via an event subscriber.
+     *
+     * Otherwise, the schema is installed by {@see TaggedMigrationsRunner}, which runs every not-yet-executed
+     * migration tagged with {@see \Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG}
+     * (core's own {@see \Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration} plus any other
+     * package's) via the application's Doctrine Migrations DependencyFactory.
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \RuntimeException if "ibexa.installer.schema_builder_event.enabled" is disabled but
+     *     "ibexa/doctrine-migrations" isn't installed/enabled to run the migrations-based path instead
+     */
+    public function importSchema()
+    {
+        if ($this->schemaBuilderEventEnabled) {
+            $this->executeQueries($this->getQueriesFromSchemaBuilderEvent());
+
+            return;
+        }
+
+        if ($this->taggedMigrationsRunner === null) {
+            throw new RuntimeException(
+                'Disabling "ibexa.installer.schema_builder_event.enabled" requires the "' .
+                IbexaOnlyDependencyFactory::SERVICE_ID . '" service (provided by "ibexa/doctrine-migrations", ' .
+                'with Ibexa\Bundle\DoctrineMigrations\IbexaDoctrineMigrationsBundle registered) to be available.'
+            );
+        }
+
+        $this->reportExecutedQueries($this->taggedMigrationsRunner->run());
+    }
+
+    /**
+     * Builds the schema using the event-driven Schema Builder API from the Ibexa DoctrineSchema bundle.
+     *
+     * If you wish to extend the schema, implement your own EventSubscriber.
      *
      * @see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent
      * @see \Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber
      *
+     * @return list<\Doctrine\Migrations\Query\Query>
+     *
      * @throws \Doctrine\DBAL\Exception
      */
-    public function importSchema()
+    private function getQueriesFromSchemaBuilderEvent(): array
     {
-        // note: schema is built using Schema Builder event-driven API
         $schema = $this->schemaBuilder->buildSchema();
         $databasePlatform = $this->db->getDatabasePlatform();
-        $queries = array_merge(
+
+        $sqls = array_merge(
             $this->getDropSqlStatementsForExistingSchema($schema, $databasePlatform),
-            // generate schema DDL queries
             $schema->toSql($databasePlatform)
         );
 
+        return array_map(
+            static fn (string $sql): Query => new Query($sql),
+            $sqls,
+            []
+        );
+    }
+
+    /**
+     * Reports the queries {@see TaggedMigrationsRunner} already executed (and recorded) via the Doctrine
+     * Migrations DependencyFactory.
+     *
+     * @param \Doctrine\Migrations\Query\Query[] $queries
+     */
+    private function reportExecutedQueries(array $queries): void
+    {
+        $this->output->writeln(
+            sprintf(
+                '<info>Executed %d queries on database <comment>%s</comment> (<comment>%s</comment>)</info>',
+                count($queries),
+                $this->db->getDatabase(),
+                $this->db->getDatabasePlatform()->getName()
+            )
+        );
+    }
+
+    /**
+     * @param \Doctrine\Migrations\Query\Query[] $queries
+     */
+    private function executeQueries(array $queries): void
+    {
         $queriesCount = count($queries);
         $this->output->writeln(
             sprintf(
                 '<info>Executing %d queries on database <comment>%s</comment> (<comment>%s</comment>)</info>',
                 $queriesCount,
                 $this->db->getDatabase(),
-                $databasePlatform->getName()
+                $this->db->getDatabasePlatform()->getName()
             )
         );
         $progressBar = new ProgressBar($this->output);
         $progressBar->start($queriesCount);
 
         foreach ($queries as $query) {
-            $this->db->executeStatement($query);
+            $this->db->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
             $progressBar->advance(1);
         }
 
@@ -79,19 +155,26 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
+     * Imports the core bootstrap data.
+     *
+     * When the "ibexa.installer.schema_builder_event.enabled" setting is enabled (the default), this imports
+     * the DBMS-specific "cleandata.sql" file directly.
+     *
+     * Otherwise, this is a no-op: {@see \Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration} is
+     * tagged and already runs as part of {@see importSchema()}'s call to {@see TaggedMigrationsRunner}.
+     *
      * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function importData()
     {
-        $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
+        if ($this->schemaBuilderEventEnabled) {
+            $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
+        }
     }
 
     /**
-     * @param \Doctrine\DBAL\Schema\Schema $newSchema
-     * @param \Doctrine\DBAL\Platforms\AbstractPlatform $databasePlatform
-     *
-     * @return string[]
+     * @return list<string>
      */
     protected function getDropSqlStatementsForExistingSchema(
         Schema $newSchema,
