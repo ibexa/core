@@ -15,28 +15,29 @@ use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Doctrine\DatabasePlatformName;
 use Ibexa\Core\Persistence\Doctrine\DatabasePlatformResolver;
 use PHPUnit\Framework\TestCase;
 
 final class DatabasePlatformResolverTest extends TestCase
 {
     /**
-     * @return iterable<string, array{\Doctrine\DBAL\Platforms\AbstractPlatform, string}>
+     * @return iterable<string, array{\Doctrine\DBAL\Platforms\AbstractPlatform, \Ibexa\Core\Persistence\Doctrine\DatabasePlatformName}>
      */
     public function provideDataForTestResolveName(): iterable
     {
-        yield 'mysql' => [new MySQLPlatform(), 'mysql'];
-        yield 'mariadb' => [new MariaDBPlatform(), 'mysql'];
-        yield 'postgresql' => [new PostgreSQLPlatform(), 'postgresql'];
-        yield 'sqlite' => [new SqlitePlatform(), 'sqlite'];
+        yield 'mysql' => [new MySQLPlatform(), DatabasePlatformName::Mysql];
+        yield 'mariadb' => [new MariaDBPlatform(), DatabasePlatformName::Mysql];
+        yield 'postgresql' => [new PostgreSQLPlatform(), DatabasePlatformName::Postgresql];
+        yield 'sqlite' => [new SqlitePlatform(), DatabasePlatformName::Sqlite];
     }
 
     /**
      * @dataProvider provideDataForTestResolveName
      */
-    public function testResolveName(AbstractPlatform $platform, string $expectedName): void
+    public function testResolveName(AbstractPlatform $platform, DatabasePlatformName $expected): void
     {
-        self::assertSame($expectedName, DatabasePlatformResolver::resolveName($platform));
+        self::assertSame($expected, DatabasePlatformResolver::resolveName($platform));
     }
 
     public function testResolveNameThrowsForUnsupportedPlatform(): void

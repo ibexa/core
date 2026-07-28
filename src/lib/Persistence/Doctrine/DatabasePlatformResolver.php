@@ -25,21 +25,19 @@ final readonly class DatabasePlatformResolver
      * Resolves a Doctrine platform instance to its short driver name.
      *
      * Replaces the DBAL 3.10-deprecated/DBAL 4-removed `AbstractPlatform::getName()`.
-     *
-     * @return 'mysql'|'postgresql'|'sqlite'
      */
-    public static function resolveName(AbstractPlatform $platform): string
+    public static function resolveName(AbstractPlatform $platform): DatabasePlatformName
     {
         if ($platform instanceof AbstractMySQLPlatform) {
-            return 'mysql';
+            return DatabasePlatformName::Mysql;
         }
 
         if ($platform instanceof PostgreSQLPlatform) {
-            return 'postgresql';
+            return DatabasePlatformName::Postgresql;
         }
 
         if ($platform instanceof SqlitePlatform) {
-            return 'sqlite';
+            return DatabasePlatformName::Sqlite;
         }
 
         throw new InvalidArgumentException(

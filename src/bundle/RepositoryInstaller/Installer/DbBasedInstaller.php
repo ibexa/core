@@ -108,6 +108,6 @@ class DbBasedInstaller
 
     protected function getDBMSDataDirectoryName(): string
     {
-        return DatabasePlatformResolver::resolveName($this->db->getDatabasePlatform());
+        return DatabasePlatformResolver::resolveName($this->db->getDatabasePlatform())->value;
     }
 }
