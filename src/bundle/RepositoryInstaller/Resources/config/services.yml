@@ -24,10 +24,11 @@ services:
     Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner:
         public: false
         arguments:
-            # Optional: only resolves to a service if doctrine/migrations-bundle is installed and
-            # configured. Not defined here, since it belongs to that package, not this one.
+            # Mandatory: this whole service definition is removed by RemoveTaggedMigrationsRunnerPass
+            # when unavailable, so compilation never attempts to resolve this reference in that case.
+            # Not defined here, since it belongs to that package, not this one.
             # Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory::SERVICE_ID
-            $dependencyFactory: '@?ibexa.doctrine_migrations.dependency_factory.ibexa_migrations_only'
+            $dependencyFactory: '@ibexa.doctrine_migrations.dependency_factory.ibexa_migrations_only'
 
     Ibexa\Bundle\RepositoryInstaller\Migration\SchemaBuilderEventSchemaProvider:
         autowire: true
@@ -43,6 +44,10 @@ services:
         parent: Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller
         arguments:
             $schemaBuilderEventEnabled: '%ibexa.installer.schema_builder_event.enabled%'
+            # Optional: TaggedMigrationsRunner's own service definition may not exist at all
+            # (RemoveTaggedMigrationsRunnerPass removes it when "ibexa/doctrine-migrations" isn't
+            # installed/enabled) - autowiring alone can't express "pass null if absent".
+            $taggedMigrationsRunner: '@?Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner'
         tags:
             - { name: ibexa.installer, type: ibexa-oss }
 
