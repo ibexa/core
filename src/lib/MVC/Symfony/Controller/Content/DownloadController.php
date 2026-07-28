@@ -10,16 +10,18 @@ namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Ibexa\Bundle\IO\BinaryStreamResponse;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as RepositoryNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class DownloadController extends Controller
 {
@@ -54,15 +56,15 @@ class DownloadController extends Controller
         $versionNo = $request->query->has('version') ? $request->query->getInt('version') : null;
         $language = $request->query->has('inLanguage') ? $request->query->get('inLanguage') : null;
 
-        $content = $this->contentService->loadContent(
-            $contentId,
-            $language !== null ? [$language] : null,
-            $versionNo,
-        );
         try {
+            $content = $this->contentService->loadContent(
+                $contentId,
+                $language !== null ? [$language] : null,
+                $versionNo,
+            );
             $field = $this->findFieldInContent($fieldId, $content);
-        } catch (InvalidArgumentException $e) {
-            throw new NotFoundException('File', $fieldId);
+        } catch (RepositoryNotFoundException | InvalidArgumentException $e) {
+            throw $this->createFileNotFoundException($e);
         }
 
         return $this->downloadBinaryFileAction($contentId, $field->fieldDefIdentifier, $field->value->fileName, $request);
@@ -96,18 +98,22 @@ class DownloadController extends Controller
      */
     public function downloadBinaryFileAction(int $contentId, string $fieldIdentifier, string $filename, Request $request): BinaryStreamResponse
     {
-        if ($request->query->has('version')) {
-            $version = (int) $request->query->get('version');
-            if ($version <= 0) {
-                throw new NotFoundException('File', $filename);
+        try {
+            if ($request->query->has('version')) {
+                $version = (int) $request->query->get('version');
+                if ($version <= 0) {
+                    throw $this->createFileNotFoundException();
+                }
+                $content = $this->contentService->loadContent($contentId, null, $version);
+            } else {
+                $content = $this->contentService->loadContent($contentId);
             }
-            $content = $this->contentService->loadContent($contentId, null, $version);
-        } else {
-            $content = $this->contentService->loadContent($contentId);
+        } catch (RepositoryNotFoundException $e) {
+            throw $this->createFileNotFoundException($e);
         }
 
         if ($content->contentInfo->isTrashed()) {
-            throw new NotFoundException('File', $filename);
+            throw $this->createFileNotFoundException();
         }
 
         $field = $this->translationHelper->getTranslatedField(
@@ -116,10 +122,11 @@ class DownloadController extends Controller
             $request->query->has('inLanguage') ? $request->query->get('inLanguage') : null
         );
         if (!$field instanceof Field) {
-            throw new InvalidArgumentException(
-                '$fieldIdentifier',
-                "'{$fieldIdentifier}' field not present on content #{$content->contentInfo->id} '{$content->contentInfo->name}'"
-            );
+            throw $this->createFileNotFoundException();
+        }
+
+        if ($field->value->fileName !== $filename) {
+            throw $this->createFileNotFoundException();
         }
 
         $response = new BinaryStreamResponse($this->ioService->loadBinaryFile($field->value->id), $this->ioService);
@@ -130,5 +137,10 @@ class DownloadController extends Controller
         );
 
         return $response;
+    }
+
+    private function createFileNotFoundException(?Throwable $previous = null): NotFoundHttpException
+    {
+        return new NotFoundHttpException('File not found', $previous);
     }
 }
