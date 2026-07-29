@@ -98,10 +98,24 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         Schema $newSchema,
         AbstractPlatform $databasePlatform
     ): array {
-        $existingTableNames = array_map(
-            static fn (Table $table): string => $table->getName(),
-            $this->db->createSchemaManager()->listTables()
-        );
+        // Reinstalling needs to see every pre-existing table, including ones
+        // with no Doctrine ORM entity behind them, to correctly drop them
+        // before recreating the full schema below. Bypass whichever schema
+        // assets filter is configured on this connection (e.g.
+        // ManagedTablesSchemaAssetFilter, which deliberately hides
+        // non-entity tables from doctrine:schema:update) for this one
+        // listing, then restore it.
+        $configuration = $this->db->getConfiguration();
+        $previousFilter = $configuration->getSchemaAssetsFilter();
+        $configuration->setSchemaAssetsFilter(static fn (): bool => true);
+        try {
+            $existingTableNames = array_map(
+                static fn (Table $table): string => $table->getName(),
+                $this->db->createSchemaManager()->listTables()
+            );
+        } finally {
+            $configuration->setSchemaAssetsFilter($previousFilter ?? static fn (): bool => true);
+        }
         $statements = [];
         // reverse table order for clean-up (due to FKs)
         $tables = array_reverse($newSchema->getTables());
