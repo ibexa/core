@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AnnotationEntityBundle;
+namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AttributeEntityBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AnnotationEntityBundle extends Bundle
+class AttributeEntityBundle extends Bundle
 {
 }

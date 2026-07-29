@@ -8,14 +8,17 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Doctrine;
 
+use DateTimeInterface;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\Cache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\NativeQuery;
 use Doctrine\ORM\Proxy\ProxyFactory;
 use Doctrine\ORM\Query;
@@ -24,7 +27,6 @@ use Doctrine\ORM\Query\FilterCollection;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
-use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Ibexa\Bundle\Core\Entity\EntityManagerFactory;
 use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
@@ -32,6 +34,10 @@ use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * @internal
+ *
+ * Hand-delegates rather than extending Doctrine\ORM\Decorator\EntityManagerDecorator: the decorator
+ * binds $wrapped once in its constructor, but this class must re-resolve the wrapped EntityManager
+ * lazily after a site-access scope change.
  */
 final class SiteAccessAwareEntityManager implements EntityManagerInterface, ConfigScopeChangeSubscriber, ResetInterface
 {
@@ -74,11 +80,6 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->beginTransaction();
     }
 
-    public function transactional($func)
-    {
-        return $this->getWrapped()->transactional($func);
-    }
-
     public function wrapInTransaction(callable $func): mixed
     {
         return $this->getWrapped()->wrapInTransaction($func);
@@ -99,19 +100,9 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->createQuery($dql);
     }
 
-    public function createNamedQuery($name): Query
-    {
-        return $this->getWrapped()->createNamedQuery($name);
-    }
-
     public function createNativeQuery($sql, ResultSetMapping $rsm): NativeQuery
     {
         return $this->getWrapped()->createNativeQuery($sql, $rsm);
-    }
-
-    public function createNamedNativeQuery($name): NativeQuery
-    {
-        return $this->getWrapped()->createNamedNativeQuery($name);
     }
 
     public function createQueryBuilder(): QueryBuilder
@@ -133,38 +124,12 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->getReference($entityName, $id);
     }
 
-    /**
-     * @template T of object
-     *
-     * @param class-string<T> $entityName
-     *
-     * @return T|null
-     */
-    public function getPartialReference($entityName, $identifier): ?object
-    {
-        return $this->getWrapped()->getPartialReference($entityName, $identifier);
-    }
-
     public function close(): void
     {
         $this->getWrapped()->close();
     }
 
-    /**
-     * @template T of object
-     *
-     * @param T $entity
-     * @param bool $deep
-     *
-     * @return T
-     */
-    public function copy($entity, $deep = false): object
-    {
-        /** @var T */
-        return $this->getWrapped()->copy($entity, $deep);
-    }
-
-    public function lock($entity, $lockMode, $lockVersion = null): void
+    public function lock(object $entity, LockMode|int $lockMode, DateTimeInterface|int|null $lockVersion = null): void
     {
         $this->getWrapped()->lock($entity, $lockMode, $lockVersion);
     }
@@ -187,11 +152,6 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
     public function getUnitOfWork(): UnitOfWork
     {
         return $this->getWrapped()->getUnitOfWork();
-    }
-
-    public function getHydrator($hydrationMode): AbstractHydrator
-    {
-        return $this->getWrapped()->getHydrator($hydrationMode);
     }
 
     public function newHydrator($hydrationMode): AbstractHydrator
@@ -224,9 +184,16 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->getCache();
     }
 
-    public function find($className, $id): ?object
+    /**
+     * @template T of object
+     *
+     * @param class-string<T> $className
+     *
+     * @return T|null
+     */
+    public function find($className, $id, LockMode|int|null $lockMode = null, ?int $lockVersion = null): ?object
     {
-        return $this->getWrapped()->find($className, $id);
+        return $this->getWrapped()->find($className, $id, $lockMode, $lockVersion);
     }
 
     public function persist(object $object): void
@@ -249,7 +216,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->detach($object);
     }
 
-    public function refresh(object $object, ?int $lockMode = null): void
+    public function refresh(object $object, LockMode|int|null $lockMode = null): void
     {
         $this->getWrapped()->refresh($object, $lockMode);
     }
@@ -266,7 +233,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      *
      * @return EntityRepository<T>
      */
-    public function getRepository($className): EntityRepository
+    public function getRepository(string $className): EntityRepository
     {
         return $this->getWrapped()->getRepository($className);
     }
@@ -278,14 +245,13 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      *
      * @return ClassMetadata<T>
      */
-    public function getClassMetadata($className): ClassMetadata
+    public function getClassMetadata(string $className): ClassMetadata
     {
         return $this->getWrapped()->getClassMetadata($className);
     }
 
     public function getMetadataFactory(): ClassMetadataFactory
     {
-        /** @phpstan-var ClassMetadataFactory<\Doctrine\Persistence\Mapping\ClassMetadata<object>> */
         return $this->getWrapped()->getMetadataFactory();
     }
 
