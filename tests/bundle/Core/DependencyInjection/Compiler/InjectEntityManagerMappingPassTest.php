@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\InjectEntityManagerMappingsPass;
+use Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AttributeEntityBundle\AttributeEntityBundle;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\XmlEntityBundle\XmlEntityBundle;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
@@ -44,6 +45,7 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
 
         $this->setDefinition('doctrine.orm.ibexa_connection_metadata_driver', new Definition());
         $this->setDefinition('doctrine.orm.ibexa_connection_configuration', new Definition());
+        $this->setDefinition('doctrine.dbal.connection_connection.configuration', new Definition());
         $this->setParameter('doctrine.orm.metadata.attribute.class', 'Vendor/Doctrine/Metadata/Driver/AttributeDriver');
         $this->setParameter('doctrine.orm.metadata.xml.class', 'Vendor/Doctrine/Metadata/Driver/XmlDriver');
         $this->setParameter('kernel.bundles', self::BUNDLES);
@@ -87,5 +89,16 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
                 );
             }
         }
+    }
+
+    public function testProtectsLegacySchemaFromOrmSchemaSync(): void
+    {
+        $this->compile();
+
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            'doctrine.dbal.connection_connection.configuration',
+            'setSchemaAssetsFilter',
+            [new Reference(ManagedTablesSchemaAssetFilter::class)]
+        );
     }
 }

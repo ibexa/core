@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -35,6 +36,8 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
                 sprintf('doctrine.orm.%s_metadata_driver', $entityManagerName)
             );
 
+            $this->protectLegacySchemaFromOrmSchemaSync($entityManagerName, $container);
+
             foreach ($mappingDriverConfig as $driverType => $driverPaths) {
                 $metadataDriverServiceName = "doctrine.orm.{$entityManagerName}_{$driverType}_metadata_driver";
                 $metadataDriverDefinition = $this->createMetadataDriverDefinition($driverType, $driverPaths);
@@ -55,6 +58,27 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
                 }
             }
         }
+    }
+
+    /**
+     * Protects Ibexa's legacy (non-Doctrine-ORM) schema, sharing the same
+     * connection as this entity manager, from being dropped by
+     * doctrine:schema:update. ORM 3 always behaves as if --complete was
+     * passed, dropping any table not backed by a registered ORM entity.
+     */
+    private function protectLegacySchemaFromOrmSchemaSync(string $entityManagerName, ContainerBuilder $container): void
+    {
+        $connection = substr($entityManagerName, strlen('ibexa_'));
+        $configurationId = sprintf('doctrine.dbal.%s_connection.configuration', $connection);
+
+        if (!$container->hasDefinition($configurationId)) {
+            return;
+        }
+
+        $container->getDefinition($configurationId)->addMethodCall(
+            'setSchemaAssetsFilter',
+            [new Reference(ManagedTablesSchemaAssetFilter::class)]
+        );
     }
 
     private function createMetadataDriverDefinition($driverType, $driverPaths): Definition
