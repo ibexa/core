@@ -362,6 +362,7 @@ services:
     Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter:
         arguments:
             $managerRegistry: '@doctrine'
+            $schemaBuilder: '@Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface'
 
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
 
