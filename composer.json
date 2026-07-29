@@ -57,6 +57,7 @@
         "symfony/translation": "^7.4",
         "symfony/validator": "^7.4",
         "symfony/var-dumper": "^7.4",
+        "symfony/var-exporter": "^7.4",
         "symfony/yaml": "^7.4",
         "twig/extra-bundle": "^3.0",
         "twig/twig": ">=3.0 <3.16 || ^3.19.0"
