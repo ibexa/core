@@ -100,7 +100,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->createQuery($dql);
     }
 
-    public function createNativeQuery($sql, ResultSetMapping $rsm): NativeQuery
+    public function createNativeQuery(string $sql, ResultSetMapping $rsm): NativeQuery
     {
         return $this->getWrapped()->createNativeQuery($sql, $rsm);
     }

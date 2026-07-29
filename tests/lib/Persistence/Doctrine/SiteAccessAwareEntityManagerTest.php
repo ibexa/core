@@ -37,9 +37,11 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
 
     public function testImplementsExpectedInterfaces(): void
     {
-        self::assertInstanceOf(EntityManagerInterface::class, $this->siteAccessAwareEntityManager);
-        self::assertInstanceOf(ConfigScopeChangeSubscriber::class, $this->siteAccessAwareEntityManager);
-        self::assertInstanceOf(ResetInterface::class, $this->siteAccessAwareEntityManager);
+        $implementedInterfaces = class_implements($this->siteAccessAwareEntityManager);
+
+        self::assertContains(EntityManagerInterface::class, $implementedInterfaces);
+        self::assertContains(ConfigScopeChangeSubscriber::class, $implementedInterfaces);
+        self::assertContains(ResetInterface::class, $implementedInterfaces);
     }
 
     public function testFindDelegatesToWrappedEntityManager(): void
