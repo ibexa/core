@@ -43,7 +43,7 @@ final class AddContentPerformanceIndexesMigration extends AbstractSqlMigration i
     {
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
-        if ($schema->getTable('ezcontentobject_link')->hasIndex('ezco_link_cca_id')) {
+        if (!$schema->hasTable('ezcontentobject_link') || $schema->getTable('ezcontentobject_link')->hasIndex('ezco_link_cca_id')) {
             return;
         }
 

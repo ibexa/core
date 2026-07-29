@@ -42,7 +42,7 @@ final class AddUrlAliasMlLinkIndexMigration extends AbstractSqlMigration impleme
     {
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
-        if ($schema->getTable('ezurlalias_ml')->hasIndex('ezurlalias_ml_link')) {
+        if (!$schema->hasTable('ezurlalias_ml') || $schema->getTable('ezurlalias_ml')->hasIndex('ezurlalias_ml_link')) {
             return;
         }
 
