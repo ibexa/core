@@ -41122,7 +41122,7 @@ parameters:
 		-
 			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location will always evaluate to true\.$#'
 			identifier: method.alreadyNarrowedType
-			count: 10
+			count: 9
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
@@ -41152,7 +41152,7 @@ parameters:
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
-			count: 2
+			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
