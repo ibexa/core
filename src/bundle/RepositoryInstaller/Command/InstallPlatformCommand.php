@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Command;
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use LogicException;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -49,18 +50,22 @@ final class InstallPlatformCommand extends Command
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
+    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
+
     public function __construct(
         Connection $connection,
         array $installers,
         CacheItemPoolInterface $cachePool,
         string $environment,
-        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider
+        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
     ) {
         $this->connection = $connection;
         $this->installers = $installers;
         $this->cachePool = $cachePool;
         $this->environment = $environment;
         $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
+        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
         parent::__construct();
     }
 
@@ -149,21 +154,16 @@ final class InstallPlatformCommand extends Command
      * Doctrine ORM entity behind them. Bypass whichever schema assets filter
      * is configured on this connection (e.g. ManagedTablesSchemaAssetFilter,
      * which deliberately hides non-entity tables from
-     * doctrine:schema:update) for this one listing, then restore it.
+     * doctrine:schema:update) for this one listing.
      *
      * @return \Doctrine\DBAL\Schema\Table[]
      */
     private function listExistingTablesUnfiltered(): array
     {
-        $configuration = $this->connection->getConfiguration();
-        $previousFilter = $configuration->getSchemaAssetsFilter();
-        $configuration->setSchemaAssetsFilter(static fn (): bool => true);
-
-        try {
-            return $this->connection->createSchemaManager()->listTables();
-        } finally {
-            $configuration->setSchemaAssetsFilter($previousFilter ?? static fn (): bool => true);
-        }
+        return $this->schemaAssetsFilterBypass->call(
+            $this->connection,
+            fn (): array => $this->connection->createSchemaManager()->listTables()
+        );
     }
 
     private function checkCreateDatabase(OutputInterface $output): void

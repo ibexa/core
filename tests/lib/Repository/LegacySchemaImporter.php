@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema as DoctrineSchema;
 use Ibexa\Contracts\DoctrineSchema\Exception\InvalidConfigurationException;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Ibexa\DoctrineSchema\Importer\SchemaImporter;
 use RuntimeException;
 
@@ -27,9 +28,12 @@ final class LegacySchemaImporter
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
 
-    public function __construct(Connection $connection)
+    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
+
+    public function __construct(Connection $connection, SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass)
     {
         $this->connection = $connection;
+        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
     }
 
     /**
@@ -80,15 +84,11 @@ final class LegacySchemaImporter
         // full schema below. Bypass whichever schema assets filter is
         // configured on this connection (e.g. ManagedTablesSchemaAssetFilter,
         // which deliberately hides non-entity tables from
-        // doctrine:schema:update) for this one listing, then restore it.
-        $configuration = $connection->getConfiguration();
-        $previousFilter = $configuration->getSchemaAssetsFilter();
-        $configuration->setSchemaAssetsFilter(static fn (): bool => true);
-        try {
-            $existingSchema = $connection->createSchemaManager()->introspectSchema();
-        } finally {
-            $configuration->setSchemaAssetsFilter($previousFilter ?? static fn (): bool => true);
-        }
+        // doctrine:schema:update) for this one listing.
+        $existingSchema = $this->schemaAssetsFilterBypass->call(
+            $connection,
+            static fn (): DoctrineSchema => $connection->createSchemaManager()->introspectSchema()
+        );
 
         $statements = [];
         // reverse table order for clean-up (due to FKs)

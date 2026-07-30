@@ -7,6 +7,11 @@ services:
         public: true
         arguments:
             - '@doctrine.dbal.default_connection'
+            - '@Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
+
+    Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface: '@Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass'
+
+    Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass: ~
 
     Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter:
         alias: 'test.ibexa.fixture_importer'

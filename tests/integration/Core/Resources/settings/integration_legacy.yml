@@ -48,6 +48,10 @@ services:
     Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform:
         autowire: true
 
+    Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface: '@Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass'
+
+    Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass: ~
+
     Ibexa\Tests\Core\Persistence\DatabaseConnectionFactory:
         autowire: true
         arguments:
