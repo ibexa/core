@@ -87,8 +87,7 @@ final class InstallPlatformCommand extends Command
         $this->checkCreateDatabase($output);
 
         $io = new SymfonyStyle($input, $output);
-        $schemaManager = $this->connection->createSchemaManager();
-        if (!empty($schemaManager->listTables())) {
+        if (!empty($this->listExistingTablesUnfiltered())) {
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
                 return self::SUCCESS;
             }
@@ -142,6 +141,29 @@ final class InstallPlatformCommand extends Command
     private function getConnectionName(): string
     {
         return $this->repositoryConfigurationProvider->getStorageConnectionName();
+    }
+
+    /**
+     * Whether there's data to warn about is a "does anything already exist"
+     * question, so it needs to see every table, including ones with no
+     * Doctrine ORM entity behind them. Bypass whichever schema assets filter
+     * is configured on this connection (e.g. ManagedTablesSchemaAssetFilter,
+     * which deliberately hides non-entity tables from
+     * doctrine:schema:update) for this one listing, then restore it.
+     *
+     * @return \Doctrine\DBAL\Schema\Table[]
+     */
+    private function listExistingTablesUnfiltered(): array
+    {
+        $configuration = $this->connection->getConfiguration();
+        $previousFilter = $configuration->getSchemaAssetsFilter();
+        $configuration->setSchemaAssetsFilter(static fn (): bool => true);
+
+        try {
+            return $this->connection->createSchemaManager()->listTables();
+        } finally {
+            $configuration->setSchemaAssetsFilter($previousFilter ?? static fn (): bool => true);
+        }
     }
 
     private function checkCreateDatabase(OutputInterface $output): void

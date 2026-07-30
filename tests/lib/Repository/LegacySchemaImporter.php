@@ -73,7 +73,23 @@ final class LegacySchemaImporter
         AbstractPlatform $databasePlatform,
         Connection $connection
     ): array {
-        $existingSchema = $connection->getSchemaManager()->createSchema();
+        // This test bootstrap re-imports schema against a database that may
+        // already have it from a previous test class, so it needs to see
+        // every pre-existing table, including ones with no Doctrine ORM
+        // entity behind them, to correctly drop them before recreating the
+        // full schema below. Bypass whichever schema assets filter is
+        // configured on this connection (e.g. ManagedTablesSchemaAssetFilter,
+        // which deliberately hides non-entity tables from
+        // doctrine:schema:update) for this one listing, then restore it.
+        $configuration = $connection->getConfiguration();
+        $previousFilter = $configuration->getSchemaAssetsFilter();
+        $configuration->setSchemaAssetsFilter(static fn (): bool => true);
+        try {
+            $existingSchema = $connection->createSchemaManager()->introspectSchema();
+        } finally {
+            $configuration->setSchemaAssetsFilter($previousFilter ?? static fn (): bool => true);
+        }
+
         $statements = [];
         // reverse table order for clean-up (due to FKs)
         $tables = array_reverse($newSchema->getTables());
