@@ -81,7 +81,7 @@ final class ManagedTablesSchemaAssetFilterTest extends TestCase
         $metadataFactory->expects(self::once())->method('getAllMetadata')->willReturn([$classMetadata]);
 
         $entityManager = $this->createMock(EntityManagerInterface::class);
-        $entityManager->method('getMetadataFactory')->willReturn($metadataFactory);
+        $entityManager->expects(self::once())->method('getMetadataFactory')->willReturn($metadataFactory);
 
         $managerRegistry = $this->createMock(ManagerRegistry::class);
         $managerRegistry->expects(self::once())->method('getManagers')->willReturn([$entityManager]);
