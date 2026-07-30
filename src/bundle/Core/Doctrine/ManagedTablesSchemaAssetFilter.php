@@ -42,9 +42,8 @@ final class ManagedTablesSchemaAssetFilter
     /** @var array<string, true>|null */
     private ?array $managedTableNames = null;
 
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     public function __invoke(string|AbstractAsset $asset): bool
