@@ -130,7 +130,7 @@ CREATE INDEX ezcontentbrowsebookmark_user ON ezcontentbrowsebookmark (user_id);
 CREATE INDEX ezcontentbrowsebookmark_user_location ON ezcontentbrowsebookmark (user_id, node_id);
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentclass (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    id INTEGER NOT NULL,
     version INTEGER DEFAULT 0 NOT NULL,
     always_available INTEGER DEFAULT 0 NOT NULL,
     contentobject_name VARCHAR(255) DEFAULT NULL,
@@ -147,7 +147,8 @@ CREATE TABLE ezcontentclass (
     serialized_name_list CLOB DEFAULT NULL,
     sort_field INTEGER DEFAULT 1 NOT NULL,
     sort_order INTEGER DEFAULT 1 NOT NULL,
-    url_alias_name VARCHAR(255) DEFAULT NULL
+    url_alias_name VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY(id, version)
 );
 -- ibexa:sql-statement-separator
 CREATE INDEX ezcontentclass_version ON ezcontentclass (version);
@@ -155,7 +156,7 @@ CREATE INDEX ezcontentclass_version ON ezcontentclass (version);
 CREATE INDEX ezcontentclass_identifier ON ezcontentclass (identifier, version);
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentclass_attribute (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    id INTEGER NOT NULL,
     version INTEGER DEFAULT 0 NOT NULL,
     can_translate INTEGER DEFAULT 1,
     category VARCHAR(25) DEFAULT '' NOT NULL,
@@ -182,7 +183,8 @@ CREATE TABLE ezcontentclass_attribute (
     placement INTEGER DEFAULT 0 NOT NULL,
     serialized_data_text CLOB DEFAULT NULL,
     serialized_description_list CLOB DEFAULT NULL,
-    serialized_name_list CLOB NOT NULL
+    serialized_name_list CLOB NOT NULL,
+    PRIMARY KEY(id, version)
 );
 -- ibexa:sql-statement-separator
 CREATE INDEX ezcontentclass_attr_ccid ON ezcontentclass_attribute (contentclass_id);
@@ -263,7 +265,7 @@ CREATE INDEX ezcontentobject_status ON ezcontentobject (status);
 CREATE UNIQUE INDEX ezcontentobject_remote_id ON ezcontentobject (remote_id);
 -- ibexa:sql-statement-separator
 CREATE TABLE ezcontentobject_attribute (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    id INTEGER NOT NULL,
     version INTEGER DEFAULT 0 NOT NULL,
     attribute_original_id INTEGER DEFAULT 0,
     contentclassattribute_id INTEGER DEFAULT 0 NOT NULL,
@@ -275,7 +277,8 @@ CREATE TABLE ezcontentobject_attribute (
     language_code VARCHAR(20) DEFAULT '' NOT NULL,
     language_id BIGINT DEFAULT 0 NOT NULL,
     sort_key_int INTEGER DEFAULT 0 NOT NULL,
-    sort_key_string VARCHAR(255) DEFAULT '' NOT NULL
+    sort_key_string VARCHAR(255) DEFAULT '' NOT NULL,
+    PRIMARY KEY(id, version)
 );
 -- ibexa:sql-statement-separator
 CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute (contentobject_id, version, language_code);
