@@ -68,6 +68,10 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
      */
     private function protectLegacySchemaFromOrmSchemaSync(string $entityManagerName, ContainerBuilder $container): void
     {
+        if (!str_starts_with($entityManagerName, 'ibexa_')) {
+            return;
+        }
+
         $connection = substr($entityManagerName, strlen('ibexa_'));
         $configurationId = sprintf('doctrine.dbal.%s_connection.configuration', $connection);
 
