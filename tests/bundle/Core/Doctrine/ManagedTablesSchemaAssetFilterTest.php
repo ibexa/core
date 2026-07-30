@@ -75,7 +75,7 @@ final class ManagedTablesSchemaAssetFilterTest extends TestCase
     public function testOnlyQueriesTheManagerRegistryOnce(): void
     {
         $classMetadata = $this->createMock(ClassMetadata::class);
-        $classMetadata->method('getTableName')->willReturn('ibexa_taxonomy_entry');
+        $classMetadata->expects(self::once())->method('getTableName')->willReturn('ibexa_taxonomy_entry');
 
         $metadataFactory = $this->createMock(ClassMetadataFactory::class);
         $metadataFactory->expects(self::once())->method('getAllMetadata')->willReturn([$classMetadata]);
