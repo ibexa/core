@@ -39,8 +39,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 final class ManagedTablesSchemaAssetFilter
 {
-    private ManagerRegistry $managerRegistry;
-
     /** @var array<string, true>|null */
     private ?array $managedTableNames = null;
 
