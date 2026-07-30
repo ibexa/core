@@ -39,7 +39,7 @@
         "symfony/validator": "^5.3.0",
         "symfony/var-dumper": "^5.3.0",
         "ibexa/doctrine-schema": "~4.6.0@dev",
-        "ibexa/doctrine-migrations": "dev-feat/doctrine-migrations",
+        "ibexa/doctrine-migrations": "~4.6.x-dev",
         "symfony-cmf/routing": "^2.3",
         "nelmio/cors-bundle": "^2.0",
         "pagerfanta/pagerfanta": "^2.1",
