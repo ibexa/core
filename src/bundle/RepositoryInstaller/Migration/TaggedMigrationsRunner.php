@@ -10,7 +10,6 @@ namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\MigrationPlan;
 use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
@@ -92,7 +91,12 @@ final class TaggedMigrationsRunner
         $executedAt = new DateTimeImmutable();
 
         $migration = $migrationPlan->getMigration();
-        $migration->up(new Schema());
+        // A freshly-constructed, empty Schema() would make every hasTable()/getTable() guard
+        // check inside a migration see nothing at all, regardless of what previous migrations
+        // in this same run (or a prior run) actually created -- introspect the live database
+        // instead, same as what "doctrine:migrations:migrate" itself does via
+        // DBALSchemaDiffProvider::createFromSchema().
+        $migration->up($connection->getSchemaManager()->createSchema());
         $queries = $migration->getSql();
 
         foreach ($queries as $query) {
