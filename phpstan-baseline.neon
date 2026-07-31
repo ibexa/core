@@ -24618,7 +24618,6 @@ parameters:
 			count: 4
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
-
 		-
 			message: '#^Parameter \#1 \$locations of method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:filterHiddenLocations\(\) expects array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\>, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
 			identifier: argument.type
@@ -31606,7 +31605,7 @@ parameters:
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
-			count: 12
+			count: 10
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
