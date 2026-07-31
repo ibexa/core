@@ -608,7 +608,8 @@ class Repository implements RepositoryInterface
         if ($this->bookmarkService === null) {
             $this->bookmarkService = new BookmarkService(
                 $this,
-                $this->persistenceHandler->bookmarkHandler()
+                $this->persistenceHandler->bookmarkHandler(),
+                $this->logger
             );
         }
 
