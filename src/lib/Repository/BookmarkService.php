@@ -105,8 +105,8 @@ class BookmarkService implements BookmarkServiceInterface
         $filter = new Filter();
         try {
             $filter
-                ->withCriterion(new Criterion\IsBookmarked())
-                ->withSortClause(new SortClause\BookmarkId(Query::SORT_DESC))
+                ->withCriterion(new Criterion\Location\IsBookmarked())
+                ->withSortClause(new SortClause\Location\Bookmark\Id(Query::SORT_DESC))
                 ->sliceBy($limit, $offset);
 
             $result = $this->repository->getLocationService()->find($filter, []);
