@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsBookmarked;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 
 /**
@@ -34,6 +35,9 @@ final class IsBookmarkedQueryBuilder extends BaseLocationCriterionQueryBuilder
         return $criterion instanceof IsBookmarked;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
@@ -43,7 +47,10 @@ final class IsBookmarkedQueryBuilder extends BaseLocationCriterionQueryBuilder
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsBookmarked $criterion */
         $isBookmarked = $criterion->value[0] ?? null;
         if (!is_bool($isBookmarked)) {
-            throw new \InvalidArgumentException('IsBookmarked criterion value must be boolean at index 0.');
+            throw new InvalidArgumentException(
+                '$criterion',
+                'IsBookmarked criterion value must be boolean at index 0.'
+            );
         }
 
         $userId = $this->permissionResolver->getCurrentUserReference()->getUserId();
