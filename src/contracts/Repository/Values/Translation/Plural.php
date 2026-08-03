@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Translation;
 
 use Ibexa\Contracts\Core\Repository\Values\Translation;
+use Override;
 
 /**
  * Class for translatable messages, which may contain plural forms.
@@ -68,7 +69,17 @@ class Plural extends Translation
         parent::__construct();
     }
 
-    #[\Override]
+    public function getMessageTemplate(): string
+    {
+        return $this->plural;
+    }
+
+    public function getValues(): array
+    {
+        return $this->values;
+    }
+
+    #[Override]
     public function __toString(): string
     {
         $firstValue = !empty($this->values) ? current(array_values($this->values)) : null;

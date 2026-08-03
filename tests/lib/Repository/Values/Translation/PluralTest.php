@@ -17,46 +17,62 @@ use PHPUnit\Framework\TestCase;
 final class PluralTest extends TestCase
 {
     /**
-     * @dataProvider getDataForTestStringable
+     * @dataProvider getDataForTestPlural
+     *
+     * @param array<string, scalar|null> $values
      */
-    public function testStringable(Plural $message, string $expectedString): void
-    {
-        self::assertSame($expectedString, (string)$message);
+    public function testStringable(
+        string $singular,
+        string $plural,
+        array $values,
+        string $expectedString
+    ): void {
+        self::assertSame($expectedString, (string)new Plural($singular, $plural, $values));
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Translation\Plural, string}>
+     * @dataProvider getDataForTestPlural
+     *
+     * @param array<string, scalar|null> $values
      */
-    public static function getDataForTestStringable(): iterable
+    public function testGetters(
+        string $singular,
+        string $plural,
+        array $values
+    ): void {
+        $translation = new Plural($singular, $plural, $values);
+
+        self::assertSame($plural, $translation->getMessageTemplate());
+        self::assertSame($values, $translation->getValues());
+    }
+
+    /**
+     * @return iterable<string, array{string, string, array<string, scalar|null>, string}>
+     */
+    public static function getDataForTestPlural(): iterable
     {
         yield 'singular form' => [
-            new Plural(
-                'John has %apple_count% apple',
-                'John has %apple_count% apples',
-                [
-                    '%apple_count%' => 1,
-                ]
-            ),
+            'John has %apple_count% apple',
+            'John has %apple_count% apples',
+            [
+                '%apple_count%' => 1,
+            ],
             'John has 1 apple',
         ];
 
         yield 'plural form' => [
-            new Plural(
-                'John has %apple_count% apple',
-                'John has %apple_count% apples',
-                [
-                    '%apple_count%' => 2,
-                ]
-            ),
+            'John has %apple_count% apple',
+            'John has %apple_count% apples',
+            [
+                '%apple_count%' => 2,
+            ],
             'John has 2 apples',
         ];
 
         yield 'no substitution values' => [
-            new Plural(
-                'John has some apples',
-                'John has a lot of apples',
-                []
-            ),
+            'John has some apples',
+            'John has a lot of apples',
+            [],
             'John has a lot of apples',
         ];
     }
