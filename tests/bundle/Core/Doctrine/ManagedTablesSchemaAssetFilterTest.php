@@ -26,7 +26,7 @@ final class ManagedTablesSchemaAssetFilterTest extends TestCase
     {
         $classMetadataList = array_map(
             function (string $tableName): ClassMetadata {
-                $classMetadata = $this->createMock(ClassMetadata::class);
+                $classMetadata = $this->createStub(ClassMetadata::class);
                 $classMetadata->method('getTableName')->willReturn($tableName);
 
                 return $classMetadata;
@@ -34,15 +34,15 @@ final class ManagedTablesSchemaAssetFilterTest extends TestCase
             $entityTableNames
         );
 
-        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
+        $metadataFactory = $this->createStub(ClassMetadataFactory::class);
         $metadataFactory->method('getAllMetadata')->willReturn($classMetadataList);
 
-        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager = $this->createStub(EntityManagerInterface::class);
         $entityManager->method('getMetadataFactory')->willReturn($metadataFactory);
 
-        $nonEntityManager = $this->createMock(ObjectManager::class);
+        $nonEntityManager = $this->createStub(ObjectManager::class);
 
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
+        $managerRegistry = $this->createStub(ManagerRegistry::class);
         $managerRegistry->method('getManagers')->willReturn([$entityManager, $nonEntityManager]);
 
         return new ManagedTablesSchemaAssetFilter($managerRegistry);
