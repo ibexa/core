@@ -8,13 +8,22 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as Criterion;
-use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\BookmarkQueryBuilder;
-use Ibexa\Core\Repository\Permission\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IsBookmarkedQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
 
+/**
+ * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IsBookmarkedQueryBuilder
+ */
 final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
+    private const CURRENT_USER_ID = 14;
+
+    private const BOOKMARK_EXISTS_SUBQUERY = 'SELECT 1 FROM ezcontentbrowsebookmark bookmark WHERE '
+        . '(bookmark.user_id = :dcValue%1$d) AND (bookmark.node_id = location.node_id)';
+
     /**
      * @return iterable<array-key, array{Criterion, string, array<string, int>}>
      *
@@ -22,32 +31,42 @@ final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTes
      */
     public function getFilteringCriteriaQueryData(): iterable
     {
-        yield 'Bookmarks locations for user_id=14' => [
-            new Criterion\IsBookmarked(true, 14),
-            'bookmark.user_id = :dcValue1',
-            ['dcValue1' => 14],
+        yield 'IsBookmarked(true)' => [
+            new Criterion\Location\IsBookmarked(true),
+            sprintf('EXISTS (%s)', sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 1)),
+            ['dcValue1' => self::CURRENT_USER_ID],
         ];
 
-        yield 'Bookmarks locations for user_id=14 OR user_id=7' => [
+        yield 'IsBookmarked(false)' => [
+            new Criterion\Location\IsBookmarked(false),
+            sprintf('NOT EXISTS (%s)', sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 1)),
+            ['dcValue1' => self::CURRENT_USER_ID],
+        ];
+
+        yield 'IsBookmarked(true) OR IsBookmarked(false)' => [
             new Criterion\LogicalOr(
                 [
-                    new Criterion\IsBookmarked(true, 14),
-                    new Criterion\IsBookmarked(true, 7),
-               ]
+                    new Criterion\Location\IsBookmarked(true),
+                    new Criterion\Location\IsBookmarked(false),
+                ]
             ),
-            '(bookmark.user_id = :dcValue1) OR (bookmark.user_id = :dcValue2)',
-            ['dcValue1' => 14, 'dcValue2' => 7],
-        ];
-
-        yield 'Bookmarks locations for user_id=7' => [
-            new Criterion\IsBookmarked(true, 7),
-            'bookmark.user_id = :dcValue1',
-            ['dcValue1' => 7],
+            sprintf(
+                '(EXISTS (%s)) OR (NOT EXISTS (%s))',
+                sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 1),
+                sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 2)
+            ),
+            ['dcValue1' => self::CURRENT_USER_ID, 'dcValue2' => self::CURRENT_USER_ID],
         ];
     }
 
     protected function getCriterionQueryBuilders(): iterable
     {
-        return [new BookmarkQueryBuilder($this->createMock(PermissionResolver::class))];
+        $userReference = $this->createMock(UserReference::class);
+        $userReference->method('getUserId')->willReturn(self::CURRENT_USER_ID);
+
+        $permissionResolver = $this->createMock(PermissionResolver::class);
+        $permissionResolver->method('getCurrentUserReference')->willReturn($userReference);
+
+        return [new IsBookmarkedQueryBuilder($permissionResolver)];
     }
 }
