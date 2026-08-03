@@ -33,6 +33,69 @@ use function sprintf;
  */
 final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
 {
+    private const BOOKMARKED_LOCATION_ID = 52;
+
+    /**
+     * @return iterable<string, array{bool, int, int, int}>
+     */
+    public function isBookmarkedProvider(): iterable
+    {
+        // [isBookmarkedCriterion, initialCount, afterCreateCount, afterDeleteCount]
+        yield 'bookmarked=true' => [true, 0, 1, 0];
+        yield 'bookmarked=false' => [false, 1, 0, 1];
+    }
+
+    /**
+     * @dataProvider isBookmarkedProvider
+     */
+    public function testIsBookmarkedTrueAndFalse(
+        bool $isBookmarked,
+        int $initialCount,
+        int $afterCreateCount,
+        int $afterDeleteCount
+    ): void {
+        $repository = $this->getRepository(false);
+        $locationService = $repository->getLocationService();
+        $contentService = $repository->getContentService();
+        $bookmarkService = $repository->getBookmarkService();
+
+        $bookmarkedLocation = $locationService->loadLocation(self::BOOKMARKED_LOCATION_ID);
+
+        $filter = new Filter();
+        $filter->withCriterion(new Criterion\Location\IsBookmarked($isBookmarked))
+            ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
+
+        self::assertCount(
+            $initialCount,
+            $contentService->find($filter),
+            'Unexpected initial bookmark state for IsBookmarked(' . ($isBookmarked ? 'true' : 'false') . ')'
+        );
+
+        $bookmarkService->createBookmark($bookmarkedLocation);
+
+        $filter = new Filter();
+        $filter->withCriterion(new Criterion\Location\IsBookmarked($isBookmarked))
+            ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
+
+        self::assertCount(
+            $afterCreateCount,
+            $contentService->find($filter),
+            'Unexpected state after creating bookmark for IsBookmarked(' . ($isBookmarked ? 'true' : 'false') . ')'
+        );
+
+        $bookmarkService->deleteBookmark($bookmarkedLocation);
+
+        $filter = new Filter();
+        $filter->withCriterion(new Criterion\Location\IsBookmarked($isBookmarked))
+            ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
+
+        self::assertCount(
+            $afterDeleteCount,
+            $contentService->find($filter),
+            'Unexpected state after deleting bookmark for IsBookmarked(' . ($isBookmarked ? 'true' : 'false') . ')'
+        );
+    }
+
     /**
      * Test that special cases of Location Sort Clauses are working correctly.
      *
