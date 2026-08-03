@@ -85,7 +85,7 @@ final class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new EntityManagerFactoryServiceLocatorPass());
         // Priority 1 makes it run before DoctrineBundle's DbalSchemaFilterPass (priority 0),
         // which collects the "doctrine.dbal.schema_filter" tags this pass adds.
-        $container->addCompilerPass(new InjectEntityManagerMappingsPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1);
+        $container->addCompilerPass(new InjectEntityManagerMappingsPass(), priority: 1);
         $container->addCompilerPass(new SessionConfigurationPass());
 
         // Storage passes
