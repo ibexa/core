@@ -19,6 +19,15 @@ final class IsBookmarkedTest extends BaseTest
 {
     private const BOOKMARKED_LOCATION_ID = 52;
 
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public function serviceProvider(): iterable
+    {
+        yield 'Location' => ['getLocationService'];
+        yield 'Content' => ['getContentService'];
+    }
+
     public function testBookmarkedAndNotBookmarkedCountsMatchTotal(): void
     {
         $repository = $this->getRepository(false);
@@ -48,21 +57,22 @@ final class IsBookmarkedTest extends BaseTest
     }
 
     /**
-     * @return iterable<string, array{bool, int, int, int}>
+     * @return iterable<string, array{string, bool, int, int, int}>
      */
     public function isBookmarkedProvider(): iterable
     {
-        // [isBookmarkedCriterion, initialCount, afterCreateCount, afterDeleteCount]
-        return [
-            'bookmarked=true' => [true, 0, 1, 0],
-            'bookmarked=false' => [false, 1, 0, 1],
-        ];
+        // [initialCount, afterCreateCount, afterDeleteCount] per isBookmarkedCriterion value
+        foreach ($this->serviceProvider() as $serviceLabel => [$serviceGetter]) {
+            yield "$serviceLabel, bookmarked=true" => [$serviceGetter, true, 0, 1, 0];
+            yield "$serviceLabel, bookmarked=false" => [$serviceGetter, false, 1, 0, 1];
+        }
     }
 
     /**
      * @dataProvider isBookmarkedProvider
      */
     public function testIsBookmarkedTrueAndFalse(
+        string $serviceGetter,
         bool $isBookmarked,
         int $initialCount,
         int $afterCreateCount,
@@ -70,44 +80,42 @@ final class IsBookmarkedTest extends BaseTest
     ): void {
         $repository = $this->getRepository(false);
         $locationService = $repository->getLocationService();
+        $service = $repository->$serviceGetter();
         $bookmarkService = $repository->getBookmarkService();
 
-        $filesLocation = $locationService->loadLocation(self::BOOKMARKED_LOCATION_ID);
+        $bookmarkedLocation = $locationService->loadLocation(self::BOOKMARKED_LOCATION_ID);
 
         $filter = new Filter();
         $filter->withCriterion(new Criterion\Location\IsBookmarked($isBookmarked))
             ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
 
-        $locations = $locationService->find($filter);
         self::assertCount(
             $initialCount,
-            $locations,
+            $service->find($filter),
             'Unexpected initial bookmark state for IsBookmarked(' . ($isBookmarked ? 'true' : 'false') . ')'
         );
 
-        $bookmarkService->createBookmark($filesLocation);
+        $bookmarkService->createBookmark($bookmarkedLocation);
 
         $filter = new Filter();
         $filter->withCriterion(new Criterion\Location\IsBookmarked($isBookmarked))
             ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
 
-        $locations = $locationService->find($filter);
         self::assertCount(
             $afterCreateCount,
-            $locations,
+            $service->find($filter),
             'Unexpected state after creating bookmark for IsBookmarked(' . ($isBookmarked ? 'true' : 'false') . ')'
         );
 
-        $bookmarkService->deleteBookmark($filesLocation);
+        $bookmarkService->deleteBookmark($bookmarkedLocation);
 
         $filter = new Filter();
         $filter->withCriterion(new Criterion\Location\IsBookmarked($isBookmarked))
             ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
 
-        $locations = $locationService->find($filter);
         self::assertCount(
             $afterDeleteCount,
-            $locations,
+            $service->find($filter),
             'Unexpected state after deleting bookmark for IsBookmarked(' . ($isBookmarked ? 'true' : 'false') . ')'
         );
     }
@@ -146,32 +154,6 @@ final class IsBookmarkedTest extends BaseTest
                 count(array_unique($locationIds)),
                 'LogicalOr(IsBookmarked(true), IsBookmarked(false)) returned duplicate locations'
             );
-        } finally {
-            $bookmarkService->deleteBookmark($bookmarkedLocation);
-        }
-    }
-
-    public function testIsBookmarkedFiltersContentAsWellAsLocations(): void
-    {
-        $repository = $this->getRepository(false);
-        $locationService = $repository->getLocationService();
-        $contentService = $repository->getContentService();
-        $bookmarkService = $repository->getBookmarkService();
-
-        $bookmarkedLocation = $locationService->loadLocation(self::BOOKMARKED_LOCATION_ID);
-
-        $filter = new Filter();
-        $filter->withCriterion(new Criterion\Location\IsBookmarked(true))
-            ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
-        self::assertCount(0, $contentService->find($filter));
-
-        $bookmarkService->createBookmark($bookmarkedLocation);
-
-        try {
-            $filter = new Filter();
-            $filter->withCriterion(new Criterion\Location\IsBookmarked(true))
-                ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
-            self::assertCount(1, $contentService->find($filter));
         } finally {
             $bookmarkService->deleteBookmark($bookmarkedLocation);
         }
