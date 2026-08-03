@@ -65,6 +65,20 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
      * connection as this entity manager, from being dropped by
      * doctrine:schema:update. ORM 3 always behaves as if --complete was
      * passed, dropping any table not backed by a registered ORM entity.
+     *
+     * The filter is registered through DoctrineBundle's
+     * "doctrine.dbal.schema_filter" tag rather than by calling
+     * Configuration::setSchemaAssetsFilter() directly, because that setter is
+     * not additive: DoctrineBundle's own DbalSchemaFilterPass calls it as well,
+     * to install a SchemaAssetsFilterManager wrapping every tagged filter, so
+     * whichever pass ran last would silently discard the other one's filter -
+     * either dropping a project's own "doctrine.dbal.<connection>.schema_filter"
+     * configuration, or dropping the legacy schema protection. Going through
+     * the tag makes both apply: SchemaAssetsFilterManager rejects an asset as
+     * soon as any single filter rejects it.
+     *
+     * This requires the pass to run before DbalSchemaFilterPass, which is why
+     * IbexaCoreBundle registers it with a higher priority.
      */
     private function protectLegacySchemaFromOrmSchemaSync(string $entityManagerName, ContainerBuilder $container): void
     {
@@ -79,9 +93,9 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
             return;
         }
 
-        $container->getDefinition($configurationId)->addMethodCall(
-            'setSchemaAssetsFilter',
-            [new Reference(ManagedTablesSchemaAssetFilter::class)]
+        $container->findDefinition(ManagedTablesSchemaAssetFilter::class)->addTag(
+            'doctrine.dbal.schema_filter',
+            ['connection' => $connection]
         );
     }
 

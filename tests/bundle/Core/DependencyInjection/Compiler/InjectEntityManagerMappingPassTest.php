@@ -46,6 +46,7 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
         $this->setDefinition('doctrine.orm.ibexa_connection_metadata_driver', new Definition());
         $this->setDefinition('doctrine.orm.ibexa_connection_configuration', new Definition());
         $this->setDefinition('doctrine.dbal.connection_connection.configuration', new Definition());
+        $this->setDefinition(ManagedTablesSchemaAssetFilter::class, new Definition(ManagedTablesSchemaAssetFilter::class));
         $this->setParameter('doctrine.orm.metadata.attribute.class', 'Vendor/Doctrine/Metadata/Driver/AttributeDriver');
         $this->setParameter('doctrine.orm.metadata.xml.class', 'Vendor/Doctrine/Metadata/Driver/XmlDriver');
         $this->setParameter('kernel.bundles', self::BUNDLES);
@@ -95,10 +96,26 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
     {
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'doctrine.dbal.connection_connection.configuration',
-            'setSchemaAssetsFilter',
-            [new Reference(ManagedTablesSchemaAssetFilter::class)]
+        $this->assertContainerBuilderHasServiceDefinitionWithTag(
+            ManagedTablesSchemaAssetFilter::class,
+            'doctrine.dbal.schema_filter',
+            ['connection' => 'connection']
         );
+    }
+
+    /**
+     * The filter must not be installed with Configuration::setSchemaAssetsFilter(), as that
+     * would discard any filter set by DoctrineBundle's DbalSchemaFilterPass, and with it any
+     * "doctrine.dbal.<connection>.schema_filter" a project configured.
+     */
+    public function testDoesNotOverwriteTheConnectionSchemaAssetsFilter(): void
+    {
+        $this->compile();
+
+        $methodCalls = $this->container
+            ->getDefinition('doctrine.dbal.connection_connection.configuration')
+            ->getMethodCalls();
+
+        self::assertSame([], $methodCalls);
     }
 }
