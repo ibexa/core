@@ -359,6 +359,10 @@ services:
             $defaultConnection: '%doctrine.default_connection%'
             $entityManagers: '%doctrine.entity_managers%'
 
+    Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter:
+        arguments:
+            $managerRegistry: '@doctrine'
+
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
 
     Ibexa\Contracts\Core\Validation\StructValidator:

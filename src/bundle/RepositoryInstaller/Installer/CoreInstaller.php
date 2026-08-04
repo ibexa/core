@@ -13,6 +13,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
@@ -23,15 +24,21 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     /** @var \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface */
     protected $schemaBuilder;
 
+    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
+
     /**
      * @param \Doctrine\DBAL\Connection $db
      * @param \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface $schemaBuilder
      */
-    public function __construct(Connection $db, SchemaBuilderInterface $schemaBuilder)
-    {
+    public function __construct(
+        Connection $db,
+        SchemaBuilderInterface $schemaBuilder,
+        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
+    ) {
         parent::__construct($db);
 
         $this->schemaBuilder = $schemaBuilder;
+        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
     }
 
     /**
@@ -98,9 +105,19 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         Schema $newSchema,
         AbstractPlatform $databasePlatform
     ): array {
-        $existingTableNames = array_map(
-            static fn (Table $table): string => $table->getName(),
-            $this->db->createSchemaManager()->listTables()
+        // Reinstalling needs to see every pre-existing table, including ones
+        // with no Doctrine ORM entity behind them, to correctly drop them
+        // before recreating the full schema below. Bypass whichever schema
+        // assets filter is configured on this connection (e.g.
+        // ManagedTablesSchemaAssetFilter, which deliberately hides
+        // non-entity tables from doctrine:schema:update) for this one
+        // listing.
+        $existingTableNames = $this->schemaAssetsFilterBypass->call(
+            $this->db,
+            fn (): array => array_map(
+                static fn (Table $table): string => $table->getName(),
+                $this->db->createSchemaManager()->listTables()
+            )
         );
         $statements = [];
         // reverse table order for clean-up (due to FKs)

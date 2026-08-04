@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Command;
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use LogicException;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -49,18 +50,22 @@ final class InstallPlatformCommand extends Command
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
+    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
+
     public function __construct(
         Connection $connection,
         array $installers,
         CacheItemPoolInterface $cachePool,
         string $environment,
-        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider
+        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
     ) {
         $this->connection = $connection;
         $this->installers = $installers;
         $this->cachePool = $cachePool;
         $this->environment = $environment;
         $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
+        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
         parent::__construct();
     }
 
@@ -87,8 +92,7 @@ final class InstallPlatformCommand extends Command
         $this->checkCreateDatabase($output);
 
         $io = new SymfonyStyle($input, $output);
-        $schemaManager = $this->connection->createSchemaManager();
-        if (!empty($schemaManager->listTables())) {
+        if (!empty($this->listExistingTablesUnfiltered())) {
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
                 return self::SUCCESS;
             }
@@ -142,6 +146,24 @@ final class InstallPlatformCommand extends Command
     private function getConnectionName(): string
     {
         return $this->repositoryConfigurationProvider->getStorageConnectionName();
+    }
+
+    /**
+     * Whether there's data to warn about is a "does anything already exist"
+     * question, so it needs to see every table, including ones with no
+     * Doctrine ORM entity behind them. Bypass whichever schema assets filter
+     * is configured on this connection (e.g. ManagedTablesSchemaAssetFilter,
+     * which deliberately hides non-entity tables from
+     * doctrine:schema:update) for this one listing.
+     *
+     * @return \Doctrine\DBAL\Schema\Table[]
+     */
+    private function listExistingTablesUnfiltered(): array
+    {
+        return $this->schemaAssetsFilterBypass->call(
+            $this->connection,
+            fn (): array => $this->connection->createSchemaManager()->listTables()
+        );
     }
 
     private function checkCreateDatabase(OutputInterface $output): void

@@ -9,7 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\InjectEntityManagerMappingsPass;
-use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AnnotationEntityBundle\AnnotationEntityBundle;
+use Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter;
+use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AttributeEntityBundle\AttributeEntityBundle;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\XmlEntityBundle\XmlEntityBundle;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,16 +20,16 @@ use Symfony\Component\DependencyInjection\Reference;
 class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
 {
     private const BUNDLES = [
-        'AnnotationEntityBundle' => AnnotationEntityBundle::class,
+        'AttributeEntityBundle' => AttributeEntityBundle::class,
         'XmlEntityBundle' => XmlEntityBundle::class,
     ];
     private const ENTITY_MANAGERS = ['ibexa_connection' => 'doctrine.orm.ibexa_connection_entity_manager'];
     private const ENTITY_MAPPINGS = [
-        'AnnotationEntityBundle' => [
+        'AttributeEntityBundle' => [
             'is_bundle' => true,
-            'type' => 'annotation',
+            'type' => 'attribute',
             'dir' => 'Entity',
-            'prefix' => '\Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AnnotationEntityBundle\Entity',
+            'prefix' => '\Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AttributeEntityBundle\Entity',
         ],
         'XmlEntityBundle' => [
             'is_bundle' => true,
@@ -44,8 +45,9 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
 
         $this->setDefinition('doctrine.orm.ibexa_connection_metadata_driver', new Definition());
         $this->setDefinition('doctrine.orm.ibexa_connection_configuration', new Definition());
-        $this->setParameter('doctrine.orm.metadata.annotation.class', 'Vendor/Doctrine/Metadata/Driver/AnnotationDriver');
-        $this->setParameter('doctrine.orm.metadata.yml.class', 'Vendor/Doctrine/Metadata/Driver/YmlDriver');
+        $this->setDefinition('doctrine.dbal.connection_connection.configuration', new Definition());
+        $this->setDefinition(ManagedTablesSchemaAssetFilter::class, new Definition(ManagedTablesSchemaAssetFilter::class));
+        $this->setParameter('doctrine.orm.metadata.attribute.class', 'Vendor/Doctrine/Metadata/Driver/AttributeDriver');
         $this->setParameter('doctrine.orm.metadata.xml.class', 'Vendor/Doctrine/Metadata/Driver/XmlDriver');
         $this->setParameter('kernel.bundles', self::BUNDLES);
 
@@ -63,32 +65,22 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $expectedDriverPaths = [
-            'AnnotationEntityBundle' => [
-                realpath(__DIR__ . '/../Stub/AnnotationEntityBundle/' . self::ENTITY_MAPPINGS['AnnotationEntityBundle']['dir']),
+            'AttributeEntityBundle' => [
+                realpath(__DIR__ . '/../Stub/AttributeEntityBundle/' . self::ENTITY_MAPPINGS['AttributeEntityBundle']['dir']),
             ],
             'XmlEntityBundle' => [
                 realpath(__DIR__ . '/../Stub/XmlEntityBundle/' . self::ENTITY_MAPPINGS['XmlEntityBundle']['dir']) => sprintf('\\%s\Entity', XmlEntityBundle::class),
             ],
         ];
 
-        $expectedEntityNamespaces = [
-            'AnnotationEntityBundle' => self::ENTITY_MAPPINGS['AnnotationEntityBundle']['prefix'],
-            'XmlEntityBundle' => self::ENTITY_MAPPINGS['XmlEntityBundle']['prefix'],
-        ];
-
         foreach (self::ENTITY_MANAGERS as $name => $serviceId) {
             $this->assertContainerBuilderHasService("doctrine.orm.{$name}_metadata_driver");
-            $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-                "doctrine.orm.{$name}_configuration",
-                'setEntityNamespaces',
-                [$expectedEntityNamespaces]
-            );
 
             foreach (self::ENTITY_MAPPINGS as $mappingName => $config) {
                 $metadataDriver = "doctrine.orm.{$name}_{$config['type']}_metadata_driver";
                 $this->assertContainerBuilderHasServiceDefinitionWithArgument(
                     $metadataDriver,
-                    'annotation' === $config['type'] ? 1 : 0,
+                    0,
                     $expectedDriverPaths[$mappingName]
                 );
                 $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
@@ -98,5 +90,32 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
                 );
             }
         }
+    }
+
+    public function testProtectsLegacySchemaFromOrmSchemaSync(): void
+    {
+        $this->compile();
+
+        $this->assertContainerBuilderHasServiceDefinitionWithTag(
+            ManagedTablesSchemaAssetFilter::class,
+            'doctrine.dbal.schema_filter',
+            ['connection' => 'connection']
+        );
+    }
+
+    /**
+     * The filter must not be installed with Configuration::setSchemaAssetsFilter(), as that
+     * would discard any filter set by DoctrineBundle's DbalSchemaFilterPass, and with it any
+     * "doctrine.dbal.<connection>.schema_filter" a project configured.
+     */
+    public function testDoesNotOverwriteTheConnectionSchemaAssetsFilter(): void
+    {
+        $this->compile();
+
+        $methodCalls = $this->container
+            ->getDefinition('doctrine.dbal.connection_connection.configuration')
+            ->getMethodCalls();
+
+        self::assertSame([], $methodCalls);
     }
 }

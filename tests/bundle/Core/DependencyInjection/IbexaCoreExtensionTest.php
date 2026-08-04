@@ -24,6 +24,7 @@ use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomSortClauseQuer
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryType\TestQueryType;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\StubPolicyProvider;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CheckExceptionOnInvalidReferenceBehaviorPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -896,6 +897,50 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             CustomSortClauseQueryBuilder::class,
             ServiceTags::FILTERING_SORT_CLAUSE_QUERY_BUILDER,
         ];
+    }
+
+    public function testOrmEntityMappingsConfiguration(): void
+    {
+        $entityMappings = [
+            'IbexaCoreBundle' => [
+                'is_bundle' => true,
+                'type' => 'attribute',
+                'dir' => 'Entity',
+                'prefix' => 'Ibexa\Bundle\Core\Entity',
+            ],
+            'IbexaXmlBundle' => [
+                'is_bundle' => true,
+                'type' => 'xml',
+                'dir' => 'Resources/config/doctrine',
+                'prefix' => 'Ibexa\Bundle\Xml\Entity',
+            ],
+        ];
+
+        $this->load(['orm' => ['entity_mappings' => $entityMappings]]);
+
+        $expectedEntityMappings = array_map(
+            static fn (array $mapping): array => $mapping + ['mapping' => true],
+            $entityMappings
+        );
+        $this->assertContainerBuilderHasParameter('ibexa.orm.entity_mappings', $expectedEntityMappings);
+    }
+
+    public function testOrmEntityMappingsConfigurationRejectsInvalidType(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $this->load([
+            'orm' => [
+                'entity_mappings' => [
+                    'IbexaCoreBundle' => [
+                        'is_bundle' => true,
+                        'type' => 'annotation',
+                        'dir' => 'Entity',
+                        'prefix' => 'Ibexa\Bundle\Core\Entity',
+                    ],
+                ],
+            ],
+        ]);
     }
 
     public function testDoesNotLoadTestServicesByDefault(): void
