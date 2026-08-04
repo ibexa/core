@@ -8527,18 +8527,6 @@ parameters:
 			path: src/lib/MVC/Symfony/SiteAccess/SiteAccessProviderInterface.php
 
 		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\SiteAccessService\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/SiteAccessService.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\SiteAccessService\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/SiteAccessService.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Templating\\FieldBlockRendererInterface\:\:renderContentFieldEdit\(\) has parameter \$params with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
