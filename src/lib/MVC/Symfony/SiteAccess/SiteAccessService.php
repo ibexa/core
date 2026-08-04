@@ -17,7 +17,7 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
 {
     private SiteAccessProviderInterface $provider;
 
-    private SiteAccess $siteAccess;
+    private ?SiteAccess $siteAccess = null;
 
     private ConfigResolverInterface $configResolver;
 
