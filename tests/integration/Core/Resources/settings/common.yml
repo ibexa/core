@@ -70,7 +70,7 @@ services:
 
     Ibexa\Core\MVC\Symfony\SiteAccess:
         class: Ibexa\Core\MVC\Symfony\SiteAccess
-        arguments: ['default', 'uninitialized']
+        arguments: ['default', !php/const Ibexa\Core\MVC\Symfony\SiteAccess::MATCHING_TYPE_UNINITIALIZED]
 
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService:
         class: Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService

@@ -9,20 +9,18 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use function iterator_to_array;
 
 class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
-    private $provider;
+    private SiteAccessProviderInterface $provider;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private ?SiteAccess $siteAccess = null;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(
         SiteAccessProviderInterface $provider,
@@ -64,6 +62,10 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
     public function getSiteAccessesRelation(?SiteAccess $siteAccess = null): array
     {
         $siteAccess = $siteAccess ?? $this->siteAccess;
+        if ($siteAccess === null) {
+            throw new InvalidArgumentException('siteAccess', 'no SiteAccess given and none currently set');
+        }
+
         $saRelationMap = [];
 
         /** @var \Ibexa\Core\MVC\Symfony\SiteAccess[] $saList */
