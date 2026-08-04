@@ -18,6 +18,7 @@ imports:
     - {resource: storage_engines/legacy/url_wildcard_criterion_handlers.yml}
     - {resource: storage_engines/legacy/user.yml}
     - {resource: storage_engines/legacy/notification.yml}
+    - {resource: storage_engines/legacy/async_publication.yml}
     - {resource: storage_engines/legacy/user_preference.yml}
     - {resource: storage_engines/legacy/setting.yml}
     - {resource: storage_engines/legacy/token.yml}

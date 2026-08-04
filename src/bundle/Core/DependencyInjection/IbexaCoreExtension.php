@@ -367,6 +367,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $coreLoader->load('io.yml');
         $coreLoader->load('policies.yml');
         $coreLoader->load('notification.yml');
+        $coreLoader->load('async_publication.yml');
         $coreLoader->load('user_preference.yml');
         $coreLoader->load('events.yml');
         $coreLoader->load('thumbnails.yml');

@@ -1,0 +1,19 @@
+services:
+    Ibexa\Core\Persistence\Legacy\AsyncPublication\Gateway\DoctrineDatabase:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+
+    Ibexa\Core\Persistence\Legacy\AsyncPublication\Gateway\ExceptionConversion:
+        arguments:
+            $innerGateway: '@Ibexa\Core\Persistence\Legacy\AsyncPublication\Gateway\DoctrineDatabase'
+
+    Ibexa\Core\Persistence\Legacy\AsyncPublication\Mapper: ~
+
+    Ibexa\Core\Persistence\Legacy\AsyncPublication\Handler:
+        arguments:
+            $gateway: '@Ibexa\Core\Persistence\Legacy\AsyncPublication\Gateway\ExceptionConversion'
+            $mapper: '@Ibexa\Core\Persistence\Legacy\AsyncPublication\Mapper'
+        lazy: true
+
+    ibexa.spi.persistence.legacy.async_publication.handler:
+        alias: 'Ibexa\Core\Persistence\Legacy\AsyncPublication\Handler'

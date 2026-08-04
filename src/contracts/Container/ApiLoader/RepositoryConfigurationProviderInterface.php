@@ -16,7 +16,8 @@ namespace Ibexa\Contracts\Core\Container\ApiLoader;
  *     storage: TRepositoryStorageConfiguration,
  *     search: TRepositorySearchConfiguration,
  *     fields_groups: array{default: string, list: string[]},
- *     options: array<string, mixed>
+ *     options: array<string, mixed>,
+ *     async_content_publish?: bool
  * }
  */
 interface RepositoryConfigurationProviderInterface
