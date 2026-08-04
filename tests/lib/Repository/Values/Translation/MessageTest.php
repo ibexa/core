@@ -17,44 +17,56 @@ use PHPUnit\Framework\TestCase;
 final class MessageTest extends TestCase
 {
     /**
-     * @dataProvider getDataForTestStringable
+     * @dataProvider getDataForTestMessage
+     *
+     * @param array<string, scalar|null> $values
      */
-    public function testStringable(Message $message, string $expectedString): void
-    {
-        self::assertSame($expectedString, (string)$message);
+    public function testStringable(
+        string $message,
+        array $values,
+        string $expectedString
+    ): void {
+        self::assertSame($expectedString, (string)new Message($message, $values));
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Translation\Message, string}>
+     * @dataProvider getDataForTestMessage
+     *
+     * @param array<string, scalar|null> $values
      */
-    public static function getDataForTestStringable(): iterable
+    public function testGetters(string $message, array $values): void
+    {
+        $translation = new Message($message, $values);
+
+        self::assertSame($message, $translation->getMessageTemplate());
+        self::assertSame($values, $translation->getValues());
+    }
+
+    /**
+     * @return iterable<string, array{string, array<string, scalar|null>, string}>
+     */
+    public static function getDataForTestMessage(): iterable
     {
         yield 'message with substitution values' => [
-            new Message(
-                'Anna has some oranges in %object%',
-                [
-                    '%object%' => 'a basket',
-                ]
-            ),
+            'Anna has some oranges in %object%',
+            [
+                '%object%' => 'a basket',
+            ],
             'Anna has some oranges in a basket',
         ];
 
         yield 'message with multiple substitution values' => [
-            new Message(
-                '%first_name% has some data in %storage_type%',
-                [
-                    '%first_name%' => 'Anna',
-                    '%storage_type%' => 'her database',
-                ]
-            ),
+            '%first_name% has some data in %storage_type%',
+            [
+                '%first_name%' => 'Anna',
+                '%storage_type%' => 'her database',
+            ],
             'Anna has some data in her database',
         ];
 
         yield 'message with no substitution values' => [
-            new Message(
-                'This value is not correct',
-                []
-            ),
+            'This value is not correct',
+            [],
             'This value is not correct',
         ];
     }
