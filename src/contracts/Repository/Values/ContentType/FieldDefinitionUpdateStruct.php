@@ -97,6 +97,10 @@ class FieldDefinitionUpdateStruct extends ValueObject
     /**
      * If set the default value for this field is changed to the given value.
      *
+     * Null value is treated as "not provided" and the field definition's current
+     * default value is preserved. To clear an existing default value, set
+     * this to the field type's empty value instead of null.
+     *
      * @var mixed
      */
     public $defaultValue;
