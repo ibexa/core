@@ -60,11 +60,13 @@ final class ContentTypeDomainMapperTest extends TestCase
         self::assertSame(100, $spiFieldDefinition->position);
     }
 
-    public function testBuildSPIFieldDefinitionFromUpdateStructOverridesDefaultValueWhenExplicitlySet(): void
-    {
-        $newDefaultValue = new TextLineValue('Bar');
-        $persistedValue = new FieldValue(['data' => 'Bar']);
-
+    /**
+     * @dataProvider provideExplicitDefaultValues
+     */
+    public function testBuildSPIFieldDefinitionFromUpdateStructOverridesDefaultValueWhenExplicitlySet(
+        TextLineValue $newDefaultValue,
+        FieldValue $persistedValue
+    ): void {
         $this->configureFieldTypeRegistry($newDefaultValue, $persistedValue);
 
         $updateStruct = new FieldDefinitionUpdateStruct();
@@ -77,6 +79,22 @@ final class ContentTypeDomainMapperTest extends TestCase
         );
 
         self::assertSame($persistedValue, $spiFieldDefinition->defaultValue);
+    }
+
+    /**
+     * @return iterable<string, array{TextLineValue, FieldValue}>
+     */
+    public function provideExplicitDefaultValues(): iterable
+    {
+        yield 'new non-empty value overrides the existing default value' => [
+            new TextLineValue('Bar'),
+            new FieldValue(['data' => 'Bar']),
+        ];
+
+        yield 'empty value clears the existing default value' => [
+            new TextLineValue(''),
+            new FieldValue(['data' => '']),
+        ];
     }
 
     private function buildFieldDefinition(TextLineValue $defaultValue): FieldDefinition
