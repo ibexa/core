@@ -11,22 +11,56 @@ namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
+use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use function iterator_to_array;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
+class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberInterface
 {
-    private ?SiteAccess $siteAccess = null;
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess[] */
+    private array $siteAccessStack = [];
 
     public function __construct(
         private readonly SiteAccessProviderInterface $provider,
-        private readonly ConfigResolverInterface $configResolver
+        private readonly ConfigResolverInterface $configResolver,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
 
-    public function setSiteAccess(?SiteAccess $siteAccess = null): void
+    public static function getSubscribedEvents(): array
     {
-        $this->siteAccess = $siteAccess;
+        return [
+            MVCEvents::SITEACCESS => 'onSiteAccessMatch',
+            KernelEvents::FINISH_REQUEST => 'onKernelFinishRequest',
+        ];
+    }
+
+    /**
+     * Establishes the base of the SiteAccess stack for a top-level request, or pushes an
+     * additional entry for a sub-request (e.g. content preview, fragments, ESI).
+     */
+    public function onSiteAccessMatch(PostSiteAccessMatchEvent $event): void
+    {
+        if ($event->getRequestType() === HttpKernelInterface::MAIN_REQUEST) {
+            $this->siteAccessStack = [$event->getSiteAccess()];
+        } else {
+            $this->siteAccessStack[] = $event->getSiteAccess();
+        }
+    }
+
+    /**
+     * Undoes the push performed by onSiteAccessMatch() for the request/sub-request that just finished.
+     */
+    public function onKernelFinishRequest(FinishRequestEvent $event): void
+    {
+        $this->popSiteAccessStack();
     }
 
     public function exists(string $name): bool
@@ -50,12 +84,31 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
 
     public function getCurrent(): ?SiteAccess
     {
-        return $this->siteAccess ?? null;
+        return $this->siteAccessStack !== [] ? end($this->siteAccessStack) : null;
+    }
+
+    public function changeSiteAccess(SiteAccess $siteAccess): SiteAccess
+    {
+        $this->siteAccessStack[] = $siteAccess;
+        $this->eventDispatcher->dispatch(new ScopeChangeEvent($siteAccess), MVCEvents::CONFIG_SCOPE_CHANGE);
+
+        return $siteAccess;
+    }
+
+    public function restoreSiteAccess(): ?SiteAccess
+    {
+        $this->popSiteAccessStack();
+        $siteAccess = $this->getCurrent();
+        if ($siteAccess !== null) {
+            $this->eventDispatcher->dispatch(new ScopeChangeEvent($siteAccess), MVCEvents::CONFIG_SCOPE_RESTORE);
+        }
+
+        return $siteAccess;
     }
 
     public function getSiteAccessesRelation(?SiteAccess $siteAccess = null): array
     {
-        $siteAccess = $siteAccess ?? $this->siteAccess;
+        $siteAccess ??= $this->getCurrent();
         if ($siteAccess === null) {
             throw new InvalidArgumentException('siteAccess', 'no SiteAccess given and none currently set');
         }
@@ -86,5 +139,17 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
         $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id', 'ibexa.site_access.config', $siteAccessName);
 
         return $saRelationMap[$repository][$rootLocationId];
+    }
+
+    /**
+     * Pops the SiteAccess stack, but never below one remaining entry: the bottom-most entry
+     * (the current top-level request's SiteAccess, or the CLI SiteAccess established via
+     * changeSiteAccess()) must survive an unbalanced restore or an unrelated sub-request finishing.
+     */
+    private function popSiteAccessStack(): void
+    {
+        if (count($this->siteAccessStack) > 1) {
+            array_pop($this->siteAccessStack);
+        }
     }
 }

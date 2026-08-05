@@ -8,8 +8,8 @@
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -28,7 +28,7 @@ class ChainRoutingPass implements CompilerPassInterface
         // The default router will be given the highest priority so that it will be used by default
         if ($container->hasDefinition('router.default')) {
             $defaultRouter = $container->getDefinition('router.default');
-            $defaultRouter->addMethodCall('setSiteAccess', [new Reference(SiteAccess::class)]);
+            $defaultRouter->addMethodCall('setSiteAccessService', [new Reference(SiteAccessServiceInterface::class)]);
             $defaultRouter->addMethodCall('setConfigResolver', [new Reference('ibexa.config.resolver')]);
             $defaultRouter->addMethodCall(
                 'setNonSiteAccessAwareRoutes',

@@ -8,8 +8,8 @@
 namespace Ibexa\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
@@ -17,13 +17,13 @@ use Symfony\Component\Routing\RequestContext;
 /**
  * Base class for Ibexa Url generation.
  */
-abstract class Generator implements SiteAccessAware
+abstract class Generator
 {
     protected RequestContext $requestContext;
 
     protected SiteAccessRouterInterface $siteAccessRouter;
 
-    protected ?SiteAccess $siteAccess;
+    private ?SiteAccessServiceInterface $siteAccessService = null;
 
     protected ?LoggerInterface $logger;
 
@@ -37,9 +37,9 @@ abstract class Generator implements SiteAccessAware
         $this->siteAccessRouter = $siteAccessRouter;
     }
 
-    public function setSiteAccess(?SiteAccess $siteAccess = null): void
+    public function setSiteAccessService(?SiteAccessServiceInterface $siteAccessService = null): void
     {
-        $this->siteAccess = $siteAccess;
+        $this->siteAccessService = $siteAccessService;
     }
 
     public function setLogger(?LoggerInterface $logger = null): void
@@ -57,7 +57,7 @@ abstract class Generator implements SiteAccessAware
      */
     public function generate(mixed $urlResource, array $parameters, int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
-        $siteAccess = $this->siteAccess;
+        $siteAccess = $this->siteAccessService?->getCurrent();
         $requestContext = $this->requestContext;
 
         // Retrieving the appropriate SiteAccess to generate the link for.
@@ -69,7 +69,7 @@ abstract class Generator implements SiteAccessAware
                     $siteAccess->matcher->getRequest()
                 );
             } elseif (isset($this->logger)) {
-                $siteAccess = $this->siteAccess;
+                $siteAccess = $this->siteAccessService?->getCurrent();
                 $this->logger->notice("Could not generate a link using provided 'siteaccess' parameter: {$parameters['siteaccess']}. Generating using current context.");
                 unset($parameters['siteaccess']);
             }

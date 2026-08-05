@@ -12,6 +12,7 @@ use Ibexa\Bundle\Core\SiteAccess\Matcher;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -198,7 +199,7 @@ class DefaultRouterTest extends TestCase
         }
 
         $sa = new SiteAccess($saName, 'test', $matcher);
-        $router->setSiteAccess($sa);
+        $router->setSiteAccessService($this->getSiteAccessService($sa));
 
         $requestContext = new RequestContext();
         $urlComponents = parse_url($urlGenerated);
@@ -274,7 +275,7 @@ class DefaultRouterTest extends TestCase
 
         $router = new DefaultRouter($this->container, 'foo', [], $this->requestContext);
         $router->setConfigResolver($this->configResolver);
-        $router->setSiteAccess(new SiteAccess('test', 'test', $this->createMock(Matcher::class)));
+        $router->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test', 'test', $this->createMock(Matcher::class))));
         $router->setSiteAccessRouter($siteAccessRouter);
         $refRouter = new ReflectionObject($router);
         $refGenerator = $refRouter->getProperty('generator');
@@ -341,5 +342,16 @@ class DefaultRouterTest extends TestCase
         }
 
         return $requestContext;
+    }
+
+    /**
+     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function getSiteAccessService(SiteAccess $siteAccess)
+    {
+        $siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
+        $siteAccessService->method('getCurrent')->willReturn($siteAccess);
+
+        return $siteAccessService;
     }
 }

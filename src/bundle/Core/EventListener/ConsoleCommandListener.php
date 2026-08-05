@@ -8,16 +8,13 @@
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
-use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
-use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAware
+class ConsoleCommandListener implements EventSubscriberInterface
 {
     /** @var string */
     private $defaultSiteAccessName;
@@ -25,11 +22,10 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
     private $siteAccessProvider;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess|null */
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     private $siteAccess;
+
+    private SiteAccessServiceInterface $siteAccessService;
 
     /** @var bool */
     private $debug;
@@ -37,12 +33,14 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
     public function __construct(
         string $defaultSiteAccessName,
         SiteAccess\SiteAccessProviderInterface $siteAccessProvider,
-        EventDispatcherInterface $eventDispatcher,
+        SiteAccess $siteAccess,
+        SiteAccessServiceInterface $siteAccessService,
         bool $debug = false
     ) {
         $this->defaultSiteAccessName = $defaultSiteAccessName;
         $this->siteAccessProvider = $siteAccessProvider;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->siteAccess = $siteAccess;
+        $this->siteAccessService = $siteAccessService;
         $this->debug = $debug;
     }
 
@@ -57,6 +55,10 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
 
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
+        // Note: this mutates the shared SiteAccess singleton in place (rather than only calling
+        // changeSiteAccess() below), because consumers that still read that singleton directly
+        // (e.g. the config resolver chain, for its MATCHING_TYPE_UNINITIALIZED early-access guard)
+        // never receive a SiteAccess through SiteAccessService and would otherwise never see it change.
         $this->siteAccess->name = $event->getInput()->getParameterOption('--siteaccess', $this->defaultSiteAccessName);
         $this->siteAccess->matchingType = 'cli';
 
@@ -69,12 +71,7 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
             );
         }
 
-        $this->eventDispatcher->dispatch(new ScopeChangeEvent($this->siteAccess), MVCEvents::CONFIG_SCOPE_CHANGE);
-    }
-
-    public function setSiteAccess(?SiteAccess $siteAccess = null)
-    {
-        $this->siteAccess = $siteAccess;
+        $this->siteAccessService->changeSiteAccess($this->siteAccess);
     }
 
     public function setDebug($debug = false)

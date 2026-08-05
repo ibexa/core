@@ -16,9 +16,9 @@ services:
         arguments: ['@Ibexa\Core\Helper\TranslationHelper', '@ibexa.api.service.field_type']
 
     Ibexa\Core\Helper\ContentPreviewHelper:
-        arguments: ["@event_dispatcher", '@Ibexa\Core\MVC\Symfony\SiteAccess\Router']
-        calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+        arguments:
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
 
     Ibexa\Bundle\Core\EventListener\ConfigScopeListener:
         arguments:

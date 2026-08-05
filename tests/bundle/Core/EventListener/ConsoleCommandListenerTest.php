@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 use Ibexa\Bundle\Core\EventListener\ConsoleCommandListener;
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\TestOutput;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +20,6 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\Output;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ConsoleCommandListenerTest extends TestCase
 {
@@ -28,8 +28,8 @@ class ConsoleCommandListenerTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     private $siteAccess;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $dispatcher;
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $siteAccessService;
 
     /** @var \Ibexa\Bundle\Core\EventListener\ConsoleCommandListener */
     private $listener;
@@ -47,10 +47,13 @@ class ConsoleCommandListenerTest extends TestCase
     {
         parent::setUp();
         $this->siteAccess = new SiteAccess('test');
-        $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
-        $this->listener = new ConsoleCommandListener('default', $this->getSiteAccessProviderMock(), $this->dispatcher);
-        $this->listener->setSiteAccess($this->siteAccess);
-        $this->dispatcher->addSubscriber($this->listener);
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
+        $this->listener = new ConsoleCommandListener(
+            'default',
+            $this->getSiteAccessProviderMock(),
+            $this->siteAccess,
+            $this->siteAccessService
+        );
         $this->inputDefinition = new InputDefinition([new InputOption('siteaccess', null, InputOption::VALUE_OPTIONAL)]);
         $this->testOutput = new TestOutput(Output::VERBOSITY_QUIET, true);
         $this->command = $this->createMock(Command::class);
@@ -71,8 +74,8 @@ class ConsoleCommandListenerTest extends TestCase
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\. Valid SiteAccesses are/');
 
-        $this->dispatcher->expects(self::never())
-            ->method('dispatch');
+        $this->siteAccessService->expects(self::never())
+            ->method('changeSiteAccess');
         $input = new ArrayInput(['--siteaccess' => 'foo'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->setDebug(true);
@@ -84,8 +87,8 @@ class ConsoleCommandListenerTest extends TestCase
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\.$/');
 
-        $this->dispatcher->expects(self::never())
-            ->method('dispatch');
+        $this->siteAccessService->expects(self::never())
+            ->method('changeSiteAccess');
         $input = new ArrayInput(['--siteaccess' => 'foo'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->setDebug(false);
@@ -94,8 +97,9 @@ class ConsoleCommandListenerTest extends TestCase
 
     public function testValidSiteAccess()
     {
-        $this->dispatcher->expects(self::once())
-            ->method('dispatch');
+        $this->siteAccessService->expects(self::once())
+            ->method('changeSiteAccess')
+            ->with($this->siteAccess);
         $input = new ArrayInput(['--siteaccess' => 'site1'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->onConsoleCommand($event);
@@ -104,8 +108,9 @@ class ConsoleCommandListenerTest extends TestCase
 
     public function testDefaultSiteAccess()
     {
-        $this->dispatcher->expects(self::once())
-            ->method('dispatch');
+        $this->siteAccessService->expects(self::once())
+            ->method('changeSiteAccess')
+            ->with($this->siteAccess);
         $input = new ArrayInput([], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->onConsoleCommand($event);

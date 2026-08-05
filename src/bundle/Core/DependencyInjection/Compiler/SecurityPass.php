@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\AnonymousUserAccessListener;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessHandler;
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\OutOfBoundsException;
@@ -40,8 +40,8 @@ final class SecurityPass implements CompilerPassInterface
         $httpUtilsDef = $container->findDefinition('security.http_utils');
         $httpUtilsDef->setClass(HttpUtils::class);
         $httpUtilsDef->addMethodCall(
-            'setSiteAccess',
-            [new Reference(SiteAccess::class)]
+            'setSiteAccessService',
+            [new Reference(SiteAccessServiceInterface::class)]
         );
     }
 

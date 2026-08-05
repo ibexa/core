@@ -121,6 +121,10 @@ class PreviewController
         }
 
         $siteAccess = $this->previewHelper->getOriginalSiteAccess();
+        if ($siteAccess === null) {
+            throw new BadStateException('siteAccess', 'no SiteAccess currently set, cannot preview');
+        }
+
         // Only switch if $siteAccessName is set and different from original
         if ($siteAccessName !== null && $siteAccessName !== $siteAccess->name) {
             $siteAccess = $this->previewHelper->changeConfigScope($siteAccessName);

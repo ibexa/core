@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 use Ibexa\Core\MVC\Symfony\Routing\Generator;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\TestCase;
@@ -59,7 +60,7 @@ class GeneratorTest extends TestCase
     public function testSimpleGenerate($urlResource, array $parameters, $referenceType)
     {
         $matcher = $this->createMock(URILexer::class);
-        $this->generator->setSiteAccess(new SiteAccess('test', 'fake', $matcher));
+        $this->generator->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test', 'fake', $matcher)));
 
         $baseUrl = '/base/url';
         $requestContext = new RequestContext($baseUrl);
@@ -92,7 +93,7 @@ class GeneratorTest extends TestCase
     public function testGenerateWithSiteAccessNoReverseMatch($urlResource, array $parameters, $referenceType)
     {
         $matcher = $this->createMock(URILexer::class);
-        $this->generator->setSiteAccess(new SiteAccess('test', 'test', $matcher));
+        $this->generator->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test', 'test', $matcher)));
 
         $baseUrl = '/base/url';
         $requestContext = new RequestContext($baseUrl);
@@ -126,5 +127,16 @@ class GeneratorTest extends TestCase
             ->expects(self::once())
             ->method('notice');
         self::assertSame($fullUri, $this->generator->generate($urlResource, $parameters + ['siteaccess' => $siteAccessName], $referenceType));
+    }
+
+    /**
+     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function getSiteAccessService(SiteAccess $siteAccess)
+    {
+        $siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
+        $siteAccessService->method('getCurrent')->willReturn($siteAccess);
+
+        return $siteAccessService;
     }
 }

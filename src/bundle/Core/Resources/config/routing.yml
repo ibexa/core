@@ -31,7 +31,7 @@ services:
         abstract: true
         calls:
             - [setRequestContext, ["@router.request_context"]]
-            - [setSiteAccess, ['@?Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - [setSiteAccessService, ['@?Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService']]
             - [setSiteAccessRouter, ['@Ibexa\Core\MVC\Symfony\SiteAccess\Router']]
             - [setLogger, ["@?logger"]]
 
@@ -88,8 +88,9 @@ services:
         arguments:
             - '@ibexa.siteaccess.provider'
             - '@ibexa.config.resolver'
-        calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - '@event_dispatcher'
+        tags:
+            - { name: kernel.event_subscriber }
 
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface:
         alias: 'Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'

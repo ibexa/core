@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\FragmentListenerFactory;
 use Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\SiteAccessSerializerInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -49,10 +50,16 @@ class FragmentPass implements CompilerPassInterface
             $container->setDefinition($renamedId, $definition);
 
             $decoratedDef = new ChildDefinition(DecoratedFragmentRenderer::class);
-            $decoratedDef->setArguments([new Reference($renamedId), new Reference(SiteAccessSerializerInterface::class)]);
+            $decoratedDef->setArguments([
+                new Reference($renamedId),
+                new Reference(SiteAccessSerializerInterface::class),
+                new Reference(SiteAccessServiceInterface::class),
+            ]);
             $decoratedDef->setPublic($public);
             $decoratedDef->setTags($tags);
             // Special treatment for inline fragment renderer, to fit ESI renderer constructor type hinting (forced to InlineFragmentRenderer)
+            // Note: InlineFragmentRenderer's constructor only declares the first 2 arguments (it has
+            // no use for SiteAccessServiceInterface); PHP silently ignores the extra 3rd argument.
             if ($id === 'fragment.renderer.inline') {
                 $decoratedDef->setClass(InlineFragmentRenderer::class);
             }

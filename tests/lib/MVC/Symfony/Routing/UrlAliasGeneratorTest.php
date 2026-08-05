@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
@@ -176,7 +177,7 @@ class UrlAliasGeneratorTest extends TestCase
             ->with($location, false)
             ->will(self::returnValue([$urlAlias]));
 
-        $this->urlAliasGenerator->setSiteAccess(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class)));
+        $this->urlAliasGenerator->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class))));
 
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
@@ -274,7 +275,7 @@ class UrlAliasGeneratorTest extends TestCase
                 )
             );
 
-        $this->urlAliasGenerator->setSiteAccess(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class)));
+        $this->urlAliasGenerator->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class))));
 
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
@@ -385,10 +386,12 @@ class UrlAliasGeneratorTest extends TestCase
             ->with($location, null, false, ['ger-DE'])
             ->willReturn($treeRootUrlAliases[$location->id]);
 
-        $this->urlAliasGenerator->setSiteAccess(
-            new SiteAccess(
-                $gerSiteAccess,
-                'default',
+        $this->urlAliasGenerator->setSiteAccessService(
+            $this->getSiteAccessService(
+                new SiteAccess(
+                    $gerSiteAccess,
+                    'default',
+                )
             )
         );
 
@@ -522,6 +525,17 @@ class UrlAliasGeneratorTest extends TestCase
                 '/prod',
             ],
         ];
+    }
+
+    /**
+     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function getSiteAccessService(SiteAccess $siteAccess)
+    {
+        $siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
+        $siteAccessService->method('getCurrent')->willReturn($siteAccess);
+
+        return $siteAccessService;
     }
 
     protected function getPermissionResolverMock()

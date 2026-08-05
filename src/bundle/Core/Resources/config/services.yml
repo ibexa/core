@@ -74,10 +74,9 @@ services:
         arguments:
             - '%ibexa.site_access.default%'
             - '@ibexa.siteaccess.provider'
-            - "@event_dispatcher"
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
             - "%kernel.debug%"
-        calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
         tags:
             - { name: kernel.event_subscriber }
 
@@ -165,7 +164,6 @@ services:
         arguments: []
         calls:
             - [setFragmentPath, ["%fragment.path%"]]
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
         abstract: true
 
     Ibexa\Bundle\Core\Fragment\DirectFragmentRenderer:

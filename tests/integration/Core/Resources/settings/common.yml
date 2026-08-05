@@ -111,8 +111,7 @@ services:
         arguments:
             - '@ibexa.siteaccess.provider'
             - '@ibexa.config.resolver'
-        calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - '@Symfony\Component\EventDispatcher\EventDispatcher'
 
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface:
         alias: 'Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'

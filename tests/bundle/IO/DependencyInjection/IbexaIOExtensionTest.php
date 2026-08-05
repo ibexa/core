@@ -14,8 +14,14 @@ use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Ibexa\Bundle\IO\DependencyInjection\IbexaIOExtension;
 use Ibexa\Core\IO\UrlDecorator\AbsolutePrefix;
+use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
 use Ibexa\Tests\Integration\Core\Repository\Container\Compiler\SetAllServicesPublicPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class IbexaIOExtensionTest extends AbstractExtensionTestCase
@@ -86,6 +92,15 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         );
         $this->buildMinimalContainerForUrlPrefixTest();
 
+        // Simulate SiteAccess matching having happened for the "site" siteaccess, since
+        // ComplexConfigProcessor now resolves the current SiteAccess via SiteAccessService
+        // rather than reading a pre-set property.
+        $siteAccessService = $this->container->get(SiteAccessService::class);
+        self::assertInstanceOf(SiteAccessService::class, $siteAccessService);
+        $siteAccessService->onSiteAccessMatch(
+            new PostSiteAccessMatchEvent(new SiteAccess('site'), new Request(), HttpKernelInterface::MAIN_REQUEST)
+        );
+
         $decorator = $this->container->get(AbsolutePrefix::class);
 
         self::assertEquals(
@@ -101,6 +116,9 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.debug', true);
         $this->container->setParameter('kernel.project_dir', self::FIXTURES_DIR);
         $this->container->setParameter('kernel.cache_dir', self::FIXTURES_DIR . '/cache');
+        // needed by Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService, pulled in transitively
+        // via the AliasGeneratorDecorator service definition
+        $this->container->register('event_dispatcher', EventDispatcher::class);
 
         $this->container->addCompilerPass(new ChainConfigResolverPass());
         $this->container->addCompilerPass(new SetAllServicesPublicPass());

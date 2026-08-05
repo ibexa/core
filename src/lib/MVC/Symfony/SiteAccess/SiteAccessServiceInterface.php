@@ -37,4 +37,17 @@ interface SiteAccessServiceInterface
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException if no SiteAccess is given and none is currently set
      */
     public function getSiteAccessesRelation(?SiteAccess $siteAccess = null): array;
+
+    /**
+     * Switches the current SiteAccess to $siteAccess, remembering the previous one so it can be
+     * restored later via restoreSiteAccess(). Dispatches a ScopeChangeEvent under
+     * MVCEvents::CONFIG_SCOPE_CHANGE.
+     */
+    public function changeSiteAccess(SiteAccess $siteAccess): SiteAccess;
+
+    /**
+     * Restores the SiteAccess that was current before the last changeSiteAccess() call.
+     * Dispatches a ScopeChangeEvent under MVCEvents::CONFIG_SCOPE_RESTORE.
+     */
+    public function restoreSiteAccess(): ?SiteAccess;
 }
