@@ -55,6 +55,47 @@ class DateTest extends TestCase
         self::assertSame('', $storageFieldValue->sortKeyString);
     }
 
+    public function testToStorageValueWithNullData(): void
+    {
+        $value = new FieldValue();
+        $value->data = null;
+        $value->sortKey = 0;
+        $storageFieldValue = new StorageFieldValue();
+
+        $this->converter->toStorageValue($value, $storageFieldValue);
+        self::assertNull($storageFieldValue->dataInt);
+        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
+    }
+
+    public function testToStorageValueWithTimestringOnly(): void
+    {
+        $value = new FieldValue();
+        $value->data = [
+            'rfc850' => null,
+            'timestring' => '@' . $this->date->getTimestamp(),
+        ];
+        $value->sortKey = $this->date->getTimestamp();
+        $storageFieldValue = new StorageFieldValue();
+
+        $this->converter->toStorageValue($value, $storageFieldValue);
+        self::assertSame($this->date->getTimestamp(), $storageFieldValue->dataInt);
+        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
+    }
+
+    public function testToStorageValueWithoutTimestampAndTimestring(): void
+    {
+        $value = new FieldValue();
+        $value->data = [
+            'rfc850' => null,
+        ];
+        $value->sortKey = 0;
+        $storageFieldValue = new StorageFieldValue();
+
+        $this->converter->toStorageValue($value, $storageFieldValue);
+        self::assertNull($storageFieldValue->dataInt);
+        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
+    }
+
     public function testToFieldValue()
     {
         $storageFieldValue = new StorageFieldValue();
