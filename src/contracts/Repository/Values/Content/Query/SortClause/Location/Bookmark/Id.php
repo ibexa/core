@@ -9,13 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Bookmark;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 
 /**
  * Sets sort direction on the bookmark id for a location query containing IsBookmarked criterion.
  */
-final class Id extends SortClause implements FilteringSortClause
+final class Id extends Location implements FilteringSortClause
 {
     public function __construct(string $sortDirection = Query::SORT_ASC)
     {
