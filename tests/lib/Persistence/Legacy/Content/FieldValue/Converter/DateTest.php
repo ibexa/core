@@ -26,11 +26,9 @@ use PHPUnit\Framework\TestCase;
  */
 class DateTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateConverter */
-    protected $converter;
+    protected DateConverter $converter;
 
-    /** @var \DateTime */
-    protected $date;
+    protected DateTime $date;
 
     protected function setUp(): void
     {
@@ -39,64 +37,79 @@ class DateTest extends TestCase
         $this->date = new DateTime('@1362614400');
     }
 
-    public function testToStorageValue()
-    {
+    /**
+     * @dataProvider providerForTestToStorageValue
+     *
+     * @param array<string, mixed>|null $data
+     */
+    public function testToStorageValue(
+        ?array $data,
+        int $sortKey,
+        ?int $expectedDataInt,
+        ?string $expectedSortKeyString = null
+    ): void {
         $value = new FieldValue();
-        $value->data = [
-            'timestamp' => $this->date->getTimestamp(),
-            'rfc850' => $this->date->format(\DateTime::RFC850),
+        $value->data = $data;
+        $value->sortKey = $sortKey;
+        $storageFieldValue = new StorageFieldValue();
+
+        $this->converter->toStorageValue($value, $storageFieldValue);
+        self::assertSame($expectedDataInt, $storageFieldValue->dataInt);
+        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
+
+        if ($expectedSortKeyString !== null) {
+            self::assertSame($expectedSortKeyString, $storageFieldValue->sortKeyString);
+        }
+    }
+
+    /**
+     * @return iterable<string, array{array<string, mixed>|null, int, int|null, string|null}>
+     *
+     * @throws \DateMalformedStringException
+     */
+    public static function providerForTestToStorageValue(): iterable
+    {
+        $timestamp = 1362614400;
+        $date = new DateTime('@' . $timestamp);
+
+        yield 'with timestamp and rfc850' => [
+            [
+                'timestamp' => $timestamp,
+                'rfc850' => $date->format(DateTime::RFC850),
+            ],
+            $timestamp,
+            $timestamp,
+            '',
         ];
-        $value->sortKey = $this->date->getTimestamp();
-        $storageFieldValue = new StorageFieldValue();
 
-        $this->converter->toStorageValue($value, $storageFieldValue);
-        self::assertSame($value->data['timestamp'], $storageFieldValue->dataInt);
-        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
-        self::assertSame('', $storageFieldValue->sortKeyString);
-    }
-
-    public function testToStorageValueWithNullData(): void
-    {
-        $value = new FieldValue();
-        $value->data = null;
-        $value->sortKey = 0;
-        $storageFieldValue = new StorageFieldValue();
-
-        $this->converter->toStorageValue($value, $storageFieldValue);
-        self::assertNull($storageFieldValue->dataInt);
-        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
-    }
-
-    public function testToStorageValueWithTimestringOnly(): void
-    {
-        $value = new FieldValue();
-        $value->data = [
-            'rfc850' => null,
-            'timestring' => '@' . $this->date->getTimestamp(),
+        yield 'with null data' => [
+            null,
+            0,
+            null,
+            null,
         ];
-        $value->sortKey = $this->date->getTimestamp();
-        $storageFieldValue = new StorageFieldValue();
 
-        $this->converter->toStorageValue($value, $storageFieldValue);
-        self::assertSame($this->date->getTimestamp(), $storageFieldValue->dataInt);
-        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
-    }
-
-    public function testToStorageValueWithoutTimestampAndTimestring(): void
-    {
-        $value = new FieldValue();
-        $value->data = [
-            'rfc850' => null,
+        yield 'with timestring only' => [
+            [
+                'rfc850' => null,
+                'timestring' => '@' . $timestamp,
+            ],
+            $timestamp,
+            $timestamp,
+            null,
         ];
-        $value->sortKey = 0;
-        $storageFieldValue = new StorageFieldValue();
 
-        $this->converter->toStorageValue($value, $storageFieldValue);
-        self::assertNull($storageFieldValue->dataInt);
-        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
+        yield 'without timestamp and timestring' => [
+            [
+                'rfc850' => null,
+            ],
+            0,
+            null,
+            null,
+        ];
     }
 
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataInt = $this->date->getTimestamp();
@@ -115,13 +128,16 @@ class DateTest extends TestCase
         self::assertSame($storageFieldValue->sortKeyInt, $fieldValue->sortKey);
     }
 
-    public function testToStorageFieldDefinitionDefaultEmpty()
+    /**
+     * @dataProvider providerForTestToStorageFieldDefinition
+     */
+    public function testToStorageFieldDefinition(int $defaultType): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
             [
-                'defaultType' => DateType::DEFAULT_EMPTY,
+                'defaultType' => $defaultType,
             ]
         );
         $fieldDef = new PersistenceFieldDefinition(
@@ -132,34 +148,21 @@ class DateTest extends TestCase
 
         $this->converter->toStorageFieldDefinition($fieldDef, $storageFieldDef);
         self::assertSame(
-            DateType::DEFAULT_EMPTY,
+            $defaultType,
             $storageFieldDef->dataInt1
         );
     }
 
-    public function testToStorageFieldDefinitionDefaultCurrentDate()
+    /**
+     * @return iterable<string, array{int}>
+     */
+    public static function providerForTestToStorageFieldDefinition(): iterable
     {
-        $storageFieldDef = new StorageFieldDefinition();
-        $fieldTypeConstraints = new FieldTypeConstraints();
-        $fieldTypeConstraints->fieldSettings = new FieldSettings(
-            [
-                'defaultType' => DateType::DEFAULT_CURRENT_DATE,
-            ]
-        );
-        $fieldDef = new PersistenceFieldDefinition(
-            [
-                'fieldTypeConstraints' => $fieldTypeConstraints,
-            ]
-        );
-
-        $this->converter->toStorageFieldDefinition($fieldDef, $storageFieldDef);
-        self::assertSame(
-            DateType::DEFAULT_CURRENT_DATE,
-            $storageFieldDef->dataInt1
-        );
+        yield 'default empty' => [DateType::DEFAULT_EMPTY];
+        yield 'default current date' => [DateType::DEFAULT_CURRENT_DATE];
     }
 
-    public function testToFieldDefinitionDefaultEmpty()
+    public function testToFieldDefinitionDefaultEmpty(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(
@@ -172,9 +175,8 @@ class DateTest extends TestCase
         self::assertNull($fieldDef->defaultValue->data);
     }
 
-    public function testToFieldDefinitionDefaultCurrentDate()
+    public function testToFieldDefinitionDefaultCurrentDate(): void
     {
-        $timestamp = time();
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(
             [

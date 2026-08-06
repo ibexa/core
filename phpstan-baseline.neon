@@ -46897,42 +46897,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToFieldDefinitionDefaultCurrentDate\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToFieldDefinitionDefaultEmpty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToFieldValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToStorageFieldDefinitionDefaultCurrentDate\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToStorageFieldDefinitionDefaultEmpty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToStorageValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\ISBNTest\:\:providerForTestToFieldDefinition\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
