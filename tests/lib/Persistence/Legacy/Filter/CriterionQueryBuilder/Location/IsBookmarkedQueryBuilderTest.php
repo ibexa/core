@@ -17,7 +17,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderT
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IsBookmarkedQueryBuilder
  */
-final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
+final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
     private const CURRENT_USER_ID = 14;
 
