@@ -23,7 +23,7 @@
         "doctrine/annotations": "^2.0",
         "doctrine/dbal": "^3.8.2",
         "doctrine/doctrine-bundle": "^2.19",
-        "doctrine/orm": "^3.3 <3.6.8",
+        "doctrine/orm": "^3.3",
         "doctrine/persistence": "^3.3.1",
         "friendsofphp/proxy-manager-lts": "^1.0",
         "friendsofsymfony/http-cache-bundle": "^3.0",
@@ -79,6 +79,7 @@
     },
     "conflict": {
         "doctrine/dbal": "2.7.0",
+        "doctrine/orm": ">=3.6.8",
         "ezsystems/ezplatform-kernel": "*",
         "ezsystems/ezpublish-legacy": "*",
         "friendsofphp/php-cs-fixer": "3.5.0",
