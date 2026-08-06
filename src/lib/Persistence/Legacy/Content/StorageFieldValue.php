@@ -21,7 +21,7 @@ class StorageFieldValue extends ValueObject
     /**
      * Integer data.
      *
-     * @var int
+     * @var ?int
      */
     public $dataInt;
 

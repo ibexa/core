@@ -46,6 +46,7 @@ class DateTest extends TestCase
         ?array $data,
         int $sortKey,
         ?int $expectedDataInt,
+        int $expectedSortKeyInt,
         ?string $expectedSortKeyString = null
     ): void {
         $value = new FieldValue();
@@ -55,7 +56,7 @@ class DateTest extends TestCase
 
         $this->converter->toStorageValue($value, $storageFieldValue);
         self::assertSame($expectedDataInt, $storageFieldValue->dataInt);
-        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
+        self::assertSame($expectedSortKeyInt, $storageFieldValue->sortKeyInt);
 
         if ($expectedSortKeyString !== null) {
             self::assertSame($expectedSortKeyString, $storageFieldValue->sortKeyString);
@@ -63,7 +64,7 @@ class DateTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{array<string, mixed>|null, int, int|null, string|null}>
+     * @return iterable<string, array{array<string, mixed>|null, int, int|null, int, string|null}>
      *
      * @throws \DateMalformedStringException
      */
@@ -77,8 +78,9 @@ class DateTest extends TestCase
                 'timestamp' => $timestamp,
                 'rfc850' => $date->format(DateTime::RFC850),
             ],
+            2,
             $timestamp,
-            $timestamp,
+            2,
             '',
         ];
 
@@ -86,6 +88,7 @@ class DateTest extends TestCase
             null,
             0,
             null,
+            0,
             null,
         ];
 
@@ -94,6 +97,7 @@ class DateTest extends TestCase
                 'rfc850' => null,
                 'timestring' => '@' . $timestamp,
             ],
+            $timestamp,
             $timestamp,
             $timestamp,
             null,
@@ -105,6 +109,18 @@ class DateTest extends TestCase
             ],
             0,
             null,
+            0,
+            null,
+        ];
+
+        yield 'with timestring only and missing sort key falls back to parsed timestamp' => [
+            [
+                'rfc850' => null,
+                'timestring' => '@' . $timestamp,
+            ],
+            0,
+            $timestamp,
+            $timestamp,
             null,
         ];
     }
