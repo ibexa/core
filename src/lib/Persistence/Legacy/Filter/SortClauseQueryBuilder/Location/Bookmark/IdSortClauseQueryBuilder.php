@@ -13,14 +13,14 @@ use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Bookmark\Id;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
-use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
+use Ibexa\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\BaseLocationSortClauseQueryBuilder;
 
 /**
  * @internal
  */
-final class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
+final class IdSortClauseQueryBuilder extends BaseLocationSortClauseQueryBuilder
 {
     private const ALIAS = 'ibexa_sort_bookmark';
 
@@ -50,22 +50,46 @@ final class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
             );
         }
 
+        parent::buildQuery($queryBuilder, $sortClause);
+    }
+
+    protected function joinAdditionalTables(
+        FilteringQueryBuilder $queryBuilder,
+        string $locationAlias
+    ): void {
         $userId = $this->permissionResolver->getCurrentUserReference()->getUserId();
 
         $queryBuilder->leftJoinOnce(
-            'location',
+            $locationAlias,
             DoctrineDatabase::TABLE_BOOKMARKS,
             self::ALIAS,
             (string)$queryBuilder->expr()->and(
-                sprintf('location.node_id = %s.node_id', self::ALIAS),
+                sprintf(
+                    '%s.node_id = %s.%s',
+                    $locationAlias,
+                    self::ALIAS,
+                    DoctrineDatabase::COLUMN_LOCATION_ID
+                ),
                 $queryBuilder->expr()->eq(
                     sprintf('%s.%s', self::ALIAS, DoctrineDatabase::COLUMN_USER_ID),
                     $queryBuilder->createNamedParameter($userId, ParameterType::INTEGER)
                 )
             )
         );
+    }
 
-        $queryBuilder->addSelect(self::ALIAS . '.id');
-        $queryBuilder->addOrderBy(self::ALIAS . '.id', $sortClause->direction);
+    protected function getSortingExpression(): string
+    {
+        return self::ALIAS . '.' . DoctrineDatabase::COLUMN_ID;
+    }
+
+    protected function getSortingExpressionForAlias(string $locationAlias): string
+    {
+        return $this->getSortingExpression();
+    }
+
+    protected function getSortFieldName(string $sortExpression): string
+    {
+        return 'bookmark_id';
     }
 }
