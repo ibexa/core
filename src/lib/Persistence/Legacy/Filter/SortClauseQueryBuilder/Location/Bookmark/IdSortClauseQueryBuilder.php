@@ -14,8 +14,12 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Bookmark\Id;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 
+/**
+ * @internal
+ */
 final class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
 {
     private const ALIAS = 'ibexa_sort_bookmark';
@@ -32,16 +36,18 @@ final class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
         return $sortClause instanceof Id;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     public function buildQuery(
         FilteringQueryBuilder $queryBuilder,
         FilteringSortClause $sortClause
     ): void {
         if (!$sortClause instanceof Id) {
-            throw new \InvalidArgumentException(sprintf(
-                'Expected %s, got %s',
-                Id::class,
-                get_class($sortClause),
-            ));
+            throw new InvalidArgumentException(
+                '$sortClause',
+                sprintf('Expected %s, got %s', Id::class, get_class($sortClause))
+            );
         }
 
         $userId = $this->permissionResolver->getCurrentUserReference()->getUserId();
@@ -50,7 +56,7 @@ final class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
             'location',
             DoctrineDatabase::TABLE_BOOKMARKS,
             self::ALIAS,
-            (string)$queryBuilder->expr()->andX(
+            (string)$queryBuilder->expr()->and(
                 sprintf('location.node_id = %s.node_id', self::ALIAS),
                 $queryBuilder->expr()->eq(
                     sprintf('%s.%s', self::ALIAS, DoctrineDatabase::COLUMN_USER_ID),
