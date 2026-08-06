@@ -76,6 +76,12 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
             InputOption::VALUE_NONE,
             'Skip indexing (ibexa:reindex)'
         );
+        $this->addOption(
+            'force',
+            'f',
+            InputOption::VALUE_NONE,
+            'Install over existing database without asking for confirmation.'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -86,7 +92,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         $this->checkCreateDatabase($output);
 
         $schemaManager = $this->connection->getSchemaManager();
-        if (!empty($schemaManager->listTables())) {
+        if (!empty($schemaManager->listTables()) && !$input->getOption('force')) {
             $io = new SymfonyStyle($input, $output);
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?', false)) {
                 return 0;
