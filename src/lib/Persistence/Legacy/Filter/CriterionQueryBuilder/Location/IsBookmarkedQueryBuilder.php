@@ -22,6 +22,8 @@ use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
  */
 final class IsBookmarkedQueryBuilder extends BaseLocationCriterionQueryBuilder
 {
+    private const ALIAS = 'bookmark';
+
     private PermissionResolver $permissionResolver;
 
     public function __construct(
@@ -36,6 +38,8 @@ final class IsBookmarkedQueryBuilder extends BaseLocationCriterionQueryBuilder
     }
 
     /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsBookmarked $criterion
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function buildQueryConstraint(
@@ -44,7 +48,6 @@ final class IsBookmarkedQueryBuilder extends BaseLocationCriterionQueryBuilder
     ): string {
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsBookmarked $criterion */
         $isBookmarked = $criterion->value[0] ?? null;
         if (!is_bool($isBookmarked)) {
             throw new InvalidArgumentException(
@@ -58,13 +61,16 @@ final class IsBookmarkedQueryBuilder extends BaseLocationCriterionQueryBuilder
         $subQueryBuilder = new QueryBuilder($queryBuilder->getConnection());
         $subQueryBuilder
             ->select('1')
-            ->from(DoctrineDatabase::TABLE_BOOKMARKS, 'bookmark')
+            ->from(DoctrineDatabase::TABLE_BOOKMARKS, self::ALIAS)
             ->where(
                 $subQueryBuilder->expr()->eq(
-                    'bookmark.' . DoctrineDatabase::COLUMN_USER_ID,
+                    self::ALIAS . '.' . DoctrineDatabase::COLUMN_USER_ID,
                     $queryBuilder->createNamedParameter($userId, ParameterType::INTEGER)
                 ),
-                $subQueryBuilder->expr()->eq('bookmark.node_id', 'location.node_id')
+                $subQueryBuilder->expr()->eq(
+                    self::ALIAS . '.' . DoctrineDatabase::COLUMN_LOCATION_ID,
+                    'location.node_id'
+                )
             );
 
         return sprintf(
