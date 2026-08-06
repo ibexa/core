@@ -25,13 +25,23 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberInterface
 {
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess[] */
-    private array $siteAccessStack = [];
+    private array $siteAccessStack;
 
+    /**
+     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess the shared, container-wide default
+     *        SiteAccess, used as the initial stack entry until a real request (or an explicit
+     *        changeSiteAccess() call) establishes the actual current one. This preserves
+     *        getCurrent()'s pre-existing guarantee of never being null once the container is built,
+     *        which code such as ComplexConfigProcessor relies on outside of an HTTP request cycle
+     *        (CLI warm-up, integration tests, etc.).
+     */
     public function __construct(
         private readonly SiteAccessProviderInterface $provider,
         private readonly ConfigResolverInterface $configResolver,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher,
+        SiteAccess $siteAccess
     ) {
+        $this->siteAccessStack = [$siteAccess];
     }
 
     public static function getSubscribedEvents(): array

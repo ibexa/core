@@ -42,6 +42,9 @@ class SiteAccessServiceTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     private $siteAccess;
 
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    private $defaultSiteAccess;
+
     /** @var \ArrayIterator */
     private $availableSiteAccesses;
 
@@ -55,20 +58,26 @@ class SiteAccessServiceTest extends TestCase
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->siteAccess = new SiteAccess('current');
+        $this->defaultSiteAccess = new SiteAccess('uninitialized_default', SiteAccess::MATCHING_TYPE_UNINITIALIZED);
         $this->availableSiteAccesses = $this->getAvailableSitAccesses(['current', 'first_sa', 'second_sa', 'default']);
         $this->configResolverParameters = $this->getConfigResolverParameters();
     }
 
-    public function testGetCurrentSiteAccessIsNullWhenStackIsEmpty(): void
+    /**
+     * Before any request has matched, getCurrent() must return the constructor-seeded default
+     * SiteAccess rather than null — this preserves the pre-existing guarantee (relied on by e.g.
+     * ComplexConfigProcessor) that getCurrent() is never null once the container is built.
+     */
+    public function testGetCurrentSiteAccessReturnsSeedBeforeAnyMatch(): void
     {
-        $service = new SiteAccessService($this->provider, $this->configResolver, $this->eventDispatcher);
+        $service = $this->createSiteAccessService();
 
-        self::assertNull($service->getCurrent());
+        self::assertSame($this->defaultSiteAccess, $service->getCurrent());
     }
 
     public function testGetCurrentSiteAccessAfterMainRequestMatch(): void
     {
-        $service = new SiteAccessService($this->provider, $this->configResolver, $this->eventDispatcher);
+        $service = $this->createSiteAccessService();
 
         $siteAccess = new SiteAccess('default');
         $service->onSiteAccessMatch(
@@ -87,7 +96,8 @@ class SiteAccessServiceTest extends TestCase
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
             $this->createMock(ConfigResolverInterface::class),
-            $this->eventDispatcher
+            $this->eventDispatcher,
+            $this->defaultSiteAccess
         );
 
         self::assertEquals(
@@ -105,7 +115,8 @@ class SiteAccessServiceTest extends TestCase
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
             $this->createMock(ConfigResolverInterface::class),
-            $this->eventDispatcher
+            $this->eventDispatcher,
+            $this->defaultSiteAccess
         );
 
         $this->expectException(NotFoundException::class);
@@ -147,7 +158,7 @@ class SiteAccessServiceTest extends TestCase
      */
     public function testChangeSiteAccessAndRestoreSiteAccessBehaveAsLifoStack(): void
     {
-        $service = new SiteAccessService($this->provider, $this->configResolver, $this->eventDispatcher);
+        $service = $this->createSiteAccessService();
 
         $original = new SiteAccess('original');
         $service->onSiteAccessMatch(
@@ -182,7 +193,7 @@ class SiteAccessServiceTest extends TestCase
 
     public function testOnSiteAccessMatchWithMainRequestResetsTheStack(): void
     {
-        $service = new SiteAccessService($this->provider, $this->configResolver, $this->eventDispatcher);
+        $service = $this->createSiteAccessService();
 
         $service->onSiteAccessMatch(
             new PostSiteAccessMatchEvent(new SiteAccess('first'), new Request(), HttpKernelInterface::MAIN_REQUEST)
@@ -206,7 +217,7 @@ class SiteAccessServiceTest extends TestCase
 
     public function testOnSiteAccessMatchWithSubRequestPushesWithoutResetting(): void
     {
-        $service = new SiteAccessService($this->provider, $this->configResolver, $this->eventDispatcher);
+        $service = $this->createSiteAccessService();
 
         $main = new SiteAccess('main');
         $service->onSiteAccessMatch(
@@ -226,7 +237,7 @@ class SiteAccessServiceTest extends TestCase
 
     public function testOnKernelFinishRequestNeverPopsBelowOneRemainingEntry(): void
     {
-        $service = new SiteAccessService($this->provider, $this->configResolver, $this->eventDispatcher);
+        $service = $this->createSiteAccessService();
 
         $original = new SiteAccess('original');
         $service->onSiteAccessMatch(
@@ -246,7 +257,7 @@ class SiteAccessServiceTest extends TestCase
      */
     public function testSubRequestNestingScenario(): void
     {
-        $service = new SiteAccessService($this->provider, $this->configResolver, $this->eventDispatcher);
+        $service = $this->createSiteAccessService();
 
         $original = new SiteAccess('original');
         $service->onSiteAccessMatch(
@@ -279,9 +290,19 @@ class SiteAccessServiceTest extends TestCase
         );
     }
 
+    private function createSiteAccessService(): SiteAccessService
+    {
+        return new SiteAccessService(
+            $this->provider,
+            $this->configResolver,
+            $this->eventDispatcher,
+            $this->defaultSiteAccess
+        );
+    }
+
     private function getSiteAccessService(): SiteAccessService
     {
-        $siteAccessService = new SiteAccessService($this->provider, $this->configResolver, $this->eventDispatcher);
+        $siteAccessService = $this->createSiteAccessService();
         $siteAccessService->onSiteAccessMatch(
             new PostSiteAccessMatchEvent($this->siteAccess, new Request(), HttpKernelInterface::MAIN_REQUEST)
         );
