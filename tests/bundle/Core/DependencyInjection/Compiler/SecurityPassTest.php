@@ -43,10 +43,10 @@ final class SecurityPassTest extends AbstractCompilerPassTestCase
     {
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'security.http_utils',
-            'setSiteAccessService',
-            [new Reference(SiteAccessServiceInterface::class)]
+            '$siteAccessService',
+            new Reference(SiteAccessServiceInterface::class)
         );
     }
 

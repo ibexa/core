@@ -22,8 +22,7 @@ class HttpUtilsTest extends TestCase
     public function testGenerateUriStandard($uri, $isUriRouteName, $expected)
     {
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $httpUtils = new HttpUtils($urlGenerator);
-        $httpUtils->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test')));
+        $httpUtils = new HttpUtils($urlGenerator, siteAccessService: $this->getSiteAccessService(new SiteAccess('test')));
         $request = Request::create('http://ezpublish.dev/');
         $request->attributes->set('siteaccess', new SiteAccess('test'));
         $requestAttributes = ['foo' => 'bar', 'some' => 'thing'];
@@ -68,8 +67,7 @@ class HttpUtilsTest extends TestCase
         }
 
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $httpUtils = new HttpUtils($urlGenerator);
-        $httpUtils->setSiteAccessService($this->getSiteAccessService($siteAccess));
+        $httpUtils = new HttpUtils($urlGenerator, siteAccessService: $this->getSiteAccessService($siteAccess));
         $request = Request::create('http://ezpublish.dev/');
         $request->attributes->set('siteaccess', $siteAccess);
         $requestAttributes = ['foo' => 'bar', 'some' => 'thing'];
@@ -100,8 +98,7 @@ class HttpUtilsTest extends TestCase
 
     public function testCheckRequestPathStandard()
     {
-        $httpUtils = new HttpUtils();
-        $httpUtils->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test')));
+        $httpUtils = new HttpUtils(siteAccessService: $this->getSiteAccessService(new SiteAccess('test')));
         $request = Request::create('http://ezpublish.dev/foo/bar');
         self::assertTrue($httpUtils->checkRequestPath($request, '/foo/bar'));
     }
@@ -122,8 +119,7 @@ class HttpUtilsTest extends TestCase
             $siteAccess->matcher = $matcher;
         }
 
-        $httpUtils = new HttpUtils();
-        $httpUtils->setSiteAccessService($this->getSiteAccessService($siteAccess));
+        $httpUtils = new HttpUtils(siteAccessService: $this->getSiteAccessService($siteAccess));
         $request = Request::create($requestUri);
         self::assertSame($expected, $httpUtils->checkRequestPath($request, $path));
     }

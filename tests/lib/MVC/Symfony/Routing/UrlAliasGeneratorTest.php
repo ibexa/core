@@ -52,6 +52,9 @@ class UrlAliasGeneratorTest extends TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $configResolver;
 
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $siteAccessService;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -59,6 +62,7 @@ class UrlAliasGeneratorTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->siteAccessRouter = $this->createMock(SiteAccessRouterInterface::class);
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
         $repositoryClass = Repository::class;
         $this->repository = $repository = $this
             ->getMockBuilder($repositoryClass)
@@ -95,6 +99,7 @@ class UrlAliasGeneratorTest extends TestCase
             $this->repository,
             $this->router,
             $this->configResolver,
+            $this->siteAccessService,
             $urlAliasCharmap
         );
         $this->urlAliasGenerator->setLogger($this->logger);
@@ -177,7 +182,7 @@ class UrlAliasGeneratorTest extends TestCase
             ->with($location, false)
             ->will(self::returnValue([$urlAlias]));
 
-        $this->urlAliasGenerator->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class))));
+        $this->siteAccessService->method('getCurrent')->willReturn(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class)));
 
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
@@ -275,7 +280,7 @@ class UrlAliasGeneratorTest extends TestCase
                 )
             );
 
-        $this->urlAliasGenerator->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class))));
+        $this->siteAccessService->method('getCurrent')->willReturn(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class)));
 
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
@@ -386,12 +391,10 @@ class UrlAliasGeneratorTest extends TestCase
             ->with($location, null, false, ['ger-DE'])
             ->willReturn($treeRootUrlAliases[$location->id]);
 
-        $this->urlAliasGenerator->setSiteAccessService(
-            $this->getSiteAccessService(
-                new SiteAccess(
-                    $gerSiteAccess,
-                    'default',
-                )
+        $this->siteAccessService->method('getCurrent')->willReturn(
+            new SiteAccess(
+                $gerSiteAccess,
+                'default',
             )
         );
 
@@ -525,17 +528,6 @@ class UrlAliasGeneratorTest extends TestCase
                 '/prod',
             ],
         ];
-    }
-
-    /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getSiteAccessService(SiteAccess $siteAccess)
-    {
-        $siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
-        $siteAccessService->method('getCurrent')->willReturn($siteAccess);
-
-        return $siteAccessService;
     }
 
     protected function getPermissionResolverMock()

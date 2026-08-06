@@ -23,9 +23,11 @@ abstract class Generator
 
     protected SiteAccessRouterInterface $siteAccessRouter;
 
-    private ?SiteAccessServiceInterface $siteAccessService = null;
-
     protected ?LoggerInterface $logger;
+
+    public function __construct(private readonly SiteAccessServiceInterface $siteAccessService)
+    {
+    }
 
     public function setRequestContext(RequestContext $requestContext): void
     {
@@ -35,11 +37,6 @@ abstract class Generator
     public function setSiteAccessRouter(SiteAccessRouterInterface $siteAccessRouter): void
     {
         $this->siteAccessRouter = $siteAccessRouter;
-    }
-
-    public function setSiteAccessService(?SiteAccessServiceInterface $siteAccessService = null): void
-    {
-        $this->siteAccessService = $siteAccessService;
     }
 
     public function setLogger(?LoggerInterface $logger = null): void
@@ -57,7 +54,7 @@ abstract class Generator
      */
     public function generate(mixed $urlResource, array $parameters, int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
-        $siteAccess = $this->siteAccessService?->getCurrent();
+        $siteAccess = $this->siteAccessService->getCurrent();
         $requestContext = $this->requestContext;
 
         // Retrieving the appropriate SiteAccess to generate the link for.
@@ -69,7 +66,7 @@ abstract class Generator
                     $siteAccess->matcher->getRequest()
                 );
             } elseif (isset($this->logger)) {
-                $siteAccess = $this->siteAccessService?->getCurrent();
+                $siteAccess = $this->siteAccessService->getCurrent();
                 $this->logger->notice("Could not generate a link using provided 'siteaccess' parameter: {$parameters['siteaccess']}. Generating using current context.");
                 unset($parameters['siteaccess']);
             }

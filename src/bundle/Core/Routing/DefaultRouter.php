@@ -14,6 +14,8 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -31,16 +33,25 @@ class DefaultRouter extends Router
 
     protected SiteAccessRouterInterface $siteAccessRouter;
 
-    private ?SiteAccessServiceInterface $siteAccessService = null;
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function __construct(
+        ContainerInterface $container,
+        mixed $resource,
+        array $options = [],
+        ?RequestContext $context = null,
+        ?ContainerInterface $parameters = null,
+        ?LoggerInterface $logger = null,
+        ?string $defaultLocale = null,
+        private ?SiteAccessServiceInterface $siteAccessService = null,
+    ) {
+        parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
+    }
 
     public function setConfigResolver(ConfigResolverInterface $configResolver): void
     {
         $this->configResolver = $configResolver;
-    }
-
-    public function setSiteAccessService(?SiteAccessServiceInterface $siteAccessService = null): void
-    {
-        $this->siteAccessService = $siteAccessService;
     }
 
     /**

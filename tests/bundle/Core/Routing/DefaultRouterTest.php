@@ -53,12 +53,12 @@ class DefaultRouterTest extends TestCase
      *
      * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter
      */
-    protected function generateRouter(array $mockedMethods = [])
+    protected function generateRouter(array $mockedMethods = [], ?SiteAccessServiceInterface $siteAccessService = null)
     {
         /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
         $router = $this
             ->getMockBuilder($this->getRouterClass())
-            ->setConstructorArgs([$this->container, 'foo', [], $this->requestContext])
+            ->setConstructorArgs([$this->container, 'foo', [], $this->requestContext, null, null, null, $siteAccessService])
             ->setMethods(array_merge($mockedMethods))
             ->getMock();
         $router->setConfigResolver($this->configResolver);
@@ -171,8 +171,10 @@ class DefaultRouterTest extends TestCase
             ->with($routeName)
             ->willReturn($urlGenerated);
 
+        $siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
+
         /** @var \Ibexa\Bundle\Core\Routing\DefaultRouter&\PHPUnit\Framework\MockObject\MockObject $router */
-        $router = $this->generateRouter(['getGenerator']);
+        $router = $this->generateRouter(['getGenerator'], $siteAccessService);
         $router
             ->expects(self::any())
             ->method('getGenerator')
@@ -199,7 +201,7 @@ class DefaultRouterTest extends TestCase
         }
 
         $sa = new SiteAccess($saName, 'test', $matcher);
-        $router->setSiteAccessService($this->getSiteAccessService($sa));
+        $siteAccessService->method('getCurrent')->willReturn($sa);
 
         $requestContext = new RequestContext();
         $urlComponents = parse_url($urlGenerated);
@@ -273,9 +275,14 @@ class DefaultRouterTest extends TestCase
             ->method('setContext')
             ->with($this->requestContext);
 
-        $router = new DefaultRouter($this->container, 'foo', [], $this->requestContext);
+        $router = new DefaultRouter(
+            $this->container,
+            'foo',
+            [],
+            $this->requestContext,
+            siteAccessService: $this->getSiteAccessService(new SiteAccess('test', 'test', $this->createMock(Matcher::class)))
+        );
         $router->setConfigResolver($this->configResolver);
-        $router->setSiteAccessService($this->getSiteAccessService(new SiteAccess('test', 'test', $this->createMock(Matcher::class))));
         $router->setSiteAccessRouter($siteAccessRouter);
         $refRouter = new ReflectionObject($router);
         $refGenerator = $refRouter->getProperty('generator');

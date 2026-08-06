@@ -28,7 +28,7 @@ class ChainRoutingPass implements CompilerPassInterface
         // The default router will be given the highest priority so that it will be used by default
         if ($container->hasDefinition('router.default')) {
             $defaultRouter = $container->getDefinition('router.default');
-            $defaultRouter->addMethodCall('setSiteAccessService', [new Reference(SiteAccessServiceInterface::class)]);
+            $defaultRouter->setArgument('$siteAccessService', new Reference(SiteAccessServiceInterface::class));
             $defaultRouter->addMethodCall('setConfigResolver', [new Reference('ibexa.config.resolver')]);
             $defaultRouter->addMethodCall(
                 'setNonSiteAccessAwareRoutes',

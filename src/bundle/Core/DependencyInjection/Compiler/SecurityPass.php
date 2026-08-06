@@ -39,10 +39,7 @@ final class SecurityPass implements CompilerPassInterface
 
         $httpUtilsDef = $container->findDefinition('security.http_utils');
         $httpUtilsDef->setClass(HttpUtils::class);
-        $httpUtilsDef->addMethodCall(
-            'setSiteAccessService',
-            [new Reference(SiteAccessServiceInterface::class)]
-        );
+        $httpUtilsDef->setArgument('$siteAccessService', new Reference(SiteAccessServiceInterface::class));
     }
 
     private function registerSecurityAuthenticationSuccessHandler(ContainerBuilder $container): void

@@ -10,15 +10,21 @@ namespace Ibexa\Core\MVC\Symfony\Security;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
+use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Security\Http\HttpUtils as BaseHttpUtils;
 
 class HttpUtils extends BaseHttpUtils
 {
-    private ?SiteAccessServiceInterface $siteAccessService = null;
-
-    public function setSiteAccessService(?SiteAccessServiceInterface $siteAccessService = null): void
-    {
-        $this->siteAccessService = $siteAccessService;
+    public function __construct(
+        ?UrlGeneratorInterface $urlGenerator = null,
+        UrlMatcherInterface|RequestMatcherInterface|null $urlMatcher = null,
+        ?string $domainRegexp = null,
+        ?string $secureDomainRegexp = null,
+        private ?SiteAccessServiceInterface $siteAccessService = null,
+    ) {
+        parent::__construct($urlGenerator, $urlMatcher, $domainRegexp, $secureDomainRegexp);
     }
 
     private function analyzeLink(string $path): string

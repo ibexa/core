@@ -90,10 +90,10 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         // Assertion for default router
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'router.default',
-            'setSiteAccessService',
-            [new Reference(SiteAccessServiceInterface::class)]
+            '$siteAccessService',
+            new Reference(SiteAccessServiceInterface::class)
         );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'router.default',

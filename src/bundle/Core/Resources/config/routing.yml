@@ -31,7 +31,6 @@ services:
         abstract: true
         calls:
             - [setRequestContext, ["@router.request_context"]]
-            - [setSiteAccessService, ['@?Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService']]
             - [setSiteAccessRouter, ['@Ibexa\Core\MVC\Symfony\SiteAccess\Router']]
             - [setLogger, ["@?logger"]]
 
@@ -55,6 +54,7 @@ services:
             - '@ibexa.api.repository'
             - "@router.default"
             - '@ibexa.config.resolver'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
             - '%ibexa.urlalias_generator.charmap%'
         parent: Ibexa\Core\MVC\Symfony\Routing\Generator
 
