@@ -12,7 +12,7 @@ use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as BookmarkHandler;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
-use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -32,12 +32,6 @@ class BookmarkService implements BookmarkServiceInterface
 
     private LoggerInterface $logger;
 
-    /**
-     * BookmarkService constructor.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Persistence\Bookmark\Handler $bookmarkHandler
-     */
     public function __construct(RepositoryInterface $repository, BookmarkHandler $bookmarkHandler, ?LoggerInterface $logger = null)
     {
         $this->repository = $repository;
@@ -110,8 +104,8 @@ class BookmarkService implements BookmarkServiceInterface
                 ->sliceBy($limit, $offset);
 
             $result = $this->repository->getLocationService()->find($filter, []);
-        } catch (BadStateException $e) {
-            $this->logger->debug($e->getMessage(), [
+        } catch (RepositoryException $e) {
+            $this->logger->error($e->getMessage(), [
                 'exception' => $e,
             ]);
 
