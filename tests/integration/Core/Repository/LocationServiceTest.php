@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Doctrine\DBAL\ParameterType;
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -1990,8 +1991,8 @@ class LocationServiceTest extends BaseTest
         $afterSwap = $bookmarkService->loadBookmarks();
         /* END: Use Case */
 
-        self::assertEquals($contactUsLocationId, $afterSwap->items[0]->id);
-        self::assertEquals($beforeSwap->items[1]->id, $afterSwap->items[1]->id);
+        self::assertEquals($contactUsLocationId, $afterSwap->items[0]->getId());
+        self::assertEquals($beforeSwap->items[1]->getId(), $afterSwap->items[1]->getId());
     }
 
     /**
@@ -2344,6 +2345,26 @@ class LocationServiceTest extends BaseTest
         foreach ($bookmarkService->loadBookmarks(0, 9999) as $bookmarkedLocation) {
             $this->assertNotEquals($childLocation->id, $bookmarkedLocation->id);
         }
+
+        // The assertion above only proves the bookmark is not *listed* but loadBookmarks()
+        // Check the row itself to actually cover the cleanup.
+        $connection = $this->getRawDatabaseConnection();
+        $query = $connection->createQueryBuilder();
+        $query
+            ->select('COUNT(id)')
+            ->from('ezcontentbrowsebookmark')
+            ->where(
+                $query->expr()->eq(
+                    'node_id',
+                    $query->createNamedParameter($childLocation->getId(), ParameterType::INTEGER)
+                )
+            );
+
+        self::assertSame(
+            0,
+            (int)$query->execute()->fetchColumn(),
+            'Bookmark row of a deleted Location should have been removed'
+        );
     }
 
     /**
