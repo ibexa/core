@@ -42,9 +42,6 @@ class SiteAccessServiceTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     private $siteAccess;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $defaultSiteAccess;
-
     /** @var \ArrayIterator */
     private $availableSiteAccesses;
 
@@ -58,21 +55,28 @@ class SiteAccessServiceTest extends TestCase
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->siteAccess = new SiteAccess('current');
-        $this->defaultSiteAccess = new SiteAccess('uninitialized_default', SiteAccess::MATCHING_TYPE_UNINITIALIZED);
         $this->availableSiteAccesses = $this->getAvailableSitAccesses(['current', 'first_sa', 'second_sa', 'default']);
         $this->configResolverParameters = $this->getConfigResolverParameters();
     }
 
-    /**
-     * Before any request has matched, getCurrent() must return the constructor-seeded default
-     * SiteAccess rather than null — this preserves the pre-existing guarantee (relied on by e.g.
-     * ComplexConfigProcessor) that getCurrent() is never null once the container is built.
-     */
-    public function testGetCurrentSiteAccessReturnsSeedBeforeAnyMatch(): void
+    public function testGetCurrentSiteAccessIsNullWhenStackIsEmpty(): void
     {
         $service = $this->createSiteAccessService();
 
-        self::assertSame($this->defaultSiteAccess, $service->getCurrent());
+        self::assertNull($service->getCurrent());
+    }
+
+    /**
+     * A SiteAccess with an "uninitialized" matcher (see SiteAccess::MATCHING_TYPE_UNINITIALIZED)
+     * is not a real current SiteAccess — getCurrent() must surface it as null.
+     */
+    public function testGetCurrentSiteAccessIsNullWhenTopOfStackIsUninitialized(): void
+    {
+        $service = $this->createSiteAccessService();
+
+        $service->changeSiteAccess(new SiteAccess('default', SiteAccess::MATCHING_TYPE_UNINITIALIZED));
+
+        self::assertNull($service->getCurrent());
     }
 
     public function testGetCurrentSiteAccessAfterMainRequestMatch(): void
@@ -96,8 +100,7 @@ class SiteAccessServiceTest extends TestCase
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
             $this->createMock(ConfigResolverInterface::class),
-            $this->eventDispatcher,
-            $this->defaultSiteAccess
+            $this->eventDispatcher
         );
 
         self::assertEquals(
@@ -115,8 +118,7 @@ class SiteAccessServiceTest extends TestCase
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
             $this->createMock(ConfigResolverInterface::class),
-            $this->eventDispatcher,
-            $this->defaultSiteAccess
+            $this->eventDispatcher
         );
 
         $this->expectException(NotFoundException::class);
@@ -295,8 +297,7 @@ class SiteAccessServiceTest extends TestCase
         return new SiteAccessService(
             $this->provider,
             $this->configResolver,
-            $this->eventDispatcher,
-            $this->defaultSiteAccess
+            $this->eventDispatcher
         );
     }
 

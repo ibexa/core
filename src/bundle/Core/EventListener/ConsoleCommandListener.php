@@ -22,9 +22,6 @@ class ConsoleCommandListener implements EventSubscriberInterface
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
     private $siteAccessProvider;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
-
     private SiteAccessServiceInterface $siteAccessService;
 
     /** @var bool */
@@ -33,13 +30,11 @@ class ConsoleCommandListener implements EventSubscriberInterface
     public function __construct(
         string $defaultSiteAccessName,
         SiteAccess\SiteAccessProviderInterface $siteAccessProvider,
-        SiteAccess $siteAccess,
         SiteAccessServiceInterface $siteAccessService,
         bool $debug = false
     ) {
         $this->defaultSiteAccessName = $defaultSiteAccessName;
         $this->siteAccessProvider = $siteAccessProvider;
-        $this->siteAccess = $siteAccess;
         $this->siteAccessService = $siteAccessService;
         $this->debug = $debug;
     }
@@ -55,23 +50,19 @@ class ConsoleCommandListener implements EventSubscriberInterface
 
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
-        // Note: this mutates the shared SiteAccess singleton in place (rather than only calling
-        // changeSiteAccess() below), because consumers that still read that singleton directly
-        // (e.g. the config resolver chain, for its MATCHING_TYPE_UNINITIALIZED early-access guard)
-        // never receive a SiteAccess through SiteAccessService and would otherwise never see it change.
-        $this->siteAccess->name = $event->getInput()->getParameterOption('--siteaccess', $this->defaultSiteAccessName);
-        $this->siteAccess->matchingType = 'cli';
+        $siteAccessName = $event->getInput()->getParameterOption('--siteaccess', $this->defaultSiteAccessName);
+        $siteAccess = new SiteAccess($siteAccessName, 'cli');
 
-        if (!$this->siteAccessProvider->isDefined($this->siteAccess->name)) {
+        if (!$this->siteAccessProvider->isDefined($siteAccess->name)) {
             throw new InvalidSiteAccessException(
-                $this->siteAccess->name,
+                $siteAccess->name,
                 $this->siteAccessProvider,
-                $this->siteAccess->matchingType,
+                $siteAccess->matchingType,
                 $this->debug
             );
         }
 
-        $this->siteAccessService->changeSiteAccess($this->siteAccess);
+        $this->siteAccessService->changeSiteAccess($siteAccess);
     }
 
     public function setDebug($debug = false)

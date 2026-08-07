@@ -17,6 +17,8 @@ use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
 use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapter;
 use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapterInterface;
 use JMS\TranslationBundle\JMSTranslationBundle;
@@ -28,6 +30,7 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -168,6 +171,21 @@ class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
         });
     }
 
+    public function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        // Registered as a compiler pass (rather than done directly in registerContainerConfiguration())
+        // because SiteAccessService's definition doesn't exist yet at that point: bundle extensions
+        // (which register it) only run once the container compiles.
+        $container->addCompilerPass(new class() implements CompilerPassInterface {
+            public function process(ContainerBuilder $container): void
+            {
+                IbexaTestKernel::seedDefaultSiteAccess($container);
+            }
+        });
+    }
+
     /**
      * @throws \Exception
      */
@@ -268,6 +286,23 @@ class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
     private static function setUpTestLogger(ContainerBuilder $container): void
     {
         $container->setDefinition('logger', new Definition(NullLogger::class));
+    }
+
+    /**
+     * Test cases using this kernel never dispatch a real request, so SiteAccessService would
+     * otherwise never have a current SiteAccess. Seed it the same way ConsoleCommandListener does
+     * for CLI: a fresh SiteAccess passed to changeSiteAccess(), not a shared/mutated singleton.
+     */
+    public static function seedDefaultSiteAccess(ContainerBuilder $container): void
+    {
+        if (!$container->hasDefinition(SiteAccessService::class)) {
+            return;
+        }
+
+        $container->getDefinition(SiteAccessService::class)->addMethodCall(
+            'changeSiteAccess',
+            [new Definition(SiteAccess::class, ['default'])]
+        );
     }
 
     /**

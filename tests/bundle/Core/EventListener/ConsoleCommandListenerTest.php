@@ -25,9 +25,6 @@ class ConsoleCommandListenerTest extends TestCase
 {
     private const INVALID_SA_NAME = 'foo';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
-
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $siteAccessService;
 
@@ -46,12 +43,10 @@ class ConsoleCommandListenerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->siteAccess = new SiteAccess('test');
         $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
         $this->listener = new ConsoleCommandListener(
             'default',
             $this->getSiteAccessProviderMock(),
-            $this->siteAccess,
             $this->siteAccessService
         );
         $this->inputDefinition = new InputDefinition([new InputOption('siteaccess', null, InputOption::VALUE_OPTIONAL)]);
@@ -99,22 +94,20 @@ class ConsoleCommandListenerTest extends TestCase
     {
         $this->siteAccessService->expects(self::once())
             ->method('changeSiteAccess')
-            ->with($this->siteAccess);
+            ->with(self::equalTo(new SiteAccess('site1', 'cli')));
         $input = new ArrayInput(['--siteaccess' => 'site1'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->onConsoleCommand($event);
-        self::assertEquals(new SiteAccess('site1', 'cli'), $this->siteAccess);
     }
 
     public function testDefaultSiteAccess()
     {
         $this->siteAccessService->expects(self::once())
             ->method('changeSiteAccess')
-            ->with($this->siteAccess);
+            ->with(self::equalTo(new SiteAccess('default', 'cli')));
         $input = new ArrayInput([], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->onConsoleCommand($event);
-        self::assertEquals(new SiteAccess('default', 'cli'), $this->siteAccess);
     }
 
     private function getSiteAccessProviderMock(): SiteAccess\SiteAccessProviderInterface

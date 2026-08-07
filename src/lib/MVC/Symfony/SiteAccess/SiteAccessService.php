@@ -25,23 +25,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberInterface
 {
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess[] */
-    private array $siteAccessStack;
+    private array $siteAccessStack = [];
 
-    /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess the shared, container-wide default
-     *        SiteAccess, used as the initial stack entry until a real request (or an explicit
-     *        changeSiteAccess() call) establishes the actual current one. This preserves
-     *        getCurrent()'s pre-existing guarantee of never being null once the container is built,
-     *        which code such as ComplexConfigProcessor relies on outside of an HTTP request cycle
-     *        (CLI warm-up, integration tests, etc.).
-     */
     public function __construct(
         private readonly SiteAccessProviderInterface $provider,
         private readonly ConfigResolverInterface $configResolver,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        SiteAccess $siteAccess
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        $this->siteAccessStack = [$siteAccess];
     }
 
     public static function getSubscribedEvents(): array
@@ -94,7 +84,16 @@ class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberIn
 
     public function getCurrent(): ?SiteAccess
     {
-        return $this->siteAccessStack !== [] ? end($this->siteAccessStack) : null;
+        if ($this->siteAccessStack === []) {
+            return null;
+        }
+
+        // Defensive: a SiteAccess with an "uninitialized" matcher (see
+        // SiteAccess::MATCHING_TYPE_UNINITIALIZED) is not a real current SiteAccess even if it
+        // somehow ended up on the stack — surface it as null rather than a misleading value.
+        $current = end($this->siteAccessStack);
+
+        return $current->matchingType !== SiteAccess::MATCHING_TYPE_UNINITIALIZED ? $current : null;
     }
 
     public function changeSiteAccess(SiteAccess $siteAccess): SiteAccess
