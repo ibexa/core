@@ -8,7 +8,7 @@
 namespace Ibexa\Bundle\Core\Command;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -28,15 +28,14 @@ class DebugConfigResolverCommand extends Command
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private SiteAccessServiceInterface $siteAccessService;
 
     public function __construct(
         ConfigResolverInterface $configResolver,
-        SiteAccess $siteAccess
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->configResolver = $configResolver;
-        $this->siteAccess = $siteAccess;
+        $this->siteAccessService = $siteAccessService;
 
         parent::__construct();
     }
@@ -102,7 +101,8 @@ EOM
             return self::SUCCESS;
         }
 
-        $output->writeln('<comment>SiteAccess name:</comment> ' . $this->siteAccess->name);
+        $siteAccess = $this->siteAccessService->getCurrent();
+        $output->writeln('<comment>SiteAccess name:</comment> ' . ($siteAccess !== null ? $siteAccess->name : ''));
 
         $output->writeln('<comment>Parameter:</comment>');
         $cloner = new VarCloner();
