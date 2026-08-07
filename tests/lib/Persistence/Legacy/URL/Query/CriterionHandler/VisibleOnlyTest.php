@@ -64,7 +64,7 @@ class VisibleOnlyTest extends CriterionHandlerTestCase
         $expressionBuilder = new ExpressionBuilder($connection);
         $connection
             ->expects(self::any())
-            ->method('getExpressionBuilder')
+            ->method('createExpressionBuilder')
             ->willReturn($expressionBuilder);
 
         return new QueryBuilder($connection);

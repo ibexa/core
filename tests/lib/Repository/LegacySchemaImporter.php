@@ -11,8 +11,12 @@ namespace Ibexa\Tests\Core\Repository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema as DoctrineSchema;
+use Doctrine\DBAL\Schema\SchemaConfig;
 use Ibexa\Contracts\DoctrineSchema\Exception\InvalidConfigurationException;
 use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
+use Ibexa\DoctrineSchema\Database\DbPlatform\PostgreSqlDbPlatform;
+use Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform;
+use Ibexa\DoctrineSchema\Database\DbPlatformFactory;
 use Ibexa\DoctrineSchema\Importer\SchemaImporter;
 use RuntimeException;
 
@@ -30,10 +34,20 @@ final class LegacySchemaImporter
 
     private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
 
-    public function __construct(Connection $connection, SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass)
-    {
+    /** @var array<string, mixed> */
+    private array $defaultTableOptions;
+
+    /**
+     * @param array<string, mixed> $defaultTableOptions
+     */
+    public function __construct(
+        Connection $connection,
+        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass,
+        array $defaultTableOptions
+    ) {
         $this->connection = $connection;
         $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
+        $this->defaultTableOptions = $defaultTableOptions;
     }
 
     /**
@@ -49,8 +63,15 @@ final class LegacySchemaImporter
 
         $importer = new SchemaImporter();
         try {
-            $databasePlatform = $this->connection->getDatabasePlatform();
-            $schema = $importer->importFromFile($schemaFilePath);
+            $databasePlatform = $this->getIbexaDatabasePlatform();
+            // Tests have to generate the same DDL an installation does, so the schema carries
+            // the same default table options SchemaBuilder applies in production.
+            $schemaConfig = new SchemaConfig();
+            $schemaConfig->setDefaultTableOptions($this->defaultTableOptions);
+            $schema = $importer->importFromFile(
+                $schemaFilePath,
+                new DoctrineSchema([], [], $schemaConfig)
+            );
             $statements = array_merge(
                 $this->getDropSqlStatementsForExistingSchema(
                     $schema,
@@ -96,10 +117,19 @@ final class LegacySchemaImporter
         // cleanup pre-existing database
         foreach ($tables as $table) {
             if ($existingSchema->hasTable($table->getName())) {
-                $statements[] = $databasePlatform->getDropTableSQL($table);
+                $statements[] = $databasePlatform->getDropTableSQL($table->getName());
             }
         }
 
         return $statements;
+    }
+
+    private function getIbexaDatabasePlatform(): AbstractPlatform
+    {
+        $driverName = $this->connection->getParams()['driver'] ?? '';
+
+        return (new DbPlatformFactory([new SqliteDbPlatform(), new PostgreSqlDbPlatform()]))
+            ->createDatabasePlatformFromDriverName($driverName)
+            ?? $this->connection->getDatabasePlatform();
     }
 }

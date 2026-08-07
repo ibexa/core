@@ -195,7 +195,7 @@ final class DoctrineDatabase extends Gateway
                         $languageMaskColumn,
                         $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                     ),
-                    0
+                    '0'
                 )
             );
         if (null !== $languageIdColumn) {

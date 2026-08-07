@@ -57,10 +57,8 @@ abstract class CriterionHandlerTestCase extends TestCase
     ): CriteriaConverter {
         $compositeExpression = new CompositeExpression(
             $expressionType,
-            [
-                $fooExpr,
-                $barExpr,
-            ]
+            $fooExpr,
+            $barExpr
         );
         $expressionBuilder = $this->createMock(ExpressionBuilder::class);
         $expressionBuilder

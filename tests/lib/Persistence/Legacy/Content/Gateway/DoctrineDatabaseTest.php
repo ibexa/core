@@ -379,8 +379,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->from(Gateway::CONTENT_VERSION_TABLE)
                 ->where(
                     $expr->and(
-                        $expr->eq('contentobject_id', 10),
-                        $expr->eq('version', 2)
+                        $expr->eq('contentobject_id', $query->createNamedParameter(10, ParameterType::INTEGER)),
+                        $expr->eq('version', $query->createNamedParameter(2, ParameterType::INTEGER))
                     )
                 )
         );
@@ -1473,8 +1473,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->from(Gateway::CONTENT_FIELD_TABLE)
                 ->where(
                     $query->expr()->and(
-                        $query->expr()->eq('contentobject_id', 103),
-                        $query->expr()->eq('version', 1)
+                        $query->expr()->eq('contentobject_id', $query->createNamedParameter(103, ParameterType::INTEGER)),
+                        $query->expr()->eq('version', $query->createNamedParameter(1, ParameterType::INTEGER))
                     )
                 )
         );

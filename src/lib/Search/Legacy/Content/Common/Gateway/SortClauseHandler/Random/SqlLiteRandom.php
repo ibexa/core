@@ -9,14 +9,14 @@ declare(strict_types=1);
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom;
 
 class SqlLiteRandom extends AbstractRandom
 {
     public function supportsPlatform(AbstractPlatform $platform): bool
     {
-        return $platform instanceof SqlitePlatform;
+        return $platform instanceof SQLitePlatform;
     }
 
     public function getRandomFunctionName(?int $seed): string

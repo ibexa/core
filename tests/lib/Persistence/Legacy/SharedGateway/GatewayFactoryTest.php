@@ -30,7 +30,7 @@ final class GatewayFactoryTest extends TestCase
     public function setUp(): void
     {
         $gateways = [
-            Platforms\SqlitePlatform::class => new SqliteGateway($this->createMock(Connection::class)),
+            Platforms\SQLitePlatform::class => new SqliteGateway($this->createMock(Connection::class)),
         ];
 
         $this->factory = new GatewayFactory(
@@ -63,7 +63,7 @@ final class GatewayFactoryTest extends TestCase
     public function getTestBuildSharedGatewayData(): Traversable
     {
         $databasePlatformGatewayPairs = [
-            [new Platforms\SqlitePlatform(), SqliteGateway::class],
+            [new Platforms\SQLitePlatform(), SqliteGateway::class],
             [new Platforms\MySQL80Platform(), FallbackGateway::class],
             [new Platforms\MySQLPlatform(), FallbackGateway::class],
             [new Platforms\PostgreSQLPlatform(), FallbackGateway::class],
@@ -71,7 +71,6 @@ final class GatewayFactoryTest extends TestCase
 
         foreach ($databasePlatformGatewayPairs as $databasePlatformGatewayPair) {
             [$databasePlatform, $sharedGateway] = $databasePlatformGatewayPair;
-            /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $databasePlatform */
             $connectionMock = $this
                 ->createMock(Connection::class);
             $connectionMock

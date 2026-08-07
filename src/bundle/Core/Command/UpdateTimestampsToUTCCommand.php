@@ -465,11 +465,11 @@ EOT
     ) {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update(Gateway::CONTENT_FIELD_TABLE, 'a')
-            ->set('a.data_int', $newTimestamp)
-            ->set('a.sort_key_int', $newTimestamp)
-            ->where('a.id = :id')
-            ->andWhere('a.version = :version')
+            ->update(Gateway::CONTENT_FIELD_TABLE)
+            ->set('data_int', (string)$newTimestamp)
+            ->set('sort_key_int', (string)$newTimestamp)
+            ->where('id = :id')
+            ->andWhere('version = :version')
             ->setParameter('id', $contentAttributeId)
             ->setParameter('version', $contentAttributeVersion);
 

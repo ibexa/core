@@ -382,7 +382,7 @@ final class DoctrineDatabase extends Gateway
                 'content_object',
                 (string) $expr->and(
                     $expr->eq('user_role.contentobject_id', 'content_object.id'),
-                    $expr->eq('content_object.status', ContentInfo::STATUS_PUBLISHED)
+                    $expr->eq('content_object.status', (string) ContentInfo::STATUS_PUBLISHED)
                 )
             )->where(
                 $expr->eq(

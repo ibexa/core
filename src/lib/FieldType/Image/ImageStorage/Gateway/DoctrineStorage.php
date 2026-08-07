@@ -16,7 +16,6 @@ use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
-use PDO;
 
 /**
  * Image Field Type external storage DoctrineStorage gateway.
@@ -64,8 +63,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('contentObjectId', $versionInfo->contentInfo->id, PDO::PARAM_INT)
-            ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setParameter('contentObjectId', $versionInfo->contentInfo->id, ParameterType::INTEGER)
+            ->setParameter('versionNo', $versionInfo->versionNo, ParameterType::INTEGER)
         ;
 
         return $selectQuery->executeQuery()->fetchOne();
@@ -88,7 +87,7 @@ class DoctrineStorage extends Gateway
                     $this->connection->quoteIdentifier('filepath') => ':path',
                 ]
             )
-            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
+            ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
             ->setParameter('path', $path)
         ;
 
@@ -119,7 +118,7 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('versionNo', $versionNo, ParameterType::INTEGER)
             ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
         ;
 
@@ -149,7 +148,7 @@ class DoctrineStorage extends Gateway
                     ':field_id'
                 )
             )
-            ->setParameter('field_id', $fieldId, PDO::PARAM_INT)
+            ->setParameter('field_id', $fieldId, ParameterType::INTEGER)
         ;
 
         $statement = $selectQuery->executeQuery();
@@ -193,7 +192,7 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
+            ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
             ->setParameter('likePath', $path . '%')
         ;
 
@@ -231,7 +230,7 @@ class DoctrineStorage extends Gateway
 
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
-            ->select(1)
+            ->select('1')
             ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
             ->where(
                 $selectQuery->expr()->eq(
@@ -288,8 +287,8 @@ class DoctrineStorage extends Gateway
                     ':versionNo'
                 )
             )
-            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
+            ->setParameter('versionNo', $versionNo, ParameterType::INTEGER)
         ;
 
         $imageXMLs = $selectQuery->executeQuery()->fetchFirstColumn();
@@ -432,7 +431,7 @@ class DoctrineStorage extends Gateway
 
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
-            ->select(1)
+            ->select('1')
             ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
             ->andWhere(
                 $selectQuery->expr()->eq(

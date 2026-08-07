@@ -87,7 +87,7 @@ jobs:
         needs: tests
         services:
             postgres:
-                image: ${{ matrix.image }}
+                image: postgres:${{ matrix.postgres_version }}
                 ports:
                     - 5432
                 env:
@@ -107,9 +107,9 @@ jobs:
             matrix:
                 php:
                     - '8.4'
-                image:
-                    - 'postgres:14'
-                    - 'postgres:18'
+                postgres_version:
+                    - '14'
+                    - '18'
 
         steps:
             -   uses: actions/checkout@v7
@@ -127,7 +127,7 @@ jobs:
             -   name: Run integration test suite vs Postgresql
                 run: composer run-script integration
                 env:
-                    DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
+                    DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?serverVersion=${{ matrix.postgres_version }}"
                     # Required by old repository tests
                     DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
 

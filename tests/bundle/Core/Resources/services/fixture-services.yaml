@@ -8,6 +8,7 @@ services:
         arguments:
             - '@doctrine.dbal.default_connection'
             - '@Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
+            - !php/const Ibexa\Contracts\DoctrineSchema\Database\DefaultTableOptions::AS_ARRAY
 
     # repeat part of DIC setup to avoid loading DoctrineSchemaBundle, which is where this
     # alias normally comes from (see its Resources/config/api.yaml)
@@ -23,11 +24,3 @@ services:
         public: true
         arguments:
             - '@doctrine.dbal.default_connection'
-
-    Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform:
-        calls:
-            - [setEventManager, ['@doctrine.dbal.default_connection.event_manager']]
-
-    Ibexa\DoctrineSchema\Database\DbPlatform\PostgreSqlDbPlatform:
-        calls:
-            - [ setEventManager, [ '@doctrine.dbal.default_connection.event_manager' ] ]

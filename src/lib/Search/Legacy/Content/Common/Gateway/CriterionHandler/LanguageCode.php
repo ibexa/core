@@ -54,7 +54,7 @@ class LanguageCode extends CriterionHandler
                     $criterion->matchAlwaysAvailable
                 )
             ),
-            0
+            '0'
         );
     }
 }

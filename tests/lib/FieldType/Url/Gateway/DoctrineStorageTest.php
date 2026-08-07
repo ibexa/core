@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\FieldType\Url\Gateway;
 
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
@@ -84,7 +85,7 @@ class DoctrineStorageTest extends TestCase
                     ':id'
                 )
             )
-            ->setParameter('id', $id, \PDO::PARAM_INT)
+            ->setParameter('id', $id, ParameterType::INTEGER)
         ;
 
         $statement = $query->executeQuery();
@@ -128,7 +129,7 @@ class DoctrineStorageTest extends TestCase
             ->where(
                 $query->expr()->eq($this->connection->quoteIdentifier('url_id'), ':urlId')
             )
-            ->setParameter('urlId', $urlId, \PDO::PARAM_INT)
+            ->setParameter('urlId', $urlId, ParameterType::INTEGER)
         ;
 
         $statement = $query->executeQuery();

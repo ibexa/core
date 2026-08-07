@@ -12,7 +12,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
-use PDO;
 
 class DoctrineStorage extends Gateway
 {
@@ -118,8 +117,8 @@ class DoctrineStorage extends Gateway
                     'url' => ':url',
                 ]
             )
-            ->setParameter('created', $time, PDO::PARAM_INT)
-            ->setParameter('modified', $time, PDO::PARAM_INT)
+            ->setParameter('created', $time, ParameterType::INTEGER)
+            ->setParameter('modified', $time, ParameterType::INTEGER)
             ->setParameter('original_url_md5', md5($url))
             ->setParameter('url', $url)
         ;
@@ -149,9 +148,9 @@ class DoctrineStorage extends Gateway
                     'url_id' => ':url_id',
                 ]
             )
-            ->setParameter('contentobject_attribute_id', $fieldId, PDO::PARAM_INT)
-            ->setParameter('contentobject_attribute_version', $versionNo, PDO::PARAM_INT)
-            ->setParameter('url_id', $urlId, PDO::PARAM_INT)
+            ->setParameter('contentobject_attribute_id', $fieldId, ParameterType::INTEGER)
+            ->setParameter('contentobject_attribute_version', $versionNo, ParameterType::INTEGER)
+            ->setParameter('url_id', $urlId, ParameterType::INTEGER)
         ;
 
         $query->executeStatement();

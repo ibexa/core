@@ -50,9 +50,9 @@ abstract class Indexer
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($fields)
+            ->select(...$fields)
             ->from(ContentGateway::CONTENT_ITEM_TABLE)
-            ->where($query->expr()->eq('status', ContentInfo::STATUS_PUBLISHED));
+            ->where($query->expr()->eq('status', (string) ContentInfo::STATUS_PUBLISHED));
 
         return $query->executeQuery();
     }
