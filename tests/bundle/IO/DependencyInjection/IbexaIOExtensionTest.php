@@ -95,6 +95,10 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         // Simulate SiteAccess matching having happened for the "site" siteaccess, since
         // ComplexConfigProcessor now resolves the current SiteAccess via SiteAccessService
         // rather than reading a pre-set property.
+        //
+        // Fetched by concrete class (not SiteAccessServiceInterface): onSiteAccessMatch() is a
+        // subscriber-only method not part of the interface, and SetAllServicesPublicPass only
+        // exposes real service definitions, not the interface alias.
         $siteAccessService = $this->container->get(SiteAccessService::class);
         self::assertInstanceOf(SiteAccessService::class, $siteAccessService);
         $siteAccessService->onSiteAccessMatch(

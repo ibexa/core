@@ -74,7 +74,7 @@ services:
         arguments:
             - '%ibexa.site_access.default%'
             - '@ibexa.siteaccess.provider'
-            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
             - "%kernel.debug%"
         tags:
             - { name: kernel.event_subscriber }

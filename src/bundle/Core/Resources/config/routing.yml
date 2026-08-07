@@ -54,7 +54,7 @@ services:
             - '@ibexa.api.repository'
             - "@router.default"
             - '@ibexa.config.resolver'
-            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
             - '%ibexa.urlalias_generator.charmap%'
         parent: Ibexa\Core\MVC\Symfony\Routing\Generator
 

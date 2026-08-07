@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigProcessor;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use function str_replace;
 
 final class ComplexConfigProcessor implements ConfigProcessor
@@ -23,7 +23,7 @@ final class ComplexConfigProcessor implements ConfigProcessor
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService */
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface */
     private $siteAccessService;
 
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParserInterface */
@@ -31,7 +31,7 @@ final class ComplexConfigProcessor implements ConfigProcessor
 
     public function __construct(
         ConfigResolverInterface $configResolver,
-        SiteAccessService $siteAccessService
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->configResolver = $configResolver;
         $this->siteAccessService = $siteAccessService;
