@@ -135,7 +135,7 @@ final class LocationFilteringTest extends BaseRepositoryFilteringTestCase
 
             $locationIds = array_map(
                 static function ($location) {
-                    return $location->id;
+                    return $location->getId();
                 },
                 iterator_to_array($locationService->find($orFilter))
             );
