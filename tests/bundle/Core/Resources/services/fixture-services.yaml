@@ -7,6 +7,13 @@ services:
         public: true
         arguments:
             - '@doctrine.dbal.default_connection'
+            - '@Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
+
+    # repeat part of DIC setup to avoid loading DoctrineSchemaBundle, which is where this
+    # alias normally comes from (see its Resources/config/api.yaml)
+    Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface: '@Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass'
+
+    Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass: ~
 
     Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter:
         alias: 'test.ibexa.fixture_importer'

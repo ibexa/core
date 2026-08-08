@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AnnotationEntityBundle;
+namespace Ibexa\Tests\Integration\Core\Doctrine\Stub\SchemaFilterEntityBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AnnotationEntityBundle extends Bundle
+final class SchemaFilterEntityBundle extends Bundle
 {
 }

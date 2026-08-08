@@ -27,4 +27,13 @@ final class CoreInstallerTest extends TestCase
         $this->installer->setOutput(new NullOutput());
         $this->installer->importSchema();
     }
+
+    public function testImportSchemaTwiceDoesNotFailOnPreExistingLegacyTables(): void
+    {
+        $this->installer->setOutput(new NullOutput());
+        $this->installer->importSchema();
+        // Second run must see (and drop) the legacy tables created above before
+        // re-creating them, otherwise CREATE TABLE fails with "already exists".
+        $this->installer->importSchema();
+    }
 }

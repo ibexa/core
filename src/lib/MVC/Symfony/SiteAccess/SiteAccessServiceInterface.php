@@ -33,6 +33,8 @@ interface SiteAccessServiceInterface
      * Handles relation between SiteAccesses. Related SiteAccesses share the same repository and root location id.
      *
      * @return string[]
+     *
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException if no SiteAccess is given and none is currently set
      */
     public function getSiteAccessesRelation(?SiteAccess $siteAccess = null): array;
 }

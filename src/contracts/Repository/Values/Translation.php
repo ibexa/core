@@ -18,4 +18,13 @@ use Stringable;
  */
 abstract class Translation extends ValueObject implements Stringable
 {
+    /**
+     * The message template to translate, with %placeholder% parameters.
+     */
+    abstract public function getMessageTemplate(): string;
+
+    /**
+     * @return array<string, scalar|null>
+     */
+    abstract public function getValues(): array;
 }

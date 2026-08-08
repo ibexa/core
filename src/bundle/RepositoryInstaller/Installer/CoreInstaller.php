@@ -16,6 +16,7 @@ use Doctrine\Migrations\Query\Query;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 
@@ -31,10 +32,13 @@ class CoreInstaller extends DbBasedInstaller implements Installer
 
     private ?TaggedMigrationsRunner $taggedMigrationsRunner;
 
+    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
+
     public function __construct(
         Connection $db,
         SchemaBuilderInterface $schemaBuilder,
         bool $schemaBuilderEventEnabled,
+        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass,
         ?TaggedMigrationsRunner $taggedMigrationsRunner = null
     ) {
         parent::__construct($db);
@@ -42,6 +46,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         $this->schemaBuilder = $schemaBuilder;
         $this->schemaBuilderEventEnabled = $schemaBuilderEventEnabled;
         $this->taggedMigrationsRunner = $taggedMigrationsRunner;
+        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
     }
 
     /**
@@ -181,9 +186,19 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         Schema $newSchema,
         AbstractPlatform $databasePlatform
     ): array {
-        $existingTableNames = array_map(
-            static fn (Table $table): string => $table->getName(),
-            $this->db->createSchemaManager()->listTables()
+        // Reinstalling needs to see every pre-existing table, including ones
+        // with no Doctrine ORM entity behind them, to correctly drop them
+        // before recreating the full schema below. Bypass whichever schema
+        // assets filter is configured on this connection (e.g.
+        // ManagedTablesSchemaAssetFilter, which deliberately hides
+        // non-entity tables from doctrine:schema:update) for this one
+        // listing.
+        $existingTableNames = $this->schemaAssetsFilterBypass->call(
+            $this->db,
+            fn (): array => array_map(
+                static fn (Table $table): string => $table->getName(),
+                $this->db->createSchemaManager()->listTables()
+            )
         );
         $statements = [];
         // reverse table order for clean-up (due to FKs)

@@ -25,6 +25,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform;
+use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Core\Persistence\DatabaseConnectionFactory;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use InvalidArgumentException;
@@ -134,7 +135,7 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         try {
-            $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection());
+            $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
             $schemaImporter->importSchema(
                 dirname(__DIR__, 4) .
                 '/src/bundle/Core/Resources/config/storage/legacy/schema.yaml'

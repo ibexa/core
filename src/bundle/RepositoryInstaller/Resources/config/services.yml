@@ -42,6 +42,7 @@ services:
             $cachePool: '@ibexa.cache_pool'
             $environment: "%kernel.environment%"
             $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
+            $schemaAssetsFilterBypass: '@Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
         tags:
             - { name: console.command }
 

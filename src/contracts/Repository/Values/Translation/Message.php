@@ -47,6 +47,16 @@ class Message extends Translation
         parent::__construct();
     }
 
+    public function getMessageTemplate(): string
+    {
+        return $this->message;
+    }
+
+    public function getValues(): array
+    {
+        return $this->values;
+    }
+
     #[\Override]
     public function __toString(): string
     {
