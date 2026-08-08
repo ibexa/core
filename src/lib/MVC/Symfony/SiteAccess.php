@@ -17,6 +17,8 @@ class SiteAccess extends ValueObject implements JsonSerializable
 {
     public const DEFAULT_MATCHING_TYPE = 'default';
 
+    public const string MATCHING_TYPE_UNINITIALIZED = 'uninitialized';
+
     /**
      * Name of the siteaccess.
      *
