@@ -14,7 +14,7 @@ services:
     # Siteaccess is injected in the container at runtime
     Ibexa\Core\MVC\Symfony\SiteAccess:
         class: Ibexa\Core\MVC\Symfony\SiteAccess
-        arguments: ['%ibexa.site_access.default.name%', 'uninitialized']
+        arguments: ['%ibexa.site_access.default.name%', !php/const Ibexa\Core\MVC\Symfony\SiteAccess::MATCHING_TYPE_UNINITIALIZED]
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\DefaultScopeConfigResolver:
         arguments:
@@ -392,4 +392,3 @@ services:
         decoration_priority: 500
         arguments:
             $inner: '@.inner'
-

@@ -222,7 +222,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
         $this->defaultScope = $scope;
 
         // On scope change check if siteaccess has been updated so we can log warnings if there are any
-        if ($this->siteAccess->matchingType !== 'uninitialized') {
+        if ($this->siteAccess->matchingType !== SiteAccess::MATCHING_TYPE_UNINITIALIZED) {
             $this->warnAboutTooEarlyLoadedParams();
         }
     }
@@ -259,7 +259,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
             return;
         }
 
-        if ($this->siteAccess->matchingType !== 'uninitialized') {
+        if ($this->siteAccess->matchingType !== SiteAccess::MATCHING_TYPE_UNINITIALIZED) {
             return;
         }
 
