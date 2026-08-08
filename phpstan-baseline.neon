@@ -8569,18 +8569,6 @@ parameters:
 			path: src/lib/MVC/Symfony/SiteAccess/SiteAccessProviderInterface.php
 
 		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\SiteAccessService\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/SiteAccessService.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\SiteAccessService\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/SiteAccessService.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Templating\\FieldBlockRendererInterface\:\:renderContentFieldEdit\(\) has parameter \$params with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -24642,7 +24630,6 @@ parameters:
 			count: 4
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
-
 		-
 			message: '#^Parameter \#1 \$locations of method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:filterHiddenLocations\(\) expects array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\>, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
 			identifier: argument.type
@@ -31630,7 +31617,7 @@ parameters:
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
-			count: 12
+			count: 10
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
