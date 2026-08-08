@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -35,12 +36,7 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
                 sprintf('doctrine.orm.%s_metadata_driver', $entityManagerName)
             );
 
-            $ormConfigDefinition = $container->getDefinition(
-                sprintf('doctrine.orm.%s_configuration', $entityManagerName)
-            );
-
-            $entityMap = $this->getEntityMapForConfigurationService($entityMappings);
-            $ormConfigDefinition->addMethodCall('setEntityNamespaces', [$entityMap]);
+            $this->protectLegacySchemaFromOrmSchemaSync($entityManagerName, $container);
 
             foreach ($mappingDriverConfig as $driverType => $driverPaths) {
                 $metadataDriverServiceName = "doctrine.orm.{$entityManagerName}_{$driverType}_metadata_driver";
@@ -64,16 +60,49 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         }
     }
 
+    /**
+     * Protects Ibexa's legacy (non-Doctrine-ORM) schema, sharing the same
+     * connection as this entity manager, from being dropped by
+     * doctrine:schema:update. ORM 3 always behaves as if --complete was
+     * passed, dropping any table not backed by a registered ORM entity.
+     *
+     * The filter is registered through DoctrineBundle's
+     * "doctrine.dbal.schema_filter" tag rather than by calling
+     * Configuration::setSchemaAssetsFilter() directly, because that setter is
+     * not additive: DoctrineBundle's own DbalSchemaFilterPass calls it as well,
+     * to install a SchemaAssetsFilterManager wrapping every tagged filter, so
+     * whichever pass ran last would silently discard the other one's filter -
+     * either dropping a project's own "doctrine.dbal.<connection>.schema_filter"
+     * configuration, or dropping the legacy schema protection. Going through
+     * the tag makes both apply: SchemaAssetsFilterManager rejects an asset as
+     * soon as any single filter rejects it.
+     *
+     * This requires the pass to run before DbalSchemaFilterPass, which is why
+     * IbexaCoreBundle registers it with a higher priority.
+     */
+    private function protectLegacySchemaFromOrmSchemaSync(string $entityManagerName, ContainerBuilder $container): void
+    {
+        if (!str_starts_with($entityManagerName, 'ibexa_')) {
+            return;
+        }
+
+        $connection = substr($entityManagerName, strlen('ibexa_'));
+        $configurationId = sprintf('doctrine.dbal.%s_connection.configuration', $connection);
+
+        if (!$container->hasDefinition($configurationId)) {
+            return;
+        }
+
+        $container->findDefinition(ManagedTablesSchemaAssetFilter::class)->addTag(
+            'doctrine.dbal.schema_filter',
+            ['connection' => $connection]
+        );
+    }
+
     private function createMetadataDriverDefinition($driverType, $driverPaths): Definition
     {
         $metadataDriver = new Definition("%doctrine.orm.metadata.{$driverType}.class%");
-        $arguments = [];
-
-        if ('annotation' === $driverType) {
-            $arguments[] = new Reference('doctrine.orm.metadata.annotation_reader');
-        }
-
-        $arguments[] = array_values($driverPaths);
+        $arguments = [array_values($driverPaths)];
 
         $metadataDriver->setArguments($arguments);
         $metadataDriver->setPublic(false);
@@ -144,13 +173,5 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         $bundleConfig['dir'] = $bundleDir . '/' . $bundleConfig['dir'];
 
         return $bundleConfig;
-    }
-
-    private function getEntityMapForConfigurationService(array $entityMappings): array
-    {
-        return array_combine(
-            array_keys($entityMappings),
-            array_column($entityMappings, 'prefix')
-        );
     }
 }

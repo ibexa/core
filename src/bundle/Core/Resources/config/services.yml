@@ -11,7 +11,7 @@ services:
     # Siteaccess is injected in the container at runtime
     Ibexa\Core\MVC\Symfony\SiteAccess:
         class: Ibexa\Core\MVC\Symfony\SiteAccess
-        arguments: ['%ibexa.site_access.default.name%', 'uninitialized']
+        arguments: ['%ibexa.site_access.default.name%', !php/const Ibexa\Core\MVC\Symfony\SiteAccess::MATCHING_TYPE_UNINITIALIZED]
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\DefaultScopeConfigResolver:
         arguments:
@@ -359,6 +359,10 @@ services:
             $defaultConnection: '%doctrine.default_connection%'
             $entityManagers: '%doctrine.entity_managers%'
 
+    Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter:
+        arguments:
+            $managerRegistry: '@doctrine'
+
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
 
     Ibexa\Contracts\Core\Validation\StructValidator:
@@ -371,4 +375,3 @@ services:
         decoration_priority: 500
         arguments:
             $inner: '@.inner'
-
