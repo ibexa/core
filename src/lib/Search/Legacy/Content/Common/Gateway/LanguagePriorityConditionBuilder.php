@@ -24,9 +24,10 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler
  * no incremental replacement possible. The relational form instead asks "which of Content's actual
  * translations (via ibexa_content_translation) ranks highest in the requested priority list", via a
  * correlated `ORDER BY CASE ... LIMIT 1` subquery, and requires $languageIdColumn to equal that
- * pick. If none of Content's translations are in the priority list, and the caller allowed the
- * always-available fallback (the default), an always-available Content instead matches on its main
- * language - mirroring the original arithmetic's use of "c.language_mask"'s bit 0.
+ * pick (see {@see matchesLanguageId()} for a wrinkle in what "equal" means here). If none of
+ * Content's translations are in the priority list, and the caller allowed the always-available
+ * fallback (the default), an always-available Content instead matches on its main language -
+ * mirroring the original arithmetic's use of "c.language_mask"'s bit 0.
  *
  * @internal
  */
@@ -49,16 +50,8 @@ final class LanguagePriorityConditionBuilder
         string $mainLanguageIdColumn = 'c.initial_language_id',
         string $alwaysAvailableColumn = 'c.always_available'
     ): string {
-        // $languageIdColumn (e.g. ibexa_content_field.language_id) may still carry the legacy
-        // "always available" bit 0 on rows written before always_available became a plain column;
-        // strip it before comparing against a clean id from ibexa_content_language/*_translation.
-        $languageIdColumn = $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
-            $languageIdColumn,
-            '-2'
-        );
-
         if (empty($languageSettings['languages'])) {
-            return (string)$query->expr()->eq($languageIdColumn, $mainLanguageIdColumn);
+            return $this->matchesLanguageId($query, $languageIdColumn, $mainLanguageIdColumn, $contentIdColumn);
         }
 
         $languageIds = array_map(
@@ -92,13 +85,10 @@ final class LanguagePriorityConditionBuilder
             ->orderBy($priorityCase)
             ->setMaxResults(1);
 
-        $priorityMatch = $query->expr()->eq(
-            $languageIdColumn,
-            sprintf('(%s)', $subQuery->getSQL())
-        );
+        $priorityMatch = $this->matchesLanguageId($query, $languageIdColumn, sprintf('(%s)', $subQuery->getSQL()), $contentIdColumn);
 
         if (!($languageSettings['useAlwaysAvailable'] ?? true)) {
-            return (string)$priorityMatch;
+            return $priorityMatch;
         }
 
         // Content has none of the requested priority languages: an always-available Content falls
@@ -120,9 +110,52 @@ final class LanguagePriorityConditionBuilder
         $alwaysAvailableFallback = $query->expr()->and(
             sprintf('NOT EXISTS (%s)', $hasRequestedLanguageSubQuery->getSQL()),
             $alwaysAvailableColumn,
-            $query->expr()->eq($languageIdColumn, $mainLanguageIdColumn)
+            $this->matchesLanguageId($query, $languageIdColumn, $mainLanguageIdColumn, $contentIdColumn)
         );
 
         return (string)$query->expr()->or($priorityMatch, $alwaysAvailableFallback);
+    }
+
+    /**
+     * Matches $languageIdColumn (e.g. ibexa_content_field.language_id) against $targetIdExpression
+     * (a clean id, or an expression producing one, from ibexa_content_language/*_translation).
+     *
+     * $languageIdColumn may still carry the legacy "always available" bit 0 folded into it, from
+     * rows written before always_available became a plain column - both on real installs upgrading
+     * from that scheme and in long-lived test fixtures captured from it. Tolerate a "+1" tainted
+     * value, but only when:
+     * - the target id is even (only even ids are old-style; real ids were always powers of two, so
+     *   an odd "+1" could only ever be that taint on an old install, never a genuinely different
+     *   language on its own), and
+     * - $languageIdColumn's raw value isn't itself one of Content's actual translations (via
+     *   ibexa_content_translation) - otherwise a real, separate, newly-allocated odd-id language
+     *   that happens to equal target+1 would be wrongly folded into target instead of matching
+     *   itself.
+     */
+    private function matchesLanguageId(
+        QueryBuilder $query,
+        string $languageIdColumn,
+        string $targetIdExpression,
+        string $contentIdColumn
+    ): string {
+        $isGenuineTranslationSubQuery = $this->connection->createQueryBuilder();
+        $isGenuineTranslationSubQuery
+            ->select('1')
+            ->from('ibexa_content_translation', 'ct_genuine')
+            ->where(
+                $isGenuineTranslationSubQuery->expr()->and(
+                    sprintf('ct_genuine.content_id = %s', $contentIdColumn),
+                    sprintf('ct_genuine.language_id = %s', $languageIdColumn)
+                )
+            );
+
+        return (string) $query->expr()->or(
+            $query->expr()->eq($languageIdColumn, $targetIdExpression),
+            $query->expr()->and(
+                sprintf('(%s) %% 2 = 0', $targetIdExpression),
+                $query->expr()->eq($languageIdColumn, sprintf('((%s) + 1)', $targetIdExpression)),
+                sprintf('NOT EXISTS (%s)', $isGenuineTranslationSubQuery->getSQL())
+            )
+        );
     }
 }

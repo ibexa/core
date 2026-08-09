@@ -28,7 +28,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     {
         return new DoctrineDatabase(
             $this->getDatabaseConnection(),
-            $this->getLanguageMaskGenerator(),
+            $this->getLanguageHandler(),
             $this->getTrashCriteriaConverterDependency(),
             $this->getTrashSortClauseConverterDependency(),
             $this->getLimitedCountQueryBuilderDependency()
@@ -108,7 +108,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     public function testLoadLocationFiltersByTranslationTable(): void
     {
-        // LanguageHandlerMock (used by getLanguageMaskGenerator()) resolves "eng-GB" to id 4.
+        // LanguageHandlerMock resolves "eng-GB" to id 4.
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $connection = $this->getDatabaseConnection();
         $connection->insert('ibexa_content_language', [

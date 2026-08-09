@@ -3,7 +3,7 @@ services:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase
         arguments:
             - '@ibexa.api.storage_engine.legacy.connection'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@ibexa.spi.persistence.legacy.language.handler'
 
     Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion
@@ -29,7 +29,6 @@ services:
             - '@ibexa.spi.persistence.legacy.language.handler'
             - '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter'
             - '@ibexa.persistence.legacy.content.gateway'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
             - '@Ibexa\Core\Persistence\Legacy\TransactionHandler'
             - '@ibexa.persistence.legacy.language.gateway'
         lazy: true
