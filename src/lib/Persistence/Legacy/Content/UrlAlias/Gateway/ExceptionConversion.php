@@ -88,10 +88,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function historizeBeforeSwap(string $action, int $languageMask): void
+    public function historizeBeforeSwap(string $action, array $languageIds): void
     {
         try {
-            $this->innerGateway->historizeBeforeSwap($action, $languageMask);
+            $this->innerGateway->historizeBeforeSwap($action, $languageIds);
         } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
