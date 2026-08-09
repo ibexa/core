@@ -808,11 +808,17 @@ class Handler implements UrlAliasHandlerInterface
     private function historizeBeforeSwap($location1Entries, $location2Entries)
     {
         foreach ($location1Entries as $row) {
-            $this->gateway->historizeBeforeSwap($row['action'], $row['lang_mask']);
+            $this->gateway->historizeBeforeSwap(
+                $row['action'],
+                $this->maskGenerator->extractLanguageIdsFromMask($row['lang_mask'])
+            );
         }
 
         foreach ($location2Entries as $row) {
-            $this->gateway->historizeBeforeSwap($row['action'], $row['lang_mask']);
+            $this->gateway->historizeBeforeSwap(
+                $row['action'],
+                $this->maskGenerator->extractLanguageIdsFromMask($row['lang_mask'])
+            );
         }
     }
 
@@ -926,8 +932,8 @@ class Handler implements UrlAliasHandlerInterface
     {
         $entries = array_filter(
             $locationEntries,
-            static function (array $row) use ($languageId): bool {
-                return (bool) ($row['lang_mask'] & $languageId);
+            function (array $row) use ($languageId): bool {
+                return in_array($languageId, $this->maskGenerator->extractLanguageIdsFromMask($row['lang_mask']), true);
             }
         );
 
