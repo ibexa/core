@@ -19,6 +19,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\SwappedLocationProperties;
@@ -105,6 +106,8 @@ class Handler implements UrlAliasHandlerInterface
     /** @var TransactionHandler */
     private $transactionHandler;
 
+    private LanguageGateway $languageGateway;
+
     /**
      * Creates a new UrlAlias Handler.
      *
@@ -125,7 +128,8 @@ class Handler implements UrlAliasHandlerInterface
         SlugConverter $slugConverter,
         ContentGateway $contentGateway,
         MaskGenerator $maskGenerator,
-        TransactionHandler $transactionHandler
+        TransactionHandler $transactionHandler,
+        LanguageGateway $languageGateway
     ) {
         $this->gateway = $gateway;
         $this->mapper = $mapper;
@@ -135,6 +139,7 @@ class Handler implements UrlAliasHandlerInterface
         $this->contentGateway = $contentGateway;
         $this->maskGenerator = $maskGenerator;
         $this->transactionHandler = $transactionHandler;
+        $this->languageGateway = $languageGateway;
     }
 
     public function publishUrlAliasForLocation(
@@ -474,7 +479,7 @@ class Handler implements UrlAliasHandlerInterface
         } elseif (
             $row['action'] === $action &&
             (int)$row['is_alias'] === 1 &&
-            0 === ((int)$row['lang_mask'] & $languageId)
+            !in_array($languageId, $this->gateway->loadTranslationLanguageIds($parentId, $topElementMD5), true)
         ) {
             // add another language to the same custom alias
             $data['link'] = $id = $row['id'];
@@ -796,8 +801,18 @@ class Handler implements UrlAliasHandlerInterface
             }
         }
 
-        $this->internalPublishCustomUrlAliasForLocation($location1, $contentInfo1['language_mask']);
-        $this->internalPublishCustomUrlAliasForLocation($location2, $contentInfo2['language_mask']);
+        $contentTranslations = $this->languageGateway->loadContentTranslations(
+            [(int)$contentInfo1['id'], (int)$contentInfo2['id']]
+        );
+
+        $this->internalPublishCustomUrlAliasForLocation(
+            $location1,
+            $contentTranslations[(int)$contentInfo1['id']] ?? []
+        );
+        $this->internalPublishCustomUrlAliasForLocation(
+            $location2,
+            $contentTranslations[(int)$contentInfo2['id']] ?? []
+        );
     }
 
     /**
@@ -1241,26 +1256,30 @@ class Handler implements UrlAliasHandlerInterface
     }
 
     /**
-     * Internal publish custom aliases method, accepting language mask to set correct language mask on url aliases
-     * new alias ID (used when swapping Locations).
+     * Internal publish custom aliases method, accepting the swapped Location's Content's real
+     * (non-always-available) language ids to set the correct languages on url aliases new alias ID
+     * (used when swapping Locations).
      *
-     * $languageMask is the new Content's own "language_mask", whose bit 0 no longer carries the
-     * always-available flag (that moved to the "always_available" column) - $location->isAlwaysAvailable
-     * (set from that column by locationSwapped()) is used instead, combined separately from the
-     * intersected real-language bits.
+     * $contentLanguageIds are the new Content's own real translation languages (from
+     * ibexa_content_translation) - $location->isAlwaysAvailable (set from the always_available
+     * column by locationSwapped()) is combined separately, since always-available is no longer part
+     * of a language id set.
+     *
+     * @param int[] $contentLanguageIds
      */
     private function internalPublishCustomUrlAliasForLocation(
         SwappedLocationProperties $location,
-        int $languageMask
+        array $contentLanguageIds
     ) {
         foreach ($location->entries as $entry) {
             if ((int)$entry['is_alias'] === 0) {
                 continue;
             }
 
-            $mask = (int)$entry['lang_mask'] & $languageMask & ~1;
+            $entryLanguageIds = $this->gateway->loadTranslationLanguageIds((int)$entry['parent'], $entry['text_md5']);
+            $intersectedLanguageIds = array_intersect($entryLanguageIds, $contentLanguageIds);
 
-            if ($mask === 0 && !$location->isAlwaysAvailable) {
+            if (empty($intersectedLanguageIds) && !$location->isAlwaysAvailable) {
                 continue;
             }
 
@@ -1271,7 +1290,10 @@ class Handler implements UrlAliasHandlerInterface
                     'id' => (int)$entry['id'],
                     'is_original' => 1,
                     'is_alias' => 1,
-                    'lang_mask' => $mask | (int)$location->isAlwaysAvailable,
+                    'lang_mask' => $this->maskGenerator->generateLanguageMaskFromLanguageIds(
+                        $intersectedLanguageIds,
+                        $location->isAlwaysAvailable
+                    ),
                     'is_always_available' => $location->isAlwaysAvailable,
                 ]
             );
