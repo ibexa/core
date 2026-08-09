@@ -44,7 +44,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertQueryResult(
             [
                 [
-                    'id' => '8',
+                    'id' => '5',
                     'locale' => 'de-DE',
                     'name' => 'Deutsch (Deutschland)',
                     'disabled' => '0',
@@ -53,7 +53,7 @@ class DoctrineDatabaseTest extends TestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('id', 'locale', 'name', 'disabled')
                 ->from(Gateway::CONTENT_LANGUAGE_TABLE)
-                ->where('id=8')
+                ->where('id=5')
         );
     }
 

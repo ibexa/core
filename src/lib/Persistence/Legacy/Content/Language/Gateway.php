@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway as ObjectStateGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
-use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
 
 /**
  * Content Model language gateway.
@@ -24,30 +23,26 @@ abstract class Gateway
     public const CONTENT_LANGUAGE_TABLE = 'ibexa_content_language';
 
     /**
-     * A map of language-related table name to its language column.
+     * A map of language-related table name to the single column identifying a real language id
+     * that row references (an explicit id column, never a bitmask).
      *
-     * The first column is considered to be a language bitmask.
-     * The second, optional, column is an explicit language id.
+     * "ibexa_content"/"ibexa_content_version" (their "initial_language_id"), the URL alias
+     * translations table, and the Legacy Search Engine's word index are checked explicitly in
+     * {@see DoctrineDatabase::canDeleteLanguage()} instead of via this map.
      *
      * It depends on the schema defined in
      * <code>./src/bundle/Core/Resources/config/storage/legacy/schema.yaml</code>
      */
     public const MULTILINGUAL_TABLES_COLUMNS = [
-        ObjectStateGateway::OBJECT_STATE_TABLE => ['language_mask', 'default_language_id'],
+        ObjectStateGateway::OBJECT_STATE_TABLE => ['default_language_id'],
         ObjectStateGateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => ['language_id'],
-        ObjectStateGateway::OBJECT_STATE_GROUP_TABLE => ['language_mask', 'default_language_id'],
+        ObjectStateGateway::OBJECT_STATE_GROUP_TABLE => ['default_language_id'],
         ObjectStateGateway::OBJECT_STATE_LANGUAGE_TABLE => ['language_id'],
         ContentTypeGateway::MULTILINGUAL_FIELD_DEFINITION_TABLE => ['language_id'],
         ContentTypeGateway::CONTENT_TYPE_NAME_TABLE => ['language_id'],
-        ContentTypeGateway::CONTENT_TYPE_TABLE => ['language_mask', 'initial_language_id'],
+        ContentTypeGateway::CONTENT_TYPE_TABLE => ['initial_language_id'],
         ContentGateway::CONTENT_FIELD_TABLE => ['language_id'],
         ContentGateway::CONTENT_NAME_TABLE => ['language_id'],
-        ContentGateway::CONTENT_VERSION_TABLE => ['language_mask', 'initial_language_id'],
-        ContentGateway::CONTENT_ITEM_TABLE => ['language_mask', 'initial_language_id'],
-        UrlAliasGateway::TABLE => ['lang_mask'],
-        // Legacy Search Engine's word index - not referenced via a Persistence-layer Gateway
-        // constant, since importing one from Search\Legacy would invert the layer dependency.
-        'ibexa_search_object_word_link' => ['language_mask'],
     ];
 
     /**

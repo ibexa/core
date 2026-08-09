@@ -164,7 +164,7 @@ services:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LanguageCode
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            $maskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $languageHandler: '@ibexa.spi.persistence.legacy.language.handler'
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}

@@ -18,7 +18,8 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine\DoctrineGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
@@ -31,8 +32,8 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
     /** @var ConverterRegistry */
     private $converterRegistry;
 
-    /** @var MaskGenerator */
-    private $languageMaskGenerator;
+    /** @var Gateway */
+    private $languageGateway;
 
     /** @var LanguageHandler */
     private $languageHandler;
@@ -42,12 +43,12 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
 
     public function __construct(
         LanguageHandler $languageHandler,
-        MaskGenerator $languageMaskGenerator,
+        LanguageGateway $languageGateway,
         ContentTypeHandler $contentTypeHandler,
         ConverterRegistry $converterRegistry,
         private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
-        $this->languageMaskGenerator = $languageMaskGenerator;
+        $this->languageGateway = $languageGateway;
         $this->languageHandler = $languageHandler;
         $this->contentTypeHandler = $contentTypeHandler;
         $this->converterRegistry = $converterRegistry;
@@ -108,8 +109,10 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         $versionInfo->names = $row['content_version_names'];
 
         // Map language codes
-        $versionInfo->languageCodes = $this->languageMaskGenerator->extractLanguageCodesFromMask(
-            (int)$row['content_version_language_mask']
+        $languageIds = $this->languageGateway->loadVersionTranslations([$versionInfo->id])[$versionInfo->id] ?? [];
+        $versionInfo->languageCodes = array_map(
+            fn (int $languageId): string => $this->languageHandler->load($languageId)->languageCode,
+            $languageIds
         );
         $versionInfo->initialLanguageCode = $this->languageHandler->load(
             (int)$row['content_version_initial_language_id']
