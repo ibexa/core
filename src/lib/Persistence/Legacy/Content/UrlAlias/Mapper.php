@@ -47,7 +47,7 @@ class Mapper
         $urlAlias->id = $this->generateIdentityKey((int)$data['parent'], $data['text_md5']);
         $urlAlias->pathData = $this->normalizePathData($data['raw_path_data']);
         $urlAlias->languageCodes = $this->languageMaskGenerator->extractLanguageCodesFromMask($data['lang_mask']);
-        $urlAlias->alwaysAvailable = $this->languageMaskGenerator->isAlwaysAvailable($data['lang_mask']);
+        $urlAlias->alwaysAvailable = (bool)$data['is_always_available'];
         $urlAlias->isHistory = isset($data['is_path_history']) ? $data['is_path_history'] : !$data['is_original'];
         $urlAlias->isCustom = (bool)$data['is_alias'];
         $urlAlias->forward = $data['is_alias'] && $data['alias_redirects'];
@@ -164,7 +164,7 @@ class Mapper
     protected function normalizePathDataRow(array &$pathElementData, array $row)
     {
         $languageCodes = $this->languageMaskGenerator->extractLanguageCodesFromMask($row['lang_mask']);
-        $pathElementData['always-available'] = $this->languageMaskGenerator->isAlwaysAvailable($row['lang_mask']);
+        $pathElementData['always-available'] = (bool)$row['is_always_available'];
         if (!empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
                 $pathElementData['translations'][$languageCode] = $row['text'];
