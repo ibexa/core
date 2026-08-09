@@ -87,7 +87,11 @@ class HandlerLocationSortTest extends AbstractTestCase
                         new CommonSortClauseHandler\Field(
                             $connection,
                             $this->getLanguageHandler(),
-                            $this->getContentTypeHandler()
+                            $this->getContentTypeHandler(),
+                            new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                                $connection,
+                                $this->getLanguageHandler()
+                            )
                         ),
                     ]
                 ),
@@ -98,7 +102,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 $this->getContentTypeHandler(),
                 $this->getDefinitionBasedTransformationProcessor(),
                 new Content\WordIndexer\Repository\SearchIndex($this->getDatabaseConnection()),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getFullTextSearchConfiguration()
             ),
             $this->createMock(ContentMapper::class),

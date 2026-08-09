@@ -164,6 +164,50 @@ class Legacy extends SetupFactory
 
         $fixtureImporter = new FixtureImporter($connection);
         $fixtureImporter->import($this->getInitialDataFixture());
+
+        $this->backfillLanguageBitmaskColumns($connection);
+    }
+
+    /**
+     * "test_data.yaml" predates "always_available" becoming a plain column and the
+     * "ibexa_content_translation"/"ibexa_content_version_translation" join tables, and only sets
+     * "language_mask" - mirror what the real AddContentAlwaysAvailableColumnsMigration/
+     * AddLanguageTranslationTablesMigration backfills do, so fixture rows behave consistently with
+     * rows written through the gateway.
+     *
+     * "ibexa_content_translation"/"ibexa_content_version_translation" aren't part of the YAML
+     * fixture, so FixtureImporter never truncates them - this method is called on every
+     * insertData(), so it must clear them itself before recomputing, or a second test run would
+     * violate their primary key.
+     */
+    private function backfillLanguageBitmaskColumns(Connection $connection): void
+    {
+        $connection->executeStatement('DELETE FROM ibexa_content_translation');
+        $connection->executeStatement('DELETE FROM ibexa_content_version_translation');
+
+        $connection->executeStatement(
+            'UPDATE ibexa_content SET always_available = 1 WHERE (language_mask & 1) = 1'
+        );
+        $connection->executeStatement(
+            'UPDATE ibexa_content_version SET always_available = 1 WHERE (language_mask & 1) = 1'
+        );
+        $connection->executeStatement(
+            'INSERT INTO ibexa_content_translation (content_id, language_id)
+             SELECT c.id, l.id FROM ibexa_content c
+             JOIN ibexa_content_language l ON (c.language_mask & l.id) = l.id'
+        );
+        $connection->executeStatement(
+            'INSERT INTO ibexa_content_version_translation (content_version_id, language_id)
+             SELECT v.id, l.id FROM ibexa_content_version v
+             JOIN ibexa_content_language l ON (v.language_mask & l.id) = l.id'
+        );
+        $connection->executeStatement(
+            'UPDATE ibexa_search_object_word_link SET language_id = (language_mask & -2)'
+        );
+        $connection->executeStatement(
+            'UPDATE ibexa_search_object_word_link
+             SET is_main_and_always_available = 1 WHERE (language_mask & 1) = 1'
+        );
     }
 
     protected function getInitialVarDir(): string

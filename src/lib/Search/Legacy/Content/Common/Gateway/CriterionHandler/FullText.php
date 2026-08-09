@@ -7,18 +7,16 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
-use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -79,7 +77,7 @@ class FullText extends CriterionHandler
     public function __construct(
         Connection $connection,
         protected TransformationProcessor $processor,
-        private readonly MaskGenerator $languageMaskGenerator,
+        private readonly LanguageHandler $languageHandler,
         JoinedTablesTracker $joinedTablesTracker,
         array $configuration = []
     ) {
@@ -216,20 +214,27 @@ class FullText extends CriterionHandler
             );
 
         if (!empty($languageSettings['languages'])) {
-            $languageMask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes(
-                $languageSettings['languages'],
-                $languageSettings['useAlwaysAvailable'] ?? true
+            $languageIds = array_map(
+                fn (string $languageCode): int => $this->languageHandler->loadByLanguageCode($languageCode)->id,
+                $languageSettings['languages']
             );
 
-            $subSelect->andWhere(
-                $expr->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        'ibexa_search_object_word_link.language_mask',
-                        $queryBuilder->createNamedParameter($languageMask, ParameterType::INTEGER)
-                    ),
-                    $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
-                )
+            $languageCondition = $expr->in(
+                'ibexa_search_object_word_link.language_id',
+                $queryBuilder->createNamedParameter($languageIds, ArrayParameterType::INTEGER)
             );
+
+            if ($languageSettings['useAlwaysAvailable'] ?? true) {
+                $languageCondition = $expr->or(
+                    $languageCondition,
+                    $expr->eq(
+                        'ibexa_search_object_word_link.is_main_and_always_available',
+                        $queryBuilder->createNamedParameter(true, ParameterType::BOOLEAN)
+                    )
+                );
+            }
+
+            $subSelect->andWhere($languageCondition);
         }
 
         return $expr->in(
@@ -268,14 +273,5 @@ class FullText extends CriterionHandler
 
         // Calculate the int stopWordThresholdValue based on count (first column) * factor
         return $this->stopWordThresholdValue = (int)($count * $this->configuration['stopWordThresholdFactor']);
-    }
-
-    private function getDatabasePlatform(): AbstractPlatform
-    {
-        try {
-            return $this->connection->getDatabasePlatform();
-        } catch (Exception $e) {
-            throw DatabaseException::wrap($e);
-        }
     }
 }

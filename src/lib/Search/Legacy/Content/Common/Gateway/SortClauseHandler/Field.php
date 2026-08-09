@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
 
 /**
@@ -36,15 +37,19 @@ class Field extends SortClauseHandler
      */
     protected $contentTypeHandler;
 
+    private LanguagePriorityConditionBuilder $languagePriorityConditionBuilder;
+
     public function __construct(
         Connection $connection,
         LanguageHandler $languageHandler,
-        ContentTypeHandler $contentTypeHandler
+        ContentTypeHandler $contentTypeHandler,
+        LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {
         parent::__construct($connection);
 
         $this->languageHandler = $languageHandler;
         $this->contentTypeHandler = $contentTypeHandler;
+        $this->languagePriorityConditionBuilder = $languagePriorityConditionBuilder;
     }
 
     /**
@@ -160,81 +165,10 @@ class Field extends SortClauseHandler
         array $languageSettings,
         $fieldTableName
     ) {
-        // 1. Use main language(s) by default
-        if (empty($languageSettings['languages'])) {
-            return $query->expr()->gt(
-                $this->dbPlatform->getBitAndComparisonExpression(
-                    'c.initial_language_id',
-                    $fieldTableName . '.language_id'
-                ),
-                $query->createNamedParameter(0, ParameterType::INTEGER)
-            );
-        }
-
-        // 2. Otherwise use prioritized languages
-        $leftSide = $this->dbPlatform->getBitAndComparisonExpression(
-            sprintf(
-                'c.language_mask - %s',
-                $this->dbPlatform->getBitAndComparisonExpression(
-                    'c.language_mask',
-                    $fieldTableName . '.language_id'
-                )
-            ),
-            $query->createNamedParameter(1, ParameterType::INTEGER)
-        );
-        $rightSide = $this->dbPlatform->getBitAndComparisonExpression(
-            $fieldTableName . '.language_id',
-            $query->createNamedParameter(1, ParameterType::INTEGER)
-        );
-
-        for ($index = count(
-            $languageSettings['languages']
-        ) - 1, $multiplier = 2; $index >= 0; $index--, $multiplier *= 2) {
-            $languageId = $this->languageHandler
-                ->loadByLanguageCode($languageSettings['languages'][$index])->id;
-
-            $addToLeftSide = $this->dbPlatform->getBitAndComparisonExpression(
-                sprintf(
-                    'c.language_mask - %s',
-                    $this->dbPlatform->getBitAndComparisonExpression(
-                        'c.language_mask',
-                        $fieldTableName . '.language_id'
-                    )
-                ),
-                $query->createNamedParameter($languageId, ParameterType::INTEGER)
-            );
-            $addToRightSide = $this->dbPlatform->getBitAndComparisonExpression(
-                $fieldTableName . '.language_id',
-                $query->createNamedParameter($languageId, ParameterType::INTEGER)
-            );
-
-            if ($multiplier > $languageId) {
-                $factor = $multiplier / $languageId;
-                for ($shift = 0; $factor > 1; $factor = $factor / 2, $shift++);
-                $factorTerm = ' << ' . $shift;
-                $addToLeftSide .= $factorTerm;
-                $addToRightSide .= $factorTerm;
-            } elseif ($multiplier < $languageId) {
-                $factor = $languageId / $multiplier;
-                for ($shift = 0; $factor > 1; $factor = $factor / 2, $shift++);
-                $factorTerm = ' >> ' . $shift;
-                $addToLeftSide .= $factorTerm;
-                $addToRightSide .= $factorTerm;
-            }
-
-            $leftSide = "$leftSide + ($addToLeftSide)";
-            $rightSide = "$rightSide + ($addToRightSide)";
-        }
-
-        return $query->expr()->and(
-            $query->expr()->gt(
-                $this->dbPlatform->getBitAndComparisonExpression(
-                    'c.language_mask',
-                    $fieldTableName . '.language_id'
-                ),
-                $query->createNamedParameter(0, ParameterType::INTEGER)
-            ),
-            $query->expr()->lt($leftSide, $rightSide)
+        return $this->languagePriorityConditionBuilder->buildCondition(
+            $query,
+            $languageSettings,
+            $fieldTableName . '.language_id'
         );
     }
 }

@@ -156,7 +156,8 @@ class Handler implements SearchHandlerInterface
             $searchHit->matchedTranslation = $this->extractMatchedLanguage(
                 $data['rows'][$index]['language_mask'],
                 $data['rows'][$index]['initial_language_id'],
-                $languageFilter
+                $languageFilter,
+                (bool)$data['rows'][$index]['always_available']
             );
 
             $result->searchHits[] = $searchHit;
@@ -165,7 +166,7 @@ class Handler implements SearchHandlerInterface
         return $result;
     }
 
-    protected function extractMatchedLanguage($languageMask, $mainLanguageId, $languageSettings)
+    protected function extractMatchedLanguage($languageMask, $mainLanguageId, $languageSettings, bool $alwaysAvailable = false)
     {
         $languageList = !empty($languageSettings['languages']) ?
             $this->languageHandler->loadListByLanguageCodes($languageSettings['languages']) :
@@ -177,7 +178,7 @@ class Handler implements SearchHandlerInterface
             }
         }
 
-        if ($languageMask & 1 || empty($languageSettings['languages'])) {
+        if ($alwaysAvailable || empty($languageSettings['languages'])) {
             return $this->languageHandler->load($mainLanguageId)->languageCode;
         }
 
@@ -238,7 +239,8 @@ class Handler implements SearchHandlerInterface
             $searchHit->matchedTranslation = $this->extractMatchedLanguage(
                 $data['rows'][$index]['language_mask'],
                 $data['rows'][$index]['initial_language_id'],
-                $languageFilter
+                $languageFilter,
+                (bool)$data['rows'][$index]['always_available']
             );
 
             $result->searchHits[] = $searchHit;

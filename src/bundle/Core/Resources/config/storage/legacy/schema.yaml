@@ -531,6 +531,8 @@ tables:
             section_id: { type: integer, nullable: false, options: { default: '0' } }
             word_id: { type: integer, nullable: false, options: { default: '0' } }
             language_mask: { type: bigint, nullable: false, options: { default: '0' } }
+            language_id: { type: integer, nullable: false, options: { default: '0' } }
+            is_main_and_always_available: { type: boolean, nullable: false, options: { default: false } }
     ibexa_search_word:
         indexes:
             ibexa_search_word_word_i: { fields: [word] }

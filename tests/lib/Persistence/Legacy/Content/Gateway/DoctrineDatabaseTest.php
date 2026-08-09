@@ -36,6 +36,29 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     protected $databaseGateway;
 
     /**
+     * None of this file's fixtures populate "ibexa_content_language", but insertContentObject()/
+     * insertVersion()/updateVersion() now also write to "ibexa_content_translation"/
+     * "ibexa_content_version_translation", which FK-reference it - seed the same 3 languages
+     * LanguageHandlerMock already pretends exist, so those inserts don't violate the constraint.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        foreach ($this->getLanguageHandler()->loadAll() as $language) {
+            $this->getDatabaseConnection()->insert(
+                'ibexa_content_language',
+                [
+                    'id' => $language->id,
+                    'locale' => $language->languageCode,
+                    'name' => $language->name,
+                    'disabled' => 0,
+                ]
+            );
+        }
+    }
+
+    /**
      * @todo Fix not available fields
      */
     public function testInsertContentObject()
@@ -55,7 +78,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'current_version' => '1',
                     'initial_language_id' => '2',
                     'remote_id' => 'some_remote_id',
-                    'language_mask' => '3',
+                    'language_mask' => '2',
+                    'always_available' => '1',
                     'modified' => '0',
                     'published' => '0',
                     'status' => ContentInfo::STATUS_DRAFT,
@@ -72,6 +96,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'initial_language_id',
                     'remote_id',
                     'language_mask',
+                    'always_available',
                     'modified',
                     'published',
                     'status'
@@ -179,7 +204,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'status' => '0',
                     'workflow_event_pos' => '0',
                     'version' => '1',
-                    'language_mask' => '5',
+                    'language_mask' => '4',
+                    'always_available' => '1',
                     'initial_language_id' => '4',
                     // Not needed, according to field mapping document
                     // 'user_id',
@@ -196,6 +222,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'workflow_event_pos',
                     'version',
                     'language_mask',
+                    'always_available',
                     'initial_language_id'
                 )->from(Gateway::CONTENT_VERSION_TABLE)
         );
@@ -454,7 +481,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'data_text' => 'Test text',
                     'data_type_string' => 'ibexa_string',
                     'language_code' => self::ENG_GB,
-                    'language_id' => '5',
+                    'language_id' => '4',
                     'sort_key_int' => '23',
                     'sort_key_string' => 'Test',
                     'version' => '1',
@@ -596,7 +623,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         foreach ($res as $row) {
             self::assertCount(
-                23,
+                25,
                 $row
             );
         }
@@ -639,7 +666,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         foreach ($res as $row) {
             self::assertCount(
-                23,
+                25,
                 $row
             );
         }
@@ -1427,9 +1454,21 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateAlwaysAvailableFlag(103, false);
 
         $connection = $this->getDatabaseConnection();
+        $this->assertQueryResult(
+            [['always_available' => 0]],
+            $connection->createQueryBuilder()
+                ->select('always_available')
+                ->from(Gateway::CONTENT_ITEM_TABLE)
+                ->where('id = 103')
+        );
+
+        // "language_mask", "ibexa_content_name.language_id" and "ibexa_content_field.language_id"
+        // are no longer touched by updateAlwaysAvailableFlag() - always_available is now a plain
+        // column, so the cascade that used to keep the always-available bit in sync across these
+        // tables is gone. Assert they retain their original (fixture) values, unchanged.
         $query = $connection->createQueryBuilder();
         $this->assertQueryResult(
-            [['id' => 2]],
+            [['id' => 3]],
             $query
                 ->select('language_mask')
                 ->from(Gateway::CONTENT_ITEM_TABLE)
@@ -1437,44 +1476,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     $query->expr()->eq(
                         'id',
                         $query->createPositionalParameter(103, ParameterType::INTEGER)
-                    )
-                )
-        );
-
-        $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
-            [['language_id' => 2]],
-            $query
-                ->select(
-                    'language_id'
-                )->from(
-                    Gateway::CONTENT_NAME_TABLE
-                )->where(
-                    $query->expr()->and(
-                        $query->expr()->eq(
-                            'contentobject_id',
-                            $query->createPositionalParameter(103, ParameterType::INTEGER)
-                        ),
-                        $query->expr()->eq(
-                            'content_version',
-                            $query->createPositionalParameter(1, ParameterType::INTEGER)
-                        )
-                    )
-                )
-        );
-
-        $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
-            [
-                ['language_id' => 2],
-            ],
-            $query
-                ->select('DISTINCT language_id')
-                ->from(Gateway::CONTENT_FIELD_TABLE)
-                ->where(
-                    $query->expr()->and(
-                        $query->expr()->eq('contentobject_id', 103),
-                        $query->expr()->eq('version', 1)
                     )
                 )
         );
@@ -1494,58 +1495,22 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateAlwaysAvailableFlag($contentId, true);
 
         $connection = $this->getDatabaseConnection();
-        $expectedLanguageId = 3;
         $this->assertQueryResult(
-            [['id' => $expectedLanguageId]],
+            [['always_available' => 1]],
             $connection->createQueryBuilder()
-                ->select('language_mask')
+                ->select('always_available')
                 ->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where('id = 102')
         );
 
-        $versionNo = 1;
-        $query = $this->getDatabaseConnection()->createQueryBuilder();
+        // "language_mask" is no longer touched by updateAlwaysAvailableFlag() - always_available
+        // is now a plain column - so it retains its original (fixture) value, unchanged.
         $this->assertQueryResult(
-            [
-                ['language_id' => $expectedLanguageId],
-            ],
-            $query
-                ->select('language_id')
-                ->from(Gateway::CONTENT_NAME_TABLE)
-                ->where(
-                    $query->expr()->and(
-                        $query->expr()->eq(
-                            'contentobject_id',
-                            $query->createPositionalParameter($contentId, ParameterType::INTEGER)
-                        ),
-                        $query->expr()->eq(
-                            'content_version',
-                            $query->createPositionalParameter($versionNo, ParameterType::INTEGER)
-                        )
-                    )
-                )
-        );
-
-        $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
-            [
-                ['language_id' => $expectedLanguageId],
-            ],
-            $query
-                ->select('DISTINCT language_id')
-                ->from(Gateway::CONTENT_FIELD_TABLE)
-                ->where(
-                    $query->expr()->and(
-                        $query->expr()->eq(
-                            'contentobject_id',
-                            $query->createPositionalParameter($contentId, ParameterType::INTEGER)
-                        ),
-                        $query->expr()->eq(
-                            'version',
-                            $query->createPositionalParameter($versionNo, ParameterType::INTEGER)
-                        )
-                    )
-                )
+            [['id' => 2]],
+            $connection->createQueryBuilder()
+                ->select('language_mask')
+                ->from(Gateway::CONTENT_ITEM_TABLE)
+                ->where('id = 102')
         );
     }
 
@@ -1569,6 +1534,20 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateContent(4, $contentMetadataUpdateStruct);
 
         $this->assertQueryResult(
+            [['always_available' => 1]],
+            $this->getDatabaseConnection()->createQueryBuilder()->select(
+                'always_available'
+            )->from(
+                Gateway::CONTENT_ITEM_TABLE
+            )->where(
+                'id = 4'
+            )
+        );
+
+        // language_mask is unaffected: updateContent() only recomputes it when a
+        // $prePublishVersionInfo is passed (not the case here), and always-available no longer
+        // contributes a bit to it regardless.
+        $this->assertQueryResult(
             [['id' => 7]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'language_mask'
@@ -1579,12 +1558,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             )
         );
 
+        // ibexa_content_field.language_id is no longer touched by an always-available cascade -
+        // it retains its original (fixture) values, unchanged, for both versions.
         $this->assertContentVersionAttributesLanguages(
             4,
             2,
             [
-                ['id' => '7', 'language_id' => 2],
-                ['id' => '8', 'language_id' => 5],
+                ['id' => '7', 'language_id' => 3],
+                ['id' => '8', 'language_id' => 4],
             ]
         );
 
@@ -1618,7 +1599,21 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateContent(4, $contentMetadataUpdateStruct);
 
         $this->assertQueryResult(
-            [['id' => 6]],
+            [['always_available' => 0]],
+            $this->getDatabaseConnection()->createQueryBuilder()->select(
+                'always_available'
+            )->from(
+                Gateway::CONTENT_ITEM_TABLE
+            )->where(
+                'id = 4'
+            )
+        );
+
+        // language_mask is unaffected: updateContent() only recomputes it when a
+        // $prePublishVersionInfo is passed (not the case here), and always-available no longer
+        // contributes a bit to it regardless.
+        $this->assertQueryResult(
+            [['id' => 7]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'language_mask'
             )->from(
@@ -1628,11 +1623,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             )
         );
 
+        // ibexa_content_field.language_id is no longer touched by an always-available cascade -
+        // it retains its original (fixture) values, unchanged, for both versions.
         $this->assertContentVersionAttributesLanguages(
             4,
             2,
             [
-                ['id' => '7', 'language_id' => 2],
+                ['id' => '7', 'language_id' => 3],
                 ['id' => '8', 'language_id' => 4],
             ]
         );

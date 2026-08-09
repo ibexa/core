@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -46,15 +47,30 @@ class LanguageCode extends CriterionHandler
         array $languageSettings
     ) {
         /* @var $criterion \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode */
-        return $queryBuilder->expr()->gt(
-            $this->dbPlatform->getBitAndComparisonExpression(
-                'c.language_mask',
-                $this->maskGenerator->generateLanguageMaskFromLanguageCodes(
-                    $criterion->value,
-                    $criterion->matchAlwaysAvailable
+        $expr = $queryBuilder->expr();
+        $mask = $this->maskGenerator->generateLanguageMaskFromLanguageCodes($criterion->value);
+        $languageIds = $this->maskGenerator->extractLanguageIdsFromMask($mask);
+
+        $translationSubQuery = $this->connection->createQueryBuilder();
+        $translationSubQuery
+            ->select('1')
+            ->from('ibexa_content_translation', 'ct')
+            ->where(
+                $translationSubQuery->expr()->and(
+                    'ct.content_id = c.id',
+                    $translationSubQuery->expr()->in(
+                        'ct.language_id',
+                        $queryBuilder->createNamedParameter($languageIds, ArrayParameterType::INTEGER)
+                    )
                 )
-            ),
-            0
-        );
+            );
+
+        $condition = sprintf('EXISTS (%s)', $translationSubQuery->getSQL());
+
+        if ($criterion->matchAlwaysAvailable) {
+            return $expr->or($condition, $expr->eq('c.always_available', 1));
+        }
+
+        return $condition;
     }
 }

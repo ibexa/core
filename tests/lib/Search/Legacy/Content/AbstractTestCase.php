@@ -55,8 +55,67 @@ class AbstractTestCase extends LanguageAwareTestCase
         if (!self::$databaseInitialized) {
             parent::setUp();
             $this->insertDatabaseFixture(__DIR__ . '/../_fixtures/full_dump.php');
+            $this->backfillAlwaysAvailableColumns();
+            $this->backfillLanguageTranslationTables();
+            $this->backfillSearchObjectWordLinkLanguageColumns();
             self::$databaseInitialized = true;
         }
+    }
+
+    /**
+     * The "full_dump.php" fixture predates "ibexa_content_translation"/
+     * "ibexa_content_version_translation" and only sets "language_mask" - mirror what the real
+     * ibexa:languages:backfill-translations command does, so criterion/sort handlers that read the
+     * new join tables (rather than decoding the mask) see the same translations the fixture's masks
+     * encode.
+     */
+    private function backfillLanguageTranslationTables(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $connection->executeStatement(
+            'INSERT INTO ibexa_content_translation (content_id, language_id)
+             SELECT c.id, l.id FROM ibexa_content c
+             JOIN ibexa_content_language l ON (c.language_mask & l.id) = l.id'
+        );
+        $connection->executeStatement(
+            'INSERT INTO ibexa_content_version_translation (content_version_id, language_id)
+             SELECT v.id, l.id FROM ibexa_content_version v
+             JOIN ibexa_content_language l ON (v.language_mask & l.id) = l.id'
+        );
+    }
+
+    /**
+     * The "full_dump.php" fixture predates the "always_available" columns on "ibexa_content" and
+     * "ibexa_content_version" and only sets "language_mask" - mirror what the real
+     * AddContentAlwaysAvailableColumnsMigration backfill does, so fixture rows behave consistently
+     * with rows written through the gateway.
+     */
+    private function backfillAlwaysAvailableColumns(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $connection->executeStatement(
+            'UPDATE ibexa_content SET always_available = 1 WHERE (language_mask & 1) = 1'
+        );
+        $connection->executeStatement(
+            'UPDATE ibexa_content_version SET always_available = 1 WHERE (language_mask & 1) = 1'
+        );
+    }
+
+    /**
+     * The "full_dump.php" fixture predates "ibexa_search_object_word_link"'s "language_id"/
+     * "is_main_and_always_available" columns and only sets "language_mask" - mirror what the real
+     * AddSearchObjectWordLinkLanguageIdColumnsMigration backfill does, so FullText criterion tests
+     * see the same language membership the fixture's masks encode.
+     */
+    private function backfillSearchObjectWordLinkLanguageColumns(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $connection->executeStatement(
+            'UPDATE ibexa_search_object_word_link SET language_id = (language_mask & -2)'
+        );
+        $connection->executeStatement(
+            'UPDATE ibexa_search_object_word_link SET is_main_and_always_available = 1 WHERE (language_mask & 1) = 1'
+        );
     }
 
     /**

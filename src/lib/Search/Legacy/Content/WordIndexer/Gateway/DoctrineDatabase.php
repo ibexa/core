@@ -8,8 +8,8 @@
 namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPITypeHandler;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\FullTextData;
 use Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
@@ -57,8 +57,8 @@ class DoctrineDatabase extends Gateway
      */
     protected $searchIndex;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
+    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
+    private $languageHandler;
 
     /**
      * Full text search configuration options.
@@ -72,7 +72,7 @@ class DoctrineDatabase extends Gateway
         SPITypeHandler $typeHandler,
         TransformationProcessor $transformationProcessor,
         SearchIndex $searchIndex,
-        MaskGenerator $languageMaskGenerator,
+        LanguageHandler $languageHandler,
         array $fullTextSearchConfiguration
     ) {
         $this->connection = $connection;
@@ -80,7 +80,7 @@ class DoctrineDatabase extends Gateway
         $this->transformationProcessor = $transformationProcessor;
         $this->searchIndex = $searchIndex;
         $this->fullTextSearchConfiguration = $fullTextSearchConfiguration;
-        $this->languageMaskGenerator = $languageMaskGenerator;
+        $this->languageHandler = $languageHandler;
     }
 
     /**
@@ -252,10 +252,7 @@ class DoctrineDatabase extends Gateway
             $languageCode = $indexArray[$i]['language_code'];
             $wordId = $wordIDArray[$indexWord];
             $isMainAndAlwaysAvailable = $indexArray[$i]['is_main_and_always_available'];
-            $languageMask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes(
-                [$languageCode],
-                $isMainAndAlwaysAvailable
-            );
+            $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
 
             if (isset($indexArray[$i + 1])) {
                 $nextIndexWord = $indexArray[$i + 1]['Word'];
@@ -278,7 +275,8 @@ class DoctrineDatabase extends Gateway
                 $fullTextData->sectionId,
                 $identifier,
                 $integerValue,
-                $languageMask
+                $languageId,
+                $isMainAndAlwaysAvailable
             );
             $prevWordId = $wordId;
             ++$placement;
