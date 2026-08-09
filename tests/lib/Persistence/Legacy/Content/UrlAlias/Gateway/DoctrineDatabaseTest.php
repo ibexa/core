@@ -30,6 +30,27 @@ class DoctrineDatabaseTest extends TestCase
     protected $gateway;
 
     /**
+     * These fixtures predate "is_always_available" becoming a plain column and the
+     * "ibexa_url_alias_ml_translation" join table, and only set "lang_mask" - mirror what the real
+     * AddUrlAliasAlwaysAvailableColumnMigration/AddLanguageTranslationTablesMigration backfills do,
+     * so fixture rows behave consistently with rows written through the gateway.
+     */
+    protected function insertDatabaseFixture(string $file): void
+    {
+        parent::insertDatabaseFixture($file);
+
+        $connection = $this->getDatabaseConnection();
+        $connection->executeStatement(
+            'UPDATE ibexa_url_alias_ml SET is_always_available = 1 WHERE (lang_mask & 1) = 1'
+        );
+        $connection->executeStatement(
+            'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
+             SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
+             JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id'
+        );
+    }
+
+    /**
      * Test for the loadUrlAliasData() method.
      */
     public function testLoadUrlaliasDataNonExistent(): void
@@ -76,6 +97,8 @@ class DoctrineDatabaseTest extends TestCase
                 'text' => 'dva',
                 'parent' => '2',
                 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21',
+                'ibexa_url_alias_ml0_is_always_available' => '0',
+                'is_always_available' => '1',
             ],
             $row
         );
@@ -117,6 +140,8 @@ class DoctrineDatabaseTest extends TestCase
                 'text' => 'dva',
                 'parent' => '2',
                 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21',
+                'ibexa_url_alias_ml0_is_always_available' => '1',
+                'is_always_available' => '0',
             ],
             $row
         );
@@ -132,7 +157,7 @@ class DoctrineDatabaseTest extends TestCase
                 2,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'lang_mask' => '3', 'is_always_available' => true, 'text' => 'jedan'],
                     ],
                 ],
             ],
@@ -140,11 +165,11 @@ class DoctrineDatabaseTest extends TestCase
                 3,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'lang_mask' => '3', 'is_always_available' => true, 'text' => 'jedan'],
                     ],
                     [
-                        ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
-                        ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
+                        ['parent' => '2', 'lang_mask' => '5', 'is_always_available' => true, 'text' => 'two'],
+                        ['parent' => '2', 'lang_mask' => '3', 'is_always_available' => true, 'text' => 'dva'],
                     ],
                 ],
             ],
@@ -152,16 +177,16 @@ class DoctrineDatabaseTest extends TestCase
                 4,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'lang_mask' => '3', 'is_always_available' => true, 'text' => 'jedan'],
                     ],
                     [
-                        ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
-                        ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
+                        ['parent' => '2', 'lang_mask' => '5', 'is_always_available' => true, 'text' => 'two'],
+                        ['parent' => '2', 'lang_mask' => '3', 'is_always_available' => true, 'text' => 'dva'],
                     ],
                     [
-                        ['parent' => '3', 'lang_mask' => '9', 'text' => 'drei'],
-                        ['parent' => '3', 'lang_mask' => '5', 'text' => 'three'],
-                        ['parent' => '3', 'lang_mask' => '3', 'text' => 'tri'],
+                        ['parent' => '3', 'lang_mask' => '9', 'is_always_available' => true, 'text' => 'drei'],
+                        ['parent' => '3', 'lang_mask' => '5', 'is_always_available' => true, 'text' => 'three'],
+                        ['parent' => '3', 'lang_mask' => '3', 'is_always_available' => true, 'text' => 'tri'],
                     ],
                 ],
             ],
@@ -197,7 +222,7 @@ class DoctrineDatabaseTest extends TestCase
                 2,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'lang_mask' => '3', 'is_always_available' => true, 'text' => 'jedan'],
                     ],
                 ],
             ],
@@ -205,10 +230,10 @@ class DoctrineDatabaseTest extends TestCase
                 3,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'lang_mask' => '3', 'is_always_available' => true, 'text' => 'jedan'],
                     ],
                     [
-                        ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
+                        ['parent' => '2', 'lang_mask' => '6', 'is_always_available' => false, 'text' => 'dva'],
                     ],
                 ],
             ],
@@ -216,14 +241,14 @@ class DoctrineDatabaseTest extends TestCase
                 4,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'lang_mask' => '3', 'is_always_available' => true, 'text' => 'jedan'],
                     ],
                     [
-                        ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
+                        ['parent' => '2', 'lang_mask' => '6', 'is_always_available' => false, 'text' => 'dva'],
                     ],
                     [
-                        ['parent' => '3', 'lang_mask' => '4', 'text' => 'three'],
-                        ['parent' => '3', 'lang_mask' => '2', 'text' => 'tri'],
+                        ['parent' => '3', 'lang_mask' => '4', 'is_always_available' => false, 'text' => 'three'],
+                        ['parent' => '3', 'lang_mask' => '2', 'is_always_available' => false, 'text' => 'tri'],
                     ],
                 ],
             ],
@@ -382,6 +407,7 @@ class DoctrineDatabaseTest extends TestCase
                 'parent' => '42',
                 'text' => 'dva',
                 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21',
+                'is_always_available' => '1',
             ],
             $gateway->loadRow(42, 'c67ed9a09ab136fae610b6a087d82e21')
         );
