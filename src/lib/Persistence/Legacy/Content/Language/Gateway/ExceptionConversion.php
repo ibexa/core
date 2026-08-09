@@ -96,4 +96,22 @@ final class ExceptionConversion extends Gateway
             throw DatabaseException::wrap($e);
         }
     }
+
+    public function loadContentTranslations(array $contentIds): array
+    {
+        try {
+            return $this->innerGateway->loadContentTranslations($contentIds);
+        } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function loadVersionTranslations(array $versionIds): array
+    {
+        try {
+            return $this->innerGateway->loadVersionTranslations($versionIds);
+        } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
 }
