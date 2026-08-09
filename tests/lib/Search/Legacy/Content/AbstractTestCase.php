@@ -169,6 +169,13 @@ class AbstractTestCase extends LanguageAwareTestCase
         return $this->contentTypeHandler;
     }
 
+    protected function getLanguageGateway(): \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
+    {
+        return new \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase(
+            $this->getDatabaseConnection()
+        );
+    }
+
     protected function getConverterRegistry()
     {
         if (!isset($this->converterRegistry)) {
