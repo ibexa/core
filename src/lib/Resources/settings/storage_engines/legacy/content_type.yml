@@ -34,7 +34,8 @@ services:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
         arguments:
             - '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@ibexa.persistence.legacy.content_type.gateway'
+            - '@ibexa.spi.persistence.legacy.language.handler'
             - '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface'
             - '@Ibexa\Core\FieldType\FieldTypeAliasResolverInterface'
 
