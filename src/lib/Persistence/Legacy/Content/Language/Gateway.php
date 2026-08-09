@@ -45,6 +45,9 @@ abstract class Gateway
         ContentGateway::CONTENT_VERSION_TABLE => ['language_mask', 'initial_language_id'],
         ContentGateway::CONTENT_ITEM_TABLE => ['language_mask', 'initial_language_id'],
         UrlAliasGateway::TABLE => ['lang_mask'],
+        // Legacy Search Engine's word index - not referenced via a Persistence-layer Gateway
+        // constant, since importing one from Search\Legacy would invert the layer dependency.
+        'ibexa_search_object_word_link' => ['language_mask'],
     ];
 
     /**
@@ -89,4 +92,25 @@ abstract class Gateway
      * Check whether a language may be deleted.
      */
     abstract public function canDeleteLanguage(int $id): bool;
+
+    /**
+     * Loads which languages each of the given Content ids is translated into, from
+     * "ibexa_content_translation" (the relational replacement for "ibexa_content.language_mask").
+     *
+     * @param int[] $contentIds
+     *
+     * @return array<int, int[]> Content id => language ids
+     */
+    abstract public function loadContentTranslations(array $contentIds): array;
+
+    /**
+     * Loads which languages each of the given Content Version ids is translated into, from
+     * "ibexa_content_version_translation" (the relational replacement for
+     * "ibexa_content_version.language_mask").
+     *
+     * @param int[] $versionIds
+     *
+     * @return array<int, int[]> Version id => language ids
+     */
+    abstract public function loadVersionTranslations(array $versionIds): array;
 }

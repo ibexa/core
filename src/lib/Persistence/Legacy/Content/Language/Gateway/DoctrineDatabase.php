@@ -16,6 +16,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 use RuntimeException;
 
@@ -159,8 +160,35 @@ final class DoctrineDatabase extends Gateway
 
     public function canDeleteLanguage(int $id): bool
     {
+        if ($this->existsInTranslationTable($id, 'ibexa_content_translation')) {
+            return false;
+        }
+
+        if ($this->existsInTranslationTable($id, 'ibexa_content_version_translation')) {
+            return false;
+        }
+
+        // "ibexa_content"/"ibexa_content_version" also count as referencing the language when it's
+        // their "initial_language_id" (main language), even without a matching translation row -
+        // e.g. right after ContentService::updateContentMetadata() changes the main language code
+        // without publishing a new version for it.
+        if ($this->existsWithColumnValue($id, ContentGateway::CONTENT_ITEM_TABLE, 'initial_language_id')) {
+            return false;
+        }
+
+        if ($this->existsWithColumnValue($id, ContentGateway::CONTENT_VERSION_TABLE, 'initial_language_id')) {
+            return false;
+        }
+
         // note: at some point this should be delegated to specific gateways
         foreach (self::MULTILINGUAL_TABLES_COLUMNS as $tableName => $columns) {
+            // "ibexa_content"/"ibexa_content_version" are checked via the relational join tables
+            // and the "initial_language_id" probes above instead - EXISTS probes against indexed
+            // columns, rather than a full-table bitwise-AND scan.
+            if ($tableName === ContentGateway::CONTENT_ITEM_TABLE || $tableName === ContentGateway::CONTENT_VERSION_TABLE) {
+                continue;
+            }
+
             $languageMaskColumn = $columns[0];
             $languageIdColumn = $columns[1] ?? null;
             if (
@@ -171,6 +199,28 @@ final class DoctrineDatabase extends Gateway
         }
 
         return true;
+    }
+
+    private function existsWithColumnValue(int $languageId, string $tableName, string $columnName): bool
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('1')
+            ->from($tableName)
+            ->where(
+                $query->expr()->eq(
+                    $columnName,
+                    $query->createPositionalParameter($languageId, ParameterType::INTEGER)
+                )
+            )
+            ->setMaxResults(1);
+
+        return $query->executeQuery()->fetchOne() !== false;
+    }
+
+    private function existsInTranslationTable(int $languageId, string $tableName): bool
+    {
+        return $this->existsWithColumnValue($languageId, $tableName, 'language_id');
     }
 
     /**
@@ -209,6 +259,48 @@ final class DoctrineDatabase extends Gateway
         }
 
         return (int)$query->executeQuery()->fetchOne();
+    }
+
+    public function loadContentTranslations(array $contentIds): array
+    {
+        return $this->loadTranslations('ibexa_content_translation', 'content_id', $contentIds);
+    }
+
+    public function loadVersionTranslations(array $versionIds): array
+    {
+        return $this->loadTranslations('ibexa_content_version_translation', 'content_version_id', $versionIds);
+    }
+
+    /**
+     * @param int[] $ids
+     *
+     * @return array<int, int[]>
+     */
+    private function loadTranslations(string $tableName, string $idColumn, array $ids): array
+    {
+        if (empty($ids)) {
+            return [];
+        }
+
+        $query = $this->connection->createQueryBuilder();
+        $rows = $query
+            ->select($idColumn, 'language_id')
+            ->from($tableName)
+            ->where(
+                $query->expr()->in(
+                    $idColumn,
+                    $query->createNamedParameter($ids, ArrayParameterType::INTEGER, ':ids')
+                )
+            )
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        $translations = [];
+        foreach ($rows as $row) {
+            $translations[(int)$row[$idColumn]][] = (int)$row['language_id'];
+        }
+
+        return $translations;
     }
 
     private function getDatabasePlatform(): AbstractPlatform
