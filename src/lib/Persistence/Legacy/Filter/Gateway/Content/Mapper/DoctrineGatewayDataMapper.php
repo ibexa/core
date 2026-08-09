@@ -194,7 +194,7 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         $contentInfo->ownerId = (int)$row['content_owner_id'];
         $contentInfo->publicationDate = (int)$row['content_published'];
         $contentInfo->modificationDate = (int)$row['content_modified'];
-        $contentInfo->alwaysAvailable = 1 === ($row['content_language_mask'] & 1);
+        $contentInfo->alwaysAvailable = (bool)$row['content_always_available'];
         $contentInfo->mainLanguageCode = $mainLanguage->languageCode;
         $contentInfo->remoteId = $row['content_remote_id'];
         $contentInfo->mainLocationId = $row['content_main_location_id'] !== null
