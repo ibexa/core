@@ -229,6 +229,7 @@ tables:
             current_version: { type: integer, nullable: true }
             initial_language_id: { type: bigint, nullable: false, options: { default: '0' } }
             language_mask: { type: bigint, nullable: false, options: { default: '0' } }
+            always_available: { type: boolean, nullable: false, options: { default: false } }
             modified: { type: integer, nullable: false, options: { default: '0' } }
             name: { type: string, nullable: true, length: 255 }
             owner_id: { type: integer, nullable: false, options: { default: '0' } }
@@ -326,6 +327,7 @@ tables:
             creator_id: { type: integer, nullable: false, options: { default: '0' } }
             initial_language_id: { type: bigint, nullable: false, options: { default: '0' } }
             language_mask: { type: bigint, nullable: false, options: { default: '0' } }
+            always_available: { type: boolean, nullable: false, options: { default: false } }
             modified: { type: integer, nullable: false, options: { default: '0' } }
             status: { type: integer, nullable: false, options: { default: '0' } }
             user_id: { type: integer, nullable: false, options: { default: '0' } }

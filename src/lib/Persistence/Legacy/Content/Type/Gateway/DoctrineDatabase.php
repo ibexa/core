@@ -285,13 +285,7 @@ final class DoctrineDatabase extends Gateway
                             ParameterType::INTEGER
                         ),
                         'language_id' => $query->createPositionalParameter(
-                            $this->languageMaskGenerator->generateLanguageIndicator(
-                                $language,
-                                $this->languageMaskGenerator->isLanguageAlwaysAvailable(
-                                    $language,
-                                    $languages
-                                )
-                            ),
+                            $this->languageMaskGenerator->generateLanguageIndicator($language, false),
                             ParameterType::INTEGER
                         ),
                         'language_locale' => $query->createPositionalParameter(

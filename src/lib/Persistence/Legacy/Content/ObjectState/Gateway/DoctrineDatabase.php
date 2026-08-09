@@ -583,10 +583,7 @@ final class DoctrineDatabase extends Gateway
                             ParameterType::STRING
                         ),
                         'language_id' => $query->createPositionalParameter(
-                            $this->maskGenerator->generateLanguageIndicator(
-                                $languageCode,
-                                $languageCode === $objectState->defaultLanguage
-                            ),
+                            $this->maskGenerator->generateLanguageIndicator($languageCode, false),
                             ParameterType::INTEGER
                         ),
                     ]
@@ -637,10 +634,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
         foreach ($objectStateGroup->languageCodes as $languageCode) {
-            $languageId = $this->maskGenerator->generateLanguageIndicator(
-                $languageCode,
-                $languageCode === $objectStateGroup->defaultLanguage
-            );
+            $languageId = $this->maskGenerator->generateLanguageIndicator($languageCode, false);
             $query
                 ->setParameter('contentobject_state_group_id', $objectStateGroup->id, ParameterType::INTEGER)
                 ->setParameter('description', $objectStateGroup->description[$languageCode], ParameterType::STRING)

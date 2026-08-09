@@ -465,7 +465,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     {
         return [
             ['content_type_status', [0, 0]],
-            ['language_id', [3, 4]],
+            ['language_id', [2, 4]],
             ['language_locale', ['eng-US', 'eng-GB']],
             ['name', ['Folder', 'Folder (GB)']],
         ];
@@ -858,7 +858,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 [
                     'content_type_id' => 1,
                     'content_type_status' => 0,
-                    'language_id' => 3,
+                    'language_id' => 2,
                     'language_locale' => 'eng-US',
                     'name' => 'New Folder',
                 ],

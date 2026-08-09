@@ -149,6 +149,7 @@ final class QueryBuilder
                 'v.contentobject_id AS content_version_contentobject_id',
                 'v.initial_language_id AS content_version_initial_language_id',
                 'v.language_mask AS content_version_language_mask',
+                'v.always_available AS content_version_always_available',
                 // Content main location
                 't.main_node_id AS content_tree_main_node_id',
                 // Content object
@@ -164,6 +165,7 @@ final class QueryBuilder
                 'c.status AS content_status',
                 'c.name AS content_name',
                 'c.language_mask AS content_language_mask',
+                'c.always_available AS content_always_available',
                 'c.is_hidden AS content_is_hidden'
             )
             ->from(Gateway::CONTENT_VERSION_TABLE, 'v')
