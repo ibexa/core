@@ -14,16 +14,15 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
@@ -43,7 +42,7 @@ final class DoctrineDatabase extends Gateway
 
     public function __construct(
         private readonly Connection $connection,
-        private readonly MaskGenerator $languageMaskGenerator,
+        private readonly LanguageHandler $languageHandler,
         private readonly CriteriaConverter $trashCriteriaConverter,
         private readonly SortClauseConverter $trashSortClauseConverter,
         private readonly CountQueryBuilder $countQueryBuilder
@@ -1437,12 +1436,11 @@ final class DoctrineDatabase extends Gateway
         bool $useAlwaysAvailable
     ): void {
         $expr = $queryBuilder->expr();
-        try {
-            $mask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes($translations);
-        } catch (NotFoundException $e) {
+        $languages = $this->languageHandler->loadListByLanguageCodes($translations);
+        if (array_diff($translations, array_keys($languages)) !== []) {
             return;
         }
-        $languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask($mask);
+        $languageIds = array_map(static fn ($language) => $language->id, array_values($languages));
 
         $queryBuilder->leftJoin(
             't',

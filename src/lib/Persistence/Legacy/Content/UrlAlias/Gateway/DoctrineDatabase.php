@@ -15,10 +15,10 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use RuntimeException;
@@ -46,7 +46,6 @@ final class DoctrineDatabase extends Gateway
         'is_original' => ParameterType::INTEGER,
         'action' => ParameterType::STRING,
         'action_type' => ParameterType::STRING,
-        'lang_mask' => ParameterType::INTEGER,
         'text' => ParameterType::STRING,
         'parent' => ParameterType::INTEGER,
         'text_md5' => ParameterType::STRING,
@@ -57,7 +56,7 @@ final class DoctrineDatabase extends Gateway
 
     public function __construct(
         private Connection $connection,
-        private LanguageMaskGenerator $languageMaskGenerator
+        private LanguageHandler $languageHandler
     ) {
         $this->table = static::TABLE;
     }
@@ -97,7 +96,6 @@ final class DoctrineDatabase extends Gateway
                 'link',
                 'is_alias',
                 'alias_redirects',
-                'lang_mask',
                 'is_always_available',
                 'is_original',
                 'parent',
@@ -154,7 +152,6 @@ final class DoctrineDatabase extends Gateway
                 'link',
                 'is_alias',
                 'alias_redirects',
-                'lang_mask',
                 'is_always_available',
                 'is_original',
                 'parent',
@@ -188,7 +185,7 @@ final class DoctrineDatabase extends Gateway
             ->setFirstResult($offset);
 
         if (isset($languageCode)) {
-            $languageId = $this->languageMaskGenerator->generateLanguageIndicator($languageCode, false);
+            $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
             $query->andWhere($this->buildTranslationExistsCondition($query, 'u.parent', 'u.text_md5', [$languageId]));
         }
         $statement = $query->executeQuery();
@@ -402,46 +399,10 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Update single row data matched by composite primary key.
-     *
-     * Removes given $languageId from entry's language mask
+     * Removes given $languageId from entry's set of translations.
      */
     private function removeTranslation(int $parentId, string $textMD5, int $languageId): void
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->update($this->connection->quoteIdentifier($this->table))
-            ->set(
-                'lang_mask',
-                $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                    'lang_mask',
-                    $query->createPositionalParameter(
-                        ~$languageId,
-                        ParameterType::INTEGER
-                    )
-                )
-            )
-            ->where(
-                $query->expr()->eq(
-                    'parent',
-                    $query->createPositionalParameter(
-                        $parentId,
-                        ParameterType::INTEGER
-                    )
-                )
-            )
-            ->andWhere(
-                $query->expr()->eq(
-                    'text_md5',
-                    $query->createPositionalParameter(
-                        $textMD5,
-                        ParameterType::STRING
-                    )
-                )
-            )
-        ;
-        $query->executeStatement();
-
         $this->connection->executeStatement(
             'DELETE FROM ibexa_url_alias_ml_translation WHERE parent = :parent AND text_md5 = :textMd5 AND language_id = :languageId',
             ['parent' => $parentId, 'textMd5' => $textMD5, 'languageId' => $languageId],
@@ -515,9 +476,16 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
+    /**
+     * @param array<string, mixed> $values associative array with column names as keys and column
+     *        values as values - "language_ids" (int[]) is a pseudo-column: it does not map to a
+     *        real table column, and instead replaces the row's translations in
+     *        "ibexa_url_alias_ml_translation".
+     */
     public function updateRow(int $parentId, string $textMD5, array $values): void
     {
-        $values = $this->injectAlwaysAvailable($values);
+        $languageIds = $values['language_ids'] ?? null;
+        unset($values['language_ids']);
 
         $query = $this->connection->createQueryBuilder();
         $query->update($this->connection->quoteIdentifier($this->table));
@@ -546,8 +514,8 @@ final class DoctrineDatabase extends Gateway
             );
         $query->executeStatement();
 
-        if (array_key_exists('lang_mask', $values)) {
-            $this->syncUrlAliasTranslations($parentId, $textMD5, (int)$values['lang_mask']);
+        if (null !== $languageIds) {
+            $this->syncUrlAliasTranslations($parentId, $textMD5, $languageIds);
         }
     }
 
@@ -581,7 +549,8 @@ final class DoctrineDatabase extends Gateway
             $values['is_original'] = 1;
         }
 
-        $values = $this->injectAlwaysAvailable($values);
+        $languageIds = $values['language_ids'] ?? null;
+        unset($values['language_ids']);
 
         $query = $this->connection->createQueryBuilder();
         $query->insert($this->connection->quoteIdentifier($this->table));
@@ -597,39 +566,19 @@ final class DoctrineDatabase extends Gateway
         }
         $query->executeStatement();
 
-        if (array_key_exists('lang_mask', $values)) {
-            $this->syncUrlAliasTranslations((int)$values['parent'], (string)$values['text_md5'], (int)$values['lang_mask']);
+        if (null !== $languageIds) {
+            $this->syncUrlAliasTranslations((int)$values['parent'], (string)$values['text_md5'], $languageIds);
         }
 
         return (int)$values['id'];
     }
 
     /**
-     * Adds "is_always_available" to $values, derived from bit 0 of "lang_mask", when the caller
-     * only set the mask - mirrors what AddUrlAliasAlwaysAvailableColumnMigration's backfill does,
-     * so the boolean column never drifts out of sync with the mask that still remains its source of
-     * truth for now.
+     * Replaces $parentId/$textMD5's rows in "ibexa_url_alias_ml_translation" with $languageIds.
      *
-     * @param array<string, mixed> $values
-     *
-     * @return array<string, mixed>
+     * @param int[] $languageIds
      */
-    private function injectAlwaysAvailable(array $values): array
-    {
-        if (array_key_exists('lang_mask', $values) && !array_key_exists('is_always_available', $values)) {
-            $values['is_always_available'] = $this->languageMaskGenerator->isAlwaysAvailable((int)$values['lang_mask']);
-        }
-
-        return $values;
-    }
-
-    /**
-     * Replaces $parentId/$textMD5's rows in "ibexa_url_alias_ml_translation" with the real
-     * (non-always-available) language ids encoded in $languageMask - mirrors
-     * AddLanguageTranslationTablesMigration's backfill, keeping the join table in sync with every
-     * write to "lang_mask" until the mask column itself is dropped.
-     */
-    private function syncUrlAliasTranslations(int $parentId, string $textMD5, int $languageMask): void
+    private function syncUrlAliasTranslations(int $parentId, string $textMD5, array $languageIds): void
     {
         $this->connection->executeStatement(
             'DELETE FROM ibexa_url_alias_ml_translation WHERE parent = :parent AND text_md5 = :textMd5',
@@ -637,7 +586,7 @@ final class DoctrineDatabase extends Gateway
             ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
         );
 
-        foreach ($this->languageMaskGenerator->extractLanguageIdsFromMask($languageMask) as $languageId) {
+        foreach ($languageIds as $languageId) {
             $this->connection->executeStatement(
                 'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id) VALUES (:parent, :textMd5, :languageId)',
                 ['parent' => $parentId, 'textMd5' => $textMD5, 'languageId' => $languageId],
@@ -795,7 +744,6 @@ final class DoctrineDatabase extends Gateway
             $query->select(
                 'parent',
                 'text_md5',
-                'lang_mask',
                 'is_always_available',
                 'text'
             )->from(
@@ -871,7 +819,6 @@ final class DoctrineDatabase extends Gateway
             'action',
             'parent',
             'text_md5',
-            'lang_mask',
             'is_always_available',
             'text'
         )->from(
@@ -1037,15 +984,6 @@ final class DoctrineDatabase extends Gateway
 
     public function bulkRemoveTranslation(int $languageId, array $actions): void
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->update($this->connection->quoteIdentifier($this->table))
-            // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
-            ->set('lang_mask', 'lang_mask & ~ ' . $languageId)
-            ->where('action IN (:actions)')
-            ->setParameter('actions', $actions, ArrayParameterType::STRING);
-        $query->executeStatement();
-
         $this->connection->executeStatement(
             'DELETE FROM ibexa_url_alias_ml_translation
              WHERE language_id = :languageId
@@ -1457,7 +1395,6 @@ final class DoctrineDatabase extends Gateway
             ->select(
                 't1.id',
                 't1.is_original',
-                't1.lang_mask',
                 't1.link',
                 't1.parent',
                 // show existing parent only if its row exists, special case for root parent

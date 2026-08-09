@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Core\Persistence;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldRegistry;
@@ -29,13 +28,6 @@ abstract class LanguageAwareTestCase extends TestCase
      */
     protected $languageHandler;
 
-    /**
-     * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    protected $languageMaskGenerator;
-
     protected CriterionVisitor $criterionVisitor;
 
     /**
@@ -50,22 +42,6 @@ abstract class LanguageAwareTestCase extends TestCase
         }
 
         return $this->languageHandler;
-    }
-
-    /**
-     * Returns a language mask generator.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    protected function getLanguageMaskGenerator()
-    {
-        if (!isset($this->languageMaskGenerator)) {
-            $this->languageMaskGenerator = new LanguageMaskGenerator(
-                $this->getLanguageHandler()
-            );
-        }
-
-        return $this->languageMaskGenerator;
     }
 
     protected function getCriterionVisitor(): CriterionVisitor

@@ -48,7 +48,6 @@ final class DoctrineGateway implements Gateway
         'content_version_created' => 'version.created',
         'content_version_modified' => 'version.modified',
         'content_version_status' => 'version.status',
-        'content_version_language_mask' => 'version.language_mask',
         'content_version_always_available' => 'version.always_available',
         'content_version_initial_language_id' => 'version.initial_language_id',
         // Main Location (nullable)

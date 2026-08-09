@@ -11,7 +11,6 @@ tables:
     ibexa_object_state:
         indexes:
             ibexa_object_state_priority: { fields: [priority] }
-            ibexa_object_state_lmask: { fields: [language_mask] }
         uniqueConstraints:
             ibexa_object_state_identifier: { fields: [group_id, identifier] }
         id:
@@ -20,11 +19,8 @@ tables:
             default_language_id: { type: bigint, nullable: false, options: { default: '0' } }
             group_id: { type: integer, nullable: false, options: { default: '0' } }
             identifier: { type: string, nullable: false, length: 45, options: { default: '' } }
-            language_mask: { type: bigint, nullable: false, options: { default: '0' } }
             priority: { type: integer, nullable: false, options: { default: '0' } }
     ibexa_object_state_group:
-        indexes:
-            ibexa_object_state_group_lmask: { fields: [language_mask] }
         uniqueConstraints:
             ibexa_object_state_group_identifier: { fields: [identifier] }
         id:
@@ -32,7 +28,6 @@ tables:
         fields:
             default_language_id: { type: bigint, nullable: false, options: { default: '0' } }
             identifier: { type: string, nullable: false, length: 45, options: { default: '' } }
-            language_mask: { type: bigint, nullable: false, options: { default: '0' } }
     ibexa_object_state_group_language:
         id:
             contentobject_state_group_id: { type: integer, nullable: false, options: { default: '0' } }
@@ -129,7 +124,6 @@ tables:
             identifier: { type: string, nullable: false, length: 50, options: { default: '' } }
             initial_language_id: { type: bigint, nullable: false, options: { default: '0' } }
             is_container: { type: integer, nullable: false, options: { default: '0' } }
-            language_mask: { type: bigint, nullable: false, options: { default: '0' } }
             modified: { type: integer, nullable: false, options: { default: '0' } }
             modifier_id: { type: integer, nullable: false, options: { default: '0' } }
             remote_id: { type: string, nullable: false, length: 100, options: { default: '' } }
@@ -214,7 +208,6 @@ tables:
     ibexa_content:
         indexes:
             ibexa_content_type_id: { fields: [content_type_id] }
-            ibexa_content_lmask: { fields: [language_mask] }
             ibexa_content_pub: { fields: [published] }
             ibexa_content_section: { fields: [section_id] }
             ibexa_content_currentversion: { fields: [current_version] }
@@ -228,7 +221,6 @@ tables:
             content_type_id: { type: integer, nullable: false, options: { default: '0' } }
             current_version: { type: integer, nullable: true }
             initial_language_id: { type: bigint, nullable: false, options: { default: '0' } }
-            language_mask: { type: bigint, nullable: false, options: { default: '0' } }
             always_available: { type: boolean, nullable: false, options: { default: false } }
             modified: { type: integer, nullable: false, options: { default: '0' } }
             name: { type: string, nullable: true, length: 255 }
@@ -326,7 +318,6 @@ tables:
             created: { type: integer, nullable: false, options: { default: '0' } }
             creator_id: { type: integer, nullable: false, options: { default: '0' } }
             initial_language_id: { type: bigint, nullable: false, options: { default: '0' } }
-            language_mask: { type: bigint, nullable: false, options: { default: '0' } }
             always_available: { type: boolean, nullable: false, options: { default: false } }
             modified: { type: integer, nullable: false, options: { default: '0' } }
             status: { type: integer, nullable: false, options: { default: '0' } }
@@ -530,7 +521,6 @@ tables:
             published: { type: integer, nullable: false, options: { default: '0' } }
             section_id: { type: integer, nullable: false, options: { default: '0' } }
             word_id: { type: integer, nullable: false, options: { default: '0' } }
-            language_mask: { type: bigint, nullable: false, options: { default: '0' } }
             language_id: { type: integer, nullable: false, options: { default: '0' } }
             is_main_and_always_available: { type: boolean, nullable: false, options: { default: false } }
     ibexa_search_word:
@@ -598,7 +588,7 @@ tables:
     ibexa_url_alias_ml:
         indexes:
             ibexa_url_alias_ml_actt_org_al: { fields: [action_type, is_original, is_alias] }
-            ibexa_url_alias_ml_text_lang: { fields: [text, lang_mask, parent], options: { lengths: ['32', null, null] } }
+            ibexa_url_alias_ml_text_lang: { fields: [text, parent], options: { lengths: ['32', null] } }
             ibexa_url_alias_ml_par_act_id_lnk: { fields: [action, id, link, parent], options: { lengths: ['32', null, null, null] } }
             ibexa_url_alias_ml_par_lnk_txt: { fields: [parent, text, link], options: { lengths: [null, '32', null] } }
             ibexa_url_alias_ml_act_org: { fields: [action, is_original], options: { lengths: ['32', null] } }
@@ -615,7 +605,6 @@ tables:
             id: { type: integer, nullable: false, options: { default: '0' } }
             is_alias: { type: integer, nullable: false, options: { default: '0' } }
             is_original: { type: integer, nullable: false, options: { default: '0' } }
-            lang_mask: { type: bigint, nullable: false, options: { default: '0' } }
             link: { type: integer, nullable: false, options: { default: '0' } }
             text: { type: text, nullable: false, length: 0 }
             is_always_available: { type: boolean, nullable: false, options: { default: false } }

@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
@@ -313,16 +312,15 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
     protected function getMapper()
     {
         $languageHandler = $this->getLanguageHandler();
-        $languageMaskGenerator = new LanguageMaskGenerator($languageHandler);
 
         $languageIdsByRow = [];
         foreach ($this->fixture as $row) {
             $languageIdsByRow[$row['parent'] . ':' . $row['text_md5']]
-                = $languageMaskGenerator->extractLanguageIdsFromMask($row['lang_mask']);
+                = $this->extractLanguageIdsFromMask($row['lang_mask']);
             foreach ($row['raw_path_data'] as $pathLevel) {
                 foreach ($pathLevel as $pathRow) {
                     $languageIdsByRow[$pathRow['parent'] . ':' . $pathRow['text_md5']]
-                        = $languageMaskGenerator->extractLanguageIdsFromMask($pathRow['lang_mask']);
+                        = $this->extractLanguageIdsFromMask($pathRow['lang_mask']);
                 }
             }
         }
@@ -335,5 +333,23 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
         );
 
         return new Mapper($gateway, $languageHandler);
+    }
+
+    /**
+     * Decodes the fixture's legacy bitmask values into real (non-always-available) language ids,
+     * for driving the {@see Gateway::loadTranslationLanguageIds()} mock.
+     *
+     * @return int[]
+     */
+    private function extractLanguageIdsFromMask(int $mask): array
+    {
+        $languageIds = [];
+        for ($languageId = 2; $languageId <= $mask; $languageId *= 2) {
+            if (($mask & $languageId) === $languageId) {
+                $languageIds[] = $languageId;
+            }
+        }
+
+        return $languageIds;
     }
 }

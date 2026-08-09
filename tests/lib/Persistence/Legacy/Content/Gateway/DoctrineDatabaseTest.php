@@ -78,7 +78,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'current_version' => '1',
                     'initial_language_id' => '2',
                     'remote_id' => 'some_remote_id',
-                    'language_mask' => '2',
                     'always_available' => '1',
                     'modified' => '0',
                     'published' => '0',
@@ -95,7 +94,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'current_version',
                     'initial_language_id',
                     'remote_id',
-                    'language_mask',
                     'always_available',
                     'modified',
                     'published',
@@ -204,7 +202,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'status' => '0',
                     'workflow_event_pos' => '0',
                     'version' => '1',
-                    'language_mask' => '4',
                     'always_available' => '1',
                     'initial_language_id' => '4',
                     // Not needed, according to field mapping document
@@ -221,7 +218,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'status',
                     'workflow_event_pos',
                     'version',
-                    'language_mask',
                     'always_available',
                     'initial_language_id'
                 )->from(Gateway::CONTENT_VERSION_TABLE)
@@ -623,7 +619,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         foreach ($res as $row) {
             self::assertCount(
-                25,
+                23,
                 $row
             );
         }
@@ -666,7 +662,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         foreach ($res as $row) {
             self::assertCount(
-                25,
+                23,
                 $row
             );
         }
@@ -1461,24 +1457,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where('id = 103')
         );
-
-        // "language_mask", "ibexa_content_name.language_id" and "ibexa_content_field.language_id"
-        // are no longer touched by updateAlwaysAvailableFlag() - always_available is now a plain
-        // column, so the cascade that used to keep the always-available bit in sync across these
-        // tables is gone. Assert they retain their original (fixture) values, unchanged.
-        $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
-            [['id' => 3]],
-            $query
-                ->select('language_mask')
-                ->from(Gateway::CONTENT_ITEM_TABLE)
-                ->where(
-                    $query->expr()->eq(
-                        'id',
-                        $query->createPositionalParameter(103, ParameterType::INTEGER)
-                    )
-                )
-        );
     }
 
     /**
@@ -1499,16 +1477,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['always_available' => 1]],
             $connection->createQueryBuilder()
                 ->select('always_available')
-                ->from(Gateway::CONTENT_ITEM_TABLE)
-                ->where('id = 102')
-        );
-
-        // "language_mask" is no longer touched by updateAlwaysAvailableFlag() - always_available
-        // is now a plain column - so it retains its original (fixture) value, unchanged.
-        $this->assertQueryResult(
-            [['id' => 2]],
-            $connection->createQueryBuilder()
-                ->select('language_mask')
                 ->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where('id = 102')
         );
@@ -1537,20 +1505,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['always_available' => 1]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'always_available'
-            )->from(
-                Gateway::CONTENT_ITEM_TABLE
-            )->where(
-                'id = 4'
-            )
-        );
-
-        // language_mask is unaffected: updateContent() only recomputes it when a
-        // $prePublishVersionInfo is passed (not the case here), and always-available no longer
-        // contributes a bit to it regardless.
-        $this->assertQueryResult(
-            [['id' => 7]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select(
-                'language_mask'
             )->from(
                 Gateway::CONTENT_ITEM_TABLE
             )->where(
@@ -1602,20 +1556,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['always_available' => 0]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'always_available'
-            )->from(
-                Gateway::CONTENT_ITEM_TABLE
-            )->where(
-                'id = 4'
-            )
-        );
-
-        // language_mask is unaffected: updateContent() only recomputes it when a
-        // $prePublishVersionInfo is passed (not the case here), and always-available no longer
-        // contributes a bit to it regardless.
-        $this->assertQueryResult(
-            [['id' => 7]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select(
-                'language_mask'
             )->from(
                 Gateway::CONTENT_ITEM_TABLE
             )->where(
@@ -1882,8 +1822,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 $connection,
                 $this->getSharedGateway(),
                 new DoctrineDatabase\QueryBuilder($connection),
-                $this->getLanguageHandler(),
-                $this->getLanguageMaskGenerator()
+                $this->getLanguageHandler()
             );
         }
 

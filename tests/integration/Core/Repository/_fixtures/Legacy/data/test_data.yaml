@@ -214,26 +214,26 @@ ibexa_content_type_name:
   - { content_type_id: 13, content_type_status: 0, language_id: 3, language_locale: eng-US, name: Comment }
   - { content_type_id: 14, content_type_status: 0, language_id: 3, language_locale: eng-US, name: 'Common ini settings' }
   - { content_type_id: 15, content_type_status: 0, language_id: 3, language_locale: eng-US, name: 'Template look' }
-  - { content_type_id: 16, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Article }
-  - { content_type_id: 17, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Blog }
-  - { content_type_id: 18, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: 'Blog post' }
-  - { content_type_id: 19, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Product }
-  - { content_type_id: 20, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: 'Feedback form' }
-  - { content_type_id: 21, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: 'Landing Page' }
-  - { content_type_id: 22, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: 'Wiki Page' }
-  - { content_type_id: 23, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Poll }
-  - { content_type_id: 24, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: File }
-  - { content_type_id: 25, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Image }
-  - { content_type_id: 26, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Link }
-  - { content_type_id: 27, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Gallery }
-  - { content_type_id: 28, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Forum }
-  - { content_type_id: 29, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: 'Forum topic' }
-  - { content_type_id: 30, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: 'Forum reply' }
-  - { content_type_id: 31, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Event }
-  - { content_type_id: 32, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: 'Event calendar' }
-  - { content_type_id: 33, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Banner }
-  - { content_type_id: 34, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Forums }
-  - { content_type_id: 35, content_type_status: 0, language_id: 9, language_locale: eng-GB, name: Video }
+  - { content_type_id: 16, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Article }
+  - { content_type_id: 17, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Blog }
+  - { content_type_id: 18, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: 'Blog post' }
+  - { content_type_id: 19, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Product }
+  - { content_type_id: 20, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: 'Feedback form' }
+  - { content_type_id: 21, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: 'Landing Page' }
+  - { content_type_id: 22, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: 'Wiki Page' }
+  - { content_type_id: 23, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Poll }
+  - { content_type_id: 24, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: File }
+  - { content_type_id: 25, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Image }
+  - { content_type_id: 26, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Link }
+  - { content_type_id: 27, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Gallery }
+  - { content_type_id: 28, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Forum }
+  - { content_type_id: 29, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: 'Forum topic' }
+  - { content_type_id: 30, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: 'Forum reply' }
+  - { content_type_id: 31, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Event }
+  - { content_type_id: 32, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: 'Event calendar' }
+  - { content_type_id: 33, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Banner }
+  - { content_type_id: 34, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Forums }
+  - { content_type_id: 35, content_type_status: 0, language_id: 8, language_locale: eng-GB, name: Video }
 ibexa_content_type_group:
   - { created: 1031216928, creator_id: 14, id: 1, modified: 1033922106, modifier_id: 14, name: Content, is_system: 0 }
   - { created: 1031216941, creator_id: 14, id: 2, modified: 1033922113, modifier_id: 14, name: Users, is_system: 0 }
@@ -324,7 +324,7 @@ ibexa_content_field:
   - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 56, data_float: 0, data_int: null, data_text: Design, data_type_string: ibexa_string, id: 181, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: design, version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 56, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_string, id: 182, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 56, data_float: 0, data_int: 1, data_text: '', data_type_string: ibexa_boolean, id: 185, language_code: eng-US, language_id: 3, sort_key_int: 1, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 219, contentobject_id: 57, data_float: 0, data_int: null, data_text: Home, data_type_string: ibexa_string, id: 186, language_code: eng-GB, language_id: 9, sort_key_int: 0, sort_key_string: home, version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 219, contentobject_id: 57, data_float: 0, data_int: null, data_text: Home, data_type_string: ibexa_string, id: 186, language_code: eng-GB, language_id: 8, sort_key_int: 0, sort_key_string: home, version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 212, contentobject_id: 58, data_float: 0, data_int: null, data_text: 'Contact Us', data_type_string: ibexa_string, id: 188, language_code: eng-GB, language_id: 8, sort_key_int: 0, sort_key_string: 'contact us', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 214, contentobject_id: 58, data_float: 0, data_int: null, data_text: 'Firstname Lastname', data_type_string: ibexa_string, id: 190, language_code: eng-GB, language_id: 8, sort_key_int: 0, sort_key_string: 'firstname lastname', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 215, contentobject_id: 58, data_float: 0, data_int: null, data_text: Subject, data_type_string: ibexa_string, id: 191, language_code: eng-GB, language_id: 8, sort_key_int: 0, sort_key_string: subject, version: 1 }
@@ -370,7 +370,7 @@ ibexa_content_name:
   - { content_translation: eng-US, content_version: 1, contentobject_id: 52, language_id: 2, name: 'Common INI settings', real_translation: eng-US }
   - { content_translation: eng-US, content_version: 2, contentobject_id: 54, language_id: 2, name: 'Ibexa Demo Design (without demo content)', real_translation: eng-US }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 56, language_id: 3, name: Design, real_translation: eng-US }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 57, language_id: 9, name: Home, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 57, language_id: 8, name: Home, real_translation: eng-GB }
   - { content_translation: eng-GB, content_version: 1, contentobject_id: 58, language_id: 8, name: 'Contact Us', real_translation: eng-GB }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 59, language_id: 3, name: Partners, real_translation: eng-US }
 ibexa_content_trash: {  }

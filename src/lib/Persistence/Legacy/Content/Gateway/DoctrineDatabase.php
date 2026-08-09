@@ -33,7 +33,6 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
@@ -53,8 +52,7 @@ final class DoctrineDatabase extends Gateway
         protected Connection $connection,
         private readonly SharedGateway $sharedGateway,
         protected QueryBuilder $queryBuilder,
-        protected LanguageHandler $languageHandler,
-        protected LanguageMaskGenerator $languageMaskGenerator
+        protected LanguageHandler $languageHandler
     ) {
     }
 
@@ -96,14 +94,6 @@ final class DoctrineDatabase extends Gateway
                     'published' => $query->createPositionalParameter(0, ParameterType::INTEGER),
                     'status' => $query->createPositionalParameter(
                         ContentInfo::STATUS_DRAFT,
-                        ParameterType::INTEGER
-                    ),
-                    'language_mask' => $query->createPositionalParameter(
-                        $this->languageMaskGenerator->generateLanguageMaskForFields(
-                            $struct->fields,
-                            $initialLanguageCode,
-                            false
-                        ),
                         ParameterType::INTEGER
                     ),
                     'always_available' => $query->createPositionalParameter(
@@ -161,14 +151,6 @@ final class DoctrineDatabase extends Gateway
                         $versionInfo->contentInfo->id,
                         ParameterType::INTEGER
                     ),
-                    'language_mask' => $query->createPositionalParameter(
-                        $this->languageMaskGenerator->generateLanguageMaskForFields(
-                            $fields,
-                            $versionInfo->initialLanguageCode,
-                            false
-                        ),
-                        ParameterType::INTEGER
-                    ),
                     'always_available' => $query->createPositionalParameter(
                         $versionInfo->contentInfo->alwaysAvailable,
                         ParameterType::BOOLEAN
@@ -189,9 +171,8 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * Collects the unique language codes a Content/Version's fields are written in, always
-     * including $initialLanguageCode - mirrors MaskGenerator::generateLanguageMaskForFields()'s
-     * language collection, but for populating "ibexa_content_translation"/
-     * "ibexa_content_version_translation" instead of a bitmask.
+     * including $initialLanguageCode, for populating "ibexa_content_translation"/
+     * "ibexa_content_version_translation".
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $fields
      *
@@ -332,13 +313,6 @@ final class DoctrineDatabase extends Gateway
 
         if ($prePublishVersionInfo !== null) {
             $alwaysAvailable = $struct->alwaysAvailable ?? $prePublishVersionInfo->contentInfo->alwaysAvailable;
-            $mask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes(
-                $prePublishVersionInfo->languageCodes
-            );
-            $query->set(
-                'language_mask',
-                $query->createNamedParameter($mask, ParameterType::INTEGER, ':languageMask')
-            );
             $query->set(
                 'always_available',
                 $query->createNamedParameter($alwaysAvailable, ParameterType::BOOLEAN, ':alwaysAvailable')
@@ -381,27 +355,11 @@ final class DoctrineDatabase extends Gateway
             ->set('creator_id', ':creator_id')
             ->set('modified', ':modified')
             ->set('initial_language_id', ':initial_language_id')
-            ->set(
-                'language_mask',
-                $this->getDatabasePlatform()->getBitOrComparisonExpression(
-                    'language_mask',
-                    ':language_mask'
-                )
-            )
             ->setParameter('creator_id', $struct->creatorId, ParameterType::INTEGER)
             ->setParameter('modified', $struct->modificationDate, ParameterType::INTEGER)
             ->setParameter(
                 'initial_language_id',
                 $struct->initialLanguageId,
-                ParameterType::INTEGER
-            )
-            ->setParameter(
-                'language_mask',
-                $this->languageMaskGenerator->generateLanguageMaskForFields(
-                    $struct->fields,
-                    $this->languageHandler->load($struct->initialLanguageId)->languageCode,
-                    false
-                ),
                 ParameterType::INTEGER
             )
             ->where('contentobject_id = :content_id')
@@ -604,7 +562,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter(
                 'language_id',
-                $this->languageMaskGenerator->generateLanguageIndicator($field->languageCode, false),
+                $this->languageHandler->loadByLanguageCode($field->languageCode)->id,
                 ParameterType::INTEGER
             );
     }
@@ -707,7 +665,6 @@ final class DoctrineDatabase extends Gateway
                 'c.published AS content_published',
                 'c.status AS content_status',
                 'c.name AS content_name',
-                'c.language_mask AS content_language_mask',
                 'c.always_available AS content_always_available',
                 'c.is_hidden AS content_is_hidden',
                 'v.id AS content_version_id',
@@ -716,7 +673,6 @@ final class DoctrineDatabase extends Gateway
                 'v.creator_id AS content_version_creator_id',
                 'v.created AS content_version_created',
                 'v.status AS content_version_status',
-                'v.language_mask AS content_version_language_mask',
                 'v.always_available AS content_version_always_available',
                 'v.initial_language_id AS content_version_initial_language_id',
                 'a.id AS content_field_id',
@@ -1945,7 +1901,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Remove language from language_mask of ibexa_content.
+     * Remove language from ibexa_content_translation.
      *
      * @param int $contentId
      * @param int $languageId
@@ -1954,32 +1910,28 @@ final class DoctrineDatabase extends Gateway
      */
     private function deleteTranslationFromContentObject($contentId, $languageId)
     {
-        $query = $this->connection->createQueryBuilder();
-        $query->update(Gateway::CONTENT_ITEM_TABLE)
-            // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
-            ->set('language_mask', 'language_mask & ~ ' . $languageId)
-            ->set('modified', ':now')
-            ->where('id = :contentId')
-            ->andWhere(
-                // make sure removed translation is not the last one (incl. alwaysAvailable)
-                $query->expr()->and(
-                    'language_mask & ~ ' . $languageId . ' <> 0',
-                    'language_mask & ~ ' . $languageId . ' <> 1'
-                )
-            )
-            ->setParameter('now', time())
-            ->setParameter('contentId', $contentId)
-        ;
+        $hasOtherLanguages = (bool)$this->connection->fetchOne(
+            'SELECT 1 FROM ibexa_content_translation WHERE content_id = :contentId AND language_id != :languageId',
+            ['contentId' => $contentId, 'languageId' => $languageId],
+            ['contentId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
+        );
 
-        $rowCount = $query->executeQuery();
-
-        // no rows updated means that most likely somehow it was the last remaining translation
-        if ($rowCount === 0) {
+        // most likely somehow it was the last remaining translation
+        if (!$hasOtherLanguages) {
             throw new BadStateException(
                 '$languageCode',
                 'The provided translation is the only translation in this version'
             );
         }
+
+        $query = $this->connection->createQueryBuilder();
+        $query->update(Gateway::CONTENT_ITEM_TABLE)
+            ->set('modified', ':now')
+            ->where('id = :contentId')
+            ->setParameter('now', time())
+            ->setParameter('contentId', $contentId)
+        ;
+        $query->executeStatement();
 
         $this->connection->executeStatement(
             'DELETE FROM ibexa_content_translation WHERE content_id = :contentId AND language_id = :languageId',
@@ -1989,7 +1941,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Remove language from language_mask of ibexa_content_version and update initialLanguageId
+     * Remove language from ibexa_content_version_translation and update initialLanguageId
      * if it matches the removed one.
      *
      * @param int|null $versionNo optional, if specified, apply to this Version only.
@@ -2002,10 +1954,9 @@ final class DoctrineDatabase extends Gateway
         ?int $versionNo = null
     ) {
         $contentTable = Gateway::CONTENT_ITEM_TABLE;
+        $versionTable = Gateway::CONTENT_VERSION_TABLE;
         $query = $this->connection->createQueryBuilder();
-        $query->update(Gateway::CONTENT_VERSION_TABLE)
-            // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
-            ->set('language_mask', 'language_mask & ~ ' . $languageId)
+        $query->update($versionTable)
             ->set('modified', ':now')
             // update initial_language_id only if it matches removed translation languageId
             ->set(
@@ -2017,10 +1968,7 @@ final class DoctrineDatabase extends Gateway
             ->where('contentobject_id = :contentId')
             ->andWhere(
                 // make sure removed translation is not the last one (incl. alwaysAvailable)
-                $query->expr()->and(
-                    'language_mask & ~ ' . $languageId . ' <> 0',
-                    'language_mask & ~ ' . $languageId . ' <> 1'
-                )
+                "EXISTS (SELECT 1 FROM ibexa_content_version_translation cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
             )
             ->setParameter('now', time())
             ->setParameter('contentId', $contentId)

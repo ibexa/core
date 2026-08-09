@@ -10,15 +10,11 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
-use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
-use RuntimeException;
 
 /**
  * Doctrine database based Language Gateway.
@@ -44,14 +40,12 @@ final class DoctrineDatabase extends Gateway
 
         $lastId = (int)$statement->fetchOne();
 
-        // Legacy only supports 8 * PHP_INT_SIZE - 2 languages:
-        // One bit cannot be used because PHP uses signed integers and a second one is reserved for the
-        // "always available flag".
-        if ($lastId == (2 ** (8 * PHP_INT_SIZE - 2))) {
-            throw new RuntimeException('Maximum number of languages reached.');
-        }
-        // Next power of 2 for bit masks
-        $nextId = ($lastId !== 0 ? $lastId << 1 : 2);
+        // id 1 is permanently reserved (it was the legacy bitmask's "always available" sentinel,
+        // never a real language) - installs upgrading from that scheme may have existing ids that
+        // are powers of two, but nothing depends on that anymore, so new ids are just the next
+        // integer instead of the next power of two. This is what actually removes the old ~62
+        // language ceiling.
+        $nextId = $lastId !== 0 ? $lastId + 1 : 2;
 
         $query = $this->connection->createQueryBuilder();
         $query
@@ -180,20 +174,17 @@ final class DoctrineDatabase extends Gateway
             return false;
         }
 
+        if ($this->existsInTranslationTable($id, 'ibexa_url_alias_ml_translation')) {
+            return false;
+        }
+
+        if ($this->existsWithColumnValue($id, 'ibexa_search_object_word_link', 'language_id')) {
+            return false;
+        }
+
         // note: at some point this should be delegated to specific gateways
         foreach (self::MULTILINGUAL_TABLES_COLUMNS as $tableName => $columns) {
-            // "ibexa_content"/"ibexa_content_version" are checked via the relational join tables
-            // and the "initial_language_id" probes above instead - EXISTS probes against indexed
-            // columns, rather than a full-table bitwise-AND scan.
-            if ($tableName === ContentGateway::CONTENT_ITEM_TABLE || $tableName === ContentGateway::CONTENT_VERSION_TABLE) {
-                continue;
-            }
-
-            $languageMaskColumn = $columns[0];
-            $languageIdColumn = $columns[1] ?? null;
-            if (
-                $this->countTableData($id, $tableName, $languageMaskColumn, $languageIdColumn) > 0
-            ) {
+            if ($this->existsWithColumnValue($id, $tableName, $columns[0])) {
                 return false;
             }
         }
@@ -201,16 +192,27 @@ final class DoctrineDatabase extends Gateway
         return true;
     }
 
+    /**
+     * Checks whether $tableName has a row with $columnName equal to $languageId.
+     *
+     * Tolerates the legacy "always available" bit 0 folded into $columnName on rows written
+     * before always_available became a plain column, for real installs upgrading from that scheme
+     * and long-lived test fixtures captured from it - but only when $languageId is even, since only
+     * even ids are old-style (real ids were always powers of two); a newly-allocated odd id could
+     * never legitimately be tainted this way.
+     */
     private function existsWithColumnValue(int $languageId, string $tableName, string $columnName): bool
     {
+        $candidateIds = $languageId % 2 === 0 ? [$languageId, $languageId + 1] : [$languageId];
+
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('1')
             ->from($tableName)
             ->where(
-                $query->expr()->eq(
+                $query->expr()->in(
                     $columnName,
-                    $query->createPositionalParameter($languageId, ParameterType::INTEGER)
+                    $query->createPositionalParameter($candidateIds, ArrayParameterType::INTEGER)
                 )
             )
             ->setMaxResults(1);
@@ -228,39 +230,6 @@ final class DoctrineDatabase extends Gateway
      *
      * @param string|null $languageIdColumn optional column name containing explicit language id
      */
-    private function countTableData(
-        int $languageId,
-        string $tableName,
-        string $languageMaskColumn,
-        ?string $languageIdColumn = null
-    ): int {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            // avoiding using "*" as count argument, but don't specify column name because it varies
-            ->select('COUNT(1)')
-            ->from($tableName)
-            ->where(
-                $query->expr()->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        $languageMaskColumn,
-                        $query->createPositionalParameter($languageId, ParameterType::INTEGER)
-                    ),
-                    0
-                )
-            );
-        if (null !== $languageIdColumn) {
-            $query
-                ->orWhere(
-                    $query->expr()->eq(
-                        $languageIdColumn,
-                        $query->createPositionalParameter($languageId, ParameterType::INTEGER)
-                    )
-                );
-        }
-
-        return (int)$query->executeQuery()->fetchOne();
-    }
-
     public function loadContentTranslations(array $contentIds): array
     {
         return $this->loadTranslations('ibexa_content_translation', 'content_id', $contentIds);
@@ -301,14 +270,5 @@ final class DoctrineDatabase extends Gateway
         }
 
         return $translations;
-    }
-
-    private function getDatabasePlatform(): AbstractPlatform
-    {
-        try {
-            return $this->connection->getDatabasePlatform();
-        } catch (Exception $e) {
-            throw DatabaseException::wrap($e);
-        }
     }
 }

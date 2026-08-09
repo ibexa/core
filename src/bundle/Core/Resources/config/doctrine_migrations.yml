@@ -70,3 +70,11 @@ services:
             $connection: '@ibexa.persistence.connection'
         tags:
             - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
