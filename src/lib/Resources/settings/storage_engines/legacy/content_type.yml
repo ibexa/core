@@ -18,7 +18,7 @@ services:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
         arguments:
             $sharedGateway: '@Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway'
-            $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $languageHandler: '@ibexa.spi.persistence.legacy.language.handler'
             $criterionVisitor: '@Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor'
 
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\ExceptionConversion:

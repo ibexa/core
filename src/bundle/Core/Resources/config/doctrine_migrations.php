@@ -15,6 +15,7 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasMlLinkIndexMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsTo6_0Migration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertPostgreSqlSerialColumnsToIdentityMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\FixLegacyIdentifiersMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration;
@@ -92,6 +93,10 @@ return static function (ContainerConfigurator $configurator): void {
         ->tag(IbexaMigrationTag::TAG);
 
     $services->set(AddUrlAliasAlwaysAvailableColumnMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(DropLanguageBitmaskColumnsMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 };
