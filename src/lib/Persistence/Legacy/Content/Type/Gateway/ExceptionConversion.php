@@ -255,6 +255,15 @@ final class ExceptionConversion extends Gateway
         }
     }
 
+    public function loadContentTypeTranslations(array $typeIdStatusPairs): array
+    {
+        try {
+            return $this->innerGateway->loadContentTypeTranslations($typeIdStatusPairs);
+        } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
     public function loadTypesDataByFieldDefinitionIdentifier(string $identifier): array
     {
         try {

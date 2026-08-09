@@ -1000,6 +1000,35 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    public function loadContentTypeTranslations(array $typeIdStatusPairs): array
+    {
+        if (empty($typeIdStatusPairs)) {
+            return [];
+        }
+
+        $typeIds = array_unique(array_column($typeIdStatusPairs, 'id'));
+        $statuses = array_unique(array_column($typeIdStatusPairs, 'status'));
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('content_type_id', 'content_type_status', 'language_locale')
+            ->from(self::CONTENT_TYPE_NAME_TABLE)
+            ->where(
+                $query->expr()->in('content_type_id', $query->createNamedParameter($typeIds, ArrayParameterType::INTEGER))
+            )
+            ->andWhere(
+                $query->expr()->in('content_type_status', $query->createNamedParameter($statuses, ArrayParameterType::INTEGER))
+            );
+
+        $translations = [];
+        foreach ($query->executeQuery()->fetchAllAssociative() as $row) {
+            $key = $row['content_type_id'] . ':' . $row['content_type_status'];
+            $translations[$key][] = $row['language_locale'];
+        }
+
+        return $translations;
+    }
+
     /**
      * Return a basic query to retrieve Type data.
      */
