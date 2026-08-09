@@ -33,12 +33,26 @@ class DoctrineDatabaseTest extends TestCase
      * "ibexa_url_alias_ml_translation" join table, and only set "lang_mask" - mirror what the real
      * AddUrlAliasAlwaysAvailableColumnMigration/AddLanguageTranslationTablesMigration backfills do,
      * so fixture rows behave consistently with rows written through the gateway.
+     *
+     * "ibexa_content_language" is never seeded by these fixtures (this test suite predates the
+     * gateway needing real Language rows at all) - the backfill's join needs at least one row per
+     * language id/bit actually used across the fixtures' "lang_mask" values (1, 2, 4, 8 cover every
+     * fixture in this directory) or it silently backfills nothing.
      */
     protected function insertDatabaseFixture(string $file): void
     {
         parent::insertDatabaseFixture($file);
 
         $connection = $this->getDatabaseConnection();
+        // Some tests call insertDatabaseFixture() more than once (e.g. to layer a second fixture) -
+        // reset first so re-seeding these fixed ids doesn't violate the primary key.
+        $connection->executeStatement('DELETE FROM ibexa_content_language');
+        foreach ([2, 4, 8, 16] as $languageId) {
+            $connection->executeStatement(
+                'INSERT INTO ibexa_content_language (id, locale, name, disabled) VALUES (:id, :locale, :name, 0)',
+                ['id' => $languageId, 'locale' => "lang-{$languageId}", 'name' => "Language {$languageId}"]
+            );
+        }
         $connection->executeStatement(
             'UPDATE ibexa_url_alias_ml SET is_always_available = 1 WHERE (lang_mask & 1) = 1'
         );
