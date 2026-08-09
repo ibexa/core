@@ -112,14 +112,16 @@ abstract class Gateway
     ): void;
 
     /**
-     * Archive entry with $action by $languageMask.
+     * Archive entries with $action carrying any of $languageIds.
      *
-     * Used when swapping Location aliases, this ensures that given $languageMask matches a
+     * Used when swapping Location aliases, this ensures that given $languageIds match a
      * single entry (database row).
+     *
+     * @param int[] $languageIds
      */
     abstract public function historizeBeforeSwap(
         string $action,
-        int $languageMask
+        array $languageIds
     ): void;
 
     /**
