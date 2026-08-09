@@ -23,12 +23,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  * "ibexa_url_alias_ml_translation" from the legacy "language_mask"/"lang_mask" bitmask columns
  * (step 2 of the language bitmask migration).
  *
- * Deliberately a console command rather than logic inside the Doctrine migration that creates
- * these tables: the migration runs inside a single transaction with no per-row checkpointing, and
- * on "ibexa_content"/"ibexa_content_version"/"ibexa_url_alias_ml" (tables that can hold tens of
- * millions of rows on a mature install) that risks an enormous undo log/WAL and no ability to
- * resume a failed run. Chunking by primary-key range here keeps each unit of work small and
- * restartable.
+ * A standard upgrade no longer needs to run this manually: {@see BackfillLanguageTranslationsMigration}
+ * (in ibexa/core's RepositoryInstaller bundle) does the same chunked, idempotent backfill as part of
+ * the regular `doctrine:migrations:migrate` sequence, before the migration that drops these columns.
+ * This command remains available for a `--dry-run` preview of what a pending upgrade would do, or
+ * for manual repair (together with `ibexa:languages:verify-translations`) outside of a migration run.
  *
  * The decomposition needs no PHP-side bit-walking or a recursive CTE: "ibexa_content_language"
  * already contains every valid bit value, so joining against it with a bitwise AND does the
