@@ -794,6 +794,7 @@ final class DoctrineDatabase extends Gateway
             $query = $this->connection->createQueryBuilder();
             $query->select(
                 'parent',
+                'text_md5',
                 'lang_mask',
                 'is_always_available',
                 'text'
@@ -868,6 +869,8 @@ final class DoctrineDatabase extends Gateway
 
         $query->select(
             'action',
+            'parent',
+            'text_md5',
             'lang_mask',
             'is_always_available',
             'text'
@@ -1088,7 +1091,7 @@ final class DoctrineDatabase extends Gateway
 
         // remove each row's actually-present removed languages
         foreach ($rows as $row) {
-            $rowLanguageIds = $this->loadRowLanguageIds((int)$row['parent'], $row['text_md5']);
+            $rowLanguageIds = $this->loadTranslationLanguageIds((int)$row['parent'], $row['text_md5']);
             $languageIdsToBeRemoved = array_intersect($languageIds, $rowLanguageIds);
 
             if (empty($languageIdsToBeRemoved)) {
@@ -1110,10 +1113,7 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    /**
-     * @return int[]
-     */
-    private function loadRowLanguageIds(int $parent, string $textMD5): array
+    public function loadTranslationLanguageIds(int $parent, string $textMD5): array
     {
         return array_map(
             'intval',
@@ -1269,12 +1269,13 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('action', "eznode:{$locationId}");
 
         foreach ($urlAliasesData as $urlAliasData) {
-            if ($urlAliasData['is_original'] === 1 || !isset($originalUrlAliases[$urlAliasData['lang_mask']])) {
+            $languageSetKey = $this->buildLanguageSetKey((int)$urlAliasData['parent'], $urlAliasData['text_md5']);
+            if ($urlAliasData['is_original'] === 1 || !isset($originalUrlAliases[$languageSetKey])) {
                 // ignore non-archived entries and deleted Translations
                 continue;
             }
 
-            $originalUrlAlias = $originalUrlAliases[$urlAliasData['lang_mask']];
+            $originalUrlAlias = $originalUrlAliases[$languageSetKey];
 
             if ($urlAliasData['link'] === $originalUrlAlias['link']) {
                 // ignore correct entries to avoid unnecessary updates
@@ -1378,9 +1379,9 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Filter from the given result set original (current) only URL aliases and index them by language_mask.
-     *
-     * Note: each language_mask can have one URL Alias.
+     * Filter from the given result set original (current) only URL aliases and index them by their
+     * real (non-always-available) language id set - the relational replacement for indexing by
+     * "lang_mask" (each distinct language set can have one URL Alias).
      *
      * @param array $urlAliasesData
      */
@@ -1394,11 +1395,26 @@ final class DoctrineDatabase extends Gateway
             }
         );
 
-        // return language_mask-indexed array
-        return array_combine(
-            array_column($originalUrlAliases, 'lang_mask'),
-            $originalUrlAliases
-        );
+        $keyedUrlAliases = [];
+        foreach ($originalUrlAliases as $urlAliasData) {
+            $languageSetKey = $this->buildLanguageSetKey((int)$urlAliasData['parent'], $urlAliasData['text_md5']);
+            $keyedUrlAliases[$languageSetKey] = $urlAliasData;
+        }
+
+        return $keyedUrlAliases;
+    }
+
+    /**
+     * Builds a stable identity key for the real (non-always-available) language id set a specific
+     * alias row is translated into - used to match an archived alias row to the still-current alias
+     * row covering the same languages.
+     */
+    private function buildLanguageSetKey(int $parent, string $textMD5): string
+    {
+        $languageIds = $this->loadTranslationLanguageIds($parent, $textMD5);
+        sort($languageIds);
+
+        return implode(',', $languageIds);
     }
 
     /**

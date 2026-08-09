@@ -5388,6 +5388,7 @@ class UrlAliasHandlerTest extends TestCase
                     $this->createMock(Gateway::class),
                     $this->createMock(LanguageMaskGenerator::class),
                     $this->createMock(TransactionHandler::class),
+                    $this->createMock(\Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::class),
                 ]
             )
             ->setMethods($methods)
@@ -5407,7 +5408,7 @@ class UrlAliasHandlerTest extends TestCase
             $this->getDatabaseConnection(),
             $languageMaskGenerator
         );
-        $mapper = new Mapper($languageMaskGenerator);
+        $mapper = new Mapper($gateway, $languageHandler);
         $slugConverter = new SlugConverter($this->getProcessor());
         $connection = $this->getDatabaseConnection();
         $contentGateway = new ContentGateway(
@@ -5426,7 +5427,8 @@ class UrlAliasHandlerTest extends TestCase
             $slugConverter,
             $contentGateway,
             $languageMaskGenerator,
-            $this->createMock(TransactionHandler::class)
+            $this->createMock(TransactionHandler::class),
+            new LanguageGateway($this->getDatabaseConnection())
         );
     }
 

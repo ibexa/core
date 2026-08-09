@@ -199,6 +199,15 @@ final class ExceptionConversion extends Gateway
         }
     }
 
+    public function loadTranslationLanguageIds(int $parent, string $textMD5): array
+    {
+        try {
+            return $this->innerGateway->loadTranslationLanguageIds($parent, $textMD5);
+        } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
     public function loadPathDataByHierarchy(array $hierarchyData): array
     {
         try {
