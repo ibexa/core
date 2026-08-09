@@ -5293,6 +5293,7 @@ class UrlAliasHandlerTest extends TestCase
                     self::createStub(Gateway::class),
                     self::createStub(LanguageMaskGenerator::class),
                     self::createStub(TransactionHandler::class),
+                    self::createStub(\Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::class),
                 ]
             )
             ->onlyMethods(array_values($methods))
@@ -5312,7 +5313,7 @@ class UrlAliasHandlerTest extends TestCase
             $this->getDatabaseConnection(),
             $languageMaskGenerator
         );
-        $mapper = new Mapper($languageMaskGenerator);
+        $mapper = new Mapper($gateway, $languageHandler);
         $slugConverter = new SlugConverter($this->getProcessor());
         $connection = $this->getDatabaseConnection();
         $contentGateway = new ContentGateway(
@@ -5331,7 +5332,8 @@ class UrlAliasHandlerTest extends TestCase
             $slugConverter,
             $contentGateway,
             $languageMaskGenerator,
-            self::createStub(TransactionHandler::class)
+            self::createStub(TransactionHandler::class),
+            new LanguageGateway($this->getDatabaseConnection())
         );
     }
 
