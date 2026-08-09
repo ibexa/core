@@ -618,9 +618,20 @@ tables:
             lang_mask: { type: bigint, nullable: false, options: { default: '0' } }
             link: { type: integer, nullable: false, options: { default: '0' } }
             text: { type: text, nullable: false, length: 0 }
+            is_always_available: { type: boolean, nullable: false, options: { default: false } }
     ibexa_url_alias_ml_incr:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
+    ibexa_url_alias_ml_translation:
+        indexes:
+            ibexa_url_alias_ml_translation_language: { fields: [language_id] }
+        id:
+            parent: { type: integer, nullable: false }
+            text_md5: { type: string, nullable: false, length: 32 }
+            language_id: { type: bigint, nullable: false }
+        foreignKeys:
+            ibexa_url_alias_ml_translation_alias_fk: { fields: [parent, text_md5], foreignTable: ibexa_url_alias_ml, foreignFields: [parent, text_md5], options: { onDelete: CASCADE, onUpdate: CASCADE } }
+            ibexa_url_alias_ml_translation_language_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: RESTRICT, onUpdate: CASCADE } }
     ibexa_url_wildcard:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }

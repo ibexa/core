@@ -39,6 +39,27 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 class UrlAliasHandlerTest extends TestCase
 {
     /**
+     * These fixtures predate "is_always_available" becoming a plain column and the
+     * "ibexa_url_alias_ml_translation" join table, and only set "lang_mask" - mirror what the real
+     * AddUrlAliasAlwaysAvailableColumnMigration/AddLanguageTranslationTablesMigration backfills do,
+     * so fixture rows behave consistently with rows written through the gateway.
+     */
+    protected function insertDatabaseFixture(string $file): void
+    {
+        parent::insertDatabaseFixture($file);
+
+        $connection = $this->getDatabaseConnection();
+        $connection->executeStatement(
+            'UPDATE ibexa_url_alias_ml SET is_always_available = 1 WHERE (lang_mask & 1) = 1'
+        );
+        $connection->executeStatement(
+            'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
+             SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
+             JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id'
+        );
+    }
+
+    /**
      * Test for the lookup() method.
      *
      * Simple lookup case.

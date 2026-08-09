@@ -50,6 +50,7 @@ final class DoctrineDatabase extends Gateway
         'text' => ParameterType::STRING,
         'parent' => ParameterType::INTEGER,
         'text_md5' => ParameterType::STRING,
+        'is_always_available' => ParameterType::BOOLEAN,
     ];
 
     private string $table;
@@ -97,6 +98,7 @@ final class DoctrineDatabase extends Gateway
                 'is_alias',
                 'alias_redirects',
                 'lang_mask',
+                'is_always_available',
                 'is_original',
                 'parent',
                 'text',
@@ -161,6 +163,7 @@ final class DoctrineDatabase extends Gateway
                 'is_alias',
                 'alias_redirects',
                 'lang_mask',
+                'is_always_available',
                 'is_original',
                 'parent',
                 'text_md5'
@@ -468,6 +471,12 @@ final class DoctrineDatabase extends Gateway
             )
         ;
         $query->executeStatement();
+
+        $this->connection->executeStatement(
+            'DELETE FROM ibexa_url_alias_ml_translation WHERE parent = :parent AND text_md5 = :textMd5 AND language_id = :languageId',
+            ['parent' => $parentId, 'textMd5' => $textMD5, 'languageId' => $languageId],
+            ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING, 'languageId' => ParameterType::INTEGER]
+        );
     }
 
     public function historizeId(int $id, int $link): void
@@ -538,6 +547,8 @@ final class DoctrineDatabase extends Gateway
 
     public function updateRow(int $parentId, string $textMD5, array $values): void
     {
+        $values = $this->injectAlwaysAvailable($values);
+
         $query = $this->connection->createQueryBuilder();
         $query->update($this->connection->quoteIdentifier($this->table));
         foreach ($values as $columnName => $value) {
@@ -564,6 +575,10 @@ final class DoctrineDatabase extends Gateway
                 )
             );
         $query->executeStatement();
+
+        if (array_key_exists('lang_mask', $values)) {
+            $this->syncUrlAliasTranslations($parentId, $textMD5, (int)$values['lang_mask']);
+        }
     }
 
     public function insertRow(array $values): int
@@ -596,6 +611,8 @@ final class DoctrineDatabase extends Gateway
             $values['is_original'] = 1;
         }
 
+        $values = $this->injectAlwaysAvailable($values);
+
         $query = $this->connection->createQueryBuilder();
         $query->insert($this->connection->quoteIdentifier($this->table));
         foreach ($values as $columnName => $value) {
@@ -610,7 +627,53 @@ final class DoctrineDatabase extends Gateway
         }
         $query->executeStatement();
 
+        if (array_key_exists('lang_mask', $values)) {
+            $this->syncUrlAliasTranslations((int)$values['parent'], (string)$values['text_md5'], (int)$values['lang_mask']);
+        }
+
         return (int)$values['id'];
+    }
+
+    /**
+     * Adds "is_always_available" to $values, derived from bit 0 of "lang_mask", when the caller
+     * only set the mask - mirrors what AddUrlAliasAlwaysAvailableColumnMigration's backfill does,
+     * so the boolean column never drifts out of sync with the mask that still remains its source of
+     * truth for now.
+     *
+     * @param array<string, mixed> $values
+     *
+     * @return array<string, mixed>
+     */
+    private function injectAlwaysAvailable(array $values): array
+    {
+        if (array_key_exists('lang_mask', $values) && !array_key_exists('is_always_available', $values)) {
+            $values['is_always_available'] = $this->languageMaskGenerator->isAlwaysAvailable((int)$values['lang_mask']);
+        }
+
+        return $values;
+    }
+
+    /**
+     * Replaces $parentId/$textMD5's rows in "ibexa_url_alias_ml_translation" with the real
+     * (non-always-available) language ids encoded in $languageMask - mirrors
+     * AddLanguageTranslationTablesMigration's backfill, keeping the join table in sync with every
+     * write to "lang_mask" until the mask column itself is dropped.
+     */
+    private function syncUrlAliasTranslations(int $parentId, string $textMD5, int $languageMask): void
+    {
+        $this->connection->executeStatement(
+            'DELETE FROM ibexa_url_alias_ml_translation WHERE parent = :parent AND text_md5 = :textMd5',
+            ['parent' => $parentId, 'textMd5' => $textMD5],
+            ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
+        );
+
+        foreach ($this->languageMaskGenerator->extractLanguageIdsFromMask($languageMask) as $languageId) {
+            $this->connection->executeStatement(
+                'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id) VALUES (:parent, :textMd5, :languageId)',
+                ['parent' => $parentId, 'textMd5' => $textMD5, 'languageId' => $languageId],
+                ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING, 'languageId' => ParameterType::INTEGER]
+            );
+        }
     }
 
     public function getNextId(): int
@@ -762,6 +825,7 @@ final class DoctrineDatabase extends Gateway
             $query->select(
                 'parent',
                 'lang_mask',
+                'is_always_available',
                 'text'
             )->from(
                 $this->connection->quoteIdentifier($this->table)
@@ -835,6 +899,7 @@ final class DoctrineDatabase extends Gateway
         $query->select(
             'action',
             'lang_mask',
+            'is_always_available',
             'text'
         )->from(
             $this->connection->quoteIdentifier($this->table)
@@ -1007,6 +1072,19 @@ final class DoctrineDatabase extends Gateway
             ->where('action IN (:actions)')
             ->setParameter('actions', $actions, ArrayParameterType::STRING);
         $query->executeStatement();
+
+        $this->connection->executeStatement(
+            'DELETE FROM ibexa_url_alias_ml_translation
+             WHERE language_id = :languageId
+             AND EXISTS (
+                 SELECT 1 FROM ' . $this->connection->quoteIdentifier($this->table) . ' u
+                 WHERE u.parent = ibexa_url_alias_ml_translation.parent
+                 AND u.text_md5 = ibexa_url_alias_ml_translation.text_md5
+                 AND u.action IN (:actions)
+             )',
+            ['languageId' => $languageId, 'actions' => $actions],
+            ['languageId' => ParameterType::INTEGER, 'actions' => ArrayParameterType::STRING]
+        );
 
         // cleanup: delete single language rows (including alwaysAvailable)
         $query = $this->connection->createQueryBuilder();

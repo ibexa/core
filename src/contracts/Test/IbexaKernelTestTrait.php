@@ -106,6 +106,16 @@ trait IbexaKernelTestTrait
             'UPDATE ibexa_search_object_word_link
              SET is_main_and_always_available = 1 WHERE (language_mask & 1) = 1'
         );
+
+        $connection->executeStatement('DELETE FROM ibexa_url_alias_ml_translation');
+        $connection->executeStatement(
+            'UPDATE ibexa_url_alias_ml SET is_always_available = 1 WHERE (lang_mask & 1) = 1'
+        );
+        $connection->executeStatement(
+            'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
+             SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
+             JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id'
+        );
     }
 
     /**

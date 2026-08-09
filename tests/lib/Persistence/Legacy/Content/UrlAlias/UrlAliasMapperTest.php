@@ -26,21 +26,25 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
                 0 => [
                     [
                         'lang_mask' => 2,
+                        'is_always_available' => false,
                         'text' => 'root_us',
                     ],
                     [
                         'lang_mask' => 4,
+                        'is_always_available' => false,
                         'text' => 'root_gb',
                     ],
                 ],
                 1 => [
                     [
                         'lang_mask' => 4,
+                        'is_always_available' => false,
                         'text' => 'one',
                     ],
                 ],
             ],
             'lang_mask' => 5,
+            'is_always_available' => true,
             'is_original' => '1',
             'is_alias' => '1',
             'alias_redirects' => '0',
@@ -53,11 +57,13 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
                 0 => [
                     [
                         'lang_mask' => 3,
+                        'is_always_available' => true,
                         'text' => 'two',
                     ],
                 ],
             ],
             'lang_mask' => 3,
+            'is_always_available' => true,
             'is_original' => '0',
             'is_alias' => '0',
             'alias_redirects' => '1',
@@ -70,11 +76,13 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
                 0 => [
                     [
                         'lang_mask' => 6,
+                        'is_always_available' => false,
                         'text' => 'three',
                     ],
                 ],
             ],
             'lang_mask' => 6,
+            'is_always_available' => false,
             'is_original' => '1',
             'is_alias' => '1',
             'alias_redirects' => '1',
@@ -87,11 +95,13 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
                 0 => [
                     [
                         'lang_mask' => 1,
+                        'is_always_available' => true,
                         'text' => 'four',
                     ],
                 ],
             ],
             'lang_mask' => 1,
+            'is_always_available' => true,
             'is_original' => '0',
             'is_alias' => '0',
             'alias_redirects' => '1',
@@ -104,11 +114,13 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
                 0 => [
                     [
                         'lang_mask' => 8,
+                        'is_always_available' => false,
                         'text' => 'drei',
                     ],
                 ],
             ],
             'lang_mask' => 8,
+            'is_always_available' => false,
             'is_original' => '0',
             'is_alias' => '0',
             'alias_redirects' => '1',
