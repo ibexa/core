@@ -458,12 +458,14 @@ class Handler implements UrlAliasHandlerInterface
         // If nothing was returned perform insert
         if ($isPathNew || empty($row)) {
             $data['lang_mask'] = $languageId | (int)$alwaysAvailable;
+            $data['is_always_available'] = $alwaysAvailable;
             $id = $this->gateway->insertRow($data);
         } elseif ($row['action'] === Gateway::NOP_ACTION || (int)$row['is_original'] === 0) {
             // Row exists, check if it is reusable. There are 2 cases when this is possible:
             // 1. NOP entry
             // 2. history entry
             $data['lang_mask'] = $languageId | (int)$alwaysAvailable;
+            $data['is_always_available'] = $alwaysAvailable;
             // If history is reused move link to id
             $data['link'] = $id = $row['id'];
             $this->gateway->updateRow(
@@ -479,6 +481,7 @@ class Handler implements UrlAliasHandlerInterface
             // add another language to the same custom alias
             $data['link'] = $id = $row['id'];
             $data['lang_mask'] = $row['lang_mask'] | $languageId | (int)$alwaysAvailable;
+            $data['is_always_available'] = $alwaysAvailable || (bool)$row['is_always_available'];
             $this->gateway->updateRow(
                 $parentId,
                 $topElementMD5,
@@ -766,8 +769,8 @@ class Handler implements UrlAliasHandlerInterface
         $names1 = $this->getNamesForAllLanguages($contentInfo1);
         $names2 = $this->getNamesForAllLanguages($contentInfo2);
 
-        $location1->isAlwaysAvailable = $this->maskGenerator->isAlwaysAvailable($contentInfo1['language_mask']);
-        $location2->isAlwaysAvailable = $this->maskGenerator->isAlwaysAvailable($contentInfo2['language_mask']);
+        $location1->isAlwaysAvailable = (bool)$contentInfo1['always_available'];
+        $location2->isAlwaysAvailable = (bool)$contentInfo2['always_available'];
 
         $languages = $this->languageHandler->loadAll();
 
@@ -1236,6 +1239,11 @@ class Handler implements UrlAliasHandlerInterface
     /**
      * Internal publish custom aliases method, accepting language mask to set correct language mask on url aliases
      * new alias ID (used when swapping Locations).
+     *
+     * $languageMask is the new Content's own "language_mask", whose bit 0 no longer carries the
+     * always-available flag (that moved to the "always_available" column) - $location->isAlwaysAvailable
+     * (set from that column by locationSwapped()) is used instead, combined separately from the
+     * intersected real-language bits.
      */
     private function internalPublishCustomUrlAliasForLocation(
         SwappedLocationProperties $location,
@@ -1246,9 +1254,9 @@ class Handler implements UrlAliasHandlerInterface
                 continue;
             }
 
-            $mask = (int)$entry['lang_mask'] & $languageMask;
+            $mask = (int)$entry['lang_mask'] & $languageMask & ~1;
 
-            if ($mask <= 1) {
+            if ($mask === 0 && !$location->isAlwaysAvailable) {
                 continue;
             }
 
@@ -1259,7 +1267,8 @@ class Handler implements UrlAliasHandlerInterface
                     'id' => (int)$entry['id'],
                     'is_original' => 1,
                     'is_alias' => 1,
-                    'lang_mask' => $mask,
+                    'lang_mask' => $mask | (int)$location->isAlwaysAvailable,
+                    'is_always_available' => $location->isAlwaysAvailable,
                 ]
             );
         }
