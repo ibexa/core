@@ -184,7 +184,8 @@ class HandlerLocationTest extends AbstractTestCase
             $this->createMock(ContentMapper::class),
             $this->getLocationMapperMock(),
             $this->getLanguageHandler(),
-            $this->getFullTextMapper($this->getContentTypeHandler())
+            $this->getFullTextMapper($this->getContentTypeHandler()),
+            $this->getLanguageGateway()
         );
     }
 
@@ -211,6 +212,7 @@ class HandlerLocationTest extends AbstractTestCase
                             if (!isset($locations[$locationId])) {
                                 $locations[$locationId] = new SPILocation();
                                 $locations[$locationId]->id = $locationId;
+                                $locations[$locationId]->contentId = (int)$row['contentobject_id'];
                             }
                         }
 
