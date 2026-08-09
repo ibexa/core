@@ -1,0 +1,3 @@
+ALTER TABLE ibexa_url_alias_ml ADD COLUMN is_always_available BOOLEAN DEFAULT 'false' NOT NULL;
+-- ibexa:sql-statement-separator
+UPDATE ibexa_url_alias_ml SET is_always_available = true WHERE (lang_mask & 1) = 1;
