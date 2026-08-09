@@ -30,7 +30,7 @@ services:
     Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Mapper\DoctrineGatewayDataMapper:
         arguments:
             $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
-            $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $languageGateway: '@ibexa.persistence.legacy.language.gateway'
             $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             $converterRegistry: '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
 

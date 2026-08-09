@@ -19,7 +19,6 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\SwappedLocationProperties;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\UrlAliasForSwappedLocation;
@@ -97,13 +96,6 @@ class Handler implements UrlAliasHandlerInterface
      */
     protected $contentGateway;
 
-    /**
-     * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    protected $maskGenerator;
-
     /** @var \Ibexa\Contracts\Core\Persistence\TransactionHandler */
     private $transactionHandler;
 
@@ -118,7 +110,6 @@ class Handler implements UrlAliasHandlerInterface
      * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $languageHandler
      * @param \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter $slugConverter
      * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator $maskGenerator
      * @param \Ibexa\Contracts\Core\Persistence\TransactionHandler $transactionHandler
      */
     public function __construct(
@@ -128,7 +119,6 @@ class Handler implements UrlAliasHandlerInterface
         LanguageHandler $languageHandler,
         SlugConverter $slugConverter,
         ContentGateway $contentGateway,
-        MaskGenerator $maskGenerator,
         TransactionHandler $transactionHandler,
         LanguageGateway $languageGateway
     ) {
@@ -138,7 +128,6 @@ class Handler implements UrlAliasHandlerInterface
         $this->languageHandler = $languageHandler;
         $this->slugConverter = $slugConverter;
         $this->contentGateway = $contentGateway;
-        $this->maskGenerator = $maskGenerator;
         $this->transactionHandler = $transactionHandler;
         $this->languageGateway = $languageGateway;
     }
@@ -189,7 +178,7 @@ class Handler implements UrlAliasHandlerInterface
         $parentId = $this->getRealAliasId($parentLocationId);
         $name = $this->slugConverter->convert($name, 'location_' . $locationId);
         $uniqueCounter = $this->slugConverter->getUniqueCounterValue($name, $parentId == 0);
-        $languageMask = $languageId | (int)$alwaysAvailable;
+        $languageIds = [$languageId];
         $action = 'eznode:' . $locationId;
         $cleanup = false;
 
@@ -220,7 +209,8 @@ class Handler implements UrlAliasHandlerInterface
                             'link' => $newId,
                             'parent' => $parentId,
                             'action' => $action,
-                            'lang_mask' => $languageMask,
+                            'language_ids' => $languageIds,
+                            'is_always_available' => $alwaysAvailable,
                             'text' => $newText,
                             'text_md5' => $newTextMD5,
                         ]
@@ -259,8 +249,11 @@ class Handler implements UrlAliasHandlerInterface
                     $cleanup = true;
                     $newId = $existingLocationEntry['id'];
                     if ($existingLocationEntry['id'] == $row['id']) {
-                        // If we are reusing existing location entry merge existing language mask
-                        $languageMask |= ($row['lang_mask'] & ~1);
+                        // If we are reusing existing location entry merge its existing real languages
+                        $languageIds = array_unique(array_merge(
+                            $languageIds,
+                            $this->gateway->loadTranslationLanguageIds($parentId, $newTextMD5)
+                        ));
                     }
                 } elseif ($newId === null) {
                     // Use reused row ID only if publishing normally, else use given $newId
@@ -274,7 +267,8 @@ class Handler implements UrlAliasHandlerInterface
                         'action' => $action,
                         // In case when NOP row was reused
                         'action_type' => 'eznode',
-                        'lang_mask' => $languageMask,
+                        'language_ids' => $languageIds,
+                        'is_always_available' => $alwaysAvailable,
                         // Updating text ensures that letter case changes are stored
                         'text' => $newText,
                         // Set "id" and "link" for case when reusable entry is history
@@ -446,14 +440,14 @@ class Handler implements UrlAliasHandlerInterface
 
         // If nothing was returned perform insert
         if ($isPathNew || empty($row)) {
-            $data['lang_mask'] = $languageId | (int)$alwaysAvailable;
+            $data['language_ids'] = [$languageId];
             $data['is_always_available'] = $alwaysAvailable;
             $id = $this->gateway->insertRow($data);
         } elseif ($row['action'] === Gateway::NOP_ACTION || (int)$row['is_original'] === 0) {
             // Row exists, check if it is reusable. There are 2 cases when this is possible:
             // 1. NOP entry
             // 2. history entry
-            $data['lang_mask'] = $languageId | (int)$alwaysAvailable;
+            $data['language_ids'] = [$languageId];
             $data['is_always_available'] = $alwaysAvailable;
             // If history is reused move link to id
             $data['link'] = $id = $row['id'];
@@ -469,7 +463,10 @@ class Handler implements UrlAliasHandlerInterface
         ) {
             // add another language to the same custom alias
             $data['link'] = $id = $row['id'];
-            $data['lang_mask'] = $row['lang_mask'] | $languageId | (int)$alwaysAvailable;
+            $data['language_ids'] = array_unique(array_merge(
+                $this->gateway->loadTranslationLanguageIds($parentId, $topElementMD5),
+                [$languageId]
+            ));
             $data['is_always_available'] = $alwaysAvailable || (bool)$row['is_always_available'];
             $this->gateway->updateRow(
                 $parentId,
@@ -501,7 +498,8 @@ class Handler implements UrlAliasHandlerInterface
     {
         return $this->gateway->insertRow(
             [
-                'lang_mask' => 1,
+                'language_ids' => [],
+                'is_always_available' => true,
                 'action' => Gateway::NOP_ACTION,
                 'parent' => $parentId,
                 'text' => $text,
@@ -825,14 +823,14 @@ class Handler implements UrlAliasHandlerInterface
         foreach ($location1Entries as $row) {
             $this->gateway->historizeBeforeSwap(
                 $row['action'],
-                $this->maskGenerator->extractLanguageIdsFromMask($row['lang_mask'])
+                $this->gateway->loadTranslationLanguageIds((int)$row['parent'], $row['text_md5'])
             );
         }
 
         foreach ($location2Entries as $row) {
             $this->gateway->historizeBeforeSwap(
                 $row['action'],
-                $this->maskGenerator->extractLanguageIdsFromMask($row['lang_mask'])
+                $this->gateway->loadTranslationLanguageIds((int)$row['parent'], $row['text_md5'])
             );
         }
     }
@@ -948,7 +946,11 @@ class Handler implements UrlAliasHandlerInterface
         $entries = array_filter(
             $locationEntries,
             function (array $row) use ($languageId): bool {
-                return in_array($languageId, $this->maskGenerator->extractLanguageIdsFromMask($row['lang_mask']), true);
+                return in_array(
+                    $languageId,
+                    $this->gateway->loadTranslationLanguageIds((int)$row['parent'], $row['text_md5']),
+                    true
+                );
             }
         );
 
@@ -1012,6 +1014,7 @@ class Handler implements UrlAliasHandlerInterface
                 $newIdsMap[$oldParentAliasId] = $this->gateway->getNextId();
             }
 
+            $row['language_ids'] = $this->gateway->loadTranslationLanguageIds((int)$row['parent'], $row['text_md5']);
             $row['action'] = $actionMap[$row['action']];
             $row['parent'] = $newParentAliasId;
             $row['id'] = $row['link'] = $newIdsMap[$oldParentAliasId];
@@ -1054,6 +1057,8 @@ class Handler implements UrlAliasHandlerInterface
         $action = 'eznode:' . $locationId;
         $entry = $this->gateway->loadAutogeneratedEntry($action);
         $entryId = $entry['id'];
+        // captured before removeSubtree() deletes the row (and cascades its translation rows away)
+        $entry['language_ids'] = $this->gateway->loadTranslationLanguageIds((int)$entry['parent'], $entry['text_md5']);
 
         $this->removeSubtree($entryId, $action, $entry['is_original']);
 
@@ -1238,10 +1243,7 @@ class Handler implements UrlAliasHandlerInterface
                     'id' => (int)$entry['id'],
                     'is_original' => 1,
                     'is_alias' => 1,
-                    'lang_mask' => $this->maskGenerator->generateLanguageMaskFromLanguageIds(
-                        $intersectedLanguageIds,
-                        $location->isAlwaysAvailable
-                    ),
+                    'language_ids' => $intersectedLanguageIds,
                     'is_always_available' => $location->isAlwaysAvailable,
                 ]
             );

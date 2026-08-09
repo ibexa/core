@@ -16,7 +16,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase as ContentGat
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase as DoctrineDatabaseLocation;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
@@ -39,27 +38,6 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('urlalias-handler')]
 class UrlAliasHandlerTest extends TestCase
 {
-    /**
-     * These fixtures predate "is_always_available" becoming a plain column and the
-     * "ibexa_url_alias_ml_translation" join table, and only set "lang_mask" - mirror what the real
-     * AddUrlAliasAlwaysAvailableColumnMigration/AddLanguageTranslationTablesMigration backfills do,
-     * so fixture rows behave consistently with rows written through the gateway.
-     */
-    protected function insertDatabaseFixture(string $file): void
-    {
-        parent::insertDatabaseFixture($file);
-
-        $connection = $this->getDatabaseConnection();
-        $connection->executeStatement(
-            'UPDATE ibexa_url_alias_ml SET is_always_available = 1 WHERE (lang_mask & 1) = 1'
-        );
-        $connection->executeStatement(
-            'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
-             SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
-             JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id'
-        );
-    }
-
     /**
      * Test for the lookup() method.
      *
@@ -5272,9 +5250,6 @@ class UrlAliasHandlerTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler */
     protected $languageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    protected $languageMaskGenerator;
-
     /**
      * @param array $methods
      *
@@ -5291,7 +5266,6 @@ class UrlAliasHandlerTest extends TestCase
                     self::createStub(LanguageHandler::class),
                     self::createStub(SlugConverter::class),
                     self::createStub(Gateway::class),
-                    self::createStub(LanguageMaskGenerator::class),
                     self::createStub(TransactionHandler::class),
                     self::createStub(\Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::class),
                 ]
@@ -5308,10 +5282,9 @@ class UrlAliasHandlerTest extends TestCase
     protected function getHandler(): Handler
     {
         $languageHandler = $this->getLanguageHandler();
-        $languageMaskGenerator = $this->getLanguageMaskGenerator();
         $gateway = new DoctrineDatabase(
             $this->getDatabaseConnection(),
-            $languageMaskGenerator
+            $languageHandler
         );
         $mapper = new Mapper($gateway, $languageHandler);
         $slugConverter = new SlugConverter($this->getProcessor());
@@ -5320,8 +5293,7 @@ class UrlAliasHandlerTest extends TestCase
             $connection,
             $this->getSharedGateway(),
             new ContentGateway\QueryBuilder($connection),
-            $languageHandler,
-            $languageMaskGenerator
+            $languageHandler
         );
 
         return new Handler(
@@ -5331,7 +5303,6 @@ class UrlAliasHandlerTest extends TestCase
             $languageHandler,
             $slugConverter,
             $contentGateway,
-            $languageMaskGenerator,
             self::createStub(TransactionHandler::class),
             new LanguageGateway($this->getDatabaseConnection())
         );
@@ -5352,20 +5323,6 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    protected function getLanguageMaskGenerator()
-    {
-        if (!isset($this->languageMaskGenerator)) {
-            $this->languageMaskGenerator = new LanguageMaskGenerator(
-                $this->getLanguageHandler()
-            );
-        }
-
-        return $this->languageMaskGenerator;
-    }
-
-    /**
      * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
      */
     protected function getLocationGateway()
@@ -5373,7 +5330,7 @@ class UrlAliasHandlerTest extends TestCase
         if (!isset($this->locationGateway)) {
             $this->locationGateway = new DoctrineDatabaseLocation(
                 $this->getDatabaseConnection(),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getTrashCriteriaConverterDependency(),
                 $this->getTrashSortClauseConverterDependency(),
                 $this->getLimitedCountQueryBuilderDependency()

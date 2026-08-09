@@ -38,6 +38,13 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
     }
 
     /**
+     * Number of languages to create beyond the fixture's 62 (the old bitmask ceiling,
+     * 8 * PHP_INT_SIZE - 2 on 64-bit PHP) - proves content creation works with translations in
+     * languages allocated past where the old power-of-two id scheme would have thrown.
+     */
+    private const EXTRA_LANGUAGES_BEYOND_OLD_LIMIT = 5;
+
+    /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testCreateContent(): void
@@ -52,6 +59,11 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
             ],
             self::$languagesRawList
         ));
+
+        for ($i = 1; $i <= self::EXTRA_LANGUAGES_BEYOND_OLD_LIMIT; ++$i) {
+            $names["xtr-{$i}"] = "Beyond old limit {$i} name";
+        }
+
         $this->createFolder($names);
     }
 
@@ -67,6 +79,13 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
             $languageCreateStruct = $languageService->newLanguageCreateStruct();
             $languageCreateStruct->languageCode = $languageData['languageCode'];
             $languageCreateStruct->name = $languageData['name'];
+            $languageService->createLanguage($languageCreateStruct);
+        }
+
+        for ($i = 1; $i <= self::EXTRA_LANGUAGES_BEYOND_OLD_LIMIT; ++$i) {
+            $languageCreateStruct = $languageService->newLanguageCreateStruct();
+            $languageCreateStruct->languageCode = "xtr-{$i}";
+            $languageCreateStruct->name = "Beyond old limit {$i}";
             $languageService->createLanguage($languageCreateStruct);
         }
     }
