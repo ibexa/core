@@ -95,7 +95,8 @@ class HandlerContentSortTest extends AbstractTestCase
             $this->getContentMapperMock(),
             self::createStub(LocationMapper::class),
             $this->getLanguageHandler(),
-            $this->getFullTextMapper($this->getContentTypeHandler())
+            $this->getFullTextMapper($this->getContentTypeHandler()),
+            $this->getLanguageGateway()
         );
     }
 
