@@ -130,6 +130,17 @@ abstract class Gateway
 
     abstract public function loadTypeDataByRemoteId(string $remoteId, int $status): array;
 
+    /**
+     * Loads the language codes each of the given (Type id, status) pairs is translated into, from
+     * ibexa_content_type_name - the relational replacement for decoding
+     * ibexa_content_type.language_mask.
+     *
+     * @param array<array{id: int, status: int}> $typeIdStatusPairs
+     *
+     * @return array<string, string[]> "{typeId}:{status}" => language codes
+     */
+    abstract public function loadContentTypeTranslations(array $typeIdStatusPairs): array;
+
     abstract public function countInstancesOfType(int $typeId): int;
 
     /**

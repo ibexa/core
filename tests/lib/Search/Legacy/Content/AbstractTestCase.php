@@ -147,16 +147,19 @@ class AbstractTestCase extends LanguageAwareTestCase
     protected function getContentTypeHandler(): SPIContentTypeHandler
     {
         if (!isset($this->contentTypeHandler)) {
+            $contentTypeGateway = new ContentTypeGateway(
+                $this->getDatabaseConnection(),
+                $this->getSharedGateway(),
+                $this->getLanguageMaskGenerator(),
+                $this->getCriterionVisitor()
+            );
+
             $this->contentTypeHandler = new ContentTypeHandler(
-                new ContentTypeGateway(
-                    $this->getDatabaseConnection(),
-                    $this->getSharedGateway(),
-                    $this->getLanguageMaskGenerator(),
-                    $this->getCriterionVisitor()
-                ),
+                $contentTypeGateway,
                 new ContentTypeMapper(
                     $this->getConverterRegistry(),
-                    $this->getLanguageMaskGenerator(),
+                    $contentTypeGateway,
+                    $this->getLanguageHandler(),
                     self::createStub(StorageDispatcherInterface::class),
                     $this->getFieldTypeAliasResolver(),
                 ),
