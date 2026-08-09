@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -63,6 +64,7 @@ final class DoctrineDatabase extends Gateway
         $selectQuery->select(
             't.*',
             'c.language_mask',
+            'c.always_available',
             'c.initial_language_id'
         );
 
@@ -109,18 +111,7 @@ final class DoctrineDatabase extends Gateway
 
         // If not main-languages query
         if (!empty($languageFilter['languages'])) {
-            $selectQuery->andWhere(
-                $selectQuery->expr()->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        'c.language_mask',
-                        $selectQuery->createNamedParameter(
-                            $this->getLanguageMask($languageFilter),
-                            ParameterType::INTEGER
-                        )
-                    ),
-                    $selectQuery->createNamedParameter(0, ParameterType::INTEGER)
-                )
-            );
+            $selectQuery->andWhere($this->buildTranslationCondition($selectQuery, $languageFilter));
         }
 
         if ($sortClauses !== null) {
@@ -185,18 +176,7 @@ final class DoctrineDatabase extends Gateway
 
         // If not main-languages query
         if (!empty($languageFilter['languages'])) {
-            $query->andWhere(
-                $query->expr()->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        'c.language_mask',
-                        $query->createNamedParameter(
-                            $this->getLanguageMask($languageFilter),
-                            ParameterType::INTEGER
-                        )
-                    ),
-                    $query->createNamedParameter(0, ParameterType::INTEGER)
-                )
-            );
+            $query->andWhere($this->buildTranslationCondition($query, $languageFilter));
         }
 
         $statement = $query->executeQuery();
@@ -211,24 +191,47 @@ final class DoctrineDatabase extends Gateway
      */
     private function getLanguageMask(array $languageFilter): int
     {
-        if (!isset($languageFilter['languages'])) {
-            $languageFilter['languages'] = [];
-        }
-
-        if (!isset($languageFilter['useAlwaysAvailable'])) {
-            $languageFilter['useAlwaysAvailable'] = true;
-        }
-
         $mask = 0;
-        if ($languageFilter['useAlwaysAvailable']) {
-            $mask |= 1;
-        }
-
-        foreach ($languageFilter['languages'] as $languageCode) {
+        foreach ($languageFilter['languages'] ?? [] as $languageCode) {
             $mask |= $this->languageHandler->loadByLanguageCode($languageCode)->id;
         }
 
         return $mask;
+    }
+
+    /**
+     * Builds the "content is translated into one of the requested languages, or it's
+     * always-available" condition shared by find() and getTotalCount() - kept as one place so the
+     * two queries can't drift out of sync on the always-available fallback.
+     *
+     * @param QueryBuilder $queryBuilder
+     */
+    private function buildTranslationCondition(
+        $queryBuilder,
+        array $languageFilter
+    ): string {
+        $translationCondition = $queryBuilder->expr()->gt(
+            $this->getDatabasePlatform()->getBitAndComparisonExpression(
+                'c.language_mask',
+                $queryBuilder->createNamedParameter(
+                    $this->getLanguageMask($languageFilter),
+                    ParameterType::INTEGER
+                )
+            ),
+            $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
+        );
+
+        if ($languageFilter['useAlwaysAvailable'] ?? true) {
+            $translationCondition = $queryBuilder->expr()->or(
+                $translationCondition,
+                $queryBuilder->expr()->eq(
+                    'c.always_available',
+                    $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
+                )
+            );
+        }
+
+        return $translationCondition;
     }
 
     private function getDatabasePlatform(): AbstractPlatform
