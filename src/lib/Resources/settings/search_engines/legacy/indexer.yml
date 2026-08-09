@@ -5,7 +5,7 @@ services:
             $typeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             $transformationProcessor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
             $searchIndex: '@Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex'
-            $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
             $fullTextSearchConfiguration: '%ibexa.search.legacy.criterion_handler.full_text.configuration%'
 
     Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex:

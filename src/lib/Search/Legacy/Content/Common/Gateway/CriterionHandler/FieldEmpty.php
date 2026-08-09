@@ -21,6 +21,7 @@ use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 
 /**
  * Field criterion handler.
@@ -45,9 +46,16 @@ class FieldEmpty extends FieldBase
         LanguageHandler $languageHandler,
         Registry $fieldConverterRegistry,
         FieldTypeService $fieldTypeService,
-        JoinedTablesTracker $joinedTablesTracker
+        JoinedTablesTracker $joinedTablesTracker,
+        LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {
-        parent::__construct($connection, $contentTypeHandler, $languageHandler, $joinedTablesTracker);
+        parent::__construct(
+            $connection,
+            $contentTypeHandler,
+            $languageHandler,
+            $joinedTablesTracker,
+            $languagePriorityConditionBuilder
+        );
 
         $this->fieldConverterRegistry = $fieldConverterRegistry;
         $this->fieldTypeService = $fieldTypeService;
