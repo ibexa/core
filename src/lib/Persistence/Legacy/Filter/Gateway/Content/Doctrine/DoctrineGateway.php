@@ -33,6 +33,7 @@ final class DoctrineGateway implements Gateway
         'content_current_version' => 'content.current_version',
         'content_initial_language_id' => 'content.initial_language_id',
         'content_language_mask' => 'content.language_mask',
+        'content_always_available' => 'content.always_available',
         'content_modified' => 'content.modified',
         'content_name' => 'content.name',
         'content_owner_id' => 'content.owner_id',
@@ -49,6 +50,7 @@ final class DoctrineGateway implements Gateway
         'content_version_modified' => 'version.modified',
         'content_version_status' => 'version.status',
         'content_version_language_mask' => 'version.language_mask',
+        'content_version_always_available' => 'version.always_available',
         'content_version_initial_language_id' => 'version.initial_language_id',
         // Main Location (nullable)
         'content_main_location_id' => 'main_location.main_node_id',

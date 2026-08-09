@@ -93,6 +93,7 @@ final readonly class DoctrineGateway implements Gateway
                 'content.current_version AS content_current_version',
                 'content.initial_language_id AS content_initial_language_id',
                 'content.language_mask AS content_language_mask',
+                'content.always_available AS content_always_available',
                 'content.modified AS content_modified',
                 'content.name AS content_name',
                 'content.owner_id AS content_owner_id',

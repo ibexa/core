@@ -1438,13 +1438,11 @@ final class DoctrineDatabase extends Gateway
     ): void {
         $expr = $queryBuilder->expr();
         try {
-            $mask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes(
-                $translations,
-                $useAlwaysAvailable
-            );
+            $mask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes($translations);
         } catch (NotFoundException $e) {
             return;
         }
+        $languageIds = $this->languageMaskGenerator->extractLanguageIdsFromMask($mask);
 
         $queryBuilder->leftJoin(
             't',
@@ -1453,13 +1451,32 @@ final class DoctrineDatabase extends Gateway
             $expr->eq('t.contentobject_id', 'c.id')
         );
 
+        $translationSubQuery = $this->connection->createQueryBuilder();
+        $translationSubQuery
+            ->select('1')
+            ->from('ibexa_content_translation', 'ct')
+            ->where(
+                $translationSubQuery->expr()->and(
+                    'ct.content_id = c.id',
+                    $translationSubQuery->expr()->in(
+                        'ct.language_id',
+                        $queryBuilder->createNamedParameter($languageIds, ArrayParameterType::INTEGER)
+                    )
+                )
+            );
+
+        $translationConditions = [
+            sprintf('EXISTS (%s)', $translationSubQuery->getSQL()),
+        ];
+
+        if ($useAlwaysAvailable) {
+            $translationConditions[] = $expr->eq('c.always_available', 1);
+        }
+
         $queryBuilder->andWhere(
             $expr->or(
-                $expr->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression('c.language_mask', $mask),
-                    0
-                ),
-                // Root location doesn't have language mask
+                $expr->or(...$translationConditions),
+                // Root location doesn't have a translation row
                 $expr->eq(
                     't.node_id',
                     't.parent_node_id'

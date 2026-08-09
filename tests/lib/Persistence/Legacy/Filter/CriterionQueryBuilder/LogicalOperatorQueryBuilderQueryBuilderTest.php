@@ -30,7 +30,7 @@ final class LogicalOperatorQueryBuilderQueryBuilderTest extends BaseCriterionVis
                     new Criterion\LanguageCode('eng-GB'),
                 ]
             ),
-            '(location.parent_node_id IN (:dcValue1)) AND ((language.locale IN (:dcValue2)) OR (version.language_mask & 1 = 1))',
+            '(location.parent_node_id IN (:dcValue1)) AND ((language.locale IN (:dcValue2)) OR (version.always_available = 1))',
             ['dcValue1' => [1], 'dcValue2' => ['eng-GB']],
         ];
 
@@ -41,7 +41,7 @@ final class LogicalOperatorQueryBuilderQueryBuilderTest extends BaseCriterionVis
                     new Criterion\ParentLocationId(2),
                 ]
             ),
-            '((language.locale IN (:dcValue1)) OR (version.language_mask & 1 = 1)) OR (location.parent_node_id IN (:dcValue2))',
+            '((language.locale IN (:dcValue1)) OR (version.always_available = 1)) OR (location.parent_node_id IN (:dcValue2))',
             ['dcValue1' => ['eng-GB'], 'dcValue2' => [2]],
         ];
 

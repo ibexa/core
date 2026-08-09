@@ -106,6 +106,42 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->getBasicNodeData(1337);
     }
 
+    public function testLoadLocationFiltersByTranslationTable(): void
+    {
+        // LanguageHandlerMock (used by getLanguageMaskGenerator()) resolves "eng-GB" to id 4.
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $connection = $this->getDatabaseConnection();
+        $connection->insert('ibexa_content_language', [
+            'id' => 4,
+            'locale' => 'eng-GB',
+            'name' => 'British english',
+            'disabled' => 0,
+        ]);
+        $connection->insert('ibexa_content_translation', ['content_id' => 75, 'language_id' => 4]);
+
+        $gateway = $this->getLocationGateway();
+
+        $data = $gateway->getBasicNodeData(77, ['eng-GB'], false);
+        self::assertLoadLocationProperties($data);
+    }
+
+    public function testLoadLocationFiltersOutContentMissingFromTranslationTable(): void
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $connection = $this->getDatabaseConnection();
+        $connection->insert('ibexa_content_language', [
+            'id' => 4,
+            'locale' => 'eng-GB',
+            'name' => 'British english',
+            'disabled' => 0,
+        ]);
+        // No matching row in ibexa_content_translation, and content 75 is not always-available.
+
+        $this->expectException(NotFoundException::class);
+
+        $this->getLocationGateway()->getBasicNodeData(77, ['eng-GB'], false);
+    }
+
     public function testLoadLocationDataByContent()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');

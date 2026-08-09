@@ -21,7 +21,7 @@ final class LanguageCodeQueryBuilderQueryBuilderTest extends BaseCriterionVisito
     {
         yield 'Language Code IN (eng-GB, eng-US), match always available' => [
             new Criterion\LanguageCode(['eng-GB', 'eng-US']),
-            '(language.locale IN (:dcValue1)) OR (version.language_mask & 1 = 1)',
+            '(language.locale IN (:dcValue1)) OR (version.always_available = 1)',
             ['dcValue1' => ['eng-GB', 'eng-US']],
         ];
 

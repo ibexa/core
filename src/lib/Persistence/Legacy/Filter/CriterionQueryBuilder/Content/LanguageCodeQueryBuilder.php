@@ -37,10 +37,15 @@ final class LanguageCodeQueryBuilder implements CriterionQueryBuilder
         $queryBuilder
             ->joinOnce(
                 'version',
+                'ibexa_content_version_translation',
+                'version_translation',
+                'version_translation.content_version_id = version.id'
+            )
+            ->joinOnce(
+                'version_translation',
                 Gateway::CONTENT_LANGUAGE_TABLE,
                 'language',
-                // bitwise and for exact language ID match
-                'language.id & version.language_mask = language.id'
+                'language.id = version_translation.language_id'
             );
 
         // at this point $criterion->value is guaranteed to be an array
@@ -53,7 +58,7 @@ final class LanguageCodeQueryBuilder implements CriterionQueryBuilder
         );
 
         if ($criterion->matchAlwaysAvailable) {
-            $expr = (string)$queryBuilder->expr()->or($expr, 'version.language_mask & 1 = 1');
+            $expr = (string)$queryBuilder->expr()->or($expr, 'version.always_available = 1');
         }
 
         return $expr;
