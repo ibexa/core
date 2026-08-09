@@ -17,7 +17,8 @@ services:
     Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper
         arguments:
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@ibexa.persistence.legacy.url_alias.gateway'
+            - '@ibexa.spi.persistence.legacy.language.handler'
 
     Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
@@ -30,4 +31,5 @@ services:
             - '@ibexa.persistence.legacy.content.gateway'
             - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
             - '@Ibexa\Core\Persistence\Legacy\TransactionHandler'
+            - '@ibexa.persistence.legacy.language.gateway'
         lazy: true
