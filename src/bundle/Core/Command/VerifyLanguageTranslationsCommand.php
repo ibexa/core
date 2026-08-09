@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,9 +23,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  * "ibexa_url_alias_ml_translation" agree with the legacy "language_mask"/"lang_mask" bitmask
  * columns they were backfilled from (step 2 of the language bitmask migration).
  *
- * This is the safety net for every later step that switches a read path over to the translation
- * tables: it must report clean before any such switch, and before the final major-version cleanup
- * migration is allowed to drop the mask columns.
+ * A standard upgrade no longer needs to run this manually - {@see BackfillLanguageTranslationsMigration}
+ * backfills as part of the regular migration sequence, and {@see DropLanguageBitmaskColumnsMigration}
+ * refuses to drop the mask columns if any row wasn't backfilled. This command remains available
+ * for manual verification/repair (via `--fix`) outside of a migration run.
  *
  * Checks both directions with plain NOT EXISTS correlated subqueries rather than EXCEPT/MINUS, so
  * the same SQL runs unchanged on MySQL, PostgreSQL and SQLite:
