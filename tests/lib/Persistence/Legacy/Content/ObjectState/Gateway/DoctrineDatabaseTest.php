@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
@@ -24,13 +23,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @var DoctrineDatabase
      */
     protected $databaseGateway;
-
-    /**
-     * Language mask generator.
-     *
-     * @var MaskGenerator
-     */
-    protected $languageMaskGenerator;
 
     /**
      * Inserts DB fixture.
@@ -61,7 +53,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'ibexa_object_state_group_id' => 2,
                     'ibexa_object_state_id' => 1,
                     'ibexa_object_state_identifier' => 'not_locked',
-                    'ibexa_object_state_language_mask' => 3,
                     'ibexa_object_state_priority' => 0,
                     'ibexa_object_state_language_description' => '',
                     'ibexa_object_state_language_language_id' => 3,
@@ -85,7 +76,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'ibexa_object_state_group_id' => 2,
                     'ibexa_object_state_id' => 1,
                     'ibexa_object_state_identifier' => 'not_locked',
-                    'ibexa_object_state_language_mask' => 3,
                     'ibexa_object_state_priority' => 0,
                     'ibexa_object_state_language_description' => '',
                     'ibexa_object_state_language_language_id' => 3,
@@ -110,7 +100,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                         'ibexa_object_state_group_id' => 2,
                         'ibexa_object_state_id' => 1,
                         'ibexa_object_state_identifier' => 'not_locked',
-                        'ibexa_object_state_language_mask' => 3,
                         'ibexa_object_state_priority' => 0,
                         'ibexa_object_state_language_description' => '',
                         'ibexa_object_state_language_language_id' => 3,
@@ -123,7 +112,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                         'ibexa_object_state_group_id' => 2,
                         'ibexa_object_state_id' => 2,
                         'ibexa_object_state_identifier' => 'locked',
-                        'ibexa_object_state_language_mask' => 3,
                         'ibexa_object_state_priority' => 1,
                         'ibexa_object_state_language_description' => '',
                         'ibexa_object_state_language_language_id' => 3,
@@ -147,7 +135,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'ibexa_object_state_group_default_language_id' => 2,
                     'ibexa_object_state_group_id' => 2,
                     'ibexa_object_state_group_identifier' => 'ibexa_lock',
-                    'ibexa_object_state_group_language_mask' => 3,
                     'ibexa_object_state_group_language_description' => '',
                     'ibexa_object_state_group_language_language_id' => 3,
                     'ibexa_object_state_group_language_real_language_id' => 2,
@@ -170,7 +157,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'ibexa_object_state_group_default_language_id' => 2,
                     'ibexa_object_state_group_id' => 2,
                     'ibexa_object_state_group_identifier' => 'ibexa_lock',
-                    'ibexa_object_state_group_language_mask' => 3,
                     'ibexa_object_state_group_language_description' => '',
                     'ibexa_object_state_group_language_language_id' => 3,
                     'ibexa_object_state_group_language_real_language_id' => 2,
@@ -194,7 +180,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                         'ibexa_object_state_group_default_language_id' => 2,
                         'ibexa_object_state_group_id' => 2,
                         'ibexa_object_state_group_identifier' => 'ibexa_lock',
-                        'ibexa_object_state_group_language_mask' => 3,
                         'ibexa_object_state_group_language_description' => '',
                         'ibexa_object_state_group_language_language_id' => 3,
                         'ibexa_object_state_group_language_real_language_id' => 2,
@@ -220,7 +205,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     // The new state should be added with state ID = 3
                     'ibexa_object_state_id' => 3,
                     'ibexa_object_state_identifier' => 'test_state',
-                    'ibexa_object_state_language_mask' => 5,
                     // The new state should have priority = 2
                     'ibexa_object_state_priority' => 2,
                     'ibexa_object_state_language_description' => 'Test state description',
@@ -249,7 +233,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     // The new state should be added with state ID = 3
                     'ibexa_object_state_id' => 3,
                     'ibexa_object_state_identifier' => 'test_state',
-                    'ibexa_object_state_language_mask' => 5,
                     // The new state should have priority = 0
                     'ibexa_object_state_priority' => 0,
                     'ibexa_object_state_language_description' => 'Test state description',
@@ -284,7 +267,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'ibexa_object_state_group_id' => 2,
                     'ibexa_object_state_id' => 1,
                     'ibexa_object_state_identifier' => 'test_state',
-                    'ibexa_object_state_language_mask' => 5,
                     'ibexa_object_state_priority' => 0,
                     'ibexa_object_state_language_description' => 'Test state description',
                     'ibexa_object_state_language_language_id' => 4,
@@ -339,7 +321,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     // The new state group should be added with state group ID = 3
                     'ibexa_object_state_group_id' => 3,
                     'ibexa_object_state_group_identifier' => 'test_group',
-                    'ibexa_object_state_group_language_mask' => 5,
                     'ibexa_object_state_group_language_description' => 'Test group description',
                     'ibexa_object_state_group_language_language_id' => 4,
                     'ibexa_object_state_group_language_real_language_id' => 4,
@@ -366,7 +347,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'ibexa_object_state_group_default_language_id' => 4,
                     'ibexa_object_state_group_id' => 2,
                     'ibexa_object_state_group_identifier' => 'test_group',
-                    'ibexa_object_state_group_language_mask' => 5,
                     'ibexa_object_state_group_language_description' => 'Test group description',
                     'ibexa_object_state_group_language_language_id' => 4,
                     'ibexa_object_state_group_language_real_language_id' => 4,
@@ -422,7 +402,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'ibexa_object_state_group_id' => 2,
                     'ibexa_object_state_id' => 1,
                     'ibexa_object_state_identifier' => 'not_locked',
-                    'ibexa_object_state_language_mask' => 3,
                     'ibexa_object_state_priority' => 0,
                     'ibexa_object_state_language_description' => '',
                     'ibexa_object_state_language_language_id' => 3,
@@ -458,7 +437,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'ibexa_object_state_group_id' => 2,
                     'ibexa_object_state_id' => 1,
                     'ibexa_object_state_identifier' => 'not_locked',
-                    'ibexa_object_state_language_mask' => 3,
                     'ibexa_object_state_priority' => 10,
                     'ibexa_object_state_language_description' => '',
                     'ibexa_object_state_language_language_id' => 3,
@@ -511,7 +489,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         if (!isset($this->databaseGateway)) {
             $this->databaseGateway = new DoctrineDatabase(
                 $this->getDatabaseConnection(),
-                $this->getLanguageMaskGenerator()
+                $this->getLanguageHandler()
             );
         }
 
