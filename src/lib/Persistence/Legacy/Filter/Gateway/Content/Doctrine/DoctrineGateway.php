@@ -32,7 +32,6 @@ final class DoctrineGateway implements Gateway
         'content_type_id' => 'content.content_type_id',
         'content_current_version' => 'content.current_version',
         'content_initial_language_id' => 'content.initial_language_id',
-        'content_language_mask' => 'content.language_mask',
         'content_always_available' => 'content.always_available',
         'content_modified' => 'content.modified',
         'content_name' => 'content.name',
@@ -205,7 +204,15 @@ final class DoctrineGateway implements Gateway
                 (string)$query->expr()->and(
                     'content.id = content_name.contentobject_id',
                     'version.version = content_name.content_version',
-                    'version.language_mask & content_name.language_id > 0'
+                    // content_name.language_id may still carry a stray pre-migration "always
+                    // available" bit (+1) that was never cleaned up retroactively - tolerate it
+                    // the same defensive way LanguagePriorityConditionBuilder does for
+                    // ibexa_content_field.language_id.
+                    'EXISTS (
+                        SELECT 1 FROM ibexa_content_version_translation cvt
+                        WHERE cvt.content_version_id = version.id
+                        AND content_name.language_id IN (cvt.language_id, cvt.language_id + 1)
+                    )'
                 )
             )
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
@@ -241,7 +248,14 @@ final class DoctrineGateway implements Gateway
                 (string)$query->expr()->and(
                     'content.id = content_field.contentobject_id',
                     'version.version = content_field.version',
-                    'version.language_mask & content_field.language_id = content_field.language_id'
+                    // content_field.language_id may still carry a stray pre-migration "always
+                    // available" bit (+1) that was never cleaned up retroactively - see the same
+                    // tolerance in bulkFetchVersionNames() above.
+                    'EXISTS (
+                        SELECT 1 FROM ibexa_content_version_translation cvt
+                        WHERE cvt.content_version_id = version.id
+                        AND content_field.language_id IN (cvt.language_id, cvt.language_id + 1)
+                    )'
                 )
             )
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
