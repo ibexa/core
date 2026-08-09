@@ -49,12 +49,6 @@ use RuntimeException;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /**
-     * Pre-computed integer constant which, when combined with proper bit-wise operator,
-     * removes always available flag from the mask.
-     */
-    private const int REMOVE_ALWAYS_AVAILABLE_LANG_MASK_OPERAND = -2;
-
     public function __construct(
         protected Connection $connection,
         private readonly SharedGateway $sharedGateway,
@@ -108,9 +102,13 @@ final class DoctrineDatabase extends Gateway
                         $this->languageMaskGenerator->generateLanguageMaskForFields(
                             $struct->fields,
                             $initialLanguageCode,
-                            $struct->alwaysAvailable
+                            false
                         ),
                         ParameterType::INTEGER
+                    ),
+                    'always_available' => $query->createPositionalParameter(
+                        $struct->alwaysAvailable,
+                        ParameterType::BOOLEAN
                     ),
                 ]
             );
@@ -161,9 +159,13 @@ final class DoctrineDatabase extends Gateway
                         $this->languageMaskGenerator->generateLanguageMaskForFields(
                             $fields,
                             $versionInfo->initialLanguageCode,
-                            $versionInfo->contentInfo->alwaysAvailable
+                            false
                         ),
                         ParameterType::INTEGER
+                    ),
+                    'always_available' => $query->createPositionalParameter(
+                        $versionInfo->contentInfo->alwaysAvailable,
+                        ParameterType::BOOLEAN
                     ),
                 ]
             );
@@ -226,13 +228,17 @@ final class DoctrineDatabase extends Gateway
         }
 
         if ($prePublishVersionInfo !== null) {
+            $alwaysAvailable = $struct->alwaysAvailable ?? $prePublishVersionInfo->contentInfo->alwaysAvailable;
             $mask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes(
-                $prePublishVersionInfo->languageCodes,
-                $struct->alwaysAvailable ?? $prePublishVersionInfo->contentInfo->alwaysAvailable
+                $prePublishVersionInfo->languageCodes
             );
             $query->set(
                 'language_mask',
                 $query->createNamedParameter($mask, ParameterType::INTEGER, ':languageMask')
+            );
+            $query->set(
+                'always_available',
+                $query->createNamedParameter($alwaysAvailable, ParameterType::BOOLEAN, ':alwaysAvailable')
             );
             $hasSetClause = true;
         }
@@ -301,41 +307,19 @@ final class DoctrineDatabase extends Gateway
 
     public function updateAlwaysAvailableFlag(int $contentId, ?bool $alwaysAvailable = null): void
     {
-        // We will need to know some info on the current language mask to update the flag
-        // everywhere needed
-        $contentInfoRow = $this->loadContentInfo($contentId);
-        $versionNo = (int)$contentInfoRow['current_version'];
-        $languageMask = (int)$contentInfoRow['language_mask'];
-        $initialLanguageId = (int)$contentInfoRow['initial_language_id'];
         if (!isset($alwaysAvailable)) {
-            $alwaysAvailable = 1 === ($languageMask & 1);
+            $contentInfoRow = $this->loadContentInfo($contentId);
+            $alwaysAvailable = (bool)$contentInfoRow['always_available'];
         }
 
-        $this->updateContentItemAlwaysAvailableFlag($contentId, $alwaysAvailable);
-        $this->updateContentNameAlwaysAvailableFlag(
-            $contentId,
-            $versionNo,
-            $alwaysAvailable
-        );
-        $this->updateContentFieldsAlwaysAvailableFlag(
-            $contentId,
-            $versionNo,
-            $alwaysAvailable,
-            $languageMask,
-            $initialLanguageId
-        );
-    }
-
-    private function updateContentItemAlwaysAvailableFlag(
-        int $contentId,
-        bool $alwaysAvailable
-    ): void {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->update(self::CONTENT_ITEM_TABLE);
-        $this
-            ->setLanguageMaskForUpdateQuery($alwaysAvailable, $query, 'language_mask')
+            ->update(self::CONTENT_ITEM_TABLE)
+            ->set(
+                'always_available',
+                $query->createNamedParameter($alwaysAvailable, ParameterType::BOOLEAN, ':alwaysAvailable')
+            )
             ->where(
                 $expr->eq(
                     'id',
@@ -343,118 +327,6 @@ final class DoctrineDatabase extends Gateway
                 )
             );
         $query->executeStatement();
-    }
-
-    private function updateContentNameAlwaysAvailableFlag(
-        int $contentId,
-        int $versionNo,
-        bool $alwaysAvailable
-    ): void {
-        $query = $this->connection->createQueryBuilder();
-        $expr = $query->expr();
-        $query
-            ->update(self::CONTENT_NAME_TABLE);
-        $this
-            ->setLanguageMaskForUpdateQuery($alwaysAvailable, $query, 'language_id')
-            ->where(
-                $expr->eq(
-                    'contentobject_id',
-                    $query->createNamedParameter($contentId, ParameterType::INTEGER, ':contentId')
-                )
-            )
-            ->andWhere(
-                $expr->eq(
-                    'content_version',
-                    $query->createNamedParameter($versionNo, ParameterType::INTEGER, ':versionNo')
-                )
-            );
-        $query->executeStatement();
-    }
-
-    private function updateContentFieldsAlwaysAvailableFlag(
-        int $contentId,
-        int $versionNo,
-        bool $alwaysAvailable,
-        int $languageMask,
-        int $initialLanguageId
-    ): void {
-        $query = $this->connection->createQueryBuilder();
-        $expr = $query->expr();
-        $query
-            ->update(self::CONTENT_FIELD_TABLE)
-            ->where(
-                $expr->eq(
-                    'contentobject_id',
-                    $query->createNamedParameter($contentId, ParameterType::INTEGER, ':contentId')
-                )
-            )
-            ->andWhere(
-                $expr->eq(
-                    'version',
-                    $query->createNamedParameter($versionNo, ParameterType::INTEGER, ':versionNo')
-                )
-            );
-
-        // If there is only a single language, update all fields and return
-        if (!$this->languageMaskGenerator->isLanguageMaskComposite($languageMask)) {
-            $this->setLanguageMaskForUpdateQuery($alwaysAvailable, $query, 'language_id');
-
-            $query->executeStatement();
-
-            return;
-        }
-
-        // Otherwise:
-        // 1. Remove always available flag on all fields
-        $query
-            ->set(
-                'language_id',
-                $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                    'language_id',
-                    ':languageMaskOperand'
-                )
-            )
-            ->setParameter('languageMaskOperand', self::REMOVE_ALWAYS_AVAILABLE_LANG_MASK_OPERAND)
-        ;
-        $query->executeStatement();
-
-        // 2. If Content is always available set the flag only on fields in main language
-        if ($alwaysAvailable) {
-            $mainLanguageQuery = $this->connection->createQueryBuilder();
-            $mainLanguageExpr = $mainLanguageQuery->expr();
-            $mainLanguageQuery
-                ->update(self::CONTENT_FIELD_TABLE)
-                ->where(
-                    $mainLanguageExpr->eq(
-                        'contentobject_id',
-                        $mainLanguageQuery->createNamedParameter($contentId, ParameterType::INTEGER, ':contentId')
-                    )
-                )
-                ->andWhere(
-                    $mainLanguageExpr->eq(
-                        'version',
-                        $mainLanguageQuery->createNamedParameter($versionNo, ParameterType::INTEGER, ':versionNo')
-                    )
-                )
-                ->set(
-                    'language_id',
-                    $this->getDatabasePlatform()->getBitOrComparisonExpression(
-                        'language_id',
-                        ':languageMaskOperand'
-                    )
-                )
-                ->setParameter('languageMaskOperand', 1)
-                ->andWhere(
-                    $mainLanguageExpr->gt(
-                        $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                            'language_id',
-                            $mainLanguageQuery->createNamedParameter($initialLanguageId, ParameterType::INTEGER, ':initialLanguageId')
-                        ),
-                        $mainLanguageQuery->createNamedParameter(0, ParameterType::INTEGER, ':zero')
-                    )
-                );
-            $mainLanguageQuery->executeStatement();
-        }
     }
 
     public function setStatus(int $contentId, int $version, int $status): bool
@@ -607,23 +479,9 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter(
                 'language_id',
-                $this->languageMaskGenerator->generateLanguageIndicator(
-                    $field->languageCode,
-                    $this->isLanguageAlwaysAvailable($content, $field->languageCode)
-                ),
+                $this->languageMaskGenerator->generateLanguageIndicator($field->languageCode, false),
                 ParameterType::INTEGER
             );
-    }
-
-    /**
-     * Check if $languageCode is always available in $content.
-     */
-    private function isLanguageAlwaysAvailable(Content $content, string $languageCode): bool
-    {
-        return
-            $content->versionInfo->contentInfo->alwaysAvailable &&
-            $content->versionInfo->contentInfo->mainLanguageCode === $languageCode
-        ;
     }
 
     public function updateField(Field $field, StorageFieldValue $value): void
@@ -725,6 +583,7 @@ final class DoctrineDatabase extends Gateway
                 'c.status AS content_status',
                 'c.name AS content_name',
                 'c.language_mask AS content_language_mask',
+                'c.always_available AS content_always_available',
                 'c.is_hidden AS content_is_hidden',
                 'v.id AS content_version_id',
                 'v.version AS content_version_version',
@@ -733,6 +592,7 @@ final class DoctrineDatabase extends Gateway
                 'v.created AS content_version_created',
                 'v.status AS content_version_status',
                 'v.language_mask AS content_version_language_mask',
+                'v.always_available AS content_version_always_available',
                 'v.initial_language_id AS content_version_initial_language_id',
                 'a.id AS content_field_id',
                 'a.content_type_field_definition_id AS content_field_content_type_field_definition_id',
@@ -1379,7 +1239,7 @@ final class DoctrineDatabase extends Gateway
                         'content_version' => ':version_no',
                         'content_translation' => ':language_code',
                         'name' => ':name',
-                        'language_id' => $this->getSetNameLanguageMaskSubQuery(),
+                        'language_id' => ':language_id',
                         'real_translation' => ':language_code',
                     ]
                 );
@@ -1387,7 +1247,7 @@ final class DoctrineDatabase extends Gateway
             $query
                 ->update(self::CONTENT_NAME_TABLE)
                 ->set('name', ':name')
-                ->set('language_id', $this->getSetNameLanguageMaskSubQuery())
+                ->set('language_id', ':language_id')
                 ->set('real_translation', ':language_code')
                 ->where('contentobject_id = :content_id')
                 ->andWhere('content_version = :version_no')
@@ -1395,19 +1255,6 @@ final class DoctrineDatabase extends Gateway
         }
 
         $query->executeStatement();
-    }
-
-    /**
-     * Return a language sub select query for setName.
-     *
-     * The query generates the proper language mask at the runtime of the INSERT/UPDATE query
-     * generated by setName.
-     *
-     * @see setName
-     */
-    private function getSetNameLanguageMaskSubQuery(): string
-    {
-        return $this->sharedGateway->getSetNameLanguageMaskSubQuery();
     }
 
     public function deleteContent(int $contentId): void
@@ -2065,38 +1912,6 @@ final class DoctrineDatabase extends Gateway
                 'The provided translation is the only translation in this version'
             );
         }
-    }
-
-    /**
-     * Compute language mask and append it to a QueryBuilder (both column and parameter).
-     *
-     * **Can be used on UPDATE queries only!**
-     */
-    private function setLanguageMaskForUpdateQuery(
-        bool $alwaysAvailable,
-        DoctrineQueryBuilder $query,
-        string $languageMaskColumnName
-    ): DoctrineQueryBuilder {
-        if ($alwaysAvailable) {
-            $languageMaskExpr = $this->getDatabasePlatform()->getBitOrComparisonExpression(
-                $languageMaskColumnName,
-                ':languageMaskOperand'
-            );
-        } else {
-            $languageMaskExpr = $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                $languageMaskColumnName,
-                ':languageMaskOperand'
-            );
-        }
-
-        $query
-            ->set($languageMaskColumnName, $languageMaskExpr)
-            ->setParameter(
-                'languageMaskOperand',
-                $alwaysAvailable ? 1 : self::REMOVE_ALWAYS_AVAILABLE_LANG_MASK_OPERAND
-            );
-
-        return $query;
     }
 
     /**
