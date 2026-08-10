@@ -183,6 +183,7 @@ final class DoctrineDatabase extends Gateway
      * two queries can't drift out of sync on the always-available fallback.
      *
      * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
+     * @param array{languages?: string[], useAlwaysAvailable?: bool} $languageFilter
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */

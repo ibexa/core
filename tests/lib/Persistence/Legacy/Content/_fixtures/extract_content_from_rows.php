@@ -1,8 +1,11 @@
 <?php
 
-return array (
-  0 =>
-  array (
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+return  [
+  0 => [
     'content_id' => 226,
     'content_content_type_id' => 16,
     'content_section_id' => 1,
@@ -30,14 +33,13 @@ return array (
     'content_field_language_code' => 'eng-US',
     'content_field_language_id' => 2,
     'content_field_data_float' => 0.0,
-    'content_field_data_int' => NULL,
+    'content_field_data_int' => null,
     'content_field_data_text' => 'New test article (2)',
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => 'new test article (2)',
     'content_tree_main_node_id' => 228,
-  ),
-  1 =>
-  array (
+  ],
+  1 => [
     'content_id' => 226,
     'content_content_type_id' => 16,
     'content_section_id' => 1,
@@ -65,14 +67,13 @@ return array (
     'content_field_language_code' => 'eng-US',
     'content_field_language_id' => 2,
     'content_field_data_float' => 0.0,
-    'content_field_data_int' => NULL,
+    'content_field_data_int' => null,
     'content_field_data_text' => 'Something',
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => 'something',
     'content_tree_main_node_id' => 228,
-  ),
-  2 =>
-  array (
+  ],
+  2 => [
     'content_id' => 226,
     'content_content_type_id' => 16,
     'content_section_id' => 1,
@@ -100,16 +101,15 @@ return array (
     'content_field_language_code' => 'eng-US',
     'content_field_language_id' => 2,
     'content_field_data_float' => 0.0,
-    'content_field_data_int' => NULL,
+    'content_field_data_int' => null,
     'content_field_data_text' => '<?xml version="1.0" encoding="utf-8"?>
 <ezauthor><authors><author id="0" name="Administrator User" email="kn@ibexa.co"/></authors></ezauthor>
 ',
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 228,
-  ),
-  3 =>
-  array (
+  ],
+  3 => [
     'content_id' => 226,
     'content_content_type_id' => 16,
     'content_section_id' => 1,
@@ -142,9 +142,8 @@ return array (
     'content_field_sort_key_int' => 1,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 228,
-  ),
-  4 =>
-  array (
+  ],
+  4 => [
     'content_id' => 226,
     'content_content_type_id' => 16,
     'content_section_id' => 1,
@@ -172,16 +171,15 @@ return array (
     'content_field_language_code' => 'eng-US',
     'content_field_language_id' => 2,
     'content_field_data_float' => 0.0,
-    'content_field_data_int' => NULL,
+    'content_field_data_int' => null,
     'content_field_data_text' => '<?xml version="1.0" encoding="utf-8"?>
 <ezimage serial_number="1" is_valid="" filename="" suffix="" basename="" dirpath="" url="" original_filename="" mime_type="" width="" height="" alternative_text="" alias_key="1293033771" timestamp="1313047865"><original attribute_id="1338" attribute_version="1" attribute_language="eng-US"/></ezimage>
 ',
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 228,
-  ),
-  5 =>
-  array (
+  ],
+  5 => [
     'content_id' => 226,
     'content_content_type_id' => 16,
     'content_section_id' => 1,
@@ -214,9 +212,8 @@ return array (
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 228,
-  ),
-  6 =>
-  array (
+  ],
+  6 => [
     'content_id' => 226,
     'content_content_type_id' => 16,
     'content_section_id' => 1,
@@ -249,9 +246,8 @@ return array (
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 228,
-  ),
-  7 =>
-  array (
+  ],
+  7 => [
     'content_id' => 226,
     'content_content_type_id' => 16,
     'content_section_id' => 1,
@@ -279,14 +275,13 @@ return array (
     'content_field_language_code' => 'eng-US',
     'content_field_language_id' => 2,
     'content_field_data_float' => 0.0,
-    'content_field_data_int' => NULL,
+    'content_field_data_int' => null,
     'content_field_data_text' => '',
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 228,
-  ),
-  8 =>
-  array (
+  ],
+  8 => [
     'content_id' => 226,
     'content_content_type_id' => 16,
     'content_section_id' => 1,
@@ -314,10 +309,10 @@ return array (
     'content_field_language_code' => 'eng-GB',
     'content_field_language_id' => 4,
     'content_field_data_float' => 0.0,
-    'content_field_data_int' => NULL,
+    'content_field_data_int' => null,
     'content_field_data_text' => '',
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 228,
-  ),
-);
+  ],
+];

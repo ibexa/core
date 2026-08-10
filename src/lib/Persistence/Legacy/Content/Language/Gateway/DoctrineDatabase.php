@@ -226,15 +226,20 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Count table data rows related to the given language.
+     * @param int[] $contentIds
      *
-     * @param string|null $languageIdColumn optional column name containing explicit language id
+     * @return array<int, int[]>
      */
     public function loadContentTranslations(array $contentIds): array
     {
         return $this->loadTranslations('ibexa_content_translation', 'content_id', $contentIds);
     }
 
+    /**
+     * @param int[] $versionIds
+     *
+     * @return array<int, int[]>
+     */
     public function loadVersionTranslations(array $versionIds): array
     {
         return $this->loadTranslations('ibexa_content_version_translation', 'content_version_id', $versionIds);
