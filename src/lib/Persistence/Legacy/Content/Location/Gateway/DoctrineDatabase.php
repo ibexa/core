@@ -11,7 +11,6 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
@@ -22,7 +21,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
-use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
@@ -1478,7 +1476,7 @@ final class DoctrineDatabase extends Gateway
         bool $useAlwaysAvailable
     ): void {
         $expr = $queryBuilder->expr();
-        $languages = $this->languageHandler->loadListByLanguageCodes($translations);
+        $languages = iterator_to_array($this->languageHandler->loadListByLanguageCodes($translations));
         if (array_diff($translations, array_keys($languages)) !== []) {
             return;
         }
@@ -1647,14 +1645,5 @@ final class DoctrineDatabase extends Gateway
         $this->trashSortClauseConverter->applySelect($query, $sort);
         $this->trashSortClauseConverter->applyJoin($query, $sort, $languageSettings);
         $this->trashSortClauseConverter->applyOrderBy($query);
-    }
-
-    private function getDatabasePlatform(): AbstractPlatform
-    {
-        try {
-            return $this->connection->getDatabasePlatform();
-        } catch (Exception $e) {
-            throw DatabaseException::wrap($e);
-        }
     }
 }

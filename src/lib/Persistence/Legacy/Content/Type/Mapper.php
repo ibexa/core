@@ -192,16 +192,12 @@ class Mapper
      * Creates a Type from the data in $row.
      *
      * @param array $row
-     *
-     * @return Type
-     */
-    /**
      * @param string[] $languageCodes
      */
     protected function extractTypeFromRow(
         array $row,
         array $languageCodes = []
-    ) {
+    ): Type {
         $type = new Type();
 
         $type->id = (int)$row['content_type_id'];

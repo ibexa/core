@@ -9,7 +9,6 @@ namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
@@ -52,9 +51,6 @@ final class DoctrineDatabase extends Gateway
      */
     private $languageHandler;
 
-    /**
-     * @throws Exception
-     */
     public function __construct(
         Connection $connection,
         CriteriaConverter $criteriaConverter,
