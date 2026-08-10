@@ -26,7 +26,7 @@ final class URIElementNormalizerTest extends TestCase
         $normalizer->setSerializer(new SerializerStub());
 
         $matcher = new URIElement(2);
-        $matcher->setRequest(SimplifiedRequest::fromUrl('https://ezpublish.dev/foo/bar'));
+        $matcher->setRequest(SimplifiedRequest::fromUrl('https://ibexa.dev/foo/bar'));
         if ($initializeUriElements) {
             $matcher->match();
         }
