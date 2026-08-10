@@ -1,8 +1,11 @@
 <?php
 
-return array (
-  0 =>
-  array (
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+return  [
+  0 => [
     'content_id' => 11,
     'content_content_type_id' => 3,
     'content_section_id' => 2,
@@ -35,9 +38,8 @@ return array (
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 12,
-  ),
-  1 =>
-  array (
+  ],
+  1 => [
     'content_id' => 11,
     'content_content_type_id' => 3,
     'content_section_id' => 2,
@@ -70,9 +72,8 @@ return array (
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 12,
-  ),
-  2 =>
-  array (
+  ],
+  2 => [
     'content_id' => 11,
     'content_content_type_id' => 3,
     'content_section_id' => 2,
@@ -105,9 +106,8 @@ return array (
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => 'members',
     'content_tree_main_node_id' => 12,
-  ),
-  3 =>
-  array (
+  ],
+  3 => [
     'content_id' => 11,
     'content_content_type_id' => 3,
     'content_section_id' => 2,
@@ -140,5 +140,5 @@ return array (
     'content_field_sort_key_int' => 0,
     'content_field_sort_key_string' => '',
     'content_tree_main_node_id' => 12,
-  ),
-);
+  ],
+];

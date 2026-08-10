@@ -1,8 +1,11 @@
 <?php
 
-return array (
-  0 =>
-  array (
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+return  [
+  0 => [
     'content_version_id' => 439,
     'content_version_version' => 1,
     'content_version_modified' => 1033920746,
@@ -26,9 +29,8 @@ return array (
     'content_name' => 'Members',
     'content_always_available' => 1,
     'content_is_hidden' => 0,
-  ),
-  1 =>
-  array (
+  ],
+  1 => [
     'content_version_id' => 674,
     'content_version_version' => 2,
     'content_version_modified' => 1311154215,
@@ -52,5 +54,5 @@ return array (
     'content_name' => 'Members',
     'content_always_available' => 1,
     'content_is_hidden' => 0,
-  ),
-);
+  ],
+];

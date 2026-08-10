@@ -7,12 +7,12 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
 use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
@@ -190,13 +190,9 @@ class Mapper
      * Creates a Type from the data in $row.
      *
      * @param array $row
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
-     */
-    /**
      * @param string[] $languageCodes
      */
-    protected function extractTypeFromRow(array $row, array $languageCodes = [])
+    protected function extractTypeFromRow(array $row, array $languageCodes = []): Type
     {
         $type = new Type();
 

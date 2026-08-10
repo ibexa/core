@@ -50,9 +50,6 @@ final class DoctrineDatabase extends Gateway
      */
     private $languageHandler;
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
         Connection $connection,
         CriteriaConverter $criteriaConverter,
