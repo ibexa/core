@@ -3697,70 +3697,16 @@ parameters:
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:__construct\(\) has parameter \$installers with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:__construct\(\) has parameter \$installers with generic class Symfony\\Component\\DependencyInjection\\ServiceLocator but does not specify its types\: T$#'
+			identifier: missingType.generics
 			count: 1
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
 
 		-
-			message: '#^Strict comparison using \=\=\= between bool and 1 will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
+			message: '#^Property Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:\$installers with generic class Symfony\\Component\\DependencyInjection\\ServiceLocator does not specify its types\: T$#'
+			identifier: missingType.generics
 			count: 1
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:cacheClear\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:checkPermissions\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:executeCommand\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:getInstaller\(\) has parameter \$type with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:getInstaller\(\) should return Ibexa\\Bundle\\RepositoryInstaller\\Installer\\Installer but returns false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:indexData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\ValidatePasswordHashesCommand\:\:configure\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/ValidatePasswordHashesCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\DependencyInjection\\Compiler\\InstallerTagPass\:\:process\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/DependencyInjection/Compiler/InstallerTagPass.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\DependencyInjection\\IbexaRepositoryInstallerExtension\:\:load\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/DependencyInjection/IbexaRepositoryInstallerExtension.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Event\\Subscriber\\BuildSchemaSubscriber\:\:getSubscribedEvents\(\) return type has no value type specified in iterable type array\.$#'
@@ -3783,6 +3729,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Installer\\CoreInstaller\:\:importSchema\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: src/bundle/RepositoryInstaller/Installer/CoreInstaller.php
+
+		-
+			message: '#^PHPDoc tag @throws with type Doctrine\\DBAL\\DBALException\|RuntimeException is not subtype of Throwable$#'
+			identifier: throws.notThrowable
 			count: 1
 			path: src/bundle/RepositoryInstaller/Installer/CoreInstaller.php
 
