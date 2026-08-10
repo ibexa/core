@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway as BinaryBaseStorageGateway;
 use Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage;
+use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
 
 /**
@@ -27,7 +28,7 @@ class BinaryBaseStorageGatewayTest extends BaseCoreFieldTypeIntegrationTestCase
     {
         parent::setUp();
 
-        $importer = new FixtureImporter($this->getDatabaseConnection());
+        $importer = new FixtureImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
         $importer->import(new YamlFixture(__DIR__ . '/_fixtures/ibexa_binary_file.yaml'));
     }
 

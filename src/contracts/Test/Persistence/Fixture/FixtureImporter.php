@@ -13,6 +13,7 @@ use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Column;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 
 /**
  * Database fixture importer.
@@ -23,15 +24,18 @@ final class FixtureImporter
 {
     private Connection $connection;
 
+    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
+
     /** @var array<string, string|null> */
     private static array $resetSequenceStatements = [];
 
     /** @var array<string, string[]> */
     private static array $existingColumnsByTable = [];
 
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass)
     {
         $this->connection = $connection;
+        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
     }
 
     /**
@@ -214,9 +218,20 @@ final class FixtureImporter
         }
     }
 
+    /**
+     * tablesExist() goes through AbstractSchemaManager::listTableNames(), which is filtered by
+     * whatever schema assets filter is configured on the connection (e.g.
+     * ManagedTablesSchemaAssetFilter, which hides every table not backed by a registered ORM
+     * entity - i.e. all of Ibexa's own legacy/join tables). Bypass it, same as
+     * LegacySchemaImporter does, or this always reports these tables as absent and every backfill
+     * below silently no-ops.
+     */
     private function tableExists(string $table): bool
     {
-        return $this->connection->createSchemaManager()->tablesExist([$table]);
+        return $this->schemaAssetsFilterBypass->call(
+            $this->connection,
+            fn (): bool => $this->connection->createSchemaManager()->tablesExist([$table])
+        );
     }
 
     /**
