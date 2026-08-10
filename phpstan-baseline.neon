@@ -3733,12 +3733,6 @@ parameters:
 			path: src/bundle/RepositoryInstaller/Installer/CoreInstaller.php
 
 		-
-			message: '#^PHPDoc tag @throws with type Doctrine\\DBAL\\DBALException\|RuntimeException is not subtype of Throwable$#'
-			identifier: throws.notThrowable
-			count: 1
-			path: src/bundle/RepositoryInstaller/Installer/CoreInstaller.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Installer\\DbBasedInstaller\:\:copyConfigurationFile\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
