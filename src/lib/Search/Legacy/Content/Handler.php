@@ -182,13 +182,14 @@ class Handler implements SearchHandlerInterface
      * @param int[] $languageIds Language ids the content/version is translated into, as returned
      *        by {@see LanguageGateway::loadContentTranslations()}/
      *        loadVersionTranslations().
+     * @param array{languages?: string[]} $languageSettings
      */
     protected function extractMatchedLanguage(
         array $languageIds,
-        $mainLanguageId,
-        $languageSettings,
+        int $mainLanguageId,
+        array $languageSettings,
         bool $alwaysAvailable = false
-    ) {
+    ): ?string {
         $languageList = !empty($languageSettings['languages']) ?
             $this->languageHandler->loadListByLanguageCodes($languageSettings['languages']) :
             [];
