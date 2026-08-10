@@ -20,8 +20,8 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Regist
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
-use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter as FieldValueConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 
 /**
  * Field criterion handler.

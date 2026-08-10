@@ -128,7 +128,7 @@ final class FixtureImporter
         }
 
         if (!empty($nonEmptyTablesData['ibexa_content'])) {
-            $validLanguageIds ??= $this->loadValidLanguageIds();
+            $validLanguageIds = $this->loadValidLanguageIds();
             foreach ($nonEmptyTablesData['ibexa_content'] as $row) {
                 if (!array_key_exists('language_mask', $row)) {
                     continue;

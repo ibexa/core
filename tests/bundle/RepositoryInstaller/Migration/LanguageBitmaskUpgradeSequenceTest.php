@@ -119,6 +119,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $wordLinkRow = $connection->fetchAssociative(
             'SELECT language_id, is_main_and_always_available FROM ibexa_search_object_word_link WHERE id = 1'
         );
+        self::assertIsArray($wordLinkRow);
         self::assertEquals(self::ENG_GB, $wordLinkRow['language_id']);
         self::assertEquals(1, $wordLinkRow['is_main_and_always_available']);
     }

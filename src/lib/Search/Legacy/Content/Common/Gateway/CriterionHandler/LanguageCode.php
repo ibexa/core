@@ -49,8 +49,9 @@ class LanguageCode extends CriterionHandler
     ) {
         /* @var $criterion \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode */
         $expr = $queryBuilder->expr();
-        $languages = $this->languageHandler->loadListByLanguageCodes($criterion->value);
-        if ($missing = array_diff($criterion->value, array_keys($languages))) {
+        $languageCodes = array_map('strval', (array)$criterion->value);
+        $languages = iterator_to_array($this->languageHandler->loadListByLanguageCodes($languageCodes));
+        if ($missing = array_diff($languageCodes, array_keys($languages))) {
             throw new NotFoundException('Language', implode(', ', $missing));
         }
         $languageIds = array_map(static fn ($language) => $language->id, array_values($languages));

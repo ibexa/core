@@ -49,7 +49,7 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase
     public function testCreateMoreLanguagesThanOldBitmaskLimit(): void
     {
         $existingLanguageCount = count($this->languageService->loadLanguages());
-        $countToCreate = (8 * \PHP_INT_SIZE - 2) - $existingLanguageCount + 10;
+        $countToCreate = (8 * PHP_INT_SIZE - 2) - $existingLanguageCount + 10;
 
         $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = true;
