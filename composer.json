@@ -64,6 +64,7 @@
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
+        "deptrac/deptrac": "^4.7",
         "friends-of-behat/mink-extension": "^2.4",
         "ibexa/code-style": "~2.1.0",
         "ibexa/rector": "~6.0.x-dev",
@@ -94,6 +95,7 @@
             "Ibexa\\Bundle\\LegacySearchEngine\\": "src/bundle/LegacySearchEngine",
             "Ibexa\\Contracts\\Core\\": "src/contracts",
             "Ibexa\\Core\\": "src/lib",
+            "Ibexa\\InternalContracts\\Core\\": "src/internal-contracts/",
             "Ibexa\\Tests\\Core\\": "tests/lib",
             "Ibexa\\Tests\\Integration\\Core\\": "tests/integration/Core",
             "Ibexa\\Tests\\Bundle\\Core\\": "tests/bundle/Core",
@@ -128,6 +130,7 @@
         "fix-cs": "php-cs-fixer fix --config=.php-cs-fixer.php -v --show-progress=dots",
         "unit": "phpunit -c phpunit.xml",
         "phpstan": "phpstan analyse",
+        "deptrac": "php vendor/bin/deptrac analyse",
         "integration": [
             "Composer\\Config::disableProcessTimeout",
             "phpunit -c phpunit-integration-legacy.xml"
@@ -140,6 +143,7 @@
     },
     "scripts-descriptions": {
         "check-cs": "Run code style checker for all files",
+        "deptrac": "Run Deptrac architecture testing",
         "fix-cs": "Fix Coding standard issues in current checkout.",
         "test": "Run all tests (unit & integration, not functional), might not work on Windows."
     },
