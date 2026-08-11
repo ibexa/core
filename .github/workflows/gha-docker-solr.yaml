@@ -18,7 +18,7 @@ jobs:
         runs-on: "ubuntu-26.04"
         strategy:
             matrix:
-                php-version: [8.3, 8.4]
+                php-version: [8.4]
         permissions:
             packages: write
         services:
