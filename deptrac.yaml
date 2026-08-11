@@ -5,20 +5,10 @@ deptrac:
     layers:
         - name: Bundle
           collectors:
-              - type: bool
-                must:
-                    - type: directory
-                      value: src/bundle/.*
-                must_not:
-                    - type: layer
-                      value: InternalContracts
-              - type: bool
-                must:
-                    - type: directory
-                      value: src/lib/.*
-                must_not:
-                    - type: layer
-                      value: InternalContracts
+              - type: directory
+                value: src/bundle/.*
+              - type: directory
+                value: src/lib/.*
         - name: Contracts
           collectors:
               - type: directory
@@ -27,8 +17,6 @@ deptrac:
           collectors:
               - type: directory
                 value: src/internal-contracts/.*
-              - type: attribute
-                value: InternalContract
         - name: Test
           collectors:
               - type: directory
