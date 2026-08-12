@@ -14,8 +14,8 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use function iterator_to_array;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware, EventSubscriberInterface
 {
