@@ -63,9 +63,11 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware, 
      */
     public function onConfigScopeRestore(ScopeChangeEvent $event): void
     {
-        if (count($this->siteAccessStack) > 1) {
-            array_pop($this->siteAccessStack);
+        if (count($this->siteAccessStack) <= 1) {
+            return;
         }
+
+        array_pop($this->siteAccessStack);
     }
 
     public function exists(string $name): bool
