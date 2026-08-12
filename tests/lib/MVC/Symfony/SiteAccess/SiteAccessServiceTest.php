@@ -11,6 +11,8 @@ namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 use ArrayIterator;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
@@ -63,6 +65,91 @@ class SiteAccessServiceTest extends TestCase
 
         $service->setSiteAccess(null);
         self::assertNull($service->getCurrent());
+    }
+
+    public function testGetSubscribedEvents(): void
+    {
+        self::assertSame(
+            [
+                MVCEvents::CONFIG_SCOPE_CHANGE => 'onConfigScopeChange',
+                MVCEvents::CONFIG_SCOPE_RESTORE => 'onConfigScopeRestore',
+            ],
+            SiteAccessService::getSubscribedEvents()
+        );
+    }
+
+    public function testOnConfigScopeChangeMakesGetCurrentReflectTheNewSiteAccess(): void
+    {
+        $service = new SiteAccessService(
+            $this->createMock(SiteAccessProviderInterface::class),
+            $this->createMock(ConfigResolverInterface::class)
+        );
+
+        $baseSiteAccess = new SiteAccess('base');
+        $service->setSiteAccess($baseSiteAccess);
+
+        $previewSiteAccess = new SiteAccess('preview');
+        $service->onConfigScopeChange(new ScopeChangeEvent($previewSiteAccess));
+
+        self::assertSame($previewSiteAccess, $service->getCurrent());
+    }
+
+    public function testOnConfigScopeRestoreBringsBackThePreviousSiteAccess(): void
+    {
+        $service = new SiteAccessService(
+            $this->createMock(SiteAccessProviderInterface::class),
+            $this->createMock(ConfigResolverInterface::class)
+        );
+
+        $baseSiteAccess = new SiteAccess('base');
+        $service->setSiteAccess($baseSiteAccess);
+
+        $previewSiteAccess = new SiteAccess('preview');
+        $service->onConfigScopeChange(new ScopeChangeEvent($previewSiteAccess));
+        $service->onConfigScopeRestore(new ScopeChangeEvent($baseSiteAccess));
+
+        self::assertSame($baseSiteAccess, $service->getCurrent());
+    }
+
+    public function testOnConfigScopeRestoreNeverDropsTheBaseSiteAccess(): void
+    {
+        $service = new SiteAccessService(
+            $this->createMock(SiteAccessProviderInterface::class),
+            $this->createMock(ConfigResolverInterface::class)
+        );
+
+        $baseSiteAccess = new SiteAccess('base');
+        $service->setSiteAccess($baseSiteAccess);
+
+        $service->onConfigScopeRestore(new ScopeChangeEvent($baseSiteAccess));
+
+        self::assertSame($baseSiteAccess, $service->getCurrent());
+    }
+
+    public function testNestedConfigScopeChangesAndRestoresRoundTripLikeAStack(): void
+    {
+        $service = new SiteAccessService(
+            $this->createMock(SiteAccessProviderInterface::class),
+            $this->createMock(ConfigResolverInterface::class)
+        );
+
+        $baseSiteAccess = new SiteAccess('base');
+        $service->setSiteAccess($baseSiteAccess);
+
+        $firstSiteAccess = new SiteAccess('first');
+        $secondSiteAccess = new SiteAccess('second');
+
+        $service->onConfigScopeChange(new ScopeChangeEvent($firstSiteAccess));
+        self::assertSame($firstSiteAccess, $service->getCurrent());
+
+        $service->onConfigScopeChange(new ScopeChangeEvent($secondSiteAccess));
+        self::assertSame($secondSiteAccess, $service->getCurrent());
+
+        $service->onConfigScopeRestore(new ScopeChangeEvent($firstSiteAccess));
+        self::assertSame($firstSiteAccess, $service->getCurrent());
+
+        $service->onConfigScopeRestore(new ScopeChangeEvent($baseSiteAccess));
+        self::assertSame($baseSiteAccess, $service->getCurrent());
     }
 
     public function testGetSiteAccess(): void
