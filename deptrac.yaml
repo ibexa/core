@@ -1,3 +1,6 @@
+imports:
+    - deptrac.baseline.yaml
+
 deptrac:
     paths:
         - ./src
