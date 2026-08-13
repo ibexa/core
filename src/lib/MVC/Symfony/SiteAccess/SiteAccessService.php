@@ -21,7 +21,7 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware, 
 {
     private SiteAccessProviderInterface $provider;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess[] */
+    /** @var list<\Ibexa\Core\MVC\Symfony\SiteAccess> */
     private array $siteAccessStack = [];
 
     private ConfigResolverInterface $configResolver;

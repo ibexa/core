@@ -81,8 +81,8 @@ class SiteAccessServiceTest extends TestCase
     public function testOnConfigScopeChangeMakesGetCurrentReflectTheNewSiteAccess(): void
     {
         $service = new SiteAccessService(
-            $this->createMock(SiteAccessProviderInterface::class),
-            $this->createMock(ConfigResolverInterface::class)
+            $this->createStub(SiteAccessProviderInterface::class),
+            $this->createStub(ConfigResolverInterface::class)
         );
 
         $baseSiteAccess = new SiteAccess('base');
@@ -97,8 +97,8 @@ class SiteAccessServiceTest extends TestCase
     public function testOnConfigScopeRestoreBringsBackThePreviousSiteAccess(): void
     {
         $service = new SiteAccessService(
-            $this->createMock(SiteAccessProviderInterface::class),
-            $this->createMock(ConfigResolverInterface::class)
+            $this->createStub(SiteAccessProviderInterface::class),
+            $this->createStub(ConfigResolverInterface::class)
         );
 
         $baseSiteAccess = new SiteAccess('base');
@@ -114,8 +114,8 @@ class SiteAccessServiceTest extends TestCase
     public function testOnConfigScopeRestoreNeverDropsTheBaseSiteAccess(): void
     {
         $service = new SiteAccessService(
-            $this->createMock(SiteAccessProviderInterface::class),
-            $this->createMock(ConfigResolverInterface::class)
+            $this->createStub(SiteAccessProviderInterface::class),
+            $this->createStub(ConfigResolverInterface::class)
         );
 
         $baseSiteAccess = new SiteAccess('base');
@@ -129,8 +129,8 @@ class SiteAccessServiceTest extends TestCase
     public function testNestedConfigScopeChangesAndRestoresRoundTripLikeAStack(): void
     {
         $service = new SiteAccessService(
-            $this->createMock(SiteAccessProviderInterface::class),
-            $this->createMock(ConfigResolverInterface::class)
+            $this->createStub(SiteAccessProviderInterface::class),
+            $this->createStub(ConfigResolverInterface::class)
         );
 
         $baseSiteAccess = new SiteAccess('base');
