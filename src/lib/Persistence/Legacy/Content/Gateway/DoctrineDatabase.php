@@ -1982,15 +1982,42 @@ final class DoctrineDatabase extends Gateway
             ;
         }
 
-        $rowCount = $query->executeStatement();
+        // Checked as its own query rather than via the UPDATE's affected-row count: MySQL's PDO
+        // driver reports "rows changed", not "rows matched", by default - if a version's
+        // "modified"/"initial_language_id" happen to already hold the values being set (e.g. two
+        // operations landing within the same time() second), MySQL reports 0 affected rows even
+        // though the WHERE/EXISTS clause matched, which would incorrectly look like "no other
+        // translation exists" here.
+        $hasOtherLanguagesQuery = $this->connection->createQueryBuilder();
+        $hasOtherLanguagesQuery
+            ->select('1')
+            ->from($versionTable)
+            ->where('contentobject_id = :contentId')
+            ->andWhere(
+                "EXISTS (SELECT 1 FROM ibexa_content_version_translation cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
+            )
+            ->setParameter('contentId', $contentId)
+            ->setParameter('languageId', $languageId)
+        ;
 
-        // no rows updated means that most likely somehow it was the last remaining translation
-        if ($rowCount === 0) {
+        if (null !== $versionNo) {
+            $hasOtherLanguagesQuery
+                ->andWhere('version = :versionNo')
+                ->setParameter('versionNo', $versionNo)
+            ;
+        }
+
+        $hasOtherLanguages = (bool)$hasOtherLanguagesQuery->executeQuery()->fetchOne();
+
+        // most likely somehow it was the last remaining translation
+        if (!$hasOtherLanguages) {
             throw new BadStateException(
                 '$languageCode',
                 'The provided translation is the only translation in this version'
             );
         }
+
+        $query->executeStatement();
 
         $deleteQuery = 'DELETE FROM ibexa_content_version_translation
              WHERE language_id = :languageId

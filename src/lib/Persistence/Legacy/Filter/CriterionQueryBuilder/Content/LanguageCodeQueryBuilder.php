@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
@@ -58,7 +59,13 @@ final class LanguageCodeQueryBuilder implements CriterionQueryBuilder
         );
 
         if ($criterion->matchAlwaysAvailable) {
-            $expr = (string)$queryBuilder->expr()->or($expr, 'version.always_available = 1');
+            $expr = (string)$queryBuilder->expr()->or(
+                $expr,
+                $queryBuilder->expr()->eq(
+                    'version.always_available',
+                    $queryBuilder->createNamedParameter(true, ParameterType::BOOLEAN)
+                )
+            );
         }
 
         return $expr;
