@@ -1508,7 +1508,10 @@ final class DoctrineDatabase extends Gateway
         ];
 
         if ($useAlwaysAvailable) {
-            $translationConditions[] = $expr->eq('c.always_available', 1);
+            $translationConditions[] = $expr->eq(
+                'c.always_available',
+                $queryBuilder->createNamedParameter(true, ParameterType::BOOLEAN)
+            );
         }
 
         $queryBuilder->andWhere(
