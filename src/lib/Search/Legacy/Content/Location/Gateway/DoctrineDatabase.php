@@ -215,7 +215,7 @@ final class DoctrineDatabase extends Gateway
                 $translationCondition,
                 $queryBuilder->expr()->eq(
                     'c.always_available',
-                    $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
+                    $queryBuilder->createNamedParameter(true, ParameterType::BOOLEAN)
                 )
             );
         }
