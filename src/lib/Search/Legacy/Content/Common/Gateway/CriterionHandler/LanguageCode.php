@@ -9,6 +9,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -73,7 +74,10 @@ class LanguageCode extends CriterionHandler
         $condition = sprintf('EXISTS (%s)', $translationSubQuery->getSQL());
 
         if ($criterion->matchAlwaysAvailable) {
-            return $expr->or($condition, $expr->eq('c.always_available', 1));
+            return $expr->or(
+                $condition,
+                $expr->eq('c.always_available', $queryBuilder->createNamedParameter(true, ParameterType::BOOLEAN))
+            );
         }
 
         return $condition;
