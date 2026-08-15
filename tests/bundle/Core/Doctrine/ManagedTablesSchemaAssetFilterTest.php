@@ -60,7 +60,7 @@ final class ManagedTablesSchemaAssetFilterTest extends TestCase
     {
         $filter = $this->createFilter(['ibexa_taxonomy_entry']);
 
-        self::assertFalse($filter('ibexa_content_language'));
+        self::assertFalse($filter('ibexa_language'));
         self::assertFalse($filter('ibexa_migrations'));
     }
 
@@ -69,7 +69,7 @@ final class ManagedTablesSchemaAssetFilterTest extends TestCase
         $filter = $this->createFilter(['ibexa_taxonomy_entry']);
 
         self::assertTrue($filter(new Table('ibexa_taxonomy_entry')));
-        self::assertFalse($filter(new Table('ibexa_content_language')));
+        self::assertFalse($filter(new Table('ibexa_language')));
     }
 
     public function testOnlyQueriesTheManagerRegistryOnce(): void
@@ -89,6 +89,6 @@ final class ManagedTablesSchemaAssetFilterTest extends TestCase
         $filter = new ManagedTablesSchemaAssetFilter($managerRegistry);
 
         $filter('ibexa_taxonomy_entry');
-        $filter('ibexa_content_language');
+        $filter('ibexa_language');
     }
 }
