@@ -44,6 +44,7 @@ services:
     Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine\DoctrineGateway:
         arguments:
             $connection: '@ibexa.persistence.connection'
+            $languageGateway: '@ibexa.persistence.legacy.language.gateway'
 
     Ibexa\Core\Persistence\Legacy\Filter\Handler\ContentFilteringHandler:
         arguments:
