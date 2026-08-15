@@ -17,7 +17,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
-use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
 
@@ -29,9 +28,6 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry */
     private $converterRegistry;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway */
-    private $languageGateway;
-
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
     private $languageHandler;
 
@@ -40,12 +36,10 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
 
     public function __construct(
         LanguageHandler $languageHandler,
-        LanguageGateway $languageGateway,
         ContentTypeHandler $contentTypeHandler,
         ConverterRegistry $converterRegistry,
         private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
-        $this->languageGateway = $languageGateway;
         $this->languageHandler = $languageHandler;
         $this->contentTypeHandler = $contentTypeHandler;
         $this->converterRegistry = $converterRegistry;
@@ -105,8 +99,9 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         $versionInfo->status = (int)$row['content_version_status'];
         $versionInfo->names = $row['content_version_names'];
 
-        // Map language codes
-        $languageIds = $this->languageGateway->loadVersionTranslations([$versionInfo->id])[$versionInfo->id] ?? [];
+        // Map language codes - "content_version_translations" is bulk-fetched once for the whole
+        // result page by DoctrineGateway::find(), not queried per row here, to avoid an N+1.
+        $languageIds = $row['content_version_translations'];
         $versionInfo->languageCodes = array_map(
             fn (int $languageId): string => $this->languageHandler->load($languageId)->languageCode,
             $languageIds

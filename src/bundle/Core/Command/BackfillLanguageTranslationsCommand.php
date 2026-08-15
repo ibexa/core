@@ -206,18 +206,37 @@ EOT
         ));
     }
 
+    /**
+     * Mirrors the real INSERT's idempotency (via insertIgnoreKeyword()/onConflictClause()) with an
+     * explicit "NOT EXISTS" against the target translation table: without it, re-running
+     * `--dry-run` after a prior (partial or complete) backfill would count every mask-derived pair
+     * again, including ones already present, and report them as "would be inserted" when a real run
+     * would actually leave them untouched.
+     */
     private function buildDryRunCountSql(string $table): string
     {
         return match ($table) {
             self::TABLE_CONTENT => 'SELECT COUNT(*) FROM ibexa_content c
                  JOIN ibexa_content_language l ON (c.language_mask & l.id) = l.id
-                 WHERE c.id BETWEEN :from AND :to',
+                 WHERE c.id BETWEEN :from AND :to
+                 AND NOT EXISTS (
+                     SELECT 1 FROM ibexa_content_translation t
+                     WHERE t.content_id = c.id AND t.language_id = l.id
+                 )',
             self::TABLE_CONTENT_VERSION => 'SELECT COUNT(*) FROM ibexa_content_version v
                  JOIN ibexa_content_language l ON (v.language_mask & l.id) = l.id
-                 WHERE v.id BETWEEN :from AND :to',
+                 WHERE v.id BETWEEN :from AND :to
+                 AND NOT EXISTS (
+                     SELECT 1 FROM ibexa_content_version_translation t
+                     WHERE t.content_version_id = v.id AND t.language_id = l.id
+                 )',
             self::TABLE_URL_ALIAS => 'SELECT COUNT(*) FROM ibexa_url_alias_ml u
                  JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id
-                 WHERE u.parent BETWEEN :from AND :to',
+                 WHERE u.parent BETWEEN :from AND :to
+                 AND NOT EXISTS (
+                     SELECT 1 FROM ibexa_url_alias_ml_translation t
+                     WHERE t.parent = u.parent AND t.text_md5 = u.text_md5 AND t.language_id = l.id
+                 )',
             default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
         };
     }

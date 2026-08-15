@@ -173,6 +173,50 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    public function testCanDeleteUnusedLanguageAdjacentToAnotherInUseLanguage(): void
+    {
+        $gateway = $this->getDatabaseGateway();
+        $connection = $this->getDatabaseConnection();
+
+        // Both real, independently-allocated languages (post-migration sequential ids commonly end
+        // up adjacent like this) - 65 is in use, 64 is not, and must stay deletable regardless.
+        $connection->insert(
+            Gateway::CONTENT_LANGUAGE_TABLE,
+            ['id' => 64, 'locale' => 'fr-FR', 'name' => 'Francais (France)', 'disabled' => 0]
+        );
+        $connection->insert(
+            Gateway::CONTENT_LANGUAGE_TABLE,
+            ['id' => 65, 'locale' => 'it-IT', 'name' => 'Italiano (Italia)', 'disabled' => 0]
+        );
+        $connection->insert(
+            'ibexa_object_state_language',
+            ['contentobject_state_id' => 1, 'language_id' => 65, 'description' => '', 'name' => 'x']
+        );
+
+        self::assertTrue($gateway->canDeleteLanguage(64));
+        self::assertFalse($gateway->canDeleteLanguage(65));
+    }
+
+    public function testCanDeleteLanguageDetectsLegacyAlwaysAvailableTaintedValue(): void
+    {
+        $gateway = $this->getDatabaseGateway();
+        $connection = $this->getDatabaseConnection();
+
+        // Only language 64 is real; no language 65 exists. A row carrying value 65 in an indicator
+        // column can only be legacy data where 64's always-available bit was folded in (64|1 = 65),
+        // so it must still count as "language 64 is in use".
+        $connection->insert(
+            Gateway::CONTENT_LANGUAGE_TABLE,
+            ['id' => 64, 'locale' => 'fr-FR', 'name' => 'Francais (France)', 'disabled' => 0]
+        );
+        $connection->insert(
+            'ibexa_object_state_language',
+            ['contentobject_state_id' => 1, 'language_id' => 65, 'description' => '', 'name' => 'x']
+        );
+
+        self::assertFalse($gateway->canDeleteLanguage(64));
+    }
+
     /**
      * Return a ready to test DoctrineDatabase gateway.
      */
