@@ -20,6 +20,7 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigrati
 use Ibexa\Bundle\RepositoryInstaller\Migration\FixLegacyIdentifiersMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RecreateMariaDbBookmarkForeignKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RenamePostgreSqlPrimaryKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RenameSchemaTo5_0Migration;
@@ -102,6 +103,10 @@ return static function (ContainerConfigurator $configurator): void {
         ->tag(IbexaMigrationTag::TAG);
 
     $services->set(BackfillLanguageTranslationsMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(NarrowLanguageIdColumnTypesMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 };
