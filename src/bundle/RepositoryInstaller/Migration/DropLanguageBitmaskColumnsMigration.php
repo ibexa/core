@@ -32,6 +32,13 @@ use Ibexa\DoctrineMigrations\Migration\SqlPlatform;
  * the primary mechanism. The `ibexa:languages:backfill-translations`/`ibexa:languages:verify-translations`
  * commands remain available for a dry-run preview or manual repair.
  *
+ * Each table's column (and, where present, its associated index) is checked and dropped
+ * independently: on MySQL, every `DROP INDEX`/`DROP COLUMN`/`ADD INDEX` auto-commits independently,
+ * so a failure partway through this destructive sequence must not make a retry mistake "the first
+ * table's column is already gone" for "everything already ran" - it would leave every later table's
+ * mask column and index dangling forever, undetected, since a subsequent run would return early at
+ * the first check.
+ *
  * Guarded via the connection's schema manager rather than the injected $schema, because
  * TaggedMigrationsRunner (the "ibexa:install" path) invokes up() with an empty Schema, so
  * $schema->hasTable()/hasColumn() would always report false there.
@@ -39,7 +46,38 @@ use Ibexa\DoctrineMigrations\Migration\SqlPlatform;
 final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
     private const CONTENT_TABLE = 'ibexa_content';
-    private const LANGUAGE_MASK_COLUMN = 'language_mask';
+
+    /**
+     * Not yet renamed to "ibexa_language" at this point in the migration sequence - that rename
+     * happens later, in {@see NarrowLanguageIdColumnTypesMigration}.
+     */
+    private const LANGUAGE_TABLE = 'ibexa_content_language';
+
+    /**
+     * Table => [mask column, index to drop (if any), whether the index needs replacing with a
+     * lang-less equivalent rather than just dropped (only "ibexa_url_alias_ml")].
+     *
+     * @var array<string, array{0: string, 1: string|null, 2: bool}>
+     */
+    private const DROPS = [
+        'ibexa_object_state' => ['language_mask', 'ibexa_object_state_lmask', false],
+        'ibexa_object_state_group' => ['language_mask', 'ibexa_object_state_group_lmask', false],
+        'ibexa_content_type' => ['language_mask', null, false],
+        self::CONTENT_TABLE => ['language_mask', 'ibexa_content_lmask', false],
+        'ibexa_content_version' => ['language_mask', null, false],
+        'ibexa_search_object_word_link' => ['language_mask', null, false],
+        'ibexa_url_alias_ml' => ['lang_mask', 'ibexa_url_alias_ml_text_lang', true],
+    ];
+
+    /**
+     * Which of {@see DROPS} also need a `abortIfTranslationsNotBackfilled()` check before their
+     * column is dropped, and what to check it against.
+     */
+    private const BACKFILL_CHECKS = [
+        self::CONTENT_TABLE => ['ibexa_content_translation', 'content_id'],
+        'ibexa_content_version' => ['ibexa_content_version_translation', 'content_version_id'],
+        'ibexa_url_alias_ml' => ['ibexa_url_alias_ml_translation', null],
+    ];
 
     public function getDescription(): string
     {
@@ -66,20 +104,76 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
             return;
         }
 
-        if (!$schemaManager->introspectTable(self::CONTENT_TABLE)->hasColumn(self::LANGUAGE_MASK_COLUMN)) {
-            // Already dropped (or a fresh install whose schema.yaml never had it).
+        $tablesStillCarryingMask = [];
+
+        foreach (self::DROPS as $table => [$maskColumn]) {
+            if (
+                $schemaManager->tablesExist([$table])
+                && $schemaManager->introspectTable($table)->hasColumn($maskColumn)
+            ) {
+                $tablesStillCarryingMask[$table] = true;
+            }
+        }
+
+        if ($tablesStillCarryingMask === []) {
+            // Already dropped everywhere (or a fresh install whose schema.yaml never had it).
             return;
         }
 
-        $this->abortIfTranslationsNotBackfilled();
+        $this->abortIfTranslationsNotBackfilled(array_keys($tablesStillCarryingMask));
 
-        if ($this->isMySQL()) {
-            $this->addSqlFile(__DIR__ . '/sql/drop-language-bitmask-columns-mysql.sql');
-        } elseif ($this->isPostgreSQL()) {
-            $this->addSqlFile(__DIR__ . '/sql/drop-language-bitmask-columns-postgresql.sql');
-        } elseif ($this->isSqlite()) {
-            $this->addSqlFile(__DIR__ . '/sql/drop-language-bitmask-columns-sqlite.sql');
+        foreach (self::DROPS as $table => [$maskColumn, $indexName, $replaceIndex]) {
+            if (!isset($tablesStillCarryingMask[$table])) {
+                continue;
+            }
+
+            $introspectedTable = $schemaManager->introspectTable($table);
+
+            if ($indexName !== null) {
+                $indexExists = $introspectedTable->hasIndex($indexName);
+                $indexStillHasMaskColumn = $indexExists
+                    && in_array($maskColumn, $introspectedTable->getIndex($indexName)->getColumns(), true);
+
+                if ($replaceIndex) {
+                    if ($indexStillHasMaskColumn) {
+                        // Still the old, mask-including definition - drop it before recreating
+                        // without the mask column below.
+                        $this->addSql($this->buildDropIndexSql($table, $indexName));
+                    }
+
+                    if ($indexStillHasMaskColumn || !$indexExists) {
+                        // Either just dropped above, or missing entirely because a prior partial
+                        // run dropped it but was interrupted before recreating it - either way it
+                        // still needs (re)creating in its final, mask-less form. If neither is true,
+                        // the index already exists in that final form and needs no change.
+                        $this->addSql($this->buildCreateUrlAliasTextParentIndexSql());
+                    }
+                } elseif ($indexExists) {
+                    $this->addSql($this->buildDropIndexSql($table, $indexName));
+                }
+            }
+
+            $this->addSql("ALTER TABLE {$table} DROP COLUMN {$maskColumn}");
         }
+    }
+
+    private function buildDropIndexSql(string $table, string $indexName): string
+    {
+        // MySQL ties an index's identity to its table ("DROP INDEX x ON t" / "ALTER TABLE t DROP
+        // INDEX x"); PostgreSQL/SQLite index names are unique connection/schema-wide, dropped
+        // without referencing the table.
+        return $this->isMySQL()
+            ? "ALTER TABLE {$table} DROP INDEX {$indexName}"
+            : "DROP INDEX {$indexName}";
+    }
+
+    private function buildCreateUrlAliasTextParentIndexSql(): string
+    {
+        // Replaces the dropped "(text(32), parent)"/"(text, parent)" + lang index with a lang-less
+        // equivalent - "lang_mask" is gone, but the (text, parent) lookup itself is still needed.
+        return $this->isMySQL()
+            ? 'ALTER TABLE ibexa_url_alias_ml ADD INDEX ibexa_url_alias_ml_text_lang (text(32), parent)'
+            : 'CREATE INDEX ibexa_url_alias_ml_text_lang ON ibexa_url_alias_ml (text, parent)';
     }
 
     /**
@@ -88,29 +182,40 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
      * backfilled into - i.e. `ibexa:languages:backfill-translations` was never run, or didn't
      * finish, for this table. Once the mask columns are gone the mask data is unrecoverable, so
      * this check is deliberately a hard abort rather than a warning.
+     *
+     * Joins against every language bit actually set in the mask (via {@see LANGUAGE_TABLE}, the
+     * table of valid bit values) rather than just checking "does any translation row exist for this
+     * content id at all" - a row with two bits set but only one backfilled (e.g. mask 2|4 with only
+     * language 2's translation row written) must still be caught here, or dropping the mask below
+     * would silently and irrecoverably lose language 4's membership for that row.
+     *
+     * Only checks tables in $tablesStillCarryingMask (rather than unconditionally checking all of
+     * {@see BACKFILL_CHECKS}): once a table's mask column is actually dropped, the column this
+     * check's SQL references no longer exists, so re-running it unconditionally on a later retry
+     * would fail with an unrelated "unknown column" error instead of the intended abort message.
+     *
+     * @param string[] $tablesStillCarryingMask
      */
-    private function abortIfTranslationsNotBackfilled(): void
+    private function abortIfTranslationsNotBackfilled(array $tablesStillCarryingMask): void
     {
-        $checks = [
-            'ibexa_content' => ['ibexa_content_translation', 'content_id'],
-            'ibexa_content_version' => ['ibexa_content_version_translation', 'content_version_id'],
-            'ibexa_url_alias_ml' => ['ibexa_url_alias_ml_translation', null],
-        ];
+        foreach (self::BACKFILL_CHECKS as $maskTable => [$translationTable, $idColumn]) {
+            if (!in_array($maskTable, $tablesStillCarryingMask, true)) {
+                continue;
+            }
 
-        foreach ($checks as $maskTable => [$translationTable, $idColumn]) {
             $maskColumn = $maskTable === 'ibexa_url_alias_ml' ? 'lang_mask' : 'language_mask';
 
             if ($idColumn !== null) {
-                $joinCondition = "t.{$idColumn} = m.id";
+                $joinCondition = "t.{$idColumn} = m.id AND t.language_id = l.id";
             } else {
                 // ibexa_url_alias_ml's primary key is (parent, text_md5), not a single "id" column.
-                $joinCondition = 't.parent = m.parent AND t.text_md5 = m.text_md5';
+                $joinCondition = 't.parent = m.parent AND t.text_md5 = m.text_md5 AND t.language_id = l.id';
             }
 
             $missingCount = (int)$this->connection->fetchOne(
                 "SELECT COUNT(*) FROM {$maskTable} m
-                 WHERE m.{$maskColumn} > 1
-                 AND NOT EXISTS (SELECT 1 FROM {$translationTable} t WHERE {$joinCondition})"
+                 JOIN " . self::LANGUAGE_TABLE . " l ON (m.{$maskColumn} & l.id) = l.id
+                 WHERE NOT EXISTS (SELECT 1 FROM {$translationTable} t WHERE {$joinCondition})"
             );
 
             $this->abortIf(

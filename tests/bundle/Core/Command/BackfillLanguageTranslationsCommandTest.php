@@ -30,6 +30,12 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
         $connection = $this->getDatabaseConnection();
 
+        // These commands hardcode "ibexa_content_language" (the name it still has at the point in
+        // the real migration sequence where they're used, before NarrowLanguageIdColumnTypesMigration
+        // renames it to "ibexa_language") - rename it back after the fixture above (which inserts via
+        // the Gateway::CONTENT_LANGUAGE_TABLE constant, i.e. under the current name) has populated it.
+        $connection->executeStatement('ALTER TABLE ibexa_language RENAME TO ibexa_content_language');
+
         // These commands exist specifically for installs upgrading from before the language
         // bitmask columns were dropped - simulate that pre-drop schema state here, since the
         // current schema.yaml (and therefore this test's own bootstrapped schema) no longer has
@@ -80,13 +86,23 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
         $connection->insert('ibexa_url_alias_ml', [
             'parent' => 0,
-            'text_md5' => md5('foo'),
+            'text_md5' => md5('foo'), // NOSONAR - non-cryptographic content-addressing hash for "text_md5", not used in any sensitive context; matches the same pattern used in production, e.g. UrlAlias\Handler::getHash().
             'id' => 1,
             'text' => 'foo',
             'action' => 'eznode:1',
             'action_type' => 'eznode',
             'lang_mask' => 7,
         ], ['lang_mask' => ParameterType::INTEGER]);
+    }
+
+    protected function tearDown(): void
+    {
+        // The underlying SQLite connection is reused across tests (see
+        // DatabaseConnectionFactory's static connection pool) - restore the name the next test's
+        // schema.yaml-based setUp() expects to find.
+        $this->getDatabaseConnection()->executeStatement('ALTER TABLE ibexa_content_language RENAME TO ibexa_language');
+
+        parent::tearDown();
     }
 
     public function testBackfillPopulatesTranslationTablesFromMasks(): void
@@ -134,6 +150,25 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         (new CommandTester($command))->execute(['--table' => 'content', '--dry-run' => true]);
 
         self::assertSame([], $this->fetchPairs('ibexa_content_translation', 'content_id'));
+    }
+
+    public function testBackfillDryRunReportsNothingRemainingAfterRealBackfill(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        (new CommandTester(new BackfillLanguageTranslationsCommand($connection)))
+            ->execute(['--table' => 'content']);
+
+        // A dry-run preview after a real backfill must report that nothing is left to insert - not
+        // recount every mask-derived pair as if none of them already existed.
+        $tester = new CommandTester(new BackfillLanguageTranslationsCommand($connection));
+        $tester->execute(['--table' => 'content', '--dry-run' => true]);
+
+        self::assertStringContainsString('0 row(s) would be inserted', $tester->getDisplay());
+        // The real rows from the earlier backfill must not have been touched by the dry-run.
+        self::assertEqualsCanonicalizing(
+            [[1, 2], [2, 2], [2, 4]],
+            $this->fetchPairs('ibexa_content_translation', 'content_id')
+        );
     }
 
     public function testVerifyReportsCleanAfterBackfill(): void
