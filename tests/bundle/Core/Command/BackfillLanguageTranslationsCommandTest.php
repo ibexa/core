@@ -86,7 +86,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
         $connection->insert('ibexa_url_alias_ml', [
             'parent' => 0,
-            'text_md5' => md5('foo'), // NOSONAR - non-cryptographic content-addressing hash for "text_md5", not used in any sensitive context; matches the same pattern used in production, e.g. UrlAlias\Handler::getHash().
+            'text_md5' => md5('foo'),
             'id' => 1,
             'text' => 'foo',
             'action' => 'eznode:1',
