@@ -95,6 +95,7 @@ final class DoctrineGateway implements Gateway
         // get additional data for the same query constraints
         $names = $this->bulkFetchVersionNames(clone $query);
         $fieldValues = $this->bulkFetchFieldValues(clone $query);
+        $translations = $this->bulkFetchVersionTranslations(clone $query);
 
         $query->setFirstResult($offset);
         if ($limit > 0) {
@@ -112,6 +113,11 @@ final class DoctrineGateway implements Gateway
             );
             $row['content_version_fields'] = $this->extractFieldValues(
                 $fieldValues,
+                $contentId,
+                $versionNo
+            );
+            $row['content_version_translations'] = $this->extractVersionTranslations(
+                $translations,
                 $contentId,
                 $versionNo
             );
@@ -176,6 +182,24 @@ final class DoctrineGateway implements Gateway
         int $versionNo
     ): array {
         return $this->extractVersionData($fieldValues, $contentId, $versionNo);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $translations
+     *
+     * @return int[]
+     */
+    private function extractVersionTranslations(
+        array $translations,
+        int $contentId,
+        int $versionNo
+    ): array {
+        return array_values(
+            array_map(
+                static fn (array $row): int => (int)$row['language_id'],
+                $this->extractVersionData($translations, $contentId, $versionNo)
+            )
+        );
     }
 
     /**
@@ -267,6 +291,40 @@ final class DoctrineGateway implements Gateway
                         AND content_field.language_id IN (cvt.language_id, cvt.language_id + 1)
                     )'
                 )
+            )
+            // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
+            ->setMaxResults(null)
+            ->setFirstResult(0)
+            ->resetOrderBy();
+
+        return $query->executeQuery()->fetchAllAssociative();
+    }
+
+    /**
+     * Bulk-fetches, for the same query constraints, which languages each matched content version is
+     * translated into - avoids the N+1 that would result from
+     * {@see \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::loadVersionTranslations()} being
+     * called once per row by the data mapper, mirroring {@see bulkFetchVersionNames()}/
+     * {@see bulkFetchFieldValues()} above.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function bulkFetchVersionTranslations(FilteringQueryBuilder $query): array
+    {
+        $query
+            // completely reset SELECT part to get only needed data
+            ->select(
+                'content.id AS content_id',
+                'version.version AS version_no',
+                'content_version_translation.language_id'
+            )
+            ->distinct()
+            // join translations table to pre-existing query
+            ->joinOnce(
+                'version',
+                'ibexa_content_version_translation',
+                'content_version_translation',
+                'version.id = content_version_translation.content_version_id'
             )
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
             ->setMaxResults(null)

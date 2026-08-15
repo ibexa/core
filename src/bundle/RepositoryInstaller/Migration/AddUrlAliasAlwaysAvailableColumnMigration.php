@@ -21,6 +21,13 @@ use Ibexa\DoctrineMigrations\Migration\SqlPlatform;
  * keeps carrying language-membership bits until Step 7 introduces
  * "ibexa_url_alias_ml_translation" writes/reads and drops the mask column entirely.
  *
+ * The column add and its backfill are treated as two independent steps rather than one all-or-
+ * nothing unit: on MySQL, `ALTER TABLE`/`UPDATE` each auto-commit independently, so if the column
+ * add succeeds but the backfill fails, a retry must still backfill even though the column already
+ * exists - the column's presence alone is not proof the backfill ever completed. The backfill
+ * UPDATE is idempotent (derived only from "lang_mask", which this migration never modifies), so
+ * re-running it whenever this migration's up() executes at all is always safe.
+ *
  * Guarded via the connection's schema manager rather than the injected $schema, because
  * TaggedMigrationsRunner (the "ibexa:install" path) invokes up() with an empty Schema, so
  * $schema->hasTable()/hasColumn() would always report false there.
@@ -55,16 +62,23 @@ final class AddUrlAliasAlwaysAvailableColumnMigration extends AbstractSqlMigrati
             return;
         }
 
-        if ($schemaManager->introspectTable(self::TABLE)->hasColumn(self::ALWAYS_AVAILABLE_COLUMN)) {
-            return;
+        if (!$schemaManager->introspectTable(self::TABLE)->hasColumn(self::ALWAYS_AVAILABLE_COLUMN)) {
+            $columnDefinition = match (true) {
+                $this->isMySQL() => "TINYINT(1) DEFAULT '0' NOT NULL",
+                $this->isPostgreSQL() => "BOOLEAN DEFAULT 'false' NOT NULL",
+                default => "BOOLEAN DEFAULT '0' NOT NULL",
+            };
+
+            $this->addSql(
+                'ALTER TABLE ' . self::TABLE . ' ADD COLUMN ' . self::ALWAYS_AVAILABLE_COLUMN . " {$columnDefinition}"
+            );
         }
 
-        if ($this->isMySQL()) {
-            $this->addSqlFile(__DIR__ . '/sql/add-url-alias-always-available-column-mysql.sql');
-        } elseif ($this->isPostgreSQL()) {
-            $this->addSqlFile(__DIR__ . '/sql/add-url-alias-always-available-column-postgresql.sql');
-        } elseif ($this->isSqlite()) {
-            $this->addSqlFile(__DIR__ . '/sql/add-url-alias-always-available-column-sqlite.sql');
-        }
+        $trueLiteral = $this->isPostgreSQL() ? 'true' : '1';
+
+        $this->addSql(
+            'UPDATE ' . self::TABLE . ' SET ' . self::ALWAYS_AVAILABLE_COLUMN .
+            " = {$trueLiteral} WHERE (lang_mask & 1) = 1"
+        );
     }
 }
