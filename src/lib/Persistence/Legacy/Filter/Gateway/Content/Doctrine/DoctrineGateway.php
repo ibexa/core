@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
 use function iterator_to_array;
@@ -58,7 +59,8 @@ final class DoctrineGateway implements Gateway
         private readonly Connection $connection,
         private readonly CriterionVisitor $criterionVisitor,
         private readonly SortClauseVisitor $sortClauseVisitor,
-        private readonly CountQueryBuilder $countQueryBuilder
+        private readonly CountQueryBuilder $countQueryBuilder,
+        private readonly LanguageGateway $languageGateway
     ) {
     }
 
@@ -114,11 +116,7 @@ final class DoctrineGateway implements Gateway
                 $contentId,
                 $versionNo
             );
-            $row['content_version_translations'] = $this->extractVersionTranslations(
-                $translations,
-                $contentId,
-                $versionNo
-            );
+            $row['content_version_translations'] = $translations[(int)$row['content_version_id']] ?? [];
 
             yield $row;
         }
@@ -174,21 +172,6 @@ final class DoctrineGateway implements Gateway
     private function extractFieldValues(array $fieldValues, int $contentId, int $versionNo): array
     {
         return $this->extractVersionData($fieldValues, $contentId, $versionNo);
-    }
-
-    /**
-     * @param array<int, array<string, mixed>> $translations
-     *
-     * @return int[]
-     */
-    private function extractVersionTranslations(array $translations, int $contentId, int $versionNo): array
-    {
-        return array_values(
-            array_map(
-                static fn (array $row): int => (int)$row['language_id'],
-                $this->extractVersionData($translations, $contentId, $versionNo)
-            )
-        );
     }
 
     /**
@@ -288,36 +271,36 @@ final class DoctrineGateway implements Gateway
 
     /**
      * Bulk-fetches, for the same query constraints, which languages each matched content version is
-     * translated into - avoids the N+1 that would result from
-     * {@see \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::loadVersionTranslations()} being
-     * called once per row by the data mapper, mirroring {@see bulkFetchVersionNames()}/
-     * {@see bulkFetchFieldValues()} above.
+     * translated into - avoids the N+1 that would result from calling
+     * {@see LanguageGateway::loadVersionTranslations()} once per row in the data mapper instead.
      *
-     * @return array<int, array<string, mixed>>
+     * Deliberately reuses that same gateway method (batched with every matching version id at
+     * once) rather than reimplementing the query as a join against the main criteria query, like
+     * {@see bulkFetchVersionNames()}/{@see bulkFetchFieldValues()} above do: VersionInfo::$languageCodes'
+     * element order is derived directly from whichever order this underlying, deliberately
+     * ORDER BY-less query returns rows in (itself an accepted, long-standing implementation detail,
+     * not a documented contract) - a structurally different join+DISTINCT query has no reason to
+     * reproduce that same incidental order on every platform, and on Postgres specifically, it doesn't.
+     *
+     * @return array<int, int[]> Content version id => language ids
      */
     private function bulkFetchVersionTranslations(FilteringQueryBuilder $query): array
     {
         $query
             // completely reset SELECT part to get only needed data
-            ->select(
-                'content.id AS content_id',
-                'version.version AS version_no',
-                'content_version_translation.language_id'
-            )
+            ->select('version.id AS content_version_id')
             ->distinct()
-            // join translations table to pre-existing query
-            ->joinOnce(
-                'version',
-                'ibexa_content_version_translation',
-                'content_version_translation',
-                'version.id = content_version_translation.content_version_id'
-            )
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
             ->setMaxResults(null)
             ->setFirstResult(0)
             ->resetOrderBy();
 
-        return $query->executeQuery()->fetchAllAssociative();
+        $versionIds = array_map(
+            'intval',
+            $query->executeQuery()->fetchFirstColumn()
+        );
+
+        return $this->languageGateway->loadVersionTranslations($versionIds);
     }
 
     private function getColumns(): Traversable
