@@ -20,7 +20,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
  */
 abstract class Gateway
 {
-    public const CONTENT_LANGUAGE_TABLE = 'ibexa_content_language';
+    public const CONTENT_LANGUAGE_TABLE = 'ibexa_language';
 
     /**
      * A map of language-related table name to the single column identifying a real language id

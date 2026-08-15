@@ -26,7 +26,7 @@ VALUES ( 1, 1),
        (50, 1),
        (51, 1);
 
-INSERT INTO "ibexa_content_language" ("disabled", "id", "locale", "name")
+INSERT INTO "ibexa_language" ("disabled", "id", "locale", "name")
 VALUES (0, 2, 'eng-GB', 'English (United Kingdom)');
 
 INSERT INTO "ibexa_content_type" ("always_available", "contentobject_name", "created", "creator_id", "id", "identifier", "initial_language_id", "is_container", "modified", "modifier_id", "remote_id", "serialized_description_list", "serialized_name_list", "sort_field", "sort_order", "url_alias_name", "status")

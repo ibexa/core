@@ -239,20 +239,20 @@ final class FixtureImporter
      */
     private function loadValidLanguageIds(): array
     {
-        if (!$this->tableExists('ibexa_content_language')) {
+        if (!$this->tableExists('ibexa_language')) {
             return [];
         }
 
         return array_map(
             'intval',
-            $this->connection->fetchFirstColumn('SELECT id FROM ibexa_content_language')
+            $this->connection->fetchFirstColumn('SELECT id FROM ibexa_language')
         );
     }
 
     /**
      * Decodes real (non-always-available) language ids out of a legacy bitmask, restricted to ids
-     * actually present in ibexa_content_language (mirrors the old SQL backfill's implicit
-     * JOIN ibexa_content_language filter, needed since ibexa_content_translation's language_id has
+     * actually present in ibexa_language (mirrors the old SQL backfill's implicit
+     * JOIN ibexa_language filter, needed since ibexa_content_translation's language_id has
      * a real FK to it).
      *
      * @param int[] $validLanguageIds

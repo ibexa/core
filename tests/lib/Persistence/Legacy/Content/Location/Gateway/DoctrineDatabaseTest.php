@@ -111,7 +111,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         // LanguageHandlerMock resolves "eng-GB" to id 4.
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $connection = $this->getDatabaseConnection();
-        $connection->insert('ibexa_content_language', [
+        $connection->insert('ibexa_language', [
             'id' => 4,
             'locale' => 'eng-GB',
             'name' => 'British english',
@@ -129,7 +129,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $connection = $this->getDatabaseConnection();
-        $connection->insert('ibexa_content_language', [
+        $connection->insert('ibexa_language', [
             'id' => 4,
             'locale' => 'eng-GB',
             'name' => 'British english',

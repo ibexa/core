@@ -36,7 +36,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     protected $databaseGateway;
 
     /**
-     * None of this file's fixtures populate "ibexa_content_language", but insertContentObject()/
+     * None of this file's fixtures populate "ibexa_language", but insertContentObject()/
      * insertVersion()/updateVersion() now also write to "ibexa_content_translation"/
      * "ibexa_content_version_translation", which FK-reference it - seed the same 3 languages
      * LanguageHandlerMock already pretends exist, so those inserts don't violate the constraint.
@@ -47,7 +47,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         foreach ($this->getLanguageHandler()->loadAll() as $language) {
             $this->getDatabaseConnection()->insert(
-                'ibexa_content_language',
+                'ibexa_language',
                 [
                     'id' => $language->id,
                     'locale' => $language->languageCode,

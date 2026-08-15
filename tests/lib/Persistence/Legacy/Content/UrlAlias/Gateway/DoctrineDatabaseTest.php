@@ -28,7 +28,7 @@ class DoctrineDatabaseTest extends TestCase
     protected $gateway;
 
     /**
-     * "ibexa_content_language" is never seeded by these fixtures (this test suite predates the
+     * "ibexa_language" is never seeded by these fixtures (this test suite predates the
      * gateway needing real Language rows at all) - FixtureImporter's language-mask backfill (see
      * Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter) needs at least one row per
      * language id/bit actually used across the fixtures' "lang_mask" values (1, 2, 4, 8 cover every
@@ -40,10 +40,10 @@ class DoctrineDatabaseTest extends TestCase
         $connection = $this->getDatabaseConnection();
         // Some tests call insertDatabaseFixture() more than once (e.g. to layer a second fixture) -
         // reset first so re-seeding these fixed ids doesn't violate the primary key.
-        $connection->executeStatement('DELETE FROM ibexa_content_language');
+        $connection->executeStatement('DELETE FROM ibexa_language');
         foreach ([2, 4, 8, 16] as $languageId) {
             $connection->executeStatement(
-                'INSERT INTO ibexa_content_language (id, locale, name, disabled) VALUES (:id, :locale, :name, 0)',
+                'INSERT INTO ibexa_language (id, locale, name, disabled) VALUES (:id, :locale, :name, 0)',
                 ['id' => $languageId, 'locale' => "lang-{$languageId}", 'name' => "Language {$languageId}"]
             );
         }
