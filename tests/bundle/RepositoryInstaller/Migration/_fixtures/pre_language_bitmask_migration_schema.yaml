@@ -52,15 +52,6 @@ tables:
         id:
             contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_state_id: { type: integer, nullable: false, options: { default: '0' } }
-    ibexa_content_language:
-        indexes:
-            ibexa_content_language_name: { fields: [name], options: { lengths: ['191'] } }
-        id:
-            id: { type: bigint, nullable: false, options: { default: '0' } }
-        fields:
-            disabled: { type: integer, nullable: false, options: { default: '0' } }
-            locale: { type: string, nullable: false, length: 20, options: { default: '' } }
-            name: { type: string, nullable: false, length: 255, options: { default: '' } }
     ibexa_user:
         uniqueConstraints:
             ibexa_user_login: { fields: [login] }

@@ -118,7 +118,7 @@ final class LanguagePriorityConditionBuilder
 
     /**
      * Matches $languageIdColumn (e.g. ibexa_content_field.language_id) against $targetIdExpression
-     * (a clean id, or an expression producing one, from ibexa_content_language/*_translation).
+     * (a clean id, or an expression producing one, from ibexa_language/*_translation).
      *
      * $languageIdColumn may still carry the legacy "always available" bit 0 folded into it, from
      * rows written before always_available became a plain column - both on real installs upgrading

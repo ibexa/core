@@ -18,6 +18,7 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageId
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
@@ -38,6 +39,7 @@ use Psr\Log\NullLogger;
  * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration
  * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration
  * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration
+ * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration
  */
 final class LanguageBitmaskUpgradeSequenceTest extends TestCase
 {
@@ -48,6 +50,15 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // parent::setUp() already imported the current schema.yaml, which declares this table as
+        // "ibexa_language" - rename it back to what a real pre-6.0 install still has today, so the
+        // migration sequence below (which includes the real rename step) has something real to do.
+        // The FK from "ibexa_content_translation" (also created by that same import) follows the
+        // rename automatically - all 3 platforms track FKs internally, not by name - so this one
+        // statement is enough to make the two tables consistent again, without the fixture below
+        // needing its own separate, disconnected declaration of the language table.
+        $this->getDatabaseConnection()->executeStatement('ALTER TABLE ibexa_language RENAME TO ibexa_content_language');
 
         $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
         $schemaImporter->importSchema(
@@ -66,8 +77,14 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
         $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
         $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
+        // Renames "ibexa_content_language" to "ibexa_language" on every platform including SQLite.
+        // The column-narrowing half of this same migration is MySQL/PostgreSQL-only (SQLite has no
+        // ALTER COLUMN TYPE) and is verified against real databases, not here.
+        $this->runMigration(new NarrowLanguageIdColumnTypesMigration($connection, new NullLogger()));
 
         $schemaManager = $connection->createSchemaManager();
+        self::assertFalse($schemaManager->tablesExist(['ibexa_content_language']));
+        self::assertTrue($schemaManager->tablesExist(['ibexa_language']));
         self::assertFalse($schemaManager->introspectTable('ibexa_content')->hasColumn('language_mask'));
         self::assertFalse($schemaManager->introspectTable('ibexa_content_version')->hasColumn('language_mask'));
         self::assertFalse($schemaManager->introspectTable('ibexa_url_alias_ml')->hasColumn('lang_mask'));
