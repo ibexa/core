@@ -290,6 +290,14 @@ final class DoctrineDatabase extends Gateway
             return [];
         }
 
+        // Explicit ORDER BY, not just "no ORDER BY happens to come out consistently": without one,
+        // PostgreSQL (unlike MySQL/InnoDB's PK-clustered storage) can pick a different scan
+        // strategy - and therefore a different per-id row order - depending on how many ids are in
+        // this call's IN() list. Different call sites batch different numbers of ids at once (e.g.
+        // the Legacy Search Engine loads a whole result page in one call, while another caller might
+        // batch differently), so relying on incidental order would make language_id ordering
+        // inconsistent between them on Postgres specifically, even though every call goes through
+        // this exact same method.
         $query = $this->connection->createQueryBuilder();
         $rows = $query
             ->select($idColumn, 'language_id')
@@ -300,6 +308,8 @@ final class DoctrineDatabase extends Gateway
                     $query->createNamedParameter($ids, ArrayParameterType::INTEGER, ':ids')
                 )
             )
+            ->orderBy($idColumn)
+            ->addOrderBy('language_id')
             ->executeQuery()
             ->fetchAllAssociative();
 

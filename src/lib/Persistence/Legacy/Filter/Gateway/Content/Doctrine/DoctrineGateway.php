@@ -274,13 +274,12 @@ final class DoctrineGateway implements Gateway
      * translated into - avoids the N+1 that would result from calling
      * {@see LanguageGateway::loadVersionTranslations()} once per row in the data mapper instead.
      *
-     * Deliberately reuses that same gateway method (batched with every matching version id at
-     * once) rather than reimplementing the query as a join against the main criteria query, like
-     * {@see bulkFetchVersionNames()}/{@see bulkFetchFieldValues()} above do: VersionInfo::$languageCodes'
-     * element order is derived directly from whichever order this underlying, deliberately
-     * ORDER BY-less query returns rows in (itself an accepted, long-standing implementation detail,
-     * not a documented contract) - a structurally different join+DISTINCT query has no reason to
-     * reproduce that same incidental order on every platform, and on Postgres specifically, it doesn't.
+     * Deliberately reuses that same gateway method (batched with every matching version id at once)
+     * rather than reimplementing the query as a join against the main criteria query, like
+     * {@see bulkFetchVersionNames()}/{@see bulkFetchFieldValues()} above do: other callers (e.g. the
+     * Legacy Search Engine) also load translations through this same shared method, batched with
+     * their own, differently-sized id lists - reusing it here, rather than a bespoke query, is what
+     * guarantees every caller agrees on each version's language order.
      *
      * @return array<int, int[]> Content version id => language ids
      */
