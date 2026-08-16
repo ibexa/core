@@ -1053,10 +1053,16 @@ final class DoctrineDatabase extends Gateway
 
     public function loadTranslationLanguageIds(int $parent, string $textMD5): array
     {
+        // Explicit ORDER BY: UrlAlias::$languageCodes' element order is observable (e.g. asserted
+        // directly in URLAliasServiceTest), so it must not depend on however this table's rows
+        // happened to be inserted - which itself can shift whenever an upstream write path's own
+        // language-iteration order changes, even though this query is otherwise untouched.
         return array_map(
             'intval',
             $this->connection->fetchFirstColumn(
-                'SELECT language_id FROM ibexa_url_alias_ml_translation WHERE parent = :parent AND text_md5 = :textMd5',
+                'SELECT language_id FROM ibexa_url_alias_ml_translation
+                 WHERE parent = :parent AND text_md5 = :textMd5
+                 ORDER BY language_id',
                 ['parent' => $parent, 'textMd5' => $textMD5],
                 ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
             )
