@@ -14,41 +14,43 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\DoctrineMigrations\Migration\SqlPlatform;
 
-final class InstallSchemaMigration extends AbstractSqlMigration implements IbexaMigrationInterface
+/**
+ * Renames the legacy eZ Publish-style core database schema (ez*) to the Ibexa naming
+ * scheme (ibexa_*) introduced in 5.0. This is the incremental diff on top of
+ * InstallSchemaMigration's 4.6.0 baseline; a fresh 6.0 install runs both in sequence,
+ * while an existing 4.6 install only needs this one to reach the 5.0/6.0 shape.
+ */
+final class RenameSchemaTo5_0Migration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
     public function getDescription(): string
     {
-        return 'Creates the core Ibexa database schema';
+        return 'Renames the legacy core database schema to the Ibexa naming scheme (introduced in 5.0)';
     }
 
     public static function getTargetVersion(): string
     {
-        return '4.6.0';
+        return '5.0.0';
     }
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-07-16 00:00:00');
+        return new DateTimeImmutable('2026-07-20 00:00:00');
     }
 
     public function up(Schema $schema): void
     {
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
-        // Checks the final, post-rename table name (not "ezcontentobject", which this
-        // migration creates): an install that built its schema via schema.yaml (rather than
-        // through this migration) never has "ezcontentobject" -- it already has
-        // "ibexa_content" directly.
         if ($schema->hasTable('ibexa_content')) {
             return;
         }
 
         if ($this->isMySQL()) {
-            $this->addSqlFile(__DIR__ . '/sql/install-schema-mysql.sql');
+            $this->addSqlFile(__DIR__ . '/sql/rename-schema-to-5-0-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
-            $this->addSqlFile(__DIR__ . '/sql/install-schema-postgresql.sql');
+            $this->addSqlFile(__DIR__ . '/sql/rename-schema-to-5-0-postgresql.sql');
         } elseif ($this->isSqlite()) {
-            $this->addSqlFile(__DIR__ . '/sql/install-schema-sqlite.sql');
+            $this->addSqlFile(__DIR__ . '/sql/rename-schema-to-5-0-sqlite.sql');
         }
     }
 }
