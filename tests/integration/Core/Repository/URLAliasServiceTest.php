@@ -159,10 +159,11 @@ class URLAliasServiceTest extends BaseTest
 
         $location = $locationService->loadLocation($this->generateId('location', 12));
 
+        $this->createLanguage('nor-NO', 'Norwegian');
         $createdUrlAlias = $urlAliasService->createUrlAlias(
             $location,
-            '/My/Great-german-site',
-            'ger-DE',
+            '/My/Great-norwegian-site',
+            'nor-NO',
             false,
             false
         );
@@ -181,11 +182,11 @@ class URLAliasServiceTest extends BaseTest
 
         $location = $locationService->loadLocation($this->generateId('location', 12));
 
-        // ger-DE is not part of the prioritized languages configured for the tests (eng-US, eng-GB)
+        $this->createLanguage('nor-NO', 'Norwegian');
         $createdUrlAlias = $urlAliasService->createUrlAlias(
             $location,
-            '/My/Great-german-site',
-            'ger-DE',
+            '/My/Great-norwegian-site',
+            'nor-NO',
             false,
             false
         );
@@ -196,8 +197,8 @@ class URLAliasServiceTest extends BaseTest
             [
                 'type' => URLAlias::LOCATION,
                 'destination' => $location->id,
-                'path' => '/My/Great-german-site',
-                'languageCodes' => ['ger-DE'],
+                'path' => '/My/Great-norwegian-site',
+                'languageCodes' => ['nor-NO'],
                 'alwaysAvailable' => false,
                 'isHistory' => false,
                 'isCustom' => true,
