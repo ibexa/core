@@ -88,16 +88,19 @@ class AbstractTestCase extends LanguageAwareTestCase
     protected function getContentTypeHandler(): SPIContentTypeHandler
     {
         if (!isset($this->contentTypeHandler)) {
+            $contentTypeGateway = new ContentTypeGateway(
+                $this->getDatabaseConnection(),
+                $this->getSharedGateway(),
+                $this->getLanguageHandler(),
+                $this->getCriterionVisitor()
+            );
+
             $this->contentTypeHandler = new ContentTypeHandler(
-                new ContentTypeGateway(
-                    $this->getDatabaseConnection(),
-                    $this->getSharedGateway(),
-                    $this->getLanguageMaskGenerator(),
-                    $this->getCriterionVisitor()
-                ),
+                $contentTypeGateway,
                 new ContentTypeMapper(
                     $this->getConverterRegistry(),
-                    $this->getLanguageMaskGenerator(),
+                    $contentTypeGateway,
+                    $this->getLanguageHandler(),
                     $this->createMock(StorageDispatcherInterface::class),
                     $this->getFieldTypeAliasResolver(),
                 ),
@@ -108,6 +111,13 @@ class AbstractTestCase extends LanguageAwareTestCase
         }
 
         return $this->contentTypeHandler;
+    }
+
+    protected function getLanguageGateway(): \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
+    {
+        return new \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase(
+            $this->getDatabaseConnection()
+        );
     }
 
     protected function getConverterRegistry()

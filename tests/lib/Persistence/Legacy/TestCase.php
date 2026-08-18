@@ -182,7 +182,7 @@ abstract class TestCase extends BaseTestCase
     protected function insertDatabaseFixture(string $file): void
     {
         try {
-            $fixtureImporter = new FixtureImporter($this->getDatabaseConnection());
+            $fixtureImporter = new FixtureImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
             $fixtureImporter->import((new FileFixtureFactory())->buildFixture($file));
         } catch (DBALException $e) {
             self::fail('Database fixture import failed: ' . $e->getMessage());
@@ -197,7 +197,7 @@ abstract class TestCase extends BaseTestCase
     protected function insertSharedDatabaseFixture(): void
     {
         try {
-            $fixtureImporter = new FixtureImporter($this->getDatabaseConnection());
+            $fixtureImporter = new FixtureImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
             $fixtureImporter->import(
                 new YamlFixture(
                     __DIR__ . '/../../../integration/Core/Repository/_fixtures/Legacy/data/test_data.yaml'

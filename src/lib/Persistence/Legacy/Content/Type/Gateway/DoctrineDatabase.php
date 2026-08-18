@@ -12,6 +12,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
@@ -21,7 +22,6 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
@@ -54,7 +54,6 @@ final class DoctrineDatabase extends Gateway
             'identifier',
             'initial_language_id',
             'is_container',
-            'language_mask',
             'remote_id',
             'serialized_description_list',
             'serialized_name_list',
@@ -97,7 +96,7 @@ final class DoctrineDatabase extends Gateway
     public function __construct(
         private readonly Connection $connection,
         private readonly SharedGateway $sharedGateway,
-        private readonly MaskGenerator $languageMaskGenerator,
+        private readonly LanguageHandler $languageHandler,
         private readonly Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor
     ) {
     }
@@ -285,13 +284,7 @@ final class DoctrineDatabase extends Gateway
                             ParameterType::INTEGER
                         ),
                         'language_id' => $query->createPositionalParameter(
-                            $this->languageMaskGenerator->generateLanguageIndicator(
-                                $language,
-                                $this->languageMaskGenerator->isLanguageAlwaysAvailable(
-                                    $language,
-                                    $languages
-                                )
-                            ),
+                            $this->languageHandler->loadByLanguageCode($language)->id,
                             ParameterType::INTEGER
                         ),
                         'language_locale' => $query->createPositionalParameter(
@@ -410,13 +403,6 @@ final class DoctrineDatabase extends Gateway
             'url_alias_name' => [$type->urlAliasSchema, ParameterType::STRING],
             'contentobject_name' => [$type->nameSchema, ParameterType::STRING],
             'is_container' => [(int)$type->isContainer, ParameterType::INTEGER],
-            'language_mask' => [
-                $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes(
-                    $type->languageCodes,
-                    array_key_exists('always-available', $type->name)
-                ),
-                ParameterType::INTEGER,
-            ],
             'initial_language_id' => [$type->initialLanguageId, ParameterType::INTEGER],
             'sort_field' => [$type->sortField, ParameterType::INTEGER],
             'sort_order' => [$type->sortOrder, ParameterType::INTEGER],
@@ -1006,6 +992,35 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    public function loadContentTypeTranslations(array $typeIdStatusPairs): array
+    {
+        if (empty($typeIdStatusPairs)) {
+            return [];
+        }
+
+        $typeIds = array_unique(array_column($typeIdStatusPairs, 'id'));
+        $statuses = array_unique(array_column($typeIdStatusPairs, 'status'));
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('content_type_id', 'content_type_status', 'language_locale')
+            ->from(self::CONTENT_TYPE_NAME_TABLE)
+            ->where(
+                $query->expr()->in('content_type_id', $query->createNamedParameter($typeIds, ArrayParameterType::INTEGER))
+            )
+            ->andWhere(
+                $query->expr()->in('content_type_status', $query->createNamedParameter($statuses, ArrayParameterType::INTEGER))
+            );
+
+        $translations = [];
+        foreach ($query->executeQuery()->fetchAllAssociative() as $row) {
+            $key = $row['content_type_id'] . ':' . $row['content_type_status'];
+            $translations[$key][] = $row['language_locale'];
+        }
+
+        return $translations;
+    }
+
     /**
      * Return a basic query to retrieve Type data.
      */
@@ -1032,7 +1047,6 @@ final class DoctrineDatabase extends Gateway
                 'c.always_available AS content_type_always_available',
                 'c.sort_field AS content_type_sort_field',
                 'c.sort_order AS content_type_sort_order',
-                'c.language_mask AS content_type_language_mask',
                 'a.id AS content_type_field_definition_id',
                 'a.serialized_name_list AS content_type_field_definition_serialized_name_list',
                 'a.serialized_description_list AS content_type_field_definition_serialized_description_list',
@@ -1360,9 +1374,7 @@ final class DoctrineDatabase extends Gateway
         string $languageCode,
         int $status
     ): void {
-        $languageId = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes(
-            [$languageCode]
-        );
+        $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery

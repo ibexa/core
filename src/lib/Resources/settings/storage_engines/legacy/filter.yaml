@@ -30,7 +30,6 @@ services:
     Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Mapper\DoctrineGatewayDataMapper:
         arguments:
             $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
-            $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
             $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             $converterRegistry: '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
 
@@ -45,6 +44,7 @@ services:
     Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine\DoctrineGateway:
         arguments:
             $connection: '@ibexa.persistence.connection'
+            $languageGateway: '@ibexa.persistence.legacy.language.gateway'
 
     Ibexa\Core\Persistence\Legacy\Filter\Handler\ContentFilteringHandler:
         arguments:

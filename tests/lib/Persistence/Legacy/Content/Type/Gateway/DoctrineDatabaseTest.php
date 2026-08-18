@@ -357,7 +357,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $rows
         );
         self::assertCount(
-            50,
+            49,
             $rows[0]
         );
 
@@ -385,7 +385,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $rows
         );
         self::assertCount(
-            50,
+            49,
             $rows[0]
         );
     }
@@ -404,7 +404,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $rows
         );
         self::assertCount(
-            50,
+            49,
             $rows[0]
         );
     }
@@ -424,7 +424,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ['identifier', 'folder'],
             ['initial_language_id', '2'],
             ['is_container', '1'],
-            ['language_mask', 7],
             ['modified', '1082454875'],
             ['modifier_id', '14'],
             ['remote_id', 'a3d405b81be900468eb153d774f4f0d2'],
@@ -465,7 +464,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     {
         return [
             ['content_type_status', [0, 0]],
-            ['language_id', [3, 4]],
+            ['language_id', [2, 4]],
             ['language_locale', ['eng-US', 'eng-GB']],
             ['name', ['Folder', 'Folder (GB)']],
         ];
@@ -858,7 +857,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 [
                     'content_type_id' => 1,
                     'content_type_status' => 0,
-                    'language_id' => 3,
+                    'language_id' => 2,
                     'language_locale' => 'eng-US',
                     'name' => 'New Folder',
                 ],
@@ -1153,7 +1152,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->gateway = new DoctrineDatabase(
                 $this->getDatabaseConnection(),
                 $this->getSharedGateway(),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getCriterionVisitor()
             );
         }

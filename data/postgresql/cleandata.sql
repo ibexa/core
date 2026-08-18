@@ -1,9 +1,9 @@
-INSERT INTO "ibexa_object_state" ("default_language_id", "group_id", "id", "identifier", "language_mask", "priority")
-VALUES (2, 2, 1, 'not_locked', 3, 0),
-       (2, 2, 2, 'locked', 3, 1);
+INSERT INTO "ibexa_object_state" ("default_language_id", "group_id", "id", "identifier", "priority")
+VALUES (2, 2, 1, 'not_locked', 0),
+       (2, 2, 2, 'locked', 1);
 
-INSERT INTO "ibexa_object_state_group" ("default_language_id", "id", "identifier", "language_mask")
-VALUES (2, 2, 'ibexa_lock', 3);
+INSERT INTO "ibexa_object_state_group" ("default_language_id", "id", "identifier")
+VALUES (2, 2, 'ibexa_lock');
 
 INSERT INTO "ibexa_object_state_group_language" ("contentobject_state_group_id", "description","language_id", "name", "real_language_id")
 VALUES (2, '', 3, 'Lock', 2);
@@ -26,16 +26,16 @@ VALUES ( 1, 1),
        (50, 1),
        (51, 1);
 
-INSERT INTO "ibexa_content_language" ("disabled", "id", "locale", "name")
+INSERT INTO "ibexa_language" ("disabled", "id", "locale", "name")
 VALUES (0, 2, 'eng-GB', 'English (United Kingdom)');
 
-INSERT INTO "ibexa_content_type" ("always_available", "contentobject_name", "created", "creator_id", "id", "identifier", "initial_language_id", "is_container", "language_mask", "modified", "modifier_id", "remote_id", "serialized_description_list", "serialized_name_list", "sort_field", "sort_order", "url_alias_name", "status")
-VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,2,1448831672,14,'a3d405b81be900468eb153d774f4f0d2','a:0:{}','a:1:{s:6:"eng-GB";s:6:"Folder";}',1,1,NULL,0),
-       (0,'<short_title|title>',1024392098,14,2,'article',2,1,3,1082454989,14,'c15b600eb9198b1924063b5a68758232',NULL,'a:2:{s:6:"eng-GB";s:7:"Article";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
-       (1,'<name>',1024392098,14,3,'user_group',2,1,3,1048494743,14,'25b4268cdcd01921b808a0d854b877ef',NULL,'a:2:{s:6:"eng-GB";s:10:"User group";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
-       (1,'<first_name> <last_name>',1024392098,14,4,'user',2,0,3,1082018364,14,'40faa822edc579b02c25f6bb7beec3ad',NULL,'a:2:{s:6:"eng-GB";s:4:"User";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
-       (1,'<name>',1031484992,14,5,'image',2,0,3,1048494784,14,'f6df12aa74e36230eb675f364fccd25a',NULL,'a:2:{s:6:"eng-GB";s:5:"Image";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
-       (1,'<name>',1052385472,14,12,'file',2,0,3,1052385669,14,'637d58bfddf164627bdfd265733280a0',NULL,'a:2:{s:6:"eng-GB";s:4:"File";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0);
+INSERT INTO "ibexa_content_type" ("always_available", "contentobject_name", "created", "creator_id", "id", "identifier", "initial_language_id", "is_container", "modified", "modifier_id", "remote_id", "serialized_description_list", "serialized_name_list", "sort_field", "sort_order", "url_alias_name", "status")
+VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,1448831672,14,'a3d405b81be900468eb153d774f4f0d2','a:0:{}','a:1:{s:6:"eng-GB";s:6:"Folder";}',1,1,NULL,0),
+       (0,'<short_title|title>',1024392098,14,2,'article',2,1,1082454989,14,'c15b600eb9198b1924063b5a68758232',NULL,'a:2:{s:6:"eng-GB";s:7:"Article";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
+       (1,'<name>',1024392098,14,3,'user_group',2,1,1048494743,14,'25b4268cdcd01921b808a0d854b877ef',NULL,'a:2:{s:6:"eng-GB";s:10:"User group";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
+       (1,'<first_name> <last_name>',1024392098,14,4,'user',2,0,1082018364,14,'40faa822edc579b02c25f6bb7beec3ad',NULL,'a:2:{s:6:"eng-GB";s:4:"User";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
+       (1,'<name>',1031484992,14,5,'image',2,0,1048494784,14,'f6df12aa74e36230eb675f364fccd25a',NULL,'a:2:{s:6:"eng-GB";s:5:"Image";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
+       (1,'<name>',1052385472,14,12,'file',2,0,1052385669,14,'637d58bfddf164627bdfd265733280a0',NULL,'a:2:{s:6:"eng-GB";s:4:"File";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0);
 
 INSERT INTO "ibexa_content_type_field_definition" ("can_translate", "category", "content_type_id", "data_float1", "data_float2", "data_float3", "data_float4", "data_int1", "data_int2", "data_int3", "data_int4", "data_text1", "data_text2", "data_text3", "data_text4", "data_text5", "data_type_string", "id", "identifier", "is_information_collector", "is_required", "is_searchable", "is_thumbnail", "placement", "serialized_data_text", "serialized_description_list", "serialized_name_list", "status")
 VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ibexa_string',1,'title',0,1,1,FALSE,1,NULL,NULL,'a:2:{s:6:"eng-GB";s:5:"Title";s:16:"always-available";s:6:"eng-GB";}',0),
@@ -84,19 +84,33 @@ VALUES (1031216928, 14, 1, 1033922106, 14, 'Content'),
        (1031216941, 14, 2, 1033922113, 14, 'Users'),
        (1032009743, 14, 3, 1033922120, 14, 'Media');
 
-INSERT INTO "ibexa_content" ("content_type_id", "current_version", "id", "initial_language_id", "language_mask", "modified", "name", "owner_id", "published", "remote_id", "section_id", "status")
-VALUES (1,9,1,2,3,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e45197295722c7ade',1,1),
-       (3,1,4,2,3,1033917596,'Users',14,1033917596,'f5c88a2209584891056f987fd965b0ba',2,1),
-       (4,2,10,2,3,1072180405,'Anonymous User',14,1033920665,'faaeb9be3bd98ed09f606fc16d144eca',2,1),
-       (3,1,11,2,3,1033920746,'Guest accounts',14,1033920746,'5f7f0bdb3381d6a461d8c29ff53d908f',2,1),
-       (3,1,12,2,3,1033920775,'Administrator users',14,1033920775,'9b47a45624b023b1a76c73b74d704acf',2,1),
-       (3,1,13,2,3,1033920794,'Editors',14,1033920794,'3c160cca19fb135f83bd02d911f04db2',2,1),
-       (4,3,14,2,3,1301062024,'Administrator User',14,1033920830,'1bb4fe25487f05527efa8bfd394cecc7',2,1),
-       (1,1,41,2,3,1060695457,'Media',14,1060695457,'a6e35cbcb7cd6ae4b691f3eee30cd262',3,1),
-       (3,1,42,2,3,1072180330,'Anonymous users',14,1072180330,'15b256dbea2ae72418ff5facc999e8f9',2,1),
-       (1,1,49,2,3,1080220197,'Images',14,1080220197,'e7ff633c6b8e0fd3531e74c6e712bead',3,1),
-       (1,1,50,2,3,1080220220,'Files',14,1080220220,'732a5acd01b51a6fe6eab448ad4138a9',3,1),
-       (1,1,51,2,3,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1);
+INSERT INTO "ibexa_content" ("content_type_id", "current_version", "id", "initial_language_id", "always_available", "modified", "name", "owner_id", "published", "remote_id", "section_id", "status")
+VALUES (1,9,1,2,TRUE,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e45197295722c7ade',1,1),
+       (3,1,4,2,TRUE,1033917596,'Users',14,1033917596,'f5c88a2209584891056f987fd965b0ba',2,1),
+       (4,2,10,2,TRUE,1072180405,'Anonymous User',14,1033920665,'faaeb9be3bd98ed09f606fc16d144eca',2,1),
+       (3,1,11,2,TRUE,1033920746,'Guest accounts',14,1033920746,'5f7f0bdb3381d6a461d8c29ff53d908f',2,1),
+       (3,1,12,2,TRUE,1033920775,'Administrator users',14,1033920775,'9b47a45624b023b1a76c73b74d704acf',2,1),
+       (3,1,13,2,TRUE,1033920794,'Editors',14,1033920794,'3c160cca19fb135f83bd02d911f04db2',2,1),
+       (4,3,14,2,TRUE,1301062024,'Administrator User',14,1033920830,'1bb4fe25487f05527efa8bfd394cecc7',2,1),
+       (1,1,41,2,TRUE,1060695457,'Media',14,1060695457,'a6e35cbcb7cd6ae4b691f3eee30cd262',3,1),
+       (3,1,42,2,TRUE,1072180330,'Anonymous users',14,1072180330,'15b256dbea2ae72418ff5facc999e8f9',2,1),
+       (1,1,49,2,TRUE,1080220197,'Images',14,1080220197,'e7ff633c6b8e0fd3531e74c6e712bead',3,1),
+       (1,1,50,2,TRUE,1080220220,'Files',14,1080220220,'732a5acd01b51a6fe6eab448ad4138a9',3,1),
+       (1,1,51,2,TRUE,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1);
+
+INSERT INTO "ibexa_content_translation" ("content_id", "language_id")
+VALUES (1,2),
+       (4,2),
+       (10,2),
+       (11,2),
+       (12,2),
+       (13,2),
+       (14,2),
+       (41,2),
+       (42,2),
+       (49,2),
+       (50,2),
+       (51,2);
 
 INSERT INTO "ibexa_content_field" ("attribute_original_id", "content_type_field_definition_id", "contentobject_id", "data_float", "data_int", "data_text", "data_type_string", "id", "language_code", "language_id", "sort_key_int", "sort_key_string", "version")
 VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ibexa_string',1,'eng-GB',3,0,'ibexa platform',9),
@@ -169,19 +183,33 @@ VALUES (0,1,1,0,0,0,1,1448999778,1,1,'','/1/',0,'629709ba256fe317c3ddcee35453a96
        (50,1,1,2,0,0,52,1081860720,52,43,'media/files','/1/43/52/',0,'0b113a208f7890f9ad3c24444ff5988c',9,1),
        (51,1,1,2,0,0,53,1081860720,53,43,'media/multimedia','/1/43/53/',0,'4f18b82c75f10aad476cae5adf98c11f',9,1);
 
-INSERT INTO "ibexa_content_version" ("contentobject_id", "created", "creator_id", "id", "initial_language_id", "language_mask", "modified", "status", "user_id", "version", "workflow_event_pos")
-VALUES (4,0,14,4,2,3,0,1,0,1,1),
-       (11,1033920737,14,439,2,3,1033920746,1,0,1,0),
-       (12,1033920760,14,440,2,3,1033920775,1,0,1,0),
-       (13,1033920786,14,441,2,3,1033920794,1,0,1,0),
-       (41,1060695450,14,472,2,3,1060695457,1,0,1,0),
-       (42,1072180278,14,473,2,3,1072180330,1,0,1,0),
-       (10,1072180337,14,474,2,3,1072180405,1,0,2,0),
-       (49,1080220181,14,488,2,3,1080220197,1,0,1,0),
-       (50,1080220211,14,489,2,3,1080220220,1,0,1,0),
-       (51,1080220225,14,490,2,3,1080220233,1,0,1,0),
-       (14,1301061783,14,499,2,3,1301062024,1,0,3,0),
-       (1,1448889045,14,506,2,3,1448889046,1,0,9,0);
+INSERT INTO "ibexa_content_version" ("contentobject_id", "created", "creator_id", "id", "initial_language_id", "always_available", "modified", "status", "user_id", "version", "workflow_event_pos")
+VALUES (4,0,14,4,2,TRUE,0,1,0,1,1),
+       (11,1033920737,14,439,2,TRUE,1033920746,1,0,1,0),
+       (12,1033920760,14,440,2,TRUE,1033920775,1,0,1,0),
+       (13,1033920786,14,441,2,TRUE,1033920794,1,0,1,0),
+       (41,1060695450,14,472,2,TRUE,1060695457,1,0,1,0),
+       (42,1072180278,14,473,2,TRUE,1072180330,1,0,1,0),
+       (10,1072180337,14,474,2,TRUE,1072180405,1,0,2,0),
+       (49,1080220181,14,488,2,TRUE,1080220197,1,0,1,0),
+       (50,1080220211,14,489,2,TRUE,1080220220,1,0,1,0),
+       (51,1080220225,14,490,2,TRUE,1080220233,1,0,1,0),
+       (14,1301061783,14,499,2,TRUE,1301062024,1,0,3,0),
+       (1,1448889045,14,506,2,TRUE,1448889046,1,0,9,0);
+
+INSERT INTO "ibexa_content_version_translation" ("content_version_id", "language_id")
+VALUES (4,2),
+       (439,2),
+       (440,2),
+       (441,2),
+       (472,2),
+       (473,2),
+       (474,2),
+       (488,2),
+       (489,2),
+       (490,2),
+       (499,2),
+       (506,2);
 
 INSERT INTO "ibexa_node_assignment" ("contentobject_id", "contentobject_version", "from_node_id", "id", "is_main", "op_code", "parent_node", "parent_remote_id", "remote_id", "sort_field", "sort_order", "priority", "is_hidden")
 VALUES (8,2,0,4,1,2,5,'','0',1,1,0,0),
@@ -252,32 +280,46 @@ VALUES ('content/view/full/2',0,12,1,1,0,'d41d8cd98f00b204e9800998ecf8427e',''),
        ('content/view/full/52',0,29,1,1,0,'ad5a8c6f6aac3b1b9df267fe22e7aef6','media/files'),
        ('content/view/full/53',0,30,1,1,0,'562a0ac498571c6c3529173184a2657c','media/multimedia');
 
-INSERT INTO "ibexa_url_alias_ml" ("action", "action_type", "alias_redirects", "id", "is_alias", "is_original", "lang_mask", "link", "parent", "text", "text_md5")
-VALUES ('nop:','nop',1,17,0,0,1,17,0,'media2','50e2736330de124f6edea9b008556fe6'),
-       ('eznode:43','eznode',1,9,0,1,3,9,0,'Media','62933a2951ef01f4eafd9bdf4d3cd2f0'),
-       ('nop:','nop',1,3,0,0,1,3,0,'users2','86425c35a33507d479f71ade53a669aa'),
-       ('eznode:5','eznode',1,2,0,1,3,2,0,'Users','9bc65c2abec141778ffaa729489f3e87'),
-       ('eznode:2','eznode',1,1,0,1,3,1,0,'','d41d8cd98f00b204e9800998ecf8427e'),
-       ('eznode:14','eznode',1,6,0,1,3,6,2,'Editors','a147e136bfa717592f2bd70bd4b53b17'),
-       ('eznode:44','eznode',1,10,0,1,3,10,2,'Anonymous-Users','c2803c3fa1b0b5423237b4e018cae755'),
-       ('eznode:12','eznode',1,4,0,1,3,4,2,'Guest-accounts','e57843d836e3af8ab611fde9e2139b3a'),
-       ('eznode:13','eznode',1,5,0,1,3,5,2,'Administrator-users','f89fad7f8a3abc8c09e1deb46a420007'),
-       ('nop:','nop',1,11,0,0,1,11,3,'anonymous_users2','505e93077a6dde9034ad97a14ab022b1'),
-       ('eznode:12','eznode',1,26,0,0,1,4,3,'guest_accounts','70bb992820e73638731aa8de79b3329e'),
-       ('eznode:14','eznode',1,29,0,0,1,6,3,'editors','a147e136bfa717592f2bd70bd4b53b17'),
-       ('nop:','nop',1,7,0,0,1,7,3,'administrator_users2','a7da338c20bf65f9f789c87296379c2a'),
-       ('eznode:13','eznode',1,27,0,0,1,5,3,'administrator_users','aeb8609aa933b0899aa012c71139c58c'),
-       ('eznode:44','eznode',1,30,0,0,1,10,3,'anonymous_users','e9e5ad0c05ee1a43715572e5cc545926'),
-       ('eznode:15','eznode',1,8,0,1,3,8,5,'Administrator-User','5a9d7b0ec93173ef4fedee023209cb61'),
-       ('eznode:15','eznode',1,28,0,0,0,8,7,'administrator_user','a3cca2de936df1e2f805710399989971'),
-       ('eznode:53','eznode',1,20,0,1,3,20,9,'Multimedia','2e5bc8831f7ae6a29530e7f1bbf2de9c'),
-       ('eznode:52','eznode',1,19,0,1,3,19,9,'Files','45b963397aa40d4a0063e0d85e4fe7a1'),
-       ('eznode:51','eznode',1,18,0,1,3,18,9,'Images','59b514174bffe4ae402b3d63aad79fe0'),
-       ('eznode:45','eznode',1,12,0,1,3,12,10,'Anonymous-User','ccb62ebca03a31272430bc414bd5cd5b'),
-       ('eznode:45','eznode',1,31,0,0,1,12,11,'anonymous_user','c593ec85293ecb0e02d50d4c5c6c20eb'),
-       ('eznode:53','eznode',1,34,0,0,1,20,17,'multimedia','2e5bc8831f7ae6a29530e7f1bbf2de9c'),
-       ('eznode:52','eznode',1,33,0,0,1,19,17,'files','45b963397aa40d4a0063e0d85e4fe7a1'),
-       ('eznode:51','eznode',1,32,0,0,1,18,17,'images','59b514174bffe4ae402b3d63aad79fe0');
+INSERT INTO "ibexa_url_alias_ml" ("action", "action_type", "alias_redirects", "id", "is_alias", "is_original", "is_always_available", "link", "parent", "text", "text_md5")
+VALUES ('nop:','nop',1,17,0,0,TRUE,17,0,'media2','50e2736330de124f6edea9b008556fe6'),
+       ('eznode:43','eznode',1,9,0,1,TRUE,9,0,'Media','62933a2951ef01f4eafd9bdf4d3cd2f0'),
+       ('nop:','nop',1,3,0,0,TRUE,3,0,'users2','86425c35a33507d479f71ade53a669aa'),
+       ('eznode:5','eznode',1,2,0,1,TRUE,2,0,'Users','9bc65c2abec141778ffaa729489f3e87'),
+       ('eznode:2','eznode',1,1,0,1,TRUE,1,0,'','d41d8cd98f00b204e9800998ecf8427e'),
+       ('eznode:14','eznode',1,6,0,1,TRUE,6,2,'Editors','a147e136bfa717592f2bd70bd4b53b17'),
+       ('eznode:44','eznode',1,10,0,1,TRUE,10,2,'Anonymous-Users','c2803c3fa1b0b5423237b4e018cae755'),
+       ('eznode:12','eznode',1,4,0,1,TRUE,4,2,'Guest-accounts','e57843d836e3af8ab611fde9e2139b3a'),
+       ('eznode:13','eznode',1,5,0,1,TRUE,5,2,'Administrator-users','f89fad7f8a3abc8c09e1deb46a420007'),
+       ('nop:','nop',1,11,0,0,TRUE,11,3,'anonymous_users2','505e93077a6dde9034ad97a14ab022b1'),
+       ('eznode:12','eznode',1,26,0,0,TRUE,4,3,'guest_accounts','70bb992820e73638731aa8de79b3329e'),
+       ('eznode:14','eznode',1,29,0,0,TRUE,6,3,'editors','a147e136bfa717592f2bd70bd4b53b17'),
+       ('nop:','nop',1,7,0,0,TRUE,7,3,'administrator_users2','a7da338c20bf65f9f789c87296379c2a'),
+       ('eznode:13','eznode',1,27,0,0,TRUE,5,3,'administrator_users','aeb8609aa933b0899aa012c71139c58c'),
+       ('eznode:44','eznode',1,30,0,0,TRUE,10,3,'anonymous_users','e9e5ad0c05ee1a43715572e5cc545926'),
+       ('eznode:15','eznode',1,8,0,1,TRUE,8,5,'Administrator-User','5a9d7b0ec93173ef4fedee023209cb61'),
+       ('eznode:15','eznode',1,28,0,0,FALSE,8,7,'administrator_user','a3cca2de936df1e2f805710399989971'),
+       ('eznode:53','eznode',1,20,0,1,TRUE,20,9,'Multimedia','2e5bc8831f7ae6a29530e7f1bbf2de9c'),
+       ('eznode:52','eznode',1,19,0,1,TRUE,19,9,'Files','45b963397aa40d4a0063e0d85e4fe7a1'),
+       ('eznode:51','eznode',1,18,0,1,TRUE,18,9,'Images','59b514174bffe4ae402b3d63aad79fe0'),
+       ('eznode:45','eznode',1,12,0,1,TRUE,12,10,'Anonymous-User','ccb62ebca03a31272430bc414bd5cd5b'),
+       ('eznode:45','eznode',1,31,0,0,TRUE,12,11,'anonymous_user','c593ec85293ecb0e02d50d4c5c6c20eb'),
+       ('eznode:53','eznode',1,34,0,0,TRUE,20,17,'multimedia','2e5bc8831f7ae6a29530e7f1bbf2de9c'),
+       ('eznode:52','eznode',1,33,0,0,TRUE,19,17,'files','45b963397aa40d4a0063e0d85e4fe7a1'),
+       ('eznode:51','eznode',1,32,0,0,TRUE,18,17,'images','59b514174bffe4ae402b3d63aad79fe0');
+
+INSERT INTO "ibexa_url_alias_ml_translation" ("parent", "text_md5", "language_id")
+VALUES (0,'62933a2951ef01f4eafd9bdf4d3cd2f0',2),
+       (0,'9bc65c2abec141778ffaa729489f3e87',2),
+       (0,'d41d8cd98f00b204e9800998ecf8427e',2),
+       (2,'a147e136bfa717592f2bd70bd4b53b17',2),
+       (2,'c2803c3fa1b0b5423237b4e018cae755',2),
+       (2,'e57843d836e3af8ab611fde9e2139b3a',2),
+       (2,'f89fad7f8a3abc8c09e1deb46a420007',2),
+       (5,'5a9d7b0ec93173ef4fedee023209cb61',2),
+       (9,'2e5bc8831f7ae6a29530e7f1bbf2de9c',2),
+       (9,'45b963397aa40d4a0063e0d85e4fe7a1',2),
+       (9,'59b514174bffe4ae402b3d63aad79fe0',2),
+       (10,'ccb62ebca03a31272430bc414bd5cd5b',2);
 
 INSERT INTO "ibexa_url_alias_ml_incr" ("id")
 VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15), (16), (17),

@@ -16,7 +16,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase as ContentGat
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase as DoctrineDatabaseLocation;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
@@ -5346,9 +5345,6 @@ class UrlAliasHandlerTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler */
     protected $languageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    protected $languageMaskGenerator;
-
     /**
      * @param array $methods
      *
@@ -5365,8 +5361,8 @@ class UrlAliasHandlerTest extends TestCase
                     $this->createMock(LanguageHandler::class),
                     $this->createMock(SlugConverter::class),
                     $this->createMock(Gateway::class),
-                    $this->createMock(LanguageMaskGenerator::class),
                     $this->createMock(TransactionHandler::class),
+                    $this->createMock(\Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::class),
                 ]
             )
             ->setMethods($methods)
@@ -5381,20 +5377,18 @@ class UrlAliasHandlerTest extends TestCase
     protected function getHandler(): Handler
     {
         $languageHandler = $this->getLanguageHandler();
-        $languageMaskGenerator = $this->getLanguageMaskGenerator();
         $gateway = new DoctrineDatabase(
             $this->getDatabaseConnection(),
-            $languageMaskGenerator
+            $languageHandler
         );
-        $mapper = new Mapper($languageMaskGenerator);
+        $mapper = new Mapper($gateway, $languageHandler);
         $slugConverter = new SlugConverter($this->getProcessor());
         $connection = $this->getDatabaseConnection();
         $contentGateway = new ContentGateway(
             $connection,
             $this->getSharedGateway(),
             new ContentGateway\QueryBuilder($connection),
-            $languageHandler,
-            $languageMaskGenerator
+            $languageHandler
         );
 
         return new Handler(
@@ -5404,8 +5398,8 @@ class UrlAliasHandlerTest extends TestCase
             $languageHandler,
             $slugConverter,
             $contentGateway,
-            $languageMaskGenerator,
-            $this->createMock(TransactionHandler::class)
+            $this->createMock(TransactionHandler::class),
+            new LanguageGateway($this->getDatabaseConnection())
         );
     }
 
@@ -5424,20 +5418,6 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    protected function getLanguageMaskGenerator()
-    {
-        if (!isset($this->languageMaskGenerator)) {
-            $this->languageMaskGenerator = new LanguageMaskGenerator(
-                $this->getLanguageHandler()
-            );
-        }
-
-        return $this->languageMaskGenerator;
-    }
-
-    /**
      * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
      */
     protected function getLocationGateway()
@@ -5445,7 +5425,7 @@ class UrlAliasHandlerTest extends TestCase
         if (!isset($this->locationGateway)) {
             $this->locationGateway = new DoctrineDatabaseLocation(
                 $this->getDatabaseConnection(),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getTrashCriteriaConverterDependency(),
                 $this->getTrashSortClauseConverterDependency(),
                 $this->getLimitedCountQueryBuilderDependency()

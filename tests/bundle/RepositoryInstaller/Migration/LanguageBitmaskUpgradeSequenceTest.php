@@ -1,0 +1,467 @@
+<?php
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
+namespace Ibexa\Tests\Bundle\RepositoryInstaller\Migration;
+
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\Exception\AbortMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentAlwaysAvailableColumnsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddLanguageTranslationTablesMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
+use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
+use Psr\Log\NullLogger;
+
+/**
+ * End-to-end verification (Step 8 of the language bitmask migration) that the full migration
+ * sequence correctly migrates an existing pre-6.0 install: seeds a database with the schema and
+ * data shape a real pre-6.0 install would have (legacy "language_mask"/"lang_mask" columns,
+ * power-of-two language ids), runs every migration in the sequence in order exactly as
+ * `doctrine:migrations:migrate` would, and asserts the final relational data matches what the mask
+ * data originally encoded.
+ *
+ * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddContentAlwaysAvailableColumnsMigration
+ * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddLanguageTranslationTablesMigration
+ * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration
+ * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration
+ * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration
+ * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration
+ * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration
+ */
+final class LanguageBitmaskUpgradeSequenceTest extends TestCase
+{
+    private const ENG_US = 2;
+    private const GER_DE = 4;
+    private const ENG_GB = 8;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // parent::setUp() already imported the current schema.yaml, which declares this table as
+        // "ibexa_language" - rename it back to what a real pre-6.0 install still has today, so the
+        // migration sequence below (which includes the real rename step) has something real to do.
+        // The FK from "ibexa_content_translation" (also created by that same import) follows the
+        // rename automatically - all 3 platforms track FKs internally, not by name - so this one
+        // statement is enough to make the two tables consistent again, without the fixture below
+        // needing its own separate, disconnected declaration of the language table.
+        $this->getDatabaseConnection()->executeStatement('ALTER TABLE ibexa_language RENAME TO ibexa_content_language');
+
+        $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
+        $schemaImporter->importSchema(
+            __DIR__ . '/_fixtures/pre_language_bitmask_migration_schema.yaml'
+        );
+    }
+
+    protected function tearDown(): void
+    {
+        $connection = $this->getDatabaseConnection();
+
+        // Tests that expect the sequence to abort before NarrowLanguageIdColumnTypesMigration's
+        // rename step (e.g. testDropMigrationAbortsIfBackfillWasSkipped) never rename the table
+        // back to "ibexa_language". The underlying SQLite connection is reused across tests (see
+        // DatabaseConnectionFactory's static connection pool), so leaving it renamed would break the
+        // next test's setUp(), which expects parent::setUp()'s schema.yaml import to find
+        // "ibexa_language" under its current name rather than colliding with an orphaned table still
+        // carrying the same index name under the old one.
+        if ($connection->createSchemaManager()->tablesExist(['ibexa_content_language'])) {
+            $connection->executeStatement('ALTER TABLE ibexa_content_language RENAME TO ibexa_language');
+        }
+
+        parent::tearDown();
+    }
+
+    public function testFullSequenceMigratesExistingDataCorrectly(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        $this->runMigration(new AddContentAlwaysAvailableColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddLanguageTranslationTablesMigration($connection, new NullLogger()));
+        $this->runMigration(new BackfillLanguageTranslationsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
+        $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
+        // Renames "ibexa_content_language" to "ibexa_language" on every platform including SQLite.
+        // The column-narrowing half of this same migration is MySQL/PostgreSQL-only (SQLite has no
+        // ALTER COLUMN TYPE) and is verified against real databases, not here.
+        $this->runMigration(new NarrowLanguageIdColumnTypesMigration($connection, new NullLogger()));
+
+        $schemaManager = $connection->createSchemaManager();
+        self::assertFalse($schemaManager->tablesExist(['ibexa_content_language']));
+        self::assertTrue($schemaManager->tablesExist(['ibexa_language']));
+        self::assertFalse($schemaManager->introspectTable('ibexa_content')->hasColumn('language_mask'));
+        self::assertFalse($schemaManager->introspectTable('ibexa_content_version')->hasColumn('language_mask'));
+        self::assertFalse($schemaManager->introspectTable('ibexa_url_alias_ml')->hasColumn('lang_mask'));
+        self::assertFalse($schemaManager->introspectTable('ibexa_search_object_word_link')->hasColumn('language_mask'));
+        self::assertFalse($schemaManager->introspectTable('ibexa_object_state')->hasColumn('language_mask'));
+        self::assertFalse($schemaManager->introspectTable('ibexa_object_state_group')->hasColumn('language_mask'));
+        self::assertFalse($schemaManager->introspectTable('ibexa_content_type')->hasColumn('language_mask'));
+
+        // Content 1: eng-US + eng-GB, not always available (mask 10 = 2|8)
+        self::assertEquals(0, $connection->fetchOne('SELECT always_available FROM ibexa_content WHERE id = 1'));
+        self::assertEqualsCanonicalizing(
+            [self::ENG_US, self::ENG_GB],
+            $this->fetchLanguageIds($connection, 'ibexa_content_translation', 'content_id', 1)
+        );
+        self::assertEqualsCanonicalizing(
+            [self::ENG_US, self::ENG_GB],
+            $this->fetchLanguageIds($connection, 'ibexa_content_version_translation', 'content_version_id', 1)
+        );
+
+        // Content 2: ger-DE only, always available (mask 5 = 4|1)
+        self::assertEquals(1, $connection->fetchOne('SELECT always_available FROM ibexa_content WHERE id = 2'));
+        self::assertEqualsCanonicalizing(
+            [self::GER_DE],
+            $this->fetchLanguageIds($connection, 'ibexa_content_translation', 'content_id', 2)
+        );
+        self::assertEqualsCanonicalizing(
+            [self::GER_DE],
+            $this->fetchLanguageIds($connection, 'ibexa_content_version_translation', 'content_version_id', 2)
+        );
+
+        // URL alias: eng-US + eng-GB, always available (mask 11 = 2|8|1)
+        self::assertEquals(
+            1,
+            $connection->fetchOne(
+                "SELECT is_always_available FROM ibexa_url_alias_ml WHERE parent = 0 AND text_md5 = 'hash1'"
+            )
+        );
+        self::assertEqualsCanonicalizing(
+            [self::ENG_US, self::ENG_GB],
+            array_map(
+                'intval',
+                $connection->fetchFirstColumn(
+                    "SELECT language_id FROM ibexa_url_alias_ml_translation WHERE parent = 0 AND text_md5 = 'hash1'"
+                )
+            )
+        );
+
+        // Search word link: eng-GB, always available (mask 9 = 8|1)
+        $wordLinkRow = $connection->fetchAssociative(
+            'SELECT language_id, is_main_and_always_available FROM ibexa_search_object_word_link WHERE id = 1'
+        );
+        self::assertIsArray($wordLinkRow);
+        self::assertEquals(self::ENG_GB, $wordLinkRow['language_id']);
+        self::assertEquals(1, $wordLinkRow['is_main_and_always_available']);
+    }
+
+    public function testDropMigrationAbortsIfBackfillWasSkipped(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        $this->runMigration(new AddContentAlwaysAvailableColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddLanguageTranslationTablesMigration($connection, new NullLogger()));
+        // Deliberately skip BackfillLanguageTranslationsMigration, simulating an interrupted or
+        // manually-mismanaged upgrade.
+        $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
+
+        $this->expectException(AbortMigration::class);
+        $this->expectExceptionMessageMatches('/backfill-translations/');
+
+        $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
+    }
+
+    public function testDropMigrationAbortsIfBackfillWasOnlyPartial(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        $this->runMigration(new AddContentAlwaysAvailableColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddLanguageTranslationTablesMigration($connection, new NullLogger()));
+        $this->runMigration(new BackfillLanguageTranslationsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
+
+        // Content 1 carries mask 10 = eng-US(2)|eng-GB(8), fully backfilled by the migration above.
+        // Simulate an interrupted backfill that only wrote one of its two languages: a row with
+        // multiple set bits but only one matching translation row must still block the drop, not
+        // just a row with zero translation rows at all.
+        $connection->executeStatement(
+            'DELETE FROM ibexa_content_translation WHERE content_id = 1 AND language_id = :languageId',
+            ['languageId' => self::ENG_GB],
+            ['languageId' => ParameterType::INTEGER]
+        );
+
+        $this->expectException(AbortMigration::class);
+        $this->expectExceptionMessageMatches('/backfill-translations/');
+
+        $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
+    }
+
+    public function testAddContentAlwaysAvailableColumnsMigrationRecoversFromPartialFailure(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        // Simulate a MySQL run that added the first column then died before the second one (and
+        // before either backfill): a retry must not mistake "ibexa_content already has the column"
+        // for "this migration already fully ran".
+        $connection->executeStatement('ALTER TABLE ibexa_content ADD COLUMN always_available BOOLEAN DEFAULT 0 NOT NULL');
+
+        $this->runMigration(new AddContentAlwaysAvailableColumnsMigration($connection, new NullLogger()));
+
+        $schemaManager = $connection->createSchemaManager();
+        self::assertTrue($schemaManager->introspectTable('ibexa_content_version')->hasColumn('always_available'));
+
+        // Content 1: mask 10 (not always available), Content 2: mask 5 (always available).
+        self::assertEquals(0, $connection->fetchOne('SELECT always_available FROM ibexa_content WHERE id = 1'));
+        self::assertEquals(1, $connection->fetchOne('SELECT always_available FROM ibexa_content WHERE id = 2'));
+        self::assertEquals(0, $connection->fetchOne('SELECT always_available FROM ibexa_content_version WHERE id = 1'));
+        self::assertEquals(1, $connection->fetchOne('SELECT always_available FROM ibexa_content_version WHERE id = 2'));
+    }
+
+    public function testAddLanguageTranslationTablesMigrationRecoversFromPartialFailure(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        // All 3 tables already exist by this point (created by the current schema.yaml import in
+        // the base TestCase::setUp()). Simulate a run that only got as far as creating the first
+        // one before dying (on SQLite, each table+its FKs is created atomically in one statement,
+        // so "table exists but a constraint is missing" can't happen there the way it can on
+        // MySQL/PostgreSQL - the meaningful partial state to simulate here is a missing table): a
+        // retry must not mistake "ibexa_content_translation already exists" for "everything already
+        // ran" and skip creating the other two.
+        $connection->executeStatement('DROP TABLE ibexa_content_version_translation');
+        $connection->executeStatement('DROP TABLE ibexa_url_alias_ml_translation');
+
+        $this->runMigration(new AddLanguageTranslationTablesMigration($connection, new NullLogger()));
+
+        $schemaManager = $connection->createSchemaManager();
+        self::assertTrue($schemaManager->tablesExist(['ibexa_content_version_translation']));
+        self::assertTrue($schemaManager->tablesExist(['ibexa_url_alias_ml_translation']));
+        self::assertTrue(
+            $schemaManager->introspectTable('ibexa_content_version_translation')
+                ->hasForeignKey('ibexa_content_version_translation_language_fk')
+        );
+        self::assertTrue(
+            $schemaManager->introspectTable('ibexa_url_alias_ml_translation')
+                ->hasForeignKey('ibexa_url_alias_ml_translation_language_fk')
+        );
+        // The untouched table must survive re-running the migration undisturbed.
+        self::assertTrue(
+            $schemaManager->introspectTable('ibexa_content_translation')
+                ->hasForeignKey('ibexa_content_translation_language_fk')
+        );
+    }
+
+    public function testAddSearchObjectWordLinkLanguageIdColumnsMigrationRecoversFromPartialFailure(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        // Simulate a MySQL run that added "language_id" then died before adding
+        // "is_main_and_always_available" and before either backfill: a retry must not mistake
+        // "language_id already exists" for "this migration already fully ran".
+        $connection->executeStatement(
+            'ALTER TABLE ibexa_search_object_word_link ADD COLUMN language_id INTEGER DEFAULT 0 NOT NULL'
+        );
+
+        $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
+
+        $schemaManager = $connection->createSchemaManager();
+        self::assertTrue(
+            $schemaManager->introspectTable('ibexa_search_object_word_link')
+                ->hasColumn('is_main_and_always_available')
+        );
+
+        // Search word link row: mask 9 = eng-GB(8)|1, always available.
+        $wordLinkRow = $connection->fetchAssociative(
+            'SELECT language_id, is_main_and_always_available FROM ibexa_search_object_word_link WHERE id = 1'
+        );
+        self::assertIsArray($wordLinkRow);
+        self::assertEquals(self::ENG_GB, $wordLinkRow['language_id']);
+        self::assertEquals(1, $wordLinkRow['is_main_and_always_available']);
+    }
+
+    public function testAddUrlAliasAlwaysAvailableColumnMigrationRecoversFromPartialFailure(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        // Simulate a MySQL run that added the column then died before the backfill UPDATE: the
+        // column's mere presence is not proof the backfill ever ran, so a retry must still backfill.
+        $connection->executeStatement(
+            'ALTER TABLE ibexa_url_alias_ml ADD COLUMN is_always_available BOOLEAN DEFAULT 0 NOT NULL'
+        );
+
+        $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
+
+        // URL alias: mask 11 = eng-US(2)|eng-GB(8)|1, always available.
+        self::assertEquals(
+            1,
+            $connection->fetchOne(
+                "SELECT is_always_available FROM ibexa_url_alias_ml WHERE parent = 0 AND text_md5 = 'hash1'"
+            )
+        );
+    }
+
+    public function testDropMigrationRecoversFromPartialFailure(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        $this->runMigration(new AddContentAlwaysAvailableColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddLanguageTranslationTablesMigration($connection, new NullLogger()));
+        $this->runMigration(new BackfillLanguageTranslationsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
+
+        // Simulate a MySQL run that dropped the first table's column (and index) then died before
+        // reaching any of the other six: a retry must not mistake "ibexa_object_state's mask column
+        // is already gone" for "this migration already fully ran" - every other table's column/index
+        // must still get dropped/replaced, not left dangling forever.
+        $connection->executeStatement('DROP INDEX ibexa_object_state_lmask');
+        $connection->executeStatement('ALTER TABLE ibexa_object_state DROP COLUMN language_mask');
+
+        $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
+
+        $schemaManager = $connection->createSchemaManager();
+        foreach (
+            [
+                'ibexa_object_state_group',
+                'ibexa_content_type',
+                'ibexa_content',
+                'ibexa_content_version',
+                'ibexa_search_object_word_link',
+            ] as $table
+        ) {
+            self::assertFalse(
+                $schemaManager->introspectTable($table)->hasColumn('language_mask'),
+                "\"{$table}\" should no longer have a \"language_mask\" column"
+            );
+        }
+        self::assertFalse($schemaManager->introspectTable('ibexa_url_alias_ml')->hasColumn('lang_mask'));
+
+        // The replacement (text, parent) index must exist even though the DROP+CREATE happens in
+        // two separate statements.
+        self::assertTrue($schemaManager->introspectTable('ibexa_url_alias_ml')->hasIndex('ibexa_url_alias_ml_text_lang'));
+        self::assertEqualsCanonicalizing(
+            ['text', 'parent'],
+            $schemaManager->introspectTable('ibexa_url_alias_ml')->getIndex('ibexa_url_alias_ml_text_lang')->getColumns()
+        );
+    }
+
+    private function seedPreMigrationData(Connection $connection): void
+    {
+        foreach (
+            [
+                [self::ENG_US, 'eng-US', 'English (American)'],
+                [self::GER_DE, 'ger-DE', 'German'],
+                [self::ENG_GB, 'eng-GB', 'English (United Kingdom)'],
+            ] as [$id, $locale, $name]
+        ) {
+            $connection->insert(
+                'ibexa_content_language',
+                ['id' => $id, 'locale' => $locale, 'name' => $name, 'disabled' => 0]
+            );
+        }
+
+        // Content 1: eng-US(2) + eng-GB(8), not always available -> mask 10
+        $connection->insert('ibexa_content', [
+            'id' => 1,
+            'content_type_id' => 1,
+            'current_version' => 1,
+            'initial_language_id' => self::ENG_US,
+            'language_mask' => self::ENG_US | self::ENG_GB,
+            'name' => 'Foo',
+            'owner_id' => 14,
+            'remote_id' => 'foo',
+        ]);
+        $connection->insert('ibexa_content_version', [
+            'id' => 1,
+            'contentobject_id' => 1,
+            'version' => 1,
+            'initial_language_id' => self::ENG_US,
+            'language_mask' => self::ENG_US | self::ENG_GB,
+        ]);
+
+        // Content 2: ger-DE(4), always available -> mask 5
+        $connection->insert('ibexa_content', [
+            'id' => 2,
+            'content_type_id' => 1,
+            'current_version' => 1,
+            'initial_language_id' => self::GER_DE,
+            'language_mask' => self::GER_DE | 1,
+            'name' => 'Bar',
+            'owner_id' => 14,
+            'remote_id' => 'bar',
+        ]);
+        $connection->insert('ibexa_content_version', [
+            'id' => 2,
+            'contentobject_id' => 2,
+            'version' => 1,
+            'initial_language_id' => self::GER_DE,
+            'language_mask' => self::GER_DE | 1,
+        ]);
+
+        // URL alias: eng-US + eng-GB, always available -> mask 11
+        $connection->insert(
+            'ibexa_url_alias_ml',
+            [
+                'parent' => 0,
+                'text_md5' => 'hash1',
+                'id' => 1,
+                'text' => 'foo',
+                'action' => 'eznode:1',
+                'action_type' => 'eznode',
+                'lang_mask' => self::ENG_US | self::ENG_GB | 1,
+            ],
+            ['lang_mask' => ParameterType::INTEGER]
+        );
+
+        // Search word link: eng-GB, always available -> mask 9
+        $connection->insert('ibexa_search_object_word_link', [
+            'id' => 1,
+            'contentobject_id' => 1,
+            'word_id' => 1,
+            'identifier' => 'foo',
+            'language_mask' => self::ENG_GB | 1,
+        ]);
+    }
+
+    /**
+     * @return int[]
+     */
+    private function fetchLanguageIds(Connection $connection, string $table, string $idColumn, int $id): array
+    {
+        return array_map(
+            'intval',
+            $connection->fetchFirstColumn(
+                "SELECT language_id FROM {$table} WHERE {$idColumn} = :id",
+                ['id' => $id],
+                ['id' => ParameterType::INTEGER]
+            )
+        );
+    }
+
+    /**
+     * Runs a migration exactly as {@see \Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner}
+     * does: call up() to populate its queued SQL, then execute each queued statement in order.
+     */
+    private function runMigration(AbstractSqlMigration $migration): void
+    {
+        $migration->up(new Schema());
+
+        $connection = $this->getDatabaseConnection();
+        foreach ($migration->getSql() as $query) {
+            $connection->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
+        }
+    }
+}

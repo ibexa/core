@@ -3697,70 +3697,16 @@ parameters:
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:__construct\(\) has parameter \$installers with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:__construct\(\) has parameter \$installers with generic class Symfony\\Component\\DependencyInjection\\ServiceLocator but does not specify its types\: T$#'
+			identifier: missingType.generics
 			count: 1
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
 
 		-
-			message: '#^Strict comparison using \=\=\= between bool and 1 will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
+			message: '#^Property Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:\$installers with generic class Symfony\\Component\\DependencyInjection\\ServiceLocator does not specify its types\: T$#'
+			identifier: missingType.generics
 			count: 1
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:cacheClear\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:checkPermissions\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:executeCommand\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:getInstaller\(\) has parameter \$type with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:getInstaller\(\) should return Ibexa\\Bundle\\RepositoryInstaller\\Installer\\Installer but returns false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\InstallPlatformCommand\:\:indexData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Command\\ValidatePasswordHashesCommand\:\:configure\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/ValidatePasswordHashesCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\DependencyInjection\\Compiler\\InstallerTagPass\:\:process\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/DependencyInjection/Compiler/InstallerTagPass.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\DependencyInjection\\IbexaRepositoryInstallerExtension\:\:load\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/RepositoryInstaller/DependencyInjection/IbexaRepositoryInstallerExtension.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Event\\Subscriber\\BuildSchemaSubscriber\:\:getSubscribedEvents\(\) return type has no value type specified in iterable type array\.$#'
@@ -12091,42 +12037,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Language/Mapper.php
 
 		-
-			message: '#^Call to function is_int\(\) with 2\|int\<4, max\> will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\:\:extractLanguageCodesFromMask\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\:\:extractLanguageIdsFromMask\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\:\:isLanguageAlwaysAvailable\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Parameter \#1 \$array of function array_keys expects array, iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\:\:\$languageHandler \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\Handler\) does not accept Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:getBasicNodeData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -12337,12 +12247,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Parameter \#2 \$value2 of method Doctrine\\DBAL\\Platforms\\AbstractPlatform\:\:getBitAndComparisonExpression\(\) expects string, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Parameter \#2 \$y of method Doctrine\\DBAL\\Query\\Expression\\ExpressionBuilder\:\:in\(\) expects array\<string\>\|string, list\<int\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -12539,12 +12443,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: src/lib/Persistence/Legacy/Content/Location/Trash/Handler.php
-
-		-
-			message: '#^Call to function is_int\(\) with 2\|int\<4, max\> will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Mapper.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Mapper\:\:extractContentInfoFromRows\(\) has parameter \$rows with no value type specified in iterable type array\.$#'
@@ -13743,24 +13641,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabase\:\:loadUrlAliasData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabase\:\:updateRow\(\) has parameter \$values with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(int\)\: bool\)\|null, Closure\(mixed\)\: int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Variable \$connection in PHPDoc tag @var does not match assigned variable \$query\.$#'
-			identifier: varTag.differentVariable
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
 
@@ -18421,12 +18301,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/Field.php
 
 		-
-			message: '#^Cannot call method getBitAndComparisonExpression\(\) on Doctrine\\DBAL\\Platforms\\AbstractPlatform\|null\.$#'
-			identifier: method.nonObject
-			count: 8
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldBase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\CriterionHandler\\FieldBase\:\:getFieldCondition\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -18625,20 +18499,8 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/IsUserEnabled.php
 
 		-
-			message: '#^Cannot call method getBitAndComparisonExpression\(\) on Doctrine\\DBAL\\Platforms\\AbstractPlatform\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LanguageCode.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\CriterionHandler\\LanguageCode\:\:handle\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LanguageCode.php
-
-		-
-			message: '#^Parameter \#1 \$languageCodes of method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\:\:generateLanguageMaskFromLanguageCodes\(\) expects array\<string\>, array\<bool\|float\|int\|string\>\|bool\|float\|int\|string given\.$#'
-			identifier: argument.type
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LanguageCode.php
 
@@ -18865,12 +18727,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/Factory/RandomSortClauseHandlerFactory.php
 
 		-
-			message: '#^Cannot call method getBitAndComparisonExpression\(\) on Doctrine\\DBAL\\Platforms\\AbstractPlatform\|null\.$#'
-			identifier: method.nonObject
-			count: 8
-			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/Field.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\Field\:\:applyJoin\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -19087,12 +18943,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:getLanguageMask\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:getQueryCondition\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -19155,30 +19005,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Handler\:\:deleteLocation\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Handler\:\:extractMatchedLanguage\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Handler\:\:extractMatchedLanguage\(\) has parameter \$languageMask with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Handler\:\:extractMatchedLanguage\(\) has parameter \$languageSettings with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Handler\:\:extractMatchedLanguage\(\) has parameter \$mainLanguageId with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: src/lib/Search/Legacy/Content/Handler.php
 
@@ -19371,12 +19197,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:find\(\) should return array\<array\<mixed\>\> but returns array\<string, int\|list\<array\<string, mixed\>\>\|null\>\.$#'
 			identifier: return.type
-			count: 1
-			path: src/lib/Search/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:getLanguageMask\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
@@ -31207,18 +31027,6 @@ parameters:
 			path: tests/integration/Core/Repository/LanguageServiceAuthorizationTest.php
 
 		-
-			message: '#^Comparison operation "\<" between int\<80300, 80599\> and 50400 is always false\.$#'
-			identifier: smaller.alwaysFalse
-			count: 1
-			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\LanguageServiceMaximumSupportedLanguagesTest\:\:testCreateMaximumLanguageLimit\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
-
-		-
 			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -31227,12 +31035,6 @@ parameters:
 		-
 			message: '#^Property Ibexa\\Tests\\Integration\\Core\\Repository\\LanguageServiceMaximumSupportedLanguagesTest\:\:\$createdLanguages type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
-
-		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
 			count: 1
 			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
 
@@ -47749,108 +47551,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Language/MapperTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:getLanguageHandler\(\) should return Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\Handler but returns Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\.$#'
-			identifier: return.type
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:getLanguageIndicatorData\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:isAlwaysAvailableProvider\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:languageIdsFromMaskProvider\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:removeAlwaysAvailableFlagProvider\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testExtractLanguageIdsFromMask\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testExtractLanguageIdsFromMask\(\) has parameter \$expectedResult with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testGenerateLanguageIndicator\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testIsAlwaysAvailable\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testIsLanguageAlwaysAvailable\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testIsLanguageAlwaysAvailableNoDefault\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testIsLanguageAlwaysAvailableOtherLanguage\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testRemoveAlwaysAvailableFlag\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testRemoveAlwaysAvailableFlag\(\) has parameter \$expectedResult with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testRemoveAlwaysAvailableFlag\(\) has parameter \$langMask with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Offset string might not exist on array\{\}\|array\{eng\-US\?\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Language, eng\-GB\?\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:\$languageHandler \(Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:getFullTextSearchConfiguration\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -47864,12 +47564,6 @@ parameters:
 
 		-
 			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:\$languageHandler \(Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/LanguageAwareTestCase.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:\$languageMaskGenerator \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/LanguageAwareTestCase.php
@@ -50239,12 +49933,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Type/MapperTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Type\\MapperTest\:\:getMaskGeneratorMock\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Type/MapperTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Type\\MapperTest\:\:testCreateGroupFromCreateStruct\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -51548,12 +51236,6 @@ parameters:
 
 		-
 			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\UrlAliasHandlerTest\:\:\$languageHandler \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\Handler\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\UrlAliasHandlerTest\:\:\$languageMaskGenerator \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php

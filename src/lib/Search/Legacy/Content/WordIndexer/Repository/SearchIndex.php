@@ -131,7 +131,8 @@ class SearchIndex
         int $sectionId,
         string $identifier,
         int $integerValue,
-        int $languageMask
+        int $languageId,
+        bool $isMainAndAlwaysAvailable
     ): void {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -180,9 +181,13 @@ class SearchIndex
                         $integerValue,
                         ParameterType::INTEGER
                     ),
-                    'language_mask' => $query->createPositionalParameter(
-                        $languageMask,
+                    'language_id' => $query->createPositionalParameter(
+                        $languageId,
                         ParameterType::INTEGER
+                    ),
+                    'is_main_and_always_available' => $query->createPositionalParameter(
+                        $isMainAndAlwaysAvailable,
+                        ParameterType::BOOLEAN
                     ),
                 ]
             );

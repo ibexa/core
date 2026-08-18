@@ -312,6 +312,18 @@ services:
         tags:
             - { name: console.command }
 
+    Ibexa\Bundle\Core\Command\BackfillLanguageTranslationsCommand:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\VerifyLanguageTranslationsCommand:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: console.command }
+
     Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler:
         class: Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler
         arguments:

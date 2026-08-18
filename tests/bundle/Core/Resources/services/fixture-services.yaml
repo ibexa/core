@@ -23,6 +23,7 @@ services:
         public: true
         arguments:
             - '@doctrine.dbal.default_connection'
+            - '@Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
 
     Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform:
         calls:

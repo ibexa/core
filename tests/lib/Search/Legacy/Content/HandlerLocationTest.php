@@ -117,18 +117,22 @@ class HandlerLocationTest extends AbstractTestCase
                                 $compositeValueHandler
                             ),
                             $transformationProcessor,
-                            $joinedTablesTracker
+                            $joinedTablesTracker,
+                            new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                                $connection,
+                                $this->getLanguageHandler()
+                            )
                         ),
                         new CommonCriterionHandler\FullText(
                             $connection,
                             $transformationProcessor,
-                            $this->getLanguageMaskGenerator(),
+                            $this->getLanguageHandler(),
                             $joinedTablesTracker,
                             $fullTextSearchConfiguration
                         ),
                         new CommonCriterionHandler\LanguageCode(
                             $connection,
-                            $this->getLanguageMaskGenerator(),
+                            $this->getLanguageHandler(),
                             $joinedTablesTracker
                         ),
                         new CommonCriterionHandler\LogicalAnd($connection, $joinedTablesTracker),
@@ -138,7 +142,11 @@ class HandlerLocationTest extends AbstractTestCase
                             $connection,
                             $this->getContentTypeHandler(),
                             $this->getLanguageHandler(),
-                            $joinedTablesTracker
+                            $joinedTablesTracker,
+                            new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                                $connection,
+                                $this->getLanguageHandler()
+                            )
                         ),
                         new CommonCriterionHandler\MatchAll($connection, $joinedTablesTracker),
                         new CommonCriterionHandler\ObjectStateId($connection, $joinedTablesTracker),
@@ -146,7 +154,11 @@ class HandlerLocationTest extends AbstractTestCase
                             $connection,
                             $this->getContentTypeHandler(),
                             $this->getLanguageHandler(),
-                            $joinedTablesTracker
+                            $joinedTablesTracker,
+                            new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                                $connection,
+                                $this->getLanguageHandler()
+                            )
                         ),
                         new CommonCriterionHandler\RemoteId($connection, $joinedTablesTracker),
                         new CommonCriterionHandler\SectionId($connection, $joinedTablesTracker),
@@ -166,13 +178,14 @@ class HandlerLocationTest extends AbstractTestCase
                 $this->getContentTypeHandler(),
                 $transformationProcessor,
                 new Content\WordIndexer\Repository\SearchIndex($this->getDatabaseConnection()),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getFullTextSearchConfiguration()
             ),
             $this->createMock(ContentMapper::class),
             $this->getLocationMapperMock(),
             $this->getLanguageHandler(),
-            $this->getFullTextMapper($this->getContentTypeHandler())
+            $this->getFullTextMapper($this->getContentTypeHandler()),
+            $this->getLanguageGateway()
         );
     }
 
@@ -199,6 +212,7 @@ class HandlerLocationTest extends AbstractTestCase
                             if (!isset($locations[$locationId])) {
                                 $locations[$locationId] = new SPILocation();
                                 $locations[$locationId]->id = $locationId;
+                                $locations[$locationId]->contentId = (int)$row['contentobject_id'];
                             }
                         }
 

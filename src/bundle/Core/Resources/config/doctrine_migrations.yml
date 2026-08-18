@@ -38,3 +38,59 @@ services:
             $connection: '@ibexa.persistence.connection'
         tags:
             - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\AddContentAlwaysAvailableColumnsMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\AddLanguageTranslationTablesMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }

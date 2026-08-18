@@ -10,14 +10,11 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
-use Ibexa\Core\Base\Exceptions\DatabaseException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
-use RuntimeException;
 
 /**
  * Doctrine database based Language Gateway.
@@ -43,14 +40,12 @@ final class DoctrineDatabase extends Gateway
 
         $lastId = (int)$statement->fetchOne();
 
-        // Legacy only supports 8 * PHP_INT_SIZE - 2 languages:
-        // One bit cannot be used because PHP uses signed integers and a second one is reserved for the
-        // "always available flag".
-        if ($lastId == (2 ** (8 * PHP_INT_SIZE - 2))) {
-            throw new RuntimeException('Maximum number of languages reached.');
-        }
-        // Next power of 2 for bit masks
-        $nextId = ($lastId !== 0 ? $lastId << 1 : 2);
+        // id 1 is permanently reserved (it was the legacy bitmask's "always available" sentinel,
+        // never a real language) - installs upgrading from that scheme may have existing ids that
+        // are powers of two, but nothing depends on that anymore, so new ids are just the next
+        // integer instead of the next power of two. This is what actually removes the old ~62
+        // language ceiling.
+        $nextId = $lastId !== 0 ? $lastId + 1 : 2;
 
         $query = $this->connection->createQueryBuilder();
         $query
@@ -159,13 +154,39 @@ final class DoctrineDatabase extends Gateway
 
     public function canDeleteLanguage(int $id): bool
     {
+        $candidateIds = $this->getLegacyTaintToleranceCandidateIds($id);
+
+        if ($this->existsWithColumnValue($candidateIds, 'ibexa_content_translation', 'language_id')) {
+            return false;
+        }
+
+        if ($this->existsWithColumnValue($candidateIds, 'ibexa_content_version_translation', 'language_id')) {
+            return false;
+        }
+
+        // "ibexa_content"/"ibexa_content_version" also count as referencing the language when it's
+        // their "initial_language_id" (main language), even without a matching translation row -
+        // e.g. right after ContentService::updateContentMetadata() changes the main language code
+        // without publishing a new version for it.
+        if ($this->existsWithColumnValue($candidateIds, ContentGateway::CONTENT_ITEM_TABLE, 'initial_language_id')) {
+            return false;
+        }
+
+        if ($this->existsWithColumnValue($candidateIds, ContentGateway::CONTENT_VERSION_TABLE, 'initial_language_id')) {
+            return false;
+        }
+
+        if ($this->existsWithColumnValue($candidateIds, 'ibexa_url_alias_ml_translation', 'language_id')) {
+            return false;
+        }
+
+        if ($this->existsWithColumnValue($candidateIds, 'ibexa_search_object_word_link', 'language_id')) {
+            return false;
+        }
+
         // note: at some point this should be delegated to specific gateways
         foreach (self::MULTILINGUAL_TABLES_COLUMNS as $tableName => $columns) {
-            $languageMaskColumn = $columns[0];
-            $languageIdColumn = $columns[1] ?? null;
-            if (
-                $this->countTableData($id, $tableName, $languageMaskColumn, $languageIdColumn) > 0
-            ) {
+            if ($this->existsWithColumnValue($candidateIds, $tableName, $columns[0])) {
                 return false;
             }
         }
@@ -174,49 +195,129 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Count table data rows related to the given language.
+     * Determines which column values would count as "this language is in use", tolerating the
+     * legacy "always available" bit 0 folded into indicator columns on rows written before
+     * always_available became a plain column (for real installs upgrading from that scheme and
+     * long-lived test fixtures captured from it).
      *
-     * @param string|null $languageIdColumn optional column name containing explicit language id
+     * Only a genuine legacy power-of-two id could ever have been tainted this way - the old bitmask
+     * scheme only ever allocated powers of two, and only ORs in bit 0 for even ids - so a
+     * newly-allocated id (sequential post-migration, essentially never a power of two) never
+     * qualifies. Even for a power-of-two id, $languageId+1 is only treated as a tainted stand-in for
+     * $languageId when $languageId+1 isn't itself a real, independently-existing language: two
+     * sequentially-allocated ids are commonly adjacent post-migration, and treating a distinct
+     * language's own genuine usage as evidence that $languageId is "in use" would incorrectly block
+     * deleting an otherwise-unused $languageId (e.g. languages 64 and 65 both existing and 65 being
+     * in use must never make unrelated, unused 64 look undeletable).
+     *
+     * @return int[]
      */
-    private function countTableData(
-        int $languageId,
-        string $tableName,
-        string $languageMaskColumn,
-        ?string $languageIdColumn = null
-    ): int {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            // avoiding using "*" as count argument, but don't specify column name because it varies
-            ->select('COUNT(1)')
-            ->from($tableName)
-            ->where(
-                $query->expr()->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        $languageMaskColumn,
-                        $query->createPositionalParameter($languageId, ParameterType::INTEGER)
-                    ),
-                    0
-                )
-            );
-        if (null !== $languageIdColumn) {
-            $query
-                ->orWhere(
-                    $query->expr()->eq(
-                        $languageIdColumn,
-                        $query->createPositionalParameter($languageId, ParameterType::INTEGER)
-                    )
-                );
+    private function getLegacyTaintToleranceCandidateIds(int $languageId): array
+    {
+        $isLegacyPowerOfTwoId = $languageId % 2 === 0 && ($languageId & ($languageId - 1)) === 0;
+
+        if (!$isLegacyPowerOfTwoId || $this->languageExists($languageId + 1)) {
+            return [$languageId];
         }
 
-        return (int)$query->executeQuery()->fetchOne();
+        return [$languageId, $languageId + 1];
     }
 
-    private function getDatabasePlatform(): AbstractPlatform
+    private function languageExists(int $id): bool
     {
-        try {
-            return $this->connection->getDatabasePlatform();
-        } catch (Exception $e) {
-            throw DatabaseException::wrap($e);
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('1')
+            ->from(self::CONTENT_LANGUAGE_TABLE)
+            ->where(
+                $query->expr()->eq('id', $query->createPositionalParameter($id, ParameterType::INTEGER))
+            )
+            ->setMaxResults(1);
+
+        return $query->executeQuery()->fetchOne() !== false;
+    }
+
+    /**
+     * Checks whether $tableName has a row with $columnName equal to one of $candidateIds.
+     *
+     * @param int[] $candidateIds
+     */
+    private function existsWithColumnValue(array $candidateIds, string $tableName, string $columnName): bool
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('1')
+            ->from($tableName)
+            ->where(
+                $query->expr()->in(
+                    $columnName,
+                    $query->createPositionalParameter($candidateIds, ArrayParameterType::INTEGER)
+                )
+            )
+            ->setMaxResults(1);
+
+        return $query->executeQuery()->fetchOne() !== false;
+    }
+
+    /**
+     * @param int[] $contentIds
+     *
+     * @return array<int, int[]>
+     */
+    public function loadContentTranslations(array $contentIds): array
+    {
+        return $this->loadTranslations('ibexa_content_translation', 'content_id', $contentIds);
+    }
+
+    /**
+     * @param int[] $versionIds
+     *
+     * @return array<int, int[]>
+     */
+    public function loadVersionTranslations(array $versionIds): array
+    {
+        return $this->loadTranslations('ibexa_content_version_translation', 'content_version_id', $versionIds);
+    }
+
+    /**
+     * @param int[] $ids
+     *
+     * @return array<int, int[]>
+     */
+    private function loadTranslations(string $tableName, string $idColumn, array $ids): array
+    {
+        if (empty($ids)) {
+            return [];
         }
+
+        // Explicit ORDER BY, not just "no ORDER BY happens to come out consistently": without one,
+        // PostgreSQL (unlike MySQL/InnoDB's PK-clustered storage) can pick a different scan
+        // strategy - and therefore a different per-id row order - depending on how many ids are in
+        // this call's IN() list. Different call sites batch different numbers of ids at once (e.g.
+        // the Legacy Search Engine loads a whole result page in one call, while another caller might
+        // batch differently), so relying on incidental order would make language_id ordering
+        // inconsistent between them on Postgres specifically, even though every call goes through
+        // this exact same method.
+        $query = $this->connection->createQueryBuilder();
+        $rows = $query
+            ->select($idColumn, 'language_id')
+            ->from($tableName)
+            ->where(
+                $query->expr()->in(
+                    $idColumn,
+                    $query->createNamedParameter($ids, ArrayParameterType::INTEGER, ':ids')
+                )
+            )
+            ->orderBy($idColumn)
+            ->addOrderBy('language_id')
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        $translations = [];
+        foreach ($rows as $row) {
+            $translations[(int)$row[$idColumn]][] = (int)$row['language_id'];
+        }
+
+        return $translations;
     }
 }

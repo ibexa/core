@@ -61,7 +61,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      * (core's own {@see \Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration} plus any other
      * package's) via the application's Doctrine Migrations DependencyFactory.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \RuntimeException if "ibexa.installer.schema_builder_event.enabled" is disabled but
      *     "ibexa/doctrine-migrations" isn't installed/enabled to run the migrations-based path instead
      */
