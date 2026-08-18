@@ -20,6 +20,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * @deprecated since ibexa/core 5.0, will be removed in 6.0. No route has referenced this controller since the
+ * "ibexa.content.download.field_id" route started serving files directly.
+ * Use {@see \Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController::downloadBinaryFileByIdAction} instead.
+ */
 class DownloadRedirectionController extends Controller
 {
     private ContentService $contentService;

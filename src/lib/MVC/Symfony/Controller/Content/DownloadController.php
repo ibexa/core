@@ -51,8 +51,23 @@ class DownloadController extends Controller
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content is trashed, or can't be found.
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
      */
-    public function downloadBinaryFileByIdAction(Request $request, int $contentId, int $fieldId): BinaryStreamResponse
-    {
+    public function downloadBinaryFileByIdAction(
+        Request $request,
+        int $contentId,
+        int $fieldId,
+        ?string $filename = null
+    ): BinaryStreamResponse {
+        if ($filename === null) {
+            trigger_deprecation(
+                'ibexa/core',
+                '5.0',
+                'The "ibexa.content.download.field_id" route (/content/download/{contentId}/{fieldId}) is deprecated'
+                . ' and will be removed in 6.0.'
+                . ' Use the "ibexa.content.download.field_id.filename" route'
+                . ' (/content/download/{contentId}/{fieldId}/{filename}) instead.'
+            );
+        }
+
         $versionNo = $request->query->has('version') ? $request->query->getInt('version') : null;
         $language = $request->query->has('inLanguage') ? $request->query->get('inLanguage') : null;
 
@@ -65,6 +80,10 @@ class DownloadController extends Controller
             $field = $this->findFieldInContent($fieldId, $content);
         } catch (RepositoryNotFoundException | InvalidArgumentException $e) {
             throw $this->createFileNotFoundException($e);
+        }
+
+        if ($filename !== null && $field->value->fileName !== $filename) {
+            throw $this->createFileNotFoundException();
         }
 
         return $this->downloadBinaryFileAction($contentId, $field->fieldDefIdentifier, $field->value->fileName, $request);
