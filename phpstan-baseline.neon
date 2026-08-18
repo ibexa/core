@@ -7993,18 +7993,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Locale/LocaleConverter.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProvider\:\:__construct\(\) has parameter \$languageCodesMap with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Locale/UserLanguagePreferenceProvider.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProvider\:\:\$languageCodesMap type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Locale/UserLanguagePreferenceProvider.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ClassNameMatcherFactory\:\:__construct\(\) has parameter \$matchConfig with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -42803,60 +42791,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: tests/lib/MVC/Symfony/Locale/LocaleConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProviderTest\:\:getLanguageCodesMap\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProviderTest\:\:providerForTestGetPreferredLanguages\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProviderTest\:\:providerForTestGetPreferredLanguagesWithUserPreferredLanguage\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProviderTest\:\:testGetPreferredLanguagesWithUserPreferredLanguage\(\) has parameter \$expectedEzLanguageCodes with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProviderTest\:\:testGetPreferredLanguagesWithUserPreferredLanguage\(\) has parameter \$userLanguages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProviderTest\:\:testGetPreferredLanguagesWithoutUserLanguage\(\) has parameter \$expectedEzLanguageCodes with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProviderTest\:\:testGetPreferredLanguagesWithoutUserLanguage\(\) has parameter \$userLanguages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
-
-		-
-			message: '#^Parameter \#1 \$filename of static method Symfony\\Component\\Yaml\\Yaml\:\:parseFile\(\) expects string, string\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\MVC\\Symfony\\Locale\\UserLanguagePreferenceProviderTest\:\:\$userLanguagePreferenceProvider is never read, only written\.$#'
-			identifier: property.onlyWritten
-			count: 1
-			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\BaseTestCase\:\:getContentInfoMock\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
