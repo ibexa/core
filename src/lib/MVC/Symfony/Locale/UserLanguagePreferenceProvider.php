@@ -13,36 +13,17 @@ use Ibexa\Contracts\Core\Repository\UserPreferenceService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class UserLanguagePreferenceProvider implements UserLanguagePreferenceProviderInterface
+final readonly class UserLanguagePreferenceProvider implements UserLanguagePreferenceProviderInterface
 {
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
-    private $requestStack;
-
-    /** @var \Ibexa\Contracts\Core\Repository\UserPreferenceService */
-    private $userPreferenceService;
-
-    /** @var array */
-    private $languageCodesMap;
-
-    /** @var string */
-    private $localeFallback;
-
     /**
-     * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
-     * @param \Ibexa\Contracts\Core\Repository\UserPreferenceService $userPreferenceService
-     * @param array $languageCodesMap
-     * @param string $localeFallback
+     * @param array<string, list<string>> $languageCodesMap
      */
     public function __construct(
-        RequestStack $requestStack,
-        UserPreferenceService $userPreferenceService,
-        array $languageCodesMap,
-        string $localeFallback
+        private RequestStack $requestStack,
+        private UserPreferenceService $userPreferenceService,
+        private array $languageCodesMap,
+        private string $localeFallback
     ) {
-        $this->requestStack = $requestStack;
-        $this->userPreferenceService = $userPreferenceService;
-        $this->languageCodesMap = $languageCodesMap;
-        $this->localeFallback = $localeFallback;
     }
 
     public function getPreferredLocales(?Request $request = null): array
@@ -51,7 +32,12 @@ class UserLanguagePreferenceProvider implements UserLanguagePreferenceProviderIn
 
         $request = $request ?? $this->requestStack->getCurrentRequest();
         if (null !== $request) {
-            $browserLanguages = $request->getLanguages();
+            // `Accept-Language: *` (RFC 7231 wildcard, "any language") is not a concrete
+            // locale; exclude it so it never reaches locale/translator handling downstream.
+            $browserLanguages = array_values(array_filter(
+                $request->getLanguages(),
+                static fn (string $language): bool => '*' !== $language
+            ));
             if ([] !== $browserLanguages) {
                 $languages = $browserLanguages;
             }
@@ -60,7 +46,7 @@ class UserLanguagePreferenceProvider implements UserLanguagePreferenceProviderIn
         try {
             $preferredLanguage = $this->userPreferenceService->getUserPreference('language')->value;
             array_unshift($languages, $preferredLanguage);
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
         }
 
         return array_unique($languages);
