@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\Type as ImageType;
@@ -345,6 +346,62 @@ class ImageTest extends FieldTypeTestCase
             ],
             // @todo: Provide REST upload tests
         ];
+    }
+
+    /**
+     * @phpstan-return iterable<string, array{array<string, mixed>, mixed, mixed}>
+     */
+    public function provideDataForFromPersistenceValue(): iterable
+    {
+        yield 'width and height as empty string are converted to null' => [
+            [
+                'width' => '',
+                'height' => '',
+            ],
+            null,
+            null,
+        ];
+
+        yield 'width and height as zero are preserved' => [
+            [
+                'width' => 0,
+                'height' => '0',
+            ],
+            0,
+            '0',
+        ];
+
+        yield 'width and height as valid values are preserved' => [
+            [
+                'width' => 100,
+                'height' => '200',
+            ],
+            100,
+            '200',
+        ];
+
+        yield 'missing width and height keys default to null' => [
+            [],
+            null,
+            null,
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @dataProvider provideDataForFromPersistenceValue
+     */
+    public function testFromPersistenceValue(array $data, mixed $expectedWidth, mixed $expectedHeight): void
+    {
+        $fieldType = $this->getFieldTypeUnderTest();
+
+        $fieldValue = new FieldValue(['data' => $data]);
+        $result = $fieldType->fromPersistenceValue($fieldValue);
+
+        self::assertInstanceOf(ImageValue::class, $result);
+        self::assertSame($expectedWidth, $result->width);
+        self::assertSame($expectedHeight, $result->height);
     }
 
     protected function provideFieldTypeIdentifier(): string
