@@ -247,6 +247,57 @@ final class AliasGeneratorTest extends TestCase
         );
     }
 
+    public function testGetVariationOriginalWithNullWidthAndHeight(): void
+    {
+        $originalPath = 'foo/bar/image.jpg';
+        $variationName = 'original';
+        $imageId = '123-45';
+        $imageValue = new ImageValue(
+            [
+                'id' => $originalPath,
+                'imageId' => $imageId,
+                'width' => null,
+                'height' => null,
+                'fileSize' => 1024,
+                'mime' => 'image/jpeg',
+            ]
+        );
+        $field = new Field([
+            'value' => $imageValue,
+            'fieldDefIdentifier' => 'image_field',
+        ]);
+        $expectedUrl = 'http://localhost/foo/bar/image.jpg';
+
+        $this->ioResolver
+            ->expects(self::once())
+            ->method('resolve')
+            ->with($originalPath, $variationName)
+            ->will(self::returnValue($expectedUrl));
+
+        $expected = new ImageVariation(
+            [
+                'name' => $variationName,
+                'fileName' => 'image.jpg',
+                'dirPath' => 'http://localhost/foo/bar',
+                'uri' => $expectedUrl,
+                'imageId' => $imageId,
+                'height' => null,
+                'width' => null,
+                'fileSize' => 1024,
+                'mimeType' => 'image/jpeg',
+            ]
+        );
+
+        self::assertEquals(
+            $expected,
+            $this->aliasGenerator->getVariation(
+                $field,
+                new VersionInfo(),
+                $variationName
+            )
+        );
+    }
+
     /**
      * Test obtaining Image Variation that hasn't been stored yet and has multiple references.
      *
