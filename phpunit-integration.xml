@@ -1,0 +1,25 @@
+<?xml version = '1.0' encoding = 'utf-8'?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="tests/integration/bootstrap.php"
+         processIsolation="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         colors="true"
+         failOnWarning="true"
+         >
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+        <ini name="error_reporting" value="-1" />
+        <env name="DATABASE_URL" value="sqlite://i@i/var/test-bootstrapper.db" />
+        <env name="KERNEL_CLASS" value="Ibexa\Contracts\Test\Core\IbexaTestKernel"/>
+        <env name="SEARCH_ENGINE" value="legacy"/>
+    </php>
+    <testsuites>
+        <testsuite name="integration_core">
+            <file>tests/integration/Core/BasicKernelTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

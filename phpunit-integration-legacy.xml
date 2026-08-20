@@ -24,6 +24,8 @@
     <testsuites>
         <testsuite name="integration_core">
             <directory>tests/integration/Core</directory>
+            <!-- Migrated to the ibexa/test-core Bootstrapper; see phpunit-integration.xml -->
+            <exclude>tests/integration/Core/BasicKernelTest.php</exclude>
         </testsuite>
         <testsuite name="integration_debug">
             <directory>tests/integration/Debug</directory>
