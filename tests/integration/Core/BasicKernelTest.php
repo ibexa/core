@@ -12,8 +12,8 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Test\Core\IbexaKernelTestCase;
 
 /**
- * Showcases the ibexa/test-core Bootstrapper + Hook setup: schema and fixtures are imported once,
- * before the suite runs, by tests/integration/bootstrap.php — this test only needs to boot the kernel.
+ * Schema and fixtures are imported once, before the suite runs, by tests/integration/bootstrap.php —
+ * this test only needs to boot the kernel.
  *
  * @coversNothing
  */
