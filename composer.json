@@ -64,6 +64,7 @@
     "require-dev": {
         "behat/behat": "^3.6.1",
         "composer-runtime-api": "^2.0",
+        "dama/doctrine-test-bundle": "^6.7",
         "jenner/simple_fork": "^1.2",
         "friends-of-behat/mink-extension": "^2.4",
         "ibexa/ci-scripts": "^0.2@dev",
