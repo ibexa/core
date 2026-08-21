@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\URLAliasService;
 
+use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 /**
@@ -20,7 +21,7 @@ final class UrlAliasLookupTest extends RepositoryTestCase
      */
     public function testLookup(): void
     {
-        $urlAliasService = self::getUrlAliasService();
+        $urlAliasService = $this->getIbexaTestCore()->getServiceByClassName(URLAliasService::class);
         $folder = $this->createFolder(['eng-GB' => 'Foo']);
         $folderMainLocation = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
         $urlAlias = $urlAliasService->lookup('/Foo');

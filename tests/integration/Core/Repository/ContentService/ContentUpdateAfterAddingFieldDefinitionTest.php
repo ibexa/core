@@ -21,8 +21,8 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
      */
     public function testUpdateFields(): void
     {
-        $contentService = self::getContentService();
-        $contentTypeService = self::getContentTypeService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         // Create new ContentType
         $fieldDefCreateStruct = $this->createFieldDefinitionStruct('name', 'Name', true);
@@ -60,7 +60,7 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
 
     private function createFieldDefinitionStruct(string $identifier, string $name, bool $isTranslatable): FieldDefinitionCreateStruct
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $fieldDefCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct(
             $identifier,
@@ -78,7 +78,7 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
 
     private function createTypeCreateStruct(): ContentTypeCreateStruct
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $typeCreateStruct = $contentTypeService->newContentTypeCreateStruct('multi_lang_drafts');
         $typeCreateStruct->mainLanguageCode = 'eng-US';
         $typeCreateStruct->names = ['eng-US' => 'Multi lang drafts'];
@@ -91,9 +91,9 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
      */
     protected function createNewContent(string $name, array $languages = ['eng-US'], int $parentLocationId = 2): Content
     {
-        $contentTypeService = self::getContentTypeService();
-        $contentService = self::getContentService();
-        $locationService = self::getLocationService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $locationService = $this->getIbexaTestCore()->getLocationService();
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('multi_lang_drafts');
         $createStruct = $contentService->newContentCreateStruct($contentType, $languages[0]);
@@ -113,7 +113,7 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
      */
     protected function createUpdateStruct(Content $content, string $translatedName, array $languages): ContentUpdateStruct
     {
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         $updateStruct = $contentService->newContentUpdateStruct();
         $updateStruct->initialLanguageCode = $languages[0];
@@ -135,15 +135,15 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
 
     protected function createContentDraft(Content $content, string $languageCode): Content
     {
-        $contentLanguageService = self::getLanguageService();
+        $contentLanguageService = $this->getIbexaTestCore()->getLanguageService();
 
         $language = $contentLanguageService->loadLanguage($languageCode);
 
-        return self::getContentService()->createContentDraft($content->contentInfo, null, null, $language);
+        return $this->getIbexaTestCore()->getContentService()->createContentDraft($content->contentInfo, null, null, $language);
     }
 
     protected function updateContent(Content $draft, ContentUpdateStruct $updateStruct): Content
     {
-        return self::getContentService()->updateContent($draft->versionInfo, $updateStruct);
+        return $this->getIbexaTestCore()->getContentService()->updateContent($draft->versionInfo, $updateStruct);
     }
 }

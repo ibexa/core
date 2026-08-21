@@ -171,7 +171,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
         array $expectedRemoteIds,
         LocationQuery $query
     ): void {
-        $searchHits = self::getSearchService()->findLocations($query);
+        $searchHits = $this->getIbexaTestCore()->getSearchService()->findLocations($query);
 
         self::assertSame($expectedCount, $searchHits->totalCount);
 
@@ -229,12 +229,13 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
     private function loadMediaFolderLocation(): Location
     {
         return $this
+            ->getIbexaTestCore()
             ->getLocationService()
             ->loadLocation(self::MEDIA_CONTENT_TYPE_ID);
     }
 
     private function getBookmarkService(): BookmarkService
     {
-        return self::getServiceByClassName(BookmarkService::class);
+        return $this->getIbexaTestCore()->getServiceByClassName(BookmarkService::class);
     }
 }

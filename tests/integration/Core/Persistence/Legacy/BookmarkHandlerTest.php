@@ -29,7 +29,7 @@ final class BookmarkHandlerTest extends RepositoryTestCase
     {
         parent::setUp();
 
-        $this->handler = self::getServiceByClassName(Handler::class);
+        $this->handler = $this->getIbexaTestCore()->getServiceByClassName(Handler::class);
         $this->bookmarkHandler = $this->handler->bookmarkHandler();
     }
 
