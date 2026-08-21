@@ -8,17 +8,22 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use Ibexa\Contracts\Test\Core\IbexaKernelTestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\SerializerInterface;
 
-final class SerializationTest extends RepositoryTestCase
+final class SerializationTest extends IbexaKernelTestCase
 {
+    protected function setUp(): void
+    {
+        $this->getIbexaTestCore()->setAdministratorUser();
+    }
+
     public function testSerialization(): void
     {
         $serializer = $this->getContainer()->get(SerializerInterface::class);
         self::assertInstanceOf(SerializerInterface::class, $serializer);
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         $user = $contentService->loadContent(14);
         $field = $user->getField('user_account');

@@ -21,16 +21,21 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNo
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalOr;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Identifier;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Name;
-use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use Ibexa\Contracts\Test\Core\IbexaKernelTestCase;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService
  */
-final class FindContentTypesTest extends RepositoryTestCase
+final class FindContentTypesTest extends IbexaKernelTestCase
 {
+    protected function setUp(): void
+    {
+        $this->getIbexaTestCore()->setAdministratorUser();
+    }
+
     public function testFindContentTypesWithNullQueryFinds25Results(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes();
 
@@ -47,7 +52,7 @@ final class FindContentTypesTest extends RepositoryTestCase
      */
     public function testFindContentTypes(ContentTypeQuery $query, array $expectedIdentifiers): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes($query);
         $identifiers = array_map(
@@ -61,7 +66,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 
     public function testFindContentTypesAscSortedByIdentifier(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes(
             new ContentTypeQuery(
@@ -80,7 +85,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 
     public function testFindContentTypesAscSortedByName(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes(
             new ContentTypeQuery(
@@ -100,7 +105,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 
     public function testPagination(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $collectedContentTypeIDs = [];
         $pageSize = 10;
@@ -126,7 +131,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 
     public function testFindContentTypesContainingFieldDefinitions(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $folderContentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
         $fieldDefinitionToInclude = null;

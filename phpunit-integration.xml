@@ -14,12 +14,14 @@
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
         <ini name="error_reporting" value="-1" />
         <env name="DATABASE_URL" value="sqlite://i@i/var/test-bootstrapper.db" />
-        <env name="KERNEL_CLASS" value="Ibexa\Contracts\Test\Core\IbexaTestKernel"/>
+        <env name="KERNEL_CLASS" value="Ibexa\Tests\Integration\Core\TestKernel"/>
         <env name="SEARCH_ENGINE" value="legacy"/>
     </php>
     <testsuites>
         <testsuite name="integration_core">
             <file>tests/integration/Core/BasicKernelTest.php</file>
+            <file>tests/integration/Core/Repository/SerializationTest.php</file>
+            <file>tests/integration/Core/Repository/ContentTypeService/FindContentTypesTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

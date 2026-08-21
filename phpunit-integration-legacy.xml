@@ -26,6 +26,8 @@
             <directory>tests/integration/Core</directory>
             <!-- Migrated to the ibexa/test-core Bootstrapper; see phpunit-integration.xml -->
             <exclude>tests/integration/Core/BasicKernelTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/SerializationTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentTypeService/FindContentTypesTest.php</exclude>
         </testsuite>
         <testsuite name="integration_debug">
             <directory>tests/integration/Debug</directory>
