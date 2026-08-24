@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core;
 
 use DAMA\DoctrineTestBundle\DAMADoctrineTestBundle;
+use Ibexa\Bundle\Test\Core\IbexaTestCoreBundle;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\BookmarkService;
 use Ibexa\Contracts\Core\Repository\TrashService;
@@ -41,6 +42,7 @@ final class TestKernel extends BaseIbexaTestKernel
     {
         yield from parent::registerBundles();
 
+        yield new IbexaTestCoreBundle();
         yield new DAMADoctrineTestBundle();
     }
 
