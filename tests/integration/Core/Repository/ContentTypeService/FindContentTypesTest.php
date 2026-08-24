@@ -21,18 +21,13 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNo
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalOr;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Identifier;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Name;
-use Ibexa\Contracts\Test\Core\IbexaKernelTestCase;
+use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService
  */
-final class FindContentTypesTest extends IbexaKernelTestCase
+final class FindContentTypesTest extends RepositoryTestCase
 {
-    protected function setUp(): void
-    {
-        $this->getIbexaTestCore()->setAdministratorUser();
-    }
-
     public function testFindContentTypesWithNullQueryFinds25Results(): void
     {
         $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();

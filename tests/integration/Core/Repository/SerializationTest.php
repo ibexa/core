@@ -8,17 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use Ibexa\Contracts\Test\Core\IbexaKernelTestCase;
+use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\SerializerInterface;
 
-final class SerializationTest extends IbexaKernelTestCase
+final class SerializationTest extends RepositoryTestCase
 {
-    protected function setUp(): void
-    {
-        $this->getIbexaTestCore()->setAdministratorUser();
-    }
-
     public function testSerialization(): void
     {
         $serializer = $this->getContainer()->get(SerializerInterface::class);
