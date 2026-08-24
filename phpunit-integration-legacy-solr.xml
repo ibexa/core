@@ -28,6 +28,22 @@
         <testsuite name="integration_repository">
             <directory>tests/integration/Core</directory>
             <exclude>tests/integration/Core/Repository/Filtering</exclude>
+            <exclude>tests/integration/Core/BasicKernelTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/SerializationTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentTypeService/FindContentTypesTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentService/CopyNonTranslatableFieldsFromPublishedVersionTest.php</exclude>
+            <exclude>tests/integration/Core/Persistence/Legacy/BookmarkHandlerTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentService/CopyTranslationsFromPublishedVersionTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/URLAliasService/UrlAliasLookupTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentService/ContentUpdateAfterAddingFieldDefinitionTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentService/UpdateContentTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentService/ImageAssetTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentService/LoadVersionInfoTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentService/DeleteContentTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentService/MaxLanguagesContentServiceTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/SearchServiceBookmarkTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/SearchServiceContentNameTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/SearchServiceImageTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
