@@ -10,4 +10,4 @@ use Ibexa\Contracts\Test\Core\Bootstrapper\Bootstrapper;
 
 require_once dirname(__DIR__, 2) . '/bootstrap.php';
 
-(new Bootstrapper())()->shutdown();
+(new Bootstrapper())->bootstrap();
