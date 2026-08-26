@@ -17875,12 +17875,6 @@ parameters:
 			path: src/lib/Repository/Values/ContentType/ContentType.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Repository\\Values\\ContentType\\ContentType\:\:\$mainLanguageCode \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/Repository/Values/ContentType/ContentType.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\Values\\ContentType\\ContentTypeDraft\:\:getProperties\(\) has parameter \$dynamicProperties with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -17901,12 +17895,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup\:\:getDescription\(\) should return string\|null but returns string\|false\.$#'
 			identifier: return.type
-			count: 1
-			path: src/lib/Repository/Values/ContentType/ContentTypeGroup.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup\:\:\$mainLanguageCode \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
 			count: 1
 			path: src/lib/Repository/Values/ContentType/ContentTypeGroup.php
 
@@ -18013,20 +18001,8 @@ parameters:
 			path: src/lib/Repository/Values/ObjectState/ObjectState.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$mainLanguageCode \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/Repository/Values/ObjectState/ObjectState.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:getDescription\(\) should return string\|null but returns string\|false\.$#'
 			identifier: return.type
-			count: 1
-			path: src/lib/Repository/Values/ObjectState/ObjectStateGroup.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:\$mainLanguageCode \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
 			count: 1
 			path: src/lib/Repository/Values/ObjectState/ObjectStateGroup.php
 
