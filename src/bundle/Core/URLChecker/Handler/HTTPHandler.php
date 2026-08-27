@@ -13,19 +13,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HTTPHandler extends AbstractConfigResolverBasedURLHandler
 {
-    private const METHOD_HEAD = 'HEAD';
-    private const METHOD_GET = 'GET';
+    public const METHOD_HEAD = 'HEAD';
+    public const METHOD_GET = 'GET';
 
-    private const DEFAULT_USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0';
+    public const DEFAULT_USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0';
 
-    private const DEFAULT_HEADERS = [
+    public const DEFAULT_HEADERS = [
         'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language' => 'en-US,en;q=0.5',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function validate(array $urls): void
     {
         $options = $this->getOptions();
@@ -38,59 +35,47 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
         $requests = [];
 
         $batchSize = min(count($urls), $options['batch_size']);
-        for ($i = 0; $i < $batchSize; ++$i) {
+        $queue = array_slice($urls, $batchSize);
+        foreach (array_slice($urls, 0, $batchSize) as $url) {
             curl_multi_add_handle(
                 $master,
-                $this->createCurlHandlerForUrl($urls[$i], $options['method'], $options, $requests)
+                $this->createCurlHandlerForUrl($url, $options['method'], $options, $requests)
             );
         }
 
         do {
             $status = curl_multi_exec($master, $running);
 
-            while ($done = curl_multi_info_read($master)) {
+            while (($done = curl_multi_info_read($master)) !== false) {
                 $handler = $done['handle'];
                 $request = $requests[(int)$handler];
                 unset($requests[(int)$handler]);
 
                 $statusCode = (int)curl_getinfo($handler, CURLINFO_HTTP_CODE);
-
-                if ($this->shouldRetryWithGet($statusCode, $request['method'], $options)) {
-                    // Some servers and WAFs reject HEAD - recheck with GET before marking the URL as invalid
-                    curl_multi_add_handle(
-                        $master,
-                        $this->createCurlHandlerForUrl($request['url'], self::METHOD_GET, $options, $requests)
-                    );
-                    $running = 1; // handles added mid-loop are not reflected in $running yet
-                } else {
-                    $this->setUrlStatus($request['url'], $this->isSuccessful($statusCode));
-
-                    if ($i < count($urls)) {
-                        curl_multi_add_handle(
-                            $master,
-                            $this->createCurlHandlerForUrl($urls[$i], $options['method'], $options, $requests)
-                        );
-                        ++$i;
-                        $running = 1; // as above
-                    }
-                }
-
                 curl_multi_remove_handle($master, $handler);
                 curl_close($handler);
+
+                $nextRequest = $this->completeRequest($request, $statusCode, $options, $queue);
+                if ($nextRequest !== null) {
+                    curl_multi_add_handle(
+                        $master,
+                        $this->createCurlHandlerForUrl($nextRequest['url'], $nextRequest['method'], $options, $requests)
+                    );
+                }
             }
 
-            if ($running && curl_multi_select($master, 1.0) === -1) {
+            // handles added mid-loop are not reflected in $running yet
+            $running = count($requests);
+
+            if ($running > 0 && curl_multi_select($master, 1.0) === -1) {
                 // select failure - back off briefly to avoid busy-looping
                 usleep(250);
             }
-        } while ($running && $status === CURLM_OK);
+        } while ($running > 0 && $status === CURLM_OK);
 
         curl_multi_close($master);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getOptionsResolver(): OptionsResolver
     {
         $resolver = new OptionsResolver();
@@ -118,6 +103,29 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
         $resolver->setAllowedTypes('headers', 'array');
 
         return $resolver;
+    }
+
+    /**
+     * Records the result of a finished request and returns the request to schedule next, if any.
+     *
+     * @param array{url: \Ibexa\Contracts\Core\Repository\Values\URL\URL, method: string} $request
+     * @param array<string, mixed> $options
+     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL[] $queue URLs waiting to be checked
+     *
+     * @return array{url: \Ibexa\Contracts\Core\Repository\Values\URL\URL, method: string}|null
+     */
+    private function completeRequest(array $request, int $statusCode, array $options, array &$queue): ?array
+    {
+        if ($this->shouldRetryWithGet($statusCode, $request['method'], $options)) {
+            // Some servers and WAFs reject HEAD - recheck with GET before marking the URL as invalid
+            return ['url' => $request['url'], 'method' => self::METHOD_GET];
+        }
+
+        $this->setUrlStatus($request['url'], $this->isSuccessful($statusCode));
+
+        $nextUrl = array_shift($queue);
+
+        return $nextUrl !== null ? ['url' => $nextUrl, 'method' => $options['method']] : null;
     }
 
     /**
@@ -159,9 +167,7 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
         } else {
             // Abort on the first body chunk - the final (post-redirect) status code is already known
             // and the body must not be streamed to the output (CURLOPT_RETURNTRANSFER is disabled).
-            curl_setopt($handler, CURLOPT_WRITEFUNCTION, static function ($handler, string $data): int {
-                return 0;
-            });
+            curl_setopt($handler, CURLOPT_WRITEFUNCTION, static fn (): int => 0);
         }
 
         if ($options['ignore_certificate']) {

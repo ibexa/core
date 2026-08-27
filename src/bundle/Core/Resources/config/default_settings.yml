@@ -238,23 +238,19 @@ parameters:
         connection_timeout: 5
         batch_size: 25
         ignore_certificate: false
-        method: HEAD
+        method: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::METHOD_HEAD
         fallback_to_get: true
-        user_agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0'
-        headers:
-            Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-            Accept-Language: 'en-US,en;q=0.5'
+        user_agent: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::DEFAULT_USER_AGENT
+        headers: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::DEFAULT_HEADERS
     ibexa.site_access.config.default.url_handler.https.options:
         timeout: 10
         connection_timeout: 5
         batch_size: 25
         ignore_certificate: false
-        method: HEAD
+        method: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::METHOD_HEAD
         fallback_to_get: true
-        user_agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0'
-        headers:
-            Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-            Accept-Language: 'en-US,en;q=0.5'
+        user_agent: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::DEFAULT_USER_AGENT
+        headers: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::DEFAULT_HEADERS
     ibexa.site_access.config.default.url_handler.mailto.options: {}
 
     ###
