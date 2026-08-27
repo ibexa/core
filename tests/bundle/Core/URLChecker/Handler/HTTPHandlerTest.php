@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Bundle\Core\URLChecker\Handler;
 use Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler;
 use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
+use Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
@@ -23,15 +24,16 @@ final class HTTPHandlerTest extends TestCase
 {
     private const PARAMETER_NAME = 'url_handler.http.options';
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject */
-    private $urlService;
+    /** @var \Ibexa\Contracts\Core\Repository\URLService&\PHPUnit\Framework\MockObject\MockObject */
+    private URLService $urlService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private ConfigResolverInterface $configResolver;
 
     protected function setUp(): void
     {
         $this->urlService = $this->createMock(URLService::class);
+        $this->urlService->method('createUpdateStruct')->willReturn(new URLUpdateStruct());
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
     }
 
@@ -163,6 +165,92 @@ final class HTTPHandlerTest extends TestCase
         yield 'HEAD succeeded' => [200, 'HEAD', true, false];
         yield 'GET is final' => [403, 'GET', true, false];
         yield 'fallback disabled' => [403, 'HEAD', false, false];
+    }
+
+    public function testCompleteRequestRetriesWithGetWhenHeadFails(): void
+    {
+        $url = new URL(['id' => 1, 'url' => 'https://example.com']);
+        $queue = [new URL(['id' => 2, 'url' => 'https://example.org'])];
+
+        $this->urlService->expects(self::never())->method('updateUrl');
+
+        $next = $this->invokeCompleteRequest(
+            ['url' => $url, 'method' => 'HEAD'],
+            403,
+            ['fallback_to_get' => true, 'method' => 'HEAD'],
+            $queue
+        );
+
+        self::assertSame(['url' => $url, 'method' => 'GET'], $next);
+        self::assertCount(1, $queue, 'Retry must not consume the queue');
+    }
+
+    /**
+     * @dataProvider provideCompleteRequestFinalResults
+     */
+    public function testCompleteRequestRecordsStatusAndSchedulesNextUrl(
+        string $method,
+        int $statusCode,
+        bool $expectedValid
+    ): void {
+        $url = new URL(['id' => 1, 'url' => 'https://example.com']);
+        $nextUrl = new URL(['id' => 2, 'url' => 'https://example.org']);
+        $queue = [$nextUrl];
+
+        $this->urlService
+            ->expects(self::once())
+            ->method('updateUrl')
+            ->with($url, self::callback(static fn ($struct): bool => $struct->isValid === $expectedValid));
+
+        $next = $this->invokeCompleteRequest(
+            ['url' => $url, 'method' => $method],
+            $statusCode,
+            ['fallback_to_get' => true, 'method' => 'HEAD'],
+            $queue
+        );
+
+        self::assertSame(['url' => $nextUrl, 'method' => 'HEAD'], $next);
+        self::assertSame([], $queue);
+    }
+
+    /**
+     * @return iterable<string, array{string, int, bool}>
+     */
+    public static function provideCompleteRequestFinalResults(): iterable
+    {
+        yield 'HEAD succeeded' => ['HEAD', 200, true];
+        yield 'GET fallback succeeded' => ['GET', 200, true];
+        yield 'GET fallback failed' => ['GET', 404, false];
+    }
+
+    public function testCompleteRequestReturnsNullWhenQueueIsEmpty(): void
+    {
+        $queue = [];
+
+        $next = $this->invokeCompleteRequest(
+            ['url' => new URL(['id' => 1, 'url' => 'https://example.com']), 'method' => 'GET'],
+            200,
+            ['fallback_to_get' => true, 'method' => 'HEAD'],
+            $queue
+        );
+
+        self::assertNull($next);
+    }
+
+    /**
+     * @param array{url: \Ibexa\Contracts\Core\Repository\Values\URL\URL, method: string} $request
+     * @param array<string, mixed> $options
+     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL[] $queue
+     *
+     * @return array{url: \Ibexa\Contracts\Core\Repository\Values\URL\URL, method: string}|null
+     */
+    private function invokeCompleteRequest(array $request, int $statusCode, array $options, array &$queue): ?array
+    {
+        return $this->invokePrivateMethod(
+            $this->createHandler([]),
+            'completeRequest',
+            [$request, $statusCode, $options, &$queue]
+        );
     }
 
     public function testValidateDoesNothingWhenDisabled(): void
