@@ -62,6 +62,9 @@ class PermissionResolver implements PermissionResolverInterface
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
+    /** @var \Psr\Log\LoggerInterface|null */
+    private $diagnosticLogger;
+
     /**
      * @param array $policyMap Map of system configured policies, for validation usage.
      */
@@ -70,18 +73,28 @@ class PermissionResolver implements PermissionResolverInterface
         LimitationService $limitationService,
         UserHandler $userHandler,
         ConfigResolverInterface $configResolver,
-        array $policyMap
+        array $policyMap,
+        ?\Psr\Log\LoggerInterface $diagnosticLogger = null
     ) {
         $this->roleDomainMapper = $roleDomainMapper;
         $this->limitationService = $limitationService;
         $this->userHandler = $userHandler;
         $this->configResolver = $configResolver;
         $this->policyMap = $policyMap;
+        $this->diagnosticLogger = $diagnosticLogger;
     }
 
     public function getCurrentUserReference(): APIUserReference
     {
         if (empty($this->currentUserRef)) {
+            $this->diagnosticLogger?->error(sprintf(
+                '[DIAGNOSTIC] getCurrentUserReference falling back to anonymous. object_id=%s session_id=%s session_status=%d cookie_names=%s',
+                spl_object_id($this),
+                session_id() ?: '(empty)',
+                session_status(),
+                implode(',', array_keys($_COOKIE))
+            ));
+
             $this->currentUserRef = new UserReference(
                 $this->configResolver->getParameter('anonymous_user_id')
             );
@@ -96,6 +109,15 @@ class PermissionResolver implements PermissionResolverInterface
         if (!$id) {
             throw new InvalidArgumentValue('$user->getUserId()', $id);
         }
+
+        $this->diagnosticLogger?->error(sprintf(
+            '[DIAGNOSTIC] setCurrentUserReference called. object_id=%s user_id=%s session_id=%s session_status=%d cookie_names=%s',
+            spl_object_id($this),
+            $id,
+            session_id() ?: '(empty)',
+            session_status(),
+            implode(',', array_keys($_COOKIE))
+        ));
 
         $this->currentUserRef = $userReference;
     }

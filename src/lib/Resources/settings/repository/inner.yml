@@ -224,6 +224,7 @@ services:
             $userHandler: '@Ibexa\Contracts\Core\Persistence\User\Handler'
             $configResolver: '@ibexa.config.resolver'
             $policyMap: '%ibexa.api.role.policy_map%'
+            $diagnosticLogger: '@logger'
 
     Ibexa\Core\Repository\Permission\PermissionCriterionResolver:
         arguments:
