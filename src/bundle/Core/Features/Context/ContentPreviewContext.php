@@ -8,7 +8,11 @@
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Hook\BeforeScenario;
 use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Webmozart\Assert\Assert as Assertion;
 
@@ -17,18 +21,16 @@ class ContentPreviewContext extends RawMinkContext
     /** @var \Ibexa\Bundle\Core\Features\Context\ContentContext */
     private $contentContext;
 
-    /** @BeforeScenario */
-    public function gatherContexts(BeforeScenarioScope $scope)
+    #[BeforeScenario]
+    public function gatherContexts(BeforeScenarioScope $scope): void
     {
         $environment = $scope->getEnvironment();
 
         $this->contentContext = $environment->getContext(ContentContext::class);
     }
 
-    /**
-     * @Given /^I create a draft for a content type that uses a custom location controller$/
-     */
-    public function iCreateDraftOfContentTypeWithCustomLocationController()
+    #[Given('/^I create a draft for a content type that uses a custom location controller$/')]
+    public function iCreateDraftOfContentTypeWithCustomLocationController(): void
     {
         $this->contentContext->createDraft(
             'blog_post',
@@ -39,10 +41,8 @@ class ContentPreviewContext extends RawMinkContext
         );
     }
 
-    /**
-     * @When /^I preview this draft$/
-     */
-    public function iPreviewThisDraft()
+    #[When('/^I preview this draft$/')]
+    public function iPreviewThisDraft(): void
     {
         $this->getSession()->getDriver()->visit($this->mapToVersionViewUri($this->contentContext->getCurrentDraft()->versionInfo));
     }
@@ -60,10 +60,8 @@ class ContentPreviewContext extends RawMinkContext
         );
     }
 
-    /**
-     * @Then /^the output is valid$/
-     */
-    public function theOutputIsValid()
+    #[Then('/^the output is valid$/')]
+    public function theOutputIsValid(): void
     {
         $this->checkForExceptions();
     }
@@ -90,10 +88,8 @@ class ContentPreviewContext extends RawMinkContext
         }
     }
 
-    /**
-     * @Then /^I see a preview of this draft$/
-     */
-    public function iSeeAPreviewOfTheCurrentDraft()
+    #[Then('/^I see a preview of this draft$/')]
+    public function iSeeAPreviewOfTheCurrentDraft(): void
     {
         $this->assertSession()->elementContains(
             'xpath',
@@ -104,10 +100,9 @@ class ContentPreviewContext extends RawMinkContext
 
     /**
      * This could belong in the content context.
-     *
-     * @Given /^I modify a field from the draft$/
      */
-    public function iModifyAFieldFromTheDraft()
+    #[Given('/^I modify a field from the draft$/')]
+    public function iModifyAFieldFromTheDraft(): void
     {
         $this->contentContext->updateDraft(
             ['name' => 'MODIFIED - ' . $this->contentContext->getCurrentDraft()->getFieldValue('name')->text]
