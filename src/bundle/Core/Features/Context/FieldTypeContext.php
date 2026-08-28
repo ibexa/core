@@ -365,7 +365,7 @@ class FieldTypeContext implements Context
 
     #[Given('a content type with an :fieldType field exists with Properties:')]
     #[Given('a content type with an :fieldType field with name :name exists with Properties:')]
-    public function createContentOfThisTypeWithProperties(string $fieldType, TableNode $properties, string $name = null): void
+    public function createContentOfThisTypeWithProperties(string $fieldType, TableNode $properties, ?string $name = null): void
     {
         $this->createField($fieldType, $name);
         foreach ($properties as $property) {
