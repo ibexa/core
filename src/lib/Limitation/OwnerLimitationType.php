@@ -130,9 +130,12 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
             );
         }
 
+        $versionCreatorId = null;
         if ($object instanceof Content) {
+            $versionCreatorId = $object->getVersionInfo()->creatorId;
             $object = $object->getVersionInfo()->getContentInfo();
         } elseif ($object instanceof VersionInfo) {
+            $versionCreatorId = $object->creatorId;
             $object = $object->getContentInfo();
         } elseif (!$object instanceof ContentInfo && !$object instanceof ContentCreateStruct) {
             throw new InvalidArgumentException(
@@ -147,9 +150,10 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
          * @var $object ContentInfo
          */
         $isOwner = $object->ownerId === $userId;
+        $isVersionCreator = $versionCreatorId !== null && $versionCreatorId === $userId;
         $isSelf = $object instanceof ContentInfo && $object->id === $userId;
 
-        return $isOwner || $isSelf;
+        return $isOwner || $isVersionCreator || $isSelf;
     }
 
     /**
