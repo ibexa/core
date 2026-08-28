@@ -8,8 +8,11 @@
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
+use Behat\Step\Then;
 use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
 use Ibexa\Contracts\Core\Repository\RoleService;
+use Ibexa\Contracts\Core\Repository\Values\User\Role;
 use Webmozart\Assert\Assert as Assertion;
 
 /**
@@ -66,23 +69,21 @@ class RoleContext implements Context
     }
 
     /**
-     * @Given a/an :name role exists
-     *
      * Ensures a role exists with name ':name', creating a new one if necessary.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
      */
-    public function iHaveRole($name)
+    #[Given('a/an :name role exists')]
+    public function iHaveRole(string $name): Role
     {
         return $this->ensureRoleExists($name);
     }
 
     /**
-     * @Then I see that a/an :name role exists
-     *
      * Verifies that a role with $name exists.
      */
-    public function iSeeRole($name)
+    #[Then('I see that a/an :name role exists')]
+    public function iSeeRole(string $name): void
     {
         $role = $this->getRole($name);
         Assertion::notNull(
@@ -91,10 +92,8 @@ class RoleContext implements Context
         );
     }
 
-    /**
-     * @Given :name do not have any assigned policies
-     */
-    public function noAssginedPolicies($name)
+    #[Given(':name do not have any assigned policies')]
+    public function noAssginedPolicies(string $name): void
     {
         $role = $this->getRole($name);
         Assertion::notNull(
@@ -105,10 +104,8 @@ class RoleContext implements Context
         Assertion::isEmpty($policies, "Role $name has policies associated");
     }
 
-    /**
-     * @Given :name do not have any assigned Users and groups
-     */
-    public function noAssigneGroups($name)
+    #[Given(':name do not have any assigned Users and groups')]
+    public function noAssigneGroups(string $name): void
     {
         $role = $this->getRole($name);
         Assertion::notNull(
@@ -120,11 +117,10 @@ class RoleContext implements Context
     }
 
     /**
-     * @Then I see that a/an :name role does not exists
-     *
      * Verifies that a role with $name exists.
      */
-    public function iDontSeeRole($name)
+    #[Then('I see that a/an :name role does not exists')]
+    public function iDontSeeRole(string $name): void
     {
         $role = $this->getRole($name);
         Assertion::null(

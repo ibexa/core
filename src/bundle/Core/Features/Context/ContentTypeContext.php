@@ -9,8 +9,11 @@ namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Step\Given;
+use Behat\Step\Then;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Webmozart\Assert\Assert as Assertion;
 
 /**
@@ -37,19 +40,19 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * @Given (that) a content type exists with identifier :identifier with fields:
-     * @Given (that) a content type exists with identifier :identifier in Group with identifier :groupIdentifier with fields:
+     * Makes sure a content type with $identifier and with the provided $fields definition exists.
+     *
      *     |   Identifier   |     Type       |     Name      |
      *     |  title         |  ibexa_string      |  Title        |
      *     |  body          |  ezxml         |  Body         |
-     *
-     * Makes sure a content type with $identifier and with the provided $fields definition.
      */
+    #[Given('(that) a content type exists with identifier :identifier with fields:')]
+    #[Given('(that) a content type exists with identifier :identifier in Group with identifier :groupIdentifier with fields:')]
     public function ensureContentTypeWithIndentifier(
-        $identifier,
+        string $identifier,
         TableNode $fields,
-        $groupIdentifier = self::DEFAULT_GROUP
-    ) {
+        string $groupIdentifier = self::DEFAULT_GROUP
+    ): ContentType {
         $identifier = strtolower($identifier);
         $contentType = $this->loadContentTypeByIdentifier($identifier, false);
 
@@ -61,12 +64,11 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * @Given (that) a content type does not exist with identifier :identifier
-     *
      * Makes sure a content type with $identifier does not exist.
      * If it exists deletes it.
      */
-    public function ensureContentTypeDoesntExist($identifier)
+    #[Given('(that) a content type does not exist with identifier :identifier')]
+    public function ensureContentTypeDoesntExist(string $identifier): void
     {
         $contentType = $this->loadContentTypeByIdentifier($identifier, false);
         if ($contentType) {
@@ -75,11 +77,10 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * @Then content type (with identifier) :identifier exists
-     *
      * Verifies that a content type with $identifier exists.
      */
-    public function assertContentTypeExistsByIdentifier($identifier)
+    #[Then('content type (with identifier) :identifier exists')]
+    public function assertContentTypeExistsByIdentifier(string $identifier): void
     {
         Assertion::true(
             $this->checkContentTypeExistenceByIdentifier($identifier),
@@ -88,11 +89,10 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * @Then content type (with identifier) :identifier does not exist
-     *
      * Verifies that a content type with $identifier does not exist.
      */
-    public function assertContentTypeDoesntExistsByIdentifier($identifier)
+    #[Then('content type (with identifier) :identifier does not exist')]
+    public function assertContentTypeDoesntExistsByIdentifier(string $identifier): void
     {
         Assertion::false(
             $this->checkContentTypeExistenceByIdentifier($identifier),
@@ -101,11 +101,10 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * @Then content type (with identifier) :identifier exists in Group with identifier :groupIdentifier
-     *
      * Verifies that a content type with $identifier exists in group with identifier $groupIdentifier.
      */
-    public function assertContentTypeExistsByIdentifierOnGroup($identifier, $groupIdentifier)
+    #[Then('content type (with identifier) :identifier exists in Group with identifier :groupIdentifier')]
+    public function assertContentTypeExistsByIdentifierOnGroup(string $identifier, string $groupIdentifier): void
     {
         Assertion::true(
             $this->checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier),
