@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Step\Given;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -150,8 +151,8 @@ class FieldTypeContext implements Context
     /**
      * Creates a content and publishes it.
      *
-     * @param string $field Name of the field
-     * @param mixed $value Value of the field
+     * @param string|null $field Name of the field
+     * @param string|null $value Value of the field
      */
     public function createContent($field, $value)
     {
@@ -163,8 +164,8 @@ class FieldTypeContext implements Context
      * function that calls it self to make sure prerequisites are met.
      *
      * @param int $stateFlag Desired state, only predefined constants accepted
-     * @param string $field Name of the field, optional
-     * @param mixed $value Value of the field, optional
+     * @param string|null $field Name of the field, optional
+     * @param string|null $value Value of the field, optional
      */
     public function setFieldContentState($stateFlag, $field = null, $value = null)
     {
@@ -201,10 +202,7 @@ class FieldTypeContext implements Context
         return $this->fieldConstructionObject['objectState'];
     }
 
-    /**
-     * @param mixed $value
-     */
-    private function createAndPublishContent(?string $field, $value): void
+    private function createAndPublishContent(?string $field, ?string $value): void
     {
         $languageCode = self::DEFAULT_LANGUAGE;
 
@@ -336,43 +334,38 @@ class FieldTypeContext implements Context
     }
 
     /**
-     * @Given a content type with an :fieldType field exists
-     * @Given a content type with an :fieldType with field definition name :name exists
-     *
      * Creates a ContentType with only the desired FieldType.
      */
-    public function createContentTypeWithFieldType($fieldType, $name = null)
+    #[Given('a content type with an :fieldType field exists')]
+    #[Given('a content type with an :fieldType with field definition name :name exists')]
+    public function createContentTypeWithFieldType(string $fieldType, ?string $name = null): void
     {
-        return $this->createField($fieldType, $name);
+        $this->createField($fieldType, $name);
     }
 
     /**
-     * @Given a content type with a required :fieldType field exists
-     * @Given a content type with a required :fieldType with field definition name :name exists
-     *
      * Creates a ContentType with only the desired FieldType.
      */
-    public function createContentTypeWithRequiredFieldType($fieldType, $name = null)
+    #[Given('a content type with a required :fieldType field exists')]
+    #[Given('a content type with a required :fieldType with field definition name :name exists')]
+    public function createContentTypeWithRequiredFieldType(string $fieldType, ?string $name = null): void
     {
-        return $this->createField($fieldType, $name, true);
+        $this->createField($fieldType, $name, true);
     }
 
     /**
-     * @Given a Content of this type exists
-     * @Given a Content of this type exists with :field Field Value set to :value
-     *
      * Creates a Content with the previously defined ContentType.
      */
-    public function createContentOfThisType($field = null, $value = null)
+    #[Given('a Content of this type exists')]
+    #[Given('a Content of this type exists with :field Field Value set to :value')]
+    public function createContentOfThisType(?string $field = null, ?string $value = null): void
     {
-        return $this->createContent($field, $value);
+        $this->createContent($field, $value);
     }
 
-    /**
-     * @Given a content type with an :fieldType field exists with Properties:
-     * @Given a content type with an :fieldType field with name :name exists with Properties:
-     */
-    public function createContentOfThisTypeWithProperties($fieldType, TableNode $properties, $name = null)
+    #[Given('a content type with an :fieldType field exists with Properties:')]
+    #[Given('a content type with an :fieldType field with name :name exists with Properties:')]
+    public function createContentOfThisTypeWithProperties(string $fieldType, TableNode $properties, string $name = null): void
     {
         $this->createField($fieldType, $name);
         foreach ($properties as $property) {

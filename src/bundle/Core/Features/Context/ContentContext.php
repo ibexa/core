@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Step\Given;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use RuntimeException;
@@ -29,10 +30,8 @@ class ContentContext implements Context, SnippetAcceptingContext
         $this->repository = $repository;
     }
 
-    /**
-     * @Given /^I create an folder draft$/
-     */
-    public function iCreateAnFolderDraft()
+    #[Given('/^I create an folder draft$/')]
+    public function iCreateAnFolderDraft(): void
     {
         $this->currentDraft = $this->createDraft(
             'folder',
@@ -43,10 +42,8 @@ class ContentContext implements Context, SnippetAcceptingContext
         );
     }
 
-    /**
-     * @Given /^I create a draft of an existing content item$/
-     */
-    public function iCreateADraftOfAnExistingContentItem()
+    #[Given('/^I create a draft of an existing content item$/')]
+    public function iCreateADraftOfAnExistingContentItem(): void
     {
         $this->currentContent = $this->createContentItem(
             'folder',

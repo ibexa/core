@@ -63,9 +63,9 @@
         "twig/twig": ">=3.0 <3.16 || ^3.19.0"
     },
     "require-dev": {
-        "behat/behat": "^3.6.1",
+        "behat/behat": "^3.32 || ^4.0",
         "deptrac/deptrac": "^4.7",
-        "friends-of-behat/mink-extension": "^2.4",
+        "friends-of-behat/mink-extension": "^2.7.5 || ^3.0",
         "ibexa/code-style": "~2.1.0",
         "ibexa/rector": "~6.0.x-dev",
         "jenner/simple_fork": "^1.2",

@@ -37,4 +37,5 @@ return RectorConfig::configure()
         PropertyToGetterRector::class => [
             __DIR__ . '/tests/lib/Repository/Values/ContentType/ContentTypeTest.php',
         ]
-    ]);
+    ])
+    ->withAttributesSets(behat: true);

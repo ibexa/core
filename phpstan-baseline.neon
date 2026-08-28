@@ -1825,42 +1825,6 @@ parameters:
 			path: src/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriber.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:createArticleDraft\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/BasicContentContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:createArticleDraft\(\) has parameter \$path with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/BasicContentContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:createBasicArticle\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/BasicContentContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:createBasicArticle\(\) has parameter \$path with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/BasicContentContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:createBasicFolder\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/BasicContentContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:createBasicFolder\(\) has parameter \$path with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/BasicContentContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:createContent\(\) has parameter \$fields with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -1933,54 +1897,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/ConsoleContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iExpectItToBeExecutedWithIt\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iExpectItToBeExecutedWithTheDefaultOne\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iExpectItToBeExecutedWithTheSiteaccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iExpectItToBeExecutedWithTheSiteaccess\(\) has parameter \$siteaccess with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iRunAConsoleScript\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iRunAConsoleScriptWithIt\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iRunAConsoleScriptWithSiteaccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iRunAConsoleScriptWithSiteaccess\(\) has parameter \$siteaccessOption with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iRunTheCommand\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1995,42 +1911,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:iRunTheCommand\(\) has parameter \$siteaccess with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:thereIsADefaultSiteaccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:thereIsADefaultSiteaccess\(\) has parameter \$expectedSiteaccessName with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:thereIsASiteaccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:thereIsASiteaccess\(\) has parameter \$default with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:thereIsASiteaccess\(\) has parameter \$expectedSiteaccessName with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ConsoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ConsoleContext\:\:thereIsASiteaccessThatIsNotTheDefaultOne\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/bundle/Core/Features/Context/ConsoleContext.php
 
@@ -2071,18 +1951,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentContext\:\:iCreateADraftOfAnExistingContentItem\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentContext\:\:iCreateAnFolderDraft\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentContext\:\:updateDraft\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -2113,42 +1981,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentPreviewContext\:\:gatherContexts\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentPreviewContext\:\:iCreateDraftOfContentTypeWithCustomLocationController\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentPreviewContext\:\:iModifyAFieldFromTheDraft\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentPreviewContext\:\:iPreviewThisDraft\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentPreviewContext\:\:iSeeAPreviewOfTheCurrentDraft\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentPreviewContext\:\:theOutputIsValid\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
-
-		-
 			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2173,48 +2005,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeDoesntExistsByIdentifier\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeDoesntExistsByIdentifier\(\) has parameter \$identifier with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeExistsByIdentifier\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeExistsByIdentifier\(\) has parameter \$identifier with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeExistsByIdentifierOnGroup\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeExistsByIdentifierOnGroup\(\) has parameter \$groupIdentifier with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeExistsByIdentifierOnGroup\(\) has parameter \$identifier with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assignContentGroupTypeToContentType\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -2233,36 +2023,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:ensureContentTypeDoesntExist\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:ensureContentTypeDoesntExist\(\) has parameter \$identifier with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:ensureContentTypeWithIndentifier\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:ensureContentTypeWithIndentifier\(\) has parameter \$groupIdentifier with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:ensureContentTypeWithIndentifier\(\) has parameter \$identifier with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:removeContentType\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -2273,48 +2033,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ExceptionContext\:\:anAccessDeniedExceptionIsThrown\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ExceptionContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ExceptionContext\:\:anAccessDeniedExceptionIsThrown\(\) has parameter \$exceptionString with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/ExceptionContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ExceptionContext\:\:anExceptionIsThrownDuringAnHTTPRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ExceptionContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ExceptionContext\:\:iAmLoggedIn\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ExceptionContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ExceptionContext\:\:iAmNotLoggedIn\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ExceptionContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ExceptionContext\:\:itIsConvertedToAnSymfonyComponentSecurityCoreExceptionAccessDeniedException\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ExceptionContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ExceptionContext\:\:theLoginFormIsShown\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ExceptionContext.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:addValueConstraint\(\) has no return type specified\.$#'
@@ -2335,80 +2053,8 @@ parameters:
 			path: src/bundle/Core/Features/Context/FieldTypeContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentOfThisType\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentOfThisType\(\) has parameter \$field with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentOfThisType\(\) has parameter \$value with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentOfThisTypeWithProperties\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentOfThisTypeWithProperties\(\) has parameter \$fieldType with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentOfThisTypeWithProperties\(\) has parameter \$name with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentType\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentTypeWithFieldType\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentTypeWithFieldType\(\) has parameter \$fieldType with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentTypeWithFieldType\(\) has parameter \$name with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentTypeWithRequiredFieldType\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentTypeWithRequiredFieldType\(\) has parameter \$fieldType with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContentTypeWithRequiredFieldType\(\) has parameter \$name with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: src/bundle/Core/Features/Context/FieldTypeContext.php
 
@@ -2491,54 +2137,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/QueryControllerContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\QueryControllerContext\:\:theQueryResultsAreAssignedToTheTwigVariable\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/QueryControllerContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\QueryControllerContext\:\:theQueryResultsAreAssignedToTheTwigVariable\(\) has parameter \$twigVariableName with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/QueryControllerContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\QueryControllerContext\:\:theQueryResultsAssignedToTheTwigVariableIsAObject\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/QueryControllerContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\QueryControllerContext\:\:theQueryResultsAssignedToTheTwigVariableIsAObject\(\) has parameter \$className with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/QueryControllerContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\QueryControllerContext\:\:theQueryResultsAssignedToTheTwigVariableIsAObject\(\) has parameter \$twigVariableName with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/QueryControllerContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\QueryControllerContext\:\:theQueryResultsAssignedToTheTwigVariableIsAObjectAndHasLimitAndCountParams\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/QueryControllerContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\QueryControllerContext\:\:theQueryResultsAssignedToTheTwigVariableIsAObjectAndHasLimitAndCountParams\(\) has parameter \$pageLimit with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/QueryControllerContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\QueryControllerContext\:\:theQueryResultsAssignedToTheTwigVariableIsAObjectAndHasLimitAndCountParams\(\) has parameter \$pageValue with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/QueryControllerContext.php
-
-		-
 			message: '#^Variable \$valueNodes in PHPDoc tag @var does not match any variable in the foreach loop\: \$currentPage, \$valueNode$#'
 			identifier: varTag.differentVariable
 			count: 1
@@ -2555,144 +2153,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:iDontSeeRole\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:iDontSeeRole\(\) has parameter \$name with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:iHaveRole\(\) has parameter \$name with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:iSeeRole\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:iSeeRole\(\) has parameter \$name with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:noAssginedPolicies\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:noAssginedPolicies\(\) has parameter \$name with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:noAssigneGroups\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:noAssigneGroups\(\) has parameter \$name with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameDoesntExist\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameDoesntExist\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameDoesntExistInGroup\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameDoesntExistInGroup\(\) has parameter \$parentGroup with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameDoesntExistInGroup\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameDoesntExistInGroups\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameDoesntExistInGroups\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameExists\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameExists\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameExistsInGroup\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameExistsInGroup\(\) has parameter \$parentGroup with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameExistsInGroup\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameExistsWithFields\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameExistsWithFields\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:createPasswordHash\(\) has no return type specified\.$#'
@@ -2745,120 +2205,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:findNonExistingUserName\(\) is unused\.$#'
 			identifier: method.unused
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iDontHaveUser\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iDontHaveUser\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iDontHaveUserInGroup\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iDontHaveUserInGroup\(\) has parameter \$parentGroup with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iDontHaveUserInGroup\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveTheFollowingUsers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUser\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUser\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserInGroup\(\) has parameter \$parentGroupName with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserInGroup\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserInGroup\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserWithUsernameEmailAndPassword\(\) has parameter \$email with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserWithUsernameEmailAndPassword\(\) has parameter \$password with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserWithUsernameEmailAndPassword\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserWithUsernameEmailAndPassword\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserWithUsernameEmailAndPasswordInGroup\(\) has parameter \$email with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserWithUsernameEmailAndPasswordInGroup\(\) has parameter \$parentGroupName with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserWithUsernameEmailAndPasswordInGroup\(\) has parameter \$password with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:iHaveUserWithUsernameEmailAndPasswordInGroup\(\) has parameter \$username with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: src/bundle/Core/Features/Context/UserContext.php
 

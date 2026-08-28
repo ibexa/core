@@ -9,12 +9,15 @@ namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Step\Given;
+use Behat\Step\Then;
 use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Webmozart\Assert\Assert as Assertion;
 
 /**
@@ -328,13 +331,10 @@ class UserContext implements Context
     }
 
     /**
-     * @Given there is a User with name :username
-     *
      * Ensures a user with username ':username' exists, creating a new one if necessary.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
-    public function iHaveUser($username)
+    #[Given('there is a User with name :username')]
+    public function iHaveUser(string $username): void
     {
         $email = $this->findNonExistingUserEmail($username);
         $password = $username;
@@ -342,25 +342,19 @@ class UserContext implements Context
     }
 
     /**
-     * @Given there is a User with name :username, email :email and password :password
-     *
      * Ensures a user exists with given username/email/password, creating a new one if necessary.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
-    public function iHaveUserWithUsernameEmailAndPassword($username, $email, $password)
+    #[Given('there is a User with name :username, email :email and password :password')]
+    public function iHaveUserWithUsernameEmailAndPassword(string $username, string $email, string $password): void
     {
         $this->ensureUserExists($username, $email, $password);
     }
 
     /**
-     * @Given there is a User with name :username in :parentGroup group
-     *
      * Ensures a user with username ':username' exists as a child of ':parentGroup' user group, can create either one.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
-    public function iHaveUserInGroup($username, $parentGroupName)
+    #[Given('there is a User with name :username in :parentGroup group')]
+    public function iHaveUserInGroup(string $username, string $parentGroupName): void
     {
         $email = $this->findNonExistingUserEmail($username);
         $password = $username;
@@ -368,47 +362,43 @@ class UserContext implements Context
     }
 
     /**
-     * @Given there is a User with name :username, email :email and password :password in :parentGroup group
-     *
      * Ensures a user with given username/email/password as a child of ':parentGroup' user group, can create either one.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
-    public function iHaveUserWithUsernameEmailAndPasswordInGroup($username, $email, $password, $parentGroupName)
+    #[Given('there is a User with name :username, email :email and password :password in :parentGroup group')]
+    public function iHaveUserWithUsernameEmailAndPasswordInGroup(string $username, string $email, string $password, string $parentGroupName): User
     {
         return $this->ensureUserExists($username, $email, $password, $parentGroupName);
     }
 
     /**
-     * @Given there isn't a User with name :username
-     *
      * Makes sure a user with username ':username' doesn't exist, removing it if necessary.
      */
-    public function iDontHaveUser($username)
+    #[Given('there isn\'t a User with name :username')]
+    public function iDontHaveUser(string $username): void
     {
         $this->ensureUserDoesntExist($username);
     }
 
     /**
-     * @Given there isn't a User with name :username in :parentGroup group
-     *
      * Makes sure a user with username ':username' doesn't exist as a chield of group ':parentGroup', removing it if necessary.
      */
-    public function iDontHaveUserInGroup($username, $parentGroup)
+    #[Given('there isn\'t a User with name :username in :parentGroup group')]
+    public function iDontHaveUserInGroup(string $username, string $parentGroup): void
     {
         $this->ensureUserDoesntExist($username, $parentGroup);
     }
 
     /**
-     * @Given there are the following Users:
-     *
      * Make sure that users in the provided table exist in their respective parent group. Example:
      *      | username        | parentGroup      |
      *      | testUser1       | Members          |
      *      | testUser2       | Editors          |
      *      | testUser3       | NewParent        | # Both user and group should be created
      */
-    public function iHaveTheFollowingUsers(TableNode $table)
+    #[Given('there are the following Users:')]
+    public function iHaveTheFollowingUsers(TableNode $table): void
     {
         $users = $table->getTable();
         array_shift($users);
@@ -419,13 +409,11 @@ class UserContext implements Context
     }
 
     /**
-     * @Given a User with name :username already exists
-     *
-     * @Then User with name :username exists
-     *
      * Checks that user ':username' exists.
      */
-    public function assertUserWithNameExists($username)
+    #[Given('a User with name :username already exists')]
+    #[Then('User with name :username exists')]
+    public function assertUserWithNameExists(string $username): void
     {
         Assertion::true(
             $this->checkUserExistenceByUsername($username),
@@ -434,11 +422,10 @@ class UserContext implements Context
     }
 
     /**
-     * @Then User with name :username doesn't exist
-     *
      * Checks that user ':username' does not exist.
      */
-    public function assertUserWithNameDoesntExist($username)
+    #[Then('User with name :username doesn\'t exist')]
+    public function assertUserWithNameDoesntExist(string $username): void
     {
         Assertion::false(
             $this->checkUserExistenceByUsername($username),
@@ -447,12 +434,11 @@ class UserContext implements Context
     }
 
     /**
-     * @Then User with name :username exists in group :parentGroup
-     * @Then User with name :username exists in :parentGroup group
-     *
      * Checks that user ':username' exists as a child of group ':parentGroup'.
      */
-    public function assertUserWithNameExistsInGroup($username, $parentGroup)
+    #[Then('User with name :username exists in group :parentGroup')]
+    #[Then('User with name :username exists in :parentGroup group')]
+    public function assertUserWithNameExistsInGroup(string $username, string $parentGroup): void
     {
         Assertion::true(
             $this->checkUserExistenceByUsername($username, $parentGroup),
@@ -461,12 +447,11 @@ class UserContext implements Context
     }
 
     /**
-     * @Then User with name :username doesn't exist in group :parentGroup
-     * @Then User with name :username doesn't exist in :parentGroup group
-     *
      * Checks that user ':username' does not exist as a child of group ':parentGroup'.
      */
-    public function assertUserWithNameDoesntExistInGroup($username, $parentGroup)
+    #[Then('User with name :username doesn\'t exist in group :parentGroup')]
+    #[Then('User with name :username doesn\'t exist in :parentGroup group')]
+    public function assertUserWithNameDoesntExistInGroup(string $username, string $parentGroup): void
     {
         Assertion::false(
             $this->checkUserExistenceByUsername($username, $parentGroup),
@@ -475,8 +460,6 @@ class UserContext implements Context
     }
 
     /**
-     * @Then User with name :username doesn't exist in the following groups:
-     *
      * Checks that user ':username' does not exist in any of the provided groups. Example:
      *      | parentGroup           |
      *      | Partners              |
@@ -484,7 +467,8 @@ class UserContext implements Context
      *      | Editors               |
      *      | Administrator users   |
      */
-    public function assertUserWithNameDoesntExistInGroups($username, TableNode $table)
+    #[Then('User with name :username doesn\'t exist in the following groups:')]
+    public function assertUserWithNameDoesntExistInGroups(string $username, TableNode $table): void
     {
         $groups = $table->getTable();
         array_shift($groups);
@@ -498,9 +482,6 @@ class UserContext implements Context
     }
 
     /**
-     * @Then User with name :username has the following fields:
-     * @Then User with name :username exists with the following fields:
-     *
      * Checks that user ':username' exists with the values provided in the field/value table. example:
      *       | Name          | value           |
      *       | email         | testuser@ibexa.co  |
@@ -508,7 +489,9 @@ class UserContext implements Context
      *       | first_name    | Test            |
      *       | last_name     | User            |
      */
-    public function assertUserWithNameExistsWithFields($username, TableNode $table)
+    #[Then('User with name :username has the following fields:')]
+    #[Then('User with name :username exists with the following fields:')]
+    public function assertUserWithNameExistsWithFields(string $username, TableNode $table): void
     {
         Assertion::true(
             $this->checkUserExistenceByUsername($username),
