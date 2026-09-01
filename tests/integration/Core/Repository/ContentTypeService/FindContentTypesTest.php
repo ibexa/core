@@ -30,7 +30,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 {
     public function testFindContentTypesWithNullQueryFinds25Results(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes();
 
@@ -47,7 +47,7 @@ final class FindContentTypesTest extends RepositoryTestCase
      */
     public function testFindContentTypes(ContentTypeQuery $query, array $expectedIdentifiers): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes($query);
         $identifiers = array_map(
@@ -61,7 +61,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 
     public function testFindContentTypesAscSortedByIdentifier(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes(
             new ContentTypeQuery(
@@ -80,7 +80,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 
     public function testFindContentTypesAscSortedByName(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes(
             new ContentTypeQuery(
@@ -100,7 +100,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 
     public function testPagination(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $collectedContentTypeIDs = [];
         $pageSize = 10;
@@ -126,7 +126,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 
     public function testFindContentTypesContainingFieldDefinitions(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $folderContentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
         $fieldDefinitionToInclude = null;

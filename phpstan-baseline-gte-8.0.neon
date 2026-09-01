@@ -169,6 +169,12 @@ parameters:
 			path: src/lib/FieldType/TextBlock/Type.php
 
 		-
+			message: '#^Method Ibexa\\Core\\IO\\MimeTypeDetector\\FileInfo\:\:getFromPath\(\) should return string but returns string\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/lib/IO/MimeTypeDetector/FileInfo.php
+
+		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> given\.$#'
 			identifier: argument.type
 			count: 1
