@@ -13099,12 +13099,6 @@ parameters:
 			path: src/lib/IO/MimeTypeDetector/FileInfo.php
 
 		-
-			message: '#^Method Ibexa\\Core\\IO\\MimeTypeDetector\\FileInfo\:\:getFromPath\(\) should return string but returns string\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/IO/MimeTypeDetector/FileInfo.php
-
-		-
 			message: '#^Property Ibexa\\Core\\IO\\MimeTypeDetector\\FileInfo\:\:\$fileInfo \(finfo\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
