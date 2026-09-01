@@ -48,7 +48,7 @@ final class KeywordFieldCriterionTest extends RepositorySearchTestCase
 
     private function createKeywordContentType(): ContentType
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $typeStruct = $contentTypeService->newContentTypeCreateStruct(self::CONTENT_TYPE_IDENTIFIER);
         $typeStruct->mainLanguageCode = 'eng-GB';
@@ -70,7 +70,7 @@ final class KeywordFieldCriterionTest extends RepositorySearchTestCase
 
     private function publishContentWithKeyword(string $keyword): Content
     {
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         $createStruct = $contentService->newContentCreateStruct($this->contentType, 'eng-GB');
         $createStruct->setField(self::FIELD_IDENTIFIER, new KeywordValue([$keyword]));
@@ -78,14 +78,14 @@ final class KeywordFieldCriterionTest extends RepositorySearchTestCase
         return $contentService->publishVersion(
             $contentService->createContent(
                 $createStruct,
-                [self::getLocationService()->newLocationCreateStruct(2)]
+                [$this->getIbexaTestCore()->getLocationService()->newLocationCreateStruct(2)]
             )->getVersionInfo()
         );
     }
 
     private function removeKeywordAndPublish(Content $content): void
     {
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         $draft = $contentService->createContentDraft($content->getContentInfo());
         $updateStruct = $contentService->newContentUpdateStruct();
@@ -100,6 +100,6 @@ final class KeywordFieldCriterionTest extends RepositorySearchTestCase
             'filter' => new Criterion\Field(self::FIELD_IDENTIFIER, Criterion\Operator::EQ, $keyword),
         ]);
 
-        return self::getSearchService()->findContent($query)->totalCount;
+        return $this->getIbexaTestCore()->getSearchService()->findContent($query)->totalCount;
     }
 }
