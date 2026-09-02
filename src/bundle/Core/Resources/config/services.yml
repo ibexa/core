@@ -312,8 +312,6 @@ services:
             $cache: '@ibexa.cache_pool'
 
     Ibexa\Bundle\Core\EventSubscriber\TrustedHeaderClientIpEventSubscriber:
-        arguments:
-            $trustedHeaderName: '%ibexa.trusted_header_client_ip_name%'
         tags:
             - {name: kernel.event_subscriber}
 
