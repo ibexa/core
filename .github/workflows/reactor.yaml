@@ -1,0 +1,12 @@
+name: Reactor Invoker
+
+on:
+    push:
+    pull_request:
+
+jobs:
+    call-reactor:
+        uses: ibexa/gh-workflows/.github/workflows/repo-reactor.yml@main
+        secrets: inherit
+        with:
+            feature_linter: true
