@@ -64,10 +64,12 @@
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
+        "dama/doctrine-test-bundle": "^8.0",
         "deptrac/deptrac": "^4.7",
         "friends-of-behat/mink-extension": "^2.4",
         "ibexa/code-style": "~2.1.0",
         "ibexa/rector": "~6.0.x-dev",
+        "ibexa/test-core": "~6.0.x-dev",
         "jenner/simple_fork": "^1.2",
         "matthiasnoback/symfony-dependency-injection-test": "^5.0",
         "phpstan/phpstan": "^2.0",
@@ -133,7 +135,8 @@
         "deptrac": "php vendor/bin/deptrac analyse",
         "integration": [
             "Composer\\Config::disableProcessTimeout",
-            "phpunit -c phpunit-integration-legacy.xml"
+            "phpunit -c phpunit-integration-legacy.xml",
+            "phpunit -c phpunit-integration.xml"
         ],
         "test-integration-solr": "phpunit -c phpunit-integration-legacy-solr.xml",
         "test": [

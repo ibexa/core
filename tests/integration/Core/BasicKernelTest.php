@@ -9,24 +9,19 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core;
 
 use Ibexa\Contracts\Core\Repository\Repository;
-use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
+use Ibexa\Contracts\Test\Core\IbexaKernelTestCase;
 
 /**
+ * Schema and fixtures are imported once, before the suite runs, by tests/integration/bootstrap.php —
+ * this test only needs to boot the kernel.
+ *
  * @coversNothing
  */
 final class BasicKernelTest extends IbexaKernelTestCase
 {
-    protected function setUp(): void
-    {
-        self::bootKernel();
-
-        self::loadSchema();
-        self::loadFixtures();
-    }
-
     public function testBasicKernelCompiles(): void
     {
-        self::getServiceByClassName(Repository::class);
+        $this->getIbexaTestCore()->getServiceByClassName(Repository::class);
         $this->expectNotToPerformAssertions();
     }
 

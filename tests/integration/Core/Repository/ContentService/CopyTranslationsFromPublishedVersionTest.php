@@ -32,9 +32,9 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
     {
         $this->createContentType();
 
-        $contentService = self::getContentService();
-        $contentTypeService = self::getContentTypeService();
-        $locationService = self::getLocationService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
+        $locationService = $this->getIbexaTestCore()->getLocationService();
 
         // Creating and publishing content in eng-GB language
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::CONTENT_TYPE_IDENTIFIER);
@@ -86,8 +86,8 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
 
     private function createContentType(): void
     {
-        $permissionResolver = self::getPermissionResolver();
-        $contentTypeService = self::getContentTypeService();
+        $permissionResolver = $this->getIbexaTestCore()->getPermissionResolver();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct(self::CONTENT_TYPE_IDENTIFIER);
 
