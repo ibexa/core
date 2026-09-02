@@ -25,7 +25,7 @@ class Keyword extends Collection
                 'f_def',
                 'ezkeyword_attribute_link',
                 'kwd_lnk',
-                'f_def.id = kwd_lnk.objectattribute_id'
+                'f_def.id = kwd_lnk.objectattribute_id AND kwd_lnk.version = f_def.version'
             )
             ->innerJoin(
                 'kwd_lnk',

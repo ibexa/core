@@ -36,6 +36,7 @@
             <file>tests/integration/Core/Repository/SearchServiceContentNameTest.php</file>
             <file>tests/integration/Core/Repository/SearchServiceImageTest.php</file>
             <file>tests/integration/Core/Repository/Filtering/LegacyContentFilteringTest.php</file>
+            <file>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</file>
         </testsuite>
     </testsuites>
     <extensions>
