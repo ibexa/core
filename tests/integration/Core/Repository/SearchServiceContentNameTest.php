@@ -75,7 +75,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
 
         self::assertSame(
             self::TOTAL_COUNT,
-            self::getSearchService()->findContent($query)->totalCount
+            $this->getIbexaTestCore()->getSearchService()->findContent($query)->totalCount
         );
     }
 
@@ -93,7 +93,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         array $expectedContentItemTitles,
         int $expectedCount
     ): void {
-        $result = self::getSearchService()->findContent(
+        $result = $this->getIbexaTestCore()->getSearchService()->findContent(
             $this->createQuery($criterion),
             $this->getLanguageFilter($languageCode)
         );
@@ -239,7 +239,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         string $mainLanguageCode,
         array $translations
     ): Content {
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
         $createStruct = $contentService->newContentCreateStruct(
             $this->loadContentType('article'),
             $mainLanguageCode
@@ -265,7 +265,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
      */
     private function loadContentType(string $contentTypeIdentifier): ContentType
     {
-        return self::getContentTypeService()
+        return $this->getIbexaTestCore()->getContentTypeService()
             ->loadContentTypeByIdentifier($contentTypeIdentifier);
     }
 

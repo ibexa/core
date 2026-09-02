@@ -26,8 +26,8 @@ final class ImageAssetTest extends RepositoryTestCase
     {
         parent::setUp();
 
-        $this->contentService = self::getContentService();
-        $this->contentTypeService = self::getContentTypeService();
+        $this->contentService = $this->getIbexaTestCore()->getContentService();
+        $this->contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
     }
 
     public function testAssetRelationIsRemoved(): void

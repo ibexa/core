@@ -61,7 +61,7 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
      */
     private function prepareMaxLanguages(): void
     {
-        $languageService = self::getLanguageService();
+        $languageService = $this->getIbexaTestCore()->getLanguageService();
 
         foreach (self::$languagesRawList as $languageData) {
             $languageCreateStruct = $languageService->newLanguageCreateStruct();

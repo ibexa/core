@@ -25,9 +25,9 @@ final class UpdateContentTest extends RepositoryTestCase
      */
     public function testUpdateContentHavingPrivateRelation(): void
     {
-        $sectionService = self::getSectionService();
-        $contentService = self::getContentService();
-        $permissionResolver = self::getPermissionResolver();
+        $sectionService = $this->getIbexaTestCore()->getSectionService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $permissionResolver = $this->getIbexaTestCore()->getPermissionResolver();
 
         $this->addRelationFieldToFolderContentType();
 
@@ -46,7 +46,7 @@ final class UpdateContentTest extends RepositoryTestCase
         $folder = $this->publishVersionWithoutChanges($folder->getContentInfo());
 
         // Read relations & check if count($relations) is unchanged
-        self::setAdministratorUser();
+        $this->getIbexaTestCore()->setAdministratorUser();
         $relations = $contentService->loadRelationList($folder->getVersionInfo());
         self::assertCount(1, $relations->items);
     }
@@ -56,7 +56,7 @@ final class UpdateContentTest extends RepositoryTestCase
      */
     private function addRelationFieldToFolderContentType(): void
     {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $folderTypeDraft = $contentTypeService->createContentTypeDraft($folderType);
 
@@ -75,7 +75,7 @@ final class UpdateContentTest extends RepositoryTestCase
      */
     private function createPrivateSection(): Section
     {
-        $sectionService = self::getSectionService();
+        $sectionService = $this->getIbexaTestCore()->getSectionService();
 
         $sectionCreateStruct = $sectionService->newSectionCreateStruct();
         $sectionCreateStruct->identifier = 'private';
@@ -91,7 +91,7 @@ final class UpdateContentTest extends RepositoryTestCase
      */
     private function createFolderWithRelations(array $relationListTarget): Content
     {
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         $folder = $this->createFolder(['eng-GB' => 'Folder with private relation'], 2);
         $folderDraft = $contentService->createContentDraft($folder->getContentInfo());
@@ -111,8 +111,8 @@ final class UpdateContentTest extends RepositoryTestCase
      */
     private function assignToUserRoleWithStandardSectionLimitation(User $user): void
     {
-        $sectionService = self::getSectionService();
-        $roleService = self::getRoleService();
+        $sectionService = $this->getIbexaTestCore()->getSectionService();
+        $roleService = $this->getIbexaTestCore()->getRoleService();
 
         $roleCreateStruct = $roleService->newRoleCreateStruct('limited_access');
         $roleCreateStruct->addPolicy($roleService->newPolicyCreateStruct('*', '*'));
@@ -144,7 +144,7 @@ final class UpdateContentTest extends RepositoryTestCase
      */
     private function publishVersionWithoutChanges(ContentInfo $contentInfo): Content
     {
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         $folderDraft = $contentService->createContentDraft($contentInfo);
         $folderUpdateStruct = $contentService->newContentUpdateStruct();

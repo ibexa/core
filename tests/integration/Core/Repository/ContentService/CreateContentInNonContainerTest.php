@@ -18,9 +18,9 @@ final class CreateContentInNonContainerTest extends RepositoryTestCase
 {
     public function testCreateContentInNonContainerTest(): void
     {
-        $contentService = self::getContentService();
-        $contentTypeService = self::getContentTypeService();
-        $locationService = self::getLocationService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
+        $locationService = $this->getIbexaTestCore()->getLocationService();
 
         $blogPostType = $contentTypeService->loadContentTypeByIdentifier('blog_post');
         $commentType = $contentTypeService->loadContentTypeByIdentifier('comment');
