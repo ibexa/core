@@ -226,9 +226,22 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->getCache();
     }
 
-    public function find($className, $id): ?object
+    /**
+     * @template T of object
+     *
+     * @phpstan-param class-string<T> $className
+     * @phpstan-param \Doctrine\DBAL\LockMode::*|null $lockMode
+     *
+     * @param string $className
+     * @param mixed $id
+     * @param int|null $lockMode
+     * @param int|null $lockVersion
+     *
+     * @return T|null
+     */
+    public function find($className, $id, ?int $lockMode = null, ?int $lockVersion = null): ?object
     {
-        return $this->getWrapped()->find($className, $id);
+        return $this->getWrapped()->find($className, $id, $lockMode, $lockVersion);
     }
 
     /**
