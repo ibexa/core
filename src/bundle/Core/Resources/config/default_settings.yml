@@ -238,11 +238,19 @@ parameters:
         connection_timeout: 5
         batch_size: 25
         ignore_certificate: false
+        method: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::METHOD_HEAD
+        fallback_to_get: true
+        user_agent: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::DEFAULT_USER_AGENT
+        headers: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::DEFAULT_HEADERS
     ibexa.site_access.config.default.url_handler.https.options:
         timeout: 10
         connection_timeout: 5
         batch_size: 25
         ignore_certificate: false
+        method: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::METHOD_HEAD
+        fallback_to_get: true
+        user_agent: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::DEFAULT_USER_AGENT
+        headers: !php/const Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler::DEFAULT_HEADERS
     ibexa.site_access.config.default.url_handler.mailto.options: {}
 
     ###
