@@ -11,8 +11,9 @@ namespace Ibexa\Bundle\Core\SiteAccess\Config;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParser;
 use Ibexa\Contracts\Core\SiteAccess\ConfigProcessor;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use function str_replace;
 
 final class ComplexConfigProcessor implements ConfigProcessor
@@ -22,7 +23,7 @@ final class ComplexConfigProcessor implements ConfigProcessor
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService */
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface */
     private $siteAccessService;
 
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParserInterface */
@@ -30,7 +31,7 @@ final class ComplexConfigProcessor implements ConfigProcessor
 
     public function __construct(
         ConfigResolverInterface $configResolver,
-        SiteAccessService $siteAccessService
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->configResolver = $configResolver;
         $this->siteAccessService = $siteAccessService;
@@ -41,7 +42,7 @@ final class ComplexConfigProcessor implements ConfigProcessor
 
     public function processComplexSetting(string $setting): string
     {
-        $siteAccessName = $this->siteAccessService->getCurrent()->name;
+        $siteAccessName = $this->getCurrentSiteAccessName();
 
         if (!$this->configResolver->hasParameter($setting, null, $siteAccessName)) {
             throw new ParameterNotFoundException($setting, null, [$siteAccessName]);
@@ -74,12 +75,22 @@ final class ComplexConfigProcessor implements ConfigProcessor
             $dynamicSettingValue = $this->configResolver->getParameter(
                 $parts['param'],
                 $parts['namespace'],
-                $parts['scope'] ?? $this->siteAccessService->getCurrent()->name
+                $parts['scope'] ?? $this->getCurrentSiteAccessName()
             );
 
             $value = str_replace($dynamicSetting, $dynamicSettingValue, $value);
         }
 
         return $value;
+    }
+
+    private function getCurrentSiteAccessName(): string
+    {
+        $siteAccess = $this->siteAccessService->getCurrent();
+        if ($siteAccess === null) {
+            throw new InvalidArgumentException('siteAccess', 'no SiteAccess given and none currently set');
+        }
+
+        return $siteAccess->name;
     }
 }

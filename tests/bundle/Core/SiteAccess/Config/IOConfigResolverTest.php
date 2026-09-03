@@ -12,7 +12,7 @@ use Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor;
 use Ibexa\Bundle\Core\SiteAccess\Config\IOConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,14 +25,14 @@ class IOConfigResolverTest extends TestCase
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $siteAccessService;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
-        $this->siteAccessService = $this->createMock(SiteAccessService::class);
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
     }
 
     public function testGetUrlPrefix(): void

@@ -12,7 +12,7 @@ services:
         class: Ibexa\Bundle\Core\Command\DebugConfigResolverCommand
         arguments:
             - '@ibexa.config.resolver'
-            - '@Ibexa\Core\MVC\Symfony\SiteAccess'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
         tags:
             - { name: console.command }
 

@@ -11,6 +11,8 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 
 /**
  * Interface for SiteAccess aware services.
+ *
+ * @deprecated 6.0, to be removed in 7.0. Use \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface::getCurrent() instead.
  */
 interface SiteAccessAware
 {

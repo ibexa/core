@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 use Ibexa\Core\MVC\Symfony\Routing\Generator;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\TestCase;
@@ -28,12 +29,16 @@ class GeneratorTest extends TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $logger;
 
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $siteAccessService;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->siteAccessRouter = $this->createMock(SiteAccessRouterInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->generator = $this->getMockForAbstractClass(Generator::class);
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
+        $this->generator = $this->getMockForAbstractClass(Generator::class, [$this->siteAccessService]);
         $this->generator->setSiteAccessRouter($this->siteAccessRouter);
         $this->generator->setLogger($this->logger);
     }
@@ -59,7 +64,7 @@ class GeneratorTest extends TestCase
     public function testSimpleGenerate($urlResource, array $parameters, $referenceType)
     {
         $matcher = $this->createMock(URILexer::class);
-        $this->generator->setSiteAccess(new SiteAccess('test', 'fake', $matcher));
+        $this->siteAccessService->method('getCurrent')->willReturn(new SiteAccess('test', 'fake', $matcher));
 
         $baseUrl = '/base/url';
         $requestContext = new RequestContext($baseUrl);
@@ -92,7 +97,7 @@ class GeneratorTest extends TestCase
     public function testGenerateWithSiteAccessNoReverseMatch($urlResource, array $parameters, $referenceType)
     {
         $matcher = $this->createMock(URILexer::class);
-        $this->generator->setSiteAccess(new SiteAccess('test', 'test', $matcher));
+        $this->siteAccessService->method('getCurrent')->willReturn(new SiteAccess('test', 'test', $matcher));
 
         $baseUrl = '/base/url';
         $requestContext = new RequestContext($baseUrl);

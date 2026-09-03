@@ -1603,18 +1603,6 @@ parameters:
 			path: src/bundle/Core/EventListener/ConfigScopeListener.php
 
 		-
-			message: '#^Cannot access property \$matchingType on Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: property.nonObject
-			count: 2
-			path: src/bundle/Core/EventListener/ConsoleCommandListener.php
-
-		-
-			message: '#^Cannot access property \$name on Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: property.nonObject
-			count: 3
-			path: src/bundle/Core/EventListener/ConsoleCommandListener.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\EventListener\\ConsoleCommandListener\:\:onConsoleCommand\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1629,18 +1617,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\EventListener\\ConsoleCommandListener\:\:setDebug\(\) has parameter \$debug with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/EventListener/ConsoleCommandListener.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\EventListener\\ConsoleCommandListener\:\:setSiteAccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/EventListener/ConsoleCommandListener.php
-
-		-
-			message: '#^Parameter \#1 \$siteAccess of class Ibexa\\Core\\MVC\\Symfony\\Event\\ScopeChangeEvent constructor expects Ibexa\\Core\\MVC\\Symfony\\SiteAccess, Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null given\.$#'
-			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/EventListener/ConsoleCommandListener.php
 
@@ -2977,12 +2953,6 @@ parameters:
 			path: src/bundle/Core/Fragment/InlineFragmentRenderer.php
 
 		-
-			message: '#^Property Ibexa\\Bundle\\Core\\Fragment\\InlineFragmentRenderer\:\:\$siteAccess is never read, only written\.$#'
-			identifier: property.onlyWritten
-			count: 1
-			path: src/bundle/Core/Fragment/InlineFragmentRenderer.php
-
-		-
 			message: '#^Trait Ibexa\\Bundle\\Core\\Fragment\\SiteAccessSerializationTrait is used zero times and is not analysed\.$#'
 			identifier: trait.unused
 			count: 1
@@ -3028,24 +2998,6 @@ parameters:
 			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Cache\\AliasGeneratorDecorator\:\:getVariation\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: src/bundle/Core/Imagine/Cache/AliasGeneratorDecorator.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Cache\\AliasGeneratorDecorator\:\:setSiteAccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Imagine/Cache/AliasGeneratorDecorator.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\Core\\Imagine\\Cache\\AliasGeneratorDecorator\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/bundle/Core/Imagine/Cache/AliasGeneratorDecorator.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\:\:\$name \(string\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 2
 			path: src/bundle/Core/Imagine/Cache/AliasGeneratorDecorator.php
 
 		-
@@ -3401,12 +3353,6 @@ parameters:
 			identifier: class.extendsFinalByPhpDoc
 			count: 1
 			path: src/bundle/Core/Routing/DefaultRouter.php
-
-		-
-			message: '#^Cannot access property \$name on Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: property.nonObject
-			count: 2
-			path: src/bundle/Core/SiteAccess/Config/ComplexConfigProcessor.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\SiteAccess\\Matcher\:\:setMatchingConfiguration\(\) has no return type specified\.$#'
@@ -7347,18 +7293,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Helper\\ContentPreviewHelper\:\:setPreviewedLocation\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/lib/Helper/ContentPreviewHelper.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Helper\\ContentPreviewHelper\:\:setSiteAccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Helper/ContentPreviewHelper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Helper\\ContentPreviewHelper\:\:\$originalSiteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Helper/ContentPreviewHelper.php
 

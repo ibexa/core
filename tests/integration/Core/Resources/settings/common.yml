@@ -106,13 +106,21 @@ services:
     Ibexa\Core\MVC\Symfony\SiteAccess:
         arguments: ['default', !php/const Ibexa\Core\MVC\Symfony\SiteAccess::MATCHING_TYPE_UNINITIALIZED]
 
+    # Dedicated SiteAccess used to seed SiteAccessService below: integration tests never dispatch a
+    # real request, so this establishes a default current SiteAccess the same way ConsoleCommandListener
+    # does for CLI (a fresh SiteAccess passed to changeSiteAccess(), no shared/mutated singleton).
+    ibexa.test.default_site_access:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess
+        arguments: ['default']
+
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService:
         class: Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService
         arguments:
             - '@ibexa.siteaccess.provider'
             - '@ibexa.config.resolver'
+            - '@Symfony\Component\EventDispatcher\EventDispatcher'
         calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - [changeSiteAccess, ['@ibexa.test.default_site_access']]
 
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface:
         alias: 'Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'

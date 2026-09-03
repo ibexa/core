@@ -9,8 +9,8 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainRoutingPass;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -74,7 +74,7 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
     {
         $defaultRouter = new Definition();
         $this->setDefinition('router.default', $defaultRouter);
-        $this->setDefinition(SiteAccess::class, new Definition());
+        $this->setDefinition(SiteAccessServiceInterface::class, new Definition());
         $this->setDefinition('ibexa.config.resolver', new Definition());
         $this->setDefinition(Router::class, new Definition());
 
@@ -90,10 +90,10 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         // Assertion for default router
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'router.default',
-            'setSiteAccess',
-            [new Reference(SiteAccess::class)]
+            '$siteAccessService',
+            new Reference(SiteAccessServiceInterface::class)
         );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'router.default',

@@ -12,6 +12,7 @@ use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\FragmentListenerFactory;
 use Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\SiteAccessSerializerInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -67,7 +68,11 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $decoratedInlineDef = $this->container->getDefinition('fragment.renderer.inline');
         self::assertSame(['kernel.fragment_renderer' => [[]]], $decoratedInlineDef->getTags());
         self::assertEquals(
-            [new Reference('fragment.renderer.inline.inner'), new Reference(SiteAccessSerializerInterface::class)],
+            [
+                new Reference('fragment.renderer.inline.inner'),
+                new Reference(SiteAccessSerializerInterface::class),
+                new Reference(SiteAccessServiceInterface::class),
+            ],
             $decoratedInlineDef->getArguments()
         );
         self::assertSame(InlineFragmentRenderer::class, $decoratedInlineDef->getClass());
@@ -76,7 +81,11 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $decoratedEsiDef = $this->container->getDefinition('fragment.renderer.esi');
         self::assertSame(['kernel.fragment_renderer' => [[]]], $decoratedEsiDef->getTags());
         self::assertEquals(
-            [new Reference('fragment.renderer.esi.inner'), new Reference(SiteAccessSerializerInterface::class)],
+            [
+                new Reference('fragment.renderer.esi.inner'),
+                new Reference(SiteAccessSerializerInterface::class),
+                new Reference(SiteAccessServiceInterface::class),
+            ],
             $decoratedEsiDef->getArguments()
         );
 
@@ -84,7 +93,11 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $decoratedHincludeDef = $this->container->getDefinition('fragment.renderer.hinclude');
         self::assertSame(['kernel.fragment_renderer' => [[]]], $decoratedHincludeDef->getTags());
         self::assertEquals(
-            [new Reference('fragment.renderer.hinclude.inner'), new Reference(SiteAccessSerializerInterface::class)],
+            [
+                new Reference('fragment.renderer.hinclude.inner'),
+                new Reference(SiteAccessSerializerInterface::class),
+                new Reference(SiteAccessServiceInterface::class),
+            ],
             $decoratedHincludeDef->getArguments()
         );
     }

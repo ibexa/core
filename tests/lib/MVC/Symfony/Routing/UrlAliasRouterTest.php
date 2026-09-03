@@ -18,6 +18,7 @@ use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
@@ -77,6 +78,7 @@ class UrlAliasRouterTest extends TestCase
                     $repository,
                     $this->createMock(RouterInterface::class),
                     $this->createMock(ConfigResolverInterface::class),
+                    $this->createMock(SiteAccessServiceInterface::class),
                 ]
             )
             ->getMock();

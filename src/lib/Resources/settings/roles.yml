@@ -71,7 +71,7 @@ services:
 
     Ibexa\Core\Limitation\SiteAccessLimitationType:
         class: Ibexa\Core\Limitation\SiteAccessLimitationType
-        arguments: ['@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService']
+        arguments: ['@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface']
         tags:
             - {name: ibexa.permissions.limitation_type, alias: SiteAccess}
 

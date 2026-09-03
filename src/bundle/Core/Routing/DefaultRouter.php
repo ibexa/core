@@ -11,9 +11,11 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\RequestContextFactory;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -22,10 +24,8 @@ use Symfony\Component\Routing\RequestContext;
 /**
  * Extension of Symfony default router implementing RequestMatcherInterface.
  */
-class DefaultRouter extends Router implements SiteAccessAware
+class DefaultRouter extends Router
 {
-    protected ?SiteAccess $siteAccess = null;
-
     /** @var string[] */
     protected array $nonSiteAccessAwareRoutes = [];
 
@@ -33,14 +33,25 @@ class DefaultRouter extends Router implements SiteAccessAware
 
     protected SiteAccessRouterInterface $siteAccessRouter;
 
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function __construct(
+        ContainerInterface $container,
+        mixed $resource,
+        array $options = [],
+        ?RequestContext $context = null,
+        ?ContainerInterface $parameters = null,
+        ?LoggerInterface $logger = null,
+        ?string $defaultLocale = null,
+        private ?SiteAccessServiceInterface $siteAccessService = null,
+    ) {
+        parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
+    }
+
     public function setConfigResolver(ConfigResolverInterface $configResolver): void
     {
         $this->configResolver = $configResolver;
-    }
-
-    public function setSiteAccess(?SiteAccess $siteAccess = null): void
-    {
-        $this->siteAccess = $siteAccess;
     }
 
     /**
@@ -80,7 +91,7 @@ class DefaultRouter extends Router implements SiteAccessAware
      */
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
-        $siteAccess = $this->siteAccess;
+        $siteAccess = $this->siteAccessService?->getCurrent();
         $originalContext = $context = $this->getContext();
         $isSiteAccessAware = $this->isSiteAccessAwareRoute($name);
 
@@ -92,7 +103,7 @@ class DefaultRouter extends Router implements SiteAccessAware
                 $context = $this->getContextBySimplifiedRequest($siteAccess->matcher->getRequest());
                 $this->setContext($context);
             } elseif ($this->logger) {
-                $siteAccess = $this->siteAccess;
+                $siteAccess = $this->siteAccessService?->getCurrent();
                 $this->logger->notice("Could not generate a link using provided 'siteaccess' parameter: {$parameters['siteaccess']}. Generating using current context.");
             }
 

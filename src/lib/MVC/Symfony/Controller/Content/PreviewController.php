@@ -121,39 +121,51 @@ class PreviewController
         }
 
         $siteAccess = $this->previewHelper->getOriginalSiteAccess();
+        if ($siteAccess === null) {
+            throw new BadStateException('siteAccess', 'no SiteAccess currently set, cannot preview');
+        }
+
         // Only switch if $siteAccessName is set and different from original
         if ($siteAccessName !== null && $siteAccessName !== $siteAccess->name) {
             $siteAccess = $this->previewHelper->changeConfigScope($siteAccessName);
         }
 
         try {
-            $viewType = $request->query->get('viewType', ViewManagerInterface::VIEW_TYPE_FULL);
-            $response = $this->kernel->handle(
-                $this->getForwardRequest($location, $content, $siteAccess, $request, $language, $viewType),
-                HttpKernelInterface::SUB_REQUEST,
-                false
-            );
-        } catch (APINotFoundException $e) {
-            $message = sprintf('Location (%s) not found or not available in requested language (%s)', $location->id, $language);
-            $this->logger->warning(
-                sprintf('%s %s', $message, 'when loading the preview page'),
-                ['exception' => $e]
-            );
-            if ($this->debugMode) {
-                throw new BadStateException('Preview page', $message, $e);
+            try {
+                $viewType = $request->query->get('viewType', ViewManagerInterface::VIEW_TYPE_FULL);
+                $response = $this->kernel->handle(
+                    $this->getForwardRequest($location, $content, $siteAccess, $request, $language, $viewType),
+                    HttpKernelInterface::SUB_REQUEST,
+                    false
+                );
+            } catch (APINotFoundException $e) {
+                $message = sprintf('Location (%s) not found or not available in requested language (%s)', $location->id, $language);
+                $this->logger->warning(
+                    sprintf('%s %s', $message, 'when loading the preview page'),
+                    ['exception' => $e]
+                );
+                if ($this->debugMode) {
+                    throw new BadStateException('Preview page', $message, $e);
+                }
+
+                return new Response($message);
+            } catch (Exception $e) {
+                return $this->buildResponseForGenericPreviewError($location, $content, $e);
             }
+            $response->headers->addCacheControlDirective('no-cache', true);
+            $response->setPrivate();
 
-            return new Response($message);
-        } catch (Exception $e) {
-            return $this->buildResponseForGenericPreviewError($location, $content, $e);
+            return $response;
+        } finally {
+            // Guarantee the scope is restored and the preview flag is cleared however this method
+            // exits (success, a caught exception's early return, or an uncaught one) — otherwise
+            // SiteAccessService and ConfigResolver's scope can be left disagreeing once the request
+            // finishes and the stack silently unwinds without a CONFIG_SCOPE_RESTORE. Safe to call
+            // unconditionally even when the scope was never changed above: restoreSiteAccess()'s
+            // floor guard never pops past the request-matched entry, so it's a no-op in that case.
+            $this->previewHelper->restoreConfigScope();
+            $this->previewHelper->setPreviewActive(false);
         }
-        $response->headers->addCacheControlDirective('no-cache', true);
-        $response->setPrivate();
-
-        $this->previewHelper->restoreConfigScope();
-        $this->previewHelper->setPreviewActive(false);
-
-        return $response;
     }
 
     /**
