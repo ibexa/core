@@ -2440,6 +2440,55 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         );
     }
 
+    public function testUpdateFieldDefinitionPreservesDefaultValueWhenNotInUpdateStruct(): void
+    {
+        $repository = $this->getRepository();
+        $contentTypeService = $repository->getContentTypeService();
+
+        $contentTypeDraft = $this->createContentTypeDraft();
+        $fieldDefinition = $contentTypeDraft->getFieldDefinition('body');
+
+        self::assertNotNull($fieldDefinition);
+        self::assertNotNull($fieldDefinition->defaultValue);
+        self::assertSame(2, $fieldDefinition->position);
+
+        $updateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
+        $updateStruct->position = 100;
+
+        $contentTypeService->updateFieldDefinition($contentTypeDraft, $fieldDefinition, $updateStruct);
+        $contentTypeDraft = $contentTypeService->loadContentTypeDraft($contentTypeDraft->id);
+        $updatedFieldDefinition = $contentTypeDraft->getFieldDefinition('body');
+
+        self::assertNotNull($updatedFieldDefinition);
+        self::assertEquals($fieldDefinition->defaultValue, $updatedFieldDefinition->defaultValue);
+        self::assertSame(100, $updatedFieldDefinition->position);
+    }
+
+    public function testUpdateFieldDefinitionClearsDefaultValueWhenExplicitlySetToEmptyValue(): void
+    {
+        $repository = $this->getRepository();
+        $contentTypeService = $repository->getContentTypeService();
+
+        $fieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('my_name', 'ezstring');
+        $fieldCreateStruct->defaultValue = 'Foo';
+
+        $contentTypeDraft = $this->createContentTypeDraft([$fieldCreateStruct]);
+        $fieldDefinition = $contentTypeDraft->getFieldDefinition('my_name');
+
+        self::assertNotNull($fieldDefinition);
+        self::assertEquals(new TextLineValue('Foo'), $fieldDefinition->defaultValue);
+
+        $updateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
+        $updateStruct->defaultValue = '';
+
+        $contentTypeService->updateFieldDefinition($contentTypeDraft, $fieldDefinition, $updateStruct);
+        $contentTypeDraft = $contentTypeService->loadContentTypeDraft($contentTypeDraft->id);
+        $updatedFieldDefinition = $contentTypeDraft->getFieldDefinition('my_name');
+
+        self::assertNotNull($updatedFieldDefinition);
+        self::assertEquals(new TextLineValue(''), $updatedFieldDefinition->defaultValue);
+    }
+
     /**
      * Test for the updateFieldDefinition() method with already defined field identifier.
      *

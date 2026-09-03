@@ -425,8 +425,9 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
 
         $spiFieldDefinition->fieldTypeConstraints->validators = $validatorConfiguration;
         $spiFieldDefinition->fieldTypeConstraints->fieldSettings = $fieldSettings;
+        $defaultValue = $fieldDefinitionUpdateStruct->defaultValue ?? $fieldDefinition->defaultValue;
         $spiFieldDefinition->defaultValue = $fieldType->toPersistenceValue(
-            $fieldType->acceptValue($fieldDefinitionUpdateStruct->defaultValue)
+            $fieldType->acceptValue($defaultValue)
         );
 
         return $spiFieldDefinition;
