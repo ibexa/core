@@ -16,6 +16,14 @@ services:
         tags:
             - { name: ibexa.installer, type: ibexa-oss }
 
+    Ibexa\Bundle\RepositoryInstaller\Installer\CoreUpgrader:
+        autowire: true
+        parent: Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller
+        #arguments:
+        #    $defaultTableOptions: [] # '%ibexa.schema.default_table_options%'
+        tags:
+            - { name: ibexa.upgrader, type: ibexa-oss }
+
     Ibexa\Bundle\RepositoryInstaller\Command\InstallPlatformCommand:
         arguments:
             $connection: '@ibexa.persistence.connection'
@@ -23,6 +31,16 @@ services:
             $cachePool: '@ibexa.cache_pool'
             $environment: "%kernel.environment%"
             $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\RepositoryInstaller\Command\UpgradePlatformCommand:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+            $installers: []
+            $cachePool: '@ibexa.cache_pool'
+            $environment: "%kernel.environment%"
+            $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
         tags:
             - { name: console.command }
 
