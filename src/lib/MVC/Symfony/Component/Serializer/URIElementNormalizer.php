@@ -17,6 +17,18 @@ final class URIElementNormalizer extends AbstractPropertyWhitelistNormalizer
         return $data instanceof URIElement;
     }
 
+    public function normalize($object, ?string $format = null, array $context = [])
+    {
+        // Trigger lazy initialization of URIElement::$uriElements from the matched request,
+        // so the serialized representation stays usable after deserialization, where
+        // the request is not available (IBX-12102).
+        if ($object instanceof URIElement) {
+            $object->match();
+        }
+
+        return parent::normalize($object, $format, $context);
+    }
+
     /**
      * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement::__sleep
      */

@@ -65,10 +65,12 @@
     "require-dev": {
         "behat/behat": "^3.6.1",
         "composer-runtime-api": "^2.0",
+        "dama/doctrine-test-bundle": "^6.7",
         "jenner/simple_fork": "^1.2",
         "friends-of-behat/mink-extension": "^2.4",
         "ibexa/ci-scripts": "^0.2@dev",
         "ibexa/code-style": "^1.0",
+        "ibexa/test-core": "~4.6.x-dev",
         "phpunit/phpunit": "^8.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "symfony/phpunit-bridge": "^5.4",
@@ -146,7 +148,8 @@
         "phpstan": "phpstan analyse",
         "integration": [
             "Composer\\Config::disableProcessTimeout",
-            "phpunit -c phpunit-integration-legacy.xml"
+            "phpunit -c phpunit-integration-legacy.xml",
+            "phpunit -c phpunit-integration.xml"
         ],
         "test-integration-solr": "phpunit -c phpunit-integration-legacy-solr.xml",
         "test": [

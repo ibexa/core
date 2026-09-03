@@ -17,15 +17,19 @@ use PHPUnit\Framework\TestCase;
 
 final class URIElementNormalizerTest extends TestCase
 {
-    public function testNormalization(): void
+    /**
+     * @dataProvider provideForTestNormalization
+     */
+    public function testNormalization(bool $initializeUriElements): void
     {
         $normalizer = new URIElementNormalizer();
         $normalizer->setSerializer(new SerializerStub());
 
         $matcher = new URIElement(2);
-        // Set request and invoke match to initialize HostElement::$hostElements
-        $matcher->setRequest(SimplifiedRequest::fromUrl('http://ezpublish.dev/foo/bar'));
-        $matcher->match();
+        $matcher->setRequest(SimplifiedRequest::fromUrl('https://ibexa.dev/foo/bar'));
+        if ($initializeUriElements) {
+            $matcher->match();
+        }
 
         $this->assertEquals(
             [
@@ -34,6 +38,16 @@ final class URIElementNormalizerTest extends TestCase
             ],
             $normalizer->normalize($matcher)
         );
+    }
+
+    /**
+     * @return iterable<string, array{bool}>
+     */
+    public static function provideForTestNormalization(): iterable
+    {
+        yield 'uriElements initialized by match()' => [true];
+        // uriElements must be computed from the request during normalization (IBX-12102)
+        yield 'uriElements not yet initialized' => [false];
     }
 
     public function testSupportsNormalization(): void

@@ -58,7 +58,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
             ]
         );
 
-        $searchHits = self::getSearchService()->findContent($query);
+        $searchHits = $this->getIbexaTestCore()->getSearchService()->findContent($query);
 
         self::assertSame(
             $expectedCount,
@@ -349,7 +349,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         string $path,
         string $fileName
     ): void {
-        $contentCreateStruct = self::getContentService()->newContentCreateStruct(
+        $contentCreateStruct = $this->getIbexaTestCore()->getContentService()->newContentCreateStruct(
             $contentType,
             'eng-GB'
         );
@@ -361,7 +361,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         $contentCreateStruct->setField('name', new TextValue('Image'), 'eng-GB');
         $contentCreateStruct->setField('image', $imageValue, 'eng-GB');
 
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
         $contentService->publishVersion(
             $contentService
                 ->createContent($contentCreateStruct)
@@ -371,7 +371,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
 
     private function loadContentTypeImage(): ContentType
     {
-        $imageContentType = self::getContentTypeService()->loadContentTypeByIdentifier(self::IMAGE_CONTENT_TYPE);
+        $imageContentType = $this->getIbexaTestCore()->getContentTypeService()->loadContentTypeByIdentifier(self::IMAGE_CONTENT_TYPE);
 
         $this->ensureImageFieldTypeIsSearchable($imageContentType);
 
@@ -389,7 +389,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         }
 
         $this->setFieldTypeAsSearchable(
-            self::getContentTypeService()->createContentTypeDraft($contentType),
+            $this->getIbexaTestCore()->getContentTypeService()->createContentTypeDraft($contentType),
             $fieldDefinition
         );
     }
@@ -403,11 +403,11 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         ContentTypeDraft $contentTypeDraft,
         FieldDefinition $fieldDefinition
     ): void {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $fieldDefinitionUpdateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
         $fieldDefinitionUpdateStruct->isSearchable = true;
 
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $contentTypeService->updateFieldDefinition(
             $contentTypeDraft,
             $fieldDefinition,

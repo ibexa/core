@@ -1,0 +1,45 @@
+<?xml version = '1.0' encoding = 'utf-8'?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="tests/integration/bootstrap.php"
+         processIsolation="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         colors="true"
+         failOnWarning="true"
+         >
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+        <ini name="error_reporting" value="-1" />
+        <env name="DATABASE_URL" value="sqlite://i@i/var/test-bootstrapper.db" />
+        <env name="KERNEL_CLASS" value="Ibexa\Tests\Integration\Core\TestKernel"/>
+        <env name="SEARCH_ENGINE" value="legacy"/>
+    </php>
+    <testsuites>
+        <testsuite name="integration_core">
+            <file>tests/integration/Core/BasicKernelTest.php</file>
+            <file>tests/integration/Core/Repository/SerializationTest.php</file>
+            <file>tests/integration/Core/Repository/ContentTypeService/FindContentTypesTest.php</file>
+            <file>tests/integration/Core/Repository/ContentService/CopyNonTranslatableFieldsFromPublishedVersionTest.php</file>
+            <file>tests/integration/Core/Persistence/Legacy/BookmarkHandlerTest.php</file>
+            <file>tests/integration/Core/Repository/ContentService/CopyTranslationsFromPublishedVersionTest.php</file>
+            <file>tests/integration/Core/Repository/URLAliasService/UrlAliasLookupTest.php</file>
+            <file>tests/integration/Core/Repository/ContentService/ContentUpdateAfterAddingFieldDefinitionTest.php</file>
+            <file>tests/integration/Core/Repository/ContentService/UpdateContentTest.php</file>
+            <file>tests/integration/Core/Repository/ContentService/ImageAssetTest.php</file>
+            <file>tests/integration/Core/Repository/ContentService/LoadVersionInfoTest.php</file>
+            <file>tests/integration/Core/Repository/ContentService/DeleteContentTest.php</file>
+            <file>tests/integration/Core/Repository/ContentService/MaxLanguagesContentServiceTest.php</file>
+            <file>tests/integration/Core/Repository/SearchServiceBookmarkTest.php</file>
+            <file>tests/integration/Core/Repository/SearchServiceContentNameTest.php</file>
+            <file>tests/integration/Core/Repository/SearchServiceImageTest.php</file>
+            <file>tests/integration/Core/Repository/Filtering/LegacyContentFilteringTest.php</file>
+            <file>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</file>
+        </testsuite>
+    </testsuites>
+    <extensions>
+        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+    </extensions>
+</phpunit>

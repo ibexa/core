@@ -26,6 +26,14 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    ibexa.siteaccess_restore_listener:
+        class: Ibexa\Core\MVC\Symfony\EventListener\SiteAccessRestoreListener
+        arguments:
+            $requestStack: '@request_stack'
+            $eventDispatcher: '@event_dispatcher'
+        tags:
+            - { name: kernel.event_subscriber }
+
     Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer:
         autoconfigure: false
 
