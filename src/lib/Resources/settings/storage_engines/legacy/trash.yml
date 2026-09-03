@@ -12,6 +12,8 @@ services:
     ibexa.core.trash.search.legacy.gateway.criteria_converter:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
         lazy: true
+        arguments:
+            $handlers: !tagged_iterator ibexa.search.legacy.trash.gateway.criterion.handler
 
     ibexa.core.trash.search.legacy.gateway.sort_clause_converter:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter

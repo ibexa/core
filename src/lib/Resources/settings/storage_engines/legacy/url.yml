@@ -27,3 +27,5 @@ services:
     Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter:
         class: Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter
         lazy: true
+        arguments:
+            $handlers: !tagged_iterator ibexa.storage.legacy.url.criterion.handler
