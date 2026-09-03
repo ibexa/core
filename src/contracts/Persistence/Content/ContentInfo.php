@@ -43,6 +43,8 @@ class ContentInfo extends ValueObject
      */
     public $contentTypeId;
 
+    public string $contentTypeIdentifier;
+
     /**
      * Section id the content is assigned to.
      *
@@ -134,6 +136,11 @@ class ContentInfo extends ValueObject
      * @var bool
      */
     public $isHidden = false;
+
+    public function getContentTypeIdentifier(): string
+    {
+        return $this->contentTypeIdentifier;
+    }
 }
 
 class_alias(ContentInfo::class, 'eZ\Publish\SPI\Persistence\Content\ContentInfo');
