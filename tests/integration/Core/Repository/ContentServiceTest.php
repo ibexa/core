@@ -6765,6 +6765,77 @@ class ContentServiceTest extends BaseContentServiceTest
         );
     }
 
+    public function testCopyTranslationsFromPublishedToDraftWithNonTranslatableField(): void
+    {
+        $contentTypeService = $this->getRepository()->getContentTypeService();
+
+        $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct(
+            'test_non_translatable_field'
+        );
+        $contentTypeCreateStruct->mainLanguageCode = self::ENG_US;
+        $contentTypeCreateStruct->names = [self::ENG_US => 'Test content type with non-translatable field'];
+        $contentTypeCreateStruct->nameSchema = '<name>';
+
+        $nameField = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
+        $nameField->position = 1;
+        $nameField->isTranslatable = true;
+        $contentTypeCreateStruct->addFieldDefinition($nameField);
+
+        $integerField = $contentTypeService->newFieldDefinitionCreateStruct('integer', 'ezinteger');
+        $integerField->position = 2;
+        $integerField->isTranslatable = false;
+        $contentTypeCreateStruct->addFieldDefinition($integerField);
+
+        $contentTypeService->publishContentTypeDraft(
+            $contentTypeService->createContentType(
+                $contentTypeCreateStruct,
+                [$contentTypeService->loadContentTypeGroupByIdentifier('Content')]
+            )
+        );
+
+        $contentDraft = $this->createContentDraft(
+            'test_non_translatable_field',
+            $this->generateId('location', 2),
+            [
+                'name' => 'test',
+                'integer' => 1,
+            ]
+        );
+        $this->contentService->publishVersion($contentDraft->versionInfo);
+
+        $translationDraft = $this->contentService->createContentDraft($contentDraft->contentInfo);
+        $translationUpdateStruct = new ContentUpdateStruct([
+            'initialLanguageCode' => self::GER_DE,
+        ]);
+        $translationUpdateStruct->setField('name', 'test de', self::GER_DE);
+        $this->contentService->updateContent($translationDraft->versionInfo, $translationUpdateStruct);
+        $publishedContent = $this->contentService->publishVersion($translationDraft->versionInfo);
+
+        $usDraft = $this->contentService->createContentDraft($publishedContent->contentInfo);
+        $deDraft = $this->contentService->createContentDraft($publishedContent->contentInfo);
+
+        $usUpdateStruct = new ContentUpdateStruct([
+            'initialLanguageCode' => self::ENG_US,
+        ]);
+        $usUpdateStruct->setField('name', 'test updated', self::ENG_US);
+        $this->contentService->updateContent($usDraft->versionInfo, $usUpdateStruct);
+        $this->contentService->publishVersion($usDraft->versionInfo, [self::ENG_US]);
+
+        $deUpdateStruct = new ContentUpdateStruct([
+            'initialLanguageCode' => self::GER_DE,
+        ]);
+        $deUpdateStruct->setField('name', 'test de updated', self::GER_DE);
+        $this->contentService->updateContent($deDraft->versionInfo, $deUpdateStruct);
+        $dePublished = $this->contentService->publishVersion($deDraft->versionInfo, [self::GER_DE]);
+
+        $expectedNames = [
+            self::ENG_US => 'test updated',
+            self::GER_DE => 'test de updated',
+        ];
+        $this->assertEquals($expectedNames, $dePublished->fields['name']);
+        $this->assertEquals($expectedNames, $dePublished->getVersionInfo()->getNames());
+    }
+
     /**
      * Create structure of parent folders with Locations to be used for Content hide/reveal tests.
      *
