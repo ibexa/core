@@ -10771,36 +10771,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
 
 		-
-			message: '#^Cannot access offset ''timestamp'' on array\|bool\|float\|int\|string\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateConverter.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateConverter.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateConverter\:\:toFieldValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateConverter.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateConverter\:\:toStorageFieldDefinition\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateConverter.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateConverter\:\:toStorageValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateConverter.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\EmailAddressConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -11089,7 +11059,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataInt \(int\) does not accept array\|bool\|float\|int\|string\|null\.$#'
+			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataInt \(int\|null\) does not accept array\|bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
@@ -11515,7 +11485,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/TimeConverter.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataInt \(int\) does not accept array\|bool\|float\|int\|string\|null\.$#'
+			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataInt \(int\|null\) does not accept array\|bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/TimeConverter.php
@@ -12596,12 +12566,6 @@ parameters:
 
 		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataFloat \(float\) does not accept float\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataInt \(int\) does not accept int\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Mapper.php
@@ -14660,12 +14624,6 @@ parameters:
 
 		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataFloat \(float\) does not accept float\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/Gateway/Content/Mapper/DoctrineGatewayDataMapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataInt \(int\) does not accept int\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/Gateway/Content/Mapper/DoctrineGatewayDataMapper.php
@@ -46835,42 +46793,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToFieldDefinitionDefaultCurrentDate\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToFieldDefinitionDefaultEmpty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToFieldValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToStorageFieldDefinitionDefaultCurrentDate\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToStorageFieldDefinitionDefaultEmpty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateTest\:\:testToStorageValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldValue/Converter/DateTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\ISBNTest\:\:providerForTestToFieldDefinition\(\) has no return type specified\.$#'
