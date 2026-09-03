@@ -28,16 +28,27 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
         $locationContext = $this->prepareLocationContext($queryBuilder);
         $locationAlias = $locationContext['alias'];
 
-        $sort = $this->getSortingExpressionForAlias($locationAlias);
-        $sortAlias = $this->getSortFieldAlias($sort);
-        $queryBuilder->addSelect(sprintf('%s AS %s', $sort, $sortAlias));
-
         if ($locationContext['needsMainLocationJoin']) {
             $this->joinMainLocationOnly($queryBuilder, $locationAlias);
         }
 
+        $this->joinAdditionalTables($queryBuilder, $locationAlias);
+
+        $sort = $this->getSortingExpressionForAlias($locationAlias);
+        $sortAlias = $this->getSortFieldAlias($sort);
+        $queryBuilder->addSelect(sprintf('%s AS %s', $sort, $sortAlias));
+
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
         $queryBuilder->addOrderBy($sortAlias, $sortClause->direction);
+    }
+
+    /**
+     * Hook for sort clauses which need to join further tables against the resolved Location alias.
+     */
+    protected function joinAdditionalTables(
+        FilteringQueryBuilder $queryBuilder,
+        string $locationAlias
+    ): void {
     }
 
     /**

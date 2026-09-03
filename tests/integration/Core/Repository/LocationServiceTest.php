@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Doctrine\DBAL\ParameterType;
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -1968,6 +1969,7 @@ class LocationServiceTest extends BaseTest
 
         $mediaLocationId = $this->generateId('location', 43);
         $demoDesignLocationId = $this->generateId('location', 56);
+        $contactUsLocationId = $this->generateId('location', 60);
 
         /* BEGIN: Use Case */
         $locationService = $repository->getLocationService();
@@ -1975,6 +1977,7 @@ class LocationServiceTest extends BaseTest
 
         $mediaLocation = $locationService->loadLocation($mediaLocationId);
         $demoDesignLocation = $locationService->loadLocation($demoDesignLocationId);
+        $contactUsLocation = $locationService->loadLocation($contactUsLocationId);
 
         // Bookmark locations
         $bookmarkService->createBookmark($mediaLocation);
@@ -1983,13 +1986,13 @@ class LocationServiceTest extends BaseTest
         $beforeSwap = $bookmarkService->loadBookmarks();
 
         // Swaps the content referred to by the locations
-        $locationService->swapLocation($mediaLocation, $demoDesignLocation);
+        $locationService->swapLocation($demoDesignLocation, $contactUsLocation);
 
         $afterSwap = $bookmarkService->loadBookmarks();
         /* END: Use Case */
 
-        $this->assertEquals($beforeSwap->items[0]->id, $afterSwap->items[1]->id);
-        $this->assertEquals($beforeSwap->items[1]->id, $afterSwap->items[0]->id);
+        self::assertEquals($contactUsLocationId, $afterSwap->items[0]->getId());
+        self::assertEquals($beforeSwap->items[1]->getId(), $afterSwap->items[1]->getId());
     }
 
     /**
@@ -2342,6 +2345,26 @@ class LocationServiceTest extends BaseTest
         foreach ($bookmarkService->loadBookmarks(0, 9999) as $bookmarkedLocation) {
             $this->assertNotEquals($childLocation->id, $bookmarkedLocation->id);
         }
+
+        // The assertion above only proves the bookmark is not *listed* but loadBookmarks()
+        // Check the row itself to actually cover the cleanup.
+        $connection = $this->getRawDatabaseConnection();
+        $query = $connection->createQueryBuilder();
+        $query
+            ->select('COUNT(id)')
+            ->from('ezcontentbrowsebookmark')
+            ->where(
+                $query->expr()->eq(
+                    'node_id',
+                    $query->createNamedParameter($childLocation->getId(), ParameterType::INTEGER)
+                )
+            );
+
+        self::assertSame(
+            0,
+            (int)$query->execute()->fetchColumn(),
+            'Bookmark row of a deleted Location should have been removed'
+        );
     }
 
     /**

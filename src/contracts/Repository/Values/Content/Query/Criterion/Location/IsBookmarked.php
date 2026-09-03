@@ -15,6 +15,8 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
 /**
  * This criterion only works for current user reference.
+ *
+ * When used with Content filtering, it matches bookmarks placed on main Locations only.
  */
 final class IsBookmarked extends Location implements FilteringCriterion
 {
