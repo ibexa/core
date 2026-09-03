@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
 /**
  * Handler for a single sort clause.
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 abstract class SortClauseHandler
 {
@@ -57,7 +59,7 @@ abstract class SortClauseHandler
     /**
      * Applies joins to the query.
      *
-     * @param array $languageSettings
+     * @phpstan-param TSearchLanguageFilter $languageSettings
      */
     public function applyJoin(
         QueryBuilder $query,

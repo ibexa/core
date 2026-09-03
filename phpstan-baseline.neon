@@ -18649,12 +18649,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseConverter.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\:\:applyJoin\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\:\:applySelect\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -18709,12 +18703,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/Field.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\Field\:\:applyJoin\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/Field.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\Field\:\:applySelect\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -18745,12 +18733,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/Field.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\MapLocationDistance\:\:applyJoin\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/MapLocationDistance.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\MapLocationDistance\:\:applySelect\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -18763,22 +18745,10 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/SectionIdentifier.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\SectionName\:\:applyJoin\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/SectionName.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\SectionName\:\:applySelect\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/SectionName.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\Trash\\ContentTypeName\:\:applyJoin\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/Trash/ContentTypeName.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\Trash\\ContentTypeName\:\:applySelect\(\) return type has no value type specified in iterable type array\.$#'
@@ -18791,12 +18761,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/Trash/DateTrashed.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\Trash\\UserLogin\:\:applyJoin\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/SortClauseHandler/Trash/UserLogin.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\SortClauseHandler\\Trash\\UserLogin\:\:applySelect\(\) return type has no value type specified in iterable type array\.$#'
