@@ -176,7 +176,7 @@ class MapLocationDistance extends FieldBase
                 'f_def',
                 DoctrineStorage::MAP_LOCATION_TABLE,
                 'map',
-                $expr->and(
+                (string) $expr->and(
                     'map.contentobject_version = f_def.version',
                     'map.contentobject_attribute_id = f_def.id',
                     ...$boundingConstraints

@@ -17,7 +17,6 @@ use Ibexa\Core\Base\Exceptions\ForbiddenException;
 use Ibexa\Core\FieldType\User\UserStorage\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\User\Gateway as UserGateway;
-use PDO;
 
 /**
  * User DoctrineStorage gateway.
@@ -141,7 +140,7 @@ class DoctrineStorage extends Gateway
                     ':fieldId'
                 )
             )
-            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
+            ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
         ;
 
         $statement = $query->executeQuery();
@@ -168,7 +167,7 @@ class DoctrineStorage extends Gateway
                     ':userId'
                 )
             )
-            ->setParameter('userId', $userId, PDO::PARAM_INT)
+            ->setParameter('userId', $userId, ParameterType::INTEGER)
         ;
 
         $statement = $query->executeQuery();
@@ -193,7 +192,7 @@ class DoctrineStorage extends Gateway
                     ':userId'
                 )
             )
-            ->setParameter('userId', $userId, PDO::PARAM_INT)
+            ->setParameter('userId', $userId, ParameterType::INTEGER)
         ;
 
         $statement = $query->executeQuery();

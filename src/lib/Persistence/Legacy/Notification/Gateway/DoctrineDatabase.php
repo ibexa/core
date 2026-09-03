@@ -19,7 +19,6 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
-use PDO;
 
 class DoctrineDatabase extends Gateway
 {
@@ -58,11 +57,11 @@ class DoctrineDatabase extends Gateway
                 self::COLUMN_TYPE => ':type',
                 self::COLUMN_DATA => ':data',
             ])
-            ->setParameter('is_pending', $createStruct->isPending, PDO::PARAM_BOOL)
-            ->setParameter('user_id', $createStruct->ownerId, PDO::PARAM_INT)
-            ->setParameter('created', $createStruct->created, PDO::PARAM_INT)
-            ->setParameter('type', $createStruct->type, PDO::PARAM_STR)
-            ->setParameter('data', json_encode($createStruct->data), PDO::PARAM_STR);
+            ->setParameter('is_pending', $createStruct->isPending, ParameterType::BOOLEAN)
+            ->setParameter('user_id', $createStruct->ownerId, ParameterType::INTEGER)
+            ->setParameter('created', $createStruct->created, ParameterType::INTEGER)
+            ->setParameter('type', $createStruct->type, ParameterType::STRING)
+            ->setParameter('data', json_encode($createStruct->data), ParameterType::STRING);
 
         $query->executeStatement();
 
@@ -77,7 +76,7 @@ class DoctrineDatabase extends Gateway
             ->from(self::TABLE_NOTIFICATION)
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'));
 
-        $query->setParameter('id', $notificationId, PDO::PARAM_INT);
+        $query->setParameter('id', $notificationId, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -166,8 +165,8 @@ class DoctrineDatabase extends Gateway
             ->update(self::TABLE_NOTIFICATION)
             ->set(self::COLUMN_IS_PENDING, ':is_pending')
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-            ->setParameter('is_pending', $notification->isPending, PDO::PARAM_BOOL)
-            ->setParameter('id', $notification->id, PDO::PARAM_INT);
+            ->setParameter('is_pending', $notification->isPending, ParameterType::BOOLEAN)
+            ->setParameter('id', $notification->id, ParameterType::INTEGER);
 
         $query->executeStatement();
     }
@@ -179,7 +178,7 @@ class DoctrineDatabase extends Gateway
             ->select('COUNT(' . self::COLUMN_ID . ')')
             ->from(self::TABLE_NOTIFICATION)
             ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
-            ->setParameter('user_id', $userId, PDO::PARAM_INT);
+            ->setParameter('user_id', $userId, ParameterType::INTEGER);
 
         if ($query !== null && !empty($query->getCriteria())) {
             $this->applyFilters($queryBuilder, $query->getCriteria());
@@ -198,8 +197,8 @@ class DoctrineDatabase extends Gateway
             ->from(self::TABLE_NOTIFICATION)
             ->where($expr->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->andWhere($expr->eq(self::COLUMN_IS_PENDING, ':is_pending'))
-            ->setParameter('is_pending', true, PDO::PARAM_BOOL)
-            ->setParameter('user_id', $userId, PDO::PARAM_INT);
+            ->setParameter('is_pending', true, ParameterType::BOOLEAN)
+            ->setParameter('user_id', $userId, ParameterType::INTEGER);
 
         return (int)$query->executeQuery()->fetchOne();
     }
@@ -218,7 +217,7 @@ class DoctrineDatabase extends Gateway
         }
 
         $query->orderBy(self::COLUMN_ID, 'DESC');
-        $query->setParameter('user_id', $userId, PDO::PARAM_INT);
+        $query->setParameter('user_id', $userId, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -230,7 +229,7 @@ class DoctrineDatabase extends Gateway
             ->select(...$this->getColumns())
             ->from(self::TABLE_NOTIFICATION)
             ->andWhere($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
-            ->setParameter('user_id', $userId, PDO::PARAM_INT)
+            ->setParameter('user_id', $userId, ParameterType::INTEGER)
             ->orderBy(self::COLUMN_ID, 'DESC');
 
         if ($query === null) {
@@ -284,7 +283,7 @@ class DoctrineDatabase extends Gateway
         $query
             ->delete(self::TABLE_NOTIFICATION)
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-            ->setParameter('id', $notificationId, PDO::PARAM_INT);
+            ->setParameter('id', $notificationId, ParameterType::INTEGER);
 
         $query->executeStatement();
     }

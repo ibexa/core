@@ -73,7 +73,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select(array_keys(self::URL_ALIAS_DATA_COLUMN_TYPE_MAP))
+            ->select(...array_keys(self::URL_ALIAS_DATA_COLUMN_TYPE_MAP))
             ->from($this->connection->quoteIdentifier($this->table))
             ->where('action = :action')
             ->andWhere('is_original = :is_original')
@@ -134,7 +134,7 @@ final class DoctrineDatabase extends Gateway
                         'lang_mask',
                         $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                     ),
-                    0
+                    '0'
                 )
             );
         }
@@ -205,7 +205,7 @@ final class DoctrineDatabase extends Gateway
                             ParameterType::INTEGER
                         )
                     ),
-                    0
+                    '0'
                 )
             );
         }
@@ -281,7 +281,7 @@ final class DoctrineDatabase extends Gateway
                         'lang_mask',
                         $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                     ),
-                    0
+                    '0'
                 )
             )
             // 2) ...but not newly published entry
@@ -373,7 +373,7 @@ final class DoctrineDatabase extends Gateway
                                 ParameterType::INTEGER
                             )
                         ),
-                        0
+                        '0'
                     )
                 )
             );
@@ -670,7 +670,7 @@ final class DoctrineDatabase extends Gateway
             $tableAlias = $level !== $count - 1 ? $this->table . $level : 'u';
             $query
                 ->addSelect(
-                    array_map(
+                    ...array_map(
                         static function (string $columnName) use ($tableAlias): string {
                             // do not alias data for top level url part
                             $columnAlias = 'u' === $tableAlias
@@ -1113,7 +1113,7 @@ final class DoctrineDatabase extends Gateway
                         'CAST(%s as %s)',
                         $this->getDatabasePlatform()->getSubstringExpression(
                             $this->connection->quoteIdentifier($this->table) . '.action',
-                            8
+                            '8'
                         ),
                         $this->getIntegerType()
                     )
@@ -1133,7 +1133,7 @@ final class DoctrineDatabase extends Gateway
                 sprintf('NOT EXISTS (%s)', $subQuery->getSQL())
             );
 
-        return $deleteQuery->executeStatement();
+        return (int)$deleteQuery->executeStatement();
     }
 
     public function deleteUrlAliasesWithoutParent(): int
@@ -1156,7 +1156,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->executeStatement();
+        return (int)$query->executeStatement();
     }
 
     public function deleteUrlAliasesWithBrokenLink(): int
@@ -1275,7 +1275,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->groupBy('u_parent.id')
             ->having(
-                $expressionBuilder->eq('COUNT(u.id)', 0)
+                $expressionBuilder->eq('COUNT(u.id)', '0')
             );
 
         $wrapperQueryBuilder
@@ -1293,7 +1293,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter('actionType', self::NOP);
 
-        return $queryBuilder->executeStatement();
+        return (int)$queryBuilder->executeStatement();
     }
 
     /**
@@ -1434,7 +1434,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        return $queryBuilder->executeStatement();
+        return (int)$queryBuilder->executeStatement();
     }
 
     private function getDatabasePlatform(): AbstractPlatform

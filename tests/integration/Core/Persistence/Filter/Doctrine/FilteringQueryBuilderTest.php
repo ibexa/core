@@ -29,7 +29,7 @@ class FilteringQueryBuilderTest extends TestCase
         $connectionMock = $this->createMock(Connection::class);
         $connectionMock->method('getDatabasePlatform')->willReturn($platform);
 
-        $connectionMock->method('getExpressionBuilder')->willReturn(
+        $connectionMock->method('createExpressionBuilder')->willReturn(
             new ExpressionBuilder($connectionMock)
         );
         $this->queryBuilder = new FilteringQueryBuilder($connectionMock);

@@ -256,7 +256,7 @@ class DoctrineStorage extends Gateway
                         $this->connection->quoteIdentifier('keyword') => ':keyword',
                     ]
                 )
-                ->setParameter('contentTypeId', $contentTypeId, \PDO::PARAM_INT);
+                ->setParameter('contentTypeId', $contentTypeId, ParameterType::INTEGER);
 
             foreach (array_keys($keywordsToInsert) as $keyword) {
                 $insertQuery->setParameter('keyword', $keyword);

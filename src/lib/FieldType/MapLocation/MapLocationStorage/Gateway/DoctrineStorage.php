@@ -9,10 +9,10 @@ namespace Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
-use PDO;
 
 class DoctrineStorage extends Gateway
 {
@@ -92,8 +92,8 @@ class DoctrineStorage extends Gateway
             ->setParameter('latitude', $field->value->externalData['latitude'])
             ->setParameter('longitude', $field->value->externalData['longitude'])
             ->setParameter('address', $field->value->externalData['address'])
-            ->setParameter('fieldId', $field->id, PDO::PARAM_INT)
-            ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setParameter('fieldId', $field->id, ParameterType::INTEGER)
+            ->setParameter('versionNo', $versionInfo->versionNo, ParameterType::INTEGER)
         ;
 
         $updateQuery->executeStatement();
@@ -172,8 +172,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
+            ->setParameter('versionNo', $versionNo, ParameterType::INTEGER)
         ;
 
         $statement = $selectQuery->executeQuery();
@@ -232,7 +232,7 @@ class DoctrineStorage extends Gateway
                 )
             )
             ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
-            ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setParameter('versionNo', $versionInfo->versionNo, ParameterType::INTEGER)
         ;
 
         $deleteQuery->executeStatement();

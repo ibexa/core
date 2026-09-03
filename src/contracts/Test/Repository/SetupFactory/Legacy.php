@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory;
+use Ibexa\Contracts\DoctrineSchema\Database\DefaultTableOptions;
 use Ibexa\Core\Base\Container\Compiler;
 use Ibexa\Core\Base\ServiceContainer;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler as CachingLanguageHandler;
@@ -223,7 +224,11 @@ class Legacy extends SetupFactory
     protected function initializeSchema(): void
     {
         if (!self::$schemaInitialized) {
-            $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
+            $schemaImporter = new LegacySchemaImporter(
+                $this->getDatabaseConnection(),
+                new SchemaAssetsFilterBypass(),
+                DefaultTableOptions::AS_ARRAY
+            );
             $schemaImporter->importSchema(
                 dirname(__DIR__, 5) .
                 '/src/bundle/Core/Resources/config/storage/legacy/schema.yaml'

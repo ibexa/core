@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\Gateway;
 
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 // For SORT_ORDER_* constants
@@ -983,7 +984,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ->where(
                 $countAffectedAttr->expr()->eq(
                     'content_type_id',
-                    1
+                    $countAffectedAttr->createNamedParameter(1, ParameterType::INTEGER)
                 )
             );
         // 1 left with version 1

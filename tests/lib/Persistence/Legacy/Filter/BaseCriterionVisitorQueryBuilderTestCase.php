@@ -81,7 +81,7 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
     {
         $connectionMock = $this->createMock(Connection::class);
         $connectionMock
-            ->method('getExpressionBuilder')
+            ->method('createExpressionBuilder')
             ->willReturn(
                 new ExpressionBuilder($connectionMock)
             );

@@ -397,7 +397,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             $query
                 ->select('*')
                 ->from(Gateway::TRASH_TABLE)
-                ->where($query->expr()->eq('node_id', 71))
+                ->where($query->expr()->eq('node_id', $query->createNamedParameter(71, ParameterType::INTEGER)))
         );
     }
 

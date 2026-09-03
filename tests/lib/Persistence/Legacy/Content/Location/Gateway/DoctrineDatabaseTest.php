@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location\Gateway;
 
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -363,7 +362,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_hidden'
                 )
                 ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
-                ->where($query->expr()->eq('contentobject_id', 67))
+                ->where($query->expr()->eq('contentobject_id', $query->createNamedParameter(67, ParameterType::INTEGER)))
         );
     }
 
@@ -628,7 +627,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query
                 ->select($field)
                 ->from(Gateway::CONTENT_TREE_TABLE)
-                ->where($query->expr()->eq('node_id', 228))
+                ->where($query->expr()->eq('node_id', $query->createNamedParameter(228, ParameterType::INTEGER)))
         );
     }
 
@@ -753,7 +752,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $this->getDatabaseConnection()->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($fields)
+            ->select(...$fields)
             ->from($nodeTable)
             ->where(
                 $expr->eq(
@@ -897,7 +896,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             )->where(
                 $query->expr()->eq(
                     'contentobject_id',
-                    4096
+                    $query->createNamedParameter(4096, ParameterType::INTEGER)
                 )
             )
         );
@@ -917,7 +916,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select('count(*)')
                 ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
-                    $query->expr()->eq('contentobject_id', 11)
+                    $query->expr()->eq('contentobject_id', $query->createNamedParameter(11, ParameterType::INTEGER))
                 )
         );
     }
@@ -932,7 +931,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ->select('count(*)')
             ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
             ->where(
-                $query->expr()->eq('contentobject_id', 11)
+                $query->expr()->eq('contentobject_id', $query->createNamedParameter(11, ParameterType::INTEGER))
             );
         $statement = $query->executeQuery();
         $nodeAssignmentsCount = (int)$statement->fetchOne();
@@ -946,7 +945,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select('count(*)')
                 ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
-                    $query->expr()->eq('contentobject_id', 11)
+                    $query->expr()->eq('contentobject_id', $query->createNamedParameter(11, ParameterType::INTEGER))
                 )
         );
     }
@@ -1024,7 +1023,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         if ($field === 'modified_subnode') {
             $statement = $query->executeQuery();
-            $result = $statement->fetch(FetchMode::ASSOCIATIVE);
+            $result = $statement->fetchAssociative();
             self::assertGreaterThanOrEqual($value, $result);
         } else {
             $this->assertQueryResult(
@@ -1198,7 +1197,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query
                 ->select('id')
                 ->from(ContentGateway::CONTENT_ITEM_TABLE)
-                ->where($query->expr()->eq('section_id', 23))
+                ->where($query->expr()->eq('section_id', $query->createNamedParameter(23, ParameterType::INTEGER)))
         );
     }
 

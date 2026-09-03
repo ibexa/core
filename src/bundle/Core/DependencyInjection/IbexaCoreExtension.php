@@ -23,8 +23,10 @@ use Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter;
 use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as FilteringCriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder as FilteringSortClauseQueryBuilder;
+use Ibexa\Contracts\DoctrineSchema\Database\DefaultTableOptions;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
+use Ibexa\Core\Persistence\Doctrine\Query\JsonTextFunction;
 use Ibexa\Core\QueryType\QueryType;
 use InvalidArgumentException;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -43,6 +45,11 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     private const array ENTITY_MANAGER_TEMPLATE = [
         'connection' => null,
         'mappings' => [],
+        'dql' => [
+            'string_functions' => [
+                JsonTextFunction::NAME => JsonTextFunction::class,
+            ],
+        ],
     ];
 
     private const TRANSLATIONS_DIRECTORY = '/vendor/ibexa/i18n/translations';
@@ -644,6 +651,9 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         );
 
         $doctrineConfig = [
+            'dbal' => [
+                'connections' => [],
+            ],
             'orm' => [
                 'entity_managers' => [],
             ],
@@ -652,6 +662,13 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $entityMappingConfig = !empty($entityMappings) ? array_merge_recursive(...$entityMappings) : [];
 
         foreach ($connections as $connection) {
+            // Tables generated from Ibexa's Yaml schema state these options themselves, so
+            // entity-backed tables on the same connection have to agree or MySQL rejects joins
+            // between their character columns. Prepended, so a project can still override it.
+            $doctrineConfig['dbal']['connections'][$connection] = [
+                'default_table_options' => DefaultTableOptions::AS_ARRAY,
+            ];
+
             $doctrineConfig['orm']['entity_managers'][sprintf('ibexa_%s', $connection)] = array_merge(
                 self::ENTITY_MANAGER_TEMPLATE,
                 ['connection' => $connection, 'mappings' => $entityMappingConfig]

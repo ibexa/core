@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -1361,7 +1362,7 @@ class URLAliasServiceTest extends BaseTestCase
                         )
                     );
 
-                return $queryBuilder->execute();
+                return $queryBuilder->executeStatement();
             }
         );
 
@@ -1428,7 +1429,7 @@ class URLAliasServiceTest extends BaseTestCase
                 $expr = $queryBuilder->expr();
                 $queryBuilder
                     ->update(Gateway::TABLE)
-                    ->set('link', $queryBuilder->createPositionalParameter(666, \PDO::PARAM_INT))
+                    ->set('link', $queryBuilder->createPositionalParameter(666, ParameterType::INTEGER))
                     ->where(
                         $expr->eq(
                             'action',
@@ -1440,7 +1441,7 @@ class URLAliasServiceTest extends BaseTestCase
                     ->andWhere(
                         $expr->eq(
                             'is_original',
-                            $queryBuilder->createPositionalParameter(0, \PDO::PARAM_INT)
+                            $queryBuilder->createPositionalParameter(0, ParameterType::INTEGER)
                         )
                     )
                     ->andWhere(
@@ -1448,7 +1449,7 @@ class URLAliasServiceTest extends BaseTestCase
                     )
                 ;
 
-                return $queryBuilder->execute();
+                return $queryBuilder->executeStatement();
             }
         );
 

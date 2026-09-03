@@ -107,7 +107,7 @@ class DoctrineDatabase extends Gateway
                 'c',
                 ContentGateway::CONTENT_FIELD_TABLE,
                 'f_def',
-                $expr->and(
+                (string) $expr->and(
                     'c.id = f_def.contentobject_id',
                     'c.current_version = f_def.version'
                 )
@@ -116,7 +116,7 @@ class DoctrineDatabase extends Gateway
                 'f_def',
                 self::URL_LINK_TABLE,
                 'u_lnk',
-                $expr->and(
+                (string) $expr->and(
                     'f_def.id = u_lnk.contentobject_attribute_id',
                     'f_def.version = u_lnk.contentobject_attribute_version'
                 )
@@ -223,7 +223,7 @@ class DoctrineDatabase extends Gateway
     {
         return $this->connection
             ->createQueryBuilder()
-            ->select($this->getSelectColumns())
+            ->select(...$this->getSelectColumns())
             ->from(self::URL_TABLE, 'url');
     }
 

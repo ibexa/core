@@ -13,6 +13,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
+use Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface;
 use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
@@ -26,6 +27,8 @@ class CoreInstaller extends DbBasedInstaller implements Installer
 
     private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
 
+    private DbPlatformFactoryInterface $dbPlatformFactory;
+
     /**
      * @param \Doctrine\DBAL\Connection $db
      * @param \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface $schemaBuilder
@@ -33,12 +36,22 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     public function __construct(
         Connection $db,
         SchemaBuilderInterface $schemaBuilder,
-        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
+        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass,
+        DbPlatformFactoryInterface $dbPlatformFactory
     ) {
         parent::__construct($db);
 
         $this->schemaBuilder = $schemaBuilder;
         $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
+        $this->dbPlatformFactory = $dbPlatformFactory;
+    }
+
+    private function getIbexaDatabasePlatform(): AbstractPlatform
+    {
+        $driverName = $this->db->getParams()['driver'] ?? '';
+
+        return $this->dbPlatformFactory->createDatabasePlatformFromDriverName($driverName)
+            ?? $this->db->getDatabasePlatform();
     }
 
     /**
@@ -55,7 +68,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     {
         // note: schema is built using Schema Builder event-driven API
         $schema = $this->schemaBuilder->buildSchema();
-        $databasePlatform = $this->db->getDatabasePlatform();
+        $databasePlatform = $this->getIbexaDatabasePlatform();
         $queries = array_merge(
             $this->getDropSqlStatementsForExistingSchema($schema, $databasePlatform),
             // generate schema DDL queries
@@ -125,7 +138,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         // cleanup pre-existing database
         foreach ($tables as $table) {
             if (in_array($table->getName(), $existingTableNames, true)) {
-                $statements[] = $databasePlatform->getDropTableSQL($table);
+                $statements[] = $databasePlatform->getDropTableSQL($table->getName());
             }
         }
 

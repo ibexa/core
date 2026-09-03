@@ -39,22 +39,22 @@ class Visibility extends CriterionHandler
             $expression = $queryBuilder->expr()->and(
                 $queryBuilder->expr()->eq(
                     'subquery_location.is_hidden',
-                    0
+                    '0'
                 ),
                 $queryBuilder->expr()->eq(
                     'subquery_location.is_invisible',
-                    0
+                    '0'
                 )
             );
         } else {
             $expression = $queryBuilder->expr()->or(
                 $queryBuilder->expr()->eq(
                     'subquery_location.is_hidden',
-                    1
+                    '1'
                 ),
                 $queryBuilder->expr()->eq(
                     'subquery_location.is_invisible',
-                    1
+                    '1'
                 )
             );
         }

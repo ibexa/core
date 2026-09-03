@@ -46,6 +46,9 @@ final class ManagedTablesSchemaAssetFilter
     {
     }
 
+    /**
+     * @param string|\Doctrine\DBAL\Schema\AbstractAsset<covariant \Doctrine\DBAL\Schema\Name> $asset
+     */
     public function __invoke(string|AbstractAsset $asset): bool
     {
         $tableName = $asset instanceof AbstractAsset ? $asset->getName() : $asset;
