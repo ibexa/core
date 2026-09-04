@@ -205,6 +205,13 @@ class RoleService implements RoleServiceInterface
             // Do nothing
         }
 
+        $limitationValidationErrors = $this->validateRoleCreateStruct($roleCopyStruct);
+        if (!empty($limitationValidationErrors)) {
+            throw new LimitationValidationException($limitationValidationErrors);
+        }
+
+        // Policies of the copied Role are already persisted; re-validating them would reject a Role
+        // that the Repository loads without complaint, e.g. after its Content Type has been deleted
         foreach ($role->getPolicies() as $policy) {
             $policyCreateStruct = new PolicyCreateStruct([
                 'module' => $policy->module,
@@ -214,11 +221,6 @@ class RoleService implements RoleServiceInterface
                 $policyCreateStruct->addLimitation($limitation);
             }
             $roleCopyStruct->addPolicy($policyCreateStruct);
-        }
-
-        $limitationValidationErrors = $this->validateRoleCreateStruct($roleCopyStruct);
-        if (!empty($limitationValidationErrors)) {
-            throw new LimitationValidationException($limitationValidationErrors);
         }
 
         $spiRoleCopyStruct = $this->roleDomainMapper->buildPersistenceRoleCopyStruct(
