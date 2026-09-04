@@ -9661,12 +9661,6 @@ parameters:
 			path: src/lib/Base/Exceptions/InvalidArgumentType.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Base\\Exceptions\\LimitationValidationException\:\:\$validationErrors\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/Base/Exceptions/LimitationValidationException.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Base\\Exceptions\\LimitationValidationException\:\:addParameter\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
