@@ -13,6 +13,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Annotation\Ignore;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
@@ -157,7 +158,10 @@ class Type extends FieldType implements TranslationContainerInterface
         } else {
             // ISBN-13 check
             if (!$this->validateISBN13Checksum($isbnTestNumber, $error)) {
+                // TODO: Replace the out-parameter error flow with stable translation keys/templates.
+                // JMS extraction cannot read a ValidationError ID passed through a variable.
                 $validationErrors[] = new ValidationError(
+                    /** @Ignore */
                     $error,
                     null,
                     [],

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Validator;
 
 use Ibexa\Core\FieldType\ValidationError;
+use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 
@@ -198,6 +199,14 @@ class UserPasswordValidator
      */
     private function createValidationError(string $message, array $values = []): ValidationError
     {
-        return new ValidationError($message, null, $values, 'password');
+        // TODO: Refactor this helper to use stable translation keys/templates.
+        // JMS extraction cannot read a ValidationError ID passed through a variable.
+        return new ValidationError(
+            /** @Ignore */
+            $message,
+            null,
+            $values,
+            'password'
+        );
     }
 }

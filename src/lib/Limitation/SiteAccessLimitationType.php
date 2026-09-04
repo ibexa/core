@@ -83,12 +83,9 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
         foreach ($limitationValue->limitationValues as $key => $value) {
             if (!isset($siteAccessList[$value])) {
                 $validationErrors[] = new ValidationError(
-                    "\$limitationValue->limitationValues[%key%] => Invalid SiteAccess value \"$value\"",
+                    "\$limitationValue->limitationValues[%key%] => Invalid SiteAccess value '%value%'",
                     null,
-                    [
-                        'value' => $value,
-                        'key' => $key,
-                    ]
+                    ['%key%' => $key, '%value%' => $value]
                 );
             }
         }

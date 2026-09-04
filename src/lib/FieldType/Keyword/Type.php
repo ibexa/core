@@ -25,6 +25,7 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 class Type extends FieldType implements TranslationContainerInterface
 {
     public const MAX_KEYWORD_LENGTH = 255;
+    private const string ERROR_MESSAGE_MAX_KEYWORD_LENGTH = 'Keyword value must be less than or equal to 255 characters.';
 
     /**
      * Returns the field type identifier for this field type.
@@ -120,7 +121,7 @@ class Type extends FieldType implements TranslationContainerInterface
                 );
             } elseif (mb_strlen($keyword) > self::MAX_KEYWORD_LENGTH) {
                 $validationErrors[] = new ValidationError(
-                    'Keyword value must be less than or equal to ' . self::MAX_KEYWORD_LENGTH . ' characters.',
+                    self::ERROR_MESSAGE_MAX_KEYWORD_LENGTH,
                     null,
                     [],
                     'values'

@@ -11,6 +11,11 @@
         <target><![CDATA[$limitationValue->limitationValues for '%identifier%' Limitation can not be empty]]></target>
         <note>key: $limitationValue-&gt;limitationValues for '%identifier%' Limitation can not be empty</note>
       </trans-unit>
+      <trans-unit id="42ef075b32c50b4397ed9c744eb8b918bdf4ccd2" resname="$limitationValue-&gt;limitationValues[%key%] =&gt; Invalid SiteAccess value '%value%'">
+        <source><![CDATA[$limitationValue->limitationValues[%key%] => Invalid SiteAccess value '%value%']]></source>
+        <target state="new"><![CDATA[$limitationValue->limitationValues[%key%] => Invalid SiteAccess value '%value%']]></target>
+        <note>key: $limitationValue-&gt;limitationValues[%key%] =&gt; Invalid SiteAccess value '%value%'</note>
+      </trans-unit>
       <trans-unit id="bdaae3444afba4eebebe2e0f684a0e56e81afafd" resname="'%actualValue%' is incorrect value">
         <source>'%actualValue%' is incorrect value</source>
         <target>'%actualValue%' is incorrect value</target>
@@ -161,6 +166,11 @@
         <target>Field definition does not allow multiple options to be selected.</target>
         <note>key: Field definition does not allow multiple options to be selected.</note>
       </trans-unit>
+      <trans-unit id="e335dfc8327f78786877a50b4c817c99ff882e16" resname="Field type %field_type_identifier% is not searchable">
+        <source>Field type %field_type_identifier% is not searchable</source>
+        <target state="new">Field type %field_type_identifier% is not searchable</target>
+        <note>key: Field type %field_type_identifier% is not searchable</note>
+      </trans-unit>
       <trans-unit id="0a7a9d488d82cb20f7b0fdfb67cf91f5be027dd1" resname="FieldType '%fieldType%' does not accept settings">
         <source>FieldType '%fieldType%' does not accept settings</source>
         <target>FieldType '%fieldType%' does not accept settings</target>
@@ -185,6 +195,11 @@
         <source>Invalid login format</source>
         <target>Invalid login format</target>
         <note>key: Invalid login format</note>
+      </trans-unit>
+      <trans-unit id="9df15913bb6595f50be0587e011cc3f8434ad031" resname="Keyword value must be less than or equal to 255 characters.">
+        <source>Keyword value must be less than or equal to 255 characters.</source>
+        <target state="new">Keyword value must be less than or equal to 255 characters.</target>
+        <note>key: Keyword value must be less than or equal to 255 characters.</note>
       </trans-unit>
       <trans-unit id="87d1caa3303a7197201d77b1bcb03ae38356097b" resname="Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%">
         <source>Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%</source>
@@ -420,6 +435,11 @@
         <source>Validator %validator% expects parameter %parameter% to be set.</source>
         <target>Validator %validator% expects parameter %parameter% to be set.</target>
         <note>key: Validator %validator% expects parameter %parameter% to be set.</note>
+      </trans-unit>
+      <trans-unit id="addd4fedccc1d5b5bf14115eefad5b39af6341e1" resname="Validator '%parameter%' is unknown">
+        <source>Validator '%parameter%' is unknown</source>
+        <target>Validator '%parameter%' is unknown</target>
+        <note>key: Validator '%parameter%' is unknown</note>
       </trans-unit>
       <trans-unit id="53769a408989ce357c62f26d2e911672f9b052a6" resname="Validator '%validator%' is unknown">
         <source>Validator '%validator%' is unknown</source>

@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Annotation\Desc;
 
 /**
  * Validator for checking min. and max. length of strings.
@@ -47,11 +48,10 @@ class StringLengthValidator extends Validator
                 case 'maxStringLength':
                     if ($value !== false && !is_int($value) && !(null === $value)) {
                         $validationErrors[] = new ValidationError(
-                            sprintf('Validator parameter \'%s\' value must be of integer type', self::PARAMETER_NAME),
+                            /** @Desc("Validator parameter '%parameter%' value must be of integer type") */
+                            "Validator parameter '%parameter%' value must be of integer type",
                             null,
-                            [
-                                self::PARAMETER_NAME => $name,
-                            ]
+                            [self::PARAMETER_NAME => $name]
                         );
                     } elseif ($value < 0) {
                         $validationErrors[] = new ValidationError(
