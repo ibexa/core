@@ -101,6 +101,8 @@ services:
             - '@ibexa.config.resolver'
         calls:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+        tags:
+            - { name: kernel.event_subscriber }
 
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface:
         alias: 'Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
