@@ -1325,7 +1325,7 @@ class UserServiceTest extends BaseTestCase
 
         try {
             // This call will fail with a "UserPasswordValidationException" because the
-            // the password does not follow specified rules.
+            // password does not follow specified rules.
             $this->createTestUserWithPassword('pass', $userContentType);
         } catch (ContentFieldValidationException $e) {
             // Exception is caught, as there is no other way to check exception properties.
@@ -2177,11 +2177,39 @@ class UserServiceTest extends BaseTestCase
         $wrongHashType = 1;
         $this->updateRawPasswordHash($user->getUserId(), $wrongHashType);
         $newPassword = 'new_secret123';
-        // no need to invalidate cache since there was no load between create & raw database update
+        // no need to invalidate cache since there was no load between creation
+        // and raw database update
         $user = $userService->updateUserPassword($user, $newPassword);
 
         self::assertTrue($userService->checkUserCredentials($user, $newPassword));
         self::assertNotEquals($oldPasswordHash, $user->passwordHash);
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    public function testUpdateUserPasswordHashToArgon2Id(): void
+    {
+        $repository = $this->getRepository();
+        $userService = $repository->getUserService();
+
+        $user = $this->createUser('john.doe', 'John', 'Doe');
+        $oldPasswordHash = $user->passwordHash;
+
+        $argon2IdHashType = User::PASSWORD_HASH_ARGON2ID;
+        $this->updateRawPasswordHash($user->getUserId(), $argon2IdHashType);
+        $newPassword = 'new_secret123';
+        // no need to invalidate cache since there was no load between creation
+        // and raw database update
+        $user = $userService->updateUserPassword($user, $newPassword);
+        $passwordInfo = password_get_info($user->passwordHash);
+
+        self::assertTrue($userService->checkUserCredentials($user, $newPassword));
+        self::assertNotEquals($oldPasswordHash, $user->passwordHash);
+        self::assertEquals(PASSWORD_ARGON2ID, $passwordInfo['algo']);
     }
 
     /**

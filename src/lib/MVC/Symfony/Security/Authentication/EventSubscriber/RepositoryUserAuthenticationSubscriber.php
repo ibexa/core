@@ -12,6 +12,7 @@ use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\PasswordInUnsupportedFormatException;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface as IbexaUserInterface;
+use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -77,7 +78,7 @@ final class RepositoryUserAuthenticationSubscriber implements EventSubscriberInt
                 $user->getAPIUser(),
                 $user->getPassword() ?? ''
             );
-        } catch (UnsupportedPasswordHashType $exception) {
+        } catch (UnsupportedPasswordHashType|PasswordHashTypeNotCompiled $exception) {
             $this->sleepUsingConstantTimer($startTime);
 
             throw new PasswordInUnsupportedFormatException($exception);
