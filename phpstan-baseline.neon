@@ -8011,12 +8011,6 @@ parameters:
 			path: src/contracts/Repository/Exceptions/InvalidVariationException.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Exceptions\\LimitationValidationException\:\:getLimitationErrors\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Exceptions/LimitationValidationException.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\FieldType\:\:fieldSettingsFromHash\(\) has parameter \$fieldSettingsHash with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
