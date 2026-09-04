@@ -48,7 +48,10 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
         }
 
         foreach ($limitationValue->limitationValues as $key => $id) {
-            if (!is_int($id)) {
+            // Cast integers passed as string to int, as they are when read back from storage
+            if (is_string($id) && ctype_digit($id)) {
+                $limitationValue->limitationValues[$key] = (int)$id;
+            } elseif (!is_int($id)) {
                 throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int', $id);
             }
         }
