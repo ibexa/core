@@ -15,9 +15,14 @@ namespace Ibexa\Contracts\Core\Repository\Exceptions;
 abstract class LimitationValidationException extends ForbiddenException
 {
     /**
-     * Returns an array of limitation validation error messages.
+     * Returns Limitation validation errors.
      *
-     * @return array
+     * The structure depends on the method that threw the exception:
+     * - assignRoleToUser(), assignRoleToUserGroup(): ValidationError[]
+     * - addPolicyByRoleDraft(), updatePolicyByRoleDraft(): ValidationError[][], keyed by Limitation identifier
+     * - createRole(), copyRole(): ValidationError[][][], keyed by Policy index, then Limitation identifier
+     *
+     * @return array<mixed>
      */
     abstract public function getLimitationErrors();
 }
