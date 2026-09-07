@@ -28,12 +28,18 @@ abstract class User extends Content implements UserReference
     public const array SUPPORTED_PASSWORD_HASHES = [
         self::PASSWORD_HASH_BCRYPT,
         self::PASSWORD_HASH_PHP_DEFAULT,
+        self::PASSWORD_HASH_ARGON2I,
+        self::PASSWORD_HASH_ARGON2ID,
         self::PASSWORD_HASH_INVALID,
     ];
 
     public const int PASSWORD_HASH_BCRYPT = 6;
 
     public const int PASSWORD_HASH_PHP_DEFAULT = 7;
+
+    public const int PASSWORD_HASH_ARGON2I = 8;
+
+    public const int PASSWORD_HASH_ARGON2ID = 9;
 
     public const int PASSWORD_HASH_INVALID = 256;
 
