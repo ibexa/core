@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This class represents a value for creating a language.
@@ -18,13 +19,16 @@ class LanguageCreateStruct extends ValueObject
     /**
      * The languageCode code.
      *
-     * Needs to be a unique.
+     * Needs to be unique.
      */
+    #[Assert\NotBlank]
+    #[Assert\Regex('~^[a-zA-Z\_\-]+$~')]
     public ?string $languageCode = null;
 
     /**
      * Human-readable name of the language.
      */
+    #[Assert\NotBlank]
     public ?string $name = null;
 
     /**
