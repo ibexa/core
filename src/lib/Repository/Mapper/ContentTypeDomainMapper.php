@@ -277,7 +277,11 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
         $validationErrors = [];
         if ($fieldDefinitionUpdateStruct->isSearchable && !$fieldType->isSearchable()) {
             $validationErrors[] = new ValidationError(
-                "FieldType '{$fieldDefinition->fieldTypeIdentifier}' is not searchable"
+                'Field type %field_type_identifier% is not searchable',
+                null,
+                [
+                    '%field_type_identifier%' => $fieldDefinition->fieldTypeIdentifier,
+                ]
             );
         }
         $validationErrors = array_merge(

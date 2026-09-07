@@ -708,7 +708,9 @@ class ContentTypeService implements ContentTypeServiceInterface
 
         if ($fieldDefinitionCreateStruct->isSearchable && !$fieldType->isSearchable()) {
             $validationErrors[] = new ValidationError(
-                "FieldType '{$fieldDefinitionCreateStruct->fieldTypeIdentifier}' is not searchable"
+                'Field type %field_type_identifier% is not searchable',
+                null,
+                ['%field_type_identifier%' => $fieldDefinitionCreateStruct->fieldTypeIdentifier]
             );
         }
 

@@ -10,6 +10,7 @@ namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator;
+use JMS\TranslationBundle\Annotation\Ignore;
 
 abstract class BaseNumericValidator extends Validator
 {
@@ -24,7 +25,10 @@ abstract class BaseNumericValidator extends Validator
         foreach ($constraints as $name => $value) {
             $validationErrorMessage = $this->getConstraintsValidationErrorMessage($name, $value);
             if (null !== $validationErrorMessage) {
+                // TODO: Return stable translation keys/templates instead of a computed message string.
+                // JMS extraction cannot read a ValidationError ID passed through a variable.
                 $validationErrors[] = new ValidationError(
+                    /** @Ignore */
                     $validationErrorMessage,
                     null,
                     [

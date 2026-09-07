@@ -63,11 +63,10 @@ abstract class BaseTextType extends FieldType
     protected function buildUnknownValidatorError(string $parameterName, string $validatorIdentifier): ValidationError
     {
         return new ValidationError(
-            "Validator '$parameterName' is unknown",
+            /** @Desc("Validator '%parameter%' is unknown") */
+            "Validator '%parameter%' is unknown",
             null,
-            [
-                $parameterName => $validatorIdentifier,
-            ]
+            ['%parameter%' => $parameterName]
         );
     }
 
