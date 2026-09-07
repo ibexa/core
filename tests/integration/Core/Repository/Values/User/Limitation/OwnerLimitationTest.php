@@ -142,6 +142,130 @@ class OwnerLimitationTest extends BaseLimitationTest
         );
         /* END: Use Case */
     }
+
+    /**
+     * @covers \Ibexa\Core\Limitation\OwnerLimitationType::evaluate
+     */
+    public function testOwnerLimitationAllowsVersionRemoveForOwnDraftOfContentOwnedByAnotherUser()
+    {
+        $repository = $this->getRepository();
+        $permissionResolver = $repository->getPermissionResolver();
+        $contentService = $repository->getContentService();
+
+        /* BEGIN: Use Case */
+        // Content is created (and owned) by the currently logged in admin user
+        $content = $this->createWikiPage();
+
+        $user = $this->createUserVersion1();
+
+        $roleService = $repository->getRoleService();
+
+        $role = $roleService->loadRoleByIdentifier('Editor');
+        $roleDraft = $roleService->createRoleDraft($role);
+        // Search for the new policy instance
+        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        $versionRemovePolicy = null;
+        foreach ($roleDraft->getPolicies() as $policy) {
+            if ('content' != $policy->module || 'versionremove' != $policy->function) {
+                continue;
+            }
+            $versionRemovePolicy = $policy;
+            break;
+        }
+
+        if (null === $versionRemovePolicy) {
+            throw new \ErrorException('No content:versionremove policy found.');
+        }
+
+        // Only allow version removal for versions the current user created themselves
+        $policyUpdate = $roleService->newPolicyUpdateStruct();
+        $policyUpdate->addLimitation(
+            new OwnerLimitation(
+                ['limitationValues' => [1]]
+            )
+        );
+        $roleService->updatePolicyByRoleDraft(
+            $roleDraft,
+            $versionRemovePolicy,
+            $policyUpdate
+        );
+        $roleService->publishRoleDraft($roleDraft);
+
+        $roleService->assignRoleToUser($role, $user);
+
+        $permissionResolver->setCurrentUserReference($user);
+
+        // $user creates their own draft of content that is still owned by the admin user
+        $draft = $contentService->createContentDraft($content->contentInfo);
+
+        // This must succeed, because $user is the creator of this particular version,
+        // even though they do not own the Content itself
+        $contentService->deleteVersion($draft->getVersionInfo());
+        /* END: Use Case */
+
+        $this->expectNotToPerformAssertions();
+    }
+
+    /**
+     * @covers \Ibexa\Core\Limitation\OwnerLimitationType::evaluate
+     */
+    public function testOwnerLimitationForbidsVersionRemoveForDraftCreatedByAnotherUser()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $repository = $this->getRepository();
+        $permissionResolver = $repository->getPermissionResolver();
+        $contentService = $repository->getContentService();
+
+        /* BEGIN: Use Case */
+        // Content and its draft are created (and owned) by the currently logged in admin user
+        $content = $this->createWikiPage();
+        $draft = $contentService->createContentDraft($content->contentInfo);
+
+        $user = $this->createUserVersion1();
+
+        $roleService = $repository->getRoleService();
+
+        $role = $roleService->loadRoleByIdentifier('Editor');
+        $roleDraft = $roleService->createRoleDraft($role);
+        // Search for the new policy instance
+        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        $versionRemovePolicy = null;
+        foreach ($roleDraft->getPolicies() as $policy) {
+            if ('content' != $policy->module || 'versionremove' != $policy->function) {
+                continue;
+            }
+            $versionRemovePolicy = $policy;
+            break;
+        }
+
+        if (null === $versionRemovePolicy) {
+            throw new \ErrorException('No content:versionremove policy found.');
+        }
+
+        // Only allow version removal for versions the current user created themselves
+        $policyUpdate = $roleService->newPolicyUpdateStruct();
+        $policyUpdate->addLimitation(
+            new OwnerLimitation(
+                ['limitationValues' => [1]]
+            )
+        );
+        $roleService->updatePolicyByRoleDraft(
+            $roleDraft,
+            $versionRemovePolicy,
+            $policyUpdate
+        );
+        $roleService->publishRoleDraft($roleDraft);
+
+        $roleService->assignRoleToUser($role, $user);
+
+        $permissionResolver->setCurrentUserReference($user);
+
+        // This call fails with an UnauthorizedException, because $user neither owns
+        // the Content nor created this particular draft/version
+        $contentService->deleteVersion($draft->getVersionInfo());
+        /* END: Use Case */
+    }
 }
 
 class_alias(OwnerLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\OwnerLimitationTest');
