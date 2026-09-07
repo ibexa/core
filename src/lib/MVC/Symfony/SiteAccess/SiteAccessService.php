@@ -11,14 +11,18 @@ namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use function iterator_to_array;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
+class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware, EventSubscriberInterface
 {
     private SiteAccessProviderInterface $provider;
 
-    private ?SiteAccess $siteAccess = null;
+    /** @var list<\Ibexa\Core\MVC\Symfony\SiteAccess> */
+    private array $siteAccessStack = [];
 
     private ConfigResolverInterface $configResolver;
 
@@ -30,9 +34,40 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
         $this->configResolver = $configResolver;
     }
 
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            MVCEvents::CONFIG_SCOPE_CHANGE => 'onConfigScopeChange',
+            MVCEvents::CONFIG_SCOPE_RESTORE => 'onConfigScopeRestore',
+        ];
+    }
+
     public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
-        $this->siteAccess = $siteAccess;
+        $this->siteAccessStack = $siteAccess !== null ? [$siteAccess] : [];
+    }
+
+    /**
+     * Pushes the new SiteAccess onto the stack, so that getCurrent() reflects it until the
+     * matching restore happens.
+     */
+    public function onConfigScopeChange(ScopeChangeEvent $event): void
+    {
+        $this->siteAccessStack[] = $event->getSiteAccess();
+    }
+
+    /**
+     * Pops the SiteAccess pushed by the matching onConfigScopeChange(), but never below one
+     * remaining entry: the bottom-most entry (the current request's SiteAccess) must survive an
+     * unbalanced restore.
+     */
+    public function onConfigScopeRestore(ScopeChangeEvent $event): void
+    {
+        if (count($this->siteAccessStack) <= 1) {
+            return;
+        }
+
+        array_pop($this->siteAccessStack);
     }
 
     public function exists(string $name): bool
@@ -56,12 +91,12 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
 
     public function getCurrent(): ?SiteAccess
     {
-        return $this->siteAccess ?? null;
+        return $this->siteAccessStack !== [] ? end($this->siteAccessStack) : null;
     }
 
     public function getSiteAccessesRelation(?SiteAccess $siteAccess = null): array
     {
-        $siteAccess = $siteAccess ?? $this->siteAccess;
+        $siteAccess = $siteAccess ?? $this->getCurrent();
         if ($siteAccess === null) {
             throw new InvalidArgumentException('siteAccess', 'no SiteAccess given and none currently set');
         }
