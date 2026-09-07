@@ -8,14 +8,13 @@
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\MinkExtension\Context\MinkAwareContext;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
 
-class ExceptionContext extends RawMinkContext implements Context, SnippetAcceptingContext, MinkAwareContext
+class ExceptionContext extends RawMinkContext implements Context, MinkAwareContext
 {
     #[Given('/^that I am not logged in$/')]
     public function iAmNotLoggedIn(): void

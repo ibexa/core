@@ -8,13 +8,12 @@
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Step\Given;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use RuntimeException;
 
-class ContentContext implements Context, SnippetAcceptingContext
+class ContentContext implements Context
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
     private $currentContent;
