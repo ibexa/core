@@ -156,42 +156,7 @@ class OwnerLimitationTest extends BaseLimitationTest
         // Content is created (and owned) by the currently logged in admin user
         $content = $this->createWikiPage();
 
-        $user = $this->createUserVersion1();
-
-        $roleService = $repository->getRoleService();
-
-        $role = $roleService->loadRoleByIdentifier('Editor');
-        $roleDraft = $roleService->createRoleDraft($role);
-        // Search for the new policy instance
-        $versionRemovePolicy = null;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
-        foreach ($roleDraft->getPolicies() as $policy) {
-            if ('content' != $policy->module || 'versionremove' != $policy->function) {
-                continue;
-            }
-            $versionRemovePolicy = $policy;
-            break;
-        }
-
-        if (null === $versionRemovePolicy) {
-            throw new \ErrorException('No content:versionremove policy found.');
-        }
-
-        // Only allow version removal for versions the current user created themselves
-        $policyUpdate = $roleService->newPolicyUpdateStruct();
-        $policyUpdate->addLimitation(
-            new OwnerLimitation(
-                ['limitationValues' => [1]]
-            )
-        );
-        $roleService->updatePolicyByRoleDraft(
-            $roleDraft,
-            $versionRemovePolicy,
-            $policyUpdate
-        );
-        $roleService->publishRoleDraft($roleDraft);
-
-        $roleService->assignRoleToUser($role, $user);
+        $user = $this->createUserWithVersionRemoveOwnerLimitation();
 
         $permissionResolver->setCurrentUserReference($user);
 
@@ -222,9 +187,26 @@ class OwnerLimitationTest extends BaseLimitationTest
         $content = $this->createWikiPage();
         $draft = $contentService->createContentDraft($content->contentInfo);
 
-        $user = $this->createUserVersion1();
+        $user = $this->createUserWithVersionRemoveOwnerLimitation();
 
+        $permissionResolver->setCurrentUserReference($user);
+
+        // This call fails with an UnauthorizedException, because $user neither owns
+        // the Content nor created this particular draft/version
+        $contentService->deleteVersion($draft->getVersionInfo());
+        /* END: Use Case */
+    }
+
+    /**
+     * Creates a user assigned to the Editor role, restricted so that the
+     * content:versionremove policy only applies to versions the user created themselves.
+     */
+    private function createUserWithVersionRemoveOwnerLimitation(): \Ibexa\Contracts\Core\Repository\Values\User\User
+    {
+        $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
+
+        $user = $this->createUserVersion1();
 
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
@@ -259,12 +241,7 @@ class OwnerLimitationTest extends BaseLimitationTest
 
         $roleService->assignRoleToUser($role, $user);
 
-        $permissionResolver->setCurrentUserReference($user);
-
-        // This call fails with an UnauthorizedException, because $user neither owns
-        // the Content nor created this particular draft/version
-        $contentService->deleteVersion($draft->getVersionInfo());
-        /* END: Use Case */
+        return $user;
     }
 }
 
