@@ -11,21 +11,20 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\MinkExtension\Context\MinkAwareContext;
 use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 
 class ExceptionContext extends RawMinkContext implements Context, SnippetAcceptingContext, MinkAwareContext
 {
-    /**
-     * @Given /^that I am not logged in$/
-     */
-    public function iAmNotLoggedIn()
+    #[Given('/^that I am not logged in$/')]
+    public function iAmNotLoggedIn(): void
     {
         $this->visitPath('/logout');
     }
 
-    /**
-     * @Given /^that I am logged in$/
-     */
-    public function iAmLoggedIn()
+    #[Given('/^that I am logged in$/')]
+    public function iAmLoggedIn(): void
     {
         $this->visitPath('/login');
         $this->getSession()->getPage()->fillField('Username', 'admin');
@@ -33,34 +32,26 @@ class ExceptionContext extends RawMinkContext implements Context, SnippetAccepti
         $this->getSession()->getPage()->pressButton('Login');
     }
 
-    /**
-     * @When /^a repository UnauthorizedException is thrown during an HTTP request$/
-     */
-    public function anExceptionIsThrownDuringAnHTTPRequest()
+    #[When('/^a repository UnauthorizedException is thrown during an HTTP request$/')]
+    public function anExceptionIsThrownDuringAnHTTPRequest(): void
     {
         $this->visitPath('/platform-behat/exceptions/repository-unauthorized');
     }
 
-    /**
-     * @Then /^it is converted to a Symfony Security AccessDeniedException$/
-     */
-    public function itIsConvertedToAnSymfonyComponentSecurityCoreExceptionAccessDeniedException()
+    #[Then('/^it is converted to a Symfony Security AccessDeniedException$/')]
+    public function itIsConvertedToAnSymfonyComponentSecurityCoreExceptionAccessDeniedException(): void
     {
         // unsure how to assert this :)
     }
 
-    /**
-     * @Given /^the login form is shown$/
-     */
-    public function theLoginFormIsShown()
+    #[Given('/^the login form is shown$/')]
+    public function theLoginFormIsShown(): void
     {
         $this->assertSession()->addressEquals('/login');
     }
 
-    /**
-     * @Then /^(?:a|an) ([\w\\]+Exception) is displayed$/
-     */
-    public function anAccessDeniedExceptionIsThrown($exceptionString)
+    #[Then('/^(?:a|an) ([\w\\\\]+Exception) is displayed$/')]
+    public function anAccessDeniedExceptionIsThrown(string $exceptionString): void
     {
         $this->assertSession()->elementExists('xpath', "//abbr[@title='$exceptionString']");
     }
