@@ -17,6 +17,13 @@ parameters:
                 - tests/*
         -
             message: "#^Cannot call method warning\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
+        -
+            # ObjectManager::find() declares 2 parameters, but the runtime EntityManager
+            # supports $lockMode and $lockVersion, forwarded like Doctrine\ORM\Decorator\EntityManagerDecorator does
+            message: '#^Method Doctrine\\Persistence\\ObjectManager\:\:find\(\) invoked with 4 parameters, 2 required\.$#'
+            identifier: arguments.count
+            count: 1
+            path: src/lib/Persistence/Doctrine/SiteAccessAwareEntityManager.php
     paths:
         - src
         - tests
