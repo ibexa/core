@@ -547,16 +547,18 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function loadAllGroupsData(): array
+    public function loadAllGroupsData(bool $includeSystem = false): array
     {
         $query = $this->createGroupLoadQuery();
 
-        $query->andWhere(
-            $query->expr()->eq(
-                'is_system',
-                $query->createPositionalParameter(false, ParameterType::BOOLEAN)
-            )
-        );
+        if (!$includeSystem) {
+            $query->andWhere(
+                $query->expr()->eq(
+                    'is_system',
+                    $query->createPositionalParameter(false, ParameterType::BOOLEAN)
+                )
+            );
+        }
 
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }

@@ -100,6 +100,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         $this->logger->logCall(__METHOD__, ['struct' => $struct]);
         $this->cache->deleteItems([
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_LIST_IDENTIFIER, [], true),
+            $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_LIST_IDENTIFIER, [true], true),
         ]);
 
         return $this->persistenceHandler->contentTypeHandler()->createGroup($struct);
@@ -115,6 +116,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
 
         $this->cache->deleteItems([
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_LIST_IDENTIFIER, [], true),
+            $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_LIST_IDENTIFIER, [true], true),
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_IDENTIFIER, [$struct->id], true),
             $this->cacheIdentifierGenerator->generateKey(
                 self::CONTENT_TYPE_GROUP_WITH_ID_SUFFIX_IDENTIFIER,
@@ -136,6 +138,10 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
 
         $this->cache->invalidateTags([
             $this->cacheIdentifierGenerator->generateTag(self::TYPE_GROUP_IDENTIFIER, [$groupId]),
+        ]);
+        $this->cache->deleteItems([
+            $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_LIST_IDENTIFIER, [], true),
+            $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_LIST_IDENTIFIER, [true], true),
         ]);
 
         return $return;
@@ -193,12 +199,12 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function loadAllGroups()
+    public function loadAllGroups(bool $includeSystem = false)
     {
         return $this->getListCacheValue(
-            $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_LIST_IDENTIFIER, [], true),
-            function () {
-                return $this->persistenceHandler->contentTypeHandler()->loadAllGroups();
+            $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_LIST_IDENTIFIER, [$includeSystem], true),
+            function () use ($includeSystem) {
+                return $this->persistenceHandler->contentTypeHandler()->loadAllGroups($includeSystem);
             },
             $this->getGroupTags,
             $this->getGroupKeys

@@ -52,7 +52,7 @@ abstract class Gateway
 
     abstract public function loadGroupDataByIdentifier(string $identifier): array;
 
-    abstract public function loadAllGroupsData(): array;
+    abstract public function loadAllGroupsData(bool $includeSystem = false): array;
 
     /**
      * Load data for all content types of the given status, belonging to the given Group.
