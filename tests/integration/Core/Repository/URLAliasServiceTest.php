@@ -145,6 +145,64 @@ class URLAliasServiceTest extends BaseTest
         );
     }
 
+    public function testLoadThrowsNotFoundExceptionForTranslationNotInPrioritizedLanguages(): void
+    {
+        $repository = $this->getRepository();
+
+        $locationService = $repository->getLocationService();
+        $urlAliasService = $repository->getURLAliasService();
+
+        $location = $locationService->loadLocation($this->generateId('location', 12));
+
+        $this->createLanguage('nor-NO', 'Norwegian');
+        $createdUrlAlias = $urlAliasService->createUrlAlias(
+            $location,
+            '/My/Great-norwegian-site',
+            'nor-NO',
+            false,
+            false
+        );
+
+        $this->expectException(NotFoundException::class);
+
+        $urlAliasService->load($createdUrlAlias->id);
+    }
+
+    public function testLoadWithShowAllTranslations(): void
+    {
+        $repository = $this->getRepository();
+
+        $locationService = $repository->getLocationService();
+        $urlAliasService = $repository->getURLAliasService();
+
+        $location = $locationService->loadLocation($this->generateId('location', 12));
+
+        $this->createLanguage('nor-NO', 'Norwegian');
+        $createdUrlAlias = $urlAliasService->createUrlAlias(
+            $location,
+            '/My/Great-norwegian-site',
+            'nor-NO',
+            false,
+            false
+        );
+
+        $loadedUrlAlias = $urlAliasService->load($createdUrlAlias->id, true);
+
+        $this->assertUrlAliasPropertiesSame(
+            [
+                'type' => URLAlias::LOCATION,
+                'destination' => $location->id,
+                'path' => '/My/Great-norwegian-site',
+                'languageCodes' => ['nor-NO'],
+                'alwaysAvailable' => false,
+                'isHistory' => false,
+                'isCustom' => true,
+                'forward' => false,
+            ],
+            $loadedUrlAlias
+        );
+    }
+
     /**
      * @param array $testData
      *
