@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\MVC\Symfony;
 
 use Ibexa\Contracts\Core\Test\IbexaTestKernel;
+use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -20,6 +21,7 @@ final class InternalRoutingTestKernel extends IbexaTestKernel
 
         $loader->load(static function (ContainerBuilder $container): void {
             self::loadRouting($container);
+            $container->setAlias('test.ibexa.chain_router', ChainRouter::class)->setPublic(true);
         });
     }
 

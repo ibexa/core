@@ -99,7 +99,13 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     #[\Deprecated]
     public function eraseCredentials(): void
     {
-        $this->wrappedUser->eraseCredentials();
+        $wrappedUserReflection = new \ReflectionObject($this->wrappedUser);
+        if ($wrappedUserReflection->hasMethod('eraseCredentials')) {
+            $eraseCredentials = $wrappedUserReflection->getMethod('eraseCredentials');
+            if ($eraseCredentials->isPublic()) {
+                $eraseCredentials->invoke($this->wrappedUser);
+            }
+        }
     }
 
     public function isEqualTo(UserInterface $user): bool
