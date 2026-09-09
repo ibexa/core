@@ -119,10 +119,12 @@ class QueryController
         $limit = $queryParameters['limit'] ?? 10;
         $pageParam = $queryParameters['page_param'] ?? 'page';
 
-        $page = $request->attributes->get($pageParam)
-            ?? $request->query->get($pageParam)
-            ?? $request->request->get($pageParam)
-            ?? 1;
+        $page = match (true) {
+            $request->attributes->has($pageParam) => $request->attributes->get($pageParam),
+            $request->query->has($pageParam) => $request->query->all()[$pageParam],
+            $request->request->has($pageParam) => $request->request->all()[$pageParam],
+            default => 1,
+        };
 
         $pager = new Pagerfanta(
             $this->getAdapter($this->contentViewQueryTypeMapper->map($view))

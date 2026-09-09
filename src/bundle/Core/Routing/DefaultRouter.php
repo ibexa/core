@@ -17,7 +17,6 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -120,36 +119,32 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
 
         try {
             $url = $this->innerRouter->generate($name, $parameters, $referenceType);
-        } catch (RouteNotFoundException $e) {
-            // Switch back to original context, for next links generation.
-            $this->setContext($originalContext);
-            throw $e;
-        }
 
-        // Now putting back SiteAccess URI if needed.
-        if ($isSiteAccessAware && $siteAccess !== null && $siteAccess->matcher instanceof URILexer) {
-            if ($referenceType === self::ABSOLUTE_URL || $referenceType === self::NETWORK_PATH) {
-                $scheme = $context->getScheme();
-                $port = '';
-                if ($scheme === 'http' && $context->getHttpPort() !== 80) {
-                    $port = ':' . $context->getHttpPort();
-                } elseif ($scheme === 'https' && $context->getHttpsPort() !== 443) {
-                    $port = ':' . $context->getHttpsPort();
+            // Now putting back SiteAccess URI if needed.
+            if ($isSiteAccessAware && $siteAccess !== null && $siteAccess->matcher instanceof URILexer) {
+                if ($referenceType === self::ABSOLUTE_URL || $referenceType === self::NETWORK_PATH) {
+                    $scheme = $context->getScheme();
+                    $port = '';
+                    if ($scheme === 'http' && $context->getHttpPort() !== 80) {
+                        $port = ':' . $context->getHttpPort();
+                    } elseif ($scheme === 'https' && $context->getHttpsPort() !== 443) {
+                        $port = ':' . $context->getHttpsPort();
+                    }
+
+                    $base = $context->getHost() . $port . $context->getBaseUrl();
+                } else {
+                    $base = $context->getBaseUrl();
                 }
 
-                $base = $context->getHost() . $port . $context->getBaseUrl();
-            } else {
-                $base = $context->getBaseUrl();
+                $linkUri = $base ? substr($url, strpos($url, $base) + strlen($base)) : $url;
+                $url = str_replace($linkUri, $siteAccess->matcher->analyseLink($linkUri), $url);
             }
 
-            $linkUri = $base ? substr($url, strpos($url, $base) + strlen($base)) : $url;
-            $url = str_replace($linkUri, $siteAccess->matcher->analyseLink($linkUri), $url);
+            return $url;
+        } finally {
+            // Switch back to original context, for next links generation, including when generation fails.
+            $this->setContext($originalContext);
         }
-
-        // Switch back to original context, for next links generation.
-        $this->setContext($originalContext);
-
-        return $url;
     }
 
     /**

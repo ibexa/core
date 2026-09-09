@@ -14,7 +14,9 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Routing\Router as FrameworkRouter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Router;
@@ -100,10 +102,12 @@ final class DefaultRouterTest extends TestCase
      */
     public function providerGenerateNoSiteAccess(): iterable
     {
-        yield ['/foo/bar'];
-        yield ['/foo/bar/baz?truc=muche&tata=toto'];
-        yield ['http://ibexa.co/Products/Ibexa-CMS'];
-        yield ['http://www.metalfrance.net/decouvertes/edge-caress-inverse-ep'];
+        return [
+            ['/foo/bar'],
+            ['/foo/bar/baz?truc=muche&tata=toto'],
+            ['http://ibexa.co/Products/Ibexa-CMS'],
+            ['http://www.metalfrance.net/decouvertes/edge-caress-inverse-ep'],
+        ];
     }
 
     /**
@@ -177,18 +181,20 @@ final class DefaultRouterTest extends TestCase
      */
     public function providerGenerateWithSiteAccess(): iterable
     {
-        yield ['/foo/bar', '/foo/bar', '/foo/bar', 'test_siteaccess', false, UrlGeneratorInterface::ABSOLUTE_PATH, null];
-        yield ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/foo/bar', 'test_siteaccess', false, UrlGeneratorInterface::ABSOLUTE_URL, null];
-        yield ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/test_siteaccess/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
-        yield ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, '_dontwantsiteaccess'];
-        yield ['http://ezpublish.dev:8080/foo/bar', '/foo/bar', 'http://ezpublish.dev:8080/test_siteaccess/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
-        yield ['http://ezpublish.dev:8080/foo/bar', '/foo/bar', 'http://ezpublish.dev:8080/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, '_dontwantsiteaccess'];
-        yield ['https://ezpublish.dev/secured', '/secured', 'https://ezpublish.dev/test_siteaccess/secured', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
-        yield ['https://ezpublish.dev:445/secured', '/secured', 'https://ezpublish.dev:445/test_siteaccess/secured', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
-        yield ['http://ezpublish.dev:8080/foo/root_folder/bar/baz', '/bar/baz', 'http://ezpublish.dev:8080/foo/root_folder/test_siteaccess/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
-        yield ['/foo/bar/baz', '/foo/bar/baz', '/test_siteaccess/foo/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, null];
-        yield ['/foo/root_folder/bar/baz', '/bar/baz', '/foo/root_folder/test_siteaccess/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, null];
-        yield ['/foo/bar/baz', '/foo/bar/baz', '/foo/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, '_dontwantsiteaccess'];
+        return [
+            ['/foo/bar', '/foo/bar', '/foo/bar', 'test_siteaccess', false, UrlGeneratorInterface::ABSOLUTE_PATH, null],
+            ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/foo/bar', 'test_siteaccess', false, UrlGeneratorInterface::ABSOLUTE_URL, null],
+            ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/test_siteaccess/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
+            ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, '_dontwantsiteaccess'],
+            ['http://ezpublish.dev:8080/foo/bar', '/foo/bar', 'http://ezpublish.dev:8080/test_siteaccess/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
+            ['http://ezpublish.dev:8080/foo/bar', '/foo/bar', 'http://ezpublish.dev:8080/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, '_dontwantsiteaccess'],
+            ['https://ezpublish.dev/secured', '/secured', 'https://ezpublish.dev/test_siteaccess/secured', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
+            ['https://ezpublish.dev:445/secured', '/secured', 'https://ezpublish.dev:445/test_siteaccess/secured', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
+            ['http://ezpublish.dev:8080/foo/root_folder/bar/baz', '/bar/baz', 'http://ezpublish.dev:8080/foo/root_folder/test_siteaccess/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
+            ['/foo/bar/baz', '/foo/bar/baz', '/test_siteaccess/foo/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, null],
+            ['/foo/root_folder/bar/baz', '/bar/baz', '/foo/root_folder/test_siteaccess/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, null],
+            ['/foo/bar/baz', '/foo/bar/baz', '/foo/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, '_dontwantsiteaccess'],
+        ];
     }
 
     public function testGenerateReverseSiteAccessMatch(): void
@@ -197,25 +203,12 @@ final class DefaultRouterTest extends TestCase
         $urlGenerated = 'http://phoenix-rises.fm/foo/bar';
 
         $siteAccessName = 'foo_test';
-        $versatileMatcher = $this->createMock(SiteAccess\VersatileMatcher::class);
-        $simplifiedRequest = new SimplifiedRequest('http', 'phoenix-rises.fm');
-        $versatileMatcher
-            ->expects(self::once())
-            ->method('getRequest')
-            ->willReturn($simplifiedRequest);
-        $this->siteAccessRouter
-            ->expects(self::once())
-            ->method('matchByName')
-            ->with($siteAccessName)
-            ->willReturn(new SiteAccess($siteAccessName, 'foo', $versatileMatcher));
-
         $contexts = [];
-        $this->innerRouter
-            ->expects(self::exactly(2))
-            ->method('setContext')
-            ->willReturnCallback(static function (RequestContext $context) use (&$contexts): void {
-                $contexts[] = $context;
-            });
+        $this->expectReverseSiteAccessMatch(
+            $siteAccessName,
+            new SimplifiedRequest('http', 'phoenix-rises.fm'),
+            $contexts
+        );
         $this->innerRouter
             ->expects(self::once())
             ->method('generate')
@@ -237,6 +230,49 @@ final class DefaultRouterTest extends TestCase
         self::assertSame($this->requestContext, $contexts[1]);
     }
 
+    public function testGenerateRestoresContextWhenInnerRouterThrows(): void
+    {
+        $siteAccessName = 'foo_test';
+        $contexts = [];
+        $this->expectReverseSiteAccessMatch(
+            $siteAccessName,
+            new SimplifiedRequest('https', 'example.com'),
+            $contexts
+        );
+        $this->innerRouter
+            ->expects(self::once())
+            ->method('generate')
+            ->willThrowException(new InvalidParameterException());
+
+        $this->expectException(InvalidParameterException::class);
+        try {
+            $this->createRouter()->generate('route', ['siteaccess' => $siteAccessName]);
+        } finally {
+            self::assertCount(2, $contexts);
+            self::assertNotSame($this->requestContext, $contexts[0]);
+            self::assertSame($this->requestContext, $contexts[1]);
+        }
+    }
+
+    public function testWarmUpDelegatesToInnerRouter(): void
+    {
+        $innerRouter = $this->createMock(FrameworkRouter::class);
+        $innerRouter
+            ->expects(self::once())
+            ->method('warmUp')
+            ->with('/cache', '/build')
+            ->willReturn(['/cache/routes.php']);
+
+        $router = new DefaultRouter($innerRouter, $this->siteAccessRouter);
+
+        self::assertSame(['/cache/routes.php'], $router->warmUp('/cache', '/build'));
+    }
+
+    public function testWarmUpDoesNothingWhenInnerRouterIsNotWarmable(): void
+    {
+        self::assertSame([], $this->createRouter()->warmUp('/cache', '/build'));
+    }
+
     /**
      * @dataProvider providerGetContextBySimplifiedRequest
      */
@@ -253,12 +289,40 @@ final class DefaultRouterTest extends TestCase
      */
     public function providerGetContextBySimplifiedRequest(): iterable
     {
-        yield ['/foo/bar'];
-        yield ['http://ezpublish.dev/foo/bar'];
-        yield ['http://ezpublish.dev:8080/foo/bar'];
-        yield ['https://ezpublish.dev/secured'];
-        yield ['https://ezpublish.dev:445/secured'];
-        yield ['http://ezpublish.dev:8080/foo/root_folder/bar/baz'];
+        return [
+            ['/foo/bar'],
+            ['http://ezpublish.dev/foo/bar'],
+            ['http://ezpublish.dev:8080/foo/bar'],
+            ['https://ezpublish.dev/secured'],
+            ['https://ezpublish.dev:445/secured'],
+            ['http://ezpublish.dev:8080/foo/root_folder/bar/baz'],
+        ];
+    }
+
+    /**
+     * @param \Symfony\Component\Routing\RequestContext[] $contexts
+     */
+    private function expectReverseSiteAccessMatch(
+        string $siteAccessName,
+        SimplifiedRequest $simplifiedRequest,
+        array &$contexts
+    ): void {
+        $versatileMatcher = $this->createMock(SiteAccess\VersatileMatcher::class);
+        $versatileMatcher
+            ->expects(self::once())
+            ->method('getRequest')
+            ->willReturn($simplifiedRequest);
+        $this->siteAccessRouter
+            ->expects(self::once())
+            ->method('matchByName')
+            ->with($siteAccessName)
+            ->willReturn(new SiteAccess($siteAccessName, 'foo', $versatileMatcher));
+        $this->innerRouter
+            ->expects(self::exactly(2))
+            ->method('setContext')
+            ->willReturnCallback(static function (RequestContext $context) use (&$contexts): void {
+                $contexts[] = $context;
+            });
     }
 
     private function getExpectedRequestContext(string $uri): RequestContext
