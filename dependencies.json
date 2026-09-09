@@ -1,0 +1,11 @@
+{
+    "recipesEndpoint": "",
+    "packages": [
+        {
+            "requirement": "dev-feature/schema-applier-4.6 as 4.6.x-dev",
+            "repositoryUrl": "https://github.com/ibexa/doctrine-schema.git",
+            "package": "ibexa/doctrine-schema",
+            "shouldBeAddedAsVCS": false
+        }
+    ]
+}
