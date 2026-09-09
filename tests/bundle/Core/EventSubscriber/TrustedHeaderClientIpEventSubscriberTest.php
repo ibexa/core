@@ -19,24 +19,15 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
 {
-    private ?string $originalRemoteAddr;
+    private ?string $originalRemoteAddr = null;
 
     private const string PROXY_IP = '127.100.100.1';
 
     private const string REAL_CLIENT_IP = '98.76.123.234';
 
-    /**
-     * @param array<mixed> $data
-     */
-    public function __construct(?string $name = null, array $data = [], string $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-
-        $this->originalRemoteAddr = $_SERVER['REMOTE_ADDR'] ?? null;
-    }
-
     protected function setUp(): void
     {
+        $this->originalRemoteAddr = $_SERVER['REMOTE_ADDR'] ?? null;
         $_SERVER['REMOTE_ADDR'] = null;
         Request::setTrustedProxies([], -1);
     }

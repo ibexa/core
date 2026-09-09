@@ -4,148 +4,106 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Routing;
 
 use Ibexa\Bundle\Core\Routing\DefaultRouter;
 use Ibexa\Bundle\Core\SiteAccess\Matcher;
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use ReflectionObject;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Router;
 
-class DefaultRouterTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Routing\DefaultRouter
+ */
+final class DefaultRouterTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\DependencyInjection\ContainerInterface */
-    protected $container;
+    private const array NON_SITEACCESS_AWARE_ROUTES = ['_dontwantsiteaccess'];
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    private Router&MockObject $innerRouter;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
-    protected $requestContext;
+    private SiteAccess\SiteAccessRouterInterface&MockObject $siteAccessRouter;
+
+    private RequestContext $requestContext;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->container = $this->createMock(ContainerInterface::class);
-        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
+        $this->innerRouter = $this->createMock(Router::class);
+        $this->siteAccessRouter = $this->createMock(SiteAccess\SiteAccessRouterInterface::class);
         $this->requestContext = new RequestContext();
+        $this->innerRouter->method('getContext')->willReturnCallback(fn (): RequestContext => $this->requestContext);
     }
 
-    /**
-     * @return class-string<\Ibexa\Bundle\Core\Routing\DefaultRouter>
-     */
-    protected function getRouterClass(): string
+    private function createRouter(): DefaultRouter
     {
-        return DefaultRouter::class;
+        return new DefaultRouter($this->innerRouter, $this->siteAccessRouter, self::NON_SITEACCESS_AWARE_ROUTES);
     }
 
-    /**
-     * @param array<string> $mockedMethods
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter
-     */
-    protected function generateRouter(array $mockedMethods = [])
-    {
-        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
-        $router = $this
-            ->getMockBuilder($this->getRouterClass())
-            ->setConstructorArgs([$this->container, 'foo', [], $this->requestContext])
-            ->setMethods(array_merge($mockedMethods))
-            ->getMock();
-        $router->setConfigResolver($this->configResolver);
-
-        return $router;
-    }
-
-    public function testMatchRequestWithSemanticPathinfo()
+    public function testMatchRequestWithSemanticPathinfo(): void
     {
         $pathinfo = '/siteaccess/foo/bar';
         $semanticPathinfo = '/foo/bar';
         $request = Request::create($pathinfo);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
-
-        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
-        $router = $this->generateRouter(['getMatcher']);
         $matchedParameters = ['_controller' => 'AcmeBundle:myAction'];
 
-        $matcher = $this->createMock(UrlMatcherInterface::class);
-        $matcher->expects(self::once())
-            ->method('match')
-            ->with($semanticPathinfo)
+        $this->innerRouter
+            ->expects(self::once())
+            ->method('matchRequest')
+            ->with(self::callback(
+                static fn (Request $matchedRequest): bool => $matchedRequest->getPathInfo() === $semanticPathinfo
+            ))
             ->willReturn($matchedParameters);
 
-        $router
-            ->expects(self::once())
-            ->method('getMatcher')
-            ->willReturn($matcher);
-
-        self::assertSame($matchedParameters, $router->matchRequest($request));
+        self::assertSame($matchedParameters, $this->createRouter()->matchRequest($request));
+        // The original request must not be altered
+        self::assertSame($pathinfo, $request->getPathInfo());
     }
 
-    public function testMatchRequestRegularPathinfo()
+    public function testMatchRequestRegularPathinfo(): void
     {
         $matchedParameters = ['_controller' => 'AcmeBundle:myAction'];
-        $pathinfo = '/siteaccess/foo/bar';
+        $request = Request::create('/siteaccess/foo/bar');
 
-        $request = Request::create($pathinfo);
-
-        $this->configResolver->expects(self::never())->method('getParameter');
-
-        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
-        $router = $this->generateRouter(['getMatcher']);
-
-        $matcher = $this->createMock(UrlMatcherInterface::class);
-        $matcher->expects(self::once())
-            ->method('match')
-            ->with($pathinfo)
+        $this->innerRouter
+            ->expects(self::once())
+            ->method('matchRequest')
+            ->with(self::identicalTo($request))
             ->willReturn($matchedParameters);
 
-        $router
-            ->expects(self::once())
-            ->method('getMatcher')
-            ->willReturn($matcher);
-
-        self::assertSame($matchedParameters, $router->matchRequest($request));
+        self::assertSame($matchedParameters, $this->createRouter()->matchRequest($request));
     }
 
     /**
      * @dataProvider providerGenerateNoSiteAccess
      */
-    public function testGenerateNoSiteAccess($url)
+    public function testGenerateNoSiteAccess(string $url): void
     {
-        $generator = $this->createMock(UrlGeneratorInterface::class);
-        $generator
+        $this->innerRouter
             ->expects(self::once())
             ->method('generate')
             ->with(__METHOD__)
             ->willReturn($url);
 
-        /** @var \Ibexa\Bundle\Core\Routing\DefaultRouter&\PHPUnit\Framework\MockObject\MockObject $router */
-        $router = $this->generateRouter(['getGenerator']);
-        $router
-            ->expects(self::any())
-            ->method('getGenerator')
-            ->willReturn($generator);
-
-        self::assertSame($url, $router->generate(__METHOD__));
+        self::assertSame($url, $this->createRouter()->generate(__METHOD__));
     }
 
-    public function providerGenerateNoSiteAccess()
+    /**
+     * @return iterable<array{string}>
+     */
+    public function providerGenerateNoSiteAccess(): iterable
     {
-        return [
-            ['/foo/bar'],
-            ['/foo/bar/baz?truc=muche&tata=toto'],
-            ['http://ibexa.co/Products/Ibexa-CMS'],
-            ['http://www.metalfrance.net/decouvertes/edge-caress-inverse-ep'],
-        ];
+        yield ['/foo/bar'];
+        yield ['/foo/bar/baz?truc=muche&tata=toto'];
+        yield ['http://ibexa.co/Products/Ibexa-CMS'];
+        yield ['http://www.metalfrance.net/decouvertes/edge-caress-inverse-ep'];
     }
 
     /**
@@ -157,31 +115,28 @@ class DefaultRouterTest extends TestCase
      * @param string $saName The SiteAccess name
      * @param bool $isMatcherLexer True if the siteaccess matcher is URILexer
      * @param int $referenceType The type of reference to be generated (one of the constants)
-     * @param string $routeName
      */
-    public function testGenerateWithSiteAccess($urlGenerated, $relevantUri, $expectedUrl, $saName, $isMatcherLexer, $referenceType, $routeName)
-    {
+    public function testGenerateWithSiteAccess(
+        string $urlGenerated,
+        string $relevantUri,
+        string $expectedUrl,
+        string $saName,
+        bool $isMatcherLexer,
+        int $referenceType,
+        ?string $routeName
+    ): void {
         $routeName = $routeName ?: __METHOD__;
-        $nonSiteAccessAwareRoutes = ['_dontwantsiteaccess'];
-        $generator = $this->createMock(UrlGeneratorInterface::class);
-        $generator
+        $this->innerRouter
             ->expects(self::once())
             ->method('generate')
             ->with($routeName)
             ->willReturn($urlGenerated);
 
-        /** @var \Ibexa\Bundle\Core\Routing\DefaultRouter&\PHPUnit\Framework\MockObject\MockObject $router */
-        $router = $this->generateRouter(['getGenerator']);
-        $router
-            ->expects(self::any())
-            ->method('getGenerator')
-            ->willReturn($generator);
-
         // If matcher is URILexer, we make it act as it's supposed to, prepending the siteaccess.
         if ($isMatcherLexer) {
             $matcher = $this->createMock(SiteAccess\URILexer::class);
             // Route is siteaccess aware, we're expecting analyseLink() to be called
-            if (!in_array($routeName, $nonSiteAccessAwareRoutes)) {
+            if (!in_array($routeName, self::NON_SITEACCESS_AWARE_ROUTES, true)) {
                 $matcher
                     ->expects(self::once())
                     ->method('analyseLink')
@@ -197,133 +152,116 @@ class DefaultRouterTest extends TestCase
             $matcher = $this->createMock(Matcher::class);
         }
 
-        $sa = new SiteAccess($saName, 'test', $matcher);
-        $router->setSiteAccess($sa);
-
-        $requestContext = new RequestContext();
         $urlComponents = parse_url($urlGenerated);
         if (isset($urlComponents['host'])) {
-            $requestContext->setHost($urlComponents['host']);
-            $requestContext->setScheme($urlComponents['scheme']);
+            $this->requestContext->setHost($urlComponents['host']);
+            $this->requestContext->setScheme($urlComponents['scheme']);
             if (isset($urlComponents['port']) && $urlComponents['scheme'] === 'http') {
-                $requestContext->setHttpPort($urlComponents['port']);
+                $this->requestContext->setHttpPort($urlComponents['port']);
             } elseif (isset($urlComponents['port']) && $urlComponents['scheme'] === 'https') {
-                $requestContext->setHttpsPort($urlComponents['port']);
+                $this->requestContext->setHttpsPort($urlComponents['port']);
             }
         }
-        $requestContext->setBaseUrl(
+        $this->requestContext->setBaseUrl(
             substr($urlComponents['path'], 0, strpos($urlComponents['path'], $relevantUri))
         );
-        $router->setContext($requestContext);
-        $router->setNonSiteAccessAwareRoutes($nonSiteAccessAwareRoutes);
+
+        $router = $this->createRouter();
+        $router->setSiteAccess(new SiteAccess($saName, 'test', $matcher));
 
         self::assertSame($expectedUrl, $router->generate($routeName, [], $referenceType));
     }
 
-    public function providerGenerateWithSiteAccess()
+    /**
+     * @return iterable<array{string, string, string, string, bool, int, string|null}>
+     */
+    public function providerGenerateWithSiteAccess(): iterable
     {
-        return [
-            ['/foo/bar', '/foo/bar', '/foo/bar', 'test_siteaccess', false, UrlGeneratorInterface::ABSOLUTE_PATH, null],
-            ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/foo/bar', 'test_siteaccess', false, UrlGeneratorInterface::ABSOLUTE_URL, null],
-            ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/test_siteaccess/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
-            ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, '_dontwantsiteaccess'],
-            ['http://ezpublish.dev:8080/foo/bar', '/foo/bar', 'http://ezpublish.dev:8080/test_siteaccess/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
-            ['http://ezpublish.dev:8080/foo/bar', '/foo/bar', 'http://ezpublish.dev:8080/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, '_dontwantsiteaccess'],
-            ['https://ezpublish.dev/secured', '/secured', 'https://ezpublish.dev/test_siteaccess/secured', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
-            ['https://ezpublish.dev:445/secured', '/secured', 'https://ezpublish.dev:445/test_siteaccess/secured', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
-            ['http://ezpublish.dev:8080/foo/root_folder/bar/baz', '/bar/baz', 'http://ezpublish.dev:8080/foo/root_folder/test_siteaccess/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null],
-            ['/foo/bar/baz', '/foo/bar/baz', '/test_siteaccess/foo/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, null],
-            ['/foo/root_folder/bar/baz', '/bar/baz', '/foo/root_folder/test_siteaccess/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, null],
-            ['/foo/bar/baz', '/foo/bar/baz', '/foo/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, '_dontwantsiteaccess'],
-        ];
+        yield ['/foo/bar', '/foo/bar', '/foo/bar', 'test_siteaccess', false, UrlGeneratorInterface::ABSOLUTE_PATH, null];
+        yield ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/foo/bar', 'test_siteaccess', false, UrlGeneratorInterface::ABSOLUTE_URL, null];
+        yield ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/test_siteaccess/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
+        yield ['http://ezpublish.dev/foo/bar', '/foo/bar', 'http://ezpublish.dev/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, '_dontwantsiteaccess'];
+        yield ['http://ezpublish.dev:8080/foo/bar', '/foo/bar', 'http://ezpublish.dev:8080/test_siteaccess/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
+        yield ['http://ezpublish.dev:8080/foo/bar', '/foo/bar', 'http://ezpublish.dev:8080/foo/bar', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, '_dontwantsiteaccess'];
+        yield ['https://ezpublish.dev/secured', '/secured', 'https://ezpublish.dev/test_siteaccess/secured', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
+        yield ['https://ezpublish.dev:445/secured', '/secured', 'https://ezpublish.dev:445/test_siteaccess/secured', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
+        yield ['http://ezpublish.dev:8080/foo/root_folder/bar/baz', '/bar/baz', 'http://ezpublish.dev:8080/foo/root_folder/test_siteaccess/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_URL, null];
+        yield ['/foo/bar/baz', '/foo/bar/baz', '/test_siteaccess/foo/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, null];
+        yield ['/foo/root_folder/bar/baz', '/bar/baz', '/foo/root_folder/test_siteaccess/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, null];
+        yield ['/foo/bar/baz', '/foo/bar/baz', '/foo/bar/baz', 'test_siteaccess', true, UrlGeneratorInterface::ABSOLUTE_PATH, '_dontwantsiteaccess'];
     }
 
-    public function testGenerateReverseSiteAccessMatch()
+    public function testGenerateReverseSiteAccessMatch(): void
     {
         $routeName = 'some_route_name';
         $urlGenerated = 'http://phoenix-rises.fm/foo/bar';
 
         $siteAccessName = 'foo_test';
-        $siteAccessRouter = $this->createMock(SiteAccess\SiteAccessRouterInterface::class);
         $versatileMatcher = $this->createMock(SiteAccess\VersatileMatcher::class);
         $simplifiedRequest = new SimplifiedRequest('http', 'phoenix-rises.fm');
         $versatileMatcher
             ->expects(self::once())
             ->method('getRequest')
             ->willReturn($simplifiedRequest);
-        $siteAccessRouter
+        $this->siteAccessRouter
             ->expects(self::once())
             ->method('matchByName')
             ->with($siteAccessName)
             ->willReturn(new SiteAccess($siteAccessName, 'foo', $versatileMatcher));
 
-        $generator = $this->createMock(UrlGeneratorInterface::class);
-        $generator
-            ->expects(self::at(0))
+        $contexts = [];
+        $this->innerRouter
+            ->expects(self::exactly(2))
             ->method('setContext')
-            ->with(self::isInstanceOf(RequestContext::class));
-        $generator
-            ->expects(self::at(1))
+            ->willReturnCallback(static function (RequestContext $context) use (&$contexts): void {
+                $contexts[] = $context;
+            });
+        $this->innerRouter
+            ->expects(self::once())
             ->method('generate')
-            ->with($routeName)
+            ->with($routeName, [])
             ->willReturn($urlGenerated);
-        $generator
-            ->expects(self::at(2))
-            ->method('setContext')
-            ->with($this->requestContext);
 
-        $router = new DefaultRouter($this->container, 'foo', [], $this->requestContext);
-        $router->setConfigResolver($this->configResolver);
+        $router = $this->createRouter();
         $router->setSiteAccess(new SiteAccess('test', 'test', $this->createMock(Matcher::class)));
-        $router->setSiteAccessRouter($siteAccessRouter);
-        $refRouter = new ReflectionObject($router);
-        $refGenerator = $refRouter->getProperty('generator');
-        $refGenerator->setAccessible(true);
-        $refGenerator->setValue($router, $generator);
 
         self::assertSame(
             $urlGenerated,
             $router->generate($routeName, ['siteaccess' => $siteAccessName], DefaultRouter::ABSOLUTE_PATH)
         );
+
+        // Context is switched to the target SiteAccess for generation, then restored
+        self::assertCount(2, $contexts);
+        self::assertSame('phoenix-rises.fm', $contexts[0]->getHost());
+        self::assertNotSame($this->requestContext, $contexts[0]);
+        self::assertSame($this->requestContext, $contexts[1]);
     }
 
     /**
      * @dataProvider providerGetContextBySimplifiedRequest
-     *
-     * @param string $uri
      */
-    public function testGetContextBySimplifiedRequest($uri)
+    public function testGetContextBySimplifiedRequest(string $uri): void
     {
-        $this->getExpectedRequestContext($uri);
-
-        $router = new DefaultRouter($this->container, 'foo', [], $this->requestContext);
-
         self::assertEquals(
             $this->getExpectedRequestContext($uri),
-            $router->getContextBySimplifiedRequest(SimplifiedRequest::fromUrl($uri))
+            $this->createRouter()->getContextBySimplifiedRequest(SimplifiedRequest::fromUrl($uri))
         );
     }
 
     /**
-     * Data provider for testGetContextBySimplifiedRequest.
-     *
-     * @see testGetContextBySimplifiedRequest
-     *
-     * @phpstan-return array<array{string}>
+     * @return iterable<array{string}>
      */
-    public function providerGetContextBySimplifiedRequest()
+    public function providerGetContextBySimplifiedRequest(): iterable
     {
-        return [
-            ['/foo/bar'],
-            ['http://ezpublish.dev/foo/bar'],
-            ['http://ezpublish.dev:8080/foo/bar'],
-            ['https://ezpublish.dev/secured'],
-            ['https://ezpublish.dev:445/secured'],
-            ['http://ezpublish.dev:8080/foo/root_folder/bar/baz'],
-        ];
+        yield ['/foo/bar'];
+        yield ['http://ezpublish.dev/foo/bar'];
+        yield ['http://ezpublish.dev:8080/foo/bar'];
+        yield ['https://ezpublish.dev/secured'];
+        yield ['https://ezpublish.dev:445/secured'];
+        yield ['http://ezpublish.dev:8080/foo/root_folder/bar/baz'];
     }
 
-    private function getExpectedRequestContext($uri)
+    private function getExpectedRequestContext(string $uri): RequestContext
     {
         $requestContext = new RequestContext();
         $uriComponents = parse_url($uri);

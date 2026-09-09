@@ -11,6 +11,7 @@ namespace Ibexa\Core\MVC\Symfony\Security;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Core\MVC\Symfony\Security\Exception\PasswordExpiredException;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface as IbexaUserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,7 +40,7 @@ final class UserChecker implements UserCheckerInterface
         }
     }
 
-    public function checkPostAuth(UserInterface $user): void
+    public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void
     {
         if (!$user instanceof IbexaUserInterface) {
             return;

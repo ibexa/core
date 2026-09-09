@@ -45,7 +45,6 @@ class UserTest extends TestCase
         self::assertSame($login, $user->getUsername());
         self::assertSame($passwordHash, $user->getPassword());
         self::assertSame($roles, $user->getRoles());
-        self::assertNull($user->getSalt());
     }
 
     public function testIsEqualTo()
