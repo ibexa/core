@@ -17,8 +17,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Templating\EngineInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
+use Twig\Environment;
 
 abstract class Controller implements ServiceSubscriberInterface
 {
@@ -81,17 +81,19 @@ abstract class Controller implements ServiceSubscriberInterface
             $response = new Response();
         }
 
-        $response->setContent($this->getTemplateEngine()->render($view, $parameters));
+        $response->setContent($this->getTwig()->render($view, $parameters));
 
         return $response;
     }
 
-    /**
-     * @return \Symfony\Component\Templating\EngineInterface
-     */
-    public function getTemplateEngine()
+    public function getTwig(): Environment
     {
-        return $this->container->get('templating');
+        $twig = $this->container->get('twig');
+        if (!$twig instanceof Environment) {
+            throw new \LogicException(sprintf('The "twig" service must be an instance of %s, %s given.', Environment::class, get_debug_type($twig)));
+        }
+
+        return $twig;
     }
 
     /**
@@ -142,7 +144,7 @@ abstract class Controller implements ServiceSubscriberInterface
     {
         return [
             'logger' => '?' . LoggerInterface::class,
-            'templating' => EngineInterface::class,
+            'twig' => Environment::class,
             'ibexa.config.resolver' => ConfigResolverInterface::class,
             'ibexa.api.repository' => Repository::class,
             'request_stack' => RequestStack::class,

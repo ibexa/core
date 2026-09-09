@@ -11,6 +11,20 @@ parameters:
         ">" : "%3E"
 
 services:
+    ibexa.routing.default_router:
+        class: Ibexa\Bundle\Core\Routing\DefaultRouter
+        decorates: router.default
+        decoration_on_invalid: ignore
+        arguments:
+            $innerRouter: '@.inner'
+            $siteAccessRouter: '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
+            $nonSiteAccessAwareRoutes: '%ibexa.default_router.non_site_access_aware_routes%'
+            $logger: '@?logger'
+        calls:
+            - [setSiteAccess, ['@?Ibexa\Core\MVC\Symfony\SiteAccess']]
+        tags:
+            - { name: monolog.logger, channel: router }
+
     Ibexa\Core\MVC\Symfony\Routing\ChainRouter:
         class: Ibexa\Core\MVC\Symfony\Routing\ChainRouter
         arguments: ["@?logger"]

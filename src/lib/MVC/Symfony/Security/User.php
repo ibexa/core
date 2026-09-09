@@ -67,16 +67,6 @@ class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthen
     }
 
     /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
      * Returns the username used to authenticate the user.
      */
     public function getUsername(): string
@@ -90,11 +80,11 @@ class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthen
     }
 
     /**
-     * Removes sensitive data from the user.
+     * Nothing to erase: the API user is never serialized (see {@see self::__sleep()}).
      *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
+     * @deprecated since Symfony 7.3, {@see \Symfony\Component\Security\Core\User\UserInterface::eraseCredentials()} is removed in Symfony 8.0
      */
+    #[\Deprecated]
     public function eraseCredentials(): void
     {
     }

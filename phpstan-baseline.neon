@@ -2743,12 +2743,6 @@ parameters:
 			path: src/bundle/Core/Matcher/ServiceAwareMatcherFactory.php
 
 		-
-			message: '#^Class Ibexa\\Bundle\\Core\\Routing\\DefaultRouter extends @final class Symfony\\Bundle\\FrameworkBundle\\Routing\\Router\.$#'
-			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: src/bundle/Core/Routing/DefaultRouter.php
-
-		-
 			message: '#^Cannot access property \$name on Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
 			identifier: property.nonObject
 			count: 2
@@ -7082,12 +7076,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Controller\:\:getRepository\(\) should return Ibexa\\Contracts\\Core\\Repository\\Repository but returns object\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Controller.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Controller\:\:getTemplateEngine\(\) should return Symfony\\Component\\Templating\\EngineInterface but returns object\.$#'
 			identifier: return.type
 			count: 1
 			path: src/lib/MVC/Symfony/Controller/Controller.php
