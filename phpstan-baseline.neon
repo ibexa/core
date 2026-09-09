@@ -8911,12 +8911,6 @@ parameters:
 			path: src/contracts/Test/IbexaKernelTestCase.php
 
 		-
-			message: '#^Cannot call method importSchema\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/contracts/Test/IbexaKernelTestCase.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Test\\Persistence\\Fixture\:\:load\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

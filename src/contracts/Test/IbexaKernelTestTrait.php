@@ -23,8 +23,9 @@ use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
+use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Ibexa\Core\Repository\Values\User\UserReference;
-use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
+use Ibexa\DoctrineSchema\Builder\SchemaApplier;
 use RuntimeException;
 
 /**
@@ -34,14 +35,23 @@ trait IbexaKernelTestTrait
 {
     final protected static function loadSchema(): void
     {
-        $schemaImporter = self::getContainer()->get(LegacySchemaImporter::class);
-        foreach (static::getSchemaFiles() as $schemaFile) {
-            $schemaImporter->importSchema($schemaFile);
-        }
+        $schemaBuilder = self::getContainer()->get(SchemaBuilderInterface::class);
+        assert($schemaBuilder instanceof SchemaBuilderInterface);
+        $schema = $schemaBuilder->buildSchema();
+
+        // Constructed rather than fetched: SchemaApplier is a stateless helper, and its service is
+        // private and unreferenced in a plain test kernel, so the compiler removes it.
+        // drop first: this runs per test case, so the tables are normally already present
+        (new SchemaApplier(self::getDoctrineConnection()))->applySchema($schema, true);
     }
 
     /**
      * @return iterable<string>
+     *
+     * @deprecated since Ibexa 4.6.x, no longer used. {@see loadSchema()} now builds the schema from
+     *             {@see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent} instead of reading
+     *             raw schema files, so a bundle contributes its tables through its own
+     *             BuildSchemaSubscriber and nothing needs to list files. Will be removed in 6.0.
      */
     protected static function getSchemaFiles(): iterable
     {
