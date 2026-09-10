@@ -135,7 +135,7 @@ class CachedPermissionService implements PermissionService
     /**
      * @internal For internal use only, do not depend on this method.
      */
-    public function sudo(callable $callback, RepositoryInterface $outerRepository)
+    public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null): mixed
     {
         ++$this->sudoNestingLevel;
         try {
