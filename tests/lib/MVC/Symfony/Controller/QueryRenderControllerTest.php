@@ -111,15 +111,16 @@ final class QueryRenderControllerTest extends TestCase
         );
     }
 
-    public function testPaginationUsesRequestAttributeBeforeQueryAndRequestParameters(): void
+    public function testPaginationReadsPageFromQueryStringOnly(): void
     {
         $adapter = $this->configureMocks(self::ALL_OPTIONS);
 
         $items = new Pagerfanta($adapter);
         $items->setAllowOutOfRangePages(true);
-        $items->setCurrentPage(4);
+        $items->setCurrentPage(2);
         $items->setMaxPerPage(self::EXAMPLE_MAX_PER_PAGE);
 
+        // request body and attributes carrying the same parameter must not influence pagination
         $this->assertRenderQueryResult(
             new QueryView('example.html.twig', [
                 'results' => $items,
