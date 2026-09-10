@@ -49,11 +49,6 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
         $this->siteAccess = $siteAccess;
     }
 
-    public function getInnerRouter(): RouterInterface&RequestMatcherInterface
-    {
-        return $this->innerRouter;
-    }
-
     public function setContext(RequestContext $context): void
     {
         $this->innerRouter->setContext($context);
