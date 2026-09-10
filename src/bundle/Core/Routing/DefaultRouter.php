@@ -122,22 +122,7 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
 
             // Now putting back SiteAccess URI if needed.
             if ($isSiteAccessAware && $siteAccess !== null && $siteAccess->matcher instanceof URILexer) {
-                if ($referenceType === self::ABSOLUTE_URL || $referenceType === self::NETWORK_PATH) {
-                    $scheme = $context->getScheme();
-                    $port = '';
-                    if ($scheme === 'http' && $context->getHttpPort() !== 80) {
-                        $port = ':' . $context->getHttpPort();
-                    } elseif ($scheme === 'https' && $context->getHttpsPort() !== 443) {
-                        $port = ':' . $context->getHttpsPort();
-                    }
-
-                    $base = $context->getHost() . $port . $context->getBaseUrl();
-                } else {
-                    $base = $context->getBaseUrl();
-                }
-
-                $linkUri = $base ? substr($url, strpos($url, $base) + strlen($base)) : $url;
-                $url = str_replace($linkUri, $siteAccess->matcher->analyseLink($linkUri), $url);
+                $url = $this->prependSiteAccessUri($url, $context, $referenceType, $siteAccess->matcher);
             }
 
             return $url;
@@ -145,6 +130,27 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
             // Switch back to original context, for next links generation, including when generation fails.
             $this->setContext($originalContext);
         }
+    }
+
+    private function prependSiteAccessUri(string $url, RequestContext $context, int $referenceType, URILexer $matcher): string
+    {
+        if ($referenceType === self::ABSOLUTE_URL || $referenceType === self::NETWORK_PATH) {
+            $scheme = $context->getScheme();
+            $port = '';
+            if ($scheme === 'http' && $context->getHttpPort() !== 80) {
+                $port = ':' . $context->getHttpPort();
+            } elseif ($scheme === 'https' && $context->getHttpsPort() !== 443) {
+                $port = ':' . $context->getHttpsPort();
+            }
+
+            $base = $context->getHost() . $port . $context->getBaseUrl();
+        } else {
+            $base = $context->getBaseUrl();
+        }
+
+        $linkUri = $base ? substr($url, strpos($url, $base) + strlen($base)) : $url;
+
+        return str_replace($linkUri, $matcher->analyseLink($linkUri), $url);
     }
 
     /**
