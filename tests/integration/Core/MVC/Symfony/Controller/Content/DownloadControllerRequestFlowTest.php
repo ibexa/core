@@ -98,7 +98,7 @@ final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
     {
         $defaultRouter = self::getContainer()->get('router.default');
         self::assertInstanceOf(DefaultRouter::class, $defaultRouter);
-        self::assertInstanceOf(FrameworkRouter::class, $defaultRouter->getInnerRouter());
+        self::assertInstanceOf(FrameworkRouter::class, self::getContainer()->get('ibexa.routing.default_router.inner'));
 
         $chainRouter = self::getContainer()->get('test.ibexa.chain_router');
         self::assertInstanceOf(ChainRouter::class, $chainRouter);
