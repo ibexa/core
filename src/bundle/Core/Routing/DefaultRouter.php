@@ -162,9 +162,10 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
     /**
      * Merges context from $simplifiedRequest into a clone of the current context.
      */
-    public function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest): RequestContext
+    private function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest): RequestContext
     {
-        // inline-instantiated on purpose as it's lightweight and injecting it here through DI can be complicated
+        // Instantiated per call on purpose: the factory clones the current context and mutates that clone,
+        // so it is per-call state and cannot be a shared service.
         return (new RequestContextFactory($this->getContext()))->getContextBySimplifiedRequest($simplifiedRequest);
     }
 

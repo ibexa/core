@@ -274,32 +274,6 @@ final class DefaultRouterTest extends TestCase
     }
 
     /**
-     * @dataProvider providerGetContextBySimplifiedRequest
-     */
-    public function testGetContextBySimplifiedRequest(string $uri): void
-    {
-        self::assertEquals(
-            $this->getExpectedRequestContext($uri),
-            $this->createRouter()->getContextBySimplifiedRequest(SimplifiedRequest::fromUrl($uri))
-        );
-    }
-
-    /**
-     * @return iterable<array{string}>
-     */
-    public function providerGetContextBySimplifiedRequest(): iterable
-    {
-        return [
-            ['/foo/bar'],
-            ['http://ezpublish.dev/foo/bar'],
-            ['http://ezpublish.dev:8080/foo/bar'],
-            ['https://ezpublish.dev/secured'],
-            ['https://ezpublish.dev:445/secured'],
-            ['http://ezpublish.dev:8080/foo/root_folder/bar/baz'],
-        ];
-    }
-
-    /**
      * @param \Symfony\Component\Routing\RequestContext[] $contexts
      */
     private function expectReverseSiteAccessMatch(
@@ -323,25 +297,5 @@ final class DefaultRouterTest extends TestCase
             ->willReturnCallback(static function (RequestContext $context) use (&$contexts): void {
                 $contexts[] = $context;
             });
-    }
-
-    private function getExpectedRequestContext(string $uri): RequestContext
-    {
-        $requestContext = new RequestContext();
-        $uriComponents = parse_url($uri);
-        if (isset($uriComponents['host'])) {
-            $requestContext->setHost($uriComponents['host']);
-            $requestContext->setScheme($uriComponents['scheme']);
-            if (isset($uriComponents['port']) && $uriComponents['scheme'] === 'http') {
-                $requestContext->setHttpPort($uriComponents['port']);
-            } elseif (isset($uriComponents['port']) && $uriComponents['scheme'] === 'https') {
-                $requestContext->setHttpsPort($uriComponents['port']);
-            }
-        }
-        if (isset($uriComponents['path'])) {
-            $requestContext->setPathInfo($uriComponents['path']);
-        }
-
-        return $requestContext;
     }
 }
