@@ -111,6 +111,25 @@ final class QueryRenderControllerTest extends TestCase
         );
     }
 
+    public function testPaginationReadsPageFromQueryStringOnly(): void
+    {
+        $adapter = $this->configureMocks(self::ALL_OPTIONS);
+
+        $items = new Pagerfanta($adapter);
+        $items->setAllowOutOfRangePages(true);
+        $items->setCurrentPage(2);
+        $items->setMaxPerPage(self::EXAMPLE_MAX_PER_PAGE);
+
+        // request body and attributes carrying the same parameter must not influence pagination
+        $this->assertRenderQueryResult(
+            new QueryView('example.html.twig', [
+                'results' => $items,
+            ]),
+            self::ALL_OPTIONS,
+            new Request(['p' => 2], ['p' => 3], ['p' => 4])
+        );
+    }
+
     /**
      * @phpstan-param TOptionsArray $options
      *

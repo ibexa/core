@@ -10,6 +10,7 @@ namespace Ibexa\Core\MVC\Symfony\Security\Authorization\Voter;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class CoreVoter implements VoterInterface
@@ -58,7 +59,7 @@ class CoreVoter implements VoterInterface
      *
      * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
-    public function vote(TokenInterface $token, $object, array $attributes): int
+    public function vote(TokenInterface $token, $object, array $attributes, ?Vote $vote = null): int
     {
         foreach ($attributes as $attribute) {
             if ($this->supportsAttribute($attribute)) {

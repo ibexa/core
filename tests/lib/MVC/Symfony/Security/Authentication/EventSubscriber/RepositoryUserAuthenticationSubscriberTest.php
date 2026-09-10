@@ -164,7 +164,8 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
 
             $passport = new Passport(
                 new UserBadge(
-                    $user->getUserIdentifier(),
+                    // mocked users return an empty identifier, which Symfony 8 rejects
+                    $user->getUserIdentifier() ?: 'user',
                     static fn (string $userIdentifier): IbexaUserInterface => $userProvider->loadUserByIdentifier($userIdentifier)
                 ),
                 new PasswordCredentials($user->getPassword())

@@ -46,18 +46,19 @@ abstract class AbstractQueryType extends OptionsResolverBasedQueryType
 
     protected function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'filter' => static function (OptionsResolver $resolver): void {
-                $resolver->setDefaults([
-                    'content_type' => [],
-                    'visible_only' => true,
-                    'siteaccess_aware' => true,
-                ]);
+        $resolver->setOptions('filter', static function (OptionsResolver $resolver): void {
+            $resolver->setDefaults([
+                'content_type' => [],
+                'visible_only' => true,
+                'siteaccess_aware' => true,
+            ]);
 
-                $resolver->setAllowedTypes('content_type', 'array');
-                $resolver->setAllowedTypes('visible_only', 'bool');
-                $resolver->setAllowedTypes('siteaccess_aware', 'bool');
-            },
+            $resolver->setAllowedTypes('content_type', 'array');
+            $resolver->setAllowedTypes('visible_only', 'bool');
+            $resolver->setAllowedTypes('siteaccess_aware', 'bool');
+        });
+
+        $resolver->setDefaults([
             'offset' => 0,
             'limit' => self::DEFAULT_LIMIT,
             'sort' => [],

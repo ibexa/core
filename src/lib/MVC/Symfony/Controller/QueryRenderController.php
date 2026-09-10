@@ -48,7 +48,8 @@ final class QueryRenderController
 
         $results = new Pagerfanta($this->getAdapter($options));
         if ($options['pagination']['enabled']) {
-            $currentPage = $request->get($options['pagination']['page_param'], 1);
+            $pageParam = $options['pagination']['page_param'];
+            $currentPage = $request->query->getInt($pageParam, 1);
 
             $results->setAllowOutOfRangePages(true);
             $results->setMaxPerPage($options['pagination']['limit']);
@@ -71,7 +72,7 @@ final class QueryRenderController
     {
         $resolver = new OptionsResolver();
 
-        $resolver->setDefault('query', static function (OptionsResolver $resolver): void {
+        $resolver->setOptions('query', static function (OptionsResolver $resolver): void {
             $resolver->setDefaults([
                 'parameters' => [],
                 'assign_results_to' => 'items',
@@ -83,7 +84,7 @@ final class QueryRenderController
             $resolver->setAllowedTypes('assign_results_to', 'string');
         });
 
-        $resolver->setDefault('pagination', static function (OptionsResolver $resolver): void {
+        $resolver->setOptions('pagination', static function (OptionsResolver $resolver): void {
             $resolver->setDefaults([
                 'enabled' => true,
                 'limit' => 10,

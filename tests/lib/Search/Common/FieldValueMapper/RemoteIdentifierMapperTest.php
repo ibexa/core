@@ -126,7 +126,7 @@ final class RemoteIdentifierMapperTest extends TestCase
         yield 'identifier with non-printable characters' => [
             new Field(
                 'identifier',
-                utf8_decode("Non\x09Printable\x0EIdentifier"),
+                mb_convert_encoding("Non\x09Printable\x0EIdentifier", 'ISO-8859-1', 'UTF-8'),
                 new IdentifierField()
             ),
             'Non PrintableIdentifier',

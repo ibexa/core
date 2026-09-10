@@ -21,7 +21,7 @@ class IbexaCoreCollector extends DataCollector
         $this->reset();
     }
 
-    public function collect(Request $request, Response $response, ?Throwable $exception = null)
+    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
         /** @var \Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface $innerCollector */
         foreach ($this->data['collectors'] as $innerCollector) {
@@ -104,7 +104,7 @@ class IbexaCoreCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function reset()
+    public function reset(): void
     {
         $this->data = [
             'collectors' => [],

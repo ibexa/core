@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Validator\Constraint;
 
+use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
 final class LocationIsContainerContentType extends Constraint
@@ -21,16 +22,15 @@ final class LocationIsContainerContentType extends Constraint
     public string $message = 'Location with {{ contentTypeName }} is not a container content type.';
 
     /**
-     * @param array<mixed>|null $options
      * @param array<string>|null $groups
      */
+    #[HasNamedArguments]
     public function __construct(
-        ?array $options = null,
         ?string $message = null,
         ?array $groups = null,
         mixed $payload = null
     ) {
-        parent::__construct($options ?? [], $groups, $payload);
+        parent::__construct(null, $groups, $payload);
 
         $this->message = $message ?? $this->message;
     }

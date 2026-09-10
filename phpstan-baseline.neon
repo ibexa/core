@@ -2743,12 +2743,6 @@ parameters:
 			path: src/bundle/Core/Matcher/ServiceAwareMatcherFactory.php
 
 		-
-			message: '#^Class Ibexa\\Bundle\\Core\\Routing\\DefaultRouter extends @final class Symfony\\Bundle\\FrameworkBundle\\Routing\\Router\.$#'
-			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: src/bundle/Core/Routing/DefaultRouter.php
-
-		-
 			message: '#^Cannot access property \$name on Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
 			identifier: property.nonObject
 			count: 2
@@ -7082,12 +7076,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Controller\:\:getRepository\(\) should return Ibexa\\Contracts\\Core\\Repository\\Repository but returns object\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Controller.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Controller\:\:getTemplateEngine\(\) should return Symfony\\Component\\Templating\\EngineInterface but returns object\.$#'
 			identifier: return.type
 			count: 1
 			path: src/lib/MVC/Symfony/Controller/Controller.php
@@ -21421,81 +21409,15 @@ parameters:
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:getExpectedRequestContext\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:getExpectedRequestContext\(\) has parameter \$uri with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:providerGenerateNoSiteAccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:providerGenerateWithSiteAccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:testGenerateNoSiteAccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:testGenerateNoSiteAccess\(\) has parameter \$url with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:testGenerateReverseSiteAccessMatch\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:testGenerateWithSiteAccess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:testGetContextBySimplifiedRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:testMatchRequestRegularPathinfo\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\DefaultRouterTest\:\:testMatchRequestWithSemanticPathinfo\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
 			message: '#^Offset ''scheme'' might not exist on array\{scheme\?\: string, host\: string, port\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\}\.$#'
 			identifier: offsetAccess.notFound
-			count: 2
+			count: 1
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
 			message: '#^Offset ''scheme'' might not exist on array\{scheme\?\: string, host\: string, port\?\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\}\.$#'
 			identifier: offsetAccess.notFound
-			count: 2
+			count: 1
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
