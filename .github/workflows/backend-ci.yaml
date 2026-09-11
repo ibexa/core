@@ -1,10 +1,11 @@
-name: CI
+name: Backend CI
 
 on:
     push:
         branches:
             - '[0-9]+.[0-9]+'
     pull_request: ~
+    workflow_dispatch: ~
 
 jobs:
     cs-fix:
@@ -19,13 +20,17 @@ jobs:
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
+                    php-version: ${{ matrix.php }}
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
                     satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
             -   name: Run code style check
-                run: composer run-script check-cs -- --format=checkstyle | cs2pr
+                shell: bash
+                run: |
+                    set -euo pipefail
+                    composer run-script check-cs -- --format=checkstyle | cs2pr
 
     tests:
         name: Unit tests & SQLite integration tests
@@ -44,6 +49,7 @@ jobs:
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
+                    php-version: ${{ matrix.php }}
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
@@ -96,6 +102,7 @@ jobs:
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
+                    php-version: ${{ matrix.php }}
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
@@ -148,6 +155,7 @@ jobs:
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
+                    php-version: ${{ matrix.php }}
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
@@ -210,6 +218,7 @@ jobs:
             -   name: Install Composer dependencies
                 uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
+                    php-version: ${{ matrix.php }}
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
