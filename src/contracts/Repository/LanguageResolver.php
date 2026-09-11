@@ -35,6 +35,15 @@ interface LanguageResolver
     public function getPrioritizedLanguages(?array $forcedLanguages = null): array;
 
     /**
+     * Get first prioritized language taking into account forced, context, and configured languages.
+     *
+     * @param array|null $forcedLanguages Optional, typically arguments provided to API, will be used first if set.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException If no prioritized language is found.
+     */
+    public function getFirstPrioritizedLanguage(?array $forcedLanguages = null): string;
+
+    /**
      * Get currently set UseAlwaysAvailable.
      *
      * @param bool|null $forcedUseAlwaysAvailable Optional, if set will be used instead of configured value,

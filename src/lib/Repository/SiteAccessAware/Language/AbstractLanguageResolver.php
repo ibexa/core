@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\SiteAccessAware\Language;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
 use Ibexa\Contracts\Core\Repository\LanguageResolver as APILanguageResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 
@@ -106,6 +107,18 @@ abstract class AbstractLanguageResolver implements APILanguageResolver
         }
 
         return array_values(array_unique(array_merge($languages, $this->getConfiguredLanguages())));
+    }
+
+    public function getFirstPrioritizedLanguage(?array $forcedLanguages = null): string
+    {
+        $languages = $this->getPrioritizedLanguages();
+
+        $firstLanguage = reset($languages);
+        if ($firstLanguage === false) {
+            throw new OutOfBoundsException('No prioritized language found.');
+        }
+
+        return $firstLanguage;
     }
 
     /**
