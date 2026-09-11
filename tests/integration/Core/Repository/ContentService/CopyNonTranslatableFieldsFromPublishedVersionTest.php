@@ -120,6 +120,46 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
+    public function testPublishingSecondTranslationKeepsNameOfFirstPublishedTranslation(): void
+    {
+        $this->createNonTranslatableContentType();
+
+        $contentService = $this->getIbexaTestCore()->getContentService();
+
+        $contentDraft = $this->createEngDraft();
+        $publishedContent = $contentService->publishVersion($contentDraft->getVersionInfo());
+
+        $usDraft = $contentService->createContentDraft($publishedContent->contentInfo);
+        $gerDraft = $contentService->createContentDraft($publishedContent->contentInfo);
+
+        $contentUpdateStruct = new ContentUpdateStruct([
+            'initialLanguageCode' => self::ENG_US,
+            'fields' => $usDraft->getFields(),
+        ]);
+        $contentUpdateStruct->setField('title', 'Title v2', self::ENG_US);
+        $usContent = $contentService->updateContent($usDraft->getVersionInfo(), $contentUpdateStruct);
+        $contentService->publishVersion($usContent->getVersionInfo(), [self::ENG_US]);
+
+        $contentUpdateStruct = new ContentUpdateStruct([
+            'initialLanguageCode' => self::GER_DE,
+            'fields' => $gerDraft->getFields(),
+        ]);
+        $contentUpdateStruct->setField('title', 'Title ger', self::GER_DE);
+        $gerContent = $contentService->updateContent($gerDraft->getVersionInfo(), $contentUpdateStruct);
+        $publishedGerContent = $contentService->publishVersion(
+            $gerContent->getVersionInfo(),
+            [self::GER_DE]
+        );
+
+        $names = $publishedGerContent->getVersionInfo()->getNames();
+
+        self::assertSame('Title v2', $names[self::ENG_US]);
+        self::assertSame('Title ger', $names[self::GER_DE]);
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
     public function testCopyNonTranslatableFieldsOverridesNonMainLanguageDrafts(): void
     {
         $this->createNonTranslatableContentType();
