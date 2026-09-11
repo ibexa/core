@@ -227,13 +227,7 @@ class HandlerTest extends TestCase
 
     protected function getHandlerFixture(): Handler
     {
-        if (!isset(self::$legacyHandler)) {
-            $container = $this->getContainer();
-
-            self::$legacyHandler = $container->get(Handler::class);
-        }
-
-        return self::$legacyHandler;
+        return self::$legacyHandler ??= $this->getContainer()->get(Handler::class);
     }
 
     protected static Container $container;
