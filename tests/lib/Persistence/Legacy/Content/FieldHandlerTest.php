@@ -17,6 +17,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Persistence\FieldType as SPIFieldType;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\FieldTypeRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -31,6 +34,16 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class FieldHandlerTest extends LanguageAwareTestCase
 {
+    private const EXTERNAL_STORAGE_FIELD_TYPE_ALIASES = [
+        'ezbinaryfile' => 'ibexa_binaryfile',
+        'ezgmaplocation' => 'ibexa_gmap_location',
+        'ezimage' => 'ibexa_image',
+        'ezkeyword' => 'ibexa_keyword',
+        'ezmedia' => 'ibexa_media',
+        'ezurl' => 'ibexa_url',
+        'ezuser' => 'ibexa_user',
+    ];
+
     /**
      * Gateway mock.
      *
@@ -885,6 +898,115 @@ class FieldHandlerTest extends LanguageAwareTestCase
     }
 
     /**
+     * @dataProvider provideLegacyFieldTypeIdentifiers
+     */
+    public function testDeleteFieldsResolvesLegacyFieldTypeIdentifier(
+        string $legacyIdentifier,
+        string $expectedIdentifier
+    ): void {
+        $fieldHandler = $this->getFieldHandler();
+
+        $contentGatewayMock = $this->getContentGatewayMock();
+        $contentGatewayMock->expects(self::once())
+            ->method('getFieldIdsByType')
+            ->with(self::equalTo(42), self::equalTo(2))
+            ->willReturn([$legacyIdentifier => [2, 3]]);
+
+        $storageHandlerMock = $this->getStorageHandlerMock();
+        $storageHandlerMock->expects(self::once())
+            ->method('deleteFieldData')
+            ->with(
+                self::equalTo($expectedIdentifier),
+                self::isInstanceOf(VersionInfo::class),
+                self::equalTo([2, 3])
+            );
+
+        $fieldHandler->deleteFields(42, new VersionInfo(['versionNo' => 2]));
+    }
+
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public function provideLegacyFieldTypeIdentifiers(): iterable
+    {
+        foreach (self::EXTERNAL_STORAGE_FIELD_TYPE_ALIASES as $legacyAlias => $alias) {
+            yield $legacyAlias => [$legacyAlias, $alias];
+        }
+
+        yield 'already migrated identifier' => ['ibexa_image', 'ibexa_image'];
+    }
+
+    public function testDeleteFieldsMergesLegacyAndCurrentFieldTypeIdentifiers(): void
+    {
+        $fieldHandler = $this->getFieldHandler();
+
+        $contentGatewayMock = $this->getContentGatewayMock();
+        $contentGatewayMock->expects(self::once())
+            ->method('getFieldIdsByType')
+            ->with(self::equalTo(42), self::equalTo(2))
+            ->willReturn(['ezimage' => [2], 'ibexa_image' => [3]]);
+
+        $storageHandlerMock = $this->getStorageHandlerMock();
+        $storageHandlerMock->expects(self::once())
+            ->method('deleteFieldData')
+            ->with(
+                self::equalTo('ibexa_image'),
+                self::isInstanceOf(VersionInfo::class),
+                self::equalTo([2, 3])
+            );
+
+        $fieldHandler->deleteFields(42, new VersionInfo(['versionNo' => 2]));
+    }
+
+    public function testDeleteTranslationFromVersionFieldsResolvesLegacyFieldTypeIdentifier(): void
+    {
+        $fieldHandler = $this->getFieldHandler();
+        $versionInfo = new VersionInfo([
+            'contentInfo' => new ContentInfo(['id' => 42]),
+            'versionNo' => 2,
+        ]);
+
+        $this->getContentGatewayMock()->expects(self::once())
+            ->method('getFieldIdsByType')
+            ->with(self::equalTo(42), self::equalTo(2), self::equalTo('eng-GB'))
+            ->willReturn(['ezimage' => [4]]);
+
+        $this->getStorageHandlerMock()->expects(self::once())
+            ->method('deleteFieldData')
+            ->with(
+                self::equalTo('ibexa_image'),
+                self::isInstanceOf(VersionInfo::class),
+                self::equalTo([4])
+            );
+
+        $fieldHandler->deleteTranslationFromVersionFields($versionInfo, 'eng-GB');
+    }
+
+    public function testDeleteTranslationFromContentFieldsResolvesLegacyFieldTypeIdentifier(): void
+    {
+        $fieldHandler = $this->getFieldHandler();
+        $versionInfo = new VersionInfo([
+            'contentInfo' => new ContentInfo(['id' => 42]),
+            'versionNo' => 2,
+        ]);
+
+        $this->getContentGatewayMock()->expects(self::once())
+            ->method('getFieldIdsByType')
+            ->with(self::equalTo(42), self::equalTo(2), self::equalTo('eng-GB'))
+            ->willReturn(['ezuser' => [5]]);
+
+        $this->getStorageHandlerMock()->expects(self::once())
+            ->method('deleteFieldData')
+            ->with(
+                self::equalTo('ibexa_user'),
+                self::isInstanceOf(VersionInfo::class),
+                self::equalTo([5])
+            );
+
+        $fieldHandler->deleteTranslationFromContentFields(42, [$versionInfo], 'eng-GB');
+    }
+
+    /**
      * Returns a Content fixture.
      *
      * @return Content
@@ -1094,10 +1216,21 @@ class FieldHandlerTest extends LanguageAwareTestCase
             $this->getMapperMock(),
             $this->getStorageHandlerMock(),
             $this->getLanguageHandler(),
-            $this->getFieldTypeRegistryMock()
+            $this->getFieldTypeRegistryMock(),
+            $this->getFieldTypeAliasResolver()
         );
 
         return $mock;
+    }
+
+    protected function getFieldTypeAliasResolver(): FieldTypeAliasResolverInterface
+    {
+        $fieldTypeAliasRegistry = new FieldTypeAliasRegistry();
+        foreach (self::EXTERNAL_STORAGE_FIELD_TYPE_ALIASES as $legacyAlias => $alias) {
+            $fieldTypeAliasRegistry->register($legacyAlias, $alias);
+        }
+
+        return new FieldTypeAliasResolver($fieldTypeAliasRegistry);
     }
 
     /**
