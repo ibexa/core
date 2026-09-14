@@ -8293,7 +8293,7 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
 
 		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
+			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\ArgPlaceholder\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
@@ -8329,7 +8329,7 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/FieldTypesTranslationExtractor.php
 
 		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
+			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\ArgPlaceholder\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/lib/MVC/Symfony/Translation/TranslatableExceptionsFileVisitor.php
@@ -8347,7 +8347,7 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/TranslatableExceptionsFileVisitor.php
 
 		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
+			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\ArgPlaceholder\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
 			identifier: property.notFound
 			count: 2
 			path: src/lib/MVC/Symfony/Translation/ValidationErrorFileVisitor.php

@@ -59,6 +59,21 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
         self::assertSame($entity, $result);
     }
 
+    public function testFindWithoutLockArgumentsDelegatesNullDefaults(): void
+    {
+        $entity = new stdClass();
+        $wrapped = $this->createMock(EntityManagerInterface::class);
+        $wrapped->expects(self::once())
+            ->method('find')
+            ->with(stdClass::class, 1, null, null)
+            ->willReturn($entity);
+        $this->entityManagerFactory->method('getEntityManager')->willReturn($wrapped);
+
+        $result = $this->siteAccessAwareEntityManager->find(stdClass::class, 1);
+
+        self::assertSame($entity, $result);
+    }
+
     public function testRefreshDelegatesToWrappedEntityManager(): void
     {
         $entity = new stdClass();
