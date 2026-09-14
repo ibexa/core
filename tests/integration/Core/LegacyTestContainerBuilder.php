@@ -124,7 +124,6 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
         $this->addCompilerPass(new Compiler\Storage\Legacy\FieldValueConverterRegistryPass());
         $this->addCompilerPass(new Compiler\Storage\Legacy\RoleLimitationConverterPass());
 
-        $this->addCompilerPass(new Compiler\Search\Legacy\CriteriaConverterPass());
         $this->addCompilerPass(new Compiler\Search\Legacy\CriterionFieldValueHandlerRegistryPass());
         $this->addCompilerPass(new Compiler\Search\Legacy\SortClauseConverterPass());
 
