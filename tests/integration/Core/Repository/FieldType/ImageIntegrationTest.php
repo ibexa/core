@@ -842,6 +842,65 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         // Expect no League\Flysystem\CorruptedPathDetected thrown
     }
 
+    public function testDeleteContentRemovesImageStoredUnderLegacyFieldTypeIdentifier(): void
+    {
+        $ioService = $this->getSetupFactory()->getServiceContainer()->get(LegacyIOService::class);
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        self::assertInstanceOf(IOServiceInterface::class, $ioService);
+
+        $content = $this->publishNewImage(
+            __METHOD__,
+            new ImageValue(
+                [
+                    'inputUri' => __DIR__ . '/_fixtures/image.jpg',
+                    'fileName' => 'image.jpg',
+                    'fileSize' => filesize(__DIR__ . '/_fixtures/image.jpg'),
+                    'alternativeText' => 'Alternative',
+                ]
+            ),
+            [2]
+        );
+
+        $imageFieldDefinition = $content->getContentType()->getFieldDefinition('image');
+        self::assertNotNull($imageFieldDefinition);
+
+        $this->assertImageExists(true, $ioService, $content);
+
+        $this->downgradeFieldTypeIdentifierToLegacyAlias(
+            $content->id,
+            $content->getVersionInfo()->versionNo,
+            $imageFieldDefinition->id
+        );
+
+        $contentService->deleteContent($content->getVersionInfo()->getContentInfo());
+
+        $this->assertImageExists(false, $ioService, $content);
+    }
+
+    private function downgradeFieldTypeIdentifierToLegacyAlias(
+        int $contentId,
+        int $versionNo,
+        int $fieldDefinitionId
+    ): void {
+        $connection = $this->getRawDatabaseConnection();
+
+        $query = $connection->createQueryBuilder();
+        $query
+            ->update(Gateway::CONTENT_FIELD_TABLE)
+            ->set('data_type_string', ':data_type_string')
+            ->setParameter('data_type_string', 'ezimage', ParameterType::STRING)
+            ->andWhere('content_type_field_definition_id = :content_type_field_definition_id')
+            ->andWhere('version = :version')
+            ->andWhere('contentobject_id = :contentobject_id')
+            ->setParameter('content_type_field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
+            ->setParameter('version', $versionNo, ParameterType::INTEGER)
+            ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
+
+        $query->executeStatement();
+    }
+
     /**
      * @return array<string,mixed>
      *
