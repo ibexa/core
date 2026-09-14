@@ -18,6 +18,7 @@ use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
@@ -94,16 +95,22 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
             || !$node->expr instanceof Node\Expr\New_) {
             $this->previousNode = $node;
 
-            return;
+            return null;
         }
 
         $exceptionClass = $node->expr->class->parts[0];
-        if (!in_array(strtolower($exceptionClass), array_map('strtolower', $this->exceptionsToExtractFrom))) {
+        if (
+            !in_array(strtolower($exceptionClass), array_map('strtolower', $this->exceptionsToExtractFrom))
+            // no argument, or a first-class callable / partial application placeholder: nothing to extract
+            || !isset($node->expr->args[0])
+            || !$node->expr->args[0] instanceof Arg
+        ) {
             $this->previousNode = $node;
 
-            return;
+            return null;
         }
 
+        $firstArgument = $node->expr->args[0];
         $node = $node->expr;
         $ignore = false;
         $desc = $meaning = null;
@@ -122,23 +129,23 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
             }
         }
 
-        if (!$node->args[0]->value instanceof String_) {
+        if (!$firstArgument->value instanceof String_) {
             if ($ignore) {
-                return;
+                return null;
             }
 
-            $message = sprintf('Can only extract the translation ID from a scalar string, but got "%s". Refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).', get_class($node->args[0]->value), $this->file, $node->args[0]->value->getLine());
+            $message = sprintf('Can only extract the translation ID from a scalar string, but got "%s". Refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).', get_class($firstArgument->value), $this->file, $firstArgument->value->getLine());
 
             if ($this->logger) {
                 $this->logger->error($message);
 
-                return;
+                return null;
             }
 
             throw new RuntimeException($message);
         }
 
-        $id = $node->args[0]->value->value;
+        $id = $firstArgument->value->value;
 
         $message = new Message($id, $this->defaultDomain);
         $message->setDesc($desc);
@@ -206,7 +213,7 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
     {
         // check if there is a doc comment for the ID argument
         // ->trans(/** @Desc("FOO") */ 'my.id')
-        if (null !== $comment = $node->args[0]->getDocComment()) {
+        if (isset($node->args[0]) && null !== $comment = $node->args[0]->getDocComment()) {
             return $comment->getText();
         }
 

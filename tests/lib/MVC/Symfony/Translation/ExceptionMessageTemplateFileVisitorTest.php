@@ -79,6 +79,25 @@ final class ExceptionMessageTemplateFileVisitorTest extends TestCase
         self::assertEmpty($messageCatalogue->getDomains());
     }
 
+    public function testFirstClassCallableIsSkipped(): void
+    {
+        $messageCatalogue = new MessageCatalogue();
+
+        // first-class callable syntax is parsed by php-parser regardless of the PHP version running the test
+        $ast = $this->phpParser->parse(
+            '<?php $setMessageTemplate = $this->setMessageTemplate(...); $setMessageTemplate(\'Foo exception\');'
+        );
+        self::assertNotNull($ast);
+
+        $this->exceptionMessageTemplateFileVisitor->visitPhpFile(
+            new SplFileInfo(__FILE__),
+            $messageCatalogue,
+            $ast
+        );
+
+        self::assertEmpty($messageCatalogue->getDomains());
+    }
+
     public function testWrongTranslationId(): void
     {
         $messageCatalogue = new MessageCatalogue();
