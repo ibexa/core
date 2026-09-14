@@ -12,6 +12,7 @@ on:
 
 env:
   IMAGE_NAME: ghcr.io/ibexa/core/solr
+  IMAGE_TAG: "6.0"
 
 jobs:
     build-and-publish:
@@ -34,13 +35,13 @@ jobs:
                   fetch-depth: 0
 
             - name: Build Solr image
-              run: docker build -t "$IMAGE_NAME:latest" docker/solr
+              run: docker build -t "$IMAGE_NAME:$IMAGE_TAG" docker/solr
 
             - name: Start Solr image
               run: |
                 docker run --health-cmd "solr status" \
                 --health-interval 10s --health-timeout 5s --health-retries 10 \
-                -d -p 8983:8983 "$IMAGE_NAME:latest"
+                -d -p 8983:8983 "$IMAGE_NAME:$IMAGE_TAG"
 
             - uses: ibexa/gh-workflows/actions/setup-composer-root-version@main
             
@@ -64,6 +65,7 @@ jobs:
                     CUSTOM_CACHE_POOL: singleredis
                     CACHE_HOST: 127.0.0.1
                     CORES_SETUP: single
+                    SOLR_VERSION: 10.0.0
 
             - name: Log in to the Container registry
               uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
@@ -74,4 +76,4 @@ jobs:
 
             - name: Push image
               if: ${{ matrix.php-version == '8.4' }}
-              run: docker push "$IMAGE_NAME"
+              run: docker push "$IMAGE_NAME:$IMAGE_TAG"
