@@ -171,9 +171,7 @@ class CommonTest extends AbstractParserTestCase
         );
     }
 
-    /**
-     * @dataProvider sessionSettingsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('sessionSettingsProvider')]
     public function testSessionSettings(array $inputParams, array $expected)
     {
         $this->load(
@@ -187,7 +185,7 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('session', $expected['session'], 'ibexa_demo_site');
     }
 
-    public function sessionSettingsProvider()
+    public static function sessionSettingsProvider()
     {
         return [
             [

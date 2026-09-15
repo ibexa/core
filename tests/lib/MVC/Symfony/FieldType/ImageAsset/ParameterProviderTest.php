@@ -57,7 +57,7 @@ class ParameterProviderTest extends TestCase
         $this->parameterProvider = new ParameterProvider($this->repository);
     }
 
-    public function dataProviderForTestGetViewParameters(): array
+    public static function dataProviderForTestGetViewParameters(): array
     {
         return [
             [ContentInfo::STATUS_PUBLISHED, ['available' => true]],
@@ -65,9 +65,7 @@ class ParameterProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProviderForTestGetViewParameters
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestGetViewParameters')]
     public function testGetViewParameters($status, array $expected): void
     {
         $destinationContentId = 1;
@@ -112,7 +110,7 @@ class ParameterProviderTest extends TestCase
             ->expects(self::once())
             ->method('sudo')
             ->with($closure)
-            ->willThrowException($this->createMock(NotFoundException::class));
+            ->willThrowException($this->createStub(NotFoundException::class));
 
         $actual = $this->parameterProvider->getViewParameters(
             $this->createField($destinationContentId)
@@ -131,26 +129,28 @@ class ParameterProviderTest extends TestCase
             ->method('isEmptyValue')
             ->willReturn(false);
 
-        $contentInfo = $this->createMock(ContentInfo::class);
+        $contentInfo = $this->createStub(ContentInfo::class);
 
         $this->repository
             ->method('sudo')
             ->willReturn($contentInfo)
         ;
 
+        $matcher = self::exactly(2);
         $this->permissionsResolver
-            ->expects(self::at(0))
+            ->expects($matcher)
             ->method('canUser')
-            ->with('content', 'read', $contentInfo)
-            ->willReturn(false)
-        ;
+            ->willReturnCallback(static function (string $module, string $function, object $object, array $targets = []) use ($matcher, $contentInfo): bool {
+                self::assertSame('content', $module);
+                self::assertSame($contentInfo, $object);
+                if ($matcher->numberOfInvocations() === 1) {
+                    self::assertSame('read', $function);
+                } else {
+                    self::assertSame('view_embed', $function);
+                }
 
-        $this->permissionsResolver
-            ->expects(self::at(1))
-            ->method('canUser')
-            ->with('content', 'view_embed', $contentInfo)
-            ->willReturn(false)
-        ;
+                return false;
+            });
 
         $actual = $this->parameterProvider->getViewParameters(
             $this->createField($destinationContentId)
@@ -169,7 +169,7 @@ class ParameterProviderTest extends TestCase
             ->method('isEmptyValue')
             ->willReturn(true);
 
-        $contentInfo = $this->createMock(ContentInfo::class);
+        $contentInfo = $this->createStub(ContentInfo::class);
 
         $this->repository
             ->method('sudo')

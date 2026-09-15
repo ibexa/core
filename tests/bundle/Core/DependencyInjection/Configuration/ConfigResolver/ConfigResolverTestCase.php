@@ -58,9 +58,7 @@ abstract class ConfigResolverTestCase extends TestCase
         $resolver->getParameter('undefined');
     }
 
-    /**
-     * @dataProvider parameterProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('parameterProvider')]
     public function testGetParameterGlobalScope(string $paramName, $expectedValue): void
     {
         $globalScopeParameter = sprintf('%s.%s.%s', $this->getNamespace(), $this->getScope(), $paramName);
@@ -78,7 +76,7 @@ abstract class ConfigResolverTestCase extends TestCase
         self::assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
     }
 
-    public function parameterProvider(): array
+    public static function parameterProvider(): array
     {
         return [
             ['foo', 'bar'],

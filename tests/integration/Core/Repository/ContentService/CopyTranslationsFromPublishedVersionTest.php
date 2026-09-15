@@ -15,9 +15,7 @@ use Ibexa\Core\FieldType\TextLine;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\ContentService::class)]
 final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
 {
     private const ENG_LANGUAGE_CODE = 'eng-GB';

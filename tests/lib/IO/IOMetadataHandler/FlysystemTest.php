@@ -109,9 +109,7 @@ class FlysystemTest extends TestCase
         $this->handler->load($notExistentPath);
     }
 
-    /**
-     * @dataProvider getDataForFileExists
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForFileExists')]
     public function testExists(string $filePath, bool $exists): void
     {
         $this->filesystem
@@ -124,7 +122,7 @@ class FlysystemTest extends TestCase
         self::assertSame($exists, $this->handler->exists($filePath));
     }
 
-    public function getDataForFileExists(): iterable
+    public static function getDataForFileExists(): iterable
     {
         $filePath = 'prefix/my/file.png';
 

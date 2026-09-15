@@ -46,9 +46,7 @@ class ChainConfigResolverTest extends TestCase
         $this->containerMock = $this->createMock(ContainerInterface::class);
     }
 
-    /**
-     * @dataProvider parameterProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('parameterProvider')]
     public function testGetParameterDefaultScope(string $paramName, $expectedValue): void
     {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
@@ -77,9 +75,7 @@ class ChainConfigResolverTest extends TestCase
         self::assertSame($expectedValue, $this->getChainConfigResolver()->getParameter($paramName));
     }
 
-    /**
-     * @dataProvider parameterProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('parameterProvider')]
     public function testGetParameterRelativeScope(string $paramName, $expectedValue): void
     {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
@@ -104,9 +100,7 @@ class ChainConfigResolverTest extends TestCase
         self::assertSame($expectedValue, $this->getChainConfigResolver()->getParameter($paramName));
     }
 
-    /**
-     * @dataProvider parameterProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('parameterProvider')]
     public function testGetParameterSpecificScope(string $paramName, $expectedValue): void
     {
         $specificScopeParameter = $this->getParameter($paramName, self::FIRST_SA_NAME);
@@ -133,9 +127,7 @@ class ChainConfigResolverTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider parameterProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('parameterProvider')]
     public function testGetParameterGlobalScope(string $paramName, $expectedValue): void
     {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
@@ -153,9 +145,7 @@ class ChainConfigResolverTest extends TestCase
         self::assertSame($expectedValue, $this->getChainConfigResolver()->getParameter($paramName));
     }
 
-    /**
-     * @dataProvider hasParameterProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('hasParameterProvider')]
     public function testHasParameterNoNamespace(
         bool $defaultMatch,
         bool $groupMatch,
@@ -182,9 +172,7 @@ class ChainConfigResolverTest extends TestCase
         self::assertSame($expectedResult, $chainConfigResolver->hasParameter($paramName));
     }
 
-    /**
-     * @dataProvider hasParameterProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('hasParameterProvider')]
     public function testHasParameterWithNamespaceAndScope(
         bool $defaultMatch,
         bool $groupMatch,
@@ -274,7 +262,7 @@ class ChainConfigResolverTest extends TestCase
         );
     }
 
-    public function parameterProvider(): array
+    public static function parameterProvider(): array
     {
         return [
              ['foo', 'bar'],
@@ -301,7 +289,7 @@ class ChainConfigResolverTest extends TestCase
          ];
     }
 
-    public function hasParameterProvider(): array
+    public static function hasParameterProvider(): array
     {
         return [
              [true, true, true, true, true],

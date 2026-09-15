@@ -23,9 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Identifi
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Name;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\ContentTypeService::class)]
 final class FindContentTypesTest extends RepositoryTestCase
 {
     public function testFindContentTypesWithNullQueryFinds25Results(): void
@@ -42,9 +40,8 @@ final class FindContentTypesTest extends RepositoryTestCase
 
     /**
      * @param list<string> $expectedIdentifiers
-     *
-     * @dataProvider dataProviderForTestFindContentTypes
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestFindContentTypes')]
     public function testFindContentTypes(ContentTypeQuery $query, array $expectedIdentifiers): void
     {
         $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
@@ -151,7 +148,7 @@ final class FindContentTypesTest extends RepositoryTestCase
     /**
      * @return iterable<array{\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery, list<string>}>
      */
-    public function dataProviderForTestFindContentTypes(): iterable
+    public static function dataProviderForTestFindContentTypes(): iterable
     {
         yield 'identifiers' => [
             new ContentTypeQuery(

@@ -19,12 +19,10 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for delete content translation with the SearchService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\SearchService
- *
- * @group integration
- * @group search
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\SearchService::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('search')]
 final class DeleteTranslationTest extends BaseTestCase
 {
     /**

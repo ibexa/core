@@ -25,9 +25,9 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
      *
      * This provider also checks if all registered Limitations are used.
      */
-    public function providerForCanUser(): array
+    public static function providerForCanUser(): array
     {
-        $commonLimitations = $this->getCommonLimitations();
+        $commonLimitations = self::getCommonLimitations();
         $contentCreateLimitations = array_merge(
             $commonLimitations,
             [
@@ -65,8 +65,6 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
     }
 
     /**
-     * @dataProvider providerForCanUser
-     *
      * @param string $module
      * @param string $function
      * @param array $limitations
@@ -78,6 +76,7 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForCanUser')]
     public function testCanUser(
         string $module,
         string $function,
@@ -107,7 +106,7 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
      */
-    private function getCommonLimitations(): array
+    private static function getCommonLimitations(): array
     {
         return [
             new Limitation\ContentTypeLimitation([self::LIMITATION_VALUES => [1]]),

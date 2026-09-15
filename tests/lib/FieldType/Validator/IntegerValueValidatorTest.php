@@ -14,13 +14,11 @@ use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\IntegerValueValidator;
 
 /**
- * @covers \Ibexa\Core\FieldType\Validator\IntegerValueValidator
- *
  * @extends BaseNumericValidatorTestCase<IntegerValueValidator>
- *
- * @group fieldType
- * @group validator
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\FieldType\Validator\IntegerValueValidator::class)]
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('validator')]
 final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
 {
     protected function getValidatorInstance(): Validator
@@ -28,22 +26,22 @@ final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
         return new IntegerValueValidator();
     }
 
-    protected function getMinNumericValueName(): string
+    protected static function getMinNumericValueName(): string
     {
         return 'minIntegerValue';
     }
 
-    protected function getMaxNumericValueName(): string
+    protected static function getMaxNumericValueName(): string
     {
         return 'maxIntegerValue';
     }
 
-    protected function getMinIntegerValue(): int
+    protected static function getMinIntegerValue(): int
     {
         return 10;
     }
 
-    protected function getMaxIntegerValue(): int
+    protected static function getMaxIntegerValue(): int
     {
         return 15;
     }
@@ -87,9 +85,7 @@ final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
         );
     }
 
-    /**
-     * @dataProvider providerForValidateOK
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForValidateOK')]
     public function testValidateCorrectValues(int $value): void
     {
         $validator = $this->getValidatorInstance();
@@ -102,7 +98,7 @@ final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
     /**
      * @return list<array{int}>
      */
-    public function providerForValidateOK(): array
+    public static function providerForValidateOK(): array
     {
         return [
             [10],
@@ -116,9 +112,8 @@ final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
 
     /**
      * Tests validating a wrong value.
-     *
-     * @dataProvider providerForValidateKO
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForValidateKO')]
     public function testValidateWrongValues(int $value, string $message): void
     {
         $validator = $this->getValidatorInstance();
@@ -131,17 +126,17 @@ final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
     /**
      * @return list<array{int, string}>
      */
-    public function providerForValidateKO(): array
+    public static function providerForValidateKO(): array
     {
         return [
-            [-12, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinIntegerValue()])],
-            [0, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinIntegerValue()])],
-            [9, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinIntegerValue()])],
-            [16, strtr(self::VALUE_TOO_HIGH_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMaxIntegerValue()])],
+            [-12, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => self::getMinIntegerValue()])],
+            [0, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => self::getMinIntegerValue()])],
+            [9, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => self::getMinIntegerValue()])],
+            [16, strtr(self::VALUE_TOO_HIGH_VALIDATION_MESSAGE, [self::SIZE_PARAM => self::getMaxIntegerValue()])],
         ];
     }
 
-    public function providerForValidateConstraintsOK(): iterable
+    public static function providerForValidateConstraintsOK(): iterable
     {
         yield [[]];
         yield [[self::MIN => 5]];
@@ -152,7 +147,7 @@ final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
         yield [[self::MIN => 6, self::MAX => 8]];
     }
 
-    protected function getIncorrectNumericTypeValidationMessage(string $parameterName): string
+    protected static function getIncorrectNumericTypeValidationMessage(string $parameterName): string
     {
         return sprintf(
             "Validator parameter '%s' value must be of integer type",

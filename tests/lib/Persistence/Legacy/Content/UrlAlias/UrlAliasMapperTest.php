@@ -12,9 +12,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMask
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper::class)]
 class UrlAliasMapperTest extends LanguageAwareTestCase
 {
     protected $fixture = [
@@ -229,16 +227,15 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
         ];
     }
 
-    public function providerForTestExtractUrlAliasFromData()
+    public static function providerForTestExtractUrlAliasFromData()
     {
         return [[0], [1], [2], [3]];
     }
 
     /**
      * Test for the extractUrlAliasFromData() method.
-     *
-     * @dataProvider providerForTestExtractUrlAliasFromData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestExtractUrlAliasFromData')]
     public function testExtractUrlAliasFromData($index)
     {
         $mapper = $this->getMapper();
@@ -254,9 +251,8 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
 
     /**
      * Test for the extractUrlAliasListFromData() method.
-     *
-     * @depends testExtractUrlAliasFromData
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testExtractUrlAliasFromData')]
     public function testExtractUrlAliasListFromData()
     {
         $mapper = $this->getMapper();

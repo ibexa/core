@@ -15,14 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass::class, 'process')]
 class InstallerTagPassTest extends AbstractCompilerPassTestCase
 {
-    /**
-     * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass::process
-     */
     public function testProcessInjectsInstallersIntoCommand(): void
     {
         $this->setDefinition(

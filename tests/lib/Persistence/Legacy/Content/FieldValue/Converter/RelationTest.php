@@ -14,9 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter::class)]
 class RelationTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter */
@@ -28,10 +26,8 @@ class RelationTest extends TestCase
         $this->converter = new RelationConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('relationlist')]
     public function testToStorageFieldDefinition()
     {
         $fieldDefinition = new PersistenceFieldDefinition(

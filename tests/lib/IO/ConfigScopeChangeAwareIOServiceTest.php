@@ -275,7 +275,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
 
     public function testOnConfigScopeChange(): void
     {
-        $event = $this->createMock(ScopeChangeEvent::class);
+        $event = $this->createStub(ScopeChangeEvent::class);
         $this->innerIOService
             ->expects(self::once())
             ->method('setPrefix')

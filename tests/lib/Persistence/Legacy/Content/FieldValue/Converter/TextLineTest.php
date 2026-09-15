@@ -16,9 +16,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter::class)]
 class TextLineTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter */
@@ -30,10 +28,8 @@ class TextLineTest extends TestCase
         $this->converter = new TextLineConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('textLine')]
     public function testToStorageValue()
     {
         $value = new FieldValue();
@@ -47,10 +43,8 @@ class TextLineTest extends TestCase
         self::assertSame(0, $storageFieldValue->sortKeyInt);
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('textLine')]
     public function testToFieldValue()
     {
         $storageFieldValue = new StorageFieldValue();
@@ -64,10 +58,8 @@ class TextLineTest extends TestCase
         self::assertSame($storageFieldValue->sortKeyString, $fieldValue->sortKey);
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('textLine')]
     public function testToStorageFieldDefinitionWithValidator()
     {
         $defaultText = 'This is a default text';
@@ -101,10 +93,8 @@ class TextLineTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('textLine')]
     public function testToStorageFieldDefinitionNoValidator()
     {
         $defaultText = 'This is a default text';
@@ -130,10 +120,8 @@ class TextLineTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('textLine')]
     public function testToFieldDefinition()
     {
         $defaultText = 'This is a default value';

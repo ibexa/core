@@ -16,9 +16,7 @@ use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly as VisibleOnlyHandler;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly::class)]
 class VisibleOnlyTest extends CriterionHandlerTestCase
 {
     /**
@@ -43,7 +41,7 @@ class VisibleOnlyTest extends CriterionHandlerTestCase
 
         $criterion = new Criterion\VisibleOnly();
         $handler = new VisibleOnlyHandler(new JoinedTablesTracker());
-        $converter = $this->createMock(CriteriaConverter::class);
+        $converter = $this->createStub(CriteriaConverter::class);
         $queryBuilder = $this->createDoctrineQueryBuilder();
 
         $actual = $handler->handle($converter, $queryBuilder, $criterion);

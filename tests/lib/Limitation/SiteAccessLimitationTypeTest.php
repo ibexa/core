@@ -50,7 +50,7 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue()
     {
         return [
             [new SiteAccessLimitation()],
@@ -81,13 +81,11 @@ class SiteAccessLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
-     * @dataProvider providerForTestAcceptValue
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation $limitation
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestAcceptValue')]
     public function testAcceptValue(SiteAccessLimitation $limitation, SiteAccessLimitationType $limitationType)
     {
         $limitationType->acceptValue($limitation);
@@ -96,7 +94,7 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException()
     {
         return [
             [new ObjectStateLimitation()],
@@ -105,13 +103,11 @@ class SiteAccessLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
-     * @dataProvider providerForTestAcceptValueException
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestAcceptValueException')]
     public function testAcceptValueException(Limitation $limitation, SiteAccessLimitationType $limitationType)
     {
         $this->expectException(InvalidArgumentException::class);
@@ -122,7 +118,7 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidateError()
+    public static function providerForTestValidateError()
     {
         return [
             [new SiteAccessLimitation(), 0],
@@ -163,14 +159,12 @@ class SiteAccessLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestValidateError
-     *
-     * @depends testConstruct
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation $limitation
      * @param int $errorCount
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestValidateError')]
     public function testValidateError(SiteAccessLimitation $limitation, $errorCount, SiteAccessLimitationType $limitationType)
     {
         $validationErrors = $limitationType->validate($limitation);
@@ -178,10 +172,9 @@ class SiteAccessLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
     public function testBuildValue(SiteAccessLimitationType $limitationType)
     {
         $expected = ['test', 'test' => 9];
@@ -195,35 +188,32 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate()
+    public static function providerForTestEvaluate()
     {
         return [
             // SiteAccess, no access
             [
-                'limitation' => new SiteAccessLimitation(),
-                'object' => new SiteAccess('behat_site'),
-                'expected' => false,
+                new SiteAccessLimitation(),
+                new SiteAccess('behat_site'),
+                false,
             ],
             // SiteAccess, no access
             [
-                'limitation' => new SiteAccessLimitation(['limitationValues' => ['2339567439']]),
-                'object' => new SiteAccess('behat_site'),
-                'expected' => false,
+                new SiteAccessLimitation(['limitationValues' => ['2339567439']]),
+                new SiteAccess('behat_site'),
+                false,
             ],
             // SiteAccess, with access
             [
-                'limitation' => new SiteAccessLimitation(['limitationValues' => ['1817462202']]),
-                'object' => new SiteAccess('behat_site'),
-                'expected' => true,
+                new SiteAccessLimitation(['limitationValues' => ['1817462202']]),
+                new SiteAccess('behat_site'),
+                true,
             ],
         ];
     }
 
-    /**
-     * @depends testConstruct
-     *
-     * @dataProvider providerForTestEvaluate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestEvaluate')]
     public function testEvaluate(
         SiteAccessLimitation $limitation,
         ValueObject $object,
@@ -246,27 +236,24 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument()
     {
         return [
             // invalid limitation
             [
-                'limitation' => new ObjectStateLimitation(),
-                'object' => new SiteAccess('test'),
+                new ObjectStateLimitation(),
+                new SiteAccess('test'),
             ],
             // invalid object
             [
-                'limitation' => new SiteAccessLimitation(),
-                'object' => new ObjectStateLimitation(),
+                new SiteAccessLimitation(),
+                new ObjectStateLimitation(),
             ],
         ];
     }
 
-    /**
-     * @depends testConstruct
-     *
-     * @dataProvider providerForTestEvaluateInvalidArgument
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestEvaluateInvalidArgument')]
     public function testEvaluateInvalidArgument(
         Limitation $limitation,
         ValueObject $object,
@@ -285,10 +272,9 @@ class SiteAccessLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
     public function testGetCriterion(SiteAccessLimitationType $limitationType)
     {
         $this->expectException(NotImplementedException::class);
@@ -297,18 +283,15 @@ class SiteAccessLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
     public function testValueSchema(SiteAccessLimitationType $limitationType)
     {
         self::markTestSkipped('Method valueSchema() is not implemented');
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
     public function testGenerateSiteAccessValue(SiteAccessLimitationType $limitationType): void
     {
         self::assertSame('341347141', $limitationType->generateSiteAccessValue('ger'));

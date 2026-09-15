@@ -40,8 +40,8 @@ class ConsoleCommandListenerTest extends TestCase
     /** @var \Symfony\Component\Console\Output\Output */
     private $testOutput;
 
-    /** @var \Symfony\Component\Console\Command\Command|\PHPUnit\Framework\MockObject\MockObject */
-    private $command;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\Console\Command\Command */
+    private \PHPUnit\Framework\MockObject\Stub $command;
 
     protected function setUp(): void
     {
@@ -53,7 +53,7 @@ class ConsoleCommandListenerTest extends TestCase
         $this->dispatcher->addSubscriber($this->listener);
         $this->inputDefinition = new InputDefinition([new InputOption('siteaccess', null, InputOption::VALUE_OPTIONAL)]);
         $this->testOutput = new TestOutput(Output::VERBOSITY_QUIET, true);
-        $this->command = $this->createMock(Command::class);
+        $this->command = $this->createStub(Command::class);
     }
 
     public function testGetSubscribedEvents()

@@ -27,9 +27,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController::class)]
 final class PreviewControllerTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\ContentService&\PHPUnit\Framework\MockObject\MockObject */
@@ -50,8 +48,8 @@ final class PreviewControllerTest extends TestCase
     /** @var \Ibexa\Core\Helper\PreviewLocationProvider&\PHPUnit\Framework\MockObject\MockObject */
     protected PreviewLocationProvider $locationProvider;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker&\PHPUnit\Framework\MockObject\MockObject */
-    protected CustomLocationControllerChecker $controllerChecker;
+    /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker&\PHPUnit\Framework\MockObject\Stub */
+    protected \PHPUnit\Framework\MockObject\Stub $controllerChecker;
 
     /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject */
     private LoggerInterface $logger;
@@ -66,7 +64,7 @@ final class PreviewControllerTest extends TestCase
         $this->previewHelper = $this->createMock(ContentPreviewHelper::class);
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->locationProvider = $this->createMock(PreviewLocationProvider::class);
-        $this->controllerChecker = $this->createMock(CustomLocationControllerChecker::class);
+        $this->controllerChecker = $this->createStub(CustomLocationControllerChecker::class);
         $this->logger = $this->createMock(LoggerInterface::class);
     }
 
@@ -115,9 +113,9 @@ final class PreviewControllerTest extends TestCase
         $contentId = 123;
         $lang = 'eng-GB';
         $versionNo = 3;
-        $content = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
 
-        $location = $this->createMock(Location::class);
+        $location = $this->createStub(Location::class);
         $this->locationProvider
             ->method('loadMainLocationByContent')
             ->with($content)
@@ -142,12 +140,12 @@ final class PreviewControllerTest extends TestCase
         $contentId = 123;
         $lang = 'eng-GB';
         $versionNo = 3;
-        $content = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
 
         $location = $this->createMock(Location::class);
         $location->method('__get')->with('id')->willReturn('42');
 
-        $siteAccess = $this->createMock(SiteAccess::class);
+        $siteAccess = $this->createStub(SiteAccess::class);
         $this->locationProvider
             ->method('loadMainLocationByContent')
             ->with($content)
@@ -224,10 +222,9 @@ final class PreviewControllerTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataForTestPreview
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestPreview')]
     public function testPreview(
         ?SiteAccess $previewSiteAccess,
         int $contentId,
@@ -236,7 +233,7 @@ final class PreviewControllerTest extends TestCase
         ?int $locationId,
         ?string $viewType = null
     ): void {
-        $content = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
         $location = $this->getMockBuilder(Location::class)
              ->setConstructorArgs([['id' => $locationId ?? 456]])
              ->getMockForAbstractClass();
@@ -333,10 +330,17 @@ final class PreviewControllerTest extends TestCase
         SiteAccess $originalSiteAccess,
         ?SiteAccess $previewSiteAccess = null
     ): void {
+        $matcher = self::exactly(2);
         $this->previewHelper
-            ->expects(self::exactly(2))
-            ->method('setPreviewActive')
-            ->withConsecutive([true], [false])
+            ->expects($matcher)
+            ->method('setPreviewActive')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertTrue($parameters[0]);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertFalse($parameters[0]);
+                }
+            })
         ;
 
         $this->previewHelper

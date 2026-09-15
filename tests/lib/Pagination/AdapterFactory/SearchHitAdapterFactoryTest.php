@@ -65,9 +65,7 @@ final class SearchHitAdapterFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider dataProviderForCreateFixedAdapter
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForCreateFixedAdapter')]
     public function testCreateFixedAdapter(Query $query, string $expectedSearchMethod): void
     {
         $hits = [
@@ -93,7 +91,7 @@ final class SearchHitAdapterFactoryTest extends TestCase
         );
     }
 
-    public function dataProviderForCreateFixedAdapter(): iterable
+    public static function dataProviderForCreateFixedAdapter(): iterable
     {
         yield 'content query' => [
             new Query(),

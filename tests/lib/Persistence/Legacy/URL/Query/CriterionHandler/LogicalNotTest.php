@@ -33,15 +33,15 @@ class LogicalNotTest extends CriterionHandlerTestCase
      */
     public function testHandle(): void
     {
-        $foo = $this->createMock(Criterion::class);
+        $foo = $this->createStub(Criterion::class);
         $fooExpr = 'FOO';
         $expected = 'NOT (FOO)';
 
-        $queryBuilder = $this->createMock(QueryBuilder::class);
+        $queryBuilder = $this->createStub(QueryBuilder::class);
 
         $converter = $this->createMock(CriteriaConverter::class);
         $converter
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('convertCriteria')
             ->with($queryBuilder, $foo)
             ->willReturn($fooExpr);

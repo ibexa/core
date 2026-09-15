@@ -16,9 +16,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter::class)]
 class CountryTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter */
@@ -30,7 +28,7 @@ class CountryTest extends TestCase
         $this->converter = new CountryConverter();
     }
 
-    public function providerForTestToStorageValue()
+    public static function providerForTestToStorageValue()
     {
         return [
             [['BE', 'FR'], 'belgium,france', 'BE,FR', 'belgium,france'],
@@ -38,12 +36,9 @@ class CountryTest extends TestCase
         ];
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     *
-     * @dataProvider providerForTestToStorageValue
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('country')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestToStorageValue')]
     public function testToStorageValue($data, $sortKey, $dataText, $sortKeyString)
     {
         $value = new FieldValue();
@@ -56,7 +51,7 @@ class CountryTest extends TestCase
         self::assertSame($sortKeyString, $storageFieldValue->sortKeyString);
     }
 
-    public function providerForTestToFieldValue()
+    public static function providerForTestToFieldValue()
     {
         return [
             ['BE,FR', 'belgium,france', ['BE', 'FR']],
@@ -64,12 +59,9 @@ class CountryTest extends TestCase
         ];
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     *
-     * @dataProvider providerForTestToFieldValue
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('country')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestToFieldValue')]
     public function testToFieldValue($dataText, $sortKeyString, $data)
     {
         $storageFieldValue = new StorageFieldValue();
@@ -81,10 +73,8 @@ class CountryTest extends TestCase
         self::assertSame($data, $fieldValue->data);
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('country')]
     public function testToStorageFieldDefinitionMultiple()
     {
         $defaultValue = new FieldValue();
@@ -116,10 +106,8 @@ class CountryTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('country')]
     public function testToStorageFieldDefinitionSingle()
     {
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -147,10 +135,8 @@ class CountryTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('country')]
     public function testToFieldDefinitionMultiple()
     {
         $fieldDef = new PersistenceFieldDefinition();
@@ -174,10 +160,8 @@ class CountryTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('country')]
     public function testToFieldDefinitionSingle()
     {
         $fieldDef = new PersistenceFieldDefinition();

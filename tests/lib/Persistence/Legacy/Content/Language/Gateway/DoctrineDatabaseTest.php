@@ -12,9 +12,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**

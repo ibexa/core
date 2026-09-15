@@ -36,22 +36,13 @@ use PHPUnit\Framework\TestCase;
  */
 class CachedPermissionServiceTest extends TestCase
 {
-    public function providerForTestPermissionResolverPassTrough()
+    public static function providerForTestPermissionResolverPassTrough()
     {
-        $valueObject = $this
-            ->getMockBuilder(ValueObject::class)
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $valueObject = self::createStub(ValueObject::class);
 
-        $userRef = $this
-            ->getMockBuilder(UserReference::class)
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $userRef = self::createStub(UserReference::class);
 
-        $repository = $this
-            ->getMockBuilder(Repository::class)
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $repository = self::createStub(Repository::class);
 
         return [
             ['getCurrentUserReference', [], $userRef],
@@ -65,12 +56,12 @@ class CachedPermissionServiceTest extends TestCase
     /**
      * Test for all PermissionResolver methods when they just pass true to underlying service.
      *
-     * @dataProvider providerForTestPermissionResolverPassTrough
      *
      * @param $method
      * @param array $arguments
      * @param $expectedReturn
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestPermissionResolverPassTrough')]
     public function testPermissionResolverPassTrough($method, array $arguments, $expectedReturn)
     {
         if ($expectedReturn !== null) {
@@ -189,8 +180,10 @@ class CachedPermissionServiceTest extends TestCase
 
         return $this->permissionResolverMock = $this
             ->getMockBuilder(PermissionResolver::class)
-            ->setMethods($methods)
             ->disableOriginalConstructor()
+            // sudo() is not part of the PermissionResolver interface but is called on the
+            // concrete implementation at runtime; addMethods() lets it be stubbed here too.
+            ->addMethods(['sudo'])
             ->getMockForAbstractClass();
     }
 
@@ -205,7 +198,6 @@ class CachedPermissionServiceTest extends TestCase
 
         return $this->permissionCriterionResolverMock = $this
             ->getMockBuilder(PermissionCriterionResolver::class)
-            ->setMethods($methods)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
     }

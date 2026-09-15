@@ -14,9 +14,13 @@ use Ibexa\Tests\Core\Repository\Values\MultiLanguageTestTrait;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\Values\ObjectState\ObjectState::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\ObjectState\ObjectState::class, '__get')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::class, '__get')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\ObjectState\ObjectState::class, '__set')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::class, '__set')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\ObjectState\ObjectState::class, '__unset')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup::class, '__unset')]
 class ObjectStateTest extends TestCase
 {
     use ValueObjectTestTrait;
@@ -75,9 +79,6 @@ class ObjectStateTest extends TestCase
 
     /**
      * Test retrieving missing property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__get
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__get
      */
     public function testMissingProperty()
     {
@@ -91,9 +92,6 @@ class ObjectStateTest extends TestCase
 
     /**
      * Test setting read only property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__set
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__set
      */
     public function testReadOnlyProperty()
     {
@@ -120,9 +118,6 @@ class ObjectStateTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__unset
-     * @covers \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup::__unset
      */
     public function testUnsetProperty()
     {

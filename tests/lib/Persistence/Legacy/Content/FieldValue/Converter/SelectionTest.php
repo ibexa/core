@@ -17,9 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter::class)]
 class SelectionTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter */
@@ -32,10 +30,8 @@ class SelectionTest extends TestCase
         $this->converter = new SelectionConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('selection')]
     public function testToStorageValue()
     {
         $fieldValue = new FieldValue();
@@ -56,10 +52,8 @@ class SelectionTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('selection')]
     public function testToStorageValueEmpty()
     {
         $fieldValue = new FieldValue();
@@ -80,10 +74,8 @@ class SelectionTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('selection')]
     public function testToFieldValue()
     {
         $storageFieldValue = new StorageFieldValue();
@@ -104,10 +96,8 @@ class SelectionTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('selection')]
     public function testToFieldValueEmpty()
     {
         $storageFieldValue = new StorageFieldValue();
@@ -128,10 +118,8 @@ class SelectionTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('selection')]
     public function testToStorageFieldDefinitionMultiple()
     {
         $fieldDefinition = new PersistenceFieldDefinition(
@@ -168,10 +156,8 @@ EOT;
         self::assertEquals($expectedStorageFieldDefinition, $actualStorageFieldDefinition);
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('selection')]
     public function testToStorageFieldDefinitionSingle()
     {
         $fieldDefinition = new PersistenceFieldDefinition(
@@ -206,10 +192,8 @@ EOT;
         self::assertEquals($expectedStorageFieldDefinition, $actualStorageFieldDefinition);
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('selection')]
     public function testToFieldDefinitionMultiple()
     {
         $storageFieldDefinition = new StorageFieldDefinition();
@@ -275,10 +259,8 @@ EOT;
         self::assertEquals($expectedFieldDefinition, $actualFieldDefinition);
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('selection')]
     public function testToFieldDefinitionSingleEmpty()
     {
         $storageFieldDefinition = new StorageFieldDefinition();

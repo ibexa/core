@@ -30,12 +30,10 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
         $this->configResolver = $configResolver;
     }
 
-    /**
-     * @dataProvider matchConfigProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('matchConfigProvider')]
     public function testMatch($parameterName, $namespace, $scope, $viewsConfiguration, $matchedConfig): void
     {
-        $view = $this->createMock(ContentView::class);
+        $view = $this->createStub(ContentView::class);
         $this->configResolver->expects(self::atLeastOnce())->method('getParameter')->with(
             $parameterName,
             $namespace,
@@ -54,7 +52,7 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
         self::assertEquals($matchedConfig, $matcherFactory->match($view));
     }
 
-    public function matchConfigProvider(): array
+    public static function matchConfigProvider(): array
     {
         return [
             [

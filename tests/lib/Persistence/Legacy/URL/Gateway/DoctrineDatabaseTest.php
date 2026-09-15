@@ -14,9 +14,7 @@ use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \DoctrineDatabase
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**

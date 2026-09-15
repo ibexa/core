@@ -17,9 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Handler
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Handler::class)]
 class UrlWildcardHandlerTest extends TestCase
 {
     public function testLoad()
@@ -57,10 +55,8 @@ class UrlWildcardHandlerTest extends TestCase
 
     /**
      * Test for the create() method.
-     *
-     *
-     * @depends testLoad
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoad')]
     public function testCreate()
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
@@ -90,9 +86,7 @@ class UrlWildcardHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @depends testLoad
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoad')]
     public function testUpdate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
@@ -127,9 +121,8 @@ class UrlWildcardHandlerTest extends TestCase
 
     /**
      * Test for the remove() method.
-     *
-     * @depends testLoad
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoad')]
     public function testRemove()
     {
         $this->expectException(NotFoundException::class);

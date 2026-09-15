@@ -12,12 +12,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeGr
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\GroupIdQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\GroupIdQueryBuilder
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\GroupIdQueryBuilder::class)]
 class ContentTypeGroupIdQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
-    public function getFilteringCriteriaQueryData(): iterable
+    public static function getFilteringCriteriaQueryData(): iterable
     {
         yield 'Content type group ID=1' => [
             new ContentTypeGroupId(1),

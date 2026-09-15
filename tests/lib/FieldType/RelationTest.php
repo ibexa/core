@@ -105,7 +105,7 @@ class RelationTest extends FieldTypeTestCase
         return new Value();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -115,7 +115,7 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'empty Value object' => [
             new Value(),
@@ -133,7 +133,7 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -147,7 +147,7 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -161,7 +161,7 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         yield 'browse selection' => [
             [
@@ -178,7 +178,7 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -282,9 +282,7 @@ class RelationTest extends FieldTypeTestCase
         return 'ibexa_object_relation';
     }
 
-    /**
-     * @dataProvider provideDataForGetName
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataForGetName')]
     public function testGetName(
         SPIValue $value,
         string $expected,
@@ -300,11 +298,11 @@ class RelationTest extends FieldTypeTestCase
         self::assertSame($expected, $name);
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
             'empty_destination_content_id' => [
-                $this->getEmptyValueExpectation(), '', [], 'en_GB',
+                new Value(), '', [], 'en_GB',
             ],
             'destination_content_id' => [
                 new Value(self::DESTINATION_CONTENT_ID), 'name_en_GB', [], 'en_GB',
@@ -315,7 +313,7 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'valid relation' => [
             [],
@@ -323,7 +321,7 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'invalid relation' => [
             [],

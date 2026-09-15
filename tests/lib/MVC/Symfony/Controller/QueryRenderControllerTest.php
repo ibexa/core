@@ -20,12 +20,11 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @covers \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
- *
  * @phpstan-import-type TOptionsArray from \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
  *
  * @template TSearchHitValueObject of \Ibexa\Contracts\Core\Repository\Values\ValueObject
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Controller\QueryRenderController::class)]
 final class QueryRenderControllerTest extends TestCase
 {
     private const int EXAMPLE_CURRENT_PAGE = 3;

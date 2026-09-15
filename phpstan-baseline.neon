@@ -18709,6 +18709,12 @@ parameters:
 			path: tests/bundle/Core/ChainConfigResolverTest.php
 
 		-
+			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:createResolverMocks\(\) should return array\<PHPUnit\\Framework\\MockObject\\MockObject\> but returns array\<int, Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface&PHPUnit\\Framework\\MockObject\\Stub\>\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/bundle/Core/ChainConfigResolverTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:getParameterProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -19651,6 +19657,12 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ContextualizerTest.php
 
 		-
+			message: '#^Offset ''heyho'' on array\{siteaccess\: array\{list\: array\{''krondor''\}, groups\: array\{midkemia\: array\{''krondor''\}, triagia\: array\{''krondor''\}\}\}, heyho\: array\{\}\|array\{krondor\: array\{location_view\: array\{full\: array\{Wizard\: array\{template\: ''wizard\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer\.html\.twig''\}\}\}\}\}\|array\{krondor\: array\{wizards\: array\{''Kulgan'', ''Macros the Black'', ''Pug'', ''Rogen'', ''William''\}\}\}\|array\{midkemia\: array\{location_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}, krondor\: array\{location_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer3\.html\.twig''\}\}\}\}\}\|array\{midkemia\: array\{location_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}, triagia\?\: array\{location_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer3\.html\.twig''\}\}\}\}, krondor\?\: array\{location_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel2\.html\.twig''\}, Warrior\: array\{template\: ''warrior\.html\.twig''\}\}\}\}\}\|array\{midkemia\: array\{wizards\: array\{''Kulgan'', ''Macros the Black''\}\}\}\|array\{midkemia\: array\{wizards\: array\{''Macros the Black''\}\}, triagia\: array\{wizards\: array\{''Pug'', ''William'', ''Kulgan''\}\|array\{''Pug''\}\}, krondor\: array\{wizards\: array\{''Rogen'', ''Pug'', ''Rogen'', ''Macros the Black''\}\|array\{0\: ''Rogen'', 1\?\: ''Pug''\}\}\}\|array\{midkemia\: array\{wizards\: array\{''Pug'', ''Rogen'', ''William''\}\}\}\|array\{midkemia\: array\{wizards\: array\{0\: ''Pug'', 1\?\: ''Rogen''\}\}, triagia\: array\{wizards\: array\{''Rogen''\}\}\|array\{wizards\: array\{''William''\}\}, krondor\?\: array\{wizards\: array\{''William''\}\}\}\|array\{midkemia\?\: array\{location_view\: array\{full\: array\{Wizard\: array\{template\: ''wizard\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer\.html\.twig''\}\}\}\}, triagia\?\: array\{location_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}, krondor\?\: array\{location_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer3\.html\.twig''\}\}\}\}\}\|array\{triagia\: array\{location_view\: array\{full\: array\{Wizard\: array\{template\: ''wizard\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer\.html\.twig''\}\}\}\}, krondor\: array\{location_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}\}\|array\{triagia\: array\{wizards\: array\{''Kulgan'', ''Macros the Black'', ''Pug'', ''Rogen'', ''William''\}\}\}\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ContextualizerTest.php
+
+		-
 			message: '#^Property Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\ContextualizerTest\:\:\$availableSAs type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -19939,7 +19951,7 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
-			message: '#^Parameter \#2 \$array of static method PHPUnit\\Framework\\Assert\:\:assertArrayHasKey\(\) expects array\|ArrayAccess, array\|bool\|float\|int\|string\|null given\.$#'
+			message: '#^Parameter \#2 \$array of static method PHPUnit\\Framework\\Assert\:\:assertArrayHasKey\(\) expects array\<mixed\>\|ArrayAccess\<\(int\|string\), mixed\>, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 2
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
@@ -20131,12 +20143,6 @@ parameters:
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
 
 		-
-			message: '#^Parameter \#1 \$stub of method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:will\(\) expects PHPUnit\\Framework\\MockObject\\Stub\\Stub, PHPUnit\\Framework\\MockObject\\Stub given\.$#'
-			identifier: argument.type
-			count: 2
-			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventListener\\BackwardCompatibleCommandListenerTest\:\:createBackwardCompatibleCommand\(\) has parameter \$aliases with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -20191,7 +20197,7 @@ parameters:
 			path: tests/bundle/Core/EventListener/ConfigScopeListenerTest.php
 
 		-
-			message: '#^Property Ibexa\\Tests\\Bundle\\Core\\EventListener\\ConfigScopeListenerTest\:\:\$viewProviders \(PHPUnit\\Framework\\MockObject\\MockObject\) does not accept array\<int, Ibexa\\Tests\\Bundle\\Core\\EventListener\\Stubs\\ViewProvider&PHPUnit\\Framework\\MockObject\\MockObject\>\.$#'
+			message: '#^Property Ibexa\\Tests\\Bundle\\Core\\EventListener\\ConfigScopeListenerTest\:\:\$viewProviders \(PHPUnit\\Framework\\MockObject\\MockObject\) does not accept array\<int, Ibexa\\Tests\\Bundle\\Core\\EventListener\\Stubs\\ViewProvider&PHPUnit\\Framework\\MockObject\\Stub\>\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: tests/bundle/Core/EventListener/ConfigScopeListenerTest.php
@@ -20671,6 +20677,12 @@ parameters:
 			path: tests/bundle/Core/EventListener/ViewControllerListenerTest.php
 
 		-
+			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventSubscriber\\CrowdinRequestLocaleSubscriberTest\:\:provideSetRequests\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/bundle/Core/EventSubscriber/CrowdinRequestLocaleSubscriberTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventSubscriber\\CrowdinRequestLocaleSubscriberTest\:\:testSetLocale\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -20679,12 +20691,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventSubscriber\\CrowdinRequestLocaleSubscriberTest\:\:testSetLocale\(\) has parameter \$shouldHaveCustomLocale with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: tests/bundle/Core/EventSubscriber/CrowdinRequestLocaleSubscriberTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventSubscriber\\CrowdinRequestLocaleSubscriberTest\:\:testSetRequestsProvider\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: tests/bundle/Core/EventSubscriber/CrowdinRequestLocaleSubscriberTest.php
 
@@ -21115,7 +21121,7 @@ parameters:
 			path: tests/bundle/Core/Imagine/Filter/Loader/ScaleHeightFilterLoaderTest.php
 
 		-
-			message: '#^Method PHPUnit\\Framework\\TestCase\:\:createMock\(\) invoked with 2 parameters, 1 required\.$#'
+			message: '#^Method PHPUnit\\Framework\\TestCase\:\:createStub\(\) invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 1
 			path: tests/bundle/Core/Imagine/Filter/Loader/ScaleHeightFilterLoaderTest.php
@@ -21169,7 +21175,7 @@ parameters:
 			path: tests/bundle/Core/Imagine/Filter/Loader/ScaleWidthFilterLoaderTest.php
 
 		-
-			message: '#^Method PHPUnit\\Framework\\TestCase\:\:createMock\(\) invoked with 2 parameters, 1 required\.$#'
+			message: '#^Method PHPUnit\\Framework\\TestCase\:\:createStub\(\) invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 1
 			path: tests/bundle/Core/Imagine/Filter/Loader/ScaleWidthFilterLoaderTest.php
@@ -21503,6 +21509,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/SiteAccess/SiteAccessMatcherRegistryTest.php
+
+		-
+			message: '#^Call to an undefined method Ibexa\\Bundle\\Core\\URLChecker\\URLHandlerInterface&PHPUnit\\Framework\\MockObject\\Stub\:\:expects\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: tests/bundle/Core/URLChecker/URLCheckerTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\URLChecker\\URLCheckerTest\:\:configureUrlHandlerRegistry\(\) has no return type specified\.$#'
@@ -22009,14 +22021,14 @@ parameters:
 			path: tests/integration/Core/Repository/BaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTestCase\:\:getSetupFactory\(\) should return Ibexa\\Contracts\\Core\\Test\\Repository\\SetupFactory but returns object\.$#'
-			identifier: return.type
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTestCase\:\:refreshSearch\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: tests/integration/Core/Repository/BaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTestCase\:\:refreshSearch\(\) has no return type specified\.$#'
-			identifier: missingType.return
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTestCase\:\:resolveSetupFactory\(\) should return Ibexa\\Contracts\\Core\\Test\\Repository\\SetupFactory but returns object\.$#'
+			identifier: return.type
 			count: 1
 			path: tests/integration/Core/Repository/BaseTestCase.php
 
@@ -22064,12 +22076,6 @@ parameters:
 
 		-
 			message: '#^Property Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTestCase\:\:\$repository \(Ibexa\\Contracts\\Core\\Repository\\Repository\) does not accept null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: tests/integration/Core/Repository/BaseTestCase.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTestCase\:\:\$setupFactory \(Ibexa\\Contracts\\Core\\Test\\Repository\\SetupFactory\) does not accept object\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: tests/integration/Core/Repository/BaseTestCase.php
@@ -24721,13 +24727,13 @@ parameters:
 			path: tests/integration/Core/Repository/ContentTypeServiceTest.php
 
 		-
-			message: '#^Parameter \#2 \$array of static method PHPUnit\\Framework\\Assert\:\:assertArrayHasKey\(\) expects array\|ArrayAccess, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\> given\.$#'
+			message: '#^Parameter \#2 \$array of static method PHPUnit\\Framework\\Assert\:\:assertArrayHasKey\(\) expects array\<mixed\>\|ArrayAccess\<\(int\|string\), mixed\>, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\> given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/ContentTypeServiceTest.php
 
 		-
-			message: '#^Parameter \#2 \$array of static method PHPUnit\\Framework\\Assert\:\:assertArrayNotHasKey\(\) expects array\|ArrayAccess, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\> given\.$#'
+			message: '#^Parameter \#2 \$array of static method PHPUnit\\Framework\\Assert\:\:assertArrayNotHasKey\(\) expects array\<mixed\>\|ArrayAccess\<\(int\|string\), mixed\>, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\> given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/ContentTypeServiceTest.php
@@ -32023,6 +32029,12 @@ parameters:
 			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslations.php
 
 		-
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22612URLAliasTranslations\:\:__construct\(\) overrides @final method Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTestCase\:\:__construct\(\)\.$#'
+			identifier: method.parentMethodFinalByPhpDoc
+			count: 1
+			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslations.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22612URLAliasTranslations\:\:getFolderCreateStruct\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -32045,6 +32057,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslations.php
+
+		-
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22840RoleLimitations\:\:__construct\(\) overrides @final method Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTestCase\:\:__construct\(\)\.$#'
+			identifier: method.parentMethodFinalByPhpDoc
+			count: 1
+			path: tests/integration/Core/Repository/Regression/EZP22840RoleLimitations.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22840RoleLimitations\:\:testSectionRoleAssignLimitation\(\) has no return type specified\.$#'
@@ -40081,6 +40099,12 @@ parameters:
 			path: tests/lib/IO/FilePathNormalizer/FlysystemTest.php
 
 		-
+			message: '#^Parameter \#1 \$suffix of static method PHPUnit\\Framework\\Assert\:\:assertStringEndsWith\(\) expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/IO/FilePathNormalizer/FlysystemTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\BaseVisibilityConverterTestCase\:\:getDataForTestForDirectory\(\) return type has no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -40687,12 +40711,6 @@ parameters:
 			path: tests/lib/Limitation/MemberOfLimitationTypeTest.php
 
 		-
-			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:willReturnOnConsecutiveCalls\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
-			identifier: argument.named
-			count: 1
-			path: tests/lib/Limitation/MemberOfLimitationTypeTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\NewObjectStateLimitationTypeTest\:\:providerForTestAcceptValue\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -40849,12 +40867,6 @@ parameters:
 			path: tests/lib/Limitation/ObjectStateLimitationTypeTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -40958,6 +40970,12 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:testEvaluate\(\) has parameter \$expected with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
+
+		-
+			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:testEvaluate\(\) has parameter \$object with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
@@ -41355,6 +41373,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\StatusLimitationTypeTest\:\:getContentMock\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Limitation/StatusLimitationTypeTest.php
+
+		-
+			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\StatusLimitationTypeTest\:\:getContentMock\(\) has parameter \$shouldBeCalled with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: tests/lib/Limitation/StatusLimitationTypeTest.php
 
@@ -41893,6 +41917,18 @@ parameters:
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/DepthTest.php
 
 		-
+			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Depth\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/DepthTest.php
+
+		-
+			message: '#^Parameter \#1 \$repository of method Ibexa\\Core\\MVC\\RepositoryAware\:\:setRepository\(\) expects Ibexa\\Contracts\\Core\\Repository\\Repository, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/DepthTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\ContentTest\:\:matchContentInfoProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -41913,6 +41949,18 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\ContentTest\:\:testMatchLocation\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ContentTest.php
+
+		-
+			message: '#^Parameter \#1 \$contentInfo of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\Content\:\:matchContentInfo\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentInfo, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ContentTest.php
+
+		-
+			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\Content\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ContentTest.php
 
@@ -41953,6 +42001,12 @@ parameters:
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ContentTypeGroupTest.php
 
 		-
+			message: '#^Parameter \#1 \$repository of method Ibexa\\Core\\MVC\\RepositoryAware\:\:setRepository\(\) expects Ibexa\\Contracts\\Core\\Repository\\Repository, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ContentTypeGroupTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\ContentTypeTest\:\:matchContentInfoProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -41977,6 +42031,18 @@ parameters:
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ContentTypeTest.php
 
 		-
+			message: '#^Parameter \#1 \$contentInfo of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\ContentType\:\:matchContentInfo\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentInfo, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ContentTypeTest.php
+
+		-
+			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\ContentType\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ContentTypeTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\LocationTest\:\:matchContentInfoProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -41997,6 +42063,18 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\LocationTest\:\:testMatchLocation\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/LocationTest.php
+
+		-
+			message: '#^Parameter \#1 \$contentInfo of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\Location\:\:matchContentInfo\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentInfo, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/LocationTest.php
+
+		-
+			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\Location\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/LocationTest.php
 
@@ -42031,6 +42109,12 @@ parameters:
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ParentContentTypeTest.php
 
 		-
+			message: '#^Parameter \#1 \$repository of method Ibexa\\Core\\MVC\\RepositoryAware\:\:setRepository\(\) expects Ibexa\\Contracts\\Core\\Repository\\Repository, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ParentContentTypeTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\ParentLocationTest\:\:matchContentInfoProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -42061,6 +42145,18 @@ parameters:
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ParentLocationTest.php
 
 		-
+			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\ParentLocation\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ParentLocationTest.php
+
+		-
+			message: '#^Parameter \#1 \$repository of method Ibexa\\Core\\MVC\\RepositoryAware\:\:setRepository\(\) expects Ibexa\\Contracts\\Core\\Repository\\Repository, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/ParentLocationTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\RemoteTest\:\:matchContentInfoProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -42085,6 +42181,18 @@ parameters:
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/RemoteTest.php
 
 		-
+			message: '#^Parameter \#1 \$contentInfo of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\Remote\:\:matchContentInfo\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentInfo, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/RemoteTest.php
+
+		-
+			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\Remote\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/RemoteTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\SectionTest\:\:matchContentInfoProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -42105,6 +42213,18 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\SectionTest\:\:testMatchLocation\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/SectionTest.php
+
+		-
+			message: '#^Parameter \#1 \$contentInfo of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\Section\:\:matchContentInfo\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentInfo, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/SectionTest.php
+
+		-
+			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Id\\Section\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Id/SectionTest.php
 
@@ -42141,13 +42261,19 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$contentTypeIdentifier of method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Identifier\\ContentTypeTest\:\:generateRepositoryMockForContentTypeIdentifier\(\) expects int, string given\.$#'
 			identifier: argument.type
-			count: 8
+			count: 2
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Identifier/ContentTypeTest.php
 
 		-
 			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Identifier\\ContentType\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
 			identifier: argument.type
 			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Identifier/ContentTypeTest.php
+
+		-
+			message: '#^Parameter \#1 \$repository of method Ibexa\\Core\\MVC\\RepositoryAware\:\:setRepository\(\) expects Ibexa\\Contracts\\Core\\Repository\\Repository, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 2
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Identifier/ContentTypeTest.php
 
 		-
@@ -42181,6 +42307,12 @@ parameters:
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Identifier/ParentContentTypeTest.php
 
 		-
+			message: '#^Parameter \#1 \$repository of method Ibexa\\Core\\MVC\\RepositoryAware\:\:setRepository\(\) expects Ibexa\\Contracts\\Core\\Repository\\Repository, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Identifier/ParentContentTypeTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Identifier\\SectionTest\:\:matchSectionProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -42208,6 +42340,12 @@ parameters:
 			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\Identifier\\Section\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
 			identifier: argument.type
 			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Identifier/SectionTest.php
+
+		-
+			message: '#^Parameter \#1 \$repository of method Ibexa\\Core\\MVC\\RepositoryAware\:\:setRepository\(\) expects Ibexa\\Contracts\\Core\\Repository\\Repository, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 2
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/Identifier/SectionTest.php
 
 		-
@@ -42278,6 +42416,12 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$location of method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\UrlAlias\:\:matchLocation\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/UrlAliasTest.php
+
+		-
+			message: '#^Parameter \#1 \$repository of method Ibexa\\Core\\MVC\\RepositoryAware\:\:setRepository\(\) expects Ibexa\\Contracts\\Core\\Repository\\Repository, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/lib/MVC/Symfony/Matcher/ContentBased/UrlAliasTest.php
@@ -44167,26 +44311,14 @@ parameters:
 			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:willReturnOnConsecutiveCalls\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
-			identifier: argument.named
-			count: 6
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
-
-		-
 			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:with\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
 			identifier: argument.named
 			count: 2
 			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:withConsecutive\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
-			identifier: argument.named
-			count: 6
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
-
-		-
-			message: '#^Only iterables can be unpacked, array\|null given in argument \#1\.$#'
-			identifier: argument.unpackNonIterable
+			message: '#^Offset int might not exist on array\|null\.$#'
+			identifier: offsetAccess.notFound
 			count: 5
 			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
@@ -44347,26 +44479,14 @@ parameters:
 			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:willReturnOnConsecutiveCalls\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
-			identifier: argument.named
-			count: 6
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
-
-		-
 			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:with\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
 			identifier: argument.named
 			count: 2
 			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:withConsecutive\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
-			identifier: argument.named
-			count: 6
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
-
-		-
-			message: '#^Only iterables can be unpacked, array\|null given in argument \#1\.$#'
-			identifier: argument.unpackNonIterable
+			message: '#^Offset int might not exist on array\|null\.$#'
+			identifier: offsetAccess.notFound
 			count: 5
 			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
@@ -45225,7 +45345,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Handler\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 17
+			count: 15
 			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
 
 		-
@@ -45237,7 +45357,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Mapper\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 17
+			count: 16
 			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
 
 		-
@@ -45423,6 +45543,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\ContentHandlerTest\:\:testUpdateMetadataUpdatesPathIdentificationString\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
+
+		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Persistence\\Legacy\\Content\\Handler\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, list\<string\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
 
@@ -45634,6 +45760,12 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldHandlerTest\:\:testUpdateFieldsWithNewLanguageUpdatingStorageHandler\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
+			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
+
+		-
+			message: '#^Offset int\<\-1, max\> might not exist on array\{\}\|array\{0\: array\{copy\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Field, original\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Field\}, 1\?\: array\{copy\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Field, original\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Field\}\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 2
 			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
 
 		-
@@ -47523,7 +47655,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 34
+			count: 31
 			path: tests/lib/Persistence/Legacy/Content/Location/TrashHandlerTest.php
 
 		-
@@ -47595,13 +47727,13 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Handler\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 6
+			count: 4
 			path: tests/lib/Persistence/Legacy/Content/LocationHandlerTest.php
 
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 20
+			count: 19
 			path: tests/lib/Persistence/Legacy/Content/LocationHandlerTest.php
 
 		-
@@ -47709,6 +47841,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LocationHandlerTest\:\:testUpdateLocation\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Persistence/Legacy/Content/LocationHandlerTest.php
+
+		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Handler\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, list\<string\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/LocationHandlerTest.php
 
@@ -48081,13 +48219,19 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 39
+			count: 32
 			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
 
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Mapper\:\:expects\(\)\.$#'
 			identifier: method.notFound
 			count: 18
+			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
+
+		-
+			message: '#^Match expression does not handle remaining values\: int\<min, 0\>\|int\<4, max\>$#'
+			identifier: match.unhandled
+			count: 1
 			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
 
 		-
@@ -48483,7 +48627,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Handler\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 3
+			count: 2
 			path: tests/lib/Persistence/Legacy/Content/Type/ContentTypeHandlerTest.php
 
 		-
@@ -49547,6 +49691,12 @@ parameters:
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabaseTest.php
+
+		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverter\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, list\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
 
 		-
 			message: '#^Argument of an invalid type Ibexa\\Contracts\\Core\\Persistence\\Content\\UrlAlias supplied for foreach, only iterables are supported\.$#'
@@ -50935,7 +51085,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Setting/SettingHandlerTest.php
 
 		-
-			message: '#^Generator expects value type Doctrine\\DBAL\\Connection\|PHPUnit\\Framework\\MockObject\\MockObject, array\<int, \(Doctrine\\DBAL\\Connection&PHPUnit\\Framework\\MockObject\\MockObject\)\|string\> given\.$#'
+			message: '#^Generator expects value type Doctrine\\DBAL\\Connection\|PHPUnit\\Framework\\MockObject\\MockObject, array\<int, \(Doctrine\\DBAL\\Connection&PHPUnit\\Framework\\MockObject\\Stub\)\|string\> given\.$#'
 			identifier: generator.valueType
 			count: 1
 			path: tests/lib/Persistence/Legacy/SharedGateway/GatewayFactoryTest.php
@@ -51187,19 +51337,19 @@ parameters:
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
-			message: '#^Parameter \#1 \$criterion of method Ibexa\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\:\:accept\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\Query\\Criterion, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			message: '#^Parameter \#1 \$criterion of method Ibexa\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\:\:accept\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\Query\\Criterion, PHPUnit\\Framework\\MockObject\\Stub given\.$#'
 			identifier: argument.type
 			count: 2
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
-			message: '#^Parameter \#1 \$originalClassName of method PHPUnit\\Framework\\TestCase\:\:createMock\(\) expects class\-string\<mixed\>, string given\.$#'
+			message: '#^Parameter \#1 \$originalClassName of method PHPUnit\\Framework\\TestCase\:\:createStub\(\) expects class\-string\<mixed\>, string given\.$#'
 			identifier: argument.type
 			count: 2
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
-			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:createMock\(\)$#'
+			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:createStub\(\)$#'
 			identifier: argument.templateType
 			count: 2
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
@@ -51207,6 +51357,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\LogicalAndTest\:\:testAccept\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/LogicalAndTest.php
+
+		-
+			message: '#^Parameter \#2 \$queryBuilder of method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTestCase\:\:mockConverterForLogicalOperator\(\) expects Doctrine\\DBAL\\Query\\QueryBuilder&PHPUnit\\Framework\\MockObject\\MockObject, Doctrine\\DBAL\\Query\\QueryBuilder&PHPUnit\\Framework\\MockObject\\Stub given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/LogicalAndTest.php
 
@@ -51219,6 +51375,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\LogicalOrTest\:\:testAccept\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/LogicalOrTest.php
+
+		-
+			message: '#^Parameter \#2 \$queryBuilder of method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTestCase\:\:mockConverterForLogicalOperator\(\) expects Doctrine\\DBAL\\Query\\QueryBuilder&PHPUnit\\Framework\\MockObject\\MockObject, Doctrine\\DBAL\\Query\\QueryBuilder&PHPUnit\\Framework\\MockObject\\Stub given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/LogicalOrTest.php
 
@@ -53641,6 +53803,12 @@ parameters:
 			path: tests/lib/Repository/PHPUnitConstraint/ContentItemEquals.php
 
 		-
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\PHPUnitConstraint\\ContentItemEquals\:\:failureDescription\(\) has parameter \$content with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/lib/Repository/PHPUnitConstraint/ContentItemEquals.php
+
+		-
 			message: '#^Class Ibexa\\Tests\\Core\\Repository\\Parallel\\ParallelProcessList implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
@@ -53827,6 +53995,12 @@ parameters:
 			path: tests/lib/Repository/Permission/PermissionCriterionResolverTest.php
 
 		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Repository\\Permission\\PermissionCriterionResolver\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, non\-empty\-list\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/Repository/Permission/PermissionCriterionResolverTest.php
+
+		-
 			message: '#^Property Ibexa\\Tests\\Core\\Repository\\Permission\\PermissionCriterionResolverTest\:\:\$limitationServiceMock has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -53858,6 +54032,12 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$className of method PHPUnit\\Framework\\TestCase\:\:getMockBuilder\(\) expects class\-string\<mixed\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/Repository/Service/Mock/Base.php
+
+		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Repository\\Mapper\\RoleDomainMapper\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, non\-empty\-list\<string\> given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/lib/Repository/Service/Mock/Base.php
@@ -55087,6 +55267,18 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Repository\\ContentService\>\:\:addMethods\(\) expects list\<non\-empty\-string\>, non\-empty\-list\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentTest.php
+
+		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Repository\\ContentService\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, non\-empty\-list\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentTest.php
+
+		-
 			message: '#^Parameter \#1 \$singular of class Ibexa\\Core\\FieldType\\ValidationError constructor expects string, int given\.$#'
 			identifier: argument.type
 			count: 2
@@ -55125,7 +55317,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Persistence\\User\\Handler\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 11
+			count: 6
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
 
 		-
@@ -55423,6 +55615,12 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
 
 		-
+			message: '#^Parameter \#1 \$userHandlerMock of method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\PermissionTest\:\:mockLoadRoleSequence\(\) expects PHPUnit\\Framework\\MockObject\\MockObject, Ibexa\\Contracts\\Core\\Persistence\\User\\Handler given\.$#'
+			identifier: argument.type
+			count: 5
+			path: tests/lib/Repository/Service/Mock/PermissionTest.php
+
+		-
 			message: '#^Property Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\PermissionTest\:\:\$permissionResolverMock has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -55449,7 +55647,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Persistence\\Content\\Location\\Handler\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 2
+			count: 3
 			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
 
 		-
@@ -55459,19 +55657,13 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\RelationProcessorTest\:\:assertLocationHandlerExpectation\(\) has parameter \$callCounter with no type specified\.$#'
-			identifier: missingType.parameter
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\RelationProcessorTest\:\:assertLocationHandlerExpectation\(\) has parameter \$expectedLocationIds with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\RelationProcessorTest\:\:assertLocationHandlerExpectation\(\) has parameter \$fieldRelations with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\RelationProcessorTest\:\:assertLocationHandlerExpectation\(\) has parameter \$locationHandlerMock with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
@@ -55569,6 +55761,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\RelationProcessorTest\:\:testProcessFieldRelationsWhenRelationFieldNoLongerExists\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
+
+		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Repository\\Helper\\RelationProcessor\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, list\<string\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
 
@@ -55735,7 +55933,7 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/RoleTest.php
 
 		-
-			message: '#^PHPDoc tag @var with type Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Role is not subtype of native type PHPUnit\\Framework\\MockObject\\MockObject\.$#'
+			message: '#^PHPDoc tag @var with type Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Role is not subtype of native type PHPUnit\\Framework\\MockObject\\Stub\.$#'
 			identifier: varTag.nativeType
 			count: 6
 			path: tests/lib/Repository/Service/Mock/RoleTest.php
@@ -55747,15 +55945,21 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/RoleTest.php
 
 		-
-			message: '#^PHPDoc tag @var with type Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User is not subtype of native type PHPUnit\\Framework\\MockObject\\MockObject\.$#'
+			message: '#^PHPDoc tag @var with type Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User is not subtype of native type PHPUnit\\Framework\\MockObject\\Stub\.$#'
 			identifier: varTag.nativeType
 			count: 3
 			path: tests/lib/Repository/Service/Mock/RoleTest.php
 
 		-
-			message: '#^PHPDoc tag @var with type Ibexa\\Contracts\\Core\\Repository\\Values\\User\\UserGroup is not subtype of native type PHPUnit\\Framework\\MockObject\\MockObject\.$#'
+			message: '#^PHPDoc tag @var with type Ibexa\\Contracts\\Core\\Repository\\Values\\User\\UserGroup is not subtype of native type PHPUnit\\Framework\\MockObject\\Stub\.$#'
 			identifier: varTag.nativeType
 			count: 3
+			path: tests/lib/Repository/Service/Mock/RoleTest.php
+
+		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Repository\\RoleService\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, list\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
 			path: tests/lib/Repository/Service/Mock/RoleTest.php
 
 		-
@@ -56899,6 +57103,12 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
 
 		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Repository\\URLAliasService\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, list\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
+
+		-
 			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias\> given\.$#'
 			identifier: argument.type
 			count: 12
@@ -57109,12 +57319,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/UrlTest.php
 
 		-
-			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:withConsecutive\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
-			identifier: argument.named
-			count: 1
-			path: tests/lib/Repository/Service/Mock/UrlTest.php
-
-		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\URLQuery\:\:\$limit \(int\) does not accept string\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -57313,6 +57517,12 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/UrlWildcardTest.php
 
 		-
+			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Repository\\URLWildcardService\>\:\:onlyMethods\(\) expects list\<non\-empty\-string\>, list\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/Repository/Service/Mock/UrlWildcardTest.php
+
+		-
 			message: '#^Property Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\UrlWildcardTest\:\:\$urlWildcardHandler \(Ibexa\\Contracts\\Core\\Persistence\\Content\\UrlWildcard\\Handler&PHPUnit\\Framework\\MockObject\\MockObject\) does not accept PHPUnit\\Framework\\MockObject\\MockObject\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -57397,7 +57607,7 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/UserTest.php
 
 		-
-			message: '#^Parameter \#1 \$methods of method PHPUnit\\Framework\\MockObject\\MockBuilder\<Ibexa\\Core\\Repository\\UserService\>\:\:onlyMethods\(\) expects array\<string\>, array\<string\>\|null given\.$#'
+			message: '#^Parameter \#1 \$array of function array_values expects array\<string\>, array\<string\>\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/lib/Repository/Service/Mock/UserTest.php
@@ -57407,6 +57617,12 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: tests/lib/Repository/Service/Mock/UserTest.php
+
+		-
+			message: '#^Call to an undefined method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:addWarning\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
 			message: '#^Call to method expects\(\) on an unknown class object\.$#'
@@ -57601,6 +57817,12 @@ parameters:
 			path: tests/lib/Repository/SiteAccessAware/LanguageServiceTest.php
 
 		-
+			message: '#^Yield can be used only with these return types\: Generator, Iterator, Traversable, iterable\.$#'
+			identifier: generator.returnType
+			count: 1
+			path: tests/lib/Repository/SiteAccessAware/LanguageServiceTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\LocationServiceTest\:\:providerForLanguagesLookupMethods\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -57685,6 +57907,12 @@ parameters:
 			path: tests/lib/Repository/SiteAccessAware/SearchServiceTest.php
 
 		-
+			message: '#^Undefined variable\: \$this$#'
+			identifier: variable.undefined
+			count: 2
+			path: tests/lib/Repository/SiteAccessAware/SearchServiceTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\TrashServiceTest\:\:providerForLanguagesLookupMethods\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -57693,6 +57921,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\TrashServiceTest\:\:providerForPassTroughMethods\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: tests/lib/Repository/SiteAccessAware/TrashServiceTest.php
+
+		-
+			message: '#^Yield can be used only with these return types\: Generator, Iterator, Traversable, iterable\.$#'
+			identifier: generator.returnType
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/TrashServiceTest.php
 
@@ -57742,6 +57976,12 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\UrlAliasServiceTest\:\:setLanguagesPassTroughArguments\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
+			path: tests/lib/Repository/SiteAccessAware/UrlAliasServiceTest.php
+
+		-
+			message: '#^Undefined variable\: \$this$#'
+			identifier: variable.undefined
+			count: 2
 			path: tests/lib/Repository/SiteAccessAware/UrlAliasServiceTest.php
 
 		-

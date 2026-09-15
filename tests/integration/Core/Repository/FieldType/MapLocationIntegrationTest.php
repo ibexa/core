@@ -13,10 +13,9 @@ use Ibexa\Core\FieldType\MapLocation\Value as MapLocationValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class MapLocationIntegrationTest extends BaseIntegrationTestCase
 {
     /**
@@ -135,7 +134,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -208,9 +207,9 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -249,7 +248,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -276,7 +275,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -296,7 +295,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new MapLocationValue()],
@@ -311,11 +310,17 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new MapLocationValue(
+                    [
+                        'latitude' => 51.559997,
+                        'longitude' => 6.767921,
+                        'address' => 'Bielefeld',
+                    ]
+                ),
             ],
             [
                 new MapLocationValue(

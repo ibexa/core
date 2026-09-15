@@ -35,6 +35,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Base class for api specific tests.
  */
+#[\PHPUnit\Framework\Attributes\UsesMethod(self::class, 'createCustomUserVersion1')]
 abstract class BaseTestCase extends TestCase
 {
     /**
@@ -134,24 +135,38 @@ abstract class BaseTestCase extends TestCase
     protected function getRepository(bool $initialInitializeFromScratch = true): Repository
     {
         if (null === $this->repository) {
-            try {
-                $this->repository = $this->getSetupFactory()->getRepository(
-                    $initialInitializeFromScratch
-                );
-            } catch (ErrorException $e) {
-                self::fail(
-                    sprintf(
-                        '%s: %s in %s:%d',
-                        __FUNCTION__,
-                        $e->getMessage(),
-                        $e->getFile(),
-                        $e->getLine()
-                    )
-                );
-            }
+            $this->repository = self::resolveRepository($initialInitializeFromScratch);
         }
 
         return $this->repository;
+    }
+
+    /**
+     * Resolves a fresh Repository from the environment, without instance-level caching.
+     *
+     * Extracted from {@see self::getRepository()} so that static data providers (required by
+     * PHPUnit 11) that need repository access to build their expected values (e.g. resolving
+     * identifiers to real domain objects) can do so without an instance. This mirrors what
+     * happened under PHPUnit 9 as well: a non-static provider ran on a throw-away instance whose
+     * own `$repository` cache started out empty, so it always built a fresh Repository too.
+     *
+     * @param bool $initialInitializeFromScratch Only has an effect if set in first call within a test
+     */
+    protected static function resolveRepository(bool $initialInitializeFromScratch = true): Repository
+    {
+        try {
+            return self::resolveSetupFactory()->getRepository($initialInitializeFromScratch);
+        } catch (ErrorException $e) {
+            self::fail(
+                sprintf(
+                    '%s: %s in %s:%d',
+                    __FUNCTION__,
+                    $e->getMessage(),
+                    $e->getFile(),
+                    $e->getLine()
+                )
+            );
+        }
     }
 
     /**
@@ -160,28 +175,43 @@ abstract class BaseTestCase extends TestCase
     protected function getSetupFactory(): SetupFactory
     {
         if (null === $this->setupFactory) {
-            if (false === ($setupClass = getenv('setupFactory'))) {
-                $setupClass = LegacySetupFactory::class;
-                putenv("setupFactory=$setupClass");
-            }
-
-            if (false === getenv('fixtureDir')) {
-                putenv('fixtureDir=Legacy');
-            }
-
-            if (false === class_exists($setupClass)) {
-                throw new ErrorException(
-                    sprintf(
-                        'Environment variable "setupFactory" does not reference an existing class: %s. Did you forget to install a package dependency?',
-                        $setupClass
-                    )
-                );
-            }
-
-            $this->setupFactory = new $setupClass();
+            $this->setupFactory = self::resolveSetupFactory();
         }
 
         return $this->setupFactory;
+    }
+
+    /**
+     * Resolves the configured SetupFactory from the environment, without instance-level caching.
+     *
+     * Extracted from {@see self::getSetupFactory()} so that static data providers (required by
+     * PHPUnit 11) can determine the active search engine / setup factory without needing an
+     * instance. The underlying resolution is process-global (env vars), so no per-instance state
+     * is lost by calling this statically.
+     *
+     * @throws \ErrorException
+     */
+    protected static function resolveSetupFactory(): SetupFactory
+    {
+        if (false === ($setupClass = getenv('setupFactory'))) {
+            $setupClass = LegacySetupFactory::class;
+            putenv("setupFactory=$setupClass");
+        }
+
+        if (false === getenv('fixtureDir')) {
+            putenv('fixtureDir=Legacy');
+        }
+
+        if (false === class_exists($setupClass)) {
+            throw new ErrorException(
+                sprintf(
+                    'Environment variable "setupFactory" does not reference an existing class: %s. Did you forget to install a package dependency?',
+                    $setupClass
+                )
+            );
+        }
+
+        return new $setupClass();
     }
 
     /**
@@ -343,7 +373,6 @@ abstract class BaseTestCase extends TestCase
     /**
      * Create a user in new user group with editor rights limited to Media Library (/1/48/).
      *
-     * @uses ::createCustomUserVersion1()
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
@@ -527,9 +556,9 @@ abstract class BaseTestCase extends TestCase
         $searchHandler->commit();
     }
 
-    protected function isLegacySearchEngineSetup(): bool
+    protected static function isLegacySearchEngineSetup(): bool
     {
-        return get_class($this->getSetupFactory()) === LegacySetupFactory::class;
+        return get_class(self::resolveSetupFactory()) === LegacySetupFactory::class;
     }
 
     /**

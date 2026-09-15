@@ -12,10 +12,8 @@ use Exception;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
-/**
- * @group integration
- * @group search
- */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('search')]
 final class SearchServiceManyLanguagesTest extends BaseTestCase
 {
     public function testFindContentWithManyLanguages(): void

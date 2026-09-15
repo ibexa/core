@@ -12,9 +12,7 @@ use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
 use Ibexa\Core\Token\RandomBytesGenerator;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Token\RandomBytesGenerator
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Token\RandomBytesGenerator::class)]
 final class RandomBytesGeneratorTest extends TestCase
 {
     private TokenGeneratorInterface $tokenGenerator;
@@ -25,10 +23,9 @@ final class RandomBytesGeneratorTest extends TestCase
     }
 
     /**
-     * @dataProvider provideDataForTestGenerateToken
-     *
      * @throws \Exception
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataForTestGenerateToken')]
     public function testGenerateToken(int $expectedTokenLength): void
     {
         $generatedToken = $this->tokenGenerator->generateToken($expectedTokenLength);
@@ -50,7 +47,7 @@ final class RandomBytesGeneratorTest extends TestCase
      *     int
      * }>
      */
-    public function provideDataForTestGenerateToken(): iterable
+    public static function provideDataForTestGenerateToken(): iterable
     {
         yield [
             20,

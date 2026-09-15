@@ -15,13 +15,12 @@ use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
 {
-    protected function getFixtureData(): array
+    protected static function getFixtureData(): array
     {
         return [
             'create' => [
@@ -69,7 +68,7 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
         return [];
     }
 
-    protected function buildBinaryFileValueFromFixtureData(array $fileFieldValueData): BinaryBaseValue
+    protected static function buildBinaryFileValueFromFixtureData(array $fileFieldValueData): BinaryBaseValue
     {
         return new BinaryFileValue($fileFieldValueData);
     }
@@ -82,7 +81,7 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
         );
     }
 
-    protected function buildBinaryFileValue(string $fileId): BinaryBaseValue
+    protected static function buildBinaryFileValue(string $fileId): BinaryBaseValue
     {
         return new BinaryFileValue(
             [
@@ -91,15 +90,15 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
         );
     }
 
-    public function provideToHashData(): array
+    public static function provideToHashData(): array
     {
-        $fixture = $this->getFixtureData();
+        $fixture = static::getFixtureData();
         $expected = $fixture['create'];
         $expected['downloadCount'] = 0;
         $expected['uri'] = $expected['inputUri'];
         $expected['path'] = $expected['inputUri'];
 
-        $fieldValue = $this->getValidCreationFieldData();
+        $fieldValue = static::buildBinaryFileValueFromFixtureData($fixture['create']);
         $fieldValue->uri = $expected['uri'];
 
         return [
@@ -110,13 +109,13 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
         ];
     }
 
-    public function provideFromHashData(): array
+    public static function provideFromHashData(): array
     {
-        $fixture = $this->getFixtureData();
+        $fixture = static::getFixtureData();
         $fixture['create']['downloadCount'] = 0;
         $fixture['create']['uri'] = $fixture['create']['inputUri'];
 
-        $fieldValue = $this->getValidCreationFieldData();
+        $fieldValue = static::buildBinaryFileValueFromFixtureData($fixture['create']);
         $fieldValue->uri = $fixture['create']['uri'];
 
         return [
@@ -130,7 +129,7 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
     /**
      * @return list<array<\Ibexa\Core\FieldType\BinaryBase\Value>>
      */
-    public function providerForTestIsEmptyValue(): array
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new BinaryFileValue()],
@@ -138,7 +137,7 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
         ];
     }
 
-    protected function getValidSearchValueOne(): BinaryFileValue
+    protected static function getValidSearchValueOne(): BinaryFileValue
     {
         return new BinaryFileValue(
             [
@@ -164,7 +163,7 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
         }
     }
 
-    protected function getValidSearchValueTwo(): BinaryFileValue
+    protected static function getValidSearchValueTwo(): BinaryFileValue
     {
         return new BinaryFileValue(
             [

@@ -169,9 +169,9 @@ final class DirectFragmentRendererTest extends TestCase
         ?TemplateRenderer $templateRenderer = null
     ): DirectFragmentRenderer {
         return new DirectFragmentRenderer(
-            $this->createMock(FragmentRendererInterface::class),
-            $this->createMock(KernelInterface::class),
-            $this->createMock(ViewControllerListener::class),
+            $this->createStub(FragmentRendererInterface::class),
+            $this->createStub(KernelInterface::class),
+            $this->createStub(ViewControllerListener::class),
             $controllerResolver,
             new ArgumentMetadataFactory(),
             new RequestAttributeValueResolver(),

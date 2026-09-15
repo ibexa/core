@@ -16,9 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
-/**
- * @covers \Ibexa\Bundle\Core\Entity\EntityManagerFactory
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\Entity\EntityManagerFactory::class)]
 final class EntityManagerFactoryTest extends TestCase
 {
     private const string DEFAULT_ENTITY_MANAGER = 'doctrine.orm.ibexa_default_entity_manager';

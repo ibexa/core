@@ -13,10 +13,8 @@ use Ibexa\Core\FieldType\Selection\Type as Selection;
 use Ibexa\Core\FieldType\Selection\Value as SelectionValue;
 use Ibexa\Core\FieldType\ValidationError;
 
-/**
- * @group fieldType
- * @group ibexa_selection
- */
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('ibexa_selection')]
 class SelectionTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): Selection
@@ -55,7 +53,7 @@ class SelectionTest extends FieldTypeTestCase
         return new SelectionValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -69,7 +67,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'empty array' => [
             [],
@@ -92,7 +90,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -106,7 +104,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -120,7 +118,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -141,7 +139,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -164,9 +162,7 @@ class SelectionTest extends FieldTypeTestCase
         return 'ibexa_selection';
     }
 
-    /**
-     * @dataProvider provideDataForGetName
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataForGetName')]
     public function testGetName(
         SPIValue $value,
         string $expected,
@@ -184,10 +180,10 @@ class SelectionTest extends FieldTypeTestCase
         self::assertSame($expected, $name);
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            'empty_value_and_field_settings' => [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            'empty_value_and_field_settings' => [new SelectionValue(), '', [], 'en_GB'],
             'one_option' => [
                 new SelectionValue(['optionIndex1']),
                 'option_1',
@@ -218,7 +214,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'multiple selection allowed' => [
             [
@@ -279,7 +275,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'multiple selections when not allowed' => [
             [

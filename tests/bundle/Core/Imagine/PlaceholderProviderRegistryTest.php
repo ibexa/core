@@ -11,17 +11,13 @@ use Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
 use Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry::class)]
 class PlaceholderProviderRegistryTest extends TestCase
 {
     private const FOO = 'foo';
     private const BAR = 'bar';
 
-    /**
-     * @depends      testGetProviderKnown
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testGetProviderKnown')]
     public function testConstructor()
     {
         $providers = [
@@ -35,9 +31,7 @@ class PlaceholderProviderRegistryTest extends TestCase
         self::assertSame($providers[self::BAR], $registry->getProvider(self::BAR));
     }
 
-    /**
-     * @depends      testGetProviderKnown
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testGetProviderKnown')]
     public function testAddProvider(): void
     {
         $provider = $this->getPlaceholderProviderMock();

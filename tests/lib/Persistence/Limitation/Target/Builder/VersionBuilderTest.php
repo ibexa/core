@@ -14,9 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder::class)]
 class VersionBuilderTest extends TestCase
 {
     /** @var string */
@@ -35,7 +33,7 @@ class VersionBuilderTest extends TestCase
      *
      * @return array
      */
-    public function providerForTestBuild(): array
+    public static function providerForTestBuild(): array
     {
         $versionStatuses = [
             VersionInfo::STATUS_DRAFT,
@@ -100,8 +98,6 @@ class VersionBuilderTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForTestBuild
-     *
      * @param \Ibexa\Contracts\Core\Limitation\Target\Version $expectedTargetVersion
      * @param int $newStatus
      * @param string $initialLanguageCode
@@ -112,6 +108,7 @@ class VersionBuilderTest extends TestCase
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestBuild')]
     public function testBuild(
         Target\Version $expectedTargetVersion,
         int $newStatus,

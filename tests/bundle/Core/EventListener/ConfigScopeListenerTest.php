@@ -33,8 +33,8 @@ class ConfigScopeListenerTest extends TestCase
         $this->configResolver = $this->createMock(VersatileScopeInterface::class);
         $this->viewManager = $this->createMock(ViewManager::class);
         $this->viewProviders = [
-            $this->createMock(ViewProvider::class),
-            $this->createMock(ViewProvider::class),
+            $this->createStub(ViewProvider::class),
+            $this->createStub(ViewProvider::class),
         ];
     }
 

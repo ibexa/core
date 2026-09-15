@@ -12,12 +12,13 @@ use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 /**
  * Mock test case for Repository.
  */
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\Repository::class, 'beginTransaction')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\Repository::class, 'commit')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\Repository::class, 'rollback')]
 class RepositoryTest extends BaseServiceMockTest
 {
     /**
      * Test for the beginTransaction() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Repository::beginTransaction
      */
     public function testBeginTransaction()
     {
@@ -35,8 +36,6 @@ class RepositoryTest extends BaseServiceMockTest
 
     /**
      * Test for the commit() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Repository::commit
      */
     public function testCommit()
     {
@@ -54,8 +53,6 @@ class RepositoryTest extends BaseServiceMockTest
 
     /**
      * Test for the commit() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Repository::commit
      */
     public function testCommitThrowsRuntimeException()
     {
@@ -77,8 +74,6 @@ class RepositoryTest extends BaseServiceMockTest
 
     /**
      * Test for the rollback() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Repository::rollback
      */
     public function testRollback()
     {
@@ -96,8 +91,6 @@ class RepositoryTest extends BaseServiceMockTest
 
     /**
      * Test for the rollback() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Repository::rollback
      */
     public function testRollbackThrowsRuntimeException()
     {

@@ -12,12 +12,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IdQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\ParentLocationIdQueryBuilder
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\ParentLocationIdQueryBuilder::class)]
 final class LocationIdQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
-    public function getFilteringCriteriaQueryData(): iterable
+    public static function getFilteringCriteriaQueryData(): iterable
     {
         yield 'Location ID=1' => [
             new Criterion\LocationId(1),

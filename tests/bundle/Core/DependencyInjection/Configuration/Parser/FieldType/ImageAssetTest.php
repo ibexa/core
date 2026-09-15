@@ -40,9 +40,7 @@ class ImageAssetTest extends AbstractParserTestCase
         );
     }
 
-    /**
-     * @dataProvider imageAssetSettingsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('imageAssetSettingsProvider')]
     public function testImageAssetSettings(array $config, array $expected)
     {
         $this->load(
@@ -58,7 +56,7 @@ class ImageAssetTest extends AbstractParserTestCase
         }
     }
 
-    public function imageAssetSettingsProvider(): array
+    public static function imageAssetSettingsProvider(): array
     {
         return [
             [

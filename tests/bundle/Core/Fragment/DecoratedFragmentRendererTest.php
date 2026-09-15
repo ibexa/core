@@ -18,9 +18,7 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
-/**
- * @covers \Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer::class)]
 class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
 {
     protected FragmentRendererInterface & MockObject $innerRenderer;

@@ -274,7 +274,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         return new SortClause\ContentId();
     }
 
-    public function getFilterFactories(): iterable
+    public static function getFilterFactories(): iterable
     {
         yield from parent::getFilterFactories();
 
@@ -381,14 +381,13 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
     }
 
     /**
-     * @dataProvider getDataForTestFindContentWithLocationCriterion
-     *
      * @param string[] $expectedContentRemoteIds
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestFindContentWithLocationCriterion')]
     public function testFindContentUsingLocationCriterion(
         callable $filterFactory,
         array $expectedContentRemoteIds
@@ -401,7 +400,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         );
     }
 
-    public function getDataForTestFindContentWithLocationCriterion(): iterable
+    public static function getDataForTestFindContentWithLocationCriterion(): iterable
     {
         yield 'Content items with secondary Location ignored in content filtering, sorted by Content ID' => [
             static function (Content $parentFolder): Filter {
@@ -459,10 +458,9 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
     }
 
     /**
-     * @dataProvider getListOfSupportedSortClauses
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getListOfSupportedSortClauses')]
     public function testFindWithSortClauses(string $sortClauseFQCN): void
     {
         $this->performAndAssertSimpleSortClauseQuery(new $sortClauseFQCN(Query::SORT_ASC));
@@ -555,7 +553,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         }
     }
 
-    public function getListOfSupportedSortClauses(): iterable
+    public static function getListOfSupportedSortClauses(): iterable
     {
         yield 'Content\\Id' => [SortClause\ContentId::class];
         yield 'ContentName' => [SortClause\ContentName::class];

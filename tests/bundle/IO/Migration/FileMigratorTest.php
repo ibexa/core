@@ -18,9 +18,7 @@ use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\IO\Migration\MigrationHandler
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\IO\Migration\MigrationHandler::class)]
 final class FileMigratorTest extends TestCase
 {
     /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler>&\PHPUnit\Framework\MockObject\MockObject */

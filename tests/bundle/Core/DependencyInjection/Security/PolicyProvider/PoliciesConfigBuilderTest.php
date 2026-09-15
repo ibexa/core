@@ -15,9 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class PoliciesConfigBuilderTest extends TestCase
 {
-    /**
-     * @dataProvider policiesConfigProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('policiesConfigProvider')]
     public function testAddConfig(array $configOne, array $configTwo, array $expectedConfig): void
     {
         $containerBuilder = new ContainerBuilder();
@@ -29,7 +27,7 @@ class PoliciesConfigBuilderTest extends TestCase
         self::assertSame($expectedConfig, $containerBuilder->getParameter('ibexa.api.role.policy_map'));
     }
 
-    public function policiesConfigProvider(): array
+    public static function policiesConfigProvider(): array
     {
         return [
             'add' => [

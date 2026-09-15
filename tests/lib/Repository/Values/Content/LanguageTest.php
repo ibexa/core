@@ -13,9 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Language
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\Content\Language::class)]
 class LanguageTest extends TestCase
 {
     use ValueObjectTestTrait;

@@ -193,12 +193,15 @@ class UrlStorageTest extends TestCase
         $fieldIds = [12, 23, 34];
         $gateway = $this->getGatewayMock();
 
-        foreach ($fieldIds as $index => $id) {
-            $gateway
-                ->expects(self::at($index))
-                ->method('unlinkUrl')
-                ->with($id, 24);
-        }
+        $matcher = self::exactly(count($fieldIds));
+        $gateway
+            ->expects($matcher)
+            ->method('unlinkUrl')
+            ->willReturnCallback(static function ($actualId, $actualVersionNo, array $excludeUrlIds = []) use ($matcher, $fieldIds): void {
+                $index = $matcher->numberOfInvocations() - 1;
+                self::assertSame($fieldIds[$index], $actualId);
+                self::assertSame(24, $actualVersionNo);
+            });
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $storage->deleteFieldData($versionInfo, $fieldIds);
@@ -219,13 +222,13 @@ class UrlStorageTest extends TestCase
     protected function getPartlyMockedStorage(StorageGatewayInterface $gateway)
     {
         return $this->getMockBuilder(UrlStorage::class)
-            ->setMethods(null)
             ->setConstructorArgs(
                 [
                     $gateway,
                     $this->getLoggerMock(),
                 ]
             )
+            ->onlyMethods([])
             ->getMock();
     }
 

@@ -14,23 +14,20 @@ use Ibexa\Core\Repository\Values\Content\Content;
 
 /**
  * Test case for operations in the SearchService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\SearchService
- *
- * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
- *
- * @group integration
- * @group authorization
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\SearchService::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SearchService::class, 'findContent()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SearchService::class, 'findSingle()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'findContent($query, $languageFilter, $filterOnUserPermissions)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'findSingle($query, $languageFilter, $filterOnUserPermissions)')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('authorization')]
 class SearchServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the findContent() method but with anonymous user.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::testFindContentFiltered
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::class, 'testFindContentFiltered')]
     public function testFindContent()
     {
         $repository = $this->getRepository();
@@ -57,11 +54,8 @@ class SearchServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::testFindContentFiltered
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::class, 'testFindContentFiltered')]
     public function testFindContentEmptyResult()
     {
         $repository = $this->getRepository();
@@ -91,11 +85,8 @@ class SearchServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the findSingle() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findSingle()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::testFindSingle
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::class, 'testFindSingle')]
     public function testFindSingleThrowsNotFoundException()
     {
         $this->expectException(NotFoundException::class);
@@ -124,11 +115,8 @@ class SearchServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the findContent() method, verifying disabling permissions.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::findContent($query, $languageFilter, $filterOnUserPermissions)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceAuthorizationTest::testFindContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(self::class, 'testFindContent')]
     public function testFindContentWithUserPermissionFilter()
     {
         $repository = $this->getRepository();
@@ -163,11 +151,8 @@ class SearchServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the findSingle() method disabling permission filtering.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::findSingle($query, $languageFilter, $filterOnUserPermissions)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceAuthorizationTest::testFindContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(self::class, 'testFindContent')]
     public function testFindSingleWithUserPermissionFilter()
     {
         $repository = $this->getRepository();
@@ -195,11 +180,8 @@ class SearchServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the findSingle() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::findSingle($query, $languageFilter, $filterOnUserPermissions)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceAuthorizationTest::testFindContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(self::class, 'testFindContent')]
     public function testFindSingleThrowsNotFoundExceptionWithUserPermissionFilter()
     {
         $this->expectException(NotFoundException::class);

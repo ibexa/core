@@ -28,9 +28,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new ExternalStorageRegistryPass());
     }
 
-    /**
-     * @dataProvider externalStorageHandlerTagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('externalStorageHandlerTagsProvider')]
     public function testRegisterExternalStorageHandler(string $tag)
     {
         $def = new Definition();
@@ -48,9 +46,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerTagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('externalStorageHandlerTagsProvider')]
     public function testRegisterExternalStorageHandlerNoAlias(string $tag)
     {
         $this->expectException(\LogicException::class);
@@ -70,9 +66,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerGatewayTagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('externalStorageHandlerGatewayTagsProvider')]
     public function testRegisterExternalStorageHandlerWithGateway(string $tag)
     {
         $handlerDef = new Definition();
@@ -102,9 +96,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerGatewayTagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('externalStorageHandlerGatewayTagsProvider')]
     public function testRegisterExternalStorageHandlerWithoutRegisteredGateway(string $tag)
     {
         $this->expectException(\LogicException::class);
@@ -127,9 +119,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerGatewayTagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('externalStorageHandlerGatewayTagsProvider')]
     public function testRegisterExternalStorageHandlerWithGatewayNoAlias(string $tag)
     {
         $this->expectException(\LogicException::class);
@@ -158,9 +148,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerGatewayTagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('externalStorageHandlerGatewayTagsProvider')]
     public function testRegisterExternalStorageHandlerWithGatewayNoIdentifier(string $tag)
     {
         $this->expectException(\LogicException::class);
@@ -189,14 +177,14 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function externalStorageHandlerTagsProvider(): array
+    public static function externalStorageHandlerTagsProvider(): array
     {
         return [
             [ExternalStorageRegistryPass::EXTERNAL_STORAGE_HANDLER_SERVICE_TAG],
         ];
     }
 
-    public function externalStorageHandlerGatewayTagsProvider(): array
+    public static function externalStorageHandlerGatewayTagsProvider(): array
     {
         return [
             [ExternalStorageRegistryPass::EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG],

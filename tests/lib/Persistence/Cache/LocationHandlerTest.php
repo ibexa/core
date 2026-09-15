@@ -27,7 +27,7 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         return SPILocationHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
         return [
@@ -74,7 +74,7 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $location = new Location(['id' => 12]);
 
@@ -133,7 +133,7 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $location = new Location(
             [

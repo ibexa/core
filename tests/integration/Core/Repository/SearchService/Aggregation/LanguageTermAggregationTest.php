@@ -13,7 +13,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBui
 
 final class LanguageTermAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         $aggregation = new LanguageTermAggregation('language');
 
@@ -24,7 +24,7 @@ final class LanguageTermAggregationTest extends AbstractAggregationTestCase
         ]);
 
         $builder->setEntryMapper([
-            $this->getRepository()->getContentLanguageService(),
+            static::resolveRepository()->getContentLanguageService(),
             'loadLanguage',
         ]);
 

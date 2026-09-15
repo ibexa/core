@@ -20,9 +20,7 @@ use function md5;
 use PHPUnit\Framework\TestCase;
 use function sprintf;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\Filter\Filter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\Filter\Filter::class)]
 final class FilterTest extends TestCase
 {
     /**
@@ -43,10 +41,9 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @dataProvider getInvalidSortClausesData
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getInvalidSortClausesData')]
     public function testConstructorThrowsBadStateException(
         array $sortClauses,
         string $expectedExceptionMessage
@@ -57,7 +54,7 @@ final class FilterTest extends TestCase
         return new Filter(new Criterion\ParentLocationId(3), $sortClauses);
     }
 
-    public function getInvalidSortClausesData(): iterable
+    public static function getInvalidSortClausesData(): iterable
     {
         yield [
             [
@@ -183,10 +180,9 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @dataProvider getComplexFilterTestData
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $expectedSortClauses
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getComplexFilterTestData')]
     public function testBuildingComplexFilter(
         Filter $filter,
         ?Query\CriterionInterface $expectedCriterion,
@@ -204,7 +200,7 @@ final class FilterTest extends TestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function getComplexFilterTestData(): iterable
+    public static function getComplexFilterTestData(): iterable
     {
         $parent1Criterion = new Criterion\ParentLocationId(1);
         $engGBCriterion = new Criterion\LanguageCode('eng-GB');
@@ -334,9 +330,7 @@ final class FilterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getFiltersWithInvalidSliceData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getFiltersWithInvalidSliceData')]
     public function testSliceByThrowsInvalidArgumentException(
         int $limit,
         int $offset,
@@ -350,7 +344,7 @@ final class FilterTest extends TestCase
         $filter->sliceBy($limit, $offset);
     }
 
-    public function getFiltersWithInvalidSliceData(): iterable
+    public static function getFiltersWithInvalidSliceData(): iterable
     {
         yield [-1, 0, 'Argument \'$limit\' is invalid: Filtering slice limit needs to be >=0, got -1'];
         yield [0, -1, 'Argument \'$offset\' is invalid: Filtering slice offset needs to be >=0, got -1'];
@@ -364,9 +358,7 @@ final class FilterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getFilters
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getFilters')]
     public function testReset(Filter $filter): void
     {
         $filter->reset();
@@ -376,9 +368,7 @@ final class FilterTest extends TestCase
         self::assertSame(0, $filter->getLimit());
     }
 
-    /**
-     * @dataProvider getFilters
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getFilters')]
     public function testClone(Filter $filter): void
     {
         $clonedFilter = clone $filter;
@@ -397,7 +387,7 @@ final class FilterTest extends TestCase
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    public function getFilters(): iterable
+    public static function getFilters(): iterable
     {
         $criterion = new Criterion\LogicalAnd(
             [

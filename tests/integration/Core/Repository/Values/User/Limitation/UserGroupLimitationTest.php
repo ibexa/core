@@ -12,12 +12,9 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation
- *
- * @group integration
- * @group limitation
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 class UserGroupLimitationTest extends BaseLimitationTestCase
 {
     public function testUserGroupLimitationAllow()

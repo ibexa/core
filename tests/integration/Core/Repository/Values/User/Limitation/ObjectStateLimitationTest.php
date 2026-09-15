@@ -18,13 +18,10 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
- * @covers \Ibexa\Core\Limitation\ObjectStateLimitationType
- *
- * @group integration
- * @group limitation
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Limitation\ObjectStateLimitationType::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 class ObjectStateLimitationTest extends BaseLimitationTestCase
 {
     public const OBJECT_STATE_LOCK_GROUP_ID = 2;

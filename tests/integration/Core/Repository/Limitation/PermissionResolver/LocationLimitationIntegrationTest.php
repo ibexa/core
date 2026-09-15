@@ -16,7 +16,7 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
 {
     private const LOCATION_ID = 2;
 
-    public function providerForCanUserEditOrPublishContent(): array
+    public static function providerForCanUserEditOrPublishContent(): array
     {
         $limitationRoot = new LocationLimitation();
         $limitationRoot->limitationValues = [self::LOCATION_ID];
@@ -27,8 +27,6 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
     }
 
     /**
-     * @dataProvider providerForCanUserEditOrPublishContent
-     *
      * @param array $limitations
      * @param bool $expectedResult
      *
@@ -36,6 +34,7 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForCanUserEditOrPublishContent')]
     public function testCanUserEditContent(array $limitations, bool $expectedResult): void
     {
         $repository = $this->getRepository();
@@ -65,12 +64,11 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
     }
 
     /**
-     * @dataProvider providerForCanUserEditOrPublishContent
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForCanUserEditOrPublishContent')]
     public function testCanUserReadTrashedContent(array $limitations, bool $expectedResult): void
     {
         $repository = $this->getRepository();

@@ -31,11 +31,8 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * @group integration
- *
- * @covers \Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
 final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
 {
     use DownloadControllerTestTrait;

@@ -17,9 +17,8 @@ class RouterMapURITest extends TestCase
      * @param array  $config
      * @param string $pathinfo
      * @param string $expectedMapKey
-     *
-     * @dataProvider setRequestProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('setRequestProvider')]
     public function testSetGetRequest($config, $pathinfo, $expectedMapKey)
     {
         $request = new SimplifiedRequest('http', '', 80, $pathinfo);
@@ -32,9 +31,8 @@ class RouterMapURITest extends TestCase
     /**
      * @param string $uri
      * @param string $expectedFixedUpURI
-     *
-     * @dataProvider fixupURIProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('fixupURIProvider')]
     public function testAnalyseURI($uri, $expectedFixedUpURI)
     {
         $matcher = new URIMapMatcher([]);
@@ -50,9 +48,8 @@ class RouterMapURITest extends TestCase
     /**
      * @param string $fullUri
      * @param string $linkUri
-     *
-     * @dataProvider fixupURIProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('fixupURIProvider')]
     public function testAnalyseLink($fullUri, $linkUri)
     {
         $matcher = new URIMapMatcher([]);
@@ -65,7 +62,7 @@ class RouterMapURITest extends TestCase
         self::assertSame($fullUri, $unserializedMatcher->analyseLink($linkUri));
     }
 
-    public function setRequestProvider()
+    public static function setRequestProvider()
     {
         return [
             [['foo' => 'bar'], '/bar/baz', 'bar'],
@@ -73,7 +70,7 @@ class RouterMapURITest extends TestCase
         ];
     }
 
-    public function fixupURIProvider()
+    public static function fixupURIProvider()
     {
         return [
             ['/foo', '/'],

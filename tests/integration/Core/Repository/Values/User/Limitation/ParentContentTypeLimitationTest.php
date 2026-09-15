@@ -11,12 +11,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation
- *
- * @group integration
- * @group limitation
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 class ParentContentTypeLimitationTest extends BaseLimitationTestCase
 {
     public function testParentContentTypeLimitationAllow()

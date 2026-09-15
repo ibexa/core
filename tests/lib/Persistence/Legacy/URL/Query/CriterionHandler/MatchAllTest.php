@@ -34,8 +34,8 @@ class MatchAllTest extends CriterionHandlerTestCase
         $criterion = new MatchAll();
         $expected = '1 = 1';
 
-        $queryBuilder = $this->createMock(QueryBuilder::class);
-        $converter = $this->createMock(CriteriaConverter::class);
+        $queryBuilder = $this->createStub(QueryBuilder::class);
+        $converter = $this->createStub(CriteriaConverter::class);
 
         $handler = new MatchAllHandler();
         $actual = $handler->handle($converter, $queryBuilder, $criterion);

@@ -15,18 +15,26 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
 
 /**
  * Test case for operations in the LanguageService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\LanguageService
- *
- * @group integration
- * @group language
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\LanguageService::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'newLanguageCreateStruct')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'createLanguage')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'loadLanguageById')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'loadLanguageListById')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'updateLanguageName')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'enableLanguage')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'disableLanguage')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'loadLanguage')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'loadLanguageListByCode')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'loadLanguages')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'deleteLanguage')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'getDefaultLanguageCode')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('language')]
 class LanguageServiceTest extends BaseTestCase
 {
     /**
      * Test for the newLanguageCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::newLanguageCreateStruct
      */
     public function testNewLanguageCreateStruct()
     {
@@ -57,11 +65,8 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the createLanguage() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
-     * @depends testNewLanguageCreateStruct
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testNewLanguageCreateStruct')]
     public function testCreateLanguage()
     {
         $repository = $this->getRepository();
@@ -89,11 +94,8 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the createLanguage() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
-     * @depends testCreateLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLanguage')]
     public function testCreateLanguageSetsIdPropertyOnReturnedLanguage($language)
     {
         self::assertNotNull($language->id);
@@ -103,11 +105,8 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the createLanguage() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
-     * @depends testCreateLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLanguage')]
     public function testCreateLanguageSetsExpectedProperties($language)
     {
         self::assertEquals(
@@ -126,11 +125,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the createLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
-     * @depends testCreateLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLanguage')]
     public function testCreateLanguageThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -156,12 +152,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLanguageById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageById
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListById
-     *
-     * @depends testCreateLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLanguage')]
     public function testLoadLanguageById()
     {
         $repository = $this->getRepository();
@@ -191,12 +183,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLanguageById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageById
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListById
-     *
-     * @depends testLoadLanguageById
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadLanguageById')]
     public function testLoadLanguageByIdThrowsNotFoundException()
     {
         $repository = $this->getRepository();
@@ -218,11 +206,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the updateLanguageName() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
-     *
-     * @depends testLoadLanguageById
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadLanguageById')]
     public function testUpdateLanguageName()
     {
         $repository = $this->getRepository();
@@ -266,8 +251,6 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test service method for updating language name throwing InvalidArgumentException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
      */
     public function testUpdateLanguageNameThrowsInvalidArgumentException()
     {
@@ -283,11 +266,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the enableLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::enableLanguage
-     *
-     * @depends testLoadLanguageById
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadLanguageById')]
     public function testEnableLanguage()
     {
         $repository = $this->getRepository();
@@ -313,11 +293,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the disableLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::disableLanguage
-     *
-     * @depends testLoadLanguageById
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadLanguageById')]
     public function testDisableLanguage()
     {
         $repository = $this->getRepository();
@@ -343,12 +320,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListByCode
-     *
-     * @depends testCreateLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLanguage')]
     public function testLoadLanguage()
     {
         $repository = $this->getRepository();
@@ -395,12 +368,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListByCode
-     *
-     * @depends testLoadLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadLanguage')]
     public function testLoadLanguageThrowsNotFoundException()
     {
         $repository = $this->getRepository();
@@ -419,8 +388,6 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test service method for loading language throwing InvalidArgumentException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
      */
     public function testLoadLanguageThrowsInvalidArgumentException()
     {
@@ -434,12 +401,9 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLanguages() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguages
-     *
-     * @depends testCreateLanguage
-     * @depends testLoadLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLanguage')]
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadLanguage')]
     public function testLoadLanguages()
     {
         $repository = $this->getRepository();
@@ -480,11 +444,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLanguages() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguages
-     *
-     * @depends testCreateLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLanguage')]
     public function loadLanguagesReturnsAnEmptyArrayByDefault()
     {
         $repository = $this->getRepository();
@@ -496,11 +457,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage
-     *
-     * @depends testLoadLanguages
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadLanguages')]
     public function testDeleteLanguage()
     {
         $repository = $this->getRepository();
@@ -539,11 +497,8 @@ class LanguageServiceTest extends BaseTestCase
      * NOTE: This test has a dependency against several methods in the content
      * service, but because there is no topological sort for test dependencies
      * we cannot declare them here.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage
-     *
-     * @depends testDeleteLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testDeleteLanguage')]
     public function testDeleteLanguageThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -585,15 +540,13 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the getDefaultLanguageCode() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::getDefaultLanguageCode
      */
     public function testGetDefaultLanguageCode()
     {
         $repository = $this->getRepository();
         $languageService = $repository->getContentLanguageService();
 
-        self::assertRegExp(
+        self::assertMatchesRegularExpression(
             '(^[a-z]{3}\-[A-Z]{2}$)',
             $languageService->getDefaultLanguageCode()
         );
@@ -601,11 +554,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the createLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
-     * @depends testCreateLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLanguage')]
     public function testCreateLanguageInTransactionWithRollback()
     {
         $repository = $this->getRepository();
@@ -647,11 +597,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the createLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
-     * @depends testCreateLanguage
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLanguage')]
     public function testCreateLanguageInTransactionWithCommit()
     {
         $repository = $this->getRepository();
@@ -689,11 +636,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the updateLanguageName() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
-     *
-     * @depends testUpdateLanguageName
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testUpdateLanguageName')]
     public function testUpdateLanguageNameInTransactionWithRollback()
     {
         $repository = $this->getRepository();
@@ -728,11 +672,8 @@ class LanguageServiceTest extends BaseTestCase
 
     /**
      * Test for the updateLanguageName() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
-     *
-     * @depends testUpdateLanguageName
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testUpdateLanguageName')]
     public function testUpdateLanguageNameInTransactionWithCommit()
     {
         $repository = $this->getRepository();

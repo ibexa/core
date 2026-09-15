@@ -17,9 +17,7 @@ class MatcherSerializationTest extends TestCase
 {
     use SerializerTrait;
 
-    /**
-     * @dataProvider matcherProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('matcherProvider')]
     public function testDeserialize(Matcher $matcher, ?Matcher $expected = null): void
     {
         $serializedMatcher = $this->serializeMatcher($matcher);
@@ -55,7 +53,7 @@ class MatcherSerializationTest extends TestCase
     /**
      * @return iterable<string, array{0: \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, 1?: \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}>
      */
-    public function matcherProvider(): iterable
+    public static function matcherProvider(): iterable
     {
         $subMatchers = [
             Matcher\Map\URI::class => new Matcher\Map\URI(['campaign' => 'event']),
@@ -121,9 +119,9 @@ class MatcherSerializationTest extends TestCase
                 ]
             ),
         ];
-        yield 'MapURI' => $this->getMapURIMatcherTestCase();
-        yield 'MapPort' => $this->getMapPortMatcherTestCase();
-        yield 'MapHost' => $this->getMapHostMatcherTestCase();
+        yield 'MapURI' => self::getMapURIMatcherTestCase();
+        yield 'MapPort' => self::getMapPortMatcherTestCase();
+        yield 'MapHost' => self::getMapHostMatcherTestCase();
         yield 'CompoundAnd' => [
             $logicalAnd,
             $expectedLogicalAnd,
@@ -137,7 +135,7 @@ class MatcherSerializationTest extends TestCase
     /**
      * @return array{\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}
      */
-    private function getMapPortMatcherTestCase(): array
+    private static function getMapPortMatcherTestCase(): array
     {
         $matcherBeforeSerialization = new Matcher\Map\Port(['8080' => 'event']);
         $matcherBeforeSerialization->setMapKey('8080');
@@ -151,7 +149,7 @@ class MatcherSerializationTest extends TestCase
     /**
      * @return array{\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}
      */
-    private function getMapHostMatcherTestCase(): array
+    private static function getMapHostMatcherTestCase(): array
     {
         $matcherBeforeSerialization = new Matcher\Map\Host(['map' => 'site']);
         $matcherBeforeSerialization->setMapKey('map');
@@ -165,7 +163,7 @@ class MatcherSerializationTest extends TestCase
     /**
      * @return array{\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}
      */
-    private function getMapURIMatcherTestCase(): array
+    private static function getMapURIMatcherTestCase(): array
     {
         $matcherBeforeSerialization = new Matcher\Map\URI(['www.example.org' => 'event_site']);
         $matcherBeforeSerialization->setMapKey('www.example.org');

@@ -74,9 +74,8 @@ final class EmbeddingsTest extends AbstractParserTestCase
     /**
      * @param array<mixed> $config
      * @param array<mixed> $expected
-     *
-     * @dataProvider embeddingsSettingsProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('embeddingsSettingsProvider')]
     public function testEmbeddingsSettings(array $config, array $expected): void
     {
         $this->load(
@@ -114,7 +113,7 @@ final class EmbeddingsTest extends AbstractParserTestCase
      *     }
      * }>
      */
-    public function embeddingsSettingsProvider(): array
+    public static function embeddingsSettingsProvider(): array
     {
         return [
             [

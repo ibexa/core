@@ -12,18 +12,21 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
 /**
  * Test case for operations in the SectionService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\SectionService
- *
- * @group integration
- * @group authorization
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\SectionService::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SectionService::class, 'createSection()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SectionService::class, 'loadSection()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SectionService::class, 'updateSection()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SectionService::class, 'loadSections()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SectionService::class, 'loadSectionByIdentifier()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SectionService::class, 'assignSection()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SectionService::class, 'deleteSection()')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('authorization')]
 class SectionServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
      */
     public function testCreateSectionThrowsUnauthorizedException()
     {
@@ -52,8 +55,6 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSection()
      */
     public function testLoadSectionThrowsUnauthorizedException()
     {
@@ -84,8 +85,6 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the updateSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
      */
     public function testUpdateSectionThrowsUnauthorizedException()
     {
@@ -120,8 +119,6 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadSections() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
      */
     public function testLoadSectionsLoadsEmptyListForAnonymousUser()
     {
@@ -157,8 +154,6 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadSections() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
      */
     public function testLoadSectionFiltersSections()
     {
@@ -202,8 +197,6 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadSectionByIdentifier() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSectionByIdentifier()
      */
     public function testLoadSectionByIdentifierThrowsUnauthorizedException()
     {
@@ -234,8 +227,6 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the assignSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::assignSection()
      */
     public function testAssignSectionThrowsUnauthorizedException()
     {
@@ -276,8 +267,6 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the deleteSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
      */
     public function testDeleteSectionThrowsUnauthorizedException()
     {

@@ -18,9 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
-/**
- * @covers \DoctrineDatabase
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     protected function getLocationGateway()
@@ -388,9 +386,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testHideUpdateHidden
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testHideUpdateHidden')]
     public function testHideUnhideUpdateHidden()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -414,9 +410,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testHideUpdateHidden
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testHideUpdateHidden')]
     public function testHideUnhideParentTree()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -443,9 +437,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testHideUpdateHidden
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testHideUpdateHidden')]
     public function testHideUnhidePartialSubtree()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -525,9 +517,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testCreateLocation
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocation')]
     public function testGetMainNodeId()
     {
         $gateway = $this->getLocationGateway();
@@ -589,11 +579,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @depends      testCreateLocation
-     *
-     * @dataProvider getCreateLocationValues
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocation')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('getCreateLocationValues')]
     public function testCreateLocationValues($field, $value)
     {
         if ($value === null) {
@@ -648,11 +635,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @depends      testCreateLocation
-     *
-     * @dataProvider getCreateLocationReturnValues
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocation')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('getCreateLocationReturnValues')]
     public function testCreateLocationReturnValues($field, $value)
     {
         if ($value === null) {
@@ -694,9 +678,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getUpdateLocationData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getUpdateLocationData')]
     public function testUpdateLocation($field, $value)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -799,13 +781,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @depends      testCreateLocation
-     *
-     * @dataProvider getNodeAssignmentValues
-     *
      * @param string $field
      * @param array $expectedResult
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocation')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('getNodeAssignmentValues')]
     public function testCreateLocationNodeAssignmentCreation(string $field, array $expectedResult)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -833,9 +813,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testCreateLocation
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocation')]
     public function testCreateLocationNodeAssignmentCreationMainLocation()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -971,11 +949,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @depends      testCreateLocationNodeAssignmentCreation
-     *
-     * @dataProvider getConvertNodeAssignmentsLocationValues
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocationNodeAssignmentCreation')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('getConvertNodeAssignmentsLocationValues')]
     public function testConvertNodeAssignments($field, $value)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -1033,9 +1008,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         }
     }
 
-    /**
-     * @depends testCreateLocationNodeAssignmentCreation
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocationNodeAssignmentCreation')]
     public function testConvertNodeAssignmentsMainLocation()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -1069,9 +1042,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testCreateLocationNodeAssignmentCreation
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocationNodeAssignmentCreation')]
     public function testConvertNodeAssignmentsParentHidden()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -1109,9 +1080,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testCreateLocationNodeAssignmentCreation
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocationNodeAssignmentCreation')]
     public function testConvertNodeAssignmentsParentInvisible()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -1149,9 +1118,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testCreateLocationNodeAssignmentCreation
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateLocationNodeAssignmentCreation')]
     public function testConvertNodeAssignmentsUpdateAssignment()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -1422,7 +1389,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         }
     }
 
-    public function providerForTestUpdatePathIdentificationString()
+    public static function providerForTestUpdatePathIdentificationString()
     {
         return [
             [77, 2, 'new_solutions', 'new_solutions'],
@@ -1432,10 +1399,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * Test for the updatePathIdentificationString() method.
-     *
-     *
-     * @dataProvider providerForTestUpdatePathIdentificationString
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestUpdatePathIdentificationString')]
     public function testUpdatePathIdentificationString(
         $locationId,
         $parentLocationId,

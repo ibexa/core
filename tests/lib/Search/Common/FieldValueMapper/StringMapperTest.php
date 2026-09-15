@@ -13,9 +13,7 @@ use Ibexa\Contracts\Core\Search\FieldType\StringField;
 use Ibexa\Core\Search\Common\FieldValueMapper\StringMapper;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Search\Common\FieldValueMapper\StringMapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Search\Common\FieldValueMapper\StringMapper::class)]
 final class StringMapperTest extends TestCase
 {
     private StringMapper $mapper;

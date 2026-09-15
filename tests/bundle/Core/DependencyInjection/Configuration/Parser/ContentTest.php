@@ -34,9 +34,7 @@ class ContentTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('content.default_ttl', 60, 'ibexa_demo_site');
     }
 
-    /**
-     * @dataProvider contentSettingsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('contentSettingsProvider')]
     public function testContentSettings(array $config, array $expected)
     {
         $this->load(
@@ -52,7 +50,7 @@ class ContentTest extends AbstractParserTestCase
         }
     }
 
-    public function contentSettingsProvider()
+    public static function contentSettingsProvider()
     {
         return [
             [

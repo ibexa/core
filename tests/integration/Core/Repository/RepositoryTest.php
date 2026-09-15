@@ -27,19 +27,17 @@ use Ibexa\Contracts\Core\Repository\UserService;
 
 /**
  * Test case for operations in the Repository using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\Repository
- *
- * @group integration
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Repository::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\Repository::class, 'getContentLanguageService()')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
 class RepositoryTest extends BaseTestCase
 {
     /**
      * Test for the getContentService() method.
-     *
-     * @group content
-     * @group user
      */
+    #[\PHPUnit\Framework\Attributes\Group('content')]
+    #[\PHPUnit\Framework\Attributes\Group('user')]
     public function testGetContentService()
     {
         $repository = $this->getRepository();
@@ -51,11 +49,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getContentLanguageService() method.
-     *
-     * @group language
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Repository::getContentLanguageService()
      */
+    #[\PHPUnit\Framework\Attributes\Group('language')]
     public function testGetContentLanguageService()
     {
         $repository = $this->getRepository();
@@ -67,11 +62,10 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getContentTypeService() method.
-     *
-     * @group content-type
-     * @group field-type
-     * @group user
      */
+    #[\PHPUnit\Framework\Attributes\Group('content-type')]
+    #[\PHPUnit\Framework\Attributes\Group('field-type')]
+    #[\PHPUnit\Framework\Attributes\Group('user')]
     public function testGetContentTypeService()
     {
         $repository = $this->getRepository();
@@ -83,9 +77,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getLocationService() method.
-     *
-     * @group location
      */
+    #[\PHPUnit\Framework\Attributes\Group('location')]
     public function testGetLocationService()
     {
         $repository = $this->getRepository();
@@ -97,9 +90,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getSectionService() method.
-     *
-     * @group section
      */
+    #[\PHPUnit\Framework\Attributes\Group('section')]
     public function testGetSectionService()
     {
         $repository = $this->getRepository();
@@ -111,9 +103,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getUserService() method.
-     *
-     * @group user
      */
+    #[\PHPUnit\Framework\Attributes\Group('user')]
     public function testGetUserService()
     {
         $repository = $this->getRepository();
@@ -125,9 +116,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getNotificationService() method.
-     *
-     * @group user
      */
+    #[\PHPUnit\Framework\Attributes\Group('user')]
     public function testGetNotificationService()
     {
         $repository = $this->getRepository();
@@ -139,9 +129,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getTrashService() method.
-     *
-     * @group trash
      */
+    #[\PHPUnit\Framework\Attributes\Group('trash')]
     public function testGetTrashService()
     {
         $repository = $this->getRepository();
@@ -153,9 +142,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getRoleService() method.
-     *
-     * @group role
      */
+    #[\PHPUnit\Framework\Attributes\Group('role')]
     public function testGetRoleService()
     {
         $repository = $this->getRepository();
@@ -167,9 +155,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getURLAliasService() method.
-     *
-     * @group url-alias
      */
+    #[\PHPUnit\Framework\Attributes\Group('url-alias')]
     public function testGetURLAliasService()
     {
         $repository = $this->getRepository();
@@ -181,9 +168,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getUrlWildcardService() method.
-     *
-     * @group url-wildcard
      */
+    #[\PHPUnit\Framework\Attributes\Group('url-wildcard')]
     public function testGetURLWildcardService()
     {
         $repository = $this->getRepository();
@@ -195,9 +181,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getObjectStateService().
-     *
-     * @group object-state
      */
+    #[\PHPUnit\Framework\Attributes\Group('object-state')]
     public function testGetObjectStateService()
     {
         $repository = $this->getRepository();
@@ -209,9 +194,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getFieldTypeService().
-     *
-     * @group object-state
      */
+    #[\PHPUnit\Framework\Attributes\Group('object-state')]
     public function testGetFieldTypeService()
     {
         $repository = $this->getRepository();
@@ -223,9 +207,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getSearchService() method.
-     *
-     * @group search
      */
+    #[\PHPUnit\Framework\Attributes\Group('search')]
     public function testGetSearchService()
     {
         $repository = $this->getRepository();
@@ -238,9 +221,8 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * Test for the getSearchService() method.
-     *
-     * @group permission
      */
+    #[\PHPUnit\Framework\Attributes\Group('permission')]
     public function testGetPermissionResolver()
     {
         $repository = $this->getRepository();

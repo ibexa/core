@@ -11,12 +11,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation
- *
- * @group integration
- * @group limitation
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 class OwnerLimitationTest extends BaseLimitationTestCase
 {
     public function testOwnerLimitationAllow()

@@ -23,7 +23,7 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
      */
     public function testGetGateway(): void
     {
-        $platform = $this->createMock(AbstractPlatform::class);
+        $platform = $this->createStub(AbstractPlatform::class);
         $connection = $this->createMock(Connection::class);
         $connection
             ->method('getDatabasePlatform')
@@ -52,7 +52,7 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
      */
     public function testGetGatewayNotImplemented(): void
     {
-        $platform = $this->createMock(AbstractPlatform::class);
+        $platform = $this->createStub(AbstractPlatform::class);
         $connection = $this->createMock(Connection::class);
         $connection
             ->method('getDatabasePlatform')

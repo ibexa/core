@@ -13,9 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use PHPUnit\Framework\Assert;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\ContentService::class)]
 final class DeleteContentTest extends RepositoryTestCase
 {
     /**

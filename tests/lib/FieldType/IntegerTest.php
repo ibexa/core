@@ -12,10 +12,8 @@ use Ibexa\Core\FieldType\Integer\Type as IntegerType;
 use Ibexa\Core\FieldType\Integer\Value as IntegerValue;
 use Ibexa\Core\FieldType\ValidationError;
 
-/**
- * @group fieldType
- * @group ibexa_integer
- */
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('ibexa_integer')]
 class IntegerTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): IntegerType
@@ -52,7 +50,7 @@ class IntegerTest extends FieldTypeTestCase
         return new IntegerValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -70,7 +68,7 @@ class IntegerTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -93,7 +91,7 @@ class IntegerTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -107,7 +105,7 @@ class IntegerTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -121,7 +119,7 @@ class IntegerTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidValidatorConfiguration(): array
+    public static function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -166,7 +164,7 @@ class IntegerTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidValidatorConfiguration(): array
+    public static function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -203,15 +201,15 @@ class IntegerTest extends FieldTypeTestCase
         return 'ibexa_integer';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new IntegerValue(), '', [], 'en_GB'],
             [new IntegerValue(42), '42', [], 'en_GB'],
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'value within range' => [
             [
@@ -226,7 +224,7 @@ class IntegerTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'value below minimum' => [
             [

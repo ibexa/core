@@ -12,9 +12,8 @@ use Ibexa\Core\Persistence\Cache;
 
 /**
  * Test case for Persistence\Cache\Handler.
- *
- * @covers \Ibexa\Core\Persistence\Cache\Handler
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Cache\Handler::class)]
 class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
 {
     public function testHandler()

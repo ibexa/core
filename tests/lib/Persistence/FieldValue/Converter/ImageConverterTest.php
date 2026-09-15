@@ -28,16 +28,16 @@ final class ImageConverterTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter */
     private $imageConverter;
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $urlRedecorator;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Core\IO\UrlRedecoratorInterface */
+    private \PHPUnit\Framework\MockObject\Stub $urlRedecorator;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Core\IO\IOServiceInterface */
+    private \PHPUnit\Framework\MockObject\Stub $ioService;
 
     protected function setUp(): void
     {
-        $this->ioService = $this->createMock(IOServiceInterface::class);
-        $this->urlRedecorator = $this->createMock(UrlRedecoratorInterface::class);
+        $this->ioService = $this->createStub(IOServiceInterface::class);
+        $this->urlRedecorator = $this->createStub(UrlRedecoratorInterface::class);
 
         $this->imageConverter = new ImageConverter(
             $this->ioService,
@@ -45,9 +45,7 @@ final class ImageConverterTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider dataProviderForTestToStorageFieldDefinition
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestToStorageFieldDefinition')]
     public function testToStorageFieldDefinition(
         FieldDefinition $fieldDefinition,
         StorageFieldDefinition $expectedStorageDef
@@ -62,7 +60,7 @@ final class ImageConverterTest extends TestCase
         );
     }
 
-    public function dataProviderForTestToStorageFieldDefinition(): iterable
+    public static function dataProviderForTestToStorageFieldDefinition(): iterable
     {
         yield 'No validators' => [
             new FieldDefinition([
@@ -149,9 +147,7 @@ final class ImageConverterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProviderForTestToFieldDefinition
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestToFieldDefinition')]
     public function testToFieldDefinition(
         StorageFieldDefinition $storageDef,
         FieldDefinition $expectedFieldDefinition
@@ -166,7 +162,7 @@ final class ImageConverterTest extends TestCase
         );
     }
 
-    public function dataProviderForTestToFieldDefinition(): iterable
+    public static function dataProviderForTestToFieldDefinition(): iterable
     {
         yield [
             new StorageFieldDefinition([

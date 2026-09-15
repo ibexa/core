@@ -10,12 +10,9 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
- *
- * @group integration
- * @group limitation
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 class ContentTypeLimitationTest extends BaseLimitationTestCase
 {
     /**

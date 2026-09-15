@@ -15,9 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\StorageConnectionFactoryPass
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\DependencyInjection\Compiler\StorageConnectionFactoryPass::class)]
 final class StorageConnectionFactoryPassTest extends AbstractCompilerPassTestCase
 {
     protected function setUp(): void

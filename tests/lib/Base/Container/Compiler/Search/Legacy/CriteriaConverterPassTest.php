@@ -27,9 +27,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new CriteriaConverterPass());
     }
 
-    /**
-     * @dataProvider provideDescribedServiceToTagName
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDescribedServiceToTagName')]
     public function testAddHandlers(string $serviceId, string $tag): void
     {
         $this->setDefinition(
@@ -50,9 +48,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider provideDescribedServiceToTagName
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDescribedServiceToTagName')]
     public function testAddContentHandlersWithPriority(string $serviceId, string $tag): void
     {
         $this->setDefinition(

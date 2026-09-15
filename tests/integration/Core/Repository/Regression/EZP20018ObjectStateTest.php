@@ -13,11 +13,8 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for ObjectState issues in EZP-20018.
- *
- * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateId
- *
- * Issue EZP-20018
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(ObjectStateId::class)]
 class EZP20018ObjectStateTest extends BaseTestCase
 {
     public function testSearchForNonUsedObjectState()

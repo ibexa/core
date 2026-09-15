@@ -14,11 +14,8 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMask
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase
- *
- * @group urlalias-gateway
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase::class)]
+#[\PHPUnit\Framework\Attributes\Group('urlalias-gateway')]
 class DoctrineDatabaseTest extends TestCase
 {
     /**
@@ -124,7 +121,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public function providerForTestLoadPathData()
+    public static function providerForTestLoadPathData()
     {
         return [
             [
@@ -169,10 +166,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the loadPathData() method.
-     *
-     *
-     * @dataProvider providerForTestLoadPathData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestLoadPathData')]
     public function testLoadPathData($id, $pathData)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_fallback.php');
@@ -189,7 +184,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public function providerForTestLoadPathDataMultipleLanguages()
+    public static function providerForTestLoadPathDataMultipleLanguages()
     {
         return [
             [
@@ -231,10 +226,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the loadPathData() method.
-     *
-     *
-     * @dataProvider providerForTestLoadPathDataMultipleLanguages
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestLoadPathDataMultipleLanguages')]
     public function testLoadPathDataMultipleLanguages($id, $pathData)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
@@ -251,7 +244,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public function providerForTestCleanupAfterPublishHistorize()
+    public static function providerForTestCleanupAfterPublishHistorize()
     {
         return [
             [
@@ -276,7 +269,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return array
      */
-    public function providerForTestArchiveUrlAliasesForDeletedTranslations()
+    public static function providerForTestArchiveUrlAliasesForDeletedTranslations()
     {
         return [
             [314, [2]],
@@ -289,11 +282,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the cleanupAfterPublish() method.
-     *
-     *
-     *
-     * @dataProvider providerForTestCleanupAfterPublishHistorize
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestCleanupAfterPublishHistorize')]
     public function testCleanupAfterPublishHistorize($action, $languageId, $parentId, $textMD5)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_downgrade.php');
@@ -314,7 +304,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public function providerForTestCleanupAfterPublishRemovesLanguage()
+    public static function providerForTestCleanupAfterPublishRemovesLanguage()
     {
         return [
             [
@@ -334,11 +324,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the cleanupAfterPublish() method.
-     *
-     *
-     *
-     * @dataProvider providerForTestCleanupAfterPublishRemovesLanguage
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestCleanupAfterPublishRemovesLanguage')]
     public function testCleanupAfterPublishRemovesLanguage($action, $languageId, $parentId, $textMD5)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_downgrade.php');
@@ -462,11 +449,10 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForTestArchiveUrlAliasesForDeletedTranslations
-     *
      * @param int $locationId
      * @param int[] $removedLanguageIds
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestArchiveUrlAliasesForDeletedTranslations')]
     public function testArchiveUrlAliasesForDeletedTranslations($locationId, array $removedLanguageIds)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');

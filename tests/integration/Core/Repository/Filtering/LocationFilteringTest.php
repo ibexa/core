@@ -61,7 +61,7 @@ final class LocationFilteringTest extends BaseRepositoryFilteringTestCase
         return new Query\SortClause\Location\Id();
     }
 
-    public function getCriteriaForInitialData(): iterable
+    public static function getCriteriaForInitialData(): iterable
     {
         yield 'Location\\Depth=2' => new Criterion\Location\Depth(Criterion\Operator::EQ, 2);
         yield 'Location\\IsMainLocation' => new Criterion\Location\IsMainLocation(

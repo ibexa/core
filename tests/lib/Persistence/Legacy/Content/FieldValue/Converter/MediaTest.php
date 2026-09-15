@@ -15,9 +15,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MediaConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MediaConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MediaConverter::class)]
 class MediaTest extends TestCase
 {
     protected $converter;
@@ -27,10 +25,8 @@ class MediaTest extends TestCase
         $this->converter = new MediaConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_media
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('ibexa_media')]
     public function testToStorageFieldDefinition()
     {
         $storageFieldDef = new StorageFieldDefinition();
@@ -65,10 +61,8 @@ class MediaTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_media
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('ibexa_media')]
     public function testToFieldDefinition()
     {
         $fieldDef = new PersistenceFieldDefinition();

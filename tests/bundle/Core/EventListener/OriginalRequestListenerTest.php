@@ -31,7 +31,7 @@ class OriginalRequestListenerTest extends TestCase
     {
         $request = new Request();
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::SUB_REQUEST
         );
@@ -45,7 +45,7 @@ class OriginalRequestListenerTest extends TestCase
     {
         $request = new Request();
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );
@@ -73,7 +73,7 @@ class OriginalRequestListenerTest extends TestCase
         $request->headers->set('x-fos-original-url', $originalUri);
         $request->headers->set('x-fos-original-accept', $originalAccept);
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );

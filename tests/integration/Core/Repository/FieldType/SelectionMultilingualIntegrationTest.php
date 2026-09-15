@@ -9,10 +9,9 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
 {
     /**
@@ -90,7 +89,7 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
         return 'Arkansas' . ' ' . 'Mississippi';
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected static function getAdditionallyIndexedFieldData()
     {
         return [
             [
@@ -106,7 +105,7 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
         ];
     }
 
-    protected function getAdditionallyIndexedMultivaluedFieldData()
+    protected static function getAdditionallyIndexedMultivaluedFieldData()
     {
         return [
             [
@@ -117,7 +116,7 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
         ];
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['Hudson', 'Mississippi'],

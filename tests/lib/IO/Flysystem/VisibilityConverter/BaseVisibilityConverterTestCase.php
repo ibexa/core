@@ -13,9 +13,7 @@ use League\Flysystem\UnixVisibility\VisibilityConverter as FlysystemVisibilityCo
 use League\Flysystem\Visibility;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter::class)]
 abstract class BaseVisibilityConverterTestCase extends TestCase
 {
     protected const FLYSYSTEM_FILE_FLAGS = 0600;
@@ -30,13 +28,13 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
 
     abstract protected function buildVisibilityConverter(): BaseVisibilityConverter;
 
-    abstract public function getDataForTestForFile(): iterable;
+    abstract public static function getDataForTestForFile(): iterable;
 
-    abstract public function getDataForTestForDirectory(): iterable;
+    abstract public static function getDataForTestForDirectory(): iterable;
 
-    abstract public function getDataForTestInverseForFile(): iterable;
+    abstract public static function getDataForTestInverseForFile(): iterable;
 
-    abstract public function getDataForTestInverseForDirectory(): iterable;
+    abstract public static function getDataForTestInverseForDirectory(): iterable;
 
     final protected function setUp(): void
     {
@@ -53,9 +51,7 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
         $this->visibilityConverter = $this->buildVisibilityConverter();
     }
 
-    /**
-     * @dataProvider getDataForTestForFile
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestForFile')]
     final public function testForFile(string $visibility, int $expectedVisibilityFlags): void
     {
         self::assertSame(
@@ -64,9 +60,7 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
         );
     }
 
-    /**
-     * @dataProvider getDataForTestForDirectory
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestForDirectory')]
     final public function testForDirectory(string $visibility, int $expectedVisibilityFlags): void
     {
         self::assertSame(
@@ -75,9 +69,7 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
         );
     }
 
-    /**
-     * @dataProvider getDataForTestInverseForFile
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestInverseForFile')]
     final public function testInverseForFile(int $fileVisibilityFlags, string $expectedVisibility): void
     {
         self::assertSame(
@@ -86,9 +78,7 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
         );
     }
 
-    /**
-     * @dataProvider getDataForTestInverseForDirectory
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestInverseForDirectory')]
     final public function testInverseForDirectory(
         int $directoryVisibilityFlags,
         string $expectedVisibility

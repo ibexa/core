@@ -13,9 +13,7 @@ use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     /**

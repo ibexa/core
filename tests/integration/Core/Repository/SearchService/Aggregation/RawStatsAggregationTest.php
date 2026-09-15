@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\Stat
 
 final class RawStatsAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         yield [
             new RawStatsAggregation(

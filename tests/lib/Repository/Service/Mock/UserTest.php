@@ -23,9 +23,7 @@ use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\UserService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 
-/**
- * @covers \Ibexa\Core\Repository\UserService
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\UserService::class)]
 class UserTest extends BaseServiceMockTest
 {
     private const MOCKED_USER_ID = 42;
@@ -91,16 +89,16 @@ class UserTest extends BaseServiceMockTest
     protected function getPartlyMockedUserService(?array $methods = null): APIUserService
     {
         return $this->getMockBuilder(UserService::class)
-            ->onlyMethods($methods)
+            ->onlyMethods(array_values($methods))
             ->setConstructorArgs(
                 [
                     $this->getRepositoryMock(),
                     $this->getPermissionResolverMock(),
                     $this->getPersistenceMock()->userHandler(),
                     $this->getPersistenceMock()->locationHandler(),
-                    $this->createMock(PasswordHashService::class),
-                    $this->createMock(PasswordValidatorInterface::class),
-                    $this->createMock(ConfigResolverInterface::class),
+                    $this->createStub(PasswordHashService::class),
+                    $this->createStub(PasswordValidatorInterface::class),
+                    $this->createStub(ConfigResolverInterface::class),
                 ]
             )
             ->getMock();

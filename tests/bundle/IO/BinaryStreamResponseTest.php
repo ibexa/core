@@ -15,9 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @covers \Ibexa\Bundle\IO\BinaryStreamResponse
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\IO\BinaryStreamResponse::class)]
 final class BinaryStreamResponseTest extends TestCase
 {
     /**

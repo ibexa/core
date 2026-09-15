@@ -14,9 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter::class)]
 class UrlTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter */
@@ -28,10 +26,8 @@ class UrlTest extends TestCase
         $this->converter = new UrlConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group url
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('url')]
     public function testToStorageValue()
     {
         $value = new FieldValue();
@@ -45,10 +41,8 @@ class UrlTest extends TestCase
         self::assertSame($text, $storageFieldValue->dataText);
     }
 
-    /**
-     * @group fieldType
-     * @group url
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('url')]
     public function testToFieldValue()
     {
         $text = "A link's text";
@@ -67,19 +61,15 @@ class UrlTest extends TestCase
         self::assertEquals($urlId, $fieldValue->data['urlId']);
     }
 
-    /**
-     * @group fieldType
-     * @group url
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('url')]
     public function testToStorageFieldDefinition()
     {
         $this->converter->toStorageFieldDefinition(new PersistenceFieldDefinition(), new StorageFieldDefinition());
     }
 
-    /**
-     * @group fieldType
-     * @group url
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('url')]
     public function testToFieldDefinition()
     {
         $this->converter->toFieldDefinition(new StorageFieldDefinition(), new PersistenceFieldDefinition());

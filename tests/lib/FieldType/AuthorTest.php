@@ -14,10 +14,9 @@ use Ibexa\Core\FieldType\Author\Type as AuthorType;
 use Ibexa\Core\FieldType\Author\Value as AuthorValue;
 use Ibexa\Core\FieldType\Value;
 
-/**
- * @group fieldType
- * @group ibexa_author
- */
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\FieldType\Author\AuthorCollection::class, 'removeAuthorsById')]
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('ibexa_author')]
 class AuthorTest extends FieldTypeTestCase
 {
     /** @var \Ibexa\Core\FieldType\Author\Author[] */
@@ -61,7 +60,7 @@ class AuthorTest extends FieldTypeTestCase
         return new AuthorValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -79,7 +78,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'empty array' => [
             [],
@@ -111,7 +110,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -143,7 +142,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -175,7 +174,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -194,7 +193,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -232,7 +231,7 @@ class AuthorTest extends FieldTypeTestCase
         $ft = $this->createFieldTypeUnderTest();
 
         $this->expectException(InvalidArgumentException::class);
-        $ft->acceptValue($this->createMock(Value::class));
+        $ft->acceptValue($this->createStub(Value::class));
     }
 
     public function testAcceptValueInvalidFormat(): void
@@ -301,8 +300,6 @@ class AuthorTest extends FieldTypeTestCase
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\AuthorCollection::removeAuthorsById
-     *
      * @throws \Random\RandomException
      */
     public function testRemoveAuthors(): void
@@ -328,7 +325,7 @@ class AuthorTest extends FieldTypeTestCase
         return 'ibexa_author';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         $authorList = new AuthorValue(
             [
@@ -338,7 +335,7 @@ class AuthorTest extends FieldTypeTestCase
         );
 
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new AuthorValue(), '', [], 'en_GB'],
             [$authorList, 'Boba Fett', [], 'en_GB'],
         ];
     }

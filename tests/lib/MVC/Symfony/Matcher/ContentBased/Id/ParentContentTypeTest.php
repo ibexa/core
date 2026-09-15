@@ -12,6 +12,10 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType as ParentContentTypeMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType::class, 'matchLocation')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::class, 'setMatchingConfig')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\MVC\RepositoryAware::class, 'setRepository')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType::class, 'matchContentInfo')]
 class ParentContentTypeTest extends BaseTestCase
 {
     private const EXAMPLE_LOCATION_ID = 54;
@@ -77,19 +81,13 @@ class ParentContentTypeTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchLocationProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
+    #[\PHPUnit\Framework\Attributes\DataProvider('matchLocationProvider')]
+    public function testMatchLocation($matchingConfig, int $contentTypeId, $expectedResult)
     {
-        $this->matcher->setRepository($repository);
+        $this->matcher->setRepository($this->generateRepositoryMockForContentTypeId($contentTypeId));
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
             $expectedResult,
@@ -97,46 +95,40 @@ class ParentContentTypeTest extends BaseTestCase
         );
     }
 
-    public function matchLocationProvider()
+    public static function matchLocationProvider()
     {
         return [
             [
                 123,
-                $this->generateRepositoryMockForContentTypeId(123),
+                123,
                 true,
             ],
             [
                 123,
-                $this->generateRepositoryMockForContentTypeId(456),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->generateRepositoryMockForContentTypeId(456),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->generateRepositoryMockForContentTypeId(789),
+                789,
                 true,
             ],
         ];
     }
 
     /**
-     * @dataProvider matchLocationProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType::matchContentInfo
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
+    #[\PHPUnit\Framework\Attributes\DataProvider('matchLocationProvider')]
+    public function testMatchContentInfo($matchingConfig, int $contentTypeId, $expectedResult)
     {
-        $this->matcher->setRepository($repository);
+        $this->matcher->setRepository($this->generateRepositoryMockForContentTypeId($contentTypeId));
         $this->matcher->setMatchingConfig($matchingConfig);
 
         self::assertSame(

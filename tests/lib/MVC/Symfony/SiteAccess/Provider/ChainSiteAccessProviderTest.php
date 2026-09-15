@@ -45,7 +45,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         ];
     }
 
-    public function siteAccessNamesProvider(): array
+    public static function siteAccessNamesProvider(): array
     {
         return [
             'existing_sa' => [self::EXISTING_SA_NAME],
@@ -53,9 +53,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider siteAccessNamesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('siteAccessNamesProvider')]
     public function testIsDefined(string $siteAccessName): void
     {
         $chainSiteAccessProvider = $this->getChainSiteAccessProvider();
@@ -104,7 +102,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         );
     }
 
-    public function getExistingSiteProvider(): array
+    public static function getExistingSiteProvider(): array
     {
         return [
             'existing_sa' => [self::EXISTING_SA_NAME, [self::SA_GROUP]],
@@ -113,12 +111,11 @@ final class ChainSiteAccessProviderTest extends TestCase
     }
 
     /**
-     * @dataProvider getExistingSiteProvider
-     *
      * @param string[] $expectedGroups
      *
      * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getExistingSiteProvider')]
     public function testGetExistingSiteAccess(string $siteAccessName, array $expectedGroups): void
     {
         $chainSiteAccessProvider = $this->getChainSiteAccessProvider();

@@ -27,9 +27,7 @@ use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Traversable;
 
-/**
- * @covers \Ibexa\Core\Repository\NameSchema\NameSchemaService
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\NameSchema\NameSchemaService::class)]
 final class NameSchemaServiceTest extends BaseServiceMockTest
 {
     private const NAME_SCHEMA = '<name_schema>';
@@ -134,13 +132,12 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     }
 
     /**
-     * @dataProvider getDataForTestResolveNameSchema
-     *
      * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
      * @param array<string, array<string, string>> $tokenValues
      * @param array<string> $languageCodes
      * @param array<int, array<string, string>> $expectedNames
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestResolveNameSchema')]
     public function testResolveNameSchema(
         array $fieldMap,
         array $tokenValues,
@@ -258,14 +255,13 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     }
 
     /**
-     * @dataProvider getDataForTestResolve
-     *
      * @param array<string, array<string>> $schemaIdentifiers
      * @param array<string> $languageFieldValues field value translations
      * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
      * @param array<string, array<string, string>> $fieldTitles [language => [field_identifier => title]]
      * @param array{limit?: int, sequence?: string} $settings NameSchemaService settings
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestResolve')]
     public function testResolve(
         array $schemaIdentifiers,
         string $nameSchema,

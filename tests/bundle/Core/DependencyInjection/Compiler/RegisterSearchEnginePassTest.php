@@ -33,9 +33,7 @@ final class RegisterSearchEnginePassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new RegisterSearchEnginePass());
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tagsProvider')]
     public function testRegisterSearchEngine(string $tag): void
     {
         $definition = new Definition();
@@ -56,9 +54,7 @@ final class RegisterSearchEnginePassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tagsProvider')]
     public function testRegisterSearchEngineWithoutAliasThrowsLogicException(string $tag): void
     {
         $this->expectException(LogicException::class);
@@ -70,7 +66,7 @@ final class RegisterSearchEnginePassTest extends AbstractCompilerPassTestCase
         $this->compile();
     }
 
-    public function tagsProvider(): iterable
+    public static function tagsProvider(): iterable
     {
         return [
             [RegisterSearchEnginePass::SEARCH_ENGINE_SERVICE_TAG],

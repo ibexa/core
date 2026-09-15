@@ -11,10 +11,8 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Url\Type as UrlType;
 use Ibexa\Core\FieldType\Url\Value as UrlValue;
 
-/**
- * @group fieldType
- * @group ibexa_url
- */
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('ibexa_url')]
 class UrlTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): UrlType
@@ -40,7 +38,7 @@ class UrlTest extends FieldTypeTestCase
         return new UrlValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -54,7 +52,7 @@ class UrlTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -72,7 +70,7 @@ class UrlTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -96,7 +94,7 @@ class UrlTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -125,10 +123,10 @@ class UrlTest extends FieldTypeTestCase
         return 'ibexa_url';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new UrlValue(), '', [], 'en_GB'],
             [new UrlValue('', 'Url text'), 'Url text', [], 'en_GB'],
         ];
     }

@@ -14,10 +14,9 @@ use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class EmailAddressIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -144,7 +143,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -207,9 +206,9 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -256,7 +255,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -273,7 +272,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -283,7 +282,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new EmailAddressValue()],
@@ -292,38 +291,38 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new EmailAddressValue('spam@ibexa.co'),
             ],
         ];
     }
 
-    protected function getValidSearchValueOne(): string
+    protected static function getValidSearchValueOne(): string
     {
         return 'holmes4@ibexa.co';
     }
 
-    protected function getSearchTargetValueOne(): string
+    protected static function getSearchTargetValueOne(): string
     {
         // ensure case-insensitivity
-        return strtoupper($this->getValidSearchValueOne());
+        return strtoupper(static::getValidSearchValueOne());
     }
 
-    protected function getValidSearchValueTwo(): string
+    protected static function getValidSearchValueTwo(): string
     {
         return 'wyoming.knott@o2.ru';
     }
 
-    protected function getSearchTargetValueTwo(): string
+    protected static function getSearchTargetValueTwo(): string
     {
         // ensure case-insensitivity
-        return strtoupper($this->getValidSearchValueTwo());
+        return strtoupper(static::getValidSearchValueTwo());
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['holmes4@ibexa.co', 'wyoming.knott@o2.ru'],

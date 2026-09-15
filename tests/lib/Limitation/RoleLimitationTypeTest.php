@@ -39,16 +39,14 @@ final class RoleLimitationTypeTest extends Base
         );
     }
 
-    /**
-     * @dataProvider providerForTestAcceptValue
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestAcceptValue')]
     public function testAcceptValue(UserRoleLimitation $limitation): void
     {
         $this->expectNotToPerformAssertions();
         $this->limitationType->acceptValue($limitation);
     }
 
-    public function providerForTestAcceptValue(): array
+    public static function providerForTestAcceptValue(): array
     {
         return [
             [
@@ -64,16 +62,14 @@ final class RoleLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestAcceptValueException
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestAcceptValueException')]
     public function testAcceptValueException(UserRoleLimitation $limitation): void
     {
         $this->expectException(InvalidArgumentType::class);
         $this->limitationType->acceptValue($limitation);
     }
 
-    public function providerForTestAcceptValueException(): array
+    public static function providerForTestAcceptValueException(): array
     {
         return [
             [
@@ -99,18 +95,25 @@ final class RoleLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestAcceptValue
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestAcceptValue')]
     public function testValidatePass(UserRoleLimitation $limitation): void
     {
         $userHandlerMock = $this->createMock(UserHandlerInterface::class);
         $contentHandlerMock = $this->createMock(ContentHandlerInterface::class);
 
         if ($limitation->limitationValues !== null) {
-            $userHandlerMock
-                ->method('loadRole')
-                ->withConsecutive([4, Role::STATUS_DEFINED], [8, Role::STATUS_DEFINED]);
+            $matcher = $this->any();
+            $userHandlerMock->expects($matcher)
+                ->method('loadRole')->willReturnCallback(function (...$parameters) use ($matcher) {
+                    if ($matcher->numberOfInvocations() === 1) {
+                        $this->assertSame(4, $parameters[0]);
+                        $this->assertSame(Role::STATUS_DEFINED, $parameters[1]);
+                    }
+                    if ($matcher->numberOfInvocations() === 2) {
+                        $this->assertSame(8, $parameters[0]);
+                        $this->assertSame(Role::STATUS_DEFINED, $parameters[1]);
+                    }
+                });
 
             $this->getPersistenceMock()
                 ->method('userHandler')
@@ -118,9 +121,16 @@ final class RoleLimitationTypeTest extends Base
         }
 
         if ($limitation->limitationValues !== null) {
-            $contentHandlerMock
-                ->method('loadContentInfo')
-                ->withConsecutive([14], [21]);
+            $matcher = $this->any();
+            $contentHandlerMock->expects($matcher)
+                ->method('loadContentInfo')->willReturnCallback(function (...$parameters) use ($matcher) {
+                    if ($matcher->numberOfInvocations() === 1) {
+                        $this->assertSame(14, $parameters[0]);
+                    }
+                    if ($matcher->numberOfInvocations() === 2) {
+                        $this->assertSame(21, $parameters[0]);
+                    }
+                });
 
             $this->getPersistenceMock()
                 ->method('contentHandler')
@@ -132,21 +142,28 @@ final class RoleLimitationTypeTest extends Base
         self::assertEmpty($validationErrors);
     }
 
-    /**
-     * @dataProvider providerForTestValidateError
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestValidateError')]
     public function testValidateError(UserRoleLimitation $limitation, int $errorCount): void
     {
         $userHandlerMock = $this->createMock(UserHandlerInterface::class);
 
         if ($limitation->limitationValues !== null) {
-            $userHandlerMock
-                ->method('loadRole')
-                ->withConsecutive([4, Role::STATUS_DEFINED], [8, Role::STATUS_DEFINED])
-                ->willReturnOnConsecutiveCalls(
-                    self::throwException(new NotFoundException('Role', 4)),
-                    new Role()
-                );
+            $matcher = $this->exactly(2);
+            $userHandlerMock->expects($matcher)
+                ->method('loadRole')->willReturnCallback(function (...$parameters) use ($matcher) {
+                    if ($matcher->numberOfInvocations() === 1) {
+                        $this->assertSame(4, $parameters[0]);
+                        $this->assertSame(Role::STATUS_DEFINED, $parameters[1]);
+
+                        throw new NotFoundException('Role', 4);
+                    }
+                    if ($matcher->numberOfInvocations() === 2) {
+                        $this->assertSame(8, $parameters[0]);
+                        $this->assertSame(Role::STATUS_DEFINED, $parameters[1]);
+
+                        return new Role();
+                    }
+                });
 
             $this->getPersistenceMock()
                 ->method('userHandler')
@@ -157,7 +174,7 @@ final class RoleLimitationTypeTest extends Base
         self::assertCount($errorCount, $validationErrors);
     }
 
-    public function providerForTestValidateError()
+    public static function providerForTestValidateError()
     {
         return [
             [
@@ -169,9 +186,7 @@ final class RoleLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluate
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestEvaluate')]
     public function testEvaluate(
         UserRoleLimitation $limitation,
         ValueObject $object,
@@ -204,7 +219,7 @@ final class RoleLimitationTypeTest extends Base
         self::assertEquals($expected, $value);
     }
 
-    public function providerForTestEvaluate()
+    public static function providerForTestEvaluate()
     {
         return [
             'valid_role_limitation' => [

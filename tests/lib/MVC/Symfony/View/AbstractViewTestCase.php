@@ -13,9 +13,7 @@ use Ibexa\Core\MVC\Symfony\View\View;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\View\View
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\View\View::class)]
 abstract class AbstractViewTestCase extends TestCase
 {
     abstract protected function createViewUnderTest($template = null, array $parameters = [], $viewType = 'full'): View;
@@ -64,9 +62,7 @@ abstract class AbstractViewTestCase extends TestCase
         return $view;
     }
 
-    /**
-     * @depends testHasParameter
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testHasParameter')]
     public function testGetParameter(View $view): View
     {
         self::assertSame('bar', $view->getParameter('foo'));
@@ -74,9 +70,7 @@ abstract class AbstractViewTestCase extends TestCase
         return $view;
     }
 
-    /**
-     * @depends testGetParameter
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testGetParameter')]
     public function testGetParameterFail(View $view): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -85,10 +79,9 @@ abstract class AbstractViewTestCase extends TestCase
     }
 
     /**
-     * @dataProvider goodTemplateIdentifierProvider
-     *
      * @param string|callable $templateIdentifier
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('goodTemplateIdentifierProvider')]
     public function testSetTemplateIdentifier($templateIdentifier): void
     {
         $contentView = $this->createViewUnderTest();
@@ -97,7 +90,7 @@ abstract class AbstractViewTestCase extends TestCase
         self::assertSame($templateIdentifier, $contentView->getTemplateIdentifier());
     }
 
-    public function goodTemplateIdentifierProvider(): array
+    public static function goodTemplateIdentifierProvider(): array
     {
         return [
             ['foo:bar:baz.html.twig'],
@@ -110,10 +103,9 @@ abstract class AbstractViewTestCase extends TestCase
     }
 
     /**
-     * @dataProvider badTemplateIdentifierProvider
-     *
      * @param mixed $badTemplateIdentifier
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('badTemplateIdentifierProvider')]
     public function testSetTemplateIdentifierWrongType($badTemplateIdentifier): void
     {
         $this->expectException(InvalidArgumentType::class);
@@ -122,7 +114,7 @@ abstract class AbstractViewTestCase extends TestCase
         $contentView->setTemplateIdentifier($badTemplateIdentifier);
     }
 
-    public function badTemplateIdentifierProvider(): array
+    public static function badTemplateIdentifierProvider(): array
     {
         return [
             [123],

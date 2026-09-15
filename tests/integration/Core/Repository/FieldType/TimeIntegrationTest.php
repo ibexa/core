@@ -14,10 +14,9 @@ use Ibexa\Core\FieldType\Time\Value as TimeValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class TimeIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -160,7 +159,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -203,9 +202,9 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -213,9 +212,8 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @param mixed $failingValue
      * @param string $expectedException
-     *
-     * @dataProvider provideInvalidUpdateFieldData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideInvalidUpdateFieldData')]
     public function testUpdateContentFails($failingValue, $expectedException)
     {
         return [
@@ -269,7 +267,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         $timestamp = 123456;
         $dateTime = new DateTime("@{$timestamp}");
@@ -289,7 +287,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -299,38 +297,38 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new TimeValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new TimeValue(3661),
             ],
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected static function getValidSearchValueOne()
     {
-        return new TimeValue($this->getSearchTargetValueOne());
+        return new TimeValue(static::getSearchTargetValueOne());
     }
 
-    protected function getValidSearchValueTwo()
+    protected static function getValidSearchValueTwo()
     {
-        return new TimeValue($this->getSearchTargetValueTwo());
+        return new TimeValue(static::getSearchTargetValueTwo());
     }
 
-    protected function getSearchTargetValueOne(): int
+    protected static function getSearchTargetValueOne(): int
     {
         return 9600;
     }
 
-    protected function getSearchTargetValueTwo(): int
+    protected static function getSearchTargetValueTwo(): int
     {
         return 14400;
     }

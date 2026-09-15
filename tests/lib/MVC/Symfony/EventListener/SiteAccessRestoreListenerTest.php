@@ -20,13 +20,11 @@ use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessRestoreListener
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\EventListener\SiteAccessRestoreListener::class)]
 final class SiteAccessRestoreListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\HttpKernel\HttpKernelInterface */
-    private HttpKernelInterface $kernel;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\HttpKernel\HttpKernelInterface */
+    private \PHPUnit\Framework\MockObject\Stub $kernel;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\EventDispatcher\EventDispatcherInterface */
     private EventDispatcherInterface $eventDispatcher;
@@ -38,7 +36,7 @@ final class SiteAccessRestoreListenerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->kernel = $this->createMock(HttpKernelInterface::class);
+        $this->kernel = $this->createStub(HttpKernelInterface::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->requestStack = new RequestStack();
         $this->listener = new SiteAccessRestoreListener(
@@ -84,10 +82,9 @@ final class SiteAccessRestoreListenerTest extends TestCase
     }
 
     /**
-     * @dataProvider provideNoDispatchCases
-     *
      * @param \Symfony\Component\HttpFoundation\Request[] $requests
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideNoDispatchCases')]
     public function testNoDispatch(array $requests, int $requestType): void
     {
         $finishingRequest = null;

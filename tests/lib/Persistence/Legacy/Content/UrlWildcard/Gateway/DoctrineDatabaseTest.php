@@ -14,9 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**
@@ -118,9 +116,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the insertUrlWildcard() method.
-     *
-     * @depends testLoadUrlWildcardData
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadUrlWildcardData')]
     public function testInsertUrlWildcard()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
@@ -149,9 +146,8 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the deleteUrlWildcard() method.
-     *
-     * @depends testLoadUrlWildcardData
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadUrlWildcardData')]
     public function testDeleteUrlWildcard()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');

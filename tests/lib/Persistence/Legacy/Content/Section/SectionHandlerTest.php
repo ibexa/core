@@ -12,9 +12,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Handler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Section\Handler
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\Section\Handler::class)]
 class SectionHandlerTest extends TestCase
 {
     /**

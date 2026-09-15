@@ -11,10 +11,8 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Checkbox\Type as Checkbox;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
 
-/**
- * @group fieldType
- * @group ibexa_boolean
- */
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('ibexa_boolean')]
 class CheckboxTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): Checkbox
@@ -40,7 +38,7 @@ class CheckboxTest extends FieldTypeTestCase
         return new CheckboxValue(false);
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -55,7 +53,7 @@ class CheckboxTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'false value' => [
             false,
@@ -68,7 +66,7 @@ class CheckboxTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -82,7 +80,7 @@ class CheckboxTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -131,7 +129,7 @@ class CheckboxTest extends FieldTypeTestCase
         return 'ibexa_boolean';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
             [new CheckboxValue(true), '1', [], 'en_GB'],
@@ -139,9 +137,7 @@ class CheckboxTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideForValueIsNeverEmpty
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideForValueIsNeverEmpty')]
     public function testValueIsNeverEmpty(CheckboxValue $value): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
@@ -154,7 +150,7 @@ class CheckboxTest extends FieldTypeTestCase
      *     \Ibexa\Core\FieldType\Checkbox\Value,
      * }>
      */
-    public function provideForValueIsNeverEmpty(): iterable
+    public static function provideForValueIsNeverEmpty(): iterable
     {
         yield [new CheckboxValue(true)];
         yield [new CheckboxValue(false)];

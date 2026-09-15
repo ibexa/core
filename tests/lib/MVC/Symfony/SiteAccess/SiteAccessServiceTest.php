@@ -53,8 +53,8 @@ class SiteAccessServiceTest extends TestCase
     public function testGetCurrentSiteAccess(): void
     {
         $service = new SiteAccessService(
-            $this->createMock(SiteAccessProviderInterface::class),
-            $this->createMock(ConfigResolverInterface::class)
+            $this->createStub(SiteAccessProviderInterface::class),
+            $this->createStub(ConfigResolverInterface::class)
         );
 
         self::assertNull($service->getCurrent());
@@ -160,7 +160,7 @@ class SiteAccessServiceTest extends TestCase
         );
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
-            $this->createMock(ConfigResolverInterface::class)
+            $this->createStub(ConfigResolverInterface::class)
         );
 
         self::assertEquals(
@@ -177,7 +177,7 @@ class SiteAccessServiceTest extends TestCase
         );
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
-            $this->createMock(ConfigResolverInterface::class)
+            $this->createStub(ConfigResolverInterface::class)
         );
 
         $this->expectException(NotFoundException::class);

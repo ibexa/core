@@ -18,9 +18,8 @@ use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
  * Configuration::setSchemaAssetsFilter() overwrites rather than composes, this verifies in a
  * fully booted kernel - i.e. with the real compiler pass ordering - that neither the legacy
  * schema protection nor a project's own schema filter gets lost.
- *
- * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\InjectEntityManagerMappingsPass
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\DependencyInjection\Compiler\InjectEntityManagerMappingsPass::class)]
 final class ManagedTablesSchemaAssetFilterCompositionTest extends IbexaKernelTestCase
 {
     protected static function getKernelClass(): string

@@ -30,7 +30,7 @@ final class AncestorsQueryTypeTest extends AbstractQueryTypeTestCase
     private const EXAMPLE_LOCATION_ID = 54;
     private const EXAMPLE_LOCATION_PATH_STRING = '/1/2/54/';
 
-    public function dataProviderForGetQuery(): iterable
+    public static function dataProviderForGetQuery(): iterable
     {
         $location = new Location([
             'id' => self::EXAMPLE_LOCATION_ID,

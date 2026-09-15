@@ -12,9 +12,7 @@ use Ibexa\Core\MVC\Symfony\View\LoginFormView;
 use Ibexa\Core\MVC\Symfony\View\View;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-/**
- * @group mvc
- */
+#[\PHPUnit\Framework\Attributes\Group('mvc')]
 final class LoginFormViewTest extends AbstractViewTestCase
 {
     public function testSetLastUsername(): void
@@ -28,7 +26,7 @@ final class LoginFormViewTest extends AbstractViewTestCase
 
     public function testSetLastAuthenticationError(): void
     {
-        $exception = $this->createMock(AuthenticationException::class);
+        $exception = $this->createStub(AuthenticationException::class);
 
         /** @var \Ibexa\Core\MVC\Symfony\View\LoginFormView $view */
         $view = $this->createViewUnderTest();

@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\Term
 
 final class RawTermAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         yield [
             new RawTermAggregation(

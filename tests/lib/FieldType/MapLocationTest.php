@@ -35,7 +35,7 @@ class MapLocationTest extends FieldTypeTestCase
         return new MapLocation\Value();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -72,7 +72,7 @@ class MapLocationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -137,7 +137,7 @@ class MapLocationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -161,7 +161,7 @@ class MapLocationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -190,10 +190,10 @@ class MapLocationTest extends FieldTypeTestCase
         return 'ibexa_gmap_location';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new MapLocation\Value(), '', [], 'en_GB'],
             [new MapLocation\Value(['address' => 'Bag End, The Shire']), 'Bag End, The Shire', [], 'en_GB'],
         ];
     }

@@ -40,9 +40,7 @@ use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener::class)]
 final class SiteAccessMatchListenerTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\MVC\Symfony\SiteAccess\Router */
@@ -248,7 +246,7 @@ final class SiteAccessMatchListenerTest extends TestCase
     ): void {
         $originalRequest ??= $request;
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );
@@ -288,7 +286,7 @@ final class SiteAccessMatchListenerTest extends TestCase
     private function dispatchRequestEvent(Request $request, SiteAccess $siteAccess): void
     {
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );

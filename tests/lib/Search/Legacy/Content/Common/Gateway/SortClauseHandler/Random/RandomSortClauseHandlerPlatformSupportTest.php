@@ -23,18 +23,15 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\PgS
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\SqlLiteRandom;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\MySqlRandom
- * @covers \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\PgSqlRandom
- * @covers \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\SqlLiteRandom
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\MySqlRandom::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\PgSqlRandom::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\SqlLiteRandom::class)]
 final class RandomSortClauseHandlerPlatformSupportTest extends TestCase
 {
     /**
-     * @dataProvider providePlatformSupport
-     *
      * @phpstan-param class-string<\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom> $handlerClass
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providePlatformSupport')]
     public function testSupportsPlatform(
         string $handlerClass,
         AbstractPlatform $platform,
@@ -49,7 +46,7 @@ final class RandomSortClauseHandlerPlatformSupportTest extends TestCase
     /**
      * @return iterable<string, array{class-string<\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom>, AbstractPlatform, bool}>
      */
-    public function providePlatformSupport(): iterable
+    public static function providePlatformSupport(): iterable
     {
         yield 'MySQL' => [MySqlRandom::class, new MySQLPlatform(), true];
         yield 'MySQL 8.0' => [MySqlRandom::class, new MySQL80Platform(), true];

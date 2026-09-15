@@ -22,11 +22,11 @@ class StaticStrategyTest extends TestCase
 
         $staticStrategy = new StaticStrategy($resource);
 
-        $contentTypeMock = $this->createMock(ContentType::class);
+        $contentTypeMock = $this->createStub(ContentType::class);
         $fieldMocks = [
-            $this->createMock(Field::class),
-            $this->createMock(Field::class),
-            $this->createMock(Field::class),
+            $this->createStub(Field::class),
+            $this->createStub(Field::class),
+            $this->createStub(Field::class),
         ];
 
         $result = $staticStrategy->getThumbnail(

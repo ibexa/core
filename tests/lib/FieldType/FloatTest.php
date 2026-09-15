@@ -12,10 +12,8 @@ use Ibexa\Core\FieldType\Float\Type as FloatType;
 use Ibexa\Core\FieldType\Float\Value as FloatValue;
 use Ibexa\Core\FieldType\ValidationError;
 
-/**
- * @group fieldType
- * @group ibexa_float
- */
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('ibexa_float')]
 class FloatTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): FloatType
@@ -52,7 +50,7 @@ class FloatTest extends FieldTypeTestCase
         return new FloatValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -70,7 +68,7 @@ class FloatTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -103,7 +101,7 @@ class FloatTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -117,7 +115,7 @@ class FloatTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -131,7 +129,7 @@ class FloatTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidValidatorConfiguration(): array
+    public static function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -176,7 +174,7 @@ class FloatTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidValidatorConfiguration(): array
+    public static function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -213,15 +211,15 @@ class FloatTest extends FieldTypeTestCase
         return 'ibexa_float';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new FloatValue(), '', [], 'en_GB'],
             [new FloatValue(23.42), '23.42', [], 'en_GB'],
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'value within range' => [
             [
@@ -236,7 +234,7 @@ class FloatTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'value below minimum' => [
             [

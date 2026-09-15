@@ -27,11 +27,10 @@ final class SynchronousContentPublicationStrategyTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForTestPublishVersionDelegatesToContentService
-     *
      * @param list<string>|null $translations
      * @param list<string> $expectedTranslations
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestPublishVersionDelegatesToContentService')]
     public function testPublishVersionDelegatesToContentService(
         ?array $translations,
         array $expectedTranslations

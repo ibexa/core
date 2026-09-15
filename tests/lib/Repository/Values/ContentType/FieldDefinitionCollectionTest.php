@@ -15,9 +15,7 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection::class)]
 final class FieldDefinitionCollectionTest extends TestCase
 {
     public function testGet(): void

@@ -80,13 +80,12 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
     }
 
     /**
-     * @dataProvider provideDataForTestCriterion
-     *
      * @param array<string> $expectedContentItemTitles
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataForTestCriterion')]
     public function testCriterion(
         Criterion $criterion,
         ?string $languageCode,
@@ -127,17 +126,17 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
      *     int,
      * }>
      */
-    public function provideDataForTestCriterion(): iterable
+    public static function provideDataForTestCriterion(): iterable
     {
         yield 'Content items not found' => [
-            $this->createContentNameCriterion('foo'),
+            static::createContentNameCriterion('foo'),
             self::LANGUAGE_CODE_ENG,
             [],
             0,
         ];
 
         yield 'Return content items in default language (English) that contain "car" in name' => [
-            $this->createContentNameCriterion('*car*'),
+            static::createContentNameCriterion('*car*'),
             null,
             [
                 self::CAR_ENG,
@@ -147,7 +146,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         ];
 
         yield 'Return content item in default language (English) whose name starts with "car"' => [
-            $this->createContentNameCriterion('Car*'),
+            static::createContentNameCriterion('Car*'),
             null,
             [
                 self::CAR_ENG,
@@ -156,7 +155,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         ];
 
         yield 'Return content item in English that contain "Spo*t*" in name' => [
-            $this->createContentNameCriterion('Spo*t*'),
+            static::createContentNameCriterion('Spo*t*'),
             self::LANGUAGE_CODE_ENG,
             [
                 self::SPORTS_CAR_ENG,
@@ -165,7 +164,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         ];
 
         yield 'Return content item in English with name "sports car"' => [
-            $this->createContentNameCriterion('sports car'),
+            static::createContentNameCriterion('sports car'),
             self::LANGUAGE_CODE_ENG,
             [
                 self::SPORTS_CAR_ENG,
@@ -174,7 +173,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         ];
 
         yield 'Return content item in English that contain "**ruc*" in name' => [
-            $this->createContentNameCriterion('**ruc*'),
+            static::createContentNameCriterion('**ruc*'),
             self::LANGUAGE_CODE_ENG,
             [
                 self::TRUCK_ENG,
@@ -183,7 +182,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         ];
 
         yield 'Return content item in German that contain "aut*" in name' => [
-            $this->createContentNameCriterion('aut*'),
+            static::createContentNameCriterion('aut*'),
             self::LANGUAGE_CODE_GER,
             [
                 self::CAR_GER,
@@ -192,7 +191,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         ];
 
         yield 'Return content items in German that contain "*wagen" in name' => [
-            $this->createContentNameCriterion('*wagen'),
+            static::createContentNameCriterion('*wagen'),
             self::LANGUAGE_CODE_GER,
             [
                 self::SPORTS_CAR_GER,
@@ -202,7 +201,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         ];
 
         yield 'Return content item in German with name "lastwagen"' => [
-            $this->createContentNameCriterion('lastwagen'),
+            static::createContentNameCriterion('lastwagen'),
             self::LANGUAGE_CODE_GER,
             [
                 self::TRUCK_GER,
@@ -269,7 +268,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
             ->loadContentTypeByIdentifier($contentTypeIdentifier);
     }
 
-    private function createContentNameCriterion(string $value): Criterion
+    private static function createContentNameCriterion(string $value): Criterion
     {
         return new Criterion\ContentName($value);
     }

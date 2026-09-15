@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 
 class RouterSpecialPortsTest extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'fifth_sa'],
@@ -85,7 +85,7 @@ class RouterSpecialPortsTest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            $this->createStub(LoggerInterface::class),
             'default_sa',
             [
                 'Map\\URI' => [

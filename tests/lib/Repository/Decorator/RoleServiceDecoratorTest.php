@@ -45,7 +45,7 @@ class RoleServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(RoleCreateStruct::class)];
+        $parameters = [$this->createStub(RoleCreateStruct::class)];
 
         $serviceMock->expects(self::once())->method('createRole')->with(...$parameters);
 
@@ -57,7 +57,7 @@ class RoleServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Role::class)];
+        $parameters = [$this->createStub(Role::class)];
 
         $serviceMock->expects(self::once())->method('createRoleDraft')->with(...$parameters);
 
@@ -94,8 +94,8 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(RoleUpdateStruct::class),
+            $this->createStub(RoleDraft::class),
+            $this->createStub(RoleUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateRoleDraft')->with(...$parameters);
@@ -109,8 +109,8 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyCreateStruct::class),
+            $this->createStub(RoleDraft::class),
+            $this->createStub(PolicyCreateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('addPolicyByRoleDraft')->with(...$parameters);
@@ -124,8 +124,8 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyDraft::class),
+            $this->createStub(RoleDraft::class),
+            $this->createStub(PolicyDraft::class),
         ];
 
         $serviceMock->expects(self::once())->method('removePolicyByRoleDraft')->with(...$parameters);
@@ -139,9 +139,9 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyDraft::class),
-            $this->createMock(PolicyUpdateStruct::class),
+            $this->createStub(RoleDraft::class),
+            $this->createStub(PolicyDraft::class),
+            $this->createStub(PolicyUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updatePolicyByRoleDraft')->with(...$parameters);
@@ -154,7 +154,7 @@ class RoleServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(RoleDraft::class)];
+        $parameters = [$this->createStub(RoleDraft::class)];
 
         $serviceMock->expects(self::once())->method('deleteRoleDraft')->with(...$parameters);
 
@@ -166,7 +166,7 @@ class RoleServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(RoleDraft::class)];
+        $parameters = [$this->createStub(RoleDraft::class)];
 
         $serviceMock->expects(self::once())->method('publishRoleDraft')->with(...$parameters);
 
@@ -214,7 +214,7 @@ class RoleServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Role::class)];
+        $parameters = [$this->createStub(Role::class)];
 
         $serviceMock->expects(self::once())->method('deleteRole')->with(...$parameters);
 
@@ -227,9 +227,9 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Role::class),
-            $this->createMock(UserGroup::class),
-            $this->createMock(RoleLimitation::class),
+            $this->createStub(Role::class),
+            $this->createStub(UserGroup::class),
+            $this->createStub(RoleLimitation::class),
         ];
 
         $serviceMock->expects(self::once())->method('assignRoleToUserGroup')->with(...$parameters);
@@ -243,9 +243,9 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Role::class),
-            $this->createMock(User::class),
-            $this->createMock(RoleLimitation::class),
+            $this->createStub(Role::class),
+            $this->createStub(User::class),
+            $this->createStub(RoleLimitation::class),
         ];
 
         $serviceMock->expects(self::once())->method('assignRoleToUser')->with(...$parameters);
@@ -270,7 +270,7 @@ class RoleServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Role::class)];
+        $parameters = [$this->createStub(Role::class)];
 
         $serviceMock->expects(self::once())->method('getRoleAssignments')->with(...$parameters);
 
@@ -283,7 +283,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(User::class),
+            $this->createStub(User::class),
             true,
         ];
 
@@ -297,7 +297,7 @@ class RoleServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(UserGroup::class)];
+        $parameters = [$this->createStub(UserGroup::class)];
 
         $serviceMock->expects(self::once())->method('getRoleAssignmentsForUserGroup')->with(...$parameters);
 
@@ -309,7 +309,7 @@ class RoleServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(RoleAssignment::class)];
+        $parameters = [$this->createStub(RoleAssignment::class)];
 
         $serviceMock->expects(self::once())->method('removeRoleAssignment')->with(...$parameters);
 

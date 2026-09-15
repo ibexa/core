@@ -20,23 +20,19 @@ class ComplexSettingParserTest extends TestCase
         $this->parser = new ComplexSettingParser();
     }
 
-    /**
-     * @dataProvider provideSettings
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSettings')]
     public function testContainsDynamicSettings($setting, $expected)
     {
         self::assertEquals($expected[0], $this->parser->containsDynamicSettings($setting), 'string');
     }
 
-    /**
-     * @dataProvider provideSettings
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSettings')]
     public function testParseComplexSetting($setting, $expected)
     {
         self::assertEquals($expected[1], $this->parser->parseComplexSetting($setting), 'string');
     }
 
-    public function provideSettings()
+    public static function provideSettings()
     {
         // array( setting, array( isDynamicSetting, containsDynamicSettings ) )
         return [

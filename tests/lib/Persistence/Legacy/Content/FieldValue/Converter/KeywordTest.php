@@ -14,9 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter::class)]
 class KeywordTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter */
@@ -28,10 +26,8 @@ class KeywordTest extends TestCase
         $this->converter = new KeywordConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group keyword
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('keyword')]
     public function testToStorageValue()
     {
         $value = new FieldValue();
@@ -47,10 +43,8 @@ class KeywordTest extends TestCase
         self::assertEquals('', $storageFieldValue->sortKeyString);
     }
 
-    /**
-     * @group fieldType
-     * @group keyword
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('keyword')]
     public function testToFieldValue()
     {
         $storageFieldValue = new StorageFieldValue();
@@ -61,19 +55,15 @@ class KeywordTest extends TestCase
         self::assertEquals('', $fieldValue->sortKey);
     }
 
-    /**
-     * @group fieldType
-     * @group keyword
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('keyword')]
     public function testToStorageFieldDefinition()
     {
         $this->converter->toStorageFieldDefinition(new PersistenceFieldDefinition(), new StorageFieldDefinition());
     }
 
-    /**
-     * @group fieldType
-     * @group keyword
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('keyword')]
     public function testToFieldDefinition()
     {
         $this->converter->toFieldDefinition(new StorageFieldDefinition(), new PersistenceFieldDefinition());

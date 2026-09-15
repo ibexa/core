@@ -14,9 +14,7 @@ use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\UserPreference\Gateway::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     public const EXISTING_USER_PREFERENCE_ID = 1;

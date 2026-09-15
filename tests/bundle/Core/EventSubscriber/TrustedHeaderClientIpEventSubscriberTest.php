@@ -37,7 +37,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = $this->originalRemoteAddr;
     }
 
-    public function getTrustedHeaderEventSubscriberTestData(): array
+    public static function getTrustedHeaderEventSubscriberTestData(): array
     {
         return [
             'default behaviour' => [
@@ -90,9 +90,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
         self::assertEquals(self::PROXY_IP, $request->getClientIp());
     }
 
-    /**
-     * @dataProvider getTrustedHeaderEventSubscriberTestData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getTrustedHeaderEventSubscriberTestData')]
     public function testTrustedHeaderEventSubscriberWithTrustedProxy(
         string $expectedIp,
         string $remoteAddrIp,

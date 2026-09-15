@@ -13,14 +13,17 @@ use Ibexa\Core\Repository\Values\User\Policy;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\TestCase;
 
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\User\Policy::class, '__construct')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\User\Policy::class, '__get')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\User\Policy::class, '__set')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\User\Policy::class, '__isset')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\User\Policy::class, '__unset')]
 class PolicyTest extends TestCase
 {
     use ValueObjectTestTrait;
 
     /**
      * Test a new class and default values on properties.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__construct
      */
     public function testNewClass()
     {
@@ -38,8 +41,6 @@ class PolicyTest extends TestCase
 
     /**
      * Test retrieving missing property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__get
      */
     public function testMissingProperty()
     {
@@ -53,8 +54,6 @@ class PolicyTest extends TestCase
 
     /**
      * Test setting read only property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__set
      */
     public function testReadOnlyProperty()
     {
@@ -67,8 +66,6 @@ class PolicyTest extends TestCase
 
     /**
      * Test if property exists.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__isset
      */
     public function testIsPropertySet()
     {
@@ -83,8 +80,6 @@ class PolicyTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__unset
      */
     public function testUnsetProperty()
     {

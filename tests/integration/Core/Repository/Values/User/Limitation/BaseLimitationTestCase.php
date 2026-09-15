@@ -17,10 +17,9 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Abstract base class for limitation tests.
- *
- * @group integration
- * @group limitation
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 abstract class BaseLimitationTestCase extends BaseTestCase
 {
     /**

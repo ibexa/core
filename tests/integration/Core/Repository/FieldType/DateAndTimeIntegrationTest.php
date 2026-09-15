@@ -15,10 +15,9 @@ use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -166,7 +165,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -208,9 +207,9 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -218,9 +217,8 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @param mixed $failingValue
      * @param string $expectedException
-     *
-     * @dataProvider provideInvalidUpdateFieldData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideInvalidUpdateFieldData')]
     public function testUpdateContentFails($failingValue, $expectedException)
     {
         return [
@@ -274,7 +272,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -294,7 +292,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -307,37 +305,37 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new DateAndTimeValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                DateAndTimeValue::fromTimestamp(123456),
             ],
         ];
     }
 
-    protected function getValidSearchValueOne(): string
+    protected static function getValidSearchValueOne(): string
     {
         return '2012-04-15T15:43:56Z';
     }
 
-    protected function getValidSearchValueTwo(): string
+    protected static function getValidSearchValueTwo(): string
     {
         return '2015-04-15T15:43:56Z';
     }
 
-    protected function getSearchTargetValueOne()
+    protected static function getSearchTargetValueOne()
     {
         // Handling Legacy Search Engine, which stores DateAndTime value as integer timestamp
-        if ($this->getSetupFactory() instanceof Legacy) {
-            $dateTime = new DateTime($this->getValidSearchValueOne());
+        if (static::resolveSetupFactory() instanceof Legacy) {
+            $dateTime = new DateTime(static::getValidSearchValueOne());
 
             return $dateTime->getTimestamp();
         }
@@ -345,11 +343,11 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         return parent::getSearchTargetValueOne();
     }
 
-    protected function getSearchTargetValueTwo()
+    protected static function getSearchTargetValueTwo()
     {
         // Handling Legacy Search Engine, which stores DateAndTime value as integer timestamp
-        if ($this->getSetupFactory() instanceof Legacy) {
-            $dateTime = new DateTime($this->getValidSearchValueTwo());
+        if (static::resolveSetupFactory() instanceof Legacy) {
+            $dateTime = new DateTime(static::getValidSearchValueTwo());
 
             return $dateTime->getTimestamp();
         }

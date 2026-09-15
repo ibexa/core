@@ -32,7 +32,7 @@ class BookmarkServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Location::class)];
+        $parameters = [$this->createStub(Location::class)];
 
         $serviceMock->expects(self::once())->method('createBookmark')->with(...$parameters);
 
@@ -44,7 +44,7 @@ class BookmarkServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Location::class)];
+        $parameters = [$this->createStub(Location::class)];
 
         $serviceMock->expects(self::once())->method('deleteBookmark')->with(...$parameters);
 
@@ -71,7 +71,7 @@ class BookmarkServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Location::class)];
+        $parameters = [$this->createStub(Location::class)];
 
         $serviceMock->expects(self::once())->method('isBookmarked')->with(...$parameters);
 

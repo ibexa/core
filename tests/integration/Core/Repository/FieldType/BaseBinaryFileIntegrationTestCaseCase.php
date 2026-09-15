@@ -35,30 +35,30 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
     /**
      * @phpstan-return TFixtureDataHash
      */
-    abstract protected function getFixtureData(): array;
+    abstract protected static function getFixtureData(): array;
 
-    abstract protected function buildBinaryFileValue(string $fileId): BinaryBaseValue;
+    abstract protected static function buildBinaryFileValue(string $fileId): BinaryBaseValue;
 
     /**
      * @phpstan-return list<array{TBaseBinaryFileFieldValueHash, \Ibexa\Core\FieldType\BinaryBase\Value}>
      */
-    abstract public function provideFromHashData(): array;
+    abstract public static function provideFromHashData(): array;
 
     /**
      * @phpstan-return list<array{\Ibexa\Core\FieldType\BinaryBase\Value, TBaseBinaryFileFieldValueHash}>
      */
-    abstract public function provideToHashData(): array;
+    abstract public static function provideToHashData(): array;
 
     /**
      * @phpstan-param TBaseBinaryFileFieldValueHash $fileFieldValueData
      */
-    abstract protected function buildBinaryFileValueFromFixtureData(array $fileFieldValueData): BinaryBaseValue;
+    abstract protected static function buildBinaryFileValueFromFixtureData(array $fileFieldValueData): BinaryBaseValue;
 
     public function assertFieldDataLoadedCorrect(Field $field): void
     {
         $this->asserFieldValueIsCorrectInstance($field);
 
-        $fixtureData = $this->getFixtureData();
+        $fixtureData = static::getFixtureData();
         $this->assertCreatedUpdatedBinaryFieldDataLoadedCorrectly($fixtureData['create'], $field);
     }
 
@@ -66,7 +66,7 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
     {
         $this->asserFieldValueIsCorrectInstance($field);
 
-        $fixtureData = $this->getFixtureData();
+        $fixtureData = static::getFixtureData();
         $this->assertCreatedUpdatedBinaryFieldDataLoadedCorrectly($fixtureData['update'], $field);
     }
 
@@ -137,7 +137,7 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
     /**
      * @return list<array{mixed, class-string}>
      */
-    public function provideInvalidCreationFieldData(): array
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -147,7 +147,7 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
                 InvalidArgumentValue::class,
             ],
             [
-                $this->buildBinaryFileValue(self::FOO_BAR_SAMPLE_FILE_PATH),
+                static::buildBinaryFileValue(self::FOO_BAR_SAMPLE_FILE_PATH),
                 InvalidArgumentValue::class,
             ],
         ];
@@ -155,26 +155,26 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
 
     public function getValidCreationFieldData(): BinaryBaseValue
     {
-        $fixtureData = $this->getFixtureData();
+        $fixtureData = static::getFixtureData();
 
-        return $this->buildBinaryFileValueFromFixtureData($fixtureData['create']);
+        return static::buildBinaryFileValueFromFixtureData($fixtureData['create']);
     }
 
     public function getValidUpdateFieldData(): BinaryBaseValue
     {
-        $fixtureData = $this->getFixtureData();
+        $fixtureData = static::getFixtureData();
 
-        return $this->buildBinaryFileValueFromFixtureData($fixtureData['update']);
+        return static::buildBinaryFileValueFromFixtureData($fixtureData['update']);
     }
 
     /**
      * @return list<array<BinaryBaseValue>>
      */
-    public function providerForTestIsNotEmptyValue(): array
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                static::buildBinaryFileValueFromFixtureData(static::getFixtureData()['create']),
             ],
         ];
     }
@@ -182,9 +182,9 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
     /**
      * @return list<array{mixed, class-string}>
      */
-    public function provideInvalidUpdateFieldData(): array
+    public static function provideInvalidUpdateFieldData(): array
     {
-        return $this->provideInvalidCreationFieldData();
+        return static::provideInvalidCreationFieldData();
     }
 
     protected function getStoragePrefix(): string
@@ -197,17 +197,17 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
         return $configValue;
     }
 
-    protected function getSearchTargetValueOne(): string
+    protected static function getSearchTargetValueOne(): string
     {
-        $value = $this->getValidSearchValueOne();
+        $value = static::getValidSearchValueOne();
 
         // ensure case-insensitivity
         return strtoupper($value->fileName);
     }
 
-    protected function getSearchTargetValueTwo(): string
+    protected static function getSearchTargetValueTwo(): string
     {
-        $value = $this->getValidSearchValueTwo();
+        $value = static::getValidSearchValueTwo();
 
         // ensure case-insensitivity
         return strtoupper($value->fileName);
@@ -216,13 +216,13 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
     /**
      * @return list<array<mixed>>
      */
-    protected function getAdditionallyIndexedFieldData(): array
+    protected static function getAdditionallyIndexedFieldData(): array
     {
         return [
             [
                 'file_size',
-                $this->getValidSearchValueOne()->fileSize,
-                $this->getValidSearchValueTwo()->fileSize,
+                static::getValidSearchValueOne()->fileSize,
+                static::getValidSearchValueTwo()->fileSize,
             ],
             [
                 'mime_type',

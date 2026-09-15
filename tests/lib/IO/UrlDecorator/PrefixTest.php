@@ -15,9 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class PrefixTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideData')]
     public function testDecorate($url, $prefix, $decoratedUrl)
     {
         $decorator = $this->buildDecorator($prefix);
@@ -28,9 +26,7 @@ class PrefixTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider provideData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideData')]
     public function testUndecorate($url, $prefix, $decoratedUrl)
     {
         $decorator = $this->buildDecorator($prefix);
@@ -51,7 +47,7 @@ class PrefixTest extends TestCase
         return new Prefix($ioConfigResolverMock);
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             [

@@ -15,9 +15,7 @@ use Ibexa\Tests\Core\Search\TestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer::class)]
 final class URITextNormalizerTest extends TestCase
 {
     /**
@@ -54,7 +52,7 @@ final class URITextNormalizerTest extends TestCase
     {
         $normalizer = new URITextNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(URIText::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createStub(URIText::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createStub(Matcher::class)));
     }
 }

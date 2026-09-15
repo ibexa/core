@@ -26,7 +26,7 @@ class SearchServiceTest extends AbstractServiceTestCase
         return SearchService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public static function providerForPassTroughMethods()
     {
         // string $method, array $arguments, bool $return = true
         return [
@@ -35,7 +35,7 @@ class SearchServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public static function providerForLanguagesLookupMethods()
     {
         $query = new Query();
         $locationQuery = new LocationQuery();

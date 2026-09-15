@@ -15,9 +15,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\Language\Handler::class)]
 class LanguageHandlerTest extends TestCase
 {
     /**

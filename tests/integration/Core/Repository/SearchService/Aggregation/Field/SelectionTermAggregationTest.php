@@ -18,7 +18,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\FixtureGen
 
 final class SelectionTermAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         yield [
             new SelectionTermAggregation(

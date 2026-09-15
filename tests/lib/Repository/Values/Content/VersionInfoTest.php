@@ -11,9 +11,7 @@ namespace Ibexa\Tests\Core\Repository\Values\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\Content\VersionInfo
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\Values\Content\VersionInfo::class)]
 final class VersionInfoTest extends TestCase
 {
     public function testIsDraft(): void

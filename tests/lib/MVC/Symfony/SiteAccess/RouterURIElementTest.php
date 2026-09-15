@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 
 class RouterURIElementTest extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'default_sa'],
@@ -76,9 +76,8 @@ class RouterURIElementTest extends RouterBaseTestCase
     /**
      * @param string $uri
      * @param string $expectedFixedUpURI
-     *
-     * @dataProvider analyseProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('analyseProvider')]
     public function testAnalyseURI($uri, $expectedFixedUpURI)
     {
         $matcher = new URIElementMatcher([1]);
@@ -91,9 +90,8 @@ class RouterURIElementTest extends RouterBaseTestCase
     /**
      * @param string $fullUri
      * @param string $linkUri
-     *
-     * @dataProvider analyseProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('analyseProvider')]
     public function testAnalyseLink($fullUri, $linkUri)
     {
         $matcher = new URIElementMatcher([1]);
@@ -103,7 +101,7 @@ class RouterURIElementTest extends RouterBaseTestCase
         self::assertSame($fullUri, $matcher->analyseLink($linkUri));
     }
 
-    public function analyseProvider()
+    public static function analyseProvider()
     {
         return [
             ['/my_siteaccess/foo/bar', '/foo/bar'],
@@ -111,9 +109,7 @@ class RouterURIElementTest extends RouterBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider reverseMatchProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('reverseMatchProvider')]
     public function testReverseMatch($siteAccessName, $originalPathinfo)
     {
         $matcher = new URIElementMatcher([1]);
@@ -125,7 +121,7 @@ class RouterURIElementTest extends RouterBaseTestCase
         self::assertSame('/foo/bar/baz', $result->analyseURI("/$siteAccessName/foo/bar/baz"));
     }
 
-    public function reverseMatchProvider()
+    public static function reverseMatchProvider()
     {
         return [
             ['something', '/foo/bar'],
@@ -153,7 +149,7 @@ class RouterURIElementTest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            $this->createStub(LoggerInterface::class),
             'default_sa',
             [
                 'URIElement' => [

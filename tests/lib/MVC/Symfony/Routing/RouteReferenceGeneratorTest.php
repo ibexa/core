@@ -78,9 +78,7 @@ class RouteReferenceGeneratorTest extends TestCase
         self::assertSame($expectedParams, $reference->getParams());
     }
 
-    /**
-     * @dataProvider generateGenerator
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('generateGenerator')]
     public function testGenerate($resource, array $params)
     {
         $currentRouteName = 'my_route';
@@ -125,7 +123,7 @@ class RouteReferenceGeneratorTest extends TestCase
         self::assertInstanceOf(RouteReference::class, $reference);
     }
 
-    public function generateGenerator()
+    public static function generateGenerator()
     {
         return [
             ['my_route', ['hello' => 'world', 'isIt' => true]],

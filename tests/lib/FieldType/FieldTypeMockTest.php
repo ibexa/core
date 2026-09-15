@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldType;
 use PHPUnit\Framework\TestCase;
 
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\FieldType\FieldType::class, 'applyDefaultSettings')]
 class FieldTypeMockTest extends TestCase
 {
     public function testApplyDefaultSettingsThrowsInvalidArgumentException(): void
@@ -30,11 +31,7 @@ class FieldTypeMockTest extends TestCase
         $stub->applyDefaultSettings($fieldSettings);
     }
 
-    /**
-     * @dataProvider providerForTestApplyDefaultSettings
-     *
-     * @covers \Ibexa\Core\FieldType\FieldType::applyDefaultSettings
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestApplyDefaultSettings')]
     public function testApplyDefaultSettings(mixed $initialSettings, mixed $expectedSettings): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
@@ -209,10 +206,9 @@ class FieldTypeMockTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForTestApplyDefaultValidatorConfiguration
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestApplyDefaultValidatorConfiguration')]
     public function testApplyDefaultValidatorConfiguration(mixed $initialConfiguration, mixed $expectedConfiguration): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
@@ -255,7 +251,7 @@ class FieldTypeMockTest extends TestCase
      *     array<string, mixed>
      * }>
      */
-    public function providerForTestApplyDefaultValidatorConfiguration(): iterable
+    public static function providerForTestApplyDefaultValidatorConfiguration(): iterable
     {
         $defaultConfiguration = [
             'TestValidator' => [

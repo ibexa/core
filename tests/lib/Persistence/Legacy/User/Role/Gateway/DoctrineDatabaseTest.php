@@ -14,9 +14,8 @@ use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 use Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase::class, 'loadRoleAssignmentsByRoleIdWithOffsetAndLimit')]
 class DoctrineDatabaseTest extends TestCase
 {
     /**
@@ -165,9 +164,6 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase::loadRoleAssignmentsByRoleIdWithOffsetAndLimit
-     */
     public function testLoadRoleAssignmentsByRoleIdWithOffsetAndLimit(): void
     {
         $gateway = $this->getDatabaseGateway();

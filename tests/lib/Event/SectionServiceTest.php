@@ -35,11 +35,11 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(Section::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(Section::class),
         ];
 
-        $innerServiceMock = $this->createMock(SectionServiceInterface::class);
+        $innerServiceMock = $this->createStub(SectionServiceInterface::class);
 
         $service = new SectionService($innerServiceMock, $traceableEventDispatcher);
         $service->assignSection(...$parameters);
@@ -61,11 +61,11 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(Section::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(Section::class),
         ];
 
-        $innerServiceMock = $this->createMock(SectionServiceInterface::class);
+        $innerServiceMock = $this->createStub(SectionServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeAssignSectionEvent::class, static function (BeforeAssignSectionEvent $event) {
             $event->stopPropagation();
@@ -94,11 +94,11 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Section::class),
-            $this->createMock(SectionUpdateStruct::class),
+            $this->createStub(Section::class),
+            $this->createStub(SectionUpdateStruct::class),
         ];
 
-        $updatedSection = $this->createMock(Section::class);
+        $updatedSection = $this->createStub(Section::class);
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('updateSection')->willReturn($updatedSection);
 
@@ -123,12 +123,12 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Section::class),
-            $this->createMock(SectionUpdateStruct::class),
+            $this->createStub(Section::class),
+            $this->createStub(SectionUpdateStruct::class),
         ];
 
-        $updatedSection = $this->createMock(Section::class);
-        $eventUpdatedSection = $this->createMock(Section::class);
+        $updatedSection = $this->createStub(Section::class);
+        $eventUpdatedSection = $this->createStub(Section::class);
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('updateSection')->willReturn($updatedSection);
 
@@ -158,12 +158,12 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Section::class),
-            $this->createMock(SectionUpdateStruct::class),
+            $this->createStub(Section::class),
+            $this->createStub(SectionUpdateStruct::class),
         ];
 
-        $updatedSection = $this->createMock(Section::class);
-        $eventUpdatedSection = $this->createMock(Section::class);
+        $updatedSection = $this->createStub(Section::class);
+        $eventUpdatedSection = $this->createStub(Section::class);
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('updateSection')->willReturn($updatedSection);
 
@@ -196,11 +196,11 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
-            $this->createMock(Section::class),
+            $this->createStub(Location::class),
+            $this->createStub(Section::class),
         ];
 
-        $innerServiceMock = $this->createMock(SectionServiceInterface::class);
+        $innerServiceMock = $this->createStub(SectionServiceInterface::class);
 
         $service = new SectionService($innerServiceMock, $traceableEventDispatcher);
         $service->assignSectionToSubtree(...$parameters);
@@ -222,11 +222,11 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
-            $this->createMock(Section::class),
+            $this->createStub(Location::class),
+            $this->createStub(Section::class),
         ];
 
-        $innerServiceMock = $this->createMock(SectionServiceInterface::class);
+        $innerServiceMock = $this->createStub(SectionServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeAssignSectionToSubtreeEvent::class, static function (BeforeAssignSectionToSubtreeEvent $event) {
             $event->stopPropagation();
@@ -255,10 +255,10 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Section::class),
+            $this->createStub(Section::class),
         ];
 
-        $innerServiceMock = $this->createMock(SectionServiceInterface::class);
+        $innerServiceMock = $this->createStub(SectionServiceInterface::class);
 
         $service = new SectionService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteSection(...$parameters);
@@ -280,10 +280,10 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Section::class),
+            $this->createStub(Section::class),
         ];
 
-        $innerServiceMock = $this->createMock(SectionServiceInterface::class);
+        $innerServiceMock = $this->createStub(SectionServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteSectionEvent::class, static function (BeforeDeleteSectionEvent $event) {
             $event->stopPropagation();
@@ -312,10 +312,10 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(SectionCreateStruct::class),
+            $this->createStub(SectionCreateStruct::class),
         ];
 
-        $section = $this->createMock(Section::class);
+        $section = $this->createStub(Section::class);
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('createSection')->willReturn($section);
 
@@ -340,11 +340,11 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(SectionCreateStruct::class),
+            $this->createStub(SectionCreateStruct::class),
         ];
 
-        $section = $this->createMock(Section::class);
-        $eventSection = $this->createMock(Section::class);
+        $section = $this->createStub(Section::class);
+        $eventSection = $this->createStub(Section::class);
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('createSection')->willReturn($section);
 
@@ -374,11 +374,11 @@ class SectionServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(SectionCreateStruct::class),
+            $this->createStub(SectionCreateStruct::class),
         ];
 
-        $section = $this->createMock(Section::class);
-        $eventSection = $this->createMock(Section::class);
+        $section = $this->createStub(Section::class);
+        $eventSection = $this->createStub(Section::class);
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('createSection')->willReturn($section);
 

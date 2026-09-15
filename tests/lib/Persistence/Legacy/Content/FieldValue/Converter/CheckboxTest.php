@@ -14,9 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter::class)]
 class CheckboxTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter */
@@ -28,10 +26,8 @@ class CheckboxTest extends TestCase
         $this->converter = new CheckboxConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_boolean
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('ibexa_boolean')]
     public function testToStorageValue()
     {
         $value = new FieldValue();
@@ -45,10 +41,8 @@ class CheckboxTest extends TestCase
         self::assertSame('', $storageFieldValue->sortKeyString);
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_boolean
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('ibexa_boolean')]
     public function testToFieldValue()
     {
         $storageFieldValue = new StorageFieldValue();
@@ -62,10 +56,8 @@ class CheckboxTest extends TestCase
         self::assertSame($storageFieldValue->sortKeyInt, $fieldValue->sortKey);
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_boolean
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('ibexa_boolean')]
     public function testToStorageFieldDefinition()
     {
         $defaultBool = false;
@@ -85,10 +77,8 @@ class CheckboxTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_boolean
-     */
+    #[\PHPUnit\Framework\Attributes\Group('fieldType')]
+    #[\PHPUnit\Framework\Attributes\Group('ibexa_boolean')]
     public function testToFieldDefinition()
     {
         $defaultBool = true;

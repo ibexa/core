@@ -14,9 +14,8 @@ use Ibexa\Contracts\Test\Core\IbexaKernelTestCase;
 /**
  * Schema and fixtures are imported once, before the suite runs, by tests/integration/bootstrap.php —
  * this test only needs to boot the kernel.
- *
- * @coversNothing
  */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
 final class BasicKernelTest extends IbexaKernelTestCase
 {
     public function testBasicKernelCompiles(): void

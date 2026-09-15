@@ -14,9 +14,7 @@ use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase::class)]
 class CriteriaConverterTest extends TestCase
 {
     /**
@@ -32,9 +30,9 @@ class CriteriaConverterTest extends TestCase
             $barCriterionHandler,
         ]);
 
-        $barCriterion = $this->createMock(Criterion::class);
+        $barCriterion = $this->createStub(Criterion::class);
 
-        $selectQuery = $this->createMock(QueryBuilder::class);
+        $selectQuery = $this->createStub(QueryBuilder::class);
 
         $fooCriterionHandler
             ->expects(self::once())
@@ -77,8 +75,8 @@ class CriteriaConverterTest extends TestCase
 
         $criteriaConverter = new CriteriaConverter();
         $criteriaConverter->convertCriteria(
-            $this->createMock(QueryBuilder::class),
-            $this->createMock(Criterion::class)
+            $this->createStub(QueryBuilder::class),
+            $this->createStub(Criterion::class)
         );
     }
 }

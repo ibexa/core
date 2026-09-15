@@ -33,15 +33,15 @@ class LogicalOrTest extends CriterionHandlerTestCase
      */
     public function testHandle(): void
     {
-        $foo = $this->createMock(Criterion::class);
-        $bar = $this->createMock(Criterion::class);
+        $foo = $this->createStub(Criterion::class);
+        $bar = $this->createStub(Criterion::class);
 
         $fooExpr = 'FOO';
         $barExpr = 'BAR';
 
         $expected = '(FOO) OR (BAR)';
 
-        $queryBuilder = $this->createMock(QueryBuilder::class);
+        $queryBuilder = $this->createStub(QueryBuilder::class);
         $converter = $this->mockConverterForLogicalOperator(
             CompositeExpression::TYPE_OR,
             $queryBuilder,

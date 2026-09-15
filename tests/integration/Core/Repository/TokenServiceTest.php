@@ -13,9 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Core\Base\Exceptions\TokenLengthException;
 
-/**
- * @covers \Ibexa\Core\Repository\TokenService
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\TokenService::class)]
 final class TokenServiceTest extends IbexaKernelTestCase
 {
     private const TOKEN_TYPE = 'foo';
@@ -35,10 +33,9 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @dataProvider provideTokenData
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTokenData')]
     public function testGenerateToken(
         string $type,
         int $tll,
@@ -72,10 +69,9 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @dataProvider provideDataForTestCheckToken
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataForTestCheckToken')]
     public function testCheckExistingToken(
         string $type,
         int $tll,
@@ -104,10 +100,9 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @dataProvider provideTokenData
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTokenData')]
     public function testGetToken(
         string $type,
         int $tll,
@@ -225,7 +220,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
      *     ?int
      * }>
      */
-    public function provideTokenData(): iterable
+    public static function provideTokenData(): iterable
     {
         yield 'Token with default length 64 and custom identifier' => [
             self::TOKEN_TYPE,
@@ -255,7 +250,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
      *     ?string
      * }>
      */
-    public function provideDataForTestCheckToken(): iterable
+    public static function provideDataForTestCheckToken(): iterable
     {
         yield 'Token with identifier' => [
             self::TOKEN_TYPE,

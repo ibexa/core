@@ -26,21 +26,20 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @dataProvider configurationProvider
-     *
      * @param array $commandsToAdd
      * @param array $existingOldParameters
      * @param array $expectedCommands
      *
      * @throws \ReflectionException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('configurationProvider')]
     public function testMergeConfigurations(
         array $commandsToAdd,
         array $existingOldParameters,
         array $expectedCommands
     ) {
         $definition = new Definition(SlugConverter::class);
-        $definition->setArgument(0, $this->createMock(TransformationProcessor::class));
+        $definition->setArgument(0, $this->createStub(TransformationProcessor::class));
         $definition->setArgument(1, $existingOldParameters);
         $definition->setPublic(true);
 
@@ -70,7 +69,7 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         self::assertEquals('url_cleanup', $configuration['transformationGroups']['urlalias']['cleanupMethod']);
     }
 
-    public function configurationProvider()
+    public static function configurationProvider()
     {
         $injectedBySemanticCommands = [
             'new_command_to_add',

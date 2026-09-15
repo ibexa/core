@@ -11,19 +11,15 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 
 /**
  * Test case for operations in the URLWildcardService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService
- *
- * @group integration
- * @group authorization
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\URLWildcardService::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLWildcardService::class, 'create')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLWildcardService::class, 'remove()')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('authorization')]
 class URLWildcardServiceAuthorizationTest extends BaseTestCase
 {
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLWildcardServiceTest::testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\URLWildcardServiceTest::class, 'testCreate')]
     public function testCreateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
@@ -47,11 +43,8 @@ class URLWildcardServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the remove() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::remove()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLWildcardServiceTest::testRemove
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\URLWildcardServiceTest::class, 'testRemove')]
     public function testRemoveThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);

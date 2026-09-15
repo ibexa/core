@@ -34,7 +34,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         $parameters = [
         ];
 
-        $resultList = $this->createMock(TrashItemDeleteResultList::class);
+        $resultList = $this->createStub(TrashItemDeleteResultList::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('emptyTrash')->willReturn($resultList);
 
@@ -61,8 +61,8 @@ class TrashServiceTest extends AbstractServiceTestCase
         $parameters = [
         ];
 
-        $resultList = $this->createMock(TrashItemDeleteResultList::class);
-        $eventResultList = $this->createMock(TrashItemDeleteResultList::class);
+        $resultList = $this->createStub(TrashItemDeleteResultList::class);
+        $eventResultList = $this->createStub(TrashItemDeleteResultList::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('emptyTrash')->willReturn($resultList);
 
@@ -94,8 +94,8 @@ class TrashServiceTest extends AbstractServiceTestCase
         $parameters = [
         ];
 
-        $resultList = $this->createMock(TrashItemDeleteResultList::class);
-        $eventResultList = $this->createMock(TrashItemDeleteResultList::class);
+        $resultList = $this->createStub(TrashItemDeleteResultList::class);
+        $eventResultList = $this->createStub(TrashItemDeleteResultList::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('emptyTrash')->willReturn($resultList);
 
@@ -128,10 +128,10 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            $this->createStub(Location::class),
         ];
 
-        $trashItem = $this->createMock(TrashItem::class);
+        $trashItem = $this->createStub(TrashItem::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('trash')->willReturn($trashItem);
 
@@ -156,11 +156,11 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            $this->createStub(Location::class),
         ];
 
-        $trashItem = $this->createMock(TrashItem::class);
-        $eventTrashItem = $this->createMock(TrashItem::class);
+        $trashItem = $this->createStub(TrashItem::class);
+        $eventTrashItem = $this->createStub(TrashItem::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('trash')->willReturn($trashItem);
 
@@ -190,11 +190,11 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            $this->createStub(Location::class),
         ];
 
-        $trashItem = $this->createMock(TrashItem::class);
-        $eventTrashItem = $this->createMock(TrashItem::class);
+        $trashItem = $this->createStub(TrashItem::class);
+        $eventTrashItem = $this->createStub(TrashItem::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('trash')->willReturn($trashItem);
 
@@ -227,7 +227,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            $this->createStub(Location::class),
         ];
 
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
@@ -262,11 +262,11 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(TrashItem::class),
-            $this->createMock(Location::class),
+            $this->createStub(TrashItem::class),
+            $this->createStub(Location::class),
         ];
 
-        $location = $this->createMock(Location::class);
+        $location = $this->createStub(Location::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('recover')->willReturn($location);
 
@@ -291,12 +291,12 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(TrashItem::class),
-            $this->createMock(Location::class),
+            $this->createStub(TrashItem::class),
+            $this->createStub(Location::class),
         ];
 
-        $location = $this->createMock(Location::class);
-        $eventLocation = $this->createMock(Location::class);
+        $location = $this->createStub(Location::class);
+        $eventLocation = $this->createStub(Location::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('recover')->willReturn($location);
 
@@ -326,12 +326,12 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(TrashItem::class),
-            $this->createMock(Location::class),
+            $this->createStub(TrashItem::class),
+            $this->createStub(Location::class),
         ];
 
-        $location = $this->createMock(Location::class);
-        $eventLocation = $this->createMock(Location::class);
+        $location = $this->createStub(Location::class);
+        $eventLocation = $this->createStub(Location::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('recover')->willReturn($location);
 
@@ -364,10 +364,10 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(TrashItem::class),
+            $this->createStub(TrashItem::class),
         ];
 
-        $result = $this->createMock(TrashItemDeleteResult::class);
+        $result = $this->createStub(TrashItemDeleteResult::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('deleteTrashItem')->willReturn($result);
 
@@ -392,11 +392,11 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(TrashItem::class),
+            $this->createStub(TrashItem::class),
         ];
 
-        $result = $this->createMock(TrashItemDeleteResult::class);
-        $eventResult = $this->createMock(TrashItemDeleteResult::class);
+        $result = $this->createStub(TrashItemDeleteResult::class);
+        $eventResult = $this->createStub(TrashItemDeleteResult::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('deleteTrashItem')->willReturn($result);
 
@@ -426,11 +426,11 @@ class TrashServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(TrashItem::class),
+            $this->createStub(TrashItem::class),
         ];
 
-        $result = $this->createMock(TrashItemDeleteResult::class);
-        $eventResult = $this->createMock(TrashItemDeleteResult::class);
+        $result = $this->createStub(TrashItemDeleteResult::class);
+        $eventResult = $this->createStub(TrashItemDeleteResult::class);
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
         $innerServiceMock->method('deleteTrashItem')->willReturn($result);
 

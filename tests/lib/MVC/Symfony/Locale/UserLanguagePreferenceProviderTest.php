@@ -46,11 +46,10 @@ final class UserLanguagePreferenceProviderTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForTestGetPreferredLanguages
-     *
      * @param list<string> $userLanguages
      * @param list<string> $expectedEzLanguageCodes
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetPreferredLanguages')]
     public function testGetPreferredLanguagesWithoutUserLanguage(array $userLanguages, array $expectedEzLanguageCodes): void
     {
         $request = new Request();
@@ -85,11 +84,10 @@ final class UserLanguagePreferenceProviderTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForTestGetPreferredLanguagesWithUserPreferredLanguage
-     *
      * @param list<string> $userLanguages
      * @param list<string> $expectedEzLanguageCodes
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetPreferredLanguagesWithUserPreferredLanguage')]
     public function testGetPreferredLanguagesWithUserPreferredLanguage(
         array $userLanguages,
         array $expectedEzLanguageCodes
@@ -164,7 +162,7 @@ final class UserLanguagePreferenceProviderTest extends TestCase
      *
      * @return array<int, array{list<string>, list<string>}>
      */
-    public function providerForTestGetPreferredLanguages(): array
+    public static function providerForTestGetPreferredLanguages(): array
     {
         return [
             [[], ['eng-GB', 'eng-US']],
@@ -180,7 +178,7 @@ final class UserLanguagePreferenceProviderTest extends TestCase
      *
      * @return array<int, array{list<string>, list<string>}>
      */
-    public function providerForTestGetPreferredLanguagesWithUserPreferredLanguage(): array
+    public static function providerForTestGetPreferredLanguagesWithUserPreferredLanguage(): array
     {
         return [
             [[], ['nor-NO', 'eng-GB', 'eng-US']],

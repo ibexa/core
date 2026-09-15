@@ -11,16 +11,13 @@ namespace Ibexa\Tests\Core\Repository\Values\Translation;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Plural;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\Translation\Plural
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\Translation\Plural::class)]
 final class PluralTest extends TestCase
 {
     /**
-     * @dataProvider getDataForTestPlural
-     *
      * @param array<string, scalar|null> $values
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestPlural')]
     public function testStringable(
         string $singular,
         string $plural,
@@ -31,10 +28,9 @@ final class PluralTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataForTestPlural
-     *
      * @param array<string, scalar|null> $values
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestPlural')]
     public function testGetters(
         string $singular,
         string $plural,

@@ -31,9 +31,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new QueryTypePass());
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tagsProvider')]
     public function testRegisterTaggedQueryType(string $tag): void
     {
         $def = new Definition();
@@ -50,9 +48,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tagsProvider')]
     public function testRegisterTaggedQueryTypeWithClassAsParameter(string $tag): void
     {
         $this->setParameter('query_type_class', TestQueryType::class);
@@ -75,9 +71,8 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
      *
      * The QueryType class will still be registered, as the aliases are different from the
      * built-in alias of the class.
-     *
-     * @dataProvider tagsProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tagsProvider')]
     public function testTaggedOverride(string $tag): void
     {
         $this->setParameter('kernel.bundles', ['QueryTypeBundle' => QueryTypeBundle::class]);
@@ -107,7 +102,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function tagsProvider(): iterable
+    public static function tagsProvider(): iterable
     {
         return [
             [QueryTypePass::QUERY_TYPE_SERVICE_TAG],

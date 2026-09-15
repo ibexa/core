@@ -14,9 +14,7 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\Core\SiteAccess\MatcherBuilder
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\SiteAccess\MatcherBuilder::class)]
 class MatcherBuilderTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
@@ -34,7 +32,7 @@ class MatcherBuilderTest extends TestCase
             ->expects(self::never())
             ->method('getMatcher');
         $matcherBuilder = new MatcherBuilder($this->siteAccessMatcherRegistry);
-        $matcher = $this->createMock(Matcher::class);
+        $matcher = $this->createStub(Matcher::class);
         $builtMatcher = $matcherBuilder->buildMatcher('\\' . get_class($matcher), [], new SimplifiedRequest());
         self::assertInstanceOf(get_class($matcher), $builtMatcher);
     }
@@ -48,7 +46,7 @@ class MatcherBuilderTest extends TestCase
             ->expects(self::once())
             ->method('getMatcher')
             ->with($serviceId)
-            ->will(self::returnValue($this->createMock(Matcher::class)));
+            ->will(self::returnValue($this->createStub(Matcher::class)));
         $matcherBuilder = new MatcherBuilder($this->siteAccessMatcherRegistry);
         $matcherBuilder->buildMatcher("@$serviceId", [], new SimplifiedRequest());
     }

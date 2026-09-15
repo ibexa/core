@@ -30,7 +30,7 @@ class NotificationHandlerTest extends AbstractCacheHandlerTestCase
         return SPINotificationHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         $ownerId = 7;
         $notificationId = 5;
@@ -126,7 +126,7 @@ class NotificationHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $notificationId = 5;
         $ownerId = 7;
@@ -174,7 +174,7 @@ class NotificationHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $notificationId = 5;
         $ownerId = 7;

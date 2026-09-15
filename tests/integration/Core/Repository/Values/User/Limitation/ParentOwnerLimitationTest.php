@@ -10,12 +10,9 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentOwnerLimitation;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentOwnerLimitation
- *
- * @group integration
- * @group limitation
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentOwnerLimitation::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 class ParentOwnerLimitationTest extends BaseLimitationTestCase
 {
     public function testParentOwnerLimitationAllow()

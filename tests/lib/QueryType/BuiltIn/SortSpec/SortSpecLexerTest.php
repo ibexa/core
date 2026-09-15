@@ -14,9 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 final class SortSpecLexerTest extends TestCase
 {
-    /**
-     * @dataProvider dataProviderForTokenize
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTokenize')]
     public function testTokenize(string $input, iterable $expectedTokens): void
     {
         $lexer = new SortSpecLexer();
@@ -25,7 +23,7 @@ final class SortSpecLexerTest extends TestCase
         self::assertEquals($expectedTokens, $lexer->getAll());
     }
 
-    public function dataProviderForTokenize(): iterable
+    public static function dataProviderForTokenize(): iterable
     {
         yield 'keyword: asc' => [
             'asc',

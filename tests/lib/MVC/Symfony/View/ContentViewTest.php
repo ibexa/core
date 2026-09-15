@@ -12,11 +12,8 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\View;
 
-/**
- * @group mvc
- *
- * @covers \Ibexa\Core\MVC\Symfony\View\ContentView
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\View\ContentView::class)]
+#[\PHPUnit\Framework\Attributes\Group('mvc')]
 class ContentViewTest extends AbstractViewTestCase
 {
     /**
@@ -26,9 +23,7 @@ class ContentViewTest extends AbstractViewTestCase
      */
     private $valueParams = ['content' => null];
 
-    /**
-     * @dataProvider constructProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('constructProvider')]
     public function testConstruct($templateIdentifier, array $params)
     {
         $contentView = new ContentView($templateIdentifier, $params);
@@ -36,7 +31,7 @@ class ContentViewTest extends AbstractViewTestCase
         self::assertSame($this->valueParams + $params, $contentView->getParameters());
     }
 
-    public function constructProvider()
+    public static function constructProvider()
     {
         return [
             ['some:valid:identifier', ['foo' => 'bar']],
@@ -57,9 +52,7 @@ class ContentViewTest extends AbstractViewTestCase
         ];
     }
 
-    /**
-     * @dataProvider constructFailProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('constructFailProvider')]
     public function testConstructFail($templateIdentifier)
     {
         $this->expectException(InvalidArgumentType::class);
@@ -67,7 +60,7 @@ class ContentViewTest extends AbstractViewTestCase
         new ContentView($templateIdentifier);
     }
 
-    public function constructFailProvider()
+    public static function constructFailProvider()
     {
         return [
             [123],

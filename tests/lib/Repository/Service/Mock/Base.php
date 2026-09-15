@@ -119,8 +119,8 @@ abstract class Base extends TestCase
                 new NullIndexer(),
                 $this->getRelationProcessorMock(),
                 $this->getFieldTypeRegistryMock(),
-                $this->createMock(PasswordHashService::class),
-                $this->createMock(ProxyDomainMapperFactoryInterface::class),
+                $this->createStub(PasswordHashService::class),
+                $this->createStub(ProxyDomainMapperFactoryInterface::class),
                 $this->getContentDomainMapperMock(),
                 $this->getContentTypeDomainMapperMock(),
                 $this->getRoleDomainMapperMock(),
@@ -131,12 +131,12 @@ abstract class Base extends TestCase
                 $this->getPermissionServiceMock(),
                 $this->getContentFilteringHandlerMock(),
                 $this->getLocationFilteringHandlerMock(),
-                $this->createMock(PasswordValidatorInterface::class),
-                $this->createMock(ConfigResolverInterface::class),
-                $this->createMock(NameSchemaServiceInterface::class),
+                $this->createStub(PasswordValidatorInterface::class),
+                $this->createStub(ConfigResolverInterface::class),
+                $this->createStub(NameSchemaServiceInterface::class),
                 $this->getTransactionHandlerMock(),
                 new ContentCollector(),
-                $this->createMock(ValidatorInterface::class),
+                $this->createStub(ValidatorInterface::class),
                 $serviceSettings,
             );
 
@@ -343,7 +343,6 @@ abstract class Base extends TestCase
     {
         if (!isset($this->spiMockHandlers[$handler])) {
             $this->spiMockHandlers[$handler] = $this->getMockBuilder("Ibexa\\Contracts\\Core\\{$handler}")
-                ->setMethods([])
                 ->disableOriginalConstructor()
                 ->setConstructorArgs([])
                 ->getMock();
@@ -420,7 +419,7 @@ abstract class Base extends TestCase
         if ($this->roleDomainMapperMock === null) {
             $mockBuilder = $this->getMockBuilder(RoleDomainMapper::class);
             if (!empty($methods)) {
-                $mockBuilder->onlyMethods($methods);
+                $mockBuilder->onlyMethods(array_values($methods));
             }
             $this->roleDomainMapperMock = $mockBuilder
                 ->disableOriginalConstructor()

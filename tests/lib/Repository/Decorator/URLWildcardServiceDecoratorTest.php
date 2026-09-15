@@ -48,7 +48,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(URLWildcard::class)];
+        $parameters = [$this->createStub(URLWildcard::class)];
 
         $serviceMock->expects(self::once())->method('remove')->with(...$parameters);
 

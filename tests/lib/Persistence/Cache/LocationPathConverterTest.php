@@ -24,7 +24,7 @@ final class LocationPathConverterTest extends TestCase
         $this->locationPathConverter = new LocationPathConverter();
     }
 
-    public function providerForTestConvertToPathIds(): array
+    public static function providerForTestConvertToPathIds(): array
     {
         return [
             [[''], []],
@@ -34,9 +34,7 @@ final class LocationPathConverterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestConvertToPathIds
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestConvertToPathIds')]
     public function testConvertToPathIds(array $arguments, array $resultArray): void
     {
         self::assertEquals(

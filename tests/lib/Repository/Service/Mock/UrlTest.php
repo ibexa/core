@@ -340,9 +340,7 @@ class UrlTest extends BaseServiceMockTest
         self::assertEquals($apiUrl, $this->createUrlService()->loadByUrl($url));
     }
 
-    /**
-     * @dataProvider dateProviderForFindUsages
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dateProviderForFindUsages')]
     public function testFindUsages($offset, $limit, ContentQuery $expectedQuery, array $usages)
     {
         $url = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
@@ -388,7 +386,7 @@ class UrlTest extends BaseServiceMockTest
         }
     }
 
-    public function dateProviderForFindUsages()
+    public static function dateProviderForFindUsages()
     {
         return [
             [
@@ -461,11 +459,15 @@ class UrlTest extends BaseServiceMockTest
 
     protected function configurePermissions(array $permissions)
     {
+        $matcher = self::exactly(count($permissions));
         $this->permissionResolver
-            ->expects(self::exactly(count($permissions)))
+            ->expects($matcher)
             ->method('canUser')
-            ->withConsecutive(...$permissions)
-            ->willReturn(true);
+            ->willReturnCallback(function (...$parameters) use ($matcher, $permissions) {
+                $this->assertEquals($permissions[$matcher->numberOfInvocations() - 1], $parameters);
+
+                return true;
+            });
     }
 
     /**
@@ -476,7 +478,7 @@ class UrlTest extends BaseServiceMockTest
         return $this
             ->getMockBuilder(URLService::class)
             ->setConstructorArgs([$this->getRepositoryMock(), $this->urlHandler, $this->permissionResolver])
-            ->setMethods($methods)
+            ->onlyMethods(array_values($methods ?? []))
             ->getMock();
     }
 

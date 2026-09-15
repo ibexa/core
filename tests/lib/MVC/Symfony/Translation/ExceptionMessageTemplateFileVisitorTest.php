@@ -18,9 +18,7 @@ use JMS\TranslationBundle\Translation\FileSourceFactory;
 use Psr\Log\LoggerInterface;
 use SplFileInfo;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitor
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitor::class)]
 final class ExceptionMessageTemplateFileVisitorTest extends BaseMessageExtractorPhpFileVisitorTestCase
 {
     public static function getDataForTestExtractTranslation(): iterable

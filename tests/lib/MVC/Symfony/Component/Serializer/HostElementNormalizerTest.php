@@ -16,9 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer::class)]
 final class HostElementNormalizerTest extends TestCase
 {
     private const array DATA = [
@@ -58,8 +56,8 @@ final class HostElementNormalizerTest extends TestCase
     {
         $normalizer = new HostElementNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(HostElement::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createStub(HostElement::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createStub(Matcher::class)));
     }
 
     /**

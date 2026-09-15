@@ -90,9 +90,7 @@ final class FieldConstraintsStorageTest extends BaseTestCase
         return $contentTypeService->loadContentTypeByIdentifier($contentType->identifier);
     }
 
-    /**
-     * @depends Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\FieldConstraintsStorageTest::testStorageDataIsCreatedOnContentTypeCreate
-     */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(self::class, 'testStorageDataIsCreatedOnContentTypeCreate')]
     public function testStorageDataIsUpdatedOnContentTypeUpdate(ContentType $contentType): ContentType
     {
         $repository = $this->getRepository(false);
@@ -128,9 +126,7 @@ final class FieldConstraintsStorageTest extends BaseTestCase
         return $contentTypeService->loadContentTypeByIdentifier($contentType->identifier);
     }
 
-    /**
-     * @depends Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\FieldConstraintsStorageTest::testStorageDataIsUpdatedOnContentTypeUpdate
-     */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(self::class, 'testStorageDataIsUpdatedOnContentTypeUpdate')]
     public function testStorageDataIsDeletedOnContentTypeDelete(ContentType $contentType): void
     {
         $fieldDefinition = $contentType->getFieldDefinition(self::EXAMPLE_FIELD_IDENTIFIER);

@@ -12,9 +12,7 @@ use DateTimeImmutable;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo::class)]
 final class ContentInfoTest extends TestCase
 {
     public function testCreateObject(): void

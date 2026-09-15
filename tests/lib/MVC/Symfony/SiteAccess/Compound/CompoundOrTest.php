@@ -55,17 +55,15 @@ class CompoundOrTest extends TestCase
         );
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
     public function testSetMatcherBuilder(Compound $compoundMatcher): void
     {
         $this->matcherBuilder
             ->expects(self::any())
             ->method('buildMatcher')
-            ->will(self::returnValue($this->createMock(Matcher::class)));
+            ->will(self::returnValue($this->createStub(Matcher::class)));
 
-        $compoundMatcher->setRequest($this->createMock(SimplifiedRequest::class));
+        $compoundMatcher->setRequest($this->createStub(SimplifiedRequest::class));
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
         $matchers = $compoundMatcher->getSubMatchers();
         self::assertIsArray($matchers);
@@ -75,11 +73,10 @@ class CompoundOrTest extends TestCase
     }
 
     /**
-     * @dataProvider matchProvider
-     *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      * @param string $expectedMatch
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('matchProvider')]
     public function testMatch(SimplifiedRequest $request, $expectedMatch): void
     {
         $compoundMatcher = $this->buildMatcher();
@@ -88,7 +85,7 @@ class CompoundOrTest extends TestCase
         self::assertSame($expectedMatch, $compoundMatcher->match());
     }
 
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://fr.ezpublish.dev/eng'), 'fr_eng'],
@@ -109,16 +106,16 @@ class CompoundOrTest extends TestCase
         $this->matcherBuilder
             ->expects(self::any())
             ->method('buildMatcher')
-            ->will(self::returnValue($this->createMock(VersatileMatcher::class)));
+            ->will(self::returnValue($this->createStub(VersatileMatcher::class)));
 
-        $compoundMatcher->setRequest($this->createMock(SimplifiedRequest::class));
+        $compoundMatcher->setRequest($this->createStub(SimplifiedRequest::class));
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
         self::assertNull($compoundMatcher->reverseMatch('not_configured_sa'));
     }
 
     public function testReverseMatchNotVersatile(): void
     {
-        $request = $this->createMock(SimplifiedRequest::class);
+        $request = $this->createStub(SimplifiedRequest::class);
         $siteAccessName = 'fr_eng';
         $mapUriConfig = ['eng' => true];
         $mapHostConfig = ['fr.ezpublish.dev' => true];
@@ -137,11 +134,11 @@ class CompoundOrTest extends TestCase
 
         $matcher1 = $this->getMockBuilder(Matcher::class)
             ->disableOriginalConstructor()
-            ->setMethods(['reverseMatch'])
+            ->addMethods(['reverseMatch'])
             ->getMockForAbstractClass();
         $matcher2 = $this->getMockBuilder(Matcher::class)
             ->disableOriginalConstructor()
-            ->setMethods(['reverseMatch'])
+            ->addMethods(['reverseMatch'])
             ->getMockForAbstractClass();
 
         $this->matcherBuilder
@@ -169,7 +166,7 @@ class CompoundOrTest extends TestCase
 
     public function testReverseMatchFail(): void
     {
-        $request = $this->createMock(SimplifiedRequest::class);
+        $request = $this->createStub(SimplifiedRequest::class);
         $siteAccessName = 'fr_eng';
         $mapUriConfig = ['eng' => true];
         $mapHostConfig = ['fr.ezpublish.dev' => true];
@@ -217,7 +214,7 @@ class CompoundOrTest extends TestCase
 
     public function testReverseMatch1(): void
     {
-        $request = $this->createMock(SimplifiedRequest::class);
+        $request = $this->createStub(SimplifiedRequest::class);
         $siteAccessName = 'fr_eng';
         $mapUriConfig = ['eng' => true];
         $mapHostConfig = ['fr.ezpublish.dev' => true];
@@ -248,7 +245,7 @@ class CompoundOrTest extends TestCase
                 )
             );
 
-        $reverseMatchedMatcher1 = $this->createMock(VersatileMatcher::class);
+        $reverseMatchedMatcher1 = $this->createStub(VersatileMatcher::class);
         $matcher1
             ->expects(self::once())
             ->method('reverseMatch')
@@ -268,7 +265,7 @@ class CompoundOrTest extends TestCase
 
     public function testReverseMatch2(): void
     {
-        $request = $this->createMock(SimplifiedRequest::class);
+        $request = $this->createStub(SimplifiedRequest::class);
         $siteAccessName = 'fr_eng';
         $mapUriConfig = ['eng' => true];
         $mapHostConfig = ['fr.ezpublish.dev' => true];
@@ -304,7 +301,7 @@ class CompoundOrTest extends TestCase
             ->method('reverseMatch')
             ->with($siteAccessName)
             ->will(self::returnValue(null));
-        $reverseMatchedMatcher2 = $this->createMock(VersatileMatcher::class);
+        $reverseMatchedMatcher2 = $this->createStub(VersatileMatcher::class);
         $matcher2
             ->expects(self::once())
             ->method('reverseMatch')

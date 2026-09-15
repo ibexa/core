@@ -101,6 +101,6 @@ final class ChainContentPublicationStrategyTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('No content publication strategy supports the current publication.');
 
-        $chain->publishVersion($this->createMock(VersionInfo::class));
+        $chain->publishVersion($this->createStub(VersionInfo::class));
     }
 }

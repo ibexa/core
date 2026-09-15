@@ -19,7 +19,7 @@ final class StorageEngineFactoryTest extends BaseRepositoryConfigurationProvider
 {
     public function testRegisterStorageEngine(): void
     {
-        $repositoryConfigurationProvider = $this->createMock(RepositoryConfigurationProviderInterface::class);
+        $repositoryConfigurationProvider = $this->createStub(RepositoryConfigurationProviderInterface::class);
         $factory = new StorageEngineFactory($repositoryConfigurationProvider);
 
         $storageEngines = [

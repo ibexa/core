@@ -13,9 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-/**
- * @covers \Ibexa\Contracts\Core\Container\Encore\ConfigurationDumper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Container\Encore\ConfigurationDumper::class)]
 final class ConfigurationDumperTest extends TestCase
 {
     private const string PROJECT_DIR = '/var/io-tests/';

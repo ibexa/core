@@ -17,9 +17,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionMethod;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class)]
 final class SlugConverterTest extends TestCase
 {
     /** @var array<string, mixed> */
@@ -116,9 +114,8 @@ final class SlugConverterTest extends TestCase
 
     /**
      * Test for the getUniqueCounterValue() method.
-     *
-     * @dataProvider providerForTestGetUniqueCounterValue
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetUniqueCounterValue')]
     public function testGetUniqueCounterValue(string $text, bool $isRootLevel, int $returnValue): void
     {
         $slugConverter = $this->getSlugConverter();
@@ -153,9 +150,8 @@ final class SlugConverterTest extends TestCase
 
     /**
      * Test for the cleanupText() method.
-     *
-     * @dataProvider cleanupTextData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('cleanupTextData')]
     public function testCleanupText(string $text, string $method, string $expected): void
     {
         $testMethod = new ReflectionMethod(
@@ -197,11 +193,8 @@ final class SlugConverterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider convertData
-     *
-     * @depends testCleanupText
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCleanupText')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('convertData')]
     public function testConvertNoMocking(string $text, string $defaultText, string $transformation, string $expected): void
     {
         $transformationsDirectory = dirname(__DIR__, 6) . '/src/lib/Resources/slug_converter/transformations';
@@ -243,7 +236,7 @@ final class SlugConverterTest extends TestCase
     {
         if (!isset($this->slugConverterMock)) {
             $this->slugConverterMock = $this->getMockBuilder(SlugConverter::class)
-                ->onlyMethods($methods)
+                ->onlyMethods(array_values($methods))
                 ->setConstructorArgs(
                     [
                         $this->getTransformationProcessorMock(),

@@ -13,9 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Mapper;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Bookmark\Mapper::class)]
 class MapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper */

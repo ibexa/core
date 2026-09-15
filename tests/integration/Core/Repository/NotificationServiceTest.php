@@ -16,9 +16,8 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 /**
  * Test case for the NotificationService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\NotificationService
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\NotificationService::class)]
 class NotificationServiceTest extends BaseTestCase
 {
     public function testLoadNotifications(): void
@@ -207,9 +206,7 @@ class NotificationServiceTest extends BaseTestCase
         self::assertGreaterThan(0, $notification->id);
     }
 
-    /**
-     * @depends testCreateNotification
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateNotification')]
     public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingOwner(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -228,9 +225,7 @@ class NotificationServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    /**
-     * @depends testCreateNotification
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateNotification')]
     public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingType(): void
     {
         $this->expectException(InvalidArgumentException::class);

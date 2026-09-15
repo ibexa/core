@@ -27,9 +27,7 @@ use Ibexa\Core\Persistence\Legacy\TransactionHandler;
 use Ibexa\Core\Persistence\Legacy\User\Handler as UserHandler;
 use Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Handler::contentHandler
- */
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Persistence\Legacy\Handler::class, 'contentHandler')]
 class HandlerTest extends TestCase
 {
     public function testContentHandler(): void

@@ -60,11 +60,11 @@ class UrlAliasRouterTest extends TestCase
         $this->repository = $repository = $this
             ->getMockBuilder($repositoryClass)
             ->disableOriginalConstructor()
-            ->setMethods(
-                array_diff(
+            ->onlyMethods(
+                array_values(array_diff(
                     get_class_methods($repositoryClass),
                     ['sudo']
-                )
+                ))
             )
             ->getMock();
         $this->urlAliasService = $this->createMock(URLAliasService::class);
@@ -75,8 +75,8 @@ class UrlAliasRouterTest extends TestCase
             ->setConstructorArgs(
                 [
                     $repository,
-                    $this->createMock(RouterInterface::class),
-                    $this->createMock(ConfigResolverInterface::class),
+                    $this->createStub(RouterInterface::class),
+                    $this->createStub(ConfigResolverInterface::class),
                 ]
             )
             ->getMock();
@@ -118,15 +118,13 @@ class UrlAliasRouterTest extends TestCase
         $this->router->match('/foo');
     }
 
-    /**
-     * @dataProvider providerTestSupports
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerTestSupports')]
     public function testSupports($routeReference, $isSupported)
     {
         self::assertSame($isSupported, $this->router->supports($routeReference));
     }
 
-    public function providerTestSupports()
+    public static function providerTestSupports()
     {
         return [
             [new Location(), true],
@@ -155,7 +153,7 @@ class UrlAliasRouterTest extends TestCase
             new SiteAccess(
                 'test',
                 'fake',
-                $this->createMock(Matcher::class)
+                $this->createStub(Matcher::class)
             )
         );
 

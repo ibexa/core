@@ -150,9 +150,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('ibexa.image.imagemagick.executable', basename($_ENV['imagemagickConvertPath']));
     }
 
-    /**
-     * @dataProvider translationsConfigurationProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('translationsConfigurationProvider')]
     public function testUITranslationsConfiguration(
         bool $enabled,
         bool $expectedParameterValue
@@ -175,7 +173,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     /**
      * @return iterable<string,array{bool,array{string}}>
      */
-    public function translationsConfigurationProvider(): iterable
+    public static function translationsConfigurationProvider(): iterable
     {
         yield 'translations enabled' => [
             true,
@@ -263,11 +261,10 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @dataProvider cacheConfigurationProvider
-     *
      * @param array $customCacheConfig
      * @param string $expectedPurgeType
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('cacheConfigurationProvider')]
     public function testCacheConfiguration(array $customCacheConfig, $expectedPurgeType)
     {
         $this->load($customCacheConfig);
@@ -275,7 +272,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('ibexa.http_cache.purge_type', $expectedPurgeType);
     }
 
-    public function cacheConfigurationProvider()
+    public static function cacheConfigurationProvider()
     {
         return [
             [[], 'local'],
@@ -383,9 +380,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         self::assertSame($repositories, $this->container->getParameter('ibexa.repositories'));
     }
 
-    /**
-     * @dataProvider repositoriesConfigurationFieldGroupsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('repositoriesConfigurationFieldGroupsProvider')]
     public function testRepositoriesConfigurationFieldGroups($repositories, $expectedRepositories)
     {
         $this->load(['repositories' => $repositories]);
@@ -401,7 +396,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         }
     }
 
-    public function repositoriesConfigurationFieldGroupsProvider()
+    public static function repositoriesConfigurationFieldGroupsProvider()
     {
         return [
             //empty config
@@ -860,11 +855,11 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
      * Test automatic configuration of services implementing Criterion & SortClause Filtering Query
      * Builders.
      *
-     * @dataProvider getFilteringQueryBuilderData
      *
      * @see \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder
      * @see \Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getFilteringQueryBuilderData')]
     public function testFilteringQueryBuildersAutomaticConfiguration(
         string $classFQCN,
         string $tagName
@@ -886,7 +881,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     /**
      * Data provider for {@see testFilteringQueryBuildersAutomaticConfiguration}.
      */
-    public function getFilteringQueryBuilderData(): iterable
+    public static function getFilteringQueryBuilderData(): iterable
     {
         yield Filter\CriterionQueryBuilder::class => [
             CustomCriterionQueryBuilder::class,

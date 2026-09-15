@@ -34,9 +34,7 @@ class AbstractFilterTest extends TestCase
         self::assertSame($options, $this->filter->getOptions());
     }
 
-    /**
-     * @dataProvider getSetOptionNoDefaulValueProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getSetOptionNoDefaulValueProvider')]
     public function testGetSetOptionNoDefaultValue($optionName, $value)
     {
         self::assertFalse($this->filter->hasOption($optionName));
@@ -46,7 +44,7 @@ class AbstractFilterTest extends TestCase
         self::assertSame($value, $this->filter->getOption($optionName));
     }
 
-    public function getSetOptionNoDefaulValueProvider()
+    public static function getSetOptionNoDefaulValueProvider()
     {
         return [
             ['foo', 'bar'],
@@ -58,9 +56,7 @@ class AbstractFilterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getSetOptionWithDefaulValueProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getSetOptionWithDefaulValueProvider')]
     public function testGetSetOptionWithDefaultValue($optionName, $value, $defaultValue)
     {
         self::assertFalse($this->filter->hasOption($optionName));
@@ -70,7 +66,7 @@ class AbstractFilterTest extends TestCase
         self::assertSame($value, $this->filter->getOption($optionName));
     }
 
-    public function getSetOptionWithDefaulValueProvider()
+    public static function getSetOptionWithDefaulValueProvider()
     {
         return [
             ['foo', 'bar', 'default'],

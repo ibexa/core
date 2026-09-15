@@ -17,11 +17,9 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case criterion for URLWildcard.
- *
- * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService
- *
- * @group url-wildcard
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\URLWildcardService::class)]
+#[\PHPUnit\Framework\Attributes\Group('url-wildcard')]
 class CriterionTest extends BaseTestCase
 {
     protected function setUp(): void

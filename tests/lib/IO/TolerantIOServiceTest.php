@@ -12,9 +12,7 @@ use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Override;
 
-/**
- * @covers \Ibexa\Core\IO\IOService
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\IO\IOService::class)]
 class TolerantIOServiceTest extends IOServiceTest
 {
     protected function setUp(): void
@@ -65,7 +63,6 @@ class TolerantIOServiceTest extends IOServiceTest
     #[Override]
     public function testDeleteBinaryFileNotFound(): void
     {
-        $this->expectNotToPerformAssertions();
         $this->deleteBinaryFileNotFound();
     }
 

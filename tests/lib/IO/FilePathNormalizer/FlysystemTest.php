@@ -27,9 +27,7 @@ final class FlysystemTest extends TestCase
         $this->filePathNormalizer = new Flysystem($this->slugConverter, new WhitespacePathNormalizer());
     }
 
-    /**
-     * @dataProvider providerForTestNormalizePath
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestNormalizePath')]
     public function testNormalizePath(
         string $originalPath,
         string $fileName,
@@ -46,10 +44,10 @@ final class FlysystemTest extends TestCase
         $normalizedPath = $this->filePathNormalizer->normalizePath($originalPath, $doHash);
 
         self::assertStringEndsWith($sluggedFileName, $normalizedPath);
-        self::assertRegExp($regex, $normalizedPath);
+        self::assertMatchesRegularExpression($regex, $normalizedPath);
     }
 
-    public function providerForTestNormalizePath(): array
+    public static function providerForTestNormalizePath(): array
     {
         $defaultPattern = '/\/[0-9a-f]{12}-';
 

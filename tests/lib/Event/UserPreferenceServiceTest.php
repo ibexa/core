@@ -25,7 +25,7 @@ class UserPreferenceServiceTest extends AbstractServiceTestCase
             [],
         ];
 
-        $innerServiceMock = $this->createMock(UserPreferenceServiceInterface::class);
+        $innerServiceMock = $this->createStub(UserPreferenceServiceInterface::class);
 
         $service = new UserPreferenceService($innerServiceMock, $traceableEventDispatcher);
         $service->setUserPreference(...$parameters);
@@ -50,7 +50,7 @@ class UserPreferenceServiceTest extends AbstractServiceTestCase
             [],
         ];
 
-        $innerServiceMock = $this->createMock(UserPreferenceServiceInterface::class);
+        $innerServiceMock = $this->createStub(UserPreferenceServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeSetUserPreferenceEvent::class, static function (BeforeSetUserPreferenceEvent $event) {
             $event->stopPropagation();

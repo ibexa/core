@@ -20,9 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-/**
- * @covers \Ibexa\Bundle\IO\EventListener\StreamFileListener
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\IO\EventListener\StreamFileListener::class)]
 final class StreamFileListenerTest extends TestCase
 {
     private StreamFileListener $eventListener;
@@ -119,7 +117,7 @@ final class StreamFileListenerTest extends TestCase
     protected function createEvent(Request $request): RequestEvent
     {
         return new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );

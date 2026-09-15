@@ -11,12 +11,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation
- *
- * @group integration
- * @group limitation
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 class ParentDepthLimitationTest extends BaseLimitationTestCase
 {
     public function testParentDepthLimitationForbid()
@@ -101,9 +98,8 @@ class ParentDepthLimitationTest extends BaseLimitationTestCase
 
     /**
      * Tests a combination of ParentDepthLimitation and ContentTypeLimitation.
-     *
-     * @depends testParentDepthLimitationAllow
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testParentDepthLimitationAllow')]
     public function testParentDepthLimitationAllowPublish()
     {
         $repository = $this->getRepository();

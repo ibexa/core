@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use PHPUnit\Framework\TestCase;
 
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder::class, 'joinOnce')]
 class FilteringQueryBuilderTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder */
@@ -35,9 +36,6 @@ class FilteringQueryBuilderTest extends TestCase
         $this->queryBuilder = new FilteringQueryBuilder($connectionMock);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder::joinOnce
-     */
     public function testJoinOnce(): void
     {
         $this->queryBuilder

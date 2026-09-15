@@ -36,7 +36,7 @@ class UserPreferenceHandlerTest extends AbstractInMemoryCacheHandlerTestCase
     /**
      * {@inheritdoc}
      */
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         $userId = 7;
         $name = 'setting';
@@ -82,7 +82,7 @@ class UserPreferenceHandlerTest extends AbstractInMemoryCacheHandlerTestCase
     /**
      * {@inheritdoc}
      */
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $userId = 7;
         $name = 'setting';
@@ -105,7 +105,7 @@ class UserPreferenceHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $userId = 7;
         $name = 'setting';

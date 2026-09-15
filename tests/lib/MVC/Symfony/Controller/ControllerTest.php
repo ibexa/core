@@ -14,10 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
 /**
- * @covers \Ibexa\Core\MVC\Symfony\Controller\Controller::render
- *
  * @mvc
  */
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\MVC\Symfony\Controller\Controller::class, 'render')]
 class ControllerTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Controller\Controller */
