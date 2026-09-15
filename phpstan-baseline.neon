@@ -15805,12 +15805,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
 
 		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
-
-		-
 			message: '#^Cannot call method error\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -15853,12 +15847,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/TranslatableExceptionsFileVisitor.php
 
 		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/MVC/Symfony/Translation/TranslatableExceptionsFileVisitor.php
-
-		-
 			message: '#^Access to an undefined property PhpParser\\Node\\Expr\|PhpParser\\Node\\Name\|PhpParser\\Node\\Stmt\\Class_\:\:\$parts\.$#'
 			identifier: property.notFound
 			count: 1
@@ -15886,12 +15874,6 @@ parameters:
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Translation\\TranslatableExceptionsFileVisitor\:\:beforeTraverse\(\) should return array\<PhpParser\\Node\>\|null but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1
-			path: src/lib/MVC/Symfony/Translation/TranslatableExceptionsFileVisitor.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Translation\\TranslatableExceptionsFileVisitor\:\:enterNode\(\) should return int\|PhpParser\\Node\|null but empty return statement found\.$#'
-			identifier: return.empty
-			count: 4
 			path: src/lib/MVC/Symfony/Translation/TranslatableExceptionsFileVisitor.php
 
 		-
@@ -15961,12 +15943,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/ValidationErrorFileVisitor.php
 
 		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
-			identifier: property.notFound
-			count: 2
-			path: src/lib/MVC/Symfony/Translation/ValidationErrorFileVisitor.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Translation\\ValidationErrorFileVisitor\:\:afterTraverse\(\) has parameter \$nodes with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -15988,12 +15964,6 @@ parameters:
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Translation\\ValidationErrorFileVisitor\:\:beforeTraverse\(\) should return array\<PhpParser\\Node\>\|null but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1
-			path: src/lib/MVC/Symfony/Translation/ValidationErrorFileVisitor.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Translation\\ValidationErrorFileVisitor\:\:enterNode\(\) should return int\|PhpParser\\Node\|null but empty return statement found\.$#'
-			identifier: return.empty
-			count: 3
 			path: src/lib/MVC/Symfony/Translation/ValidationErrorFileVisitor.php
 
 		-
