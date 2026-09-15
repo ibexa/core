@@ -73,7 +73,7 @@ jobs:
         needs: tests
         services:
             postgres:
-                image: ${{ matrix.image }}
+                image: postgres:${{ matrix.postgres_version }}
                 ports:
                     - 5432
                 env:
@@ -84,7 +84,7 @@ jobs:
                     --health-interval 10s
                     --health-timeout 5s
                     --health-retries 5
-                    --tmpfs /var/lib/postgres
+                    --tmpfs ${{ matrix.pg_tmpfs }}
         runs-on: "ubuntu-26.04"
         timeout-minutes: 60
 
@@ -98,9 +98,18 @@ jobs:
                 doctrine-persistence:
                     - 'doctrine/persistence:^2.0'
                     - 'doctrine/persistence:^3.0'
-                image:
-                    - 'postgres:14'
-                    - 'postgres:18'
+                postgres_version:
+                    - '14'
+                    - '18'
+                include:
+                    # PGDATA is /var/lib/postgresql/data; mounting the parent instead gets shadowed
+                    # by the image's declared VOLUME, silently putting PGDATA back on disk.
+                    -   postgres_version: '14'
+                        pg_tmpfs: /var/lib/postgresql/data
+                    # PGDATA is /var/lib/postgresql/18/docker; the image refuses to start when it
+                    # finds an unused mount at the old /data path.
+                    -   postgres_version: '18'
+                        pg_tmpfs: /var/lib/postgresql
 
         steps:
             -   uses: actions/checkout@v7
@@ -120,9 +129,9 @@ jobs:
             -   name: Run integration test suite vs Postgresql
                 run: composer run-script integration
                 env:
-                    DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
+                    DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?serverVersion=${{ matrix.postgres_version }}"
                     # Required by old repository tests
-                    DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
+                    DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?serverVersion=${{ matrix.postgres_version }}"
 
     integration-tests-mysql:
         name: MySQL integration tests
