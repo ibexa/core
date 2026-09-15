@@ -13,13 +13,11 @@ use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\Iden
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdentifierQueryBuilder
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdQueryBuilder
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdentifierQueryBuilder::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdQueryBuilder::class)]
 final class ContentTypeQueryBuildersTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
-    public function getFilteringCriteriaQueryData(): iterable
+    public static function getFilteringCriteriaQueryData(): iterable
     {
         yield 'Content type identifier=article' => [
             new Criterion\ContentTypeIdentifier('article'),

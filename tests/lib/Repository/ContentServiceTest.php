@@ -35,18 +35,18 @@ final class ContentServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->contentService = new ContentService(
-            $this->createMock(Repository::class),
-            $this->createMock(PersistenceHandler::class),
-            $this->createMock(ContentDomainMapper::class),
-            $this->createMock(RelationProcessor::class),
-            $this->createMock(NameSchemaServiceInterface::class),
-            $this->createMock(FieldTypeRegistry::class),
-            $this->createMock(PermissionService::class),
-            $this->createMock(ContentMapper::class),
-            $this->createMock(ContentValidator::class),
-            $this->createMock(ContentFilteringHandler::class),
+            $this->createStub(Repository::class),
+            $this->createStub(PersistenceHandler::class),
+            $this->createStub(ContentDomainMapper::class),
+            $this->createStub(RelationProcessor::class),
+            $this->createStub(NameSchemaServiceInterface::class),
+            $this->createStub(FieldTypeRegistry::class),
+            $this->createStub(PermissionService::class),
+            $this->createStub(ContentMapper::class),
+            $this->createStub(ContentValidator::class),
+            $this->createStub(ContentFilteringHandler::class),
             new ContentCollector(),
-            $this->createMock(ValidatorInterface::class),
+            $this->createStub(ValidatorInterface::class),
         );
     }
 

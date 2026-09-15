@@ -19,9 +19,8 @@ use function iterator_to_array;
 
 /**
  * Integration BC check for legacy location sort clauses wired through the container.
- *
- * @group repository
  */
+#[\PHPUnit\Framework\Attributes\Group('repository')]
 final class LegacyContentFilteringTest extends RepositoryTestCase
 {
     public function testLegacyLocationSortClause(): void

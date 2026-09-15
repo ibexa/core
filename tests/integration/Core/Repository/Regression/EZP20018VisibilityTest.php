@@ -13,11 +13,8 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for Visibility issues in EZP-20018.
- *
- * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility
- *
- * Issue EZP-20018
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(Visibility::class)]
 class EZP20018VisibilityTest extends BaseTestCase
 {
     public function testSearchForHiddenContent()

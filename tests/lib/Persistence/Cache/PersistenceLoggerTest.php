@@ -11,9 +11,7 @@ namespace Ibexa\Tests\Core\Persistence\Cache;
 use Ibexa\Core\Persistence\Cache\PersistenceLogger;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Cache\PersistenceLogger
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Cache\PersistenceLogger::class)]
 class PersistenceLoggerTest extends TestCase
 {
     protected PersistenceLogger $logger;
@@ -50,9 +48,7 @@ class PersistenceLoggerTest extends TestCase
         return $this->logger;
     }
 
-    /**
-     * @depends testLogCall
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLogCall')]
     public function testGetCallValues(PersistenceLogger $logger): void
     {
         $calls = $logger->getCalls();

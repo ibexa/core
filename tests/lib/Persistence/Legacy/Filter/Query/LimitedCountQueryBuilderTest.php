@@ -12,9 +12,8 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder::class, 'wrap')]
 final class LimitedCountQueryBuilderTest extends TestCase
 {
     private LimitedCountQueryBuilder $limitedCountQueryBuilder;
@@ -35,9 +34,6 @@ final class LimitedCountQueryBuilderTest extends TestCase
         $this->limitedCountQueryBuilder->wrap($qb, 'someField', 0);
     }
 
-    /**
-     * @covers \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder::wrap
-     */
     public function testWrapDoesNotChangeQueryBuilderIfLimitIsNull(): void
     {
         $qb = $this->getDatabaseConnection()->createQueryBuilder();

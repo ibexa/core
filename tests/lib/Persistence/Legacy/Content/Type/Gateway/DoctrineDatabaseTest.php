@@ -19,9 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     /**
@@ -438,9 +436,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getTypeCreationExpectations
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getTypeCreationExpectations')]
     public function testInsertType($column, $expectation)
     {
         $gateway = $this->getGateway();
@@ -472,9 +468,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getTypeCreationContentClassNameExpectations
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getTypeCreationContentClassNameExpectations')]
     public function testInsertTypeContentClassName($column, $expectation)
     {
         $gateway = $this->getGateway();
@@ -812,9 +806,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @dataProvider getTypeUpdateExpectations
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getTypeUpdateExpectations')]
     public function testUpdateType($fieldName, $expectedValue)
     {
         $this->insertDatabaseFixture(

@@ -29,7 +29,7 @@ class BookmarkHandlerTest extends AbstractCacheHandlerTestCase
         return SPIBookmarkHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? tags, array? $tags, string? $key, mixed? $returnValue
         return [
@@ -41,7 +41,7 @@ class BookmarkHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $bookmark = new Bookmark([
             'id' => 1,
@@ -68,7 +68,7 @@ class BookmarkHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $bookmark = new Bookmark([
             'id' => 1,

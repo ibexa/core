@@ -32,9 +32,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\Mapper::class)]
 class MapperTest extends LanguageAwareTestCase
 {
     /**
@@ -166,7 +164,7 @@ class MapperTest extends LanguageAwareTestCase
 
     public function testExtractContentFromRows()
     {
-        $rowsFixture = $this->getContentExtractFixture();
+        $rowsFixture = self::getContentExtractFixture();
         $nameRowsFixture = $this->getNamesExtractFixture();
 
         $contentType = $this->getContentTypeFromRows($rowsFixture);
@@ -202,7 +200,7 @@ class MapperTest extends LanguageAwareTestCase
 
     public function testExtractContentFromRowsWithNewFieldDefinitions(): void
     {
-        $rowsFixture = $this->getContentExtractFixture();
+        $rowsFixture = self::getContentExtractFixture();
         $nameRowsFixture = $this->getNamesExtractFixture();
 
         $contentType = $this->getContentTypeFromRows($rowsFixture);
@@ -250,7 +248,7 @@ class MapperTest extends LanguageAwareTestCase
 
     public function testExtractContentFromRowsWithRemovedFieldDefinitions(): void
     {
-        $rowsFixture = $this->getContentExtractFixture();
+        $rowsFixture = self::getContentExtractFixture();
         $nameRowsFixture = $this->getNamesExtractFixture();
 
         $contentType = $this->getContentTypeFromRows($rowsFixture);
@@ -397,9 +395,7 @@ class MapperTest extends LanguageAwareTestCase
         // fields
     }
 
-    /**
-     * @depends testCreateCreateStructFromContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateCreateStructFromContent')]
     public function testCreateCreateStructFromContentBasicProperties($data)
     {
         $content = $data['original'];
@@ -417,9 +413,7 @@ class MapperTest extends LanguageAwareTestCase
         self::assertGreaterThanOrEqual($time, $struct->modified);
     }
 
-    /**
-     * @depends testCreateCreateStructFromContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateCreateStructFromContent')]
     public function testCreateCreateStructFromContentParentLocationsEmpty($data)
     {
         self::assertEquals(
@@ -428,9 +422,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testCreateCreateStructFromContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateCreateStructFromContent')]
     public function testCreateCreateStructFromContentFieldCount($data)
     {
         self::assertEquals(
@@ -439,9 +431,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @depends testCreateCreateStructFromContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateCreateStructFromContent')]
     public function testCreateCreateStructFromContentFieldsNoId($data)
     {
         foreach ($data['result']->fields as $field) {
@@ -484,11 +474,10 @@ class MapperTest extends LanguageAwareTestCase
     }
 
     /**
-     * @dataProvider extractContentInfoFromRowProvider
-     *
      * @param array $fixtures
      * @param string $prefix
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractContentInfoFromRowProvider')]
     public function testExtractContentInfoFromRow(array $fixtures, $prefix)
     {
         $contentInfoReference = $this->getContentExtractReference()->versionInfo->contentInfo;
@@ -507,9 +496,9 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return array
      */
-    public function extractContentInfoFromRowProvider()
+    public static function extractContentInfoFromRowProvider()
     {
-        $fixtures = $this->getContentExtractFixture();
+        $fixtures = self::getContentExtractFixture();
         $fixturesNoPrefix = [];
         foreach ($fixtures[0] as $key => $value) {
             $keyNoPrefix = $key === 'content_tree_main_node_id'
@@ -544,7 +533,7 @@ class MapperTest extends LanguageAwareTestCase
      */
     public function extractVersionInfoFromRowProvider()
     {
-        $fixturesAll = $this->getContentExtractFixture();
+        $fixturesAll = self::getContentExtractFixture();
         $fixtures = $fixturesAll[0];
         $fixtures['content_version_names'] = [
             ['content_translation' => 'eng-US', 'name' => 'Something'],
@@ -570,7 +559,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return array
      */
-    protected function getContentExtractFixture()
+    protected static function getContentExtractFixture()
     {
         return require __DIR__ . '/_fixtures/extract_content_from_rows.php';
     }
@@ -670,7 +659,6 @@ class MapperTest extends LanguageAwareTestCase
     {
         if (!isset($this->valueConverterRegistryMock)) {
             $this->valueConverterRegistryMock = $this->getMockBuilder(Registry::class)
-                ->setMethods([])
                 ->getMock();
 
             $this->valueConverterRegistryMock
@@ -703,8 +691,8 @@ class MapperTest extends LanguageAwareTestCase
         $eventDispatcher->addSubscriber(
             new ResolveVirtualFieldSubscriber(
                 $this->getValueConverterRegistryMock(),
-                $this->createMock(StorageRegistry::class),
-                $this->createMock(Gateway::class)
+                $this->createStub(StorageRegistry::class),
+                $this->createStub(Gateway::class)
             )
         );
 

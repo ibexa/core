@@ -14,10 +14,9 @@ use UnexpectedValueException;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 abstract class FileSearchBaseIntegrationTestCase extends SearchBaseIntegrationTestCase
 {
     /**

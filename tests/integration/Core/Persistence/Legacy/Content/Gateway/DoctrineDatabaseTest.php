@@ -16,9 +16,8 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
 
 /**
  * @internal
- *
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase::class)]
 final class DoctrineDatabaseTest extends IbexaKernelTestCase
 {
     private const int CONTENT_ID = 2342;

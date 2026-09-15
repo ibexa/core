@@ -10,18 +10,13 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation
- *
- * @group integration
- * @group limitation
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 class LocationLimitationTest extends BaseLimitationTestCase
 {
     /**
      * Tests a LocationLimitation.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation
      */
     public function testLocationLimitationAllow()
     {

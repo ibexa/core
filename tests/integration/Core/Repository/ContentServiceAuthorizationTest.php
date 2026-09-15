@@ -18,14 +18,48 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 
 /**
  * Test case for operations in the ContentServiceAuthorization using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- *
- * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
- *
- * @group integration
- * @group authorization
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\ContentService::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'createContent()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'createContent($contentCreateStruct, $locationCreateStructs)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentInfo()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\Repository::class, 'sudo()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentInfoList()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentInfoByRemoteId()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadVersionInfo()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadVersionInfo($contentInfo, $versionNo)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadVersionInfoById()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadVersionInfoById($contentId, $versionNo)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentByContentInfo()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentByContentInfo($contentInfo, $languages)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentByContentInfo($contentInfo, $languages, $versionNo)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentByVersionInfo()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentByVersionInfo($versionInfo, $languages)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContent()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContent($contentId, $languages)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContent($contentId, $languages, $versionNo)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentByRemoteId()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentByRemoteId($remoteId, $languages)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentByRemoteId($remoteId, $languages, $versionNo)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'updateContentMetadata()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'deleteContent()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'createContentDraft()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'createContentDraft($contentInfo, $versionInfo)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'countContentDrafts()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentDraftList()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadContentDraftList($user)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'updateContent()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'publishVersion()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'deleteVersion()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadVersions()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'copyContent()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'copyContent($contentInfo, $destinationLocationCreateStruct, $versionInfo)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadRelationList()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'loadReverseRelations()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'addRelation()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'deleteRelation()')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('authorization')]
 class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
@@ -64,11 +98,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testCreateContent')]
     public function testCreateContentThrowsUnauthorizedException()
     {
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
@@ -91,11 +122,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent($contentCreateStruct, $locationCreateStructs)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testCreateContent')]
     public function testCreateContentThrowsUnauthorizedExceptionWithSecondParameter()
     {
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
@@ -108,11 +136,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfo()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentInfo
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentInfo')]
     public function testLoadContentInfoThrowsUnauthorizedException()
     {
         $contentId = $this->generateId('object', 10);
@@ -127,11 +152,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the sudo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Repository::sudo()
-     *
-     * @depends testLoadContentInfoThrowsUnauthorizedException
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadContentInfoThrowsUnauthorizedException')]
     public function testSudo()
     {
         $repository = $this->getRepository();
@@ -150,11 +172,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentInfoList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfoList()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentInfoList
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentInfoList')]
     public function testLoadContentInfoListSkipsUnauthorizedItems()
     {
         $contentId = $this->generateId('object', 10);
@@ -165,11 +184,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentInfoByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfoByRemoteId()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentInfoByRemoteId
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentInfoByRemoteId')]
     public function testLoadContentInfoByRemoteIdThrowsUnauthorizedException()
     {
         $anonymousRemoteId = 'faaeb9be3bd98ed09f606fc16d144eca';
@@ -184,11 +200,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfo()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadVersionInfo
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadVersionInfo')]
     public function testLoadVersionInfoThrowsUnauthorizedException()
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
@@ -203,11 +216,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfo($contentInfo, $versionNo)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadVersionInfoWithSecondParameter
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadVersionInfoWithSecondParameter')]
     public function testLoadVersionInfoThrowsUnauthorizedExceptionWithSecondParameter()
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
@@ -222,11 +232,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfoById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadVersionInfoById
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadVersionInfoById')]
     public function testLoadVersionInfoByIdThrowsUnauthorizedException()
     {
         $anonymousUserId = $this->generateId('user', 10);
@@ -240,11 +247,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfoById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById($contentId, $versionNo)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadVersionInfoByIdWithSecondParameter
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadVersionInfoByIdWithSecondParameter')]
     public function testLoadVersionInfoByIdThrowsUnauthorizedExceptionWithSecondParameter()
     {
         $anonymousUserId = $this->generateId('user', 10);
@@ -258,11 +262,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfoById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById($contentId, $versionNo)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadVersionInfoById
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadVersionInfoById')]
     public function testLoadVersionInfoByIdThrowsUnauthorizedExceptionForFirstDraft()
     {
         $contentDraft = $this->createContentDraftVersion1();
@@ -281,11 +282,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByContentInfo()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentByContentInfo
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentByContentInfo')]
     public function testLoadContentByContentInfoThrowsUnauthorizedException()
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
@@ -300,11 +298,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByContentInfo($contentInfo, $languages)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentByContentInfoWithLanguageParameters
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentByContentInfoWithLanguageParameters')]
     public function testLoadContentByContentInfoThrowsUnauthorizedExceptionWithSecondParameter()
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
@@ -319,11 +314,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByContentInfo($contentInfo, $languages, $versionNo)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentByContentInfoWithVersionNumberParameter
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentByContentInfoWithVersionNumberParameter')]
     public function testLoadContentByContentInfoThrowsUnauthorizedExceptionWithThirdParameter()
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
@@ -338,11 +330,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByVersionInfo()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentByVersionInfo
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentByVersionInfo')]
     public function testLoadContentByVersionInfoThrowsUnauthorizedException()
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
@@ -359,11 +348,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByVersionInfo($versionInfo, $languages)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentByVersionInfoWithSecondParameter
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentByVersionInfoWithSecondParameter')]
     public function testLoadContentByVersionInfoThrowsUnauthorizedExceptionWithSecondParameter()
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
@@ -380,11 +366,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContent')]
     public function testLoadContentThrowsUnauthorizedException()
     {
         $anonymousUserId = $this->generateId('user', 10);
@@ -398,11 +381,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent($contentId, $languages)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentWithPrioritizedLanguages
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentWithPrioritizedLanguages')]
     public function testLoadContentThrowsUnauthorizedExceptionWithSecondParameter()
     {
         $anonymousUserId = $this->generateId('user', 10);
@@ -416,11 +396,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent($contentId, $languages, $versionNo)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentWithThirdParameter
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentWithThirdParameter')]
     public function testLoadContentThrowsUnauthorizedExceptionWithThirdParameter()
     {
         $anonymousUserId = $this->generateId('user', 10);
@@ -434,11 +411,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method on a draft.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContent')]
     public function testLoadContentThrowsUnauthorizedExceptionOnDrafts()
     {
         $editorUser = $this->createUserVersion1();
@@ -462,11 +436,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the ContentService::loadContent() method on an archive.
      *
      * This test the version permission on loading archived versions
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContent')]
     public function testLoadContentThrowsUnauthorizedExceptionsOnArchives()
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
@@ -507,11 +478,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByRemoteId()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentByRemoteId
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentByRemoteId')]
     public function testLoadContentByRemoteIdThrowsUnauthorizedException()
     {
         $anonymousRemoteId = 'faaeb9be3bd98ed09f606fc16d144eca';
@@ -526,11 +494,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByRemoteId($remoteId, $languages)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentByRemoteIdWithSecondParameter
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentByRemoteIdWithSecondParameter')]
     public function testLoadContentByRemoteIdThrowsUnauthorizedExceptionWithSecondParameter()
     {
         $anonymousRemoteId = 'faaeb9be3bd98ed09f606fc16d144eca';
@@ -545,11 +510,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByRemoteId($remoteId, $languages, $versionNo)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentByRemoteIdWithThirdParameter
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentByRemoteIdWithThirdParameter')]
     public function testLoadContentByRemoteIdThrowsUnauthorizedExceptionWithThirdParameter()
     {
         $anonymousRemoteId = 'faaeb9be3bd98ed09f606fc16d144eca';
@@ -564,11 +526,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContentMetadata() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testUpdateContentMetadata
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testUpdateContentMetadata')]
     public function testUpdateContentMetadataThrowsUnauthorizedException()
     {
         $content = $this->createContentVersion1();
@@ -596,11 +555,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testDeleteContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testDeleteContent')]
     public function testDeleteContentThrowsUnauthorizedException()
     {
         $contentVersion2 = $this->createContentVersion2();
@@ -615,9 +571,6 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
         $this->contentService->deleteContent($contentInfo);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent()
-     */
     public function testDeleteContentThrowsUnauthorizedExceptionWithLanguageLimitation(): void
     {
         $contentVersion2 = $this->createMultipleLanguageContentVersion2();
@@ -641,9 +594,6 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
         $this->contentService->deleteContent($contentInfo);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent()
-     */
     public function testDeleteContentWithLanguageLimitation(): void
     {
         $contentVersion2 = $this->createMultipleLanguageContentVersion2();
@@ -667,11 +617,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContentDraft
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testCreateContentDraft')]
     public function testCreateContentDraftThrowsUnauthorizedException()
     {
         $content = $this->createContentVersion1();
@@ -688,11 +635,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft($contentInfo, $versionInfo)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContentDraftWithSecondParameter
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testCreateContentDraftWithSecondParameter')]
     public function testCreateContentDraftThrowsUnauthorizedExceptionWithSecondParameter()
     {
         $content = $this->createContentVersion1();
@@ -710,8 +654,6 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the countContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::countContentDrafts()
      */
     public function testCountContentDraftsReturnZero()
     {
@@ -720,12 +662,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
         self::assertSame(0, $this->contentService->countContentDrafts());
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
-     */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentDraftList')]
     public function testLoadContentDraftsThrowsUnauthorizedException()
     {
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
@@ -736,11 +673,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
         $this->contentService->loadContentDraftList();
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
-     */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadContentDraftList')]
     public function testLoadContentDraftsThrowsUnauthorizedExceptionWithUser()
     {
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
@@ -753,11 +686,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testUpdateContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testUpdateContent')]
     public function testUpdateContentThrowsUnauthorizedException()
     {
         $draftVersion2 = $this->createContentDraftVersion2();
@@ -782,11 +712,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testPublishVersion
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testPublishVersion')]
     public function testPublishVersionThrowsUnauthorizedException()
     {
         $draft = $this->createContentDraftVersion1();
@@ -801,11 +728,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testDeleteVersion
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testDeleteVersion')]
     public function testDeleteVersionThrowsUnauthorizedException()
     {
         $draft = $this->createContentDraftVersion1();
@@ -820,11 +744,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersions() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersions()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadVersions
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadVersions')]
     public function testLoadVersionsThrowsUnauthorizedException()
     {
         $contentVersion2 = $this->createContentVersion2();
@@ -841,11 +762,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCopyContent
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testCopyContent')]
     public function testCopyContentThrowsUnauthorizedException()
     {
         $parentLocationId = $this->generateId('location', 52);
@@ -878,11 +796,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent($contentInfo, $destinationLocationCreateStruct, $versionInfo)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCopyContentWithGivenVersion
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testCopyContentWithGivenVersion')]
     public function testCopyContentThrowsUnauthorizedExceptionWithGivenVersion()
     {
         $parentLocationId = $this->generateId('location', 52);
@@ -912,11 +827,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadRelationList
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadRelationList')]
     public function testLoadRelationsThrowsUnauthorizedException()
     {
         $mediaEditor = $this->createMediaUserVersion1();
@@ -939,11 +851,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadRelationList
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadRelationList')]
     public function testLoadRelationsForDraftVersionThrowsUnauthorizedException()
     {
         $draft = $this->createContentDraftVersion1();
@@ -958,11 +867,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadReverseRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadReverseRelations()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadReverseRelations
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testLoadReverseRelations')]
     public function testLoadReverseRelationsThrowsUnauthorizedException()
     {
         $mediaEditor = $this->createMediaUserVersion1();
@@ -981,11 +887,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the addRelation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::addRelation()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testAddRelation
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testAddRelation')]
     public function testAddRelationThrowsUnauthorizedException()
     {
         $mediaRemoteId = 'a6e35cbcb7cd6ae4b691f3eee30cd262';
@@ -1009,11 +912,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteRelation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteRelation()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testDeleteRelation
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testDeleteRelation')]
     public function testDeleteRelationThrowsUnauthorizedException()
     {
         $mediaRemoteId = 'a6e35cbcb7cd6ae4b691f3eee30cd262';
@@ -1069,11 +969,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test that for an user that doesn't have access (read permissions) to an
      * related object, executing loadRelations() would not throw any exception,
      * only that the non-readable related object(s) won't be loaded.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testAddRelation
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::class, 'testAddRelation')]
     public function testLoadRelationsWithUnauthorizedRelations()
     {
         $mainLanguage = 'eng-GB';

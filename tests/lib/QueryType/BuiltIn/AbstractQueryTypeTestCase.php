@@ -65,9 +65,7 @@ abstract class AbstractQueryTypeTestCase extends TestCase
         );
     }
 
-    /**
-     * @dataProvider dataProviderForGetQuery
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForGetQuery')]
     final public function testGetQuery(array $parameters, Query $expectedQuery): void
     {
         self::assertEquals($expectedQuery, $this->queryType->getQuery($parameters));
@@ -89,7 +87,7 @@ abstract class AbstractQueryTypeTestCase extends TestCase
         );
     }
 
-    abstract public function dataProviderForGetQuery(): iterable;
+    abstract public static function dataProviderForGetQuery(): iterable;
 
     abstract protected function createQueryType(
         Repository $repository,

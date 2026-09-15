@@ -39,9 +39,7 @@ final class ImageConverterTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider fieldValueToXmlProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('fieldValueToXmlProvider')]
     public function testToStorageValue(FieldValue $fieldValue, string $expectedXml): void
     {
         ClockMock::register(ImageConverter::class);
@@ -68,7 +66,7 @@ final class ImageConverterTest extends TestCase
         ClockMock::withClockMock(false);
     }
 
-    public function fieldValueToXmlProvider(): array
+    public static function fieldValueToXmlProvider(): array
     {
         $pathToImg = __DIR__ . '/../_fixtures/ibexa_fav.png';
         $dir = __DIR__ . '/../_fixtures';
@@ -132,9 +130,7 @@ final class ImageConverterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider xmlToFieldValueProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('xmlToFieldValueProvider')]
     public function testToFieldValue(string $xml, FieldValue $expectedFieldValue): void
     {
         ClockMock::register(ImageConverter::class);
@@ -162,7 +158,7 @@ final class ImageConverterTest extends TestCase
         ClockMock::withClockMock(false);
     }
 
-    public function xmlToFieldValueProvider(): array
+    public static function xmlToFieldValueProvider(): array
     {
         $pathToImg = __DIR__ . '/../_fixtures/ibexa_fav.png';
         $dir = __DIR__ . '/../_fixtures';

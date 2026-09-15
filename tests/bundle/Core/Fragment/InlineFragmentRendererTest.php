@@ -16,9 +16,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
-/**
- * @covers \Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer::class)]
 class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
 {
     private const string FOO_BAR_SEMANTIC_PATH = '/foo/bar';

@@ -19,6 +19,11 @@ use Ibexa\Core\Repository\UserPreferenceService;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\UserPreferenceService::class, 'setUserPreference()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\UserPreferenceService::class, 'setUserPreference')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\UserPreferenceService::class, 'getUserPreference()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\UserPreferenceService::class, 'loadUserPreferences')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\UserPreferenceService::class, 'getUserPreferenceCount()')]
 class UserPreferenceTest extends BaseServiceMockTest
 {
     public const CURRENT_USER_ID = 14;
@@ -42,9 +47,6 @@ class UserPreferenceTest extends BaseServiceMockTest
             ->willReturn($permissionResolverMock);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::setUserPreference()
-     */
     public function testSetUserPreference()
     {
         $apiUserPreferenceSetStruct = new APIUserPreferenceSetStruct([
@@ -68,9 +70,6 @@ class UserPreferenceTest extends BaseServiceMockTest
         $this->createAPIUserPreferenceService()->setUserPreference([$apiUserPreferenceSetStruct]);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::setUserPreference
-     */
     public function testSetUserPreferenceThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -86,9 +85,6 @@ class UserPreferenceTest extends BaseServiceMockTest
         $this->createAPIUserPreferenceService()->setUserPreference([$apiUserPreferenceSetStruct]);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::setUserPreference
-     */
     public function testSetUserPreferenceWithRollback()
     {
         $this->expectException(\Exception::class);
@@ -102,15 +98,12 @@ class UserPreferenceTest extends BaseServiceMockTest
             $this->userSPIPreferenceHandler
                 ->expects($this->once())
                 ->method('setUserPreference')
-                ->willThrowException($this->createMock(Exception::class));
+                ->willThrowException($this->createStub(Exception::class));
         });
 
         $this->createAPIUserPreferenceService()->setUserPreference([$apiUserPreferenceSetStruct]);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::getUserPreference()
-     */
     public function testGetUserPreference()
     {
         $userPreferenceName = 'setting';
@@ -134,9 +127,6 @@ class UserPreferenceTest extends BaseServiceMockTest
         self::assertEquals($expected, $APIUserPreference);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::loadUserPreferences
-     */
     public function testLoadUserPreferences()
     {
         $offset = 0;
@@ -170,9 +160,6 @@ class UserPreferenceTest extends BaseServiceMockTest
         self::assertEquals($expectedItems, $userPreferences->items);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::getUserPreferenceCount()
-     */
     public function testGetUserPreferenceCount()
     {
         $expectedTotalCount = 10;
@@ -196,7 +183,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         return $this
             ->getMockBuilder(UserPreferenceService::class)
             ->setConstructorArgs([$this->getRepositoryMock(), $this->userSPIPreferenceHandler])
-            ->setMethods($methods)
+            ->onlyMethods(array_values($methods ?? []))
             ->getMock();
     }
 

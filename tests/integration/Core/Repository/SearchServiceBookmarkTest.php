@@ -55,11 +55,10 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
     }
 
     /**
-     * @dataProvider provideDataForTestCriterion
-     *
      * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion> $criteria
      * @param array<string> $remoteIds
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataForTestCriterion')]
     public function testCriterion(
         int $expectedCount,
         array $criteria,
@@ -76,7 +75,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
      *     array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion>
      * }>
      */
-    public function provideDataForTestCriterion(): iterable
+    public static function provideDataForTestCriterion(): iterable
     {
         yield 'All bookmarked locations' => [
             self::ALL_BOOKMARKED_LOCATIONS,

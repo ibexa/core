@@ -37,11 +37,13 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
  * - Test toHash
  * - Test fromHash
  *
- * @group integration
- * @group field-type
  *
  * @todo Finalize dependencies to other tests (including groups!)
  */
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\FieldType\FieldType::class, 'isEmptyValue')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'deleteTranslation')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 abstract class BaseIntegrationTestCase extends BaseTestCase
 {
     /**
@@ -151,7 +153,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @return array[]
      */
-    abstract public function provideInvalidCreationFieldData();
+    abstract public static function provideInvalidCreationFieldData();
 
     /**
      * Get valid field data for updating content.
@@ -191,7 +193,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @return array[]
      */
-    abstract public function provideInvalidUpdateFieldData();
+    abstract public static function provideInvalidUpdateFieldData();
 
     /**
      * Asserts the the field data was loaded correctly.
@@ -223,7 +225,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @return array
      */
-    abstract public function provideToHashData();
+    abstract public static function provideToHashData();
 
     /**
      * Get hashes and their respective converted values.
@@ -245,7 +247,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @return array
      */
-    abstract public function provideFromHashData();
+    abstract public static function provideFromHashData();
 
     /**
      * Method called after content creation.
@@ -383,32 +385,33 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\FieldType::isEmptyValue
-     *
-     * @dataProvider providerForTestIsEmptyValue
+     * Sentinel value a {@see self::providerForTestIsEmptyValue()} override returns when the
+     * field type has no "empty" representation, since PHPUnit 11 treats an empty data provider
+     * as a hard error rather than a skip.
      */
+    protected const NO_EMPTY_VALUE_DATA = '__no_empty_value_data__';
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestIsEmptyValue')]
     public function testIsEmptyValue($value)
     {
+        if ($value === self::NO_EMPTY_VALUE_DATA) {
+            self::markTestSkipped('This field type has no "empty" value representation.');
+        }
+
         self::assertTrue($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
     }
 
-    abstract public function providerForTestIsEmptyValue();
+    abstract public static function providerForTestIsEmptyValue();
 
-    /**
-     * @covers \Ibexa\Core\FieldType\FieldType::isEmptyValue
-     *
-     * @dataProvider providerForTestIsNotEmptyValue
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestIsNotEmptyValue')]
     public function testIsNotEmptyValue($value)
     {
         self::assertFalse($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
     }
 
-    abstract public function providerForTestIsNotEmptyValue();
+    abstract public static function providerForTestIsNotEmptyValue();
 
-    /**
-     * @depends testCreateContentType
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContentType')]
     public function testContentTypeField($contentType)
     {
         self::assertSame(
@@ -417,9 +420,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testCreateContentType
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContentType')]
     public function testLoadContentTypeField()
     {
         $contentType = $this->testCreateContentType();
@@ -430,9 +431,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentTypeService->loadContentType($contentType->id);
     }
 
-    /**
-     * @depends testLoadContentTypeField
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadContentTypeField')]
     public function testLoadContentTypeFieldType($contentType)
     {
         self::assertSame(
@@ -455,9 +454,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testLoadContentTypeFieldType
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadContentTypeFieldType')]
     public function testLoadContentTypeFieldData(FieldDefinition $fieldDefinition)
     {
         self::assertEquals(
@@ -477,9 +474,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testCreateContentType
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContentType')]
     public function testCreateContentTypeFailsWithInvalidFieldSettings()
     {
         $this->expectException(ContentTypeFieldDefinitionValidationException::class);
@@ -502,9 +497,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testCreateContentType
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContentType')]
     public function testCreateContentTypeFailsWithInvalidValidatorConfiguration()
     {
         $this->expectException(ContentTypeFieldDefinitionValidationException::class);
@@ -515,9 +508,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testLoadContentTypeField
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadContentTypeField')]
     public function testCreateContent()
     {
         return $this->createContent($this->getValidCreationFieldData());
@@ -597,9 +588,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->createContent($createStruct, $locationCreateStructs);
     }
 
-    /**
-     * @depends testCreateContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContent')]
     public function testCreatedFieldType($content)
     {
         foreach ($content->getFields() as $field) {
@@ -611,9 +600,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testCreateContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContent')]
     public function testPublishContent()
     {
         $draft = $this->testCreateContent();
@@ -628,9 +615,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->publishVersion($draft->getVersionInfo());
     }
 
-    /**
-     * @depends testPublishContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testPublishContent')]
     public function testPublishedFieldType($content)
     {
         foreach ($content->getFields() as $field) {
@@ -642,9 +627,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testPublishContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testPublishContent')]
     public function testPublishedName(Content $content)
     {
         self::assertEquals(
@@ -653,9 +636,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testCreateContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContent')]
     public function testLoadField()
     {
         $content = $this->testCreateContent();
@@ -666,9 +647,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->loadContent($content->contentInfo->id);
     }
 
-    /**
-     * @depends testLoadField
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadField')]
     public function testLoadFieldType()
     {
         $content = $this->testCreateContent();
@@ -682,9 +661,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testLoadFieldType
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadFieldType')]
     public function testLoadExternalData()
     {
         $this->assertFieldDataLoadedCorrect($this->testLoadFieldType());
@@ -701,10 +678,10 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     /**
      * Test that publishing (and thus indexing) content with an empty field value does not fail.
      *
-     * @depends testCreateContentWithEmptyFieldValue
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentDraft
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContentWithEmptyFieldValue')]
     public function testPublishContentWithEmptyFieldValue(Content $contentDraft)
     {
         $this->getRepository(false)->getContentService()->publishVersion(
@@ -712,9 +689,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testCreateContentWithEmptyFieldValue
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContentWithEmptyFieldValue')]
     public function testCreatedEmptyFieldValue($content)
     {
         foreach ($content->getFields() as $field) {
@@ -726,11 +701,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testCreateContentWithEmptyFieldValue
-     *
-     * @group xx
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContentWithEmptyFieldValue')]
+    #[\PHPUnit\Framework\Attributes\Group('xx')]
     public function testLoadEmptyFieldValue()
     {
         $content = $this->testCreateContentWithEmptyFieldValue();
@@ -741,9 +713,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->loadContent($content->contentInfo->id);
     }
 
-    /**
-     * @depends testLoadEmptyFieldValue
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadEmptyFieldValue')]
     public function testLoadEmptyFieldValueType($content)
     {
         foreach ($content->getFields() as $field) {
@@ -755,9 +725,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testLoadEmptyFieldValueType
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadEmptyFieldValueType')]
     public function testLoadEmptyFieldValueData($field)
     {
         /** @var \Ibexa\Core\FieldType\FieldType $fieldType */
@@ -775,9 +743,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testLoadFieldType
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testLoadFieldType')]
     public function testUpdateField()
     {
         return $this->updateContent($this->getValidUpdateFieldData());
@@ -811,9 +777,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->updateContent($draft->versionInfo, $updateStruct);
     }
 
-    /**
-     * @depends testUpdateField
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testUpdateField')]
     public function testUpdateTypeFieldStillAvailable($content)
     {
         foreach ($content->getFields() as $field) {
@@ -825,9 +789,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testUpdateTypeFieldStillAvailable
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testUpdateTypeFieldStillAvailable')]
     public function testUpdatedDataCorrect(Field $field)
     {
         $this->assertUpdatedFieldDataLoadedCorrect($field);
@@ -841,9 +803,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $this->updateContent(null, false);
     }
 
-    /**
-     * @depends testUpdateFieldNoNewContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testUpdateFieldNoNewContent')]
     public function testUpdateNoNewContentTypeFieldStillAvailable($content)
     {
         foreach ($content->getFields() as $field) {
@@ -855,17 +815,13 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testUpdateNoNewContentTypeFieldStillAvailable
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testUpdateNoNewContentTypeFieldStillAvailable')]
     public function testUpdatedNoNewContentDataCorrect(Field $field)
     {
         $this->assertFieldDataLoadedCorrect($field);
     }
 
-    /**
-     * @depends testCreateContent
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContent')]
     public function testCopyField($content)
     {
         $content = $this->testCreateContent();
@@ -887,9 +843,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->loadContent($copied->id);
     }
 
-    /**
-     * @depends testCopyField
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCopyField')]
     public function testCopiedFieldType($content)
     {
         foreach ($content->getFields() as $field) {
@@ -901,17 +855,13 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testCopiedFieldType
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCopiedFieldType')]
     public function testCopiedExternalData(Field $field)
     {
         $this->assertCopiedFieldDataLoadedCorrectly($field);
     }
 
-    /**
-     * @depends testCopyField
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCopyField')]
     public function testDeleteContent($content)
     {
         $this->expectException(NotFoundException::class);
@@ -930,9 +880,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      * Tests failing content creation.
      *
      * @param mixed $failingValue
-     *
-     * @dataProvider provideInvalidCreationFieldData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideInvalidCreationFieldData')]
     public function testCreateContentFails($failingValue, ?string $expectedException): void
     {
         $this->expectException($expectedException);
@@ -944,9 +893,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @param mixed $failingValue
      * @param string $expectedException
-     *
-     * @dataProvider provideInvalidUpdateFieldData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideInvalidUpdateFieldData')]
     public function testUpdateContentFails($failingValue, $expectedException)
     {
         $this->expectException($expectedException);
@@ -1025,9 +973,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @dataProvider provideToHashData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideToHashData')]
     public function testToHash($value, $expectedHash)
     {
         $repository = $this->getRepository();
@@ -1041,13 +987,11 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     }
 
     /**
-     * @depends testCreateContent
-     *
-     * @dataProvider provideFromHashData
-     *
      * @todo: Requires correct registered FieldTypeService, needs to be
      *        maintained!
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateContent')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideFromHashData')]
     public function testFromHash($hash, $expectedValue)
     {
         $repository = $this->getRepository();
@@ -1149,8 +1093,6 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
 
     /**
      * Test that removing Translation from all Versions works for data from a Field Type.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslation
      */
     public function testDeleteTranslation()
     {

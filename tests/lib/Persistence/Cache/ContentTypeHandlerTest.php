@@ -34,7 +34,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
     /**
      * @return array
      */
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         $groupUpdate = new SPITypeGroupUpdateStruct(['id' => 3, 'identifier' => 'media']);
         $typeUpdate = new SPITypeUpdateStruct(['identifier' => 'article', 'remoteId' => '34o9tj8394t']);
@@ -181,7 +181,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
     /**
      * @return array
      */
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $group = new SPITypeGroup(['id' => 3, 'identifier' => 'media']);
         $type = new SPIType(['id' => 5, 'identifier' => 'article', 'remoteId' => '34o9tj8394t']);
@@ -238,7 +238,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $group = new SPITypeGroup(['id' => 3, 'identifier' => 'media']);
         $type = new SPIType(['id' => 5, 'identifier' => 'article', 'remoteId' => '34o9tj8394t']);
@@ -425,34 +425,60 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             ->method($method)
             ->with(...$arguments)
             ->willReturn(null);
+        $matcher = self::exactly(3);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(3))
-            ->method('generateTag')
-            ->withConsecutive(
-                ['type', [5], false],
-                ['type_map', [], false],
-                ['content_fields_type', [5], false]
-            )
-            ->willReturnOnConsecutiveCalls(
-                't-5',
-                'tm',
-                'cft-5'
-            );
+            ->expects($matcher)
+            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('type', $parameters[0]);
+                    $this->assertSame([5], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 't-5';
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('type_map', $parameters[0]);
+                    $this->assertSame([], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'tm';
+                }
+                if ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame('content_fields_type', $parameters[0]);
+                    $this->assertSame([5], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'cft-5';
+                }
+            });
+        $matcher = self::exactly(3);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(3))
-            ->method('generateKey')
-            ->withConsecutive(
-                ['content_type', [], true],
-                ['content_type_list_by_group', [3], true],
-                ['content_type_list_by_group', [4], true]
-            )
-            ->willReturnOnConsecutiveCalls(
-                'ibx-ct',
-                'ibx-ctlbg-3',
-                'ibx-ctlbg-4'
-            );
+            ->expects($matcher)
+            ->method('generateKey')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('content_type', $parameters[0]);
+                    $this->assertSame([], $parameters[1]);
+                    $this->assertTrue($parameters[2]);
+
+                    return 'ibx-ct';
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('content_type_list_by_group', $parameters[0]);
+                    $this->assertSame([3], $parameters[1]);
+                    $this->assertTrue($parameters[2]);
+
+                    return 'ibx-ctlbg-3';
+                }
+                if ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame('content_type_list_by_group', $parameters[0]);
+                    $this->assertSame([4], $parameters[1]);
+                    $this->assertTrue($parameters[2]);
+
+                    return 'ibx-ctlbg-4';
+                }
+            });
 
         $this->cacheMock
             ->expects(!empty($tags) ? self::once() : self::never())

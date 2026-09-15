@@ -46,9 +46,9 @@ class APIFieldTypeTest extends TestCase
     {
         $validatorConfig = ['foo' => 'bar'];
         $validationErrors = [
-            $this->createMock(ValidationError::class),
-            $this->createMock(ValidationError::class),
-            $this->createMock(ValidationError::class),
+            $this->createStub(ValidationError::class),
+            $this->createStub(ValidationError::class),
+            $this->createStub(ValidationError::class),
         ];
         $this->innerFieldType
             ->expects(self::once())
@@ -76,9 +76,9 @@ class APIFieldTypeTest extends TestCase
     {
         $fieldSettings = ['foo' => 'bar'];
         $validationErrors = [
-            $this->createMock(ValidationError::class),
-            $this->createMock(ValidationError::class),
-            $this->createMock(ValidationError::class),
+            $this->createStub(ValidationError::class),
+            $this->createStub(ValidationError::class),
+            $this->createStub(ValidationError::class),
         ];
         $this->innerFieldType
             ->expects(self::once())
@@ -108,9 +108,9 @@ class APIFieldTypeTest extends TestCase
         $fieldDefinition = $this->getMockForAbstractClass(APIFieldDefinition::class);
         $value = $this->getMockForAbstractClass(Value::class);
         $validationErrors = [
-            $this->createMock(ValidationError::class),
-            $this->createMock(ValidationError::class),
-            $this->createMock(ValidationError::class),
+            $this->createStub(ValidationError::class),
+            $this->createStub(ValidationError::class),
+            $this->createStub(ValidationError::class),
         ];
         $this->innerFieldType
             ->expects(self::once())

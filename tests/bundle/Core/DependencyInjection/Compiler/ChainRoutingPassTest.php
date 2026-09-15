@@ -14,9 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainRoutingPass
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainRoutingPass::class)]
 class ChainRoutingPassTest extends AbstractCompilerPassTestCase
 {
     protected function setUp(): void
@@ -39,9 +37,8 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
     /**
      * @param int|null $declaredPriority
      * @param int $expectedPriority
-     *
-     * @dataProvider addRouterProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('addRouterProvider')]
     public function testAddRouter($declaredPriority, $expectedPriority)
     {
         $resolverDef = new Definition();
@@ -65,9 +62,8 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
     /**
      * @param int|null $declaredPriority
      * @param int $expectedPriority
-     *
-     * @dataProvider addRouterProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('addRouterProvider')]
     public function testAddRouterWithDefaultRouter($declaredPriority, $expectedPriority)
     {
         $defaultRouter = new Definition();
@@ -100,7 +96,7 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function addRouterProvider()
+    public static function addRouterProvider()
     {
         return [
             [null, 0],

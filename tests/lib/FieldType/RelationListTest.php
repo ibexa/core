@@ -131,7 +131,7 @@ class RelationListTest extends FieldTypeTestCase
         return new Value();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -141,7 +141,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'empty value object' => [
             new Value(),
@@ -164,7 +164,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -178,7 +178,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -192,7 +192,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -252,7 +252,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -288,7 +288,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidValidatorConfiguration(): array
+    public static function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -311,7 +311,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidValidatorConfiguration(): array
+    public static function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -343,7 +343,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'unlimited selection limit' => [
             [
@@ -390,7 +390,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'selection exceeds limit' => [
             [
@@ -418,15 +418,22 @@ class RelationListTest extends FieldTypeTestCase
     {
         $invalidDestinationContentId = (int) 'invalid';
         $invalidDestinationContentId2 = (int) 'invalid-second';
+        $matcher = self::exactly(2);
 
         $this->targetContentValidator
-            ->expects(self::exactly(2))
-            ->method('validate')
-            ->withConsecutive([$invalidDestinationContentId], [$invalidDestinationContentId2])
-            ->willReturnOnConsecutiveCalls(
-                $this->generateValidationError($invalidDestinationContentId),
-                $this->generateValidationError($invalidDestinationContentId2)
-            );
+            ->expects($matcher)
+            ->method('validate')->willReturnCallback(function (...$parameters) use ($matcher, $invalidDestinationContentId, $invalidDestinationContentId2) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame($invalidDestinationContentId, $parameters[0]);
+
+                    return $this->generateValidationError($invalidDestinationContentId);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame($invalidDestinationContentId2, $parameters[0]);
+
+                    return $this->generateValidationError($invalidDestinationContentId2);
+                }
+            });
 
         $validationErrors = $this->doValidate([], new Value([$invalidDestinationContentId, $invalidDestinationContentId2]));
 
@@ -439,17 +446,23 @@ class RelationListTest extends FieldTypeTestCase
         $destinationContentId = 12;
         $destinationContentId2 = 13;
         $allowedContentTypes = ['article', 'folder'];
+        $matcher = $this->exactly(2);
 
-        $this->targetContentValidator
-            ->method('validate')
-            ->withConsecutive(
-                [$destinationContentId, $allowedContentTypes],
-                [$destinationContentId2, $allowedContentTypes]
-            )
-            ->willReturnOnConsecutiveCalls(
-                $this->generateContentTypeValidationError('test'),
-                $this->generateContentTypeValidationError('test')
-            );
+        $this->targetContentValidator->expects($matcher)
+            ->method('validate')->willReturnCallback(function (...$parameters) use ($matcher, $destinationContentId, $allowedContentTypes, $destinationContentId2) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame($destinationContentId, $parameters[0]);
+                    $this->assertSame($allowedContentTypes, $parameters[1]);
+
+                    return $this->generateContentTypeValidationError('test');
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame($destinationContentId2, $parameters[0]);
+                    $this->assertSame($allowedContentTypes, $parameters[1]);
+
+                    return $this->generateContentTypeValidationError('test');
+                }
+            });
 
         $validationErrors = $this->doValidate(
             ['fieldSettings' => ['selectionContentTypes' => $allowedContentTypes]],
@@ -500,9 +513,7 @@ class RelationListTest extends FieldTypeTestCase
         return 'ibexa_object_relation_list';
     }
 
-    /**
-     * @dataProvider provideDataForGetName
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataForGetName')]
     public function testGetName(
         SPIValue $value,
         string $expected,
@@ -516,10 +527,10 @@ class RelationListTest extends FieldTypeTestCase
         self::assertSame($expected, $name);
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new Value(), '', [], 'en_GB'],
             [new Value([self::DESTINATION_CONTENT_ID_14, self::DESTINATION_CONTENT_ID_22]), 'name_14_en_GB name_22_en_GB', [], 'en_GB'],
             [new Value([self::DESTINATION_CONTENT_ID_14, self::DESTINATION_CONTENT_ID_22]), 'Name_14_de_DE Name_22_de_DE', [], 'de_DE'],
         ];

@@ -82,7 +82,7 @@ final class ConfigParserTest extends TestCase
             'some' => 'thing',
         ];
         $currentScope = 'the_current_scope';
-        $contextualizer = $this->createMock(ContextualizerInterface::class);
+        $contextualizer = $this->createStub(ContextualizerInterface::class);
 
         foreach ($parsers as $parser) {
             /* @var \PHPUnit\Framework\MockObject\MockObject $parser */
@@ -110,7 +110,7 @@ final class ConfigParserTest extends TestCase
             'foo' => 'bar',
             'some' => 'thing',
         ];
-        $contextualizer = $this->createMock(ContextualizerInterface::class);
+        $contextualizer = $this->createStub(ContextualizerInterface::class);
 
         foreach ($parsers as $parser) {
             /* @var \PHPUnit\Framework\MockObject\MockObject $parser */

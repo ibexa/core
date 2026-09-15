@@ -38,7 +38,7 @@ class GeneratorTest extends TestCase
         $this->generator->setLogger($this->logger);
     }
 
-    public function generateProvider()
+    public static function generateProvider()
     {
         return [
             ['foo_bar', [], UrlGeneratorInterface::ABSOLUTE_PATH],
@@ -53,9 +53,7 @@ class GeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider generateProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('generateProvider')]
     public function testSimpleGenerate($urlResource, array $parameters, $referenceType)
     {
         $matcher = $this->createMock(URILexer::class);
@@ -86,9 +84,7 @@ class GeneratorTest extends TestCase
         self::assertSame($fullUri, $this->generator->generate($urlResource, $parameters, $referenceType));
     }
 
-    /**
-     * @dataProvider generateProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('generateProvider')]
     public function testGenerateWithSiteAccessNoReverseMatch($urlResource, array $parameters, $referenceType)
     {
         $matcher = $this->createMock(URILexer::class);

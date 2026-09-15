@@ -11,9 +11,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Security\User;
 use Ibexa\Core\MVC\Symfony\Security\User\BaseProvider;
 use Ibexa\Core\MVC\Symfony\Security\User\EmailProvider;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Security\User\EmailProvider
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Security\User\EmailProvider::class)]
 final class EmailProviderTest extends BaseProviderTestCase
 {
     protected function buildProvider(): BaseProvider

@@ -32,7 +32,7 @@ final class CacheFactoryTest extends TestCase
     /**
      * @return array<array{string, string}>
      */
-    public function providerGetService(): array
+    public static function providerGetService(): array
     {
         return [
             ['default', 'default'],
@@ -41,9 +41,7 @@ final class CacheFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetService
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerGetService')]
     public function testGetService($name, $expected): void
     {
         $this->configResolver
@@ -56,7 +54,7 @@ final class CacheFactoryTest extends TestCase
             ->expects(self::once())
             ->method('get')
             ->with($expected)
-            ->will(self::returnValue($this->createMock(AdapterInterface::class)));
+            ->will(self::returnValue($this->createStub(AdapterInterface::class)));
 
         $factory = new CacheFactory($this->container);
 

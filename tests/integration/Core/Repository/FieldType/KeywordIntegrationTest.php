@@ -16,10 +16,10 @@ use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\SearchService::class, 'findContent()')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     /**
@@ -156,7 +156,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -200,9 +200,9 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -246,7 +246,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -263,7 +263,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -273,7 +273,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new KeywordValue()],
@@ -282,11 +282,11 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new KeywordValue(['foo', 'bar', 'sindelfingen']),
             ],
             [
                 new KeywordValue(['0']),
@@ -441,22 +441,22 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         return $contentService->publishVersion($contentDraft->versionInfo);
     }
 
-    protected function getValidSearchValueOne(): string
+    protected static function getValidSearchValueOne(): string
     {
         return 'add';
     }
 
-    protected function getValidSearchValueTwo(): string
+    protected static function getValidSearchValueTwo(): string
     {
         return 'branch';
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected static function getValidMultivaluedSearchValuesOne()
     {
         return ['add', 'branch'];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected static function getValidMultivaluedSearchValuesTwo()
     {
         return ['commit', 'delete'];
     }
@@ -466,14 +466,14 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         // Does nothing
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['add', 'branch'],
         ];
     }
 
-    public function providerForTestTruncateField()
+    public static function providerForTestTruncateField()
     {
         return [
             [new KeywordValue()],
@@ -487,12 +487,12 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
     /**
      * Test that setting an empty value truncates field data.
      *
-     * @dataProvider providerForTestTruncateField
      *
      * @param mixed $emptyValue data representing an empty value
      *
      * @todo Move this method to BaseIntegrationTest when fixed for all field types.
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestTruncateField')]
     public function testTruncateField($emptyValue)
     {
         $repository = $this->getRepository();
@@ -575,8 +575,6 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
     public function testFindContentFieldCriterion()
     {

@@ -19,9 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Notification\Handler;
 use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Notification\Handler
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Notification\Handler::class)]
 class HandlerTest extends TestCase
 {
     public const NOTIFICATION_ID = 1;

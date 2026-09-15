@@ -41,7 +41,7 @@ final class VersionValidatorTest extends BaseTestCase
         parent::setUp();
 
         $this->validator = new VersionValidator(
-            $this->createMock(FieldTypeRegistry::class)
+            $this->createStub(FieldTypeRegistry::class)
         );
 
         $repository = $this->getRepository();

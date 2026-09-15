@@ -48,7 +48,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTestCase
             'inline'
         );
 
-        $contentMock = $this->createMock(Content::class);
+        $contentMock = $this->createStub(Content::class);
         self::assertTrue($renderContentStrategy->supports($contentMock));
 
         self::assertSame(
@@ -64,7 +64,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTestCase
             [],
         );
 
-        $contentMock = $this->createMock(Content::class);
+        $contentMock = $this->createStub(Content::class);
         self::assertTrue($renderContentStrategy->supports($contentMock));
 
         $this->expectException(InvalidArgumentException::class);
@@ -82,7 +82,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTestCase
             ],
         );
 
-        $contentMock = $this->createMock(Content::class);
+        $contentMock = $this->createStub(Content::class);
         self::assertTrue($renderContentStrategy->supports($contentMock));
 
         self::assertSame(
@@ -112,7 +112,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTestCase
             ],
         );
 
-        $contentMock = $this->createMock(Content::class);
+        $contentMock = $this->createStub(Content::class);
         self::assertTrue($renderContentStrategy->supports($contentMock));
 
         self::assertSame(

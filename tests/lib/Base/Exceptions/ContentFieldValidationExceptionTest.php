@@ -12,9 +12,7 @@ use Ibexa\Core\Base\Exceptions\ContentFieldValidationException;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Tests\Core\Search\TestCase;
 
-/**
- * @covers \Ibexa\Core\Base\Exceptions\ContentFieldValidationException
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Base\Exceptions\ContentFieldValidationException::class)]
 final class ContentFieldValidationExceptionTest extends TestCase
 {
     /**

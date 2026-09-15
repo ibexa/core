@@ -16,9 +16,7 @@ use League\Flysystem\FilesystemOperator;
 use League\Flysystem\Visibility;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @covers \Ibexa\Core\IO\IOBinarydataHandler\Flysystem
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\IO\IOBinarydataHandler\Flysystem::class)]
 final class FlysystemTest extends IbexaKernelTestCase
 {
     private IOBinarydataHandler $binaryDataHandler;

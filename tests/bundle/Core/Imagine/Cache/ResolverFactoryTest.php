@@ -41,7 +41,7 @@ class ResolverFactoryTest extends TestCase
     public function testCreateProxyCacheResolver()
     {
         $this->configResolver
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('hasParameter')
             ->with('image_host')
             ->willReturn(true);
@@ -49,7 +49,7 @@ class ResolverFactoryTest extends TestCase
         $host = 'http://ibexa.co';
 
         $this->configResolver
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_host')
             ->willReturn($host);
@@ -62,7 +62,7 @@ class ResolverFactoryTest extends TestCase
     public function testCreateRelativeCacheResolver()
     {
         $this->configResolver
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('hasParameter')
             ->with('image_host')
             ->willReturn(true);
@@ -70,7 +70,7 @@ class ResolverFactoryTest extends TestCase
         $host = '/';
 
         $this->configResolver
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_host')
             ->willReturn($host);

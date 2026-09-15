@@ -11,9 +11,7 @@ namespace Ibexa\Tests\Core\IO\Flysystem\PathPrefixer;
 use Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface;
 use Ibexa\Tests\Core\Search\TestCase;
 
-/**
- * @covers \Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface::class)]
 abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
 {
     abstract protected function getPrefixer(): PathPrefixerInterface;
@@ -21,30 +19,28 @@ abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
     /**
      * @return iterable<string, array{string, string}>
      */
-    abstract public function getDataForTestPrefixPath(): iterable;
+    abstract public static function getDataForTestPrefixPath(): iterable;
 
     /**
      * @return iterable<string, array{string, string}>
      */
-    abstract public function getDataForTestPrefixDirectoryPath(): iterable;
+    abstract public static function getDataForTestPrefixDirectoryPath(): iterable;
 
     /**
      * @return iterable<string, array{string, string}>
      */
-    abstract public function getDataForTestStripPrefixPath(): iterable;
+    abstract public static function getDataForTestStripPrefixPath(): iterable;
 
     /**
      * @return iterable<string, array{string, string}>
      */
-    public function getDataForTestStripDirectoryPrefix(): iterable
+    public static function getDataForTestStripDirectoryPrefix(): iterable
     {
         // treat file names as directories
-        yield from $this->getDataForTestStripPrefixPath();
+        yield from static::getDataForTestStripPrefixPath();
     }
 
-    /**
-     * @dataProvider getDataForTestPrefixPath
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestPrefixPath')]
     final public function testPrefixPath(string $expectedPrefixedPath, string $path): void
     {
         self::assertSame(
@@ -53,9 +49,7 @@ abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
         );
     }
 
-    /**
-     * @dataProvider getDataForTestPrefixDirectoryPath
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestPrefixDirectoryPath')]
     final public function testPrefixDirectoryPath(string $expectedPrefixedPath, string $path): void
     {
         self::assertSame(
@@ -64,9 +58,7 @@ abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
         );
     }
 
-    /**
-     * @dataProvider getDataForTestStripPrefixPath
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestStripPrefixPath')]
     final public function testStripPrefix(string $expectedStrippedPath, string $path): void
     {
         self::assertSame(
@@ -75,9 +67,7 @@ abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
         );
     }
 
-    /**
-     * @dataProvider getDataForTestStripDirectoryPrefix
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestStripDirectoryPrefix')]
     final public function testStripDirectoryPrefix(string $expectedStrippedPath, string $path): void
     {
         self::assertSame(

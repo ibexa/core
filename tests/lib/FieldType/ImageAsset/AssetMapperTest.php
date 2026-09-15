@@ -82,15 +82,19 @@ class AssetMapperTest extends TestCase
             ->with($contentType, $languageCode)
             ->willReturn($contentCreateStruct);
 
+        $matcher = self::exactly(2);
         $contentCreateStruct
-            ->expects(self::at(0))
+            ->expects($matcher)
             ->method('setField')
-            ->with($this->mappings['name_field_identifier'], $name);
-
-        $contentCreateStruct
-            ->expects(self::at(1))
-            ->method('setField')
-            ->with($this->mappings['content_field_identifier'], $value);
+            ->willReturnCallback(function (string $fieldDefIdentifier, mixed $actualValue, ?string $language = null) use ($matcher, $name, $value): void {
+                if ($matcher->numberOfInvocations() === 1) {
+                    self::assertSame($this->mappings['name_field_identifier'], $fieldDefIdentifier);
+                    self::assertSame($name, $actualValue);
+                } else {
+                    self::assertSame($this->mappings['content_field_identifier'], $fieldDefIdentifier);
+                    self::assertSame($value, $actualValue);
+                }
+            });
 
         $this->locationService
             ->expects(self::once())
@@ -208,9 +212,7 @@ class AssetMapperTest extends TestCase
         $mapper->getAssetField($content);
     }
 
-    /**
-     * @dataProvider dataProviderForIsAsset
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForIsAsset')]
     public function testIsAsset(int $contentContentTypeId, int $assetContentTypeId, bool $expected): void
     {
         $assetContentType = new ContentType([
@@ -230,7 +232,7 @@ class AssetMapperTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
-    public function dataProviderForIsAsset(): array
+    public static function dataProviderForIsAsset(): array
     {
         return [
             [487, 487, true],
@@ -280,7 +282,7 @@ class AssetMapperTest extends TestCase
 
     private function createPartialMapper(array $methods = []): AssetMapper
     {
-        return $this
+        $builder = $this
             ->getMockBuilder(AssetMapper::class)
             ->setConstructorArgs([
                 $this->contentService,
@@ -290,9 +292,12 @@ class AssetMapperTest extends TestCase
             ])
             ->disableOriginalClone()
             ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->setMethods($methods)
-            ->getMock();
+            ->disallowMockingUnknownTypes();
+        if ($methods !== []) {
+            $builder->onlyMethods(array_values($methods));
+        }
+
+        return $builder->getMock();
     }
 
     private function createContentWithId(int $id): Content

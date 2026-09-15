@@ -19,9 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 class GenericProviderTest extends TestCase
 {
-    /**
-     * @dataProvider getPlaceholderDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getPlaceholderDataProvider')]
     public function testGetPlaceholder(ImageValue $value, $expectedText, array $options = [])
     {
         $font = $this->createMock(AbstractFont::class);
@@ -41,7 +39,7 @@ class GenericProviderTest extends TestCase
         $font
             ->expects(self::any())
             ->method('box')
-            ->willReturn($this->createMock(BoxInterface::class));
+            ->willReturn($this->createStub(BoxInterface::class));
 
         $image = $this->createMock(ImageInterface::class);
 
@@ -70,7 +68,7 @@ class GenericProviderTest extends TestCase
         $provider->getPlaceholder($value, $options);
     }
 
-    public function getPlaceholderDataProvider()
+    public static function getPlaceholderDataProvider()
     {
         return [
             [

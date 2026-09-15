@@ -18,9 +18,7 @@ use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\FieldType\Image\IO\Legacy
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\FieldType\Image\IO\Legacy::class)]
 final class LegacyTest extends TestCase
 {
     protected LegacyIOService $service;

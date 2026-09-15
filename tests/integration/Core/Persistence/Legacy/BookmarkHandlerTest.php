@@ -16,9 +16,7 @@ use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Handler
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Bookmark\Handler::class)]
 final class BookmarkHandlerTest extends RepositoryTestCase
 {
     private Handler $handler;

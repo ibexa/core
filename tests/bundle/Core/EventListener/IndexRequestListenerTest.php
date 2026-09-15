@@ -29,8 +29,8 @@ class IndexRequestListenerTest extends TestCase
     /** @var \Symfony\Component\HttpKernel\Event\RequestEvent */
     private $event;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $httpKernel;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\HttpKernel\HttpKernelInterface */
+    private \PHPUnit\Framework\MockObject\Stub $httpKernel;
 
     protected function setUp(): void
     {
@@ -42,10 +42,10 @@ class IndexRequestListenerTest extends TestCase
 
         $this->request = $this
             ->getMockBuilder(Request::class)
-            ->setMethods(['getSession', 'hasSession'])
+            ->onlyMethods(['getSession', 'hasSession'])
             ->getMock();
 
-        $this->httpKernel = $this->createMock(HttpKernelInterface::class);
+        $this->httpKernel = $this->createStub(HttpKernelInterface::class);
         $this->event = new RequestEvent(
             $this->httpKernel,
             $this->request,
@@ -65,9 +65,7 @@ class IndexRequestListenerTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider indexPageProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('indexPageProvider')]
     public function testOnKernelRequestIndexOnIndexPage($requestPath, $configuredIndexPath, $expectedIndexPath)
     {
         $this->configResolver
@@ -81,7 +79,7 @@ class IndexRequestListenerTest extends TestCase
         self::assertTrue($this->request->attributes->get('needsRedirect'));
     }
 
-    public function indexPageProvider()
+    public static function indexPageProvider()
     {
         return [
             ['/', '/foo', '/foo'],

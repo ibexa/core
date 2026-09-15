@@ -30,17 +30,15 @@ class ScaleFilterLoaderTest extends TestCase
         $this->loader->setInnerLoader($this->innerLoader);
     }
 
-    /**
-     * @dataProvider loadInvalidProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('loadInvalidProvider')]
     public function testLoadInvalidOptions(array $options)
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->loader->load($this->createMock(ImageInterface::class), $options);
+        $this->loader->load($this->createStub(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    public static function loadInvalidProvider()
     {
         return [
             [[]],

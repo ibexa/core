@@ -18,10 +18,9 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer
- *
  * @phpstan-type TNormalizedData array{type?: class-string, subMatchers: array<mixed>, config: array<mixed>, matchersMap: array<mixed>}
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer::class)]
 final class CompoundMatcherNormalizerTest extends TestCase
 {
     /** @phpstan-var TNormalizedData */
@@ -79,8 +78,8 @@ final class CompoundMatcherNormalizerTest extends TestCase
     {
         $normalizer = new CompoundMatcherNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(Compound::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createStub(Compound::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createStub(Matcher::class)));
     }
 
     /**
@@ -98,11 +97,10 @@ final class CompoundMatcherNormalizerTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataForSupportsNormalization
-     *
      * @phpstan-param TNormalizedData $data
      * @phpstan-param class-string $type
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForSupportsNormalization')]
     public function testSupportsDenormalization(array $data, string $type, bool $supports): void
     {
         $normalizer = new CompoundMatcherNormalizer();
@@ -111,12 +109,11 @@ final class CompoundMatcherNormalizerTest extends TestCase
     }
 
     /**
-     * @depends testNormalization
-     *
      * @phpstan-param array{type: class-string, subMatchers: array<mixed>, config: array{}, matchersMap: array{}} $data
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testNormalization')]
     public function testDenormalization(array $data): void
     {
         $expectedCompoundMatcher = new CompoundStub($this->getSubMatchers());

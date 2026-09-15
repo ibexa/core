@@ -16,16 +16,13 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer::class)]
 final class URIElementNormalizerTest extends TestCase
 {
     /**
-     * @dataProvider provideForTestNormalization
-     *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideForTestNormalization')]
     public function testNormalization(bool $initializeUriElements): void
     {
         $normalizer = new URIElementNormalizer();
@@ -66,7 +63,7 @@ final class URIElementNormalizerTest extends TestCase
     {
         $normalizer = new URIElementNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(URIElement::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createStub(URIElement::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createStub(Matcher::class)));
     }
 }

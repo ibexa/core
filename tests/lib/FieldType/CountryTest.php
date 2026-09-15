@@ -13,10 +13,8 @@ use Ibexa\Core\FieldType\Country\Type as Country;
 use Ibexa\Core\FieldType\Country\Value as CountryValue;
 use Ibexa\Core\FieldType\ValidationError;
 
-/**
- * @group fieldType
- * @group ibexa_country
- */
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('ibexa_country')]
 class CountryTest extends FieldTypeTestCase
 {
     protected function provideFieldTypeIdentifier(): string
@@ -91,7 +89,7 @@ class CountryTest extends FieldTypeTestCase
         return new CountryValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         yield [
             'LegoLand',
@@ -111,7 +109,7 @@ class CountryTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'multiple countries by alpha2' => [
             ['BE', 'FR'],
@@ -176,7 +174,7 @@ class CountryTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         yield [
             new CountryValue(
@@ -212,7 +210,7 @@ class CountryTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         yield [
             ['BE'],
@@ -248,7 +246,7 @@ class CountryTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
             [new CountryValue(), '', [], 'en_GB'],
@@ -262,7 +260,7 @@ class CountryTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'empty value multiple' => [
             [
@@ -290,7 +288,7 @@ class CountryTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'multiple countries when multiple not allowed' => [
             [

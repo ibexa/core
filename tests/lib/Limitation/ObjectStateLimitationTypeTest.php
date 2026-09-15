@@ -88,7 +88,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate(): array
+    public static function providerForTestEvaluate(): array
     {
         return [
             'ContentInfo, published, no Limitations, no access' => [
@@ -177,9 +177,7 @@ class ObjectStateLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluate
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestEvaluate')]
     public function testEvaluate(
         ObjectStateLimitation $limitation,
         ValueObject $object,
@@ -238,10 +236,9 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
     public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType)
     {
         $this->expectException(\RuntimeException::class);
@@ -253,10 +250,9 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
     public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType)
     {
         $criterion = $limitationType->getCriterion(

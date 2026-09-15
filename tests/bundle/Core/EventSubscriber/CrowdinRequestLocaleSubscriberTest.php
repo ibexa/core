@@ -15,9 +15,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class CrowdinRequestLocaleSubscriberTest extends TestCase
 {
-    /**
-     * @dataProvider testSetRequestsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSetRequests')]
     public function testSetLocale(Request $request, $shouldHaveCustomLocale)
     {
         $event = new RequestEvent(
@@ -36,7 +34,7 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
         );
     }
 
-    public function testSetRequestsProvider()
+    public static function provideSetRequests()
     {
         return [
             'with_ez_in_context_translation_cookie' => [

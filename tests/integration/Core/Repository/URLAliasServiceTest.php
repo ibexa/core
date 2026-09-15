@@ -22,11 +22,29 @@ use RuntimeException;
 
 /**
  * Test case for operations in the URLAliasService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\URLAliasService
- *
- * @group url-alias
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\URLAliasService::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createUrlAlias()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createUrlAlias')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createUrlAlias($location, $path, $languageCode, $forwarding)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createUrlAlias($location, $path, $languageCode, $forwarding, $alwaysAvailable)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createGlobalUrlAlias()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createGlobalUrlAlias($resource, $path, $languageCode, $forward)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createGlobalUrlAlias($resource, $path, $languageCode, $forwarding, $alwaysAvailable)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'listLocationAliases()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'listLocationAliases($location, $custom, $languageCode)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'listLocationAliases($location, $custom)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'listGlobalAliases()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'listGlobalAliases($languageCode)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'listGlobalAliases($languageCode, $offset)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'listGlobalAliases($languageCode, $offset, $limit)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'removeAliases()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'lookUp()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'lookUp($url, $languageCode)')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'lookUp')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'listLocationAliases')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'deleteCorruptedUrlAliases')]
+#[\PHPUnit\Framework\Attributes\Group('url-alias')]
 class URLAliasServiceTest extends BaseTestCase
 {
     /**
@@ -68,8 +86,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias()
      */
     public function testCreateUrlAlias()
     {
@@ -99,7 +115,6 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the createUrlAlias() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -150,9 +165,8 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * @param array $testData
-     *
-     * @depends testCreateUrlAlias
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateUrlAlias')]
     public function testCreateUrlAliasPropertyValues(array $testData)
     {
         [$createdUrlAlias, $locationId] = $testData;
@@ -176,11 +190,8 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias($location, $path, $languageCode, $forwarding)
-     *
-     * @depends testCreateUrlAliasPropertyValues
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateUrlAliasPropertyValues')]
     public function testCreateUrlAliasWithForwarding()
     {
         $repository = $this->getRepository();
@@ -208,9 +219,8 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * @param array $testData
-     *
-     * @depends testCreateUrlAliasWithForwarding
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateUrlAliasWithForwarding')]
     public function testCreateUrlAliasPropertyValuesWithForwarding(array $testData)
     {
         [$createdUrlAlias, $locationId] = $testData;
@@ -234,8 +244,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias($location, $path, $languageCode, $forwarding, $alwaysAvailable)
      */
     public function testCreateUrlAliasWithAlwaysAvailable()
     {
@@ -264,9 +272,8 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * @param array $testData
-     *
-     * @depends testCreateUrlAliasWithAlwaysAvailable
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateUrlAliasWithAlwaysAvailable')]
     public function testCreateUrlAliasPropertyValuesWithAlwaysAvailable(array $testData)
     {
         [$createdUrlAlias, $locationId] = $testData;
@@ -290,8 +297,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias()
      */
     public function testCreateUrlAliasThrowsInvalidArgumentException()
     {
@@ -317,8 +322,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createGlobalUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias()
      */
     public function testCreateGlobalUrlAlias()
     {
@@ -342,9 +345,7 @@ class URLAliasServiceTest extends BaseTestCase
         return $createdUrlAlias;
     }
 
-    /**
-     * @depends testCreateGlobalUrlAlias
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateGlobalUrlAlias')]
     public function testCreateGlobalUrlAliasPropertyValues(URLAlias $createdUrlAlias)
     {
         self::assertNotNull($createdUrlAlias->id);
@@ -366,8 +367,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createGlobalUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias($resource, $path, $languageCode, $forward)
      */
     public function testCreateGlobalUrlAliasWithForward()
     {
@@ -392,9 +391,7 @@ class URLAliasServiceTest extends BaseTestCase
         return $createdUrlAlias;
     }
 
-    /**
-     * @depends testCreateGlobalUrlAliasWithForward
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateGlobalUrlAliasWithForward')]
     public function testCreateGlobalUrlAliasWithForwardPropertyValues(URLAlias $createdUrlAlias)
     {
         self::assertNotNull($createdUrlAlias->id);
@@ -416,8 +413,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createGlobalUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias($resource, $path, $languageCode, $forwarding, $alwaysAvailable)
      */
     public function testCreateGlobalUrlAliasWithAlwaysAvailable()
     {
@@ -443,9 +438,7 @@ class URLAliasServiceTest extends BaseTestCase
         return $createdUrlAlias;
     }
 
-    /**
-     * @depends testCreateGlobalUrlAliasWithAlwaysAvailable
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateGlobalUrlAliasWithAlwaysAvailable')]
     public function testCreateGlobalUrlAliasWithAlwaysAvailablePropertyValues(URLAlias $createdUrlAlias)
     {
         self::assertNotNull($createdUrlAlias->id);
@@ -467,8 +460,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias($resource, $path, $languageCode, $forwarding, $alwaysAvailable)
      */
     public function testCreateGlobalUrlAliasForLocation()
     {
@@ -502,8 +493,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias($resource, $path, $languageCode, $forwarding, $alwaysAvailable)
      */
     public function testCreateGlobalUrlAliasForLocationVariation()
     {
@@ -537,9 +526,8 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
-     *
-     * @depends testCreateGlobalUrlAliasForLocation
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateGlobalUrlAliasForLocation')]
     public function testCreateGlobalUrlAliasForLocationPropertyValues($testData)
     {
         [$createdUrlAlias, $locationId] = $testData;
@@ -563,9 +551,8 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
-     *
-     * @depends testCreateGlobalUrlAliasForLocationVariation
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateGlobalUrlAliasForLocationVariation')]
     public function testCreateGlobalUrlAliasForLocationVariationPropertyValues($testData)
     {
         $this->testCreateGlobalUrlAliasForLocationPropertyValues($testData);
@@ -573,8 +560,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the createGlobalUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias()
      */
     public function testCreateGlobalUrlAliasThrowsInvalidArgumentException()
     {
@@ -597,8 +582,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the listLocationAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listLocationAliases()
      */
     public function testListLocationAliases()
     {
@@ -630,9 +613,8 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * @param array $testData
-     *
-     * @depends testListLocationAliases
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testListLocationAliases')]
     public function testListLocationAliasesLoadsCorrectly(array $testData)
     {
         [$loadedAliases, $location] = $testData;
@@ -651,8 +633,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the listLocationAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listLocationAliases($location, $custom, $languageCode)
      */
     public function testListLocationAliasesWithCustomFilter()
     {
@@ -680,8 +660,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the listLocationAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listLocationAliases($location, $custom)
      */
     public function testListLocationAliasesWithLanguageCodeFilter()
     {
@@ -708,8 +686,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the listGlobalAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listGlobalAliases()
      */
     public function testListGlobalAliases()
     {
@@ -758,8 +734,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the listGlobalAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listGlobalAliases($languageCode)
      */
     public function testListGlobalAliasesWithLanguageFilter()
     {
@@ -781,8 +755,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the listGlobalAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listGlobalAliases($languageCode, $offset)
      */
     public function testListGlobalAliasesWithOffset()
     {
@@ -804,8 +776,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the listGlobalAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listGlobalAliases($languageCode, $offset, $limit)
      */
     public function testListGlobalAliasesWithLimit()
     {
@@ -827,8 +797,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the removeAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::removeAliases()
      */
     public function testRemoveAliases()
     {
@@ -868,8 +836,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the removeAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::removeAliases()
      */
     public function testRemoveAliasesThrowsInvalidArgumentExceptionIfAutogeneratedAliasesAreToBeRemoved()
     {
@@ -897,8 +863,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the lookUp() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp()
      */
     public function testLookUp()
     {
@@ -920,8 +884,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the lookUp() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp($url, $languageCode)
      */
     public function testLookUpWithLanguageFilter()
     {
@@ -948,8 +910,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the lookUp() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp()
      */
     public function testLookUpThrowsNotFoundException()
     {
@@ -967,8 +927,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the lookUp() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp($url, $languageCode)
      */
     public function testLookUpThrowsNotFoundExceptionWithLanguageFilter()
     {
@@ -986,8 +944,6 @@ class URLAliasServiceTest extends BaseTestCase
 
     /**
      * Test for the lookUp() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp($url, $languageCode)
      */
     public function testLookUpThrowsInvalidArgumentException()
     {
@@ -1007,9 +963,6 @@ class URLAliasServiceTest extends BaseTestCase
      * Test for the lookUp() method after renaming parent which is a part of the lookup path.
      *
      * @see https://issues.ibexa.co/browse/EZP-28046
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listLocationAliases
      */
     public function testLookupOnRenamedParent()
     {
@@ -1744,7 +1697,6 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Insert intentionally broken rows into ibexa_url_alias_ml table to test cleanup API.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::deleteCorruptedUrlAliases
      *
      * @see testDeleteCorruptedUrlAliases
      *

@@ -11,13 +11,12 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Issue https://issues.ibexa.co/browse/EZP-26367.
- *
- * @group regression
- * @group ezp26367
- * @group cache
- * @group cache-invalidation
- * @group cache-spi
  */
+#[\PHPUnit\Framework\Attributes\Group('regression')]
+#[\PHPUnit\Framework\Attributes\Group('ezp26367')]
+#[\PHPUnit\Framework\Attributes\Group('cache')]
+#[\PHPUnit\Framework\Attributes\Group('cache-invalidation')]
+#[\PHPUnit\Framework\Attributes\Group('cache-spi')]
 class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
 {
     public function testReverseLookupReturnsHistoryAlias()

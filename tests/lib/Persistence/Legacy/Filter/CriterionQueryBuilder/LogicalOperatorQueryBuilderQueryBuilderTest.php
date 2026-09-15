@@ -14,14 +14,12 @@ use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\LanguageC
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\ParentLocationIdQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder::class)]
 final class LogicalOperatorQueryBuilderQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
-    public function getFilteringCriteriaQueryData(): iterable
+    public static function getFilteringCriteriaQueryData(): iterable
     {
         yield 'Parent Location ID=1 AND Language Code=eng-GB' => [
             new Criterion\LogicalAnd(

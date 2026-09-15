@@ -46,7 +46,7 @@ class TrashServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Location::class)];
+        $parameters = [$this->createStub(Location::class)];
 
         $serviceMock->expects(self::once())->method('trash')->with(...$parameters);
 
@@ -59,8 +59,8 @@ class TrashServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(TrashItem::class),
-            $this->createMock(Location::class),
+            $this->createStub(TrashItem::class),
+            $this->createStub(Location::class),
         ];
 
         $serviceMock->expects(self::once())->method('recover')->with(...$parameters);
@@ -85,7 +85,7 @@ class TrashServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(TrashItem::class)];
+        $parameters = [$this->createStub(TrashItem::class)];
 
         $serviceMock->expects(self::once())->method('deleteTrashItem')->with(...$parameters);
 
@@ -97,7 +97,7 @@ class TrashServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Query::class)];
+        $parameters = [$this->createStub(Query::class)];
 
         $serviceMock->expects(self::once())->method('findTrashItems')->with(...$parameters);
 

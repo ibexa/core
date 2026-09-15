@@ -100,7 +100,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         $siteAccess = new SiteAccess('admin', 'default');
         $request = new Request([], [], ['siteaccess' => $siteAccess]);
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );
@@ -119,7 +119,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         $siteAccess = new SiteAccess('site', 'default');
         $request = new Request([], [], ['siteaccess' => $siteAccess]);
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );
@@ -141,7 +141,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         $siteAccess = new SiteAccess('admin', 'default');
         $request = new Request([], [], ['siteaccess' => $siteAccess]);
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::SUB_REQUEST
         );
@@ -168,9 +168,8 @@ final class AnonymousUserAccessListenerTest extends TestCase
     /**
      * The login page is no longer hard-skipped; it defers to access_control, which
      * is a no-op when no rule protects it, so the login page stays reachable.
-     *
-     * @dataProvider provideLoginPaths
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideLoginPaths')]
     public function testSupportsDefersToAccessControlOnLoginPage(string $path): void
     {
         $request = Request::create($path);
@@ -190,9 +189,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         yield 'login with query string' => ['/login?redirect=/content'];
     }
 
-    /**
-     * @dataProvider providedSupportedPaths
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providedSupportedPaths')]
     public function testSupportsReturnsTrueForSupportedPaths(string $path): void
     {
         $request = Request::create($path);
@@ -270,7 +267,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
             ->willReturn(false);
 
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );
@@ -326,7 +323,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         $this->listener->supports($request);
 
         return new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );

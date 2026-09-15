@@ -16,9 +16,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 
-/**
- * @covers \Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle::class)]
 class IbexaRepositoryInstallerBundleTest extends TestCase
 {
     private IbexaRepositoryInstallerBundle $bundle;

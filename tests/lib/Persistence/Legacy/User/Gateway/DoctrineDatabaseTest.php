@@ -13,9 +13,7 @@ use Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**

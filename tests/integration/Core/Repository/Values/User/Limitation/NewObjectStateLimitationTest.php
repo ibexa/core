@@ -10,12 +10,9 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation
- *
- * @group integration
- * @group limitation
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation::class)]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('limitation')]
 class NewObjectStateLimitationTest extends BaseLimitationTestCase
 {
     public function testNewObjectStateLimitationAllow()
@@ -58,7 +55,6 @@ class NewObjectStateLimitationTest extends BaseLimitationTestCase
     /**
      * Tests a NewObjectStateLimitation.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation
      *
      * @throws \ErrorException if a mandatory test fixture not exists.
      */

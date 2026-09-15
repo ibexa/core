@@ -21,8 +21,8 @@ final class SortClauseParserDispatcherTest extends TestCase
 
     public function testParse(): void
     {
-        $sortSpecParser = $this->createMock(SortSpecParserInterface::class);
-        $sortClause = $this->createMock(SortClause::class);
+        $sortSpecParser = $this->createStub(SortSpecParserInterface::class);
+        $sortClause = $this->createStub(SortClause::class);
 
         $parser = $this->createMock(SortClauseParserInterface::class);
         $parser->method('supports')->with(self::EXAMPLE_SORT_CLAUSE)->willReturn(true);
@@ -49,7 +49,7 @@ final class SortClauseParserDispatcherTest extends TestCase
         $parser->method('supports')->with(self::EXAMPLE_SORT_CLAUSE)->willReturn(false);
 
         $dispatcher = new SortClauseParserDispatcher([$parser]);
-        $dispatcher->parse($this->createMock(SortSpecParserInterface::class), self::EXAMPLE_SORT_CLAUSE);
+        $dispatcher->parse($this->createStub(SortSpecParserInterface::class), self::EXAMPLE_SORT_CLAUSE);
     }
 
     public function testSupports(): void

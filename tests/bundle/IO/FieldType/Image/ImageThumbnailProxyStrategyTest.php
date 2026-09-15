@@ -40,7 +40,7 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
         $field->method('getId')->willReturn(123);
         $field->method('getFieldTypeIdentifier')->willReturn('ezimage');
 
-        $versionInfo = $this->createMock(VersionInfo::class);
+        $versionInfo = $this->createStub(VersionInfo::class);
 
         $this->imageThumbnailStrategyMock
             ->expects(self::once())

@@ -15,9 +15,9 @@ use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\Content\Location
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\Values\Content\Location::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\Content\Location::class, '__set')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\Content\Location::class, '__unset')]
 final class LocationTest extends TestCase
 {
     use ValueObjectTestTrait;
@@ -73,10 +73,9 @@ final class LocationTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataForTestPathComputedPropertyGetter
-     *
      * @param string[] $expectedPathValue
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestPathComputedPropertyGetter')]
     public function testPathComputedPropertyGetter(Location $location, array $expectedPathValue): void
     {
         self::assertSame($expectedPathValue, $location->getPath());
@@ -97,8 +96,6 @@ final class LocationTest extends TestCase
 
     /**
      * Test setting read only property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\Content\Location::__set
      */
     public function testReadOnlyProperty(): void
     {
@@ -125,8 +122,6 @@ final class LocationTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\Content\Location::__unset
      */
     public function testUnsetProperty(): void
     {

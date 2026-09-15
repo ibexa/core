@@ -11,9 +11,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Security\User;
 use Ibexa\Core\MVC\Symfony\Security\User\BaseProvider;
 use Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider::class)]
 final class UsernameProviderTest extends BaseProviderTestCase
 {
     protected function buildProvider(): BaseProvider

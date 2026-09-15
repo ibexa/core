@@ -15,9 +15,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\Core\SiteAccess\Config\IOConfigResolver
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\SiteAccess\Config\IOConfigResolver::class)]
 class IOConfigResolverTest extends TestCase
 {
     private const DEFAULT_NAMESPACE = 'ibexa.site_access.config';

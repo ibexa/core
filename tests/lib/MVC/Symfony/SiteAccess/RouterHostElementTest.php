@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 
 class RouterHostElementTest extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://www.example.com'), 'example'],
@@ -82,9 +82,7 @@ class RouterHostElementTest extends RouterBaseTestCase
         self::assertSame('host:element', $matcherHostElement->getName());
     }
 
-    /**
-     * @dataProvider reverseMatchProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('reverseMatchProvider')]
     public function testReverseMatch($siteAccessName, $elementNumber, SimplifiedRequest $request, $expectedHost)
     {
         $matcher = new HostElement([$elementNumber]);
@@ -94,7 +92,7 @@ class RouterHostElementTest extends RouterBaseTestCase
         self::assertSame($expectedHost, $result->getRequest()->getHost());
     }
 
-    public function reverseMatchProvider()
+    public static function reverseMatchProvider()
     {
         return [
             ['foo', 1, SimplifiedRequest::fromUrl('http://bar.example.com/'), 'foo.example.com'],
@@ -128,7 +126,7 @@ class RouterHostElementTest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            $this->createStub(LoggerInterface::class),
             'default_sa',
             [
                 'HostElement' => [

@@ -33,7 +33,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         return SPIUserHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         $user = new User(['id' => 14, 'login' => 'otto', 'email' => 'otto@ibexa.co']);
         $policy = new Policy(['id' => 13, 'roleId' => 9]);
@@ -164,7 +164,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $user = new User(['id' => 14]);
         $role = new Role(['id' => 9]);
@@ -268,7 +268,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $user = new User(['id' => 14]);
         $role = new Role(['id' => 9]);
@@ -522,12 +522,12 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             ->willReturn($innerHandlerMock);
         $roleDraftId = 33;
         $innerHandlerMock
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('loadRole')
             ->with($roleDraftId, Role::STATUS_DRAFT)
             ->willReturn(new Role(['originalId' => -1]));
         $innerHandlerMock
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('publishRoleDraft')
             ->with($roleDraftId);
         $this->cacheMock
@@ -570,16 +570,31 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             ->willReturn([new Location(['id' => '43'])]);
 
         $tags = ['ragl-14', 'rarl-9', 'lp-43'];
+        $matcher = self::exactly(3);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(3))
-            ->method('generateTag')
-            ->withConsecutive(
-                ['role_assignment_group_list', [14], false],
-                ['role_assignment_role_list', [9], false],
-                ['location_path', [43], false]
-            )
-            ->willReturnOnConsecutiveCalls(...$tags);
+            ->expects($matcher)
+            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher, $tags) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('role_assignment_group_list', $parameters[0]);
+                    $this->assertSame([14], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return $tags[0];
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('role_assignment_role_list', $parameters[0]);
+                    $this->assertSame([9], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return $tags[1];
+                }
+                $this->assertSame('location_path', $parameters[0]);
+                $this->assertEquals([43], $parameters[1]);
+                $this->assertFalse($parameters[2]);
+
+                return $tags[2];
+            });
 
         $this->cacheMock
             ->expects(self::once())
@@ -625,11 +640,24 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             "ragl-$contentId",
             "rarl-$roleId",
         ];
+        $matcher = self::exactly(count($tags));
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(count($tags)))
-            ->method('generateTag')
-            ->withConsecutive(['role_assignment'], ['role_assignment_group_list'], ['role_assignment_role_list'])
-            ->willReturnOnConsecutiveCalls(...$tags);
+            ->expects($matcher)
+            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher, $tags) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('role_assignment', $parameters[0]);
+
+                    return $tags[0];
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('role_assignment_group_list', $parameters[0]);
+
+                    return $tags[1];
+                }
+                $this->assertSame('role_assignment_role_list', $parameters[0]);
+
+                return $tags[2];
+            });
 
         $this->cacheMock->method('invalidateTags')->with($tags);
 

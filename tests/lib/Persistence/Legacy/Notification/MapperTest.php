@@ -13,9 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Notification\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Notification\Mapper::class)]
 class MapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Notification\Mapper */

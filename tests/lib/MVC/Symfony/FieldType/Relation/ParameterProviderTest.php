@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    public function providerForTestGetViewParameters()
+    public static function providerForTestGetViewParameters()
     {
         return [
             [ContentInfo::STATUS_DRAFT, ['available' => true]],
@@ -27,9 +27,7 @@ class ParameterProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestGetViewParameters
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetViewParameters')]
     public function testGetViewParameters($status, array $expected)
     {
         $contentServiceMock = $this->createMock(ContentService::class);

@@ -11,9 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper::class)]
 class UrlWildcardMapperTest extends TestCase
 {
     /**

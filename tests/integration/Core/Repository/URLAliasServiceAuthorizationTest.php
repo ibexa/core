@@ -9,15 +9,15 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createUrlAlias()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createGlobalUrlAlias()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'removeAliases()')]
 class URLAliasServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testCreateUrlAlias
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::class, 'testCreateUrlAlias')]
     public function testCreateUrlAliasThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -47,11 +47,8 @@ class URLAliasServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the createGlobalUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testCreateGlobalUrlAlias
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::class, 'testCreateGlobalUrlAlias')]
     public function testCreateGlobalUrlAliasThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -75,11 +72,8 @@ class URLAliasServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the removeAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::removeAliases()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testRemoveAliases
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::class, 'testRemoveAliases')]
     public function testRemoveAliasesThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);

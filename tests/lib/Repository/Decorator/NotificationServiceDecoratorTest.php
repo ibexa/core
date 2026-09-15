@@ -85,7 +85,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Notification::class)];
+        $parameters = [$this->createStub(Notification::class)];
 
         $serviceMock->expects(self::once())->method('markNotificationAsRead')->with(...$parameters);
 
@@ -97,7 +97,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Notification::class)];
+        $parameters = [$this->createStub(Notification::class)];
 
         $serviceMock->expects(self::once())->method('markNotificationAsUnread')->with(...$parameters);
 
@@ -133,7 +133,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(CreateStruct::class)];
+        $parameters = [$this->createStub(CreateStruct::class)];
 
         $serviceMock->expects(self::once())->method('createNotification')->with(...$parameters);
 
@@ -145,7 +145,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Notification::class)];
+        $parameters = [$this->createStub(Notification::class)];
 
         $serviceMock->expects(self::once())->method('deleteNotification')->with(...$parameters);
 

@@ -12,9 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 final class DateMetadataTest extends TestCase
 {
-    /**
-     * @dataProvider provideValidConstructorArguments
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideValidConstructorArguments')]
     public function testConstruction(string $target, string $operator, $value): void
     {
         $criterion = new DateMetadata($target, $operator, $value);

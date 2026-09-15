@@ -13,14 +13,10 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\RequestContext;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Routing\RequestContextFactory
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Routing\RequestContextFactory::class)]
 final class RequestContextFactoryTest extends TestCase
 {
-    /**
-     * @dataProvider getDataForTestGetContextBySimplifiedRequest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestGetContextBySimplifiedRequest')]
     public function testGetContextBySimplifiedRequest(
         RequestContext $requestContext,
         SimplifiedRequest $simplifiedRequest,

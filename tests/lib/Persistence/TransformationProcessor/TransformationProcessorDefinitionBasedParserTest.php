@@ -27,9 +27,7 @@ final class TransformationProcessorDefinitionBasedParserTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getTestFiles
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getTestFiles')]
     public function testParse(string $file): void
     {
         $parser = new Persistence\TransformationProcessor\DefinitionBased\Parser();

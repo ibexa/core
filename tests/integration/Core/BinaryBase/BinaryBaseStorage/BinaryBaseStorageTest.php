@@ -37,8 +37,8 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage|\PHPUnit\Framework\MockObject\MockObject */
     protected $storage;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
-    protected $fileExtensionBlackListValidatorMock;
+    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\Stub */
+    protected \PHPUnit\Framework\MockObject\Stub $fileExtensionBlackListValidatorMock;
 
     protected function setUp(): void
     {
@@ -47,7 +47,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
         $this->gateway = $this->getStorageGateway();
         $this->pathGeneratorMock = $this->createMock(PathGeneratorInterface::class);
         $this->ioServiceMock = $this->createMock(IOServiceInterface::class);
-        $this->fileExtensionBlackListValidatorMock = $this->createMock(
+        $this->fileExtensionBlackListValidatorMock = $this->createStub(
             FileExtensionBlackListValidator::class
         );
         $this->storage = $this->getMockBuilder(BinaryBaseStorage::class)
@@ -57,7 +57,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
                     $this->gateway,
                     $this->ioServiceMock,
                     $this->pathGeneratorMock,
-                    $this->createMock(MimeTypeDetector::class),
+                    $this->createStub(MimeTypeDetector::class),
                     $this->fileExtensionBlackListValidatorMock,
                 ]
             )
@@ -74,9 +74,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
         self::assertTrue($this->storage->hasFieldData());
     }
 
-    /**
-     * @dataProvider providerOfFieldData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerOfFieldData')]
     public function testStoreFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $binaryFileIdentifier = 'qwerty12345';
@@ -104,15 +102,10 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
             ->willReturn(new BinaryFile(['id' => $binaryFileIdentifier, 'uri' => '/foo']));
 
         $this->storage->storeFieldData($versionInfo, $field);
-
-        $this->expectNotToPerformAssertions();
     }
 
-    /**
-     * @depends testStoreFieldData
-     *
-     * @dataProvider providerOfFieldData
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testStoreFieldData')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerOfFieldData')]
     public function testCopyLegacyField(VersionInfo $versionInfo, Field $originalField): void
     {
         $field = clone $originalField;
@@ -132,7 +125,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
         self::assertFalse($flag);
     }
 
-    public function providerOfFieldData(): array
+    public static function providerOfFieldData(): array
     {
         $field = new Field();
         $field->id = 124;

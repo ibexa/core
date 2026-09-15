@@ -24,7 +24,7 @@ final class CacheIdentifierSanitizerTest extends TestCase
         $this->cacheIdentifierSanitizer = new CacheIdentifierSanitizer();
     }
 
-    public function providerForTestEscapeCacheKey(): array
+    public static function providerForTestEscapeCacheKey(): array
     {
         return [
             [['key'], 'key'],
@@ -33,9 +33,7 @@ final class CacheIdentifierSanitizerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEscapeCacheKey
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestEscapeCacheKey')]
     public function testEscapeCacheKey(array $arguments, string $resultKey): void
     {
         self::assertEquals(

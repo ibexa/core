@@ -15,9 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HttpUtilsTest extends TestCase
 {
-    /**
-     * @dataProvider generateUriStandardProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('generateUriStandardProvider')]
     public function testGenerateUriStandard($uri, $isUriRouteName, $expected)
     {
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
@@ -39,7 +37,7 @@ class HttpUtilsTest extends TestCase
         self::assertSame($expected, $httpUtils->generateUri($request, $uri));
     }
 
-    public function generateUriStandardProvider()
+    public static function generateUriStandardProvider()
     {
         return [
             ['http://localhost/foo/bar', false, 'http://localhost/foo/bar'],
@@ -50,9 +48,7 @@ class HttpUtilsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider generateUriProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('generateUriProvider')]
     public function testGenerateUri($uri, $isUriRouteName, $siteAccessUri, $expected)
     {
         $siteAccess = new SiteAccess('test', 'test');
@@ -86,7 +82,7 @@ class HttpUtilsTest extends TestCase
         self::assertSame($expected, $res);
     }
 
-    public function generateUriProvider()
+    public static function generateUriProvider()
     {
         return [
             ['http://localhost/foo/bar', false, null, 'http://localhost/foo/bar'],
@@ -105,9 +101,7 @@ class HttpUtilsTest extends TestCase
         self::assertTrue($httpUtils->checkRequestPath($request, '/foo/bar'));
     }
 
-    /**
-     * @dataProvider checkRequestPathProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('checkRequestPathProvider')]
     public function testCheckRequestPath($path, $siteAccessUri, $requestUri, $expected)
     {
         $siteAccess = new SiteAccess('test', 'test');
@@ -127,7 +121,7 @@ class HttpUtilsTest extends TestCase
         self::assertSame($expected, $httpUtils->checkRequestPath($request, $path));
     }
 
-    public function checkRequestPathProvider()
+    public static function checkRequestPathProvider()
     {
         return [
             ['/foo/bar', null, 'http://localhost/foo/bar', true],

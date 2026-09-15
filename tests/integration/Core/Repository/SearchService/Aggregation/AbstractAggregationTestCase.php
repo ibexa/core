@@ -33,9 +33,7 @@ abstract class AbstractAggregationTestCase extends BaseTestCase
         }
     }
 
-    /**
-     * @dataProvider dataProviderForTestFindContentWithAggregation
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestFindContentWithAggregation')]
     public function testFindContentWithAggregation(
         Aggregation $aggregation,
         AggregationResult $expectedResult
@@ -52,9 +50,7 @@ abstract class AbstractAggregationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @dataProvider dataProviderForTestFindLocationWithAggregation
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestFindLocationWithAggregation')]
     public function testFindLocationWithAggregation(
         Aggregation $aggregation,
         AggregationResult $expectedResult
@@ -71,16 +67,16 @@ abstract class AbstractAggregationTestCase extends BaseTestCase
         );
     }
 
-    abstract public function dataProviderForTestFindContentWithAggregation(): iterable;
+    abstract public static function dataProviderForTestFindContentWithAggregation(): iterable;
 
     /**
      * Overwrite if results for location query are different then content query.
      *
      * @return iterable
      */
-    public function dataProviderForTestFindLocationWithAggregation(): iterable
+    public static function dataProviderForTestFindLocationWithAggregation(): iterable
     {
-        yield from $this->dataProviderForTestFindContentWithAggregation();
+        yield from static::dataProviderForTestFindContentWithAggregation();
     }
 
     protected function createFixturesForAggregation(Aggregation $aggregation): void

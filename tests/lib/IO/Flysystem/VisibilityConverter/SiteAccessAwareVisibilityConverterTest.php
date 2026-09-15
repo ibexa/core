@@ -13,9 +13,7 @@ use Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter;
 use Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter;
 use League\Flysystem\Visibility;
 
-/**
- * @covers \Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter::class)]
 final class SiteAccessAwareVisibilityConverterTest extends BaseVisibilityConverterTestCase
 {
     private const int SITE_FILE_FLAGS = 0644;
@@ -39,7 +37,7 @@ final class SiteAccessAwareVisibilityConverterTest extends BaseVisibilityConvert
         );
     }
 
-    public function getDataForTestForFile(): iterable
+    public static function getDataForTestForFile(): iterable
     {
         yield 'public visibility (from SiteAccess config)' => [
             Visibility::PUBLIC,
@@ -51,7 +49,7 @@ final class SiteAccessAwareVisibilityConverterTest extends BaseVisibilityConvert
         ];
     }
 
-    public function getDataForTestForDirectory(): iterable
+    public static function getDataForTestForDirectory(): iterable
     {
         yield 'public visibility (from SiteAccess config)' => [
             Visibility::PUBLIC,
@@ -63,7 +61,7 @@ final class SiteAccessAwareVisibilityConverterTest extends BaseVisibilityConvert
         ];
     }
 
-    public function getDataForTestInverseForFile(): iterable
+    public static function getDataForTestInverseForFile(): iterable
     {
         yield self::SITE_FILE_FLAGS . ' (SiteAccess config) is public' => [
             self::SITE_FILE_FLAGS,
@@ -79,7 +77,7 @@ final class SiteAccessAwareVisibilityConverterTest extends BaseVisibilityConvert
         ];
     }
 
-    public function getDataForTestInverseForDirectory(): iterable
+    public static function getDataForTestInverseForDirectory(): iterable
     {
         yield self::SITE_DIRECTORY_FLAGS . ' (SiteAccess config) is public' => [
             self::SITE_DIRECTORY_FLAGS,

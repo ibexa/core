@@ -54,7 +54,7 @@ class SymfonySerializerAdapterTest extends TestCase
 
     public function testNormalize(): void
     {
-        $value = $this->createMock(Value::class);
+        $value = $this->createStub(Value::class);
         $data = ['value' => 'test'];
 
         $this->normalizer
@@ -69,7 +69,7 @@ class SymfonySerializerAdapterTest extends TestCase
     public function testDenormalize(): void
     {
         $data = ['value' => 'test'];
-        $value = $this->createMock(Value::class);
+        $value = $this->createStub(Value::class);
 
         $this->denomalizer
             ->expects(self::once())

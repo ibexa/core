@@ -13,9 +13,8 @@ use Ibexa\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\Content\TrashItem
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\Values\Content\TrashItem::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\Values\Content\TrashItem::class, '__unset')]
 class TrashItemTest extends TestCase
 {
     use ValueObjectTestTrait;
@@ -61,8 +60,6 @@ class TrashItemTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\Content\TrashItem::__unset
      */
     public function testUnsetProperty()
     {

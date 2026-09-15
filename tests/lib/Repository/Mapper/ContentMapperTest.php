@@ -22,10 +22,11 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use PHPUnit\Framework\TestCase;
 
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Repository\ContentService::class, 'updateContent')]
 final class ContentMapperTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler&\PHPUnit\Framework\MockObject\MockObject */
-    private Handler $contentLanguageHandler;
+    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler&\PHPUnit\Framework\MockObject\Stub */
+    private \PHPUnit\Framework\MockObject\Stub $contentLanguageHandler;
 
     /** @var \Ibexa\Core\FieldType\FieldTypeRegistry&\PHPUnit\Framework\MockObject\MockObject */
     private FieldTypeRegistry $fieldTypeRegistry;
@@ -34,7 +35,7 @@ final class ContentMapperTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->contentLanguageHandler = $this->createMock(Handler::class);
+        $this->contentLanguageHandler = $this->createStub(Handler::class);
         $this->fieldTypeRegistry = $this->createMock(FieldTypeRegistry::class);
 
         $this->contentMapper = new ContentMapper(
@@ -44,8 +45,6 @@ final class ContentMapperTest extends TestCase
     }
 
     /**
-     * @covers \Ibexa\Core\Repository\ContentService::updateContent
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
     public function testUpdateContentGetsProperFieldsToUpdate(): void

@@ -12,9 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\Language\Mapper::class)]
 class MapperTest extends TestCase
 {
     public function testCreateLanguageFromCreateStruct()

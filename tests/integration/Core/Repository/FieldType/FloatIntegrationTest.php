@@ -14,10 +14,9 @@ use Ibexa\Core\FieldType\Float\Value as FloatValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class FloatIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -156,7 +155,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -205,9 +204,9 @@ class FloatIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -254,7 +253,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -271,7 +270,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -281,30 +280,30 @@ class FloatIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new FloatValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new FloatValue(23.5),
             ],
             [new FloatValue(0)],
             [new FloatValue(0.0)],
         ];
     }
 
-    protected function getValidSearchValueOne(): float
+    protected static function getValidSearchValueOne(): float
     {
         return 25.519;
     }
 
-    protected function getValidSearchValueTwo(): float
+    protected static function getValidSearchValueTwo(): float
     {
         return 25.59;
     }

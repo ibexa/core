@@ -12,9 +12,7 @@ use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Mapper;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\UserPreference\Mapper::class)]
 class MapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper */

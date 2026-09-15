@@ -26,9 +26,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\Type\Mapper::class)]
 class MapperTest extends TestCase
 {
     public function testCreateGroupFromCreateStruct()
@@ -454,13 +452,13 @@ class MapperTest extends TestCase
     protected function getNonConvertingMapper()
     {
         $mapper = $this->getMockBuilder(Mapper::class)
-            ->setMethods(['toFieldDefinition'])
             ->setConstructorArgs([
                 $this->getConverterRegistryMock(),
                 $this->getMaskGeneratorMock(),
                 $this->getStorageDispatcherMock(),
                 $this->getFieldTypeAliasResolver(),
             ])
+            ->onlyMethods(['toFieldDefinition'])
             ->getMock();
 
         // Dedicatedly tested test

@@ -14,10 +14,9 @@ use Ibexa\Core\FieldType\Country\Value as CountryValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     /**
@@ -162,7 +161,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -242,9 +241,9 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -298,7 +297,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -330,7 +329,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -355,7 +354,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new CountryValue()],
@@ -363,36 +362,45 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new CountryValue(
+                    [
+                        'BE' => [
+                            'Name' => 'Belgium',
+                            'Alpha2' => 'BE',
+                            'Alpha3' => 'BEL',
+                            'IDC' => 32,
+                        ],
+                    ]
+                ),
             ],
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected static function getValidSearchValueOne()
     {
         return ['Andorra'];
     }
 
-    protected function getValidSearchValueTwo()
+    protected static function getValidSearchValueTwo()
     {
         return ['Trinidad and Tobago'];
     }
 
-    protected function getSearchTargetValueOne(): string
+    protected static function getSearchTargetValueOne(): string
     {
         return 'Andorra';
     }
 
-    protected function getSearchTargetValueTwo(): string
+    protected static function getSearchTargetValueTwo(): string
     {
         return 'Trinidad and Tobago';
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected static function getAdditionallyIndexedFieldData()
     {
         return [
             [
@@ -423,17 +431,17 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected static function getValidMultivaluedSearchValuesOne()
     {
         return ['Andorra', 'Bolivia'];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected static function getValidMultivaluedSearchValuesTwo()
     {
         return ['Syrian Arab Republic', 'Trinidad and Tobago'];
     }
 
-    protected function getAdditionallyIndexedMultivaluedFieldData()
+    protected static function getAdditionallyIndexedMultivaluedFieldData()
     {
         return [
             [
@@ -459,7 +467,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['Andorra', 'Tobago'],

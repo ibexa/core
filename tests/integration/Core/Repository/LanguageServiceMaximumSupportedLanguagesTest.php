@@ -13,10 +13,10 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFacto
  * Test case for maximum number of languages supported in the LanguageService.
  *
  * @see \Ibexa\Contracts\Core\Repository\LanguageService
- *
- * @group integration
- * @group language
  */
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\LanguageService::class, 'createLanguage()')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('language')]
 class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
@@ -73,11 +73,8 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase
 
     /**
      * Test for the number of maximum language that can be created.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\LanguageServiceTest::testNewLanguageCreateStruct
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\LanguageServiceTest::class, 'testNewLanguageCreateStruct')]
     public function testCreateMaximumLanguageLimit()
     {
         $this->expectException(\RuntimeException::class);

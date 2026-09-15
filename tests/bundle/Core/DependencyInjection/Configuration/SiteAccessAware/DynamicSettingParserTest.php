@@ -12,16 +12,14 @@ use PHPUnit\Framework\TestCase;
 
 class DynamicSettingParserTest extends TestCase
 {
-    /**
-     * @dataProvider isDynamicSettingProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isDynamicSettingProvider')]
     public function testIsDynamicSetting($setting, $expected)
     {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->isDynamicSetting($setting));
     }
 
-    public function isDynamicSettingProvider()
+    public static function isDynamicSettingProvider()
     {
         return [
             ['foo', false],
@@ -48,16 +46,14 @@ class DynamicSettingParserTest extends TestCase
         $parser->parseDynamicSetting('$foo;bar;baz;biz$');
     }
 
-    /**
-     * @dataProvider parseDynamicSettingProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('parseDynamicSettingProvider')]
     public function testParseDynamicSetting($setting, array $expected)
     {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->parseDynamicSetting($setting));
     }
 
-    public function parseDynamicSettingProvider()
+    public static function parseDynamicSettingProvider()
     {
         return [
             [

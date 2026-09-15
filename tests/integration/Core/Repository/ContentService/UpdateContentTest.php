@@ -15,9 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\ContentService::class)]
 final class UpdateContentTest extends RepositoryTestCase
 {
     /**

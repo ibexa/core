@@ -14,9 +14,7 @@ use Ibexa\Contracts\Core\Specification\Content\ContentContainerSpecification;
 use Ibexa\Contracts\Core\Specification\Content\ContentSpecification;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Specification\Content\ContentContainerSpecification
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Specification\Content\ContentContainerSpecification::class)]
 final class ContentContainerSpecificationTest extends TestCase
 {
     public function testConstructor(): void
@@ -26,9 +24,7 @@ final class ContentContainerSpecificationTest extends TestCase
         self::assertInstanceOf(ContentSpecification::class, $contentTypeSpecification);
     }
 
-    /**
-     * @dataProvider providerForIsSatisfiedBy
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForIsSatisfiedBy')]
     public function testIsSatisfiedBy(
         bool $isContainer,
         bool $shouldBeSatisfied
@@ -52,7 +48,7 @@ final class ContentContainerSpecificationTest extends TestCase
         );
     }
 
-    public function providerForIsSatisfiedBy(): array
+    public static function providerForIsSatisfiedBy(): array
     {
         return [
             [true, true],

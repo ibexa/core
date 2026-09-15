@@ -92,14 +92,12 @@ final class SessionSetDynamicNameListenerTest extends TestCase
             ->method('getParameter');
         $listener = new SessionSetDynamicNameListener(
             $this->configResolver,
-            $this->createMock(SessionStorageFactoryInterface::class)
+            $this->createStub(SessionStorageFactoryInterface::class)
         );
         $listener->onSiteAccessMatch(new PostSiteAccessMatchEvent(new SiteAccess('test'), new Request(), HttpKernelInterface::SUB_REQUEST));
     }
 
-    /**
-     * @dataProvider onSiteAccessMatchProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('onSiteAccessMatchProvider')]
     public function testOnSiteAccessMatch(SiteAccess $siteAccess, $configuredSessionStorageOptions, array $expectedSessionStorageOptions): void
     {
         $request = new Request();
@@ -122,7 +120,7 @@ final class SessionSetDynamicNameListenerTest extends TestCase
     /**
      * @return array{array{\Ibexa\Core\MVC\Symfony\SiteAccess, array<string, string>, array<string, string>}}
      */
-    public function onSiteAccessMatchProvider(): array
+    public static function onSiteAccessMatchProvider(): array
     {
         return [
             [new SiteAccess('foo'), ['name' => 'IBX_SESSION_ID'], ['name' => 'IBX_SESSION_ID']],

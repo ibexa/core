@@ -317,7 +317,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
     {
         $converterRegistry = $this->createMock(ConverterRegistry::class);
         $converterRegistry->method('getConverter')
-            ->willReturn($this->createMock(Converter::class));
+            ->willReturn($this->createStub(Converter::class));
 
         return $converterRegistry;
     }

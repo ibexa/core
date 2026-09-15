@@ -14,9 +14,7 @@ use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\View;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\IsPreview
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Matcher\ContentBased\IsPreview::class)]
 final class IsPreviewTest extends TestCase
 {
     private IsPreview $isPreviewMatcher;
@@ -76,10 +74,9 @@ final class IsPreviewTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataForTestMatch
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestMatch')]
     public function testMatch(View $view, bool $matchConfig, bool $expectedIsPreview): void
     {
         $this->isPreviewMatcher->setMatchingConfig($matchConfig);

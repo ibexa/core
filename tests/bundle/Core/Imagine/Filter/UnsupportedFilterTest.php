@@ -18,6 +18,6 @@ class UnsupportedFilterTest extends AbstractFilterTest
         $this->expectException(NotSupportedException::class);
 
         $filter = new UnsupportedFilter();
-        $filter->apply($this->createMock(ImageInterface::class));
+        $filter->apply($this->createStub(ImageInterface::class));
     }
 }

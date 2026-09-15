@@ -14,12 +14,10 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @todo add more tests, like on validateConstraints method
- *
- * @group fieldType
- * @group validator
- *
- * @covers \Ibexa\Core\FieldType\Validator\EmailAddressValidator
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\FieldType\Validator\EmailAddressValidator::class)]
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('validator')]
 class EmailAddressValidatorTest extends TestCase
 {
     public function testConstructor(): void

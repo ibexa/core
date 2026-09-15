@@ -18,18 +18,16 @@ use PHPUnit\Framework\TestCase;
 
 class BorderFilterLoaderTest extends TestCase
 {
-    /**
-     * @dataProvider loadInvalidProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('loadInvalidProvider')]
     public function testLoadInvalidOptions(array $options)
     {
         $this->expectException(InvalidArgumentException::class);
 
         $loader = new BorderFilterLoader();
-        $loader->load($this->createMock(ImageInterface::class), $options);
+        $loader->load($this->createStub(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    public static function loadInvalidProvider()
     {
         return [
             [[]],
@@ -52,7 +50,7 @@ class BorderFilterLoaderTest extends TestCase
             ->expects(self::once())
             ->method('color')
             ->with(BorderFilterLoader::DEFAULT_BORDER_COLOR)
-            ->will(self::returnValue($this->createMock(ColorInterface::class)));
+            ->will(self::returnValue($this->createStub(ColorInterface::class)));
 
         $box = $this->createMock(BoxInterface::class);
         $image
@@ -82,9 +80,7 @@ class BorderFilterLoaderTest extends TestCase
         self::assertSame($image, $loader->load($image, $options));
     }
 
-    /**
-     * @dataProvider loadProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('loadProvider')]
     public function testLoad($thickX, $thickY, $color)
     {
         $image = $this->createMock(ImageInterface::class);
@@ -99,7 +95,7 @@ class BorderFilterLoaderTest extends TestCase
             ->expects(self::once())
             ->method('color')
             ->with($color)
-            ->will(self::returnValue($this->createMock(ColorInterface::class)));
+            ->will(self::returnValue($this->createStub(ColorInterface::class)));
 
         $box = $this->createMock(BoxInterface::class);
         $image
@@ -129,7 +125,7 @@ class BorderFilterLoaderTest extends TestCase
         self::assertSame($image, $loader->load($image, $options));
     }
 
-    public function loadProvider()
+    public static function loadProvider()
     {
         return [
             [10, 10, '#fff'],

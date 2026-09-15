@@ -33,13 +33,13 @@ class ScaleWidthFilterLoaderTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->loader->load($this->createMock(ImageInterface::class, []));
+        $this->loader->load($this->createStub(ImageInterface::class, []));
     }
 
     public function testLoad()
     {
         $width = 123;
-        $image = $this->createMock(ImageInterface::class);
+        $image = $this->createStub(ImageInterface::class);
         $this->innerLoader
             ->expects(self::once())
             ->method('load')

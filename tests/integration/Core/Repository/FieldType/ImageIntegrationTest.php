@@ -22,10 +22,9 @@ use stdClass;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
 {
     /**
@@ -50,7 +49,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      *
      * @return array
      */
-    protected function getFixtureData(): array
+    protected static function getFixtureData(): array
     {
         return [
             'create' => [
@@ -210,7 +209,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      */
     public function getValidCreationFieldData(): ImageValue
     {
-        $fixtureData = $this->getFixtureData();
+        $fixtureData = static::getFixtureData();
 
         return new ImageValue($fixtureData['create']);
     }
@@ -238,7 +237,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
             $field->value
         );
 
-        $fixtureData = $this->getFixtureData();
+        $fixtureData = static::getFixtureData();
         $expectedData = $fixtureData['create'];
 
         // Will be nullified by external storage
@@ -260,7 +259,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         self::$loadedImagePath = $field->value->id;
     }
 
-    public function provideInvalidCreationFieldData(): array
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             // will fail because the provided file doesn't exist, and fileSize/fileName won't be set
@@ -280,7 +279,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      */
     public function getValidUpdateFieldData(): ImageValue
     {
-        $fixtureData = $this->getFixtureData();
+        $fixtureData = static::getFixtureData();
 
         return new ImageValue($fixtureData['update']);
     }
@@ -292,7 +291,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
             $field->value
         );
 
-        $fixtureData = $this->getFixtureData();
+        $fixtureData = static::getFixtureData();
         $expectedData = $fixtureData['update'];
 
         // Will change during storage
@@ -314,9 +313,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData(): array
+    public static function provideInvalidUpdateFieldData(): array
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -355,7 +354,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData(): array
+    public static function provideToHashData(): array
     {
         return [
             [
@@ -418,14 +417,14 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData(): array
+    public static function provideFromHashData(): array
     {
-        $fixture = $this->getFixtureData();
+        $fixture = static::getFixtureData();
 
         return [
             [
                 $fixture['create'],
-                $this->getValidCreationFieldData(),
+                new ImageValue($fixture['create']),
             ],
         ];
     }
@@ -485,7 +484,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      *     \Ibexa\Core\FieldType\Image\Value
      * }>
      */
-    public function providerForTestIsEmptyValue(): array
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new ImageValue()],
@@ -497,11 +496,11 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      *     \Ibexa\Core\FieldType\Image\Value
      * }>
      */
-    public function providerForTestIsNotEmptyValue(): array
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new ImageValue(static::getFixtureData()['create']),
             ],
         ];
     }
@@ -630,7 +629,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         }
     }
 
-    protected function getValidSearchValueOne(): ImageValue
+    protected static function getValidSearchValueOne(): ImageValue
     {
         return new ImageValue(
             [
@@ -642,7 +641,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         );
     }
 
-    protected function getValidSearchValueTwo(): ImageValue
+    protected static function getValidSearchValueTwo(): ImageValue
     {
         return new ImageValue(
             [
@@ -654,9 +653,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         );
     }
 
-    protected function getSearchTargetValueOne(): string
+    protected static function getSearchTargetValueOne(): string
     {
-        $value = $this->getValidSearchValueOne();
+        $value = static::getValidSearchValueOne();
 
         /**
          * ensure case-insensitivity.
@@ -666,9 +665,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         return strtoupper($value->fileName);
     }
 
-    protected function getSearchTargetValueTwo(): string
+    protected static function getSearchTargetValueTwo(): string
     {
-        $value = $this->getValidSearchValueTwo();
+        $value = static::getValidSearchValueTwo();
 
         /**
          * ensure case-insensitivity.
@@ -678,18 +677,18 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         return strtoupper($value->fileName);
     }
 
-    protected function getAdditionallyIndexedFieldData(): array
+    protected static function getAdditionallyIndexedFieldData(): array
     {
         return [
             [
                 'alternative_text',
-                $this->getValidSearchValueOne()->alternativeText,
-                $this->getValidSearchValueTwo()->alternativeText,
+                static::getValidSearchValueOne()->alternativeText,
+                static::getValidSearchValueTwo()->alternativeText,
             ],
             [
                 'file_size',
-                $this->getValidSearchValueOne()->fileSize,
-                $this->getValidSearchValueTwo()->fileSize,
+                static::getValidSearchValueOne()->fileSize,
+                static::getValidSearchValueTwo()->fileSize,
             ],
             [
                 'mime_type',

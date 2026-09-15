@@ -15,9 +15,7 @@ use Ibexa\Core\IO\IOConfigProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList::class)]
 final class LegacyStorageImageFileListTest extends TestCase
 {
     protected ImageFileRowReader&MockObject $rowReaderMock;

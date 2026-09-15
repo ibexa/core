@@ -20,18 +20,16 @@ final class SortSpecParserTest extends TestCase
 {
     private const EXAMPLE_SORT_CLAUSE_ID = 'id';
 
-    /**
-     * @dataProvider dataProviderForParseSortDirection
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForParseSortDirection')]
     public function testParseSortDirection(array $input, string $expectedDirection): void
     {
         $lexer = new SortSpecLexerStub($input);
-        $parser = new SortSpecParser($this->createMock(SortClauseParserInterface::class), $lexer);
+        $parser = new SortSpecParser($this->createStub(SortClauseParserInterface::class), $lexer);
 
         self::assertEquals($expectedDirection, $parser->parseSortDirection());
     }
 
-    public function dataProviderForParseSortDirection(): iterable
+    public static function dataProviderForParseSortDirection(): iterable
     {
         yield 'asc' => [
             [
@@ -69,8 +67,8 @@ final class SortSpecParserTest extends TestCase
         $sortClauseArgsParser = $this->createMock(SortClauseParserInterface::class);
         $parser = new SortSpecParser($sortClauseArgsParser, $lexer);
 
-        $sortClauseA = $this->createMock(SortClause::class);
-        $sortClauseB = $this->createMock(SortClause::class);
+        $sortClauseA = $this->createStub(SortClause::class);
+        $sortClauseB = $this->createStub(SortClause::class);
 
         $sortClauseArgsParser
             ->method('parse')
@@ -93,7 +91,7 @@ final class SortSpecParserTest extends TestCase
         $sortClauseArgsParser = $this->createMock(SortClauseParserInterface::class);
         $parser = new SortSpecParser($sortClauseArgsParser, $lexer);
 
-        $sortClause = $this->createMock(SortClause::class);
+        $sortClause = $this->createStub(SortClause::class);
         $sortClauseArgsParser
             ->expects(self::once())
             ->method('parse')
@@ -112,7 +110,7 @@ final class SortSpecParserTest extends TestCase
         $lexer->expects(self::once())->method('consume')->willReturn($token);
 
         $parser = new SortSpecParser(
-            $this->createMock(SortClauseParserInterface::class),
+            $this->createStub(SortClauseParserInterface::class),
             $lexer
         );
 
@@ -128,7 +126,7 @@ final class SortSpecParserTest extends TestCase
         $lexer->expects(self::once())->method('consume')->willReturn($token);
 
         $parser = new SortSpecParser(
-            $this->createMock(SortClauseParserInterface::class),
+            $this->createStub(SortClauseParserInterface::class),
             $lexer
         );
 

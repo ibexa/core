@@ -35,7 +35,7 @@ class SearchServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Query::class),
+            $this->createStub(Query::class),
             ['random_value_5ced05ce17d631.27870175'],
             true,
         ];
@@ -51,7 +51,7 @@ class SearchServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Query::class),
+            $this->createStub(Query::class),
             ['random_value_5ced05ce17d6d9.76060657'],
             true,
         ];
@@ -67,7 +67,7 @@ class SearchServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Criterion::class),
+            $this->createStub(Criterion::class),
             ['random_value_5ced05ce17ef80.90204500'],
             true,
         ];
@@ -86,7 +86,7 @@ class SearchServiceDecoratorTest extends TestCase
             'random_value_5ced05ce17f030.62511430',
             ['random_value_5ced05ce17f044.48777415'],
             10,
-            $this->createMock(Criterion::class),
+            $this->createStub(Criterion::class),
         ];
 
         $serviceMock->expects(self::once())->method('suggest')->with(...$parameters);
@@ -100,7 +100,7 @@ class SearchServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(LocationQuery::class),
+            $this->createStub(LocationQuery::class),
             ['random_value_5ced05ce17f647.36429312'],
             true,
         ];
@@ -111,10 +111,9 @@ class SearchServiceDecoratorTest extends TestCase
     }
 
     /**
-     * @dataProvider getSearchEngineCapabilities
-     *
      * @param int $capability
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getSearchEngineCapabilities')]
     public function testSupportsDecorator(int $capability): void
     {
         $serviceMock = $this->createServiceMock();
@@ -132,7 +131,7 @@ class SearchServiceDecoratorTest extends TestCase
      *
      * @return array
      */
-    public function getSearchEngineCapabilities(): array
+    public static function getSearchEngineCapabilities(): array
     {
         return [
             [SearchService::CAPABILITY_SCORING],

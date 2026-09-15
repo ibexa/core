@@ -12,9 +12,7 @@ use Ibexa\Core\FieldType\NullStorage;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\StorageRegistry::class)]
 class StorageRegistryTest extends TestCase
 {
     private const TYPE_NAME = 'some-type';

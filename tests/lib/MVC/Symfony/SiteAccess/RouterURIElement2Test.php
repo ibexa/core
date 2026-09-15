@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 
 class RouterURIElement2Test extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'default_sa'],
@@ -71,9 +71,8 @@ class RouterURIElement2Test extends RouterBaseTestCase
      * @param int $level
      * @param string $uri
      * @param string $expectedFixedUpURI
-     *
-     * @dataProvider analyseProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('analyseProvider')]
     public function testAnalyseURI($level, $uri, $expectedFixedUpURI)
     {
         $matcher = new URIElementMatcher([$level]);
@@ -87,9 +86,8 @@ class RouterURIElement2Test extends RouterBaseTestCase
      * @param int $level
      * @param string $uri
      * @param string $expectedFixedUpURI
-     *
-     * @dataProvider analyseProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('analyseProvider')]
     public function testAnalyseURILevelAsInt($level, $uri, $expectedFixedUpURI)
     {
         $matcher = new URIElementMatcher($level);
@@ -103,9 +101,8 @@ class RouterURIElement2Test extends RouterBaseTestCase
      * @param int $level
      * @param string $fullUri
      * @param string $linkUri
-     *
-     * @dataProvider analyseProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('analyseProvider')]
     public function testAnalyseLink($level, $fullUri, $linkUri)
     {
         $matcher = new URIElementMatcher([$level]);
@@ -115,7 +112,7 @@ class RouterURIElement2Test extends RouterBaseTestCase
         self::assertSame($fullUri, $matcher->analyseLink($linkUri));
     }
 
-    public function analyseProvider()
+    public static function analyseProvider()
     {
         return [
             [2, '/my/siteaccess/foo/bar', '/foo/bar'],
@@ -133,9 +130,7 @@ class RouterURIElement2Test extends RouterBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider reverseMatchProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('reverseMatchProvider')]
     public function testReverseMatch($siteAccessName, $originalPathinfo)
     {
         $expectedSiteAccessPath = str_replace('_', '/', $siteAccessName);
@@ -149,7 +144,7 @@ class RouterURIElement2Test extends RouterBaseTestCase
         self::assertSame('/foo/bar/baz', $result->analyseURI("/$expectedSiteAccessPath/foo/bar/baz"));
     }
 
-    public function reverseMatchProvider()
+    public static function reverseMatchProvider()
     {
         return [
             ['some_thing', '/foo/bar'],
@@ -181,7 +176,7 @@ class RouterURIElement2Test extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            $this->createStub(LoggerInterface::class),
             'default_sa',
             [
                 'URIElement' => [

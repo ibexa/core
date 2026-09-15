@@ -61,9 +61,7 @@ class EZP21906SearchOneContentMultipleLocationsTest extends BaseTestCase
         $this->refreshSearch($repository);
     }
 
-    /**
-     * @dataProvider searchContentQueryProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('searchContentQueryProvider')]
     public function testSearchContentMultipleLocations(Query $query, $expectedResultCount)
     {
         $result = $this->getRepository()->getSearchService()->findContent($query);
@@ -71,7 +69,7 @@ class EZP21906SearchOneContentMultipleLocationsTest extends BaseTestCase
         self::assertSame($expectedResultCount, count($result->searchHits));
     }
 
-    public function searchContentQueryProvider()
+    public static function searchContentQueryProvider()
     {
         return [
             [

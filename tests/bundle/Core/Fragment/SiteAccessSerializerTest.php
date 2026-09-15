@@ -14,16 +14,13 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * @covers \Ibexa\Bundle\Core\Fragment\SiteAccessSerializer
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\Fragment\SiteAccessSerializer::class)]
 final class SiteAccessSerializerTest extends TestCase
 {
     /**
-     * @dataProvider getDataForTestSerializeSiteAccessAsControllerAttributes
-     *
      * @throws \JsonException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestSerializeSiteAccessAsControllerAttributes')]
     public function testSerializeSiteAccessAsControllerAttributes(SiteAccess $siteAccess): void
     {
         $serializerMock = $this->createMock(SerializerInterface::class);
@@ -35,7 +32,7 @@ final class SiteAccessSerializerTest extends TestCase
                        ->with(
                            self::isInstanceOf(SiteAccess\Matcher::class),
                            'json',
-                           self::isType('array')
+                           self::isArray()
                        )->willReturn('{"foo":"bar"}')
         ;
 

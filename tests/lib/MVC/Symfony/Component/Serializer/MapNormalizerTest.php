@@ -37,7 +37,7 @@ final class MapNormalizerTest extends TestCase
     {
         $normalizer = new MapNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(MapMatcher::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createStub(MapMatcher::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createStub(Matcher::class)));
     }
 }

@@ -31,9 +31,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-/**
- * @group mvc
- */
+#[\PHPUnit\Framework\Attributes\Group('mvc')]
 class ContentViewBuilderTest extends TestCase
 {
     private const int EXAMPLE_LOCATION_ID = 743;
@@ -64,7 +62,7 @@ class ContentViewBuilderTest extends TestCase
         $this->repository = $this
             ->getMockBuilder(Repository::class)
             ->disableOriginalConstructor()
-            ->setMethods([
+            ->onlyMethods([
                 'sudo',
                 'getPermissionResolver',
                 'getLocationService',
@@ -215,12 +213,7 @@ class ContentViewBuilderTest extends TestCase
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects(self::at(0))
-            ->method('canUser')
-            ->willReturn(false);
-
-        $this->permissionResolver
-            ->expects(self::at(1))
+            ->expects(self::exactly(2))
             ->method('canUser')
             ->willReturn(false);
 
@@ -342,7 +335,7 @@ class ContentViewBuilderTest extends TestCase
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('canUser')
             ->willReturn(true);
 
@@ -424,7 +417,7 @@ class ContentViewBuilderTest extends TestCase
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('canUser')
             ->willReturn(true);
 

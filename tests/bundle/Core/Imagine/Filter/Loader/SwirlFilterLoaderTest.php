@@ -29,7 +29,7 @@ class SwirlFilterLoaderTest extends TestCase
 
     public function testLoadNoOption()
     {
-        $image = $this->createMock(ImageInterface::class);
+        $image = $this->createStub(ImageInterface::class);
         $this->filter
             ->expects(self::never())
             ->method('setOption');
@@ -43,12 +43,10 @@ class SwirlFilterLoaderTest extends TestCase
         self::assertSame($image, $this->loader->load($image));
     }
 
-    /**
-     * @dataProvider loadWithOptionProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('loadWithOptionProvider')]
     public function testLoadWithOption($degrees)
     {
-        $image = $this->createMock(ImageInterface::class);
+        $image = $this->createStub(ImageInterface::class);
         $this->filter
             ->expects(self::once())
             ->method('setOption')
@@ -63,7 +61,7 @@ class SwirlFilterLoaderTest extends TestCase
         self::assertSame($image, $this->loader->load($image, [$degrees]));
     }
 
-    public function loadWithOptionProvider()
+    public static function loadWithOptionProvider()
     {
         return [
             [10],

@@ -18,7 +18,7 @@ final class MemberOfLimitationTest extends BaseLimitationIntegrationTestCase
     private const ADMIN_GROUP_ID = 14;
     private const USERS_GROUP_ID = 4;
 
-    public function userPermissionLimitationProvider(): array
+    public static function userPermissionLimitationProvider(): array
     {
         $allowInAdministratorsLimitation = new MemberOfLimitation();
         $allowInAdministratorsLimitation->limitationValues[] = self::ADMIN_GROUP_ID;
@@ -36,9 +36,7 @@ final class MemberOfLimitationTest extends BaseLimitationIntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider userPermissionLimitationProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('userPermissionLimitationProvider')]
     public function testCanUserAssignRoleToUser(array $limitations, bool $expectedResult): void
     {
         $repository = $this->getRepository();

@@ -13,10 +13,9 @@ use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class TextBlockIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -144,7 +143,7 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -187,9 +186,9 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -236,7 +235,7 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -253,7 +252,7 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -263,7 +262,7 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new TextBlockValue()],
@@ -275,39 +274,39 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new TextBlockValue('Example'),
             ],
             [new TextBlockValue('0')],
         ];
     }
 
-    protected function getValidSearchValueOne(): string
+    protected static function getValidSearchValueOne(): string
     {
         return 'caution is the " path to mediocrity something completely different';
     }
 
-    protected function getSearchTargetValueOne(): string
+    protected static function getSearchTargetValueOne(): string
     {
         // ensure case-insensitivity
         return strtoupper('caution is the " path to mediocrity something completely different');
     }
 
-    protected function getValidSearchValueTwo(): string
+    protected static function getValidSearchValueTwo(): string
     {
         return "truth suffers from ' too much analysis hello and goodbye";
     }
 
-    protected function getSearchTargetValueTwo(): string
+    protected static function getSearchTargetValueTwo(): string
     {
         // ensure case-insensitivity
         return strtoupper("truth suffers from ' too much analysis hello and goodbye");
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['path', 'analysis'],

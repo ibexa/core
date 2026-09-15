@@ -33,9 +33,9 @@ abstract class FieldTypeTestCase extends BaseFieldTypeTestCase
     /**
      * @phpstan-return iterable<array{mixed, mixed}>
      */
-    public function provideInputForValuesEqual(): iterable
+    public static function provideInputForValuesEqual(): iterable
     {
-        yield from $this->provideInputForFromHash();
+        yield from static::provideInputForFromHash();
     }
 
     abstract protected function createFieldTypeUnderTest(): FieldType & Comparable;
@@ -49,9 +49,7 @@ abstract class FieldTypeTestCase extends BaseFieldTypeTestCase
         return $this->fieldTypeUnderTest;
     }
 
-    /**
-     * @dataProvider provideInputForValuesEqual
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideInputForValuesEqual')]
     public function testValuesEqual(mixed $inputValue1Hash, SPIValue $inputValue2): void
     {
         $fieldType = $this->getFieldTypeUnderTest();

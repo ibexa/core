@@ -12,9 +12,7 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer::class)]
 final class SimplifiedRequestNormalizerTest extends TestCase
 {
     /**

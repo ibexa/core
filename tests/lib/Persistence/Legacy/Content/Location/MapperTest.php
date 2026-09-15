@@ -12,9 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\Location\Mapper::class)]
 class MapperTest extends TestCase
 {
     /**

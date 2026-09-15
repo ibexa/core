@@ -15,9 +15,7 @@ use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController::class)]
 final class DownloadControllerTest extends TestCase
 {
     use DownloadControllerTestTrait;
@@ -123,9 +121,7 @@ final class DownloadControllerTest extends TestCase
         self::assertStringContainsString(self::FILENAME, (string) $response->headers->get('Content-Disposition'));
     }
 
-    /**
-     * @dataProvider provideNotFoundCases
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideNotFoundCases')]
     public function testDownloadBinaryFileByIdActionReturnsNotFound(int $fieldId, string $filename): void
     {
         $content = $this->createContent(self::FILENAME);
@@ -154,9 +150,7 @@ final class DownloadControllerTest extends TestCase
         yield 'field id does not exist in content' => [123, self::FILENAME];
     }
 
-    /**
-     * @group legacy
-     */
+    #[\PHPUnit\Framework\Attributes\Group('legacy')]
     public function testDownloadBinaryFileByIdActionTriggersDeprecationWithoutFilename(): void
     {
         $content = $this->createContent(self::FILENAME);

@@ -30,9 +30,7 @@ use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 
-/**
- * @covers \Ibexa\Core\Repository\Mapper\ContentDomainMapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\Mapper\ContentDomainMapper::class)]
 final class ContentDomainMapperTest extends BaseServiceMockTest
 {
     use ExpectDeprecationTrait;
@@ -48,9 +46,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     private const EXAMPLE_CREATOR_ID = 23;
     private const int EXAMPLE_VERSION_INFO_ID = 12;
 
-    /**
-     * @dataProvider providerForBuildVersionInfo
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForBuildVersionInfo')]
     public function testBuildVersionInfo(SPIVersionInfo $spiVersionInfo)
     {
         $languageHandlerMock = $this->getLanguageHandlerMock();
@@ -149,13 +145,12 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
-     *
-     * @group legacy
      */
+    #[\PHPUnit\Framework\Attributes\Group('legacy')]
     public function testBuildDomainFieldsDeprecatedBehavior(): void
     {
         $persistenceFields = [new PersistenceContentField()];
-        $persistenceContentType = $this->createMock(PersistenceContentType::class);
+        $persistenceContentType = $this->createStub(PersistenceContentType::class);
         $apiContentTypeMock = $this->createMock(ContentType::class);
         $apiContentTypeMock->method('getFieldDefinitions')->willReturn(new FieldDefinitionCollection());
         $this
@@ -175,7 +170,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         $this->getContentDomainMapper()->buildDomainFields($persistenceFields, $persistenceContentType);
     }
 
-    public function providerForBuildVersionInfo()
+    public static function providerForBuildVersionInfo()
     {
         $properties = [
             'id' => self::EXAMPLE_VERSION_INFO_ID,
@@ -238,7 +233,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         ];
     }
 
-    public function providerForBuildLocationDomainObjectsOnSearchResult()
+    public static function providerForBuildLocationDomainObjectsOnSearchResult()
     {
         $properties = [
             'name' => self::EXAMPLE_NAME,
@@ -314,14 +309,13 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     }
 
     /**
-     * @dataProvider providerForBuildLocationDomainObjectsOnSearchResult
-     *
      * @param array $locationHits
      * @param array $contentIds
      * @param array $languageFilter
      * @param array $contentInfoList
      * @param int $missing
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForBuildLocationDomainObjectsOnSearchResult')]
     public function testBuildLocationDomainObjectsOnSearchResult(
         array $locationHits,
         array $contentIds,

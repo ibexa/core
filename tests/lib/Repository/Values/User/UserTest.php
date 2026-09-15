@@ -15,9 +15,7 @@ use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\User\User
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\Values\User\User::class)]
 final class UserTest extends TestCase
 {
     use ValueObjectTestTrait;

@@ -45,7 +45,7 @@ final class UserPreferenceExtensionTest extends IntegrationTestCase
         ];
     }
 
-    protected function getFixturesDir(): string
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/user_preference_functions';
     }

@@ -38,7 +38,7 @@ final class RoutingExtensionTest extends IntegrationTestCase
         ];
     }
 
-    protected function getFixturesDir(): string
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/routing_functions';
     }
@@ -89,7 +89,7 @@ final class RoutingExtensionTest extends IntegrationTestCase
     private function getRouteReferenceGenerator(): RouteReferenceGeneratorInterface
     {
         $generator = new RouteReferenceGenerator(
-            $this->createMock(EventDispatcherInterface::class)
+            $this->createStub(EventDispatcherInterface::class)
         );
         $request = new Request();
         $requestStack = new RequestStack([$request]);

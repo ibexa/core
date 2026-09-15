@@ -45,10 +45,9 @@ abstract class BaseMessageExtractorPhpFileVisitorTestCase extends TestCase
     }
 
     /**
-     * @dataProvider getDataForTestExtractTranslation
-     *
      * @param array<\JMS\TranslationBundle\Model\Message> $expectedMessages
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestExtractTranslation')]
     public function testExtractTranslation(string $phpFileName, array $expectedMessages): void
     {
         $messageCatalogue = new MessageCatalogue();

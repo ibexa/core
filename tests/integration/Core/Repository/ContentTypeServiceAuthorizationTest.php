@@ -11,23 +11,30 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 
 /**
  * Test case for operations in the ContentTypeServiceAuthorization using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService
- *
- * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
- *
- * @group integration
- * @group authorization
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\ContentTypeService::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'createContentTypeGroup()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'updateContentTypeGroup()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'deleteContentTypeGroup()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'createContentType()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'updateContentTypeDraft()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'addFieldDefinition()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'removeFieldDefinition()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'updateFieldDefinition()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'publishContentTypeDraft()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'createContentTypeDraft()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'deleteContentType()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'copyContentType()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'assignContentTypeGroup()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentTypeService::class, 'unassignContentTypeGroup()')]
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('authorization')]
 class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 {
     /**
      * Test for the createContentTypeGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::createContentTypeGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentTypeGroup
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testCreateContentTypeGroup')]
     public function testCreateContentTypeGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -65,11 +72,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the updateContentTypeGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::updateContentTypeGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUpdateContentTypeGroup
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testUpdateContentTypeGroup')]
     public function testUpdateContentTypeGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -116,11 +120,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the deleteContentTypeGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::deleteContentTypeGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testDeleteContentTypeGroup
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testDeleteContentTypeGroup')]
     public function testDeleteContentTypeGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -154,11 +155,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the createContentType() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::createContentType()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testCreateContentTypeThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -212,11 +210,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the updateContentTypeDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::updateContentTypeDraft()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUpdateContentTypeDraft
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testUpdateContentTypeDraft')]
     public function testUpdateContentTypeDraftThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -265,11 +260,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the addFieldDefinition() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::addFieldDefinition()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testAddFieldDefinition
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testAddFieldDefinition')]
     public function testAddFieldDefinitionThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -322,11 +314,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the removeFieldDefinition() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::removeFieldDefinition()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testRemoveFieldDefinition
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testRemoveFieldDefinition')]
     public function testRemoveFieldDefinitionThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -356,11 +345,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the updateFieldDefinition() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::updateFieldDefinition()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUpdateFieldDefinition
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testUpdateFieldDefinition')]
     public function testUpdateFieldDefinitionThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -415,11 +401,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the publishContentTypeDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::publishContentTypeDraft()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testPublishContentTypeDraft
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testPublishContentTypeDraft')]
     public function testPublishContentTypeDraftThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -447,11 +430,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the createContentTypeDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::createContentTypeDraft()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentTypeDraft
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testCreateContentTypeDraft')]
     public function testCreateContentTypeDraftThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -480,11 +460,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the deleteContentType() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::deleteContentType()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testDeleteContentType
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testDeleteContentType')]
     public function testDeleteContentTypeThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -513,11 +490,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the copyContentType() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::copyContentType()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCopyContentType
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testCopyContentType')]
     public function testCopyContentTypeThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -546,11 +520,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the assignContentTypeGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::assignContentTypeGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testAssignContentTypeGroup
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testAssignContentTypeGroup')]
     public function testAssignContentTypeGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -580,11 +551,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
     /**
      * Test for the unassignContentTypeGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::unassignContentTypeGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUnassignContentTypeGroup
      */
+    #[\PHPUnit\Framework\Attributes\DependsExternal(\Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::class, 'testUnassignContentTypeGroup')]
     public function testUnassignContentTypeGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);

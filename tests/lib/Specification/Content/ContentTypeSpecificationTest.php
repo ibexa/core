@@ -14,9 +14,7 @@ use Ibexa\Contracts\Core\Specification\Content\ContentSpecification;
 use Ibexa\Contracts\Core\Specification\Content\ContentTypeSpecification;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Specification\Content\ContentTypeSpecification
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Specification\Content\ContentTypeSpecification::class)]
 final class ContentTypeSpecificationTest extends TestCase
 {
     private const EXISTING_CONTENT_TYPE_IDENTIFIER = 'article';
@@ -40,9 +38,7 @@ final class ContentTypeSpecificationTest extends TestCase
         self::assertInstanceOf(ContentSpecification::class, $contentTypeSpecification);
     }
 
-    /**
-     * @dataProvider providerForIsSatisfiedBy
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForIsSatisfiedBy')]
     public function testIsSatisfiedBy(
         string $contentTypeSpecificationIdentifier,
         string $contentTypeIdentifier,
@@ -69,7 +65,7 @@ final class ContentTypeSpecificationTest extends TestCase
         );
     }
 
-    public function providerForIsSatisfiedBy(): array
+    public static function providerForIsSatisfiedBy(): array
     {
         return [
             [self::EXISTING_CONTENT_TYPE_IDENTIFIER, self::EXISTING_CONTENT_TYPE_IDENTIFIER, true],

@@ -55,7 +55,7 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
         $locations = [];
@@ -83,7 +83,7 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
         $locations = [];
@@ -117,7 +117,7 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
         $locations = [];
@@ -154,12 +154,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(LocationCreateStruct::class),
-            $this->createMock(VersionInfo::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(LocationCreateStruct::class),
+            $this->createStub(VersionInfo::class),
         ];
 
-        $content = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('copyContent')->willReturn($content);
 
@@ -184,13 +184,13 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(LocationCreateStruct::class),
-            $this->createMock(VersionInfo::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(LocationCreateStruct::class),
+            $this->createStub(VersionInfo::class),
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('copyContent')->willReturn($content);
 
@@ -220,13 +220,13 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(LocationCreateStruct::class),
-            $this->createMock(VersionInfo::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(LocationCreateStruct::class),
+            $this->createStub(VersionInfo::class),
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('copyContent')->willReturn($content);
 
@@ -259,11 +259,11 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
-            $this->createMock(ContentUpdateStruct::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(ContentUpdateStruct::class),
         ];
 
-        $content = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('updateContent')->willReturn($content);
 
@@ -288,12 +288,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
-            $this->createMock(ContentUpdateStruct::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(ContentUpdateStruct::class),
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('updateContent')->willReturn($content);
 
@@ -323,12 +323,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
-            $this->createMock(ContentUpdateStruct::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(ContentUpdateStruct::class),
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('updateContent')->willReturn($content);
 
@@ -361,11 +361,11 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
-            $this->createMock(ContentInfo::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteRelation(...$parameters);
@@ -387,11 +387,11 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
-            $this->createMock(ContentInfo::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteRelationEvent::class, static function (BeforeDeleteRelationEvent $event) {
             $event->stopPropagation();
@@ -420,11 +420,11 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentCreateStruct::class),
+            $this->createStub(ContentCreateStruct::class),
             [],
         ];
 
-        $content = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('createContent')->willReturn($content);
 
@@ -449,12 +449,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentCreateStruct::class),
+            $this->createStub(ContentCreateStruct::class),
             [],
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('createContent')->willReturn($content);
 
@@ -484,12 +484,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentCreateStruct::class),
+            $this->createStub(ContentCreateStruct::class),
             [],
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('createContent')->willReturn($content);
 
@@ -522,10 +522,10 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
         $service->hideContent(...$parameters);
@@ -547,10 +547,10 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeHideContentEvent::class, static function (BeforeHideContentEvent $event) {
             $event->stopPropagation();
@@ -579,10 +579,10 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
+            $this->createStub(VersionInfo::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteVersion(...$parameters);
@@ -604,10 +604,10 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
+            $this->createStub(VersionInfo::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteVersionEvent::class, static function (BeforeDeleteVersionEvent $event) {
             $event->stopPropagation();
@@ -636,11 +636,11 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
-            $this->createMock(ContentInfo::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
-        $relation = $this->createMock(Relation::class);
+        $relation = $this->createStub(Relation::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('addRelation')->willReturn($relation);
 
@@ -665,12 +665,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
-            $this->createMock(ContentInfo::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
-        $relation = $this->createMock(Relation::class);
-        $eventRelation = $this->createMock(Relation::class);
+        $relation = $this->createStub(Relation::class);
+        $eventRelation = $this->createStub(Relation::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('addRelation')->willReturn($relation);
 
@@ -700,12 +700,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
-            $this->createMock(ContentInfo::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
-        $relation = $this->createMock(Relation::class);
-        $eventRelation = $this->createMock(Relation::class);
+        $relation = $this->createStub(Relation::class);
+        $eventRelation = $this->createStub(Relation::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('addRelation')->willReturn($relation);
 
@@ -738,11 +738,11 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(ContentMetadataUpdateStruct::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(ContentMetadataUpdateStruct::class),
         ];
 
-        $content = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('updateContentMetadata')->willReturn($content);
 
@@ -767,12 +767,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(ContentMetadataUpdateStruct::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(ContentMetadataUpdateStruct::class),
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('updateContentMetadata')->willReturn($content);
 
@@ -802,12 +802,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(ContentMetadataUpdateStruct::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(ContentMetadataUpdateStruct::class),
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('updateContentMetadata')->willReturn($content);
 
@@ -840,11 +840,11 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
+            $this->createStub(ContentInfo::class),
             'random_value_5cff79c31a2f31.74205767',
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteTranslation(...$parameters);
@@ -866,11 +866,11 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
+            $this->createStub(ContentInfo::class),
             'random_value_5cff79c31a2fc0.71971617',
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteTranslationEvent::class, static function (BeforeDeleteTranslationEvent $event) {
             $event->stopPropagation();
@@ -899,11 +899,11 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
+            $this->createStub(VersionInfo::class),
             [],
         ];
 
-        $content = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('publishVersion')->willReturn($content);
 
@@ -928,12 +928,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
+            $this->createStub(VersionInfo::class),
             [],
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('publishVersion')->willReturn($content);
 
@@ -963,12 +963,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(VersionInfo::class),
+            $this->createStub(VersionInfo::class),
             [],
         ];
 
-        $content = $this->createMock(Content::class);
-        $eventContent = $this->createMock(Content::class);
+        $content = $this->createStub(Content::class);
+        $eventContent = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('publishVersion')->willReturn($content);
 
@@ -1001,12 +1001,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(VersionInfo::class),
-            $this->createMock(User::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(User::class),
         ];
 
-        $contentDraft = $this->createMock(Content::class);
+        $contentDraft = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('createContentDraft')->willReturn($contentDraft);
 
@@ -1031,13 +1031,13 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(VersionInfo::class),
-            $this->createMock(User::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(User::class),
         ];
 
-        $contentDraft = $this->createMock(Content::class);
-        $eventContentDraft = $this->createMock(Content::class);
+        $contentDraft = $this->createStub(Content::class);
+        $eventContentDraft = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('createContentDraft')->willReturn($contentDraft);
 
@@ -1067,13 +1067,13 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(VersionInfo::class),
-            $this->createMock(User::class),
+            $this->createStub(ContentInfo::class),
+            $this->createStub(VersionInfo::class),
+            $this->createStub(User::class),
         ];
 
-        $contentDraft = $this->createMock(Content::class);
-        $eventContentDraft = $this->createMock(Content::class);
+        $contentDraft = $this->createStub(Content::class);
+        $eventContentDraft = $this->createStub(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('createContentDraft')->willReturn($contentDraft);
 
@@ -1106,10 +1106,10 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
         $service->revealContent(...$parameters);
@@ -1131,10 +1131,10 @@ class ContentServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
+            $this->createStub(ContentInfo::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentServiceInterface::class);
+        $innerServiceMock = $this->createStub(ContentServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeRevealContentEvent::class, static function (BeforeRevealContentEvent $event) {
             $event->stopPropagation();

@@ -22,14 +22,10 @@ use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use RuntimeException;
 
-/**
- * @covers \Ibexa\Core\Persistence\Doctrine\Query\JsonTextFunction
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Doctrine\Query\JsonTextFunction::class)]
 final class JsonTextFunctionTest extends TestCase
 {
-    /**
-     * @dataProvider provideForGetSql
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideForGetSql')]
     public function testItReadsTheKeyAsTextOn(
         AbstractPlatform $platform,
         string $expectedSql
@@ -78,7 +74,7 @@ final class JsonTextFunctionTest extends TestCase
 
         foreach (['document', 'key'] as $property) {
             (new ReflectionProperty(JsonTextFunction::class, $property))
-                ->setValue($function, $this->createMock(Node::class));
+                ->setValue($function, $this->createStub(Node::class));
         }
 
         return $function;

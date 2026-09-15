@@ -18,9 +18,7 @@ use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldNameResolver;
 use Ibexa\Core\Search\Common\FieldRegistry;
 
-/**
- * @covers \Ibexa\Core\Search\Common\FieldNameResolver
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Search\Common\FieldNameResolver::class)]
 class FieldNameResolverTest extends TestCase
 {
     public function testGetFieldNamesReturnsEmptyArray()
@@ -92,33 +90,27 @@ class FieldNameResolverTest extends TestCase
                 )
             );
 
+        $getIndexFieldNameMatcher = self::exactly(2);
         $mockedFieldNameResolver
-            ->expects(self::at(1))
+            ->expects($getIndexFieldNameMatcher)
             ->method('getIndexFieldName')
-            ->with(
-                self::isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_1',
-                'field_definition_identifier_1',
-                'field_type_identifier_1',
-                null
-            )
-            ->will(self::returnValue(['index_field_name_1' => null]));
+            ->willReturnCallback(static function ($criterion, $contentTypeIdentifier, $fieldDefinitionIdentifier, $fieldTypeIdentifier, $fieldName) use ($getIndexFieldNameMatcher) {
+                self::assertInstanceOf(APICriterion::class, $criterion);
+                self::assertSame('field_definition_identifier_1', $fieldDefinitionIdentifier);
+                self::assertNull($fieldName);
 
-        $mockedFieldNameResolver
-            ->expects(self::at(2))
-            ->method('getIndexFieldName')
-            ->with(
-                self::isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_2',
-                'field_definition_identifier_1',
-                'field_type_identifier_2',
-                null
-            )
-            ->will(self::returnValue(['index_field_name_2' => null]));
+                if ($getIndexFieldNameMatcher->numberOfInvocations() === 1) {
+                    self::assertSame('content_type_identifier_1', $contentTypeIdentifier);
+                    self::assertSame('field_type_identifier_1', $fieldTypeIdentifier);
+
+                    return ['index_field_name_1' => null];
+                }
+
+                self::assertSame('content_type_identifier_2', $contentTypeIdentifier);
+                self::assertSame('field_type_identifier_2', $fieldTypeIdentifier);
+
+                return ['index_field_name_2' => null];
+            });
 
         $fieldNames = $mockedFieldNameResolver->getFieldTypes(
             $criterionMock,
@@ -166,33 +158,27 @@ class FieldNameResolverTest extends TestCase
                 )
             );
 
+        $getIndexFieldNameMatcher = self::exactly(2);
         $mockedFieldNameResolver
-            ->expects(self::at(1))
+            ->expects($getIndexFieldNameMatcher)
             ->method('getIndexFieldName')
-            ->with(
-                self::isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_1',
-                'field_definition_identifier_1',
-                'field_type_identifier_1',
-                'field_name'
-            )
-            ->will(self::returnValue(['index_field_name_1' => null]));
+            ->willReturnCallback(static function ($criterion, $contentTypeIdentifier, $fieldDefinitionIdentifier, $fieldTypeIdentifier, $fieldName) use ($getIndexFieldNameMatcher) {
+                self::assertInstanceOf(APICriterion::class, $criterion);
+                self::assertSame('field_definition_identifier_1', $fieldDefinitionIdentifier);
+                self::assertSame('field_name', $fieldName);
 
-        $mockedFieldNameResolver
-            ->expects(self::at(2))
-            ->method('getIndexFieldName')
-            ->with(
-                self::isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_2',
-                'field_definition_identifier_1',
-                'field_type_identifier_2',
-                'field_name'
-            )
-            ->will(self::returnValue(['index_field_name_2' => null]));
+                if ($getIndexFieldNameMatcher->numberOfInvocations() === 1) {
+                    self::assertSame('content_type_identifier_1', $contentTypeIdentifier);
+                    self::assertSame('field_type_identifier_1', $fieldTypeIdentifier);
+
+                    return ['index_field_name_1' => null];
+                }
+
+                self::assertSame('content_type_identifier_2', $contentTypeIdentifier);
+                self::assertSame('field_type_identifier_2', $fieldTypeIdentifier);
+
+                return ['index_field_name_2' => null];
+            });
 
         $fieldNames = $mockedFieldNameResolver->getFieldTypes(
             $criterionMock,
@@ -243,7 +229,7 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('getIndexFieldName')
             ->with(
                 self::isInstanceOf(
@@ -304,7 +290,7 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('getIndexFieldName')
             ->with(
                 self::isInstanceOf(
@@ -769,7 +755,7 @@ class FieldNameResolverTest extends TestCase
      */
     protected function getMockedFieldNameResolver(array $methods = [])
     {
-        $fieldNameResolver = $this
+        $builder = $this
             ->getMockBuilder(FieldNameResolver::class)
             ->setConstructorArgs(
                 [
@@ -777,9 +763,11 @@ class FieldNameResolverTest extends TestCase
                     $this->getContentTypeHandlerMock(),
                     $this->getFieldNameGeneratorMock(),
                 ]
-            )
-            ->setMethods($methods)
-            ->getMock();
+            );
+        if ($methods !== []) {
+            $builder->onlyMethods(array_values($methods));
+        }
+        $fieldNameResolver = $builder->getMock();
 
         return $fieldNameResolver;
     }

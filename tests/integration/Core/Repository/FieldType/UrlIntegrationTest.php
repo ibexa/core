@@ -13,10 +13,9 @@ use Ibexa\Core\FieldType\Url\Value as UrlValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class UrlIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -138,7 +137,7 @@ class UrlIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -186,9 +185,9 @@ class UrlIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -236,7 +235,7 @@ class UrlIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -263,7 +262,7 @@ class UrlIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -277,7 +276,7 @@ class UrlIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new UrlValue()],
@@ -287,11 +286,11 @@ class UrlIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new UrlValue('http://example.com', 'Example'),
             ],
             [
                 new UrlValue('http://example.com'),
@@ -299,27 +298,27 @@ class UrlIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected static function getValidSearchValueOne()
     {
         return new UrlValue('http://ample.com', 'Ample');
     }
 
-    protected function getValidSearchValueTwo()
+    protected static function getValidSearchValueTwo()
     {
         return new UrlValue('http://example.com', 'Example');
     }
 
-    protected function getSearchTargetValueOne(): string
+    protected static function getSearchTargetValueOne(): string
     {
         return 'http://ample.com';
     }
 
-    protected function getSearchTargetValueTwo(): string
+    protected static function getSearchTargetValueTwo(): string
     {
         return 'http://example.com';
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected static function getAdditionallyIndexedFieldData()
     {
         return [
             [
@@ -331,7 +330,7 @@ class UrlIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['ample', 'example'],

@@ -17,9 +17,7 @@ use Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver::class)]
 final class PermissionAwareLocationResolverTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */

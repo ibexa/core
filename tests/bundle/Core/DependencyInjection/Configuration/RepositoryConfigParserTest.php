@@ -26,7 +26,7 @@ final class RepositoryConfigParserTest extends TestCase
     public function testAddSemanticConfig(): void
     {
         /** @phpstan-var NodeBuilder<TRootNode> & MockObject $nodeBuilder */
-        $nodeBuilder = $this->createMock(NodeBuilder::class);
+        $nodeBuilder = $this->createStub(NodeBuilder::class);
 
         $repositoryConfigParser = new RepositoryConfigParser([
             $this->createRepositoryConfigParserMock($nodeBuilder),

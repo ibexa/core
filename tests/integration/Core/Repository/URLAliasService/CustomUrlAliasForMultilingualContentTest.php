@@ -11,12 +11,11 @@ namespace Ibexa\Tests\Integration\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\ContentService::class, 'publishVersion')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\URLAliasService::class, 'createUrlAlias')]
 final class CustomUrlAliasForMultilingualContentTest extends BaseTestCase
 {
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException

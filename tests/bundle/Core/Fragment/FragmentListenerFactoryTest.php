@@ -17,9 +17,7 @@ use Symfony\Component\HttpKernel\EventListener\FragmentListener;
 
 class FragmentListenerFactoryTest extends TestCase
 {
-    /**
-     * @dataProvider buildFragmentListenerProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('buildFragmentListenerProvider')]
     public function testBuildFragmentListener($requestUri, $isFragmentCandidate)
     {
         $listenerClass = FragmentListener::class;
@@ -43,7 +41,7 @@ class FragmentListenerFactoryTest extends TestCase
         }
     }
 
-    public function buildFragmentListenerProvider()
+    public static function buildFragmentListenerProvider()
     {
         return [
             ['/foo/bar', false],

@@ -29,9 +29,8 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
      * @param string[] $values
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
-     *
-     * @dataProvider dataProviderForTestSortingByContentTranslatedName
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestSortingByContentTranslatedName')]
     public function testContentSortingByContentTranslatedName(
         iterable $inputValues,
         SortClause $sortClause,
@@ -58,9 +57,8 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
      * @param string[] $values
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
-     *
-     * @dataProvider dataProviderForTestSortingByContentTranslatedName
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestSortingByContentTranslatedName')]
     public function testLocationSortingByContentTranslatedName(
         iterable $inputValues,
         SortClause $sortClause,
@@ -83,7 +81,7 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
         $this->assertSearchResultOrderByRemoteId($expectedOrderedRemoteIds, $actualResults);
     }
 
-    public function dataProviderForTestSortingByContentTranslatedName(): iterable
+    public static function dataProviderForTestSortingByContentTranslatedName(): iterable
     {
         $inputValues = [
             'foo' => [

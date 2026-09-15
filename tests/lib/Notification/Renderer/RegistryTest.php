@@ -52,7 +52,7 @@ final class RegistryTest extends TestCase
             }
         };
 
-        $nonTypedRenderer = $this->createMock(NotificationRenderer::class);
+        $nonTypedRenderer = $this->createStub(NotificationRenderer::class);
 
         $registry = new Registry();
         $registry->addRenderer('z_type', $typedRendererB);

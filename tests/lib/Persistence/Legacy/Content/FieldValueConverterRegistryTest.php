@@ -11,9 +11,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry::class)]
 class FieldValueConverterRegistryTest extends TestCase
 {
     private const TYPE_NAME = 'some-type';

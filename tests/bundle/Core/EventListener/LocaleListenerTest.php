@@ -42,9 +42,7 @@ class LocaleListenerTest extends TestCase
         $this->requestStack = new RequestStack([$requestMock]);
     }
 
-    /**
-     * @dataProvider onKernelRequestProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('onKernelRequestProvider')]
     public function testOnKernelRequest(array $configuredLanguages, array $convertedLocalesValueMap, $expectedLocale): void
     {
         $this->configResolver
@@ -67,7 +65,7 @@ class LocaleListenerTest extends TestCase
         $request = new Request();
         $localeListener->onKernelRequest(
             new RequestEvent(
-                $this->createMock(HttpKernelInterface::class),
+                $this->createStub(HttpKernelInterface::class),
                 $request,
                 HttpKernelInterface::MAIN_REQUEST
             )
@@ -75,7 +73,7 @@ class LocaleListenerTest extends TestCase
         self::assertSame($expectedLocale, $request->attributes->get('_locale'));
     }
 
-    public function onKernelRequestProvider(): array
+    public static function onKernelRequestProvider(): array
     {
         return [
             [

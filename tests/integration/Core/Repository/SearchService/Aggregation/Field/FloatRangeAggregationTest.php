@@ -18,7 +18,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\FixtureGen
 
 final class FloatRangeAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         yield [
             new FloatRangeAggregation('float_range', 'content_type', 'float_field', [

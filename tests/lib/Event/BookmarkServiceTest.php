@@ -25,10 +25,10 @@ class BookmarkServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            $this->createStub(Location::class),
         ];
 
-        $innerServiceMock = $this->createMock(BookmarkServiceInterface::class);
+        $innerServiceMock = $this->createStub(BookmarkServiceInterface::class);
 
         $service = new BookmarkService($innerServiceMock, $traceableEventDispatcher);
         $service->createBookmark(...$parameters);
@@ -50,10 +50,10 @@ class BookmarkServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            $this->createStub(Location::class),
         ];
 
-        $innerServiceMock = $this->createMock(BookmarkServiceInterface::class);
+        $innerServiceMock = $this->createStub(BookmarkServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeCreateBookmarkEvent::class, static function (BeforeCreateBookmarkEvent $event) {
             $event->stopPropagation();
@@ -82,10 +82,10 @@ class BookmarkServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            $this->createStub(Location::class),
         ];
 
-        $innerServiceMock = $this->createMock(BookmarkServiceInterface::class);
+        $innerServiceMock = $this->createStub(BookmarkServiceInterface::class);
 
         $service = new BookmarkService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteBookmark(...$parameters);
@@ -107,10 +107,10 @@ class BookmarkServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            $this->createStub(Location::class),
         ];
 
-        $innerServiceMock = $this->createMock(BookmarkServiceInterface::class);
+        $innerServiceMock = $this->createStub(BookmarkServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteBookmarkEvent::class, static function (BeforeDeleteBookmarkEvent $event) {
             $event->stopPropagation();

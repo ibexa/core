@@ -13,9 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @covers \Ibexa\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList::class)]
 class ArrayTranslatorFieldsGroupsListTest extends TestCase
 {
     private const FIRST_GROUP_ID = 'slayer';

@@ -51,20 +51,19 @@ abstract class BaseProviderTestCase extends TestCase
     /**
      * @phpstan-return list<array{class-string<\Symfony\Component\Security\Core\User\UserInterface>, bool}>
      */
-    public function supportsClassProvider(): array
+    public static function supportsClassProvider(): array
     {
         return [
             [SymfonyUserInterface::class, false],
             [MVCUser::class, true],
-            [get_class($this->createMock(MVCUser::class)), true],
+            [get_class(self::createStub(MVCUser::class)), true],
         ];
     }
 
     /**
-     * @dataProvider supportsClassProvider
-     *
      * @phpstan-param class-string<\Symfony\Component\Security\Core\User\UserInterface> $class
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('supportsClassProvider')]
     public function testSupportsClass(string $class, bool $supports): void
     {
         self::assertSame($supports, $this->userProvider->supportsClass($class));
@@ -72,7 +71,7 @@ abstract class BaseProviderTestCase extends TestCase
 
     public function testLoadUserByAPIUser(): void
     {
-        $apiUser = $this->createMock(APIUser::class);
+        $apiUser = $this->createStub(APIUser::class);
 
         $user = $this->userProvider->loadUserByAPIUser($apiUser);
 
@@ -103,7 +102,7 @@ abstract class BaseProviderTestCase extends TestCase
 
     public function testRefreshUserNotSupported(): void
     {
-        $user = $this->createMock(SymfonyUserInterface::class);
+        $user = $this->createStub(SymfonyUserInterface::class);
 
         $this->expectException(UnsupportedUserException::class);
         $this->userProvider->refreshUser($user);
@@ -151,7 +150,7 @@ abstract class BaseProviderTestCase extends TestCase
     public function testLoadUserByUsername(): void
     {
         $username = $this->getUserIdentifier();
-        $apiUser = $this->createMock(APIUser::class);
+        $apiUser = $this->createStub(APIUser::class);
 
         $this->userService
             ->expects(self::once())

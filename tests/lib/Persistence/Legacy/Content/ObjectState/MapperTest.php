@@ -13,9 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper::class)]
 class MapperTest extends LanguageAwareTestCase
 {
     public function testCreateObjectStateFromData()

@@ -20,7 +20,7 @@ use RuntimeException;
 
 final class TimeRangeAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         yield [
             new TimeRangeAggregation(
@@ -28,30 +28,30 @@ final class TimeRangeAggregationTest extends AbstractAggregationTestCase
                 'content_type',
                 'time_field',
                 [
-                    Range::ofInt(null, $this->mktime(7, 0, 0, 0, 0, 0)),
+                    Range::ofInt(null, static::mktime(7, 0, 0, 0, 0, 0)),
                     Range::ofInt(
-                        $this->mktime(7, 0, 0, 0, 0, 0),
-                        $this->mktime(12, 0, 0, 0, 0, 0)
+                        static::mktime(7, 0, 0, 0, 0, 0),
+                        static::mktime(12, 0, 0, 0, 0, 0)
                     ),
-                    Range::ofInt($this->mktime(12, 0, 0, 0, 0, 0), null),
+                    Range::ofInt(static::mktime(12, 0, 0, 0, 0, 0), null),
                 ]
             ),
             new RangeAggregationResult(
                 'time_term',
                 [
                     new RangeAggregationResultEntry(
-                        Range::ofInt(null, $this->mktime(7, 0, 0, 0, 0, 0)),
+                        Range::ofInt(null, static::mktime(7, 0, 0, 0, 0, 0)),
                         2
                     ),
                     new RangeAggregationResultEntry(
                         Range::ofInt(
-                            $this->mktime(7, 0, 0, 0, 0, 0),
-                            $this->mktime(12, 0, 0, 0, 0, 0)
+                            static::mktime(7, 0, 0, 0, 0, 0),
+                            static::mktime(12, 0, 0, 0, 0, 0)
                         ),
                         2
                     ),
                     new RangeAggregationResultEntry(
-                        Range::ofInt($this->mktime(12, 0, 0, 0, 0, 0), null),
+                        Range::ofInt(static::mktime(12, 0, 0, 0, 0, 0), null),
                         3
                     ),
                 ]
@@ -80,7 +80,7 @@ final class TimeRangeAggregationTest extends AbstractAggregationTestCase
         $this->refreshSearch($this->getRepository());
     }
 
-    private function mktime(int $hour, int $minute, int $second, int $month, int $day, int $year): int
+    private static function mktime(int $hour, int $minute, int $second, int $month, int $day, int $year): int
     {
         $timestamp = mktime($hour, $minute, $second, $month, $day, $year);
         if ($timestamp === false) {

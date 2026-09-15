@@ -18,10 +18,8 @@ use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\FieldType\Validator\ImageValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * @group fieldType
- * @group ibexa_float
- */
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('ibexa_float')]
 class ImageTest extends FieldTypeTestCase
 {
     /** @var string[] */
@@ -32,7 +30,7 @@ class ImageTest extends FieldTypeTestCase
     ];
 
     /** @var string[] */
-    protected array $blackListedExtensions = [
+    protected const array BLACK_LISTED_EXTENSIONS = [
         'php',
         'php3',
         'phar',
@@ -42,9 +40,12 @@ class ImageTest extends FieldTypeTestCase
         'pgif',
     ];
 
+    /** @var string[] */
+    protected array $blackListedExtensions = self::BLACK_LISTED_EXTENSIONS;
+
     private MimeTypeDetector & MockObject $mimeTypeDetectorMock;
 
-    public function getImageInputPath(): string
+    public static function getImageInputPath(): string
     {
         return __DIR__ . '/../_fixtures/squirrel-developers.jpg';
     }
@@ -124,7 +125,7 @@ class ImageTest extends FieldTypeTestCase
         return new ImageValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -172,7 +173,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -190,12 +191,12 @@ class ImageTest extends FieldTypeTestCase
         ];
 
         yield 'file path string' => [
-            $this->getImageInputPath(),
+            self::getImageInputPath(),
             new ImageValue(
                 [
-                    'inputUri' => $this->getImageInputPath(),
-                    'fileName' => basename($this->getImageInputPath()),
-                    'fileSize' => filesize($this->getImageInputPath()),
+                    'inputUri' => self::getImageInputPath(),
+                    'fileName' => basename(self::getImageInputPath()),
+                    'fileSize' => filesize(self::getImageInputPath()),
                     'alternativeText' => null,
                 ]
             ),
@@ -203,40 +204,40 @@ class ImageTest extends FieldTypeTestCase
 
         yield 'array with all fields' => [
             [
-                'id' => $this->getImageInputPath(),
+                'id' => self::getImageInputPath(),
                 'fileName' => 'Sindelfingen-Squirrels.jpg',
                 'fileSize' => 23,
                 'alternativeText' => 'This is so Sindelfingen!',
-                'uri' => 'http://' . $this->getImageInputPath(),
+                'uri' => 'http://' . self::getImageInputPath(),
             ],
             new ImageValue(
                 [
-                    'id' => $this->getImageInputPath(),
+                    'id' => self::getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
-                    'uri' => 'http://' . $this->getImageInputPath(),
+                    'uri' => 'http://' . self::getImageInputPath(),
                 ]
             ),
         ];
 
         yield 'array with inputUri and custom fields' => [
             [
-                'inputUri' => $this->getImageInputPath(),
+                'inputUri' => self::getImageInputPath(),
                 'fileName' => 'My Fancy Filename',
                 'fileSize' => 123,
             ],
             new ImageValue(
                 [
-                    'inputUri' => $this->getImageInputPath(),
+                    'inputUri' => self::getImageInputPath(),
                     'fileName' => 'My Fancy Filename',
-                    'fileSize' => filesize($this->getImageInputPath()),
+                    'fileSize' => filesize(self::getImageInputPath()),
                 ]
             ),
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -246,24 +247,24 @@ class ImageTest extends FieldTypeTestCase
             [
                 new ImageValue(
                     [
-                        'id' => $this->getImageInputPath(),
+                        'id' => self::getImageInputPath(),
                         'fileName' => 'Sindelfingen-Squirrels.jpg',
                         'fileSize' => 23,
                         'alternativeText' => 'This is so Sindelfingen!',
                         'imageId' => '123-12345',
-                        'uri' => 'http://' . $this->getImageInputPath(),
+                        'uri' => 'http://' . self::getImageInputPath(),
                         'width' => 123,
                         'height' => 456,
                         'mime' => 'image/jpeg',
                     ]
                 ),
                 [
-                    'id' => $this->getImageInputPath(),
+                    'id' => self::getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
                     'imageId' => '123-12345',
-                    'uri' => 'http://' . $this->getImageInputPath(),
+                    'uri' => 'http://' . self::getImageInputPath(),
                     'inputUri' => null,
                     'width' => 123,
                     'height' => 456,
@@ -274,12 +275,12 @@ class ImageTest extends FieldTypeTestCase
             [
                 new ImageValue(
                     [
-                        'inputUri' => $this->getImageInputPath(),
+                        'inputUri' => self::getImageInputPath(),
                         'fileName' => 'Sindelfingen-Squirrels.jpg',
                         'fileSize' => 23,
                         'alternativeText' => 'This is so Sindelfingen!',
                         'imageId' => '123-12345',
-                        'uri' => 'http://' . $this->getImageInputPath(),
+                        'uri' => 'http://' . self::getImageInputPath(),
                         'mime' => null,
                     ]
                 ),
@@ -289,8 +290,8 @@ class ImageTest extends FieldTypeTestCase
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
                     'imageId' => '123-12345',
-                    'uri' => 'http://' . $this->getImageInputPath(),
-                    'inputUri' => $this->getImageInputPath(),
+                    'uri' => 'http://' . self::getImageInputPath(),
+                    'inputUri' => self::getImageInputPath(),
                     'width' => null,
                     'height' => null,
                     'additionalData' => [],
@@ -300,7 +301,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -309,38 +310,38 @@ class ImageTest extends FieldTypeTestCase
             ],
             [
                 [
-                    'id' => $this->getImageInputPath(),
+                    'id' => self::getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
-                    'uri' => 'http://' . $this->getImageInputPath(),
+                    'uri' => 'http://' . self::getImageInputPath(),
                 ],
                 new ImageValue(
                     [
-                        'id' => $this->getImageInputPath(),
+                        'id' => self::getImageInputPath(),
                         'fileName' => 'Sindelfingen-Squirrels.jpg',
                         'fileSize' => 23,
                         'alternativeText' => 'This is so Sindelfingen!',
-                        'uri' => 'http://' . $this->getImageInputPath(),
+                        'uri' => 'http://' . self::getImageInputPath(),
                     ]
                 ),
             ],
             // BC with 5.0 (EZP-20948). Path can be used as input instead of ID.
             [
                 [
-                    'inputUri' => $this->getImageInputPath(),
+                    'inputUri' => self::getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
-                    'uri' => 'http://' . $this->getImageInputPath(),
+                    'uri' => 'http://' . self::getImageInputPath(),
                 ],
                 new ImageValue(
                     [
-                        'inputUri' => $this->getImageInputPath(),
+                        'inputUri' => self::getImageInputPath(),
                         'fileName' => 'Sindelfingen-Squirrels.jpg',
                         'fileSize' => 23,
                         'alternativeText' => 'This is so Sindelfingen!',
-                        'uri' => 'http://' . $this->getImageInputPath(),
+                        'uri' => 'http://' . self::getImageInputPath(),
                     ]
                 ),
             ],
@@ -351,7 +352,7 @@ class ImageTest extends FieldTypeTestCase
     /**
      * @phpstan-return iterable<string, array{array<string, mixed>, mixed, mixed}>
      */
-    public function provideDataForFromPersistenceValue(): iterable
+    public static function provideDataForFromPersistenceValue(): iterable
     {
         yield 'width and height as empty string are converted to null' => [
             [
@@ -389,9 +390,8 @@ class ImageTest extends FieldTypeTestCase
 
     /**
      * @param array<string, mixed> $data
-     *
-     * @dataProvider provideDataForFromPersistenceValue
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataForFromPersistenceValue')]
     public function testFromPersistenceValue(array $data, mixed $expectedWidth, mixed $expectedHeight): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
@@ -409,10 +409,10 @@ class ImageTest extends FieldTypeTestCase
         return 'ibexa_image';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new ImageValue(), '', [], 'en_GB'],
             [
                 new ImageValue(['fileName' => 'Sindelfingen-Squirrels.jpg']),
                 'Sindelfingen-Squirrels.jpg',
@@ -445,7 +445,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'valid image within size limit' => [
             [
@@ -457,9 +457,9 @@ class ImageTest extends FieldTypeTestCase
             ],
             new ImageValue(
                 [
-                    'id' => $this->getImageInputPath(),
-                    'fileName' => basename($this->getImageInputPath()),
-                    'fileSize' => filesize($this->getImageInputPath()),
+                    'id' => self::getImageInputPath(),
+                    'fileName' => basename(self::getImageInputPath()),
+                    'fileSize' => filesize(self::getImageInputPath()),
                     'alternativeText' => null,
                     'uri' => '',
                 ]
@@ -467,7 +467,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'file too large' => [
             [
@@ -479,9 +479,9 @@ class ImageTest extends FieldTypeTestCase
             ],
             new ImageValue(
                 [
-                    'id' => $this->getImageInputPath(),
-                    'fileName' => basename($this->getImageInputPath()),
-                    'fileSize' => filesize($this->getImageInputPath()),
+                    'id' => self::getImageInputPath(),
+                    'fileName' => basename(self::getImageInputPath()),
+                    'fileSize' => filesize(self::getImageInputPath()),
                     'alternativeText' => null,
                     'uri' => '',
                 ]
@@ -519,7 +519,7 @@ class ImageTest extends FieldTypeTestCase
                 new ValidationError(
                     'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
                     null,
-                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    ['%extensionsBlackList%' => implode(', ', self::BLACK_LISTED_EXTENSIONS)],
                     'fileExtensionBlackList'
                 ),
                 new ValidationError(
@@ -552,7 +552,7 @@ class ImageTest extends FieldTypeTestCase
                 new ValidationError(
                     'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
                     null,
-                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    ['%extensionsBlackList%' => implode(', ', self::BLACK_LISTED_EXTENSIONS)],
                     'fileExtensionBlackList'
                 ),
                 new ValidationError('A valid image file is required.', null, [], 'id'),
@@ -588,7 +588,7 @@ class ImageTest extends FieldTypeTestCase
                 new ValidationError(
                     'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
                     null,
-                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    ['%extensionsBlackList%' => implode(', ', self::BLACK_LISTED_EXTENSIONS)],
                     'fileExtensionBlackList'
                 ),
                 new ValidationError(
@@ -621,7 +621,7 @@ class ImageTest extends FieldTypeTestCase
                 new ValidationError(
                     'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
                     null,
-                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    ['%extensionsBlackList%' => implode(', ', self::BLACK_LISTED_EXTENSIONS)],
                     'fileExtensionBlackList'
                 ),
                 new ValidationError(
@@ -643,9 +643,9 @@ class ImageTest extends FieldTypeTestCase
             ],
             new ImageValue(
                 [
-                    'id' => $this->getImageInputPath(),
-                    'fileName' => basename($this->getImageInputPath()),
-                    'fileSize' => filesize($this->getImageInputPath()),
+                    'id' => self::getImageInputPath(),
+                    'fileName' => basename(self::getImageInputPath()),
+                    'fileSize' => filesize(self::getImageInputPath()),
                     'alternativeText' => null,
                     'uri' => '',
                 ]
@@ -670,9 +670,9 @@ class ImageTest extends FieldTypeTestCase
             ],
             new ImageValue(
                 [
-                    'id' => $this->getImageInputPath(),
-                    'fileName' => basename($this->getImageInputPath()),
-                    'fileSize' => filesize($this->getImageInputPath()),
+                    'id' => self::getImageInputPath(),
+                    'fileName' => basename(self::getImageInputPath()),
+                    'fileSize' => filesize(self::getImageInputPath()),
                     'alternativeText' => '',
                     'uri' => '',
                 ]
@@ -698,9 +698,9 @@ class ImageTest extends FieldTypeTestCase
             ],
             new ImageValue(
                 [
-                    'id' => $this->getImageInputPath(),
-                    'fileName' => basename($this->getImageInputPath()),
-                    'fileSize' => filesize($this->getImageInputPath()),
+                    'id' => self::getImageInputPath(),
+                    'fileName' => basename(self::getImageInputPath()),
+                    'fileSize' => filesize(self::getImageInputPath()),
                     'alternativeText' => '',
                     'uri' => '',
                 ]
@@ -722,27 +722,27 @@ class ImageTest extends FieldTypeTestCase
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function provideInputForValuesEqual(): iterable
+    public static function provideInputForValuesEqual(): iterable
     {
         yield [
             [
-                'id' => $this->getImageInputPath(),
+                'id' => self::getImageInputPath(),
                 'fileName' => 'Sindelfingen-Squirrels.jpg',
                 'fileSize' => 23,
                 'alternativeText' => 'This is so Sindelfingen!',
                 'imageId' => '123-12345',
-                'uri' => 'http://' . $this->getImageInputPath(),
+                'uri' => 'http://' . self::getImageInputPath(),
                 'width' => 123,
                 'height' => 456,
             ],
             new ImageValue(
                 [
-                    'id' => $this->getImageInputPath(),
+                    'id' => self::getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
                     'imageId' => '123-12317',
-                    'uri' => 'http://' . $this->getImageInputPath(),
+                    'uri' => 'http://' . self::getImageInputPath(),
                     'inputUri' => null,
                     'width' => 123,
                     'height' => 456,

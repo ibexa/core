@@ -11,9 +11,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase::insertSection
- */
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase::class, 'insertSection')]
 class DoctrineDatabaseTest extends TestCase
 {
     /**
@@ -232,9 +230,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    /**
-     * @depends testCountContentObjectsInSection
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCountContentObjectsInSection')]
     public function testAssignSectionToContent()
     {
         $this->insertDatabaseFixture(

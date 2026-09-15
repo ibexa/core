@@ -14,9 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler;
 use Ibexa\Core\Persistence\Legacy\TransactionHandler;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\TransactionHandler
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\TransactionHandler::class)]
 class TransactionHandlerTest extends TestCase
 {
     /**

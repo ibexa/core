@@ -12,10 +12,8 @@ use Ibexa\Core\FieldType\EmailAddress\Type as EmailAddressType;
 use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
 use Ibexa\Core\FieldType\ValidationError;
 
-/**
- * @group fieldType
- * @group ibexa_email
- */
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('ibexa_email')]
 class EmailAddressTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): EmailAddressType
@@ -54,7 +52,7 @@ class EmailAddressTest extends FieldTypeTestCase
         return new EmailAddressValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -69,7 +67,7 @@ class EmailAddressTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -87,7 +85,7 @@ class EmailAddressTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -101,7 +99,7 @@ class EmailAddressTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -119,7 +117,7 @@ class EmailAddressTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidValidatorConfiguration(): array
+    public static function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -140,7 +138,7 @@ class EmailAddressTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidValidatorConfiguration(): array
+    public static function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -177,7 +175,7 @@ class EmailAddressTest extends FieldTypeTestCase
         return 'ibexa_email';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
             [new EmailAddressValue('john.doe@example.com'), 'john.doe@example.com', [], 'en_GB'],
@@ -185,7 +183,7 @@ class EmailAddressTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'valid email address' => [
             [
@@ -195,7 +193,7 @@ class EmailAddressTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'invalid email format' => [
             [

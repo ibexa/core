@@ -33,9 +33,7 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new ViewProvidersPass());
     }
 
-    /**
-     * @dataProvider addViewProviderProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('addViewProviderProvider')]
     public function testAddViewProvider($declaredPriority, $expectedPriority)
     {
         $def = new Definition();
@@ -58,7 +56,7 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function addViewProviderProvider()
+    public static function addViewProviderProvider()
     {
         return [
             [null, 0],

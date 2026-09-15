@@ -14,9 +14,7 @@ use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 
-/**
- * @covers \Ibexa\Bundle\Core\IbexaCoreBundle
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\IbexaCoreBundle::class)]
 final class IbexaCoreBundleTest extends TestCase
 {
     private IbexaCoreBundle $bundle;

@@ -22,8 +22,8 @@ final class EmbeddingQueryBuilderTest extends TestCase
 {
     public function testBuilderSetsAllowedProperties(): void
     {
-        $embedding = $this->createMock(Embedding::class);
-        $aggregations = [$this->createMock(Aggregation::class),  $this->createMock(Aggregation::class)];
+        $embedding = $this->createStub(Embedding::class);
+        $aggregations = [$this->createStub(Aggregation::class),  $this->createStub(Aggregation::class)];
 
         $builder = EmbeddingQueryBuilder::create()
             ->withEmbedding($embedding)
@@ -52,7 +52,7 @@ final class EmbeddingQueryBuilderTest extends TestCase
     public function testIsValidReturnsTrueForCleanQuery(): void
     {
         $query = EmbeddingQueryBuilder::create()
-            ->withEmbedding($this->createMock(Embedding::class))
+            ->withEmbedding($this->createStub(Embedding::class))
             ->build();
 
         self::assertTrue($query->isValid());
@@ -61,7 +61,7 @@ final class EmbeddingQueryBuilderTest extends TestCase
     public function testSettingSortClausesThenIsValidThrows(): void
     {
         $query = EmbeddingQueryBuilder::create()
-            ->withEmbedding($this->createMock(Embedding::class))
+            ->withEmbedding($this->createStub(Embedding::class))
             ->build();
 
         $query->sortClauses[] = new ContentName(BaseQuery::SORT_ASC);

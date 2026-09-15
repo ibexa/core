@@ -11,14 +11,10 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\FieldType\ValidationError
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\FieldType\ValidationError::class)]
 final class ValidationErrorTest extends TestCase
 {
-    /**
-     * @dataProvider getDataForTestGetTranslatableMessage
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestGetTranslatableMessage')]
     public function testGetTranslatableMessage(ValidationError $validationError, string $expectedMessage): void
     {
         self::assertSame($expectedMessage, (string)$validationError->getTranslatableMessage());

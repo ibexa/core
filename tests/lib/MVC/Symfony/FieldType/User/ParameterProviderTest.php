@@ -25,15 +25,15 @@ class ParameterProviderTest extends TestCase
     /** @var \Ibexa\Contracts\Core\Repository\UserService|\PHPUnit\Framework\MockObject\MockObject */
     private $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject */
-    private $user;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Contracts\Core\Repository\Values\User\User */
+    private \PHPUnit\Framework\MockObject\Stub $user;
 
     /** @var \Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider */
     private $parameterProvider;
 
     protected function setUp(): void
     {
-        $this->user = $this->createMock(User::class);
+        $this->user = $this->createStub(User::class);
 
         $this->userService = $this->createMock(UserService::class);
         $this->userService

@@ -12,14 +12,12 @@ use Ibexa\Core\FieldType\Value as BaseFieldValue;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\ContentType\FieldDefinition
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\Values\ContentType\FieldDefinition::class)]
 final class FieldDefinitionTest extends TestCase
 {
     public function testStrictGetters(): void
     {
-        $defaultValueMock = $this->createMock(BaseFieldValue::class);
+        $defaultValueMock = $this->createStub(BaseFieldValue::class);
         $fieldDefinition = new FieldDefinition(
             [
                 'id' => 123,

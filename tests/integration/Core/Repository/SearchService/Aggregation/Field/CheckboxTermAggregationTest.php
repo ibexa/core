@@ -18,7 +18,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\FixtureGen
 
 final class CheckboxTermAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         yield [
             new CheckboxTermAggregation('checkbox_term', 'content_type', 'boolean'),

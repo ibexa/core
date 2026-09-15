@@ -33,22 +33,35 @@ final class MapDistanceSortClauseParserTest extends TestCase
     public function testParse(): void
     {
         $parser = $this->createMock(SortSpecParserInterface::class);
-        $parser
-            ->method('match')
-            ->withConsecutive(
-                [Token::TYPE_ID],
-                [Token::TYPE_DOT],
-                [Token::TYPE_ID],
-                [Token::TYPE_FLOAT],
-                [Token::TYPE_FLOAT]
-            )
-            ->willReturnOnConsecutiveCalls(
-                new Token(Token::TYPE_ID, self::EXAMPLE_CONTENT_TYPE_ID),
-                new Token(Token::TYPE_DOT),
-                new Token(Token::TYPE_ID, self::EXAMPLE_FIELD_ID),
-                new Token(Token::TYPE_FLOAT, (string)self::EXAMPLE_LAT),
-                new Token(Token::TYPE_FLOAT, (string)self::EXAMPLE_LON)
-            );
+        $matcher = $this->exactly(5);
+        $parser->expects($matcher)
+            ->method('match')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame(Token::TYPE_ID, $parameters[0]);
+
+                    return new Token(Token::TYPE_ID, self::EXAMPLE_CONTENT_TYPE_ID);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame(Token::TYPE_DOT, $parameters[0]);
+
+                    return new Token(Token::TYPE_DOT);
+                }
+                if ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame(Token::TYPE_ID, $parameters[0]);
+
+                    return new Token(Token::TYPE_ID, self::EXAMPLE_FIELD_ID);
+                }
+                if ($matcher->numberOfInvocations() === 4) {
+                    $this->assertSame(Token::TYPE_FLOAT, $parameters[0]);
+
+                    return new Token(Token::TYPE_FLOAT, (string)self::EXAMPLE_LAT);
+                }
+                if ($matcher->numberOfInvocations() === 5) {
+                    $this->assertSame(Token::TYPE_FLOAT, $parameters[0]);
+
+                    return new Token(Token::TYPE_FLOAT, (string)self::EXAMPLE_LON);
+                }
+            });
 
         $parser->method('parseSortDirection')->willReturn(Query::SORT_ASC);
 

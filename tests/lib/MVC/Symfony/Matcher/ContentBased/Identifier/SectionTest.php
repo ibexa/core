@@ -14,6 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section as SectionIdentifierMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section::class, 'matchLocation')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::class, 'setMatchingConfig')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Core\MVC\RepositoryAware::class, 'setRepository')]
 class SectionTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section */
@@ -64,19 +67,13 @@ class SectionTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchSectionProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
-     *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
+    #[\PHPUnit\Framework\Attributes\DataProvider('matchSectionProvider')]
+    public function testMatchLocation($matchingConfig, string $sectionIdentifier, $expectedResult)
     {
-        $this->matcher->setRepository($repository);
+        $this->matcher->setRepository($this->generateRepositoryMockForSectionIdentifier($sectionIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
 
         $location = $this->getLocationMock();
@@ -95,46 +92,40 @@ class SectionTest extends BaseTestCase
         );
     }
 
-    public function matchSectionProvider()
+    public static function matchSectionProvider()
     {
         return [
             [
                 'foo',
-                $this->generateRepositoryMockForSectionIdentifier('foo'),
+                'foo',
                 true,
             ],
             [
                 'foo',
-                $this->generateRepositoryMockForSectionIdentifier('bar'),
+                'bar',
                 false,
             ],
             [
                 ['foo', 'baz'],
-                $this->generateRepositoryMockForSectionIdentifier('bar'),
+                'bar',
                 false,
             ],
             [
                 ['foo', 'baz'],
-                $this->generateRepositoryMockForSectionIdentifier('baz'),
+                'baz',
                 true,
             ],
         ];
     }
 
     /**
-     * @dataProvider matchSectionProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
-     *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
+    #[\PHPUnit\Framework\Attributes\DataProvider('matchSectionProvider')]
+    public function testMatchContentInfo($matchingConfig, string $sectionIdentifier, $expectedResult)
     {
-        $this->matcher->setRepository($repository);
+        $this->matcher->setRepository($this->generateRepositoryMockForSectionIdentifier($sectionIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
             $expectedResult,

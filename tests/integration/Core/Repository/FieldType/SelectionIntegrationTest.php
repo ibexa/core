@@ -14,10 +14,9 @@ use Ibexa\Core\FieldType\Selection\Value as SelectionValue;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\Group('integration')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     /**
@@ -181,7 +180,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -228,9 +227,9 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -277,7 +276,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -294,7 +293,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -304,7 +303,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new SelectionValue()],
@@ -312,11 +311,11 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new SelectionValue([0, 2]),
             ],
             [
                 new SelectionValue([0]),
@@ -324,27 +323,27 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected static function getValidSearchValueOne()
     {
         return [1];
     }
 
-    protected function getValidSearchValueTwo()
+    protected static function getValidSearchValueTwo()
     {
         return [2];
     }
 
-    protected function getSearchTargetValueOne()
+    protected static function getSearchTargetValueOne()
     {
         return 1;
     }
 
-    protected function getSearchTargetValueTwo()
+    protected static function getSearchTargetValueTwo()
     {
         return 2;
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected static function getAdditionallyIndexedFieldData()
     {
         return [
             [
@@ -360,17 +359,17 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected static function getValidMultivaluedSearchValuesOne()
     {
         return [0, 1];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected static function getValidMultivaluedSearchValuesTwo()
     {
         return [2, 3, 4];
     }
 
-    protected function getAdditionallyIndexedMultivaluedFieldData()
+    protected static function getAdditionallyIndexedMultivaluedFieldData()
     {
         return [
             [
@@ -381,7 +380,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['Bielefeld', 'Sindelfingen'],

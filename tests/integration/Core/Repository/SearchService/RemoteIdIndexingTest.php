@@ -39,10 +39,9 @@ final class RemoteIdIndexingTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestIndexingRemoteId
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestIndexingRemoteId')]
     public function testIndexingRemoteId(Criterion $criterion): void
     {
         $repository = $this->getRepository(false);
@@ -77,7 +76,7 @@ final class RemoteIdIndexingTest extends BaseTestCase
         self::assertSame($contentId, $result->searchHits[0]->valueObject->contentInfo->id);
     }
 
-    private function getRemoteIDs(): array
+    private static function getRemoteIDs(): array
     {
         return [
             'md5sum' => 'dec23f2de27399a4c0561187b805aa74',
@@ -94,9 +93,9 @@ final class RemoteIdIndexingTest extends BaseTestCase
      *
      * @return iterable
      */
-    public function providerForTestIndexingRemoteId(): iterable
+    public static function providerForTestIndexingRemoteId(): iterable
     {
-        foreach ($this->getRemoteIDs() as $description => $remoteId) {
+        foreach (static::getRemoteIDs() as $description => $remoteId) {
             yield "Content remote ID = {$description}" => [new Criterion\RemoteId($remoteId)];
             yield "Location remote ID = {$description}" => [new Criterion\LocationRemoteId($remoteId)];
         }

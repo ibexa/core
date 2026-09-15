@@ -21,15 +21,15 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
     /** @var \Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener */
     private $eventListener;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $httpKernel;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\HttpKernel\HttpKernelInterface */
+    private \PHPUnit\Framework\MockObject\Stub $httpKernel;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->eventListener = new RejectExplicitFrontControllerRequestsListener();
-        $this->httpKernel = $this->createMock(HttpKernelInterface::class);
+        $this->httpKernel = $this->createStub(HttpKernelInterface::class);
     }
 
     public function testSubscribedEvents(): void
@@ -44,11 +44,8 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider validRequestDataProvider
-     *
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validRequestDataProvider')]
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testOnKernelRequest(Request $request): void
     {
         $event = new RequestEvent(
@@ -60,9 +57,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         $this->eventListener->onKernelRequest($event);
     }
 
-    /**
-     * @dataProvider prohibitedRequestDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('prohibitedRequestDataProvider')]
     public function testOnKernelRequestThrowsException(Request $request): void
     {
         $this->expectException(NotFoundHttpException::class);
@@ -76,7 +71,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         $this->eventListener->onKernelRequest($event);
     }
 
-    public function validRequestDataProvider(): array
+    public static function validRequestDataProvider(): array
     {
         return [
             [
@@ -212,7 +207,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         ];
     }
 
-    public function prohibitedRequestDataProvider(): array
+    public static function prohibitedRequestDataProvider(): array
     {
         return [
             [

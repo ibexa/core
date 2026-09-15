@@ -14,9 +14,7 @@ use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Translation\TranslatableExceptionsFileVisitor
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\Translation\TranslatableExceptionsFileVisitor::class)]
 final class TranslatableExceptionsFileVisitorTest extends BaseMessageExtractorPhpFileVisitorTestCase
 {
     public static function getDataForTestExtractTranslation(): iterable

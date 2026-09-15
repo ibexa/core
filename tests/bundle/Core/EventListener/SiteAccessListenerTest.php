@@ -42,7 +42,7 @@ class SiteAccessListenerTest extends TestCase
         );
     }
 
-    public function siteAccessMatchProvider()
+    public static function siteAccessMatchProvider()
     {
         return [
             ['/foo/bar', '/foo/bar', '', []],
@@ -60,9 +60,7 @@ class SiteAccessListenerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider siteAccessMatchProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('siteAccessMatchProvider')]
     public function testOnSiteAccessMatchMasterRequest(
         $uri,
         $expectedSemanticPathinfo,
@@ -97,12 +95,10 @@ class SiteAccessListenerTest extends TestCase
         self::assertSame($this->defaultSiteaccess->groups, $siteAccess->groups);
     }
 
-    /**
-     * @dataProvider siteAccessMatchProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('siteAccessMatchProvider')]
     public function testOnSiteAccessMatchSubRequest($uri, $semanticPathinfo, $vpString, $expectedViewParameters)
     {
-        $siteAccess = new SiteAccess('test', 'test', $this->createMock(SiteAccess\Matcher::class));
+        $siteAccess = new SiteAccess('test', 'test', $this->createStub(SiteAccess\Matcher::class));
         $request = Request::create($uri);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         if (!empty($vpString)) {

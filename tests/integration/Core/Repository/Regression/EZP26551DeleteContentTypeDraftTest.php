@@ -12,10 +12,9 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * @issue https://issues.ibexa.co/browse/EZP-26551
- *
- * @group regression
- * @group ezp26551
  */
+#[\PHPUnit\Framework\Attributes\Group('regression')]
+#[\PHPUnit\Framework\Attributes\Group('ezp26551')]
 class EZP26551DeleteContentTypeDraftTest extends BaseTestCase
 {
     public function testDeleteContentTypeGroup()

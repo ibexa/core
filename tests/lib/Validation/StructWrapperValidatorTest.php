@@ -18,9 +18,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @covers \Ibexa\Contracts\Core\Validation\StructWrapperValidator
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Validation\StructWrapperValidator::class)]
 final class StructWrapperValidatorTest extends TestCase
 {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface&\PHPUnit\Framework\MockObject\MockObject */

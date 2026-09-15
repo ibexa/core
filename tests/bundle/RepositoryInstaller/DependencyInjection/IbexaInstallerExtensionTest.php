@@ -15,14 +15,10 @@ use Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller;
 use Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
-/**
- * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\IbexaRepositoryInstallerExtension
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\RepositoryInstaller\DependencyInjection\IbexaRepositoryInstallerExtension::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Bundle\RepositoryInstaller\DependencyInjection\IbexaRepositoryInstallerExtension::class, 'load')]
 class IbexaInstallerExtensionTest extends AbstractExtensionTestCase
 {
-    /**
-     * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\IbexaRepositoryInstallerExtension::load
-     */
     public function testLoadLoadsTaggedCoreInstaller(): void
     {
         $this->load();
@@ -37,9 +33,6 @@ class IbexaInstallerExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\IbexaRepositoryInstallerExtension::load
-     */
     public function testLoadLoadsTaggedInstallerCommand(): void
     {
         $this->load();

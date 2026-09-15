@@ -30,9 +30,8 @@ final class ScoreTest extends AbstractSortClauseTestCase
      * @param string[] $values
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
-     *
-     * @dataProvider dataProviderForTestSortingByScore
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestSortingByScore')]
     public function testSortingByScore(iterable $inputValues, Query $query, array $expectedOrderedIds): void
     {
         $this->createContentForScoreSortTesting($inputValues);
@@ -47,7 +46,7 @@ final class ScoreTest extends AbstractSortClauseTestCase
         $this->assertSearchResultOrderByRemoteId($expectedOrderedIds, $actualResults);
     }
 
-    public function dataProviderForTestSortingByScore(): iterable
+    public static function dataProviderForTestSortingByScore(): iterable
     {
         // The following input values for test content guarantee predictable scoring
         $inputValues = ['foo foo', 'foo', 'foo foo foo'];

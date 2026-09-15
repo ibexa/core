@@ -15,9 +15,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\Content\Content
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Repository\Values\Content\Content::class)]
 final class ContentTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */

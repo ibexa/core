@@ -34,10 +34,10 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(URLWildcard::class),
+            $this->createStub(URLWildcard::class),
         ];
 
-        $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
+        $innerServiceMock = $this->createStub(URLWildcardServiceInterface::class);
 
         $service = new URLWildcardService($innerServiceMock, $traceableEventDispatcher);
         $service->remove(...$parameters);
@@ -62,10 +62,10 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(URLWildcard::class),
+            $this->createStub(URLWildcard::class),
         ];
 
-        $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
+        $innerServiceMock = $this->createStub(URLWildcardServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeRemoveEvent::class, static function (BeforeRemoveEvent $event) {
             $event->stopPropagation();
@@ -99,11 +99,11 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
             UpdateEvent::class
         );
 
-        $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
+        $innerServiceMock = $this->createStub(URLWildcardServiceInterface::class);
 
         $service = new URLWildcardService($innerServiceMock, $traceableEventDispatcher);
         $service->update(
-            $this->createMock(URLWildcard::class),
+            $this->createStub(URLWildcard::class),
             new URLWildcardUpdateStruct()
         );
 
@@ -126,7 +126,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
             UpdateEvent::class
         );
 
-        $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
+        $innerServiceMock = $this->createStub(URLWildcardServiceInterface::class);
 
         $traceableEventDispatcher->addListener(
             BeforeUpdateEvent::class,
@@ -138,7 +138,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
 
         $service = new URLWildcardService($innerServiceMock, $traceableEventDispatcher);
         $service->update(
-            $this->createMock(URLWildcard::class),
+            $this->createStub(URLWildcard::class),
             new URLWildcardUpdateStruct()
         );
 
@@ -172,7 +172,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
             'random_value_5cff79c316c237.08397355',
         ];
 
-        $urlWildcard = $this->createMock(URLWildcard::class);
+        $urlWildcard = $this->createStub(URLWildcard::class);
         $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
         $innerServiceMock->method('create')->willReturn($urlWildcard);
 
@@ -202,8 +202,8 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
             'random_value_5cff79c316c2f8.59874187',
         ];
 
-        $urlWildcard = $this->createMock(URLWildcard::class);
-        $eventUrlWildcard = $this->createMock(URLWildcard::class);
+        $urlWildcard = $this->createStub(URLWildcard::class);
+        $eventUrlWildcard = $this->createStub(URLWildcard::class);
         $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
         $innerServiceMock->method('create')->willReturn($urlWildcard);
 
@@ -238,8 +238,8 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
             'random_value_5cff79c316c374.82657815',
         ];
 
-        $urlWildcard = $this->createMock(URLWildcard::class);
-        $eventUrlWildcard = $this->createMock(URLWildcard::class);
+        $urlWildcard = $this->createStub(URLWildcard::class);
+        $eventUrlWildcard = $this->createStub(URLWildcard::class);
         $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
         $innerServiceMock->method('create')->willReturn($urlWildcard);
 
@@ -275,7 +275,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
             'random_value_5cff79c316cfa7.72466150',
         ];
 
-        $result = $this->createMock(URLWildcardTranslationResult::class);
+        $result = $this->createStub(URLWildcardTranslationResult::class);
         $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
         $innerServiceMock->method('translate')->willReturn($result);
 
@@ -303,8 +303,8 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
             'random_value_5cff79c316d370.25863709',
         ];
 
-        $result = $this->createMock(URLWildcardTranslationResult::class);
-        $eventResult = $this->createMock(URLWildcardTranslationResult::class);
+        $result = $this->createStub(URLWildcardTranslationResult::class);
+        $eventResult = $this->createStub(URLWildcardTranslationResult::class);
         $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
         $innerServiceMock->method('translate')->willReturn($result);
 
@@ -337,8 +337,8 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
             'random_value_5cff79c316d3f9.73226122',
         ];
 
-        $result = $this->createMock(URLWildcardTranslationResult::class);
-        $eventResult = $this->createMock(URLWildcardTranslationResult::class);
+        $result = $this->createStub(URLWildcardTranslationResult::class);
+        $eventResult = $this->createStub(URLWildcardTranslationResult::class);
         $innerServiceMock = $this->createMock(URLWildcardServiceInterface::class);
         $innerServiceMock->method('translate')->willReturn($result);
 

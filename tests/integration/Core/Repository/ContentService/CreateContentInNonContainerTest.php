@@ -11,9 +11,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Validation\ValidationFailedException;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\ContentService::class)]
 final class CreateContentInNonContainerTest extends RepositoryTestCase
 {
     public function testCreateContentInNonContainerTest(): void

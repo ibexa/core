@@ -17,9 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\StorageHandler::class)]
 class StorageHandlerTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry&\PHPUnit\Framework\MockObject\MockObject */
@@ -248,7 +246,6 @@ class StorageHandlerTest extends TestCase
         if (!isset($this->storageRegistryMock)) {
             $this->storageRegistryMock = $this->getMockBuilder(StorageRegistry::class)
                 ->setConstructorArgs([[]])
-                ->setMethods([])
                 ->getMock();
         }
 

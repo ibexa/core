@@ -16,15 +16,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * @covers \Ibexa\Bundle\Core\Routing\JsRouting\ExposedRoutesExtractor
- *
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\Routing\JsRouting\ExposedRoutesExtractor::class)]
 final class ExposedRoutesExtractorTest extends TestCase
 {
     private const BASE_URL = '/foo';
 
-    public function getDataForTestGetBaseUrl(): iterable
+    public static function getDataForTestGetBaseUrl(): iterable
     {
         yield 'CLI' => [
             // no master request in a stack
@@ -58,9 +57,7 @@ final class ExposedRoutesExtractorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getDataForTestGetBaseUrl
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestGetBaseUrl')]
     public function testGetBaseUrl(?Request $masterRequest, string $expectedBaseUrl): void
     {
         $innerExtractor = $this->createMock(ExposedRoutesExtractorInterface::class);

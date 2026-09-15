@@ -33,9 +33,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new FieldTypeRegistryPass());
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tagsProvider')]
     public function testRegisterFieldType(string $tag)
     {
         $fieldTypeIdentifier = 'field_type_identifier';
@@ -54,10 +52,9 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @dataProvider tagsProvider
-     *
      * @param string $tag
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tagsProvider')]
     public function testRegisterFieldTypeNoAlias(string $tag)
     {
         $this->expectException(\LogicException::class);
@@ -77,7 +74,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function tagsProvider(): array
+    public static function tagsProvider(): array
     {
         return [
             [FieldTypeRegistryPass::FIELD_TYPE_SERVICE_TAG],

@@ -69,7 +69,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $field = new Field([
-            'value' => $this->createMock(FieldTypeValue::class),
+            'value' => $this->createStub(FieldTypeValue::class),
             'fieldDefIdentifier' => 'image',
         ]);
 
@@ -80,12 +80,10 @@ class PlaceholderAliasGeneratorTest extends TestCase
         $this->aliasGenerator->getVariation($field, new VersionInfo(), 'foo');
     }
 
-    /**
-     * @dataProvider getVariationProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getVariationProvider')]
     public function testGetVariationSkipsPlaceholderGeneration(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
     {
-        $expectedVariation = $this->createMock(ImageVariation::class);
+        $expectedVariation = $this->createStub(ImageVariation::class);
 
         $this->ioResolver
             ->expects(self::never())
@@ -113,12 +111,10 @@ class PlaceholderAliasGeneratorTest extends TestCase
         self::assertEquals($expectedVariation, $actualVariation);
     }
 
-    /**
-     * @dataProvider getVariationProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getVariationProvider')]
     public function testGetVariationOriginalFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
     {
-        $expectedVariation = $this->createMock(ImageVariation::class);
+        $expectedVariation = $this->createStub(ImageVariation::class);
 
         $this->ioResolver
             ->expects(self::once())
@@ -146,20 +142,18 @@ class PlaceholderAliasGeneratorTest extends TestCase
         self::assertEquals($expectedVariation, $actualVariation);
     }
 
-    /**
-     * @dataProvider getVariationProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getVariationProvider')]
     public function testGetVariationOriginalNotFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
     {
         $placeholderPath = '/tmp/placeholder.jpg';
         $binaryCreateStruct = new BinaryFileCreateStruct();
-        $expectedVariation = $this->createMock(ImageVariation::class);
+        $expectedVariation = $this->createStub(ImageVariation::class);
 
         $this->ioResolver
             ->expects(self::once())
             ->method('resolve')
             ->with($field->value->id, IORepositoryResolver::VARIATION_ORIGINAL)
-            ->willThrowException($this->createMock(NotResolvableException::class));
+            ->willThrowException($this->createStub(NotResolvableException::class));
 
         $this->placeholderProvider
             ->expects(self::once())
@@ -200,9 +194,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
         self::assertEquals($expectedVariation, $actualVariation);
     }
 
-    /**
-     * @dataProvider getVariationProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getVariationProvider')]
     public function testGetVariationReturnsPlaceholderIfBinaryDataIsNotAvailable(
         Field $field,
         APIVersionInfo $versionInfo,
@@ -213,8 +205,8 @@ class PlaceholderAliasGeneratorTest extends TestCase
 
         $placeholderPath = '/tmp/placeholder.jpg';
         $binaryCreateStruct = new BinaryFileCreateStruct();
-        $expectedVariation = $this->createMock(ImageVariation::class);
-        $binaryFile = $this->createMock(BinaryFile::class);
+        $expectedVariation = $this->createStub(ImageVariation::class);
+        $binaryFile = $this->createStub(BinaryFile::class);
 
         $this->ioResolver
             ->expects(self::once())
@@ -230,7 +222,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
         $this->ioService
             ->method('getFileInputStream')
             ->with($binaryFile)
-            ->willThrowException($this->createMock(NotFoundException::class));
+            ->willThrowException($this->createStub(NotFoundException::class));
 
         $this->placeholderProvider
             ->expects(self::once())
@@ -271,15 +263,13 @@ class PlaceholderAliasGeneratorTest extends TestCase
         self::assertEquals($expectedVariation, $actualVariation);
     }
 
-    /**
-     * @dataProvider supportsValueProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('supportsValueProvider')]
     public function testSupportsValue(Value $value, bool $isSupported)
     {
         self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
     }
 
-    public function supportsValueProvider(): array
+    public static function supportsValueProvider(): array
     {
         return [
             [new NullValue(), false],
@@ -287,7 +277,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
         ];
     }
 
-    public function getVariationProvider(): array
+    public static function getVariationProvider(): array
     {
         $field = new Field([
             'value' => new ImageValue([

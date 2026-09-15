@@ -18,12 +18,9 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateConverter
- *
- * @group fieldType
- * @group date
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateConverter::class)]
+#[\PHPUnit\Framework\Attributes\Group('fieldType')]
+#[\PHPUnit\Framework\Attributes\Group('date')]
 class DateTest extends TestCase
 {
     protected DateConverter $converter;
@@ -38,10 +35,9 @@ class DateTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForTestToStorageValue
-     *
      * @param array<string, mixed>|null $data
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestToStorageValue')]
     public function testToStorageValue(
         ?array $data,
         int $sortKey,
@@ -144,9 +140,7 @@ class DateTest extends TestCase
         self::assertSame($storageFieldValue->sortKeyInt, $fieldValue->sortKey);
     }
 
-    /**
-     * @dataProvider providerForTestToStorageFieldDefinition
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestToStorageFieldDefinition')]
     public function testToStorageFieldDefinition(int $defaultType): void
     {
         $storageFieldDef = new StorageFieldDefinition();

@@ -15,9 +15,7 @@ use Ibexa\Core\Persistence\Legacy\UserPreference\Handler;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Mapper;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\UserPreference\Handler
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\UserPreference\Handler::class)]
 class HandlerTest extends TestCase
 {
     public const USER_PREFERENCE_ID = 1;

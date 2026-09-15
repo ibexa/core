@@ -25,7 +25,7 @@ class StaticSiteAccessConfigResolverTest extends ConfigResolverTestCase
         $siteAccess = new SiteAccess(
             self::EXISTING_SA_NAME,
             'default',
-            $this->createMock(Matcher::class)
+            $this->createStub(Matcher::class)
         );
         $configResolver = new StaticSiteAccessConfigResolver(
             $this->containerMock,

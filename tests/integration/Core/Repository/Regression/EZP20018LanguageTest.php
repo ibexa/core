@@ -18,6 +18,7 @@ use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory;
  *
  * Issue EZP-20018
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode::class)]
 class EZP20018LanguageTest extends BaseTestCase
 {
     protected function setUp(): void
@@ -58,9 +59,6 @@ class EZP20018LanguageTest extends BaseTestCase
         $this->refreshSearch($repository);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
-     */
     public function testSearchOnNotExistingLanguageGivesException()
     {
         $this->expectException(NotFoundException::class);
@@ -75,9 +73,6 @@ class EZP20018LanguageTest extends BaseTestCase
         $this->getRepository()->getSearchService()->findContent($query);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
-     */
     public function testSearchOnUsedLanguageGivesOneResult()
     {
         $query = new Query();
@@ -88,9 +83,6 @@ class EZP20018LanguageTest extends BaseTestCase
         self::assertCount(1, $results->searchHits);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
-     */
     public function testSearchOnStandardLanguageGivesManyResult()
     {
         $query = new Query();
@@ -102,9 +94,6 @@ class EZP20018LanguageTest extends BaseTestCase
         self::assertEquals($results->totalCount, count($results->searchHits));
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
-     */
     public function testSearchOnNotUsedInstalledLanguageGivesNoResult()
     {
         $query = new Query();

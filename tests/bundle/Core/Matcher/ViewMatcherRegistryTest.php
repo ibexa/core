@@ -12,9 +12,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry::class)]
 final class ViewMatcherRegistryTest extends TestCase
 {
     private const MATCHER_NAME = 'test_matcher';

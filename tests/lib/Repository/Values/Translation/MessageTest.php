@@ -11,16 +11,13 @@ namespace Ibexa\Tests\Core\Repository\Values\Translation;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\Translation\Message
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\Values\Translation\Message::class)]
 final class MessageTest extends TestCase
 {
     /**
-     * @dataProvider getDataForTestMessage
-     *
      * @param array<string, scalar|null> $values
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestMessage')]
     public function testStringable(
         string $message,
         array $values,
@@ -30,10 +27,9 @@ final class MessageTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataForTestMessage
-     *
      * @param array<string, scalar|null> $values
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestMessage')]
     public function testGetters(string $message, array $values): void
     {
         $translation = new Message($message, $values);

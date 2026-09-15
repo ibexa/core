@@ -15,9 +15,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBui
 
 final class LocationChildrenTermAggregationTest extends AbstractAggregationTestCase
 {
-    /**
-     * @dataProvider dataProviderForTestFindContentWithAggregation
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestFindContentWithAggregation')]
     public function testFindContentWithAggregation(
         Aggregation $aggregation,
         AggregationResult $expectedResult
@@ -25,7 +23,7 @@ final class LocationChildrenTermAggregationTest extends AbstractAggregationTestC
         self::markTestSkipped('LocationChildrenTermAggregation is only available for Location search');
     }
 
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         $aggregation = new LocationChildrenTermAggregation('children');
 
@@ -42,7 +40,7 @@ final class LocationChildrenTermAggregationTest extends AbstractAggregationTestC
         ]);
 
         $builder->setEntryMapper([
-            $this->getRepository()->getLocationService(),
+            static::resolveRepository()->getLocationService(),
             'loadLocation',
         ]);
 

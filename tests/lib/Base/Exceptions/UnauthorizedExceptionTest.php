@@ -12,14 +12,10 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 
-/**
- * @covers \Ibexa\Core\Base\Exceptions\UnauthorizedException
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Base\Exceptions\UnauthorizedException::class)]
 final class UnauthorizedExceptionTest extends TestCase
 {
-    /**
-     * @dataProvider getDataForTestConstructor
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDataForTestConstructor')]
     public function testConstructor(UnauthorizedException $exception, string $expectedMessage): void
     {
         self::assertSame($expectedMessage, $exception->getMessage());

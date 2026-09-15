@@ -13,9 +13,7 @@ use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 use Ibexa\Core\Persistence\FieldTypeRegistry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\FieldTypeRegistry
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\FieldTypeRegistry::class)]
 class FieldTypeRegistryTest extends TestCase
 {
     private const FIELD_TYPE_IDENTIFIER = 'some-type';

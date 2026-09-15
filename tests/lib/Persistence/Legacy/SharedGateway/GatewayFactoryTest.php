@@ -16,9 +16,7 @@ use Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory::class)]
 final class GatewayFactoryTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory */
@@ -30,23 +28,22 @@ final class GatewayFactoryTest extends TestCase
     public function setUp(): void
     {
         $gateways = [
-            Platforms\SQLitePlatform::class => new SqliteGateway($this->createMock(Connection::class)),
+            Platforms\SQLitePlatform::class => new SqliteGateway($this->createStub(Connection::class)),
         ];
 
         $this->factory = new GatewayFactory(
-            new FallbackGateway($this->createMock(Connection::class)),
+            new FallbackGateway($this->createStub(Connection::class)),
             $gateways,
         );
     }
 
     /**
-     * @dataProvider getTestBuildSharedGatewayData
-     *
      * @param \Doctrine\DBAL\Connection $connectionMock
      * @param string $expectedInstance
      *
      * @throws \Doctrine\DBAL\Exception
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getTestBuildSharedGatewayData')]
     public function testBuildSharedGateway(
         Connection $connectionMock,
         string $expectedInstance
@@ -60,7 +57,7 @@ final class GatewayFactoryTest extends TestCase
     /**
      * @return \Doctrine\DBAL\Connection[]|\PHPUnit\Framework\MockObject\MockObject[]|\Traversable
      */
-    public function getTestBuildSharedGatewayData(): Traversable
+    public static function getTestBuildSharedGatewayData(): Traversable
     {
         $databasePlatformGatewayPairs = [
             [new Platforms\SQLitePlatform(), SqliteGateway::class],
@@ -71,10 +68,8 @@ final class GatewayFactoryTest extends TestCase
 
         foreach ($databasePlatformGatewayPairs as $databasePlatformGatewayPair) {
             [$databasePlatform, $sharedGateway] = $databasePlatformGatewayPair;
-            $connectionMock = $this
-                ->createMock(Connection::class);
+            $connectionMock = self::createStub(Connection::class);
             $connectionMock
-                ->expects(self::any())
                 ->method('getDatabasePlatform')
                 ->willReturn($databasePlatform);
 

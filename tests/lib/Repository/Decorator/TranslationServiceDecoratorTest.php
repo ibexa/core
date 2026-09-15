@@ -33,7 +33,7 @@ class TranslationServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Translation::class),
+            $this->createStub(Translation::class),
             'random_value_5ced05ce16efc3.57825052',
         ];
 

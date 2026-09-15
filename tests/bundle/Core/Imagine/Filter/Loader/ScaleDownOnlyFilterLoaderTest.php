@@ -29,17 +29,15 @@ class ScaleDownOnlyFilterLoaderTest extends TestCase
         $this->loader->setInnerLoader($this->innerLoader);
     }
 
-    /**
-     * @dataProvider loadInvalidProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('loadInvalidProvider')]
     public function testLoadInvalidOptions(array $options)
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->loader->load($this->createMock(ImageInterface::class), $options);
+        $this->loader->load($this->createStub(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    public static function loadInvalidProvider()
     {
         return [
             [[]],
@@ -51,7 +49,7 @@ class ScaleDownOnlyFilterLoaderTest extends TestCase
     public function testLoad()
     {
         $options = [123, 456];
-        $image = $this->createMock(ImageInterface::class);
+        $image = $this->createStub(ImageInterface::class);
         $this->innerLoader
             ->expects(self::once())
             ->method('load')

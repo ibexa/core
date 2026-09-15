@@ -11,9 +11,8 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Issue https://issues.ibexa.co/browse/EZP-26327.
- *
- * @group ezp26327
  */
+#[\PHPUnit\Framework\Attributes\Group('ezp26327')]
 class EZP26327UrlAliasHistorizationTest extends BaseTestCase
 {
     public function testHistorization()

@@ -17,9 +17,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-/**
- * @covers \Ibexa\Bundle\IO\DependencyInjection\Compiler\IOConfigurationPass
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Bundle\IO\DependencyInjection\Compiler\IOConfigurationPass::class)]
 final class IOConfigurationPassTest extends AbstractCompilerPassTestCase
 {
     protected ConfigurationFactory & MockObject $metadataConfigurationFactoryMock;

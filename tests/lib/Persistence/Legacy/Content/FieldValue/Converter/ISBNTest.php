@@ -12,9 +12,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ISBNConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ISBNConverter
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ISBNConverter::class)]
 class ISBNTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ISBNConverter */
@@ -25,9 +23,7 @@ class ISBNTest extends TestCase
         $this->converter = new ISBNConverter();
     }
 
-    /**
-     * @dataProvider providerForTestToFieldDefinition
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestToFieldDefinition')]
     public function testToFieldDefinition($dataInt, $excpectedIsbn13Value)
     {
         $fieldDef = new PersistenceFieldDefinition();
@@ -42,7 +38,7 @@ class ISBNTest extends TestCase
         self::assertSame($excpectedIsbn13Value, $fieldSettings['isISBN13']);
     }
 
-    public function providerForTestToFieldDefinition()
+    public static function providerForTestToFieldDefinition()
     {
         return [
             [1, true],

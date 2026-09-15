@@ -17,9 +17,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator::class)]
 final class ContentDownloadUrlGeneratorTest extends TestCase
 {
     private const string ROUTE = 'ibexa.content.download.field_id.filename';

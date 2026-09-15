@@ -11,17 +11,16 @@ use Ibexa\Contracts\Core\Repository\FieldType;
 
 /**
  * Test case for operations in the FieldTypeService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService
- *
- * @group field-type
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Ibexa\Contracts\Core\Repository\FieldTypeService::class)]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\FieldTypeService::class, 'getFieldTypes()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\FieldTypeService::class, 'getFieldType()')]
+#[\PHPUnit\Framework\Attributes\CoversMethod(\Ibexa\Contracts\Core\Repository\FieldTypeService::class, 'hasFieldType()')]
+#[\PHPUnit\Framework\Attributes\Group('field-type')]
 class FieldTypeServiceTest extends BaseTestCase
 {
     /**
      * Test for the getFieldTypes() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldTypes()
      */
     public function testGetFieldTypes()
     {
@@ -49,8 +48,6 @@ class FieldTypeServiceTest extends BaseTestCase
      * Test for the getFieldType() method.
      *
      * Expects FieldType "ibexa_url" to be available!
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldType()
      */
     public function testGetFieldType()
     {
@@ -75,8 +72,6 @@ class FieldTypeServiceTest extends BaseTestCase
 
     /**
      * Test for the getFieldType() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldType()
      */
     public function testGetFieldTypeThrowsNotFoundException()
     {
@@ -94,8 +89,6 @@ class FieldTypeServiceTest extends BaseTestCase
 
     /**
      * Test for the hasFieldType() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::hasFieldType()
      */
     public function testHasFieldTypeReturnsTrue()
     {
@@ -113,8 +106,6 @@ class FieldTypeServiceTest extends BaseTestCase
 
     /**
      * Test for the hasFieldType() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::hasFieldType()
      */
     public function testHasFieldTypeReturnsFalse()
     {

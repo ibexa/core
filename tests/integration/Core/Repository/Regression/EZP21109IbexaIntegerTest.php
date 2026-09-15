@@ -44,9 +44,8 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
 
     /**
      * Assert that it is possible to store any integer value in an integer field with default settings.
-     *
-     * @dataProvider validIntegerValues
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('validIntegerValues')]
     public function testIbexaIntegerWithDefaultValues(int $integerValue): void
     {
         $repository = $this->getRepository();
@@ -74,7 +73,7 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
         $contentService->deleteContent($content->versionInfo->contentInfo);
     }
 
-    public function validIntegerValues()
+    public static function validIntegerValues()
     {
         return [
             [0],
