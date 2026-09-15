@@ -24,7 +24,6 @@ use Ibexa\Bundle\Core\DependencyInjection\Compiler\QueryTypePass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\RegisterSearchEngineIndexerPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\RegisterSearchEnginePass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\RegisterStorageEnginePass;
-use Ibexa\Bundle\Core\DependencyInjection\Compiler\RouterPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SecurityPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SessionConfigurationPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SiteAccessMatcherRegistryPass;
@@ -69,7 +68,6 @@ final class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new RegisterSearchEngineIndexerPass());
         $container->addCompilerPass(new AggregateFieldValueMapperPass());
         $container->addCompilerPass(new FieldRegistryPass());
-        $container->addCompilerPass(new RouterPass());
         $container->addCompilerPass(new SecurityPass());
         $container->addCompilerPass(new FragmentPass());
         $container->addCompilerPass(new StorageConnectionPass());

@@ -11,7 +11,7 @@ use Ibexa\Core\MVC\Symfony\Controller\Controller;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * @covers \Ibexa\Core\MVC\Symfony\Controller\Controller::render
@@ -31,13 +31,13 @@ class ControllerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->templateEngineMock = $this->createMock(EngineInterface::class);
+        $this->templateEngineMock = $this->createMock(Environment::class);
         $this->containerMock = $this->createMock(ContainerInterface::class);
         $this->controller = $this->getMockForAbstractClass(Controller::class, [$this->containerMock]);
         $this->containerMock
             ->expects(self::any())
             ->method('get')
-            ->with('templating')
+            ->with('twig')
             ->will(self::returnValue($this->templateEngineMock));
     }
 

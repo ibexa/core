@@ -8,11 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\MVC\Symfony\Controller\Content;
 
+use Ibexa\Bundle\Core\Routing\DefaultRouter;
 use Ibexa\Bundle\IO\BinaryStreamResponse;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
+use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
 use Ibexa\Tests\Core\MVC\Symfony\Controller\Controller\Content\DownloadControllerTestTrait;
 use Ibexa\Tests\Integration\Core\MVC\Symfony\InternalRoutingTestKernel;
+use Symfony\Bundle\FrameworkBundle\Routing\Router as FrameworkRouter;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -89,6 +92,23 @@ final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
 
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
         self::assertInstanceOf(BinaryStreamResponse::class, $response);
+    }
+
+    public function testDefaultRouterDecoratesFrameworkRouterAndOccursOnceInChain(): void
+    {
+        $defaultRouter = self::getContainer()->get('router.default');
+        self::assertInstanceOf(DefaultRouter::class, $defaultRouter);
+        self::assertInstanceOf(FrameworkRouter::class, self::getContainer()->get('ibexa.routing.default_router.inner'));
+
+        $chainRouter = self::getContainer()->get('test.ibexa.chain_router');
+        self::assertInstanceOf(ChainRouter::class, $chainRouter);
+        self::assertCount(
+            1,
+            array_filter(
+                $chainRouter->all(),
+                static fn (object $router): bool => $router === $defaultRouter
+            )
+        );
     }
 
     private function configureDownloadController(RouteCollection $routes): void

@@ -15,7 +15,7 @@ class UnsupportedFilter extends AbstractFilter
     /**
      * @throws \Imagine\Exception\NotSupportedException
      */
-    public function apply(ImageInterface $image)
+    public function apply(ImageInterface $image): ImageInterface
     {
         throw new NotSupportedException('The filter is not supported by your current configuration.');
     }

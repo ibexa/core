@@ -50,7 +50,7 @@ class FieldRenderingExtension extends AbstractExtension
         $this->translationHelper = $translationHelper;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         $renderFieldCallable = function (Environment $environment, Content|ContentAwareInterface $data, $fieldIdentifier, array $params = []) {
             $this->fieldBlockRenderer->setTwig($environment);

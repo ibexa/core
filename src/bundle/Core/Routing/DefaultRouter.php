@@ -4,38 +4,44 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Routing;
 
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\RequestContextFactory;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
+use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Extension of Symfony default router implementing RequestMatcherInterface.
+ * SiteAccess-aware decorator of the Symfony router.
+ *
+ * Matching honours the `semanticPathinfo` request attribute set by the SiteAccess matcher, and link generation
+ * prepends the SiteAccess URI part (for URI-based SiteAccess matchers) and supports the `siteaccess` route parameter.
  */
-class DefaultRouter extends Router implements SiteAccessAware
+final class DefaultRouter implements RouterInterface, RequestMatcherInterface, WarmableInterface, SiteAccessAware
 {
-    protected ?SiteAccess $siteAccess = null;
+    private ?SiteAccess $siteAccess = null;
 
-    /** @var string[] */
-    protected array $nonSiteAccessAwareRoutes = [];
-
-    protected ConfigResolverInterface $configResolver;
-
-    protected SiteAccessRouterInterface $siteAccessRouter;
-
-    public function setConfigResolver(ConfigResolverInterface $configResolver): void
-    {
-        $this->configResolver = $configResolver;
+    /**
+     * @param string[] $nonSiteAccessAwareRoutes route name prefixes that are not supposed to be SiteAccess aware,
+     *        i.e. routes pointing to asset generation
+     */
+    public function __construct(
+        private readonly RouterInterface&RequestMatcherInterface $innerRouter,
+        private readonly SiteAccessRouterInterface $siteAccessRouter,
+        private readonly array $nonSiteAccessAwareRoutes = [],
+        private readonly ?LoggerInterface $logger = null
+    ) {
     }
 
     public function setSiteAccess(?SiteAccess $siteAccess = null): void
@@ -43,24 +49,31 @@ class DefaultRouter extends Router implements SiteAccessAware
         $this->siteAccess = $siteAccess;
     }
 
+    public function setContext(RequestContext $context): void
+    {
+        $this->innerRouter->setContext($context);
+    }
+
+    public function getContext(): RequestContext
+    {
+        return $this->innerRouter->getContext();
+    }
+
+    public function getRouteCollection(): RouteCollection
+    {
+        return $this->innerRouter->getRouteCollection();
+    }
+
     /**
-     * Injects route names that are not supposed to be SiteAccess aware.
-     * i.e. Routes pointing to asset generation (like assetic).
-     *
-     * @param string[] $routes
+     * @return array<string, mixed>
      */
-    public function setNonSiteAccessAwareRoutes(array $routes): void
+    public function match(string $pathinfo): array
     {
-        $this->nonSiteAccessAwareRoutes = $routes;
-    }
-
-    public function setSiteAccessRouter(SiteAccessRouterInterface $siteAccessRouter): void
-    {
-        $this->siteAccessRouter = $siteAccessRouter;
+        return $this->innerRouter->match($pathinfo);
     }
 
     /**
-     * @return array<string, mixed> An array of parameters
+     * @return array<string, mixed>
      */
     public function matchRequest(Request $request): array
     {
@@ -72,7 +85,7 @@ class DefaultRouter extends Router implements SiteAccessAware
             );
         }
 
-        return parent::matchRequest($request);
+        return $this->innerRouter->matchRequest($request);
     }
 
     /**
@@ -91,53 +104,77 @@ class DefaultRouter extends Router implements SiteAccessAware
                 // Switch request context for link generation.
                 $context = $this->getContextBySimplifiedRequest($siteAccess->matcher->getRequest());
                 $this->setContext($context);
-            } elseif ($this->logger) {
+            } else {
                 $siteAccess = $this->siteAccess;
-                $this->logger->notice("Could not generate a link using provided 'siteaccess' parameter: {$parameters['siteaccess']}. Generating using current context.");
+                $this->logger?->notice("Could not generate a link using provided 'siteaccess' parameter: {$parameters['siteaccess']}. Generating using current context.");
             }
 
             unset($parameters['siteaccess']);
         }
 
         try {
-            $url = parent::generate($name, $parameters, $referenceType);
-        } catch (RouteNotFoundException $e) {
-            // Switch back to original context, for next links generation.
-            $this->setContext($originalContext);
-            throw $e;
-        }
+            $url = $this->innerRouter->generate($name, $parameters, $referenceType);
 
-        // Now putting back SiteAccess URI if needed.
-        if ($isSiteAccessAware && $siteAccess && $siteAccess->matcher instanceof URILexer) {
-            if ($referenceType === self::ABSOLUTE_URL || $referenceType === self::NETWORK_PATH) {
-                $scheme = $context->getScheme();
-                $port = '';
-                if ($scheme === 'http' && $this->context->getHttpPort() !== 80) {
-                    $port = ':' . $this->context->getHttpPort();
-                } elseif ($scheme === 'https' && $this->context->getHttpsPort() !== 443) {
-                    $port = ':' . $this->context->getHttpsPort();
-                }
-
-                $base = $context->getHost() . $port . $context->getBaseUrl();
-            } else {
-                $base = $context->getBaseUrl();
+            // Now putting back SiteAccess URI if needed.
+            if ($isSiteAccessAware && $siteAccess !== null && $siteAccess->matcher instanceof URILexer) {
+                $url = $this->prependSiteAccessUri($url, $context, $referenceType, $siteAccess->matcher);
             }
 
-            $linkUri = $base ? substr($url, strpos($url, $base) + strlen($base)) : $url;
-            $url = str_replace($linkUri, $siteAccess->matcher->analyseLink($linkUri), $url);
+            return $url;
+        } finally {
+            // Switch back to original context, for next links generation, including when generation fails.
+            $this->setContext($originalContext);
+        }
+    }
+
+    private function prependSiteAccessUri(string $url, RequestContext $context, int $referenceType, URILexer $matcher): string
+    {
+        if ($referenceType === self::ABSOLUTE_URL || $referenceType === self::NETWORK_PATH) {
+            $scheme = $context->getScheme();
+            $port = '';
+            if ($scheme === 'http' && $context->getHttpPort() !== 80) {
+                $port = ':' . $context->getHttpPort();
+            } elseif ($scheme === 'https' && $context->getHttpsPort() !== 443) {
+                $port = ':' . $context->getHttpsPort();
+            }
+
+            $base = $context->getHost() . $port . $context->getBaseUrl();
+        } else {
+            $base = $context->getBaseUrl();
         }
 
-        // Switch back to original context, for next links generation.
-        $this->setContext($originalContext);
+        $linkUri = $base ? substr($url, strpos($url, $base) + strlen($base)) : $url;
 
-        return $url;
+        return str_replace($linkUri, $matcher->analyseLink($linkUri), $url);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function warmUp(string $cacheDir, ?string $buildDir = null): array
+    {
+        if ($this->innerRouter instanceof WarmableInterface) {
+            return $this->innerRouter->warmUp($cacheDir, $buildDir);
+        }
+
+        return [];
+    }
+
+    /**
+     * Merges context from $simplifiedRequest into a clone of the current context.
+     */
+    private function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest): RequestContext
+    {
+        // Instantiated per call on purpose: the factory clones the current context and mutates that clone,
+        // so it is per-call state and cannot be a shared service.
+        return (new RequestContextFactory($this->getContext()))->getContextBySimplifiedRequest($simplifiedRequest);
     }
 
     /**
      * Checks if $routeName is a siteAccess aware route, and thus needs to have siteAccess URI prepended.
      * Will be used for link generation, only in the case of URI SiteAccess matching.
      */
-    protected function isSiteAccessAwareRoute(string $routeName): bool
+    private function isSiteAccessAwareRoute(string $routeName): bool
     {
         foreach ($this->nonSiteAccessAwareRoutes as $ignoredPrefix) {
             if (str_starts_with($routeName, $ignoredPrefix)) {
@@ -146,14 +183,5 @@ class DefaultRouter extends Router implements SiteAccessAware
         }
 
         return true;
-    }
-
-    /**
-     * Merges context from $simplifiedRequest into a clone of the current context.
-     */
-    public function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest): RequestContext
-    {
-        // inline-instantiated on purpose as it's lightweight and injecting it here through DI can be complicated
-        return (new RequestContextFactory($this->context))->getContextBySimplifiedRequest($simplifiedRequest);
     }
 }
