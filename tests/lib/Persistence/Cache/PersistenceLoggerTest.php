@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Core\Persistence\Cache\PersistenceLogger;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Cache\PersistenceLogger
- */
+#[CoversClass(PersistenceLogger::class)]
 class PersistenceLoggerTest extends TestCase
 {
     protected PersistenceLogger $logger;
@@ -50,9 +50,7 @@ class PersistenceLoggerTest extends TestCase
         return $this->logger;
     }
 
-    /**
-     * @depends testLogCall
-     */
+    #[Depends('testLogCall')]
     public function testGetCallValues(PersistenceLogger $logger): void
     {
         $calls = $logger->getCalls();

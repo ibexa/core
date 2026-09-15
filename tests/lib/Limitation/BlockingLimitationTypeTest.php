@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
@@ -19,6 +18,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\BlockingLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Repository\Values\ContentType\ContentType;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Test Case for LimitationType.
@@ -36,7 +38,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue()
     {
         return [
             [new BlockingLimitation('Test', [])],
@@ -45,13 +47,11 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestAcceptValue
-     *
-     * @depends testConstruct
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
      * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
+    #[DataProvider('providerForTestAcceptValue')]
     public function testAcceptValue(BlockingLimitation $limitation, BlockingLimitationType $limitationType)
     {
         $limitationType->acceptValue($limitation);
@@ -60,7 +60,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException()
     {
         return [
             [new ObjectStateLimitation()],
@@ -68,13 +68,11 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestAcceptValueException
-     *
-     * @depends testConstruct
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
      * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
+    #[DataProvider('providerForTestAcceptValueException')]
     public function testAcceptValueException(Limitation $limitation, BlockingLimitationType $limitationType)
     {
         $this->expectException(InvalidArgumentException::class);
@@ -85,7 +83,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidatePass()
+    public static function providerForTestValidatePass()
     {
         return [
             [new BlockingLimitation('Test', ['limitationValues' => ['ezjscore::call']])],
@@ -94,10 +92,9 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestValidatePass
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
      */
+    #[DataProvider('providerForTestValidatePass')]
     public function testValidatePass(BlockingLimitation $limitation)
     {
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -110,7 +107,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidateError()
+    public static function providerForTestValidateError()
     {
         return [
             [new BlockingLimitation('Test', []), 1],
@@ -120,11 +117,10 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestValidateError
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
      * @param int $errorCount
      */
+    #[DataProvider('providerForTestValidateError')]
     public function testValidateError(BlockingLimitation $limitation, $errorCount)
     {
         $this->getPersistenceMock()
@@ -139,10 +135,9 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testBuildValue(BlockingLimitationType $limitationType)
     {
         $expected = ['test', 'test' => 9];
@@ -156,7 +151,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate()
+    public static function providerForTestEvaluate()
     {
         return [
             // ContentInfo, no access
@@ -180,29 +175,24 @@ class BlockingLimitationTypeTest extends Base
             // ContentCreateStruct, no access
             [
                 'limitation' => new BlockingLimitation('Test', ['limitationValues' => [2]]),
-                'object' => new ContentCreateStruct(['contentType' => $this->createContentTypeWithId(22)]),
+                'object' => new ContentCreateStruct(['contentType' => self::createContentTypeWithId(22)]),
                 'targets' => [],
             ],
             // ContentCreateStruct, with access
             [
                 'limitation' => new BlockingLimitation('Test', ['limitationValues' => [2, 43]]),
-                'object' => new ContentCreateStruct(['contentType' => $this->createContentTypeWithId(43)]),
+                'object' => new ContentCreateStruct(['contentType' => self::createContentTypeWithId(43)]),
                 'targets' => [],
             ],
         ];
     }
 
-    private function createContentTypeWithId(int $id): ContentType
+    private static function createContentTypeWithId(int $id): ContentType
     {
-        $contentType = $this->createMock(ContentType::class);
-        $contentType->method('__get')->with('id')->willReturn($id);
-
-        return $contentType;
+        return new ContentType(['id' => $id]);
     }
 
-    /**
-     * @dataProvider providerForTestEvaluate
-     */
+    #[DataProvider('providerForTestEvaluate')]
     public function testEvaluate(
         BlockingLimitation $limitation,
         ValueObject $object,
@@ -234,7 +224,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument()
     {
         return [
             // invalid limitation
@@ -246,9 +236,7 @@ class BlockingLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluateInvalidArgument
-     */
+    #[DataProvider('providerForTestEvaluateInvalidArgument')]
     public function testEvaluateInvalidArgument(
         Limitation $limitation,
         ValueObject $object,
@@ -279,10 +267,9 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testGetCriterion(BlockingLimitationType $limitationType)
     {
         $criterion = $limitationType->getCriterion(
@@ -294,10 +281,9 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testValueSchema(BlockingLimitationType $limitationType)
     {
         $this->expectException(NotImplementedException::class);

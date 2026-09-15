@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
 use Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\Stub\ExampleFieldConstraintsStorage;
 use Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\Stub\ExampleFieldType;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\DependsExternal;
 
 final class FieldConstraintsStorageTest extends BaseTestCase
 {
@@ -90,9 +91,7 @@ final class FieldConstraintsStorageTest extends BaseTestCase
         return $contentTypeService->loadContentTypeByIdentifier($contentType->identifier);
     }
 
-    /**
-     * @depends Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\FieldConstraintsStorageTest::testStorageDataIsCreatedOnContentTypeCreate
-     */
+    #[DependsExternal(self::class, 'testStorageDataIsCreatedOnContentTypeCreate')]
     public function testStorageDataIsUpdatedOnContentTypeUpdate(ContentType $contentType): ContentType
     {
         $repository = $this->getRepository(false);
@@ -128,9 +127,7 @@ final class FieldConstraintsStorageTest extends BaseTestCase
         return $contentTypeService->loadContentTypeByIdentifier($contentType->identifier);
     }
 
-    /**
-     * @depends Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\FieldConstraintsStorageTest::testStorageDataIsUpdatedOnContentTypeUpdate
-     */
+    #[DependsExternal(self::class, 'testStorageDataIsUpdatedOnContentTypeUpdate')]
     public function testStorageDataIsDeletedOnContentTypeDelete(ContentType $contentType): void
     {
         $fieldDefinition = $contentType->getFieldDefinition(self::EXAMPLE_FIELD_IDENTIFIER);

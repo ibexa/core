@@ -18,18 +18,16 @@ use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\SqlWalker;
 use Ibexa\Core\Persistence\Doctrine\Query\JsonTextFunction;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use RuntimeException;
 
-/**
- * @covers \Ibexa\Core\Persistence\Doctrine\Query\JsonTextFunction
- */
+#[CoversClass(JsonTextFunction::class)]
 final class JsonTextFunctionTest extends TestCase
 {
-    /**
-     * @dataProvider provideForGetSql
-     */
+    #[DataProvider('provideForGetSql')]
     public function testItReadsTheKeyAsTextOn(
         AbstractPlatform $platform,
         string $expectedSql
@@ -78,7 +76,7 @@ final class JsonTextFunctionTest extends TestCase
 
         foreach (['document', 'key'] as $property) {
             (new ReflectionProperty(JsonTextFunction::class, $property))
-                ->setValue($function, $this->createMock(Node::class));
+                ->setValue($function, self::createStub(Node::class));
         }
 
         return $function;

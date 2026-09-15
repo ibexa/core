@@ -61,11 +61,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(FieldDefinitionCreateStruct::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(FieldDefinitionCreateStruct::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->addFieldDefinition(...$parameters);
@@ -87,11 +87,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(FieldDefinitionCreateStruct::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(FieldDefinitionCreateStruct::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeAddFieldDefinitionEvent::class, static function (BeforeAddFieldDefinitionEvent $event) {
             $event->stopPropagation();
@@ -120,10 +120,10 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeGroup::class),
+            self::createStub(ContentTypeGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteContentTypeGroup(...$parameters);
@@ -145,10 +145,10 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeGroup::class),
+            self::createStub(ContentTypeGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteContentTypeGroupEvent::class, static function (BeforeDeleteContentTypeGroupEvent $event) {
             $event->stopPropagation();
@@ -177,10 +177,10 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
+            self::createStub(ContentType::class),
         ];
 
-        $contentTypeDraft = $this->createMock(ContentTypeDraft::class);
+        $contentTypeDraft = self::createStub(ContentTypeDraft::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeDraft')->willReturn($contentTypeDraft);
 
@@ -205,11 +205,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
+            self::createStub(ContentType::class),
         ];
 
-        $contentTypeDraft = $this->createMock(ContentTypeDraft::class);
-        $eventContentTypeDraft = $this->createMock(ContentTypeDraft::class);
+        $contentTypeDraft = self::createStub(ContentTypeDraft::class);
+        $eventContentTypeDraft = self::createStub(ContentTypeDraft::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeDraft')->willReturn($contentTypeDraft);
 
@@ -239,11 +239,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
+            self::createStub(ContentType::class),
         ];
 
-        $contentTypeDraft = $this->createMock(ContentTypeDraft::class);
-        $eventContentTypeDraft = $this->createMock(ContentTypeDraft::class);
+        $contentTypeDraft = self::createStub(ContentTypeDraft::class);
+        $eventContentTypeDraft = self::createStub(ContentTypeDraft::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeDraft')->willReturn($contentTypeDraft);
 
@@ -276,10 +276,10 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeGroupCreateStruct::class),
+            self::createStub(ContentTypeGroupCreateStruct::class),
         ];
 
-        $contentTypeGroup = $this->createMock(ContentTypeGroup::class);
+        $contentTypeGroup = self::createStub(ContentTypeGroup::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeGroup')->willReturn($contentTypeGroup);
 
@@ -304,11 +304,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeGroupCreateStruct::class),
+            self::createStub(ContentTypeGroupCreateStruct::class),
         ];
 
-        $contentTypeGroup = $this->createMock(ContentTypeGroup::class);
-        $eventContentTypeGroup = $this->createMock(ContentTypeGroup::class);
+        $contentTypeGroup = self::createStub(ContentTypeGroup::class);
+        $eventContentTypeGroup = self::createStub(ContentTypeGroup::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeGroup')->willReturn($contentTypeGroup);
 
@@ -338,11 +338,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeGroupCreateStruct::class),
+            self::createStub(ContentTypeGroupCreateStruct::class),
         ];
 
-        $contentTypeGroup = $this->createMock(ContentTypeGroup::class);
-        $eventContentTypeGroup = $this->createMock(ContentTypeGroup::class);
+        $contentTypeGroup = self::createStub(ContentTypeGroup::class);
+        $eventContentTypeGroup = self::createStub(ContentTypeGroup::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeGroup')->willReturn($contentTypeGroup);
 
@@ -375,11 +375,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeGroup::class),
-            $this->createMock(ContentTypeGroupUpdateStruct::class),
+            self::createStub(ContentTypeGroup::class),
+            self::createStub(ContentTypeGroupUpdateStruct::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->updateContentTypeGroup(...$parameters);
@@ -401,11 +401,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeGroup::class),
-            $this->createMock(ContentTypeGroupUpdateStruct::class),
+            self::createStub(ContentTypeGroup::class),
+            self::createStub(ContentTypeGroupUpdateStruct::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeUpdateContentTypeGroupEvent::class, static function (BeforeUpdateContentTypeGroupEvent $event) {
             $event->stopPropagation();
@@ -434,11 +434,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeCreateStruct::class),
+            self::createStub(ContentTypeCreateStruct::class),
             [],
         ];
 
-        $contentTypeDraft = $this->createMock(ContentTypeDraft::class);
+        $contentTypeDraft = self::createStub(ContentTypeDraft::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentType')->willReturn($contentTypeDraft);
 
@@ -463,12 +463,12 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeCreateStruct::class),
+            self::createStub(ContentTypeCreateStruct::class),
             [],
         ];
 
-        $contentTypeDraft = $this->createMock(ContentTypeDraft::class);
-        $eventContentTypeDraft = $this->createMock(ContentTypeDraft::class);
+        $contentTypeDraft = self::createStub(ContentTypeDraft::class);
+        $eventContentTypeDraft = self::createStub(ContentTypeDraft::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentType')->willReturn($contentTypeDraft);
 
@@ -498,12 +498,12 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeCreateStruct::class),
+            self::createStub(ContentTypeCreateStruct::class),
             [],
         ];
 
-        $contentTypeDraft = $this->createMock(ContentTypeDraft::class);
-        $eventContentTypeDraft = $this->createMock(ContentTypeDraft::class);
+        $contentTypeDraft = self::createStub(ContentTypeDraft::class);
+        $eventContentTypeDraft = self::createStub(ContentTypeDraft::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentType')->willReturn($contentTypeDraft);
 
@@ -536,11 +536,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
+            self::createStub(ContentTypeDraft::class),
             'random_value_5cff79c318f864.57583321',
         ];
 
-        $newContentTypeDraft = $this->createMock(ContentTypeDraft::class);
+        $newContentTypeDraft = self::createStub(ContentTypeDraft::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('removeContentTypeTranslation')->willReturn($newContentTypeDraft);
 
@@ -565,12 +565,12 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
+            self::createStub(ContentTypeDraft::class),
             'random_value_5cff79c318f913.11826610',
         ];
 
-        $newContentTypeDraft = $this->createMock(ContentTypeDraft::class);
-        $eventNewContentTypeDraft = $this->createMock(ContentTypeDraft::class);
+        $newContentTypeDraft = self::createStub(ContentTypeDraft::class);
+        $eventNewContentTypeDraft = self::createStub(ContentTypeDraft::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('removeContentTypeTranslation')->willReturn($newContentTypeDraft);
 
@@ -600,12 +600,12 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
+            self::createStub(ContentTypeDraft::class),
             'random_value_5cff79c318f983.61112462',
         ];
 
-        $newContentTypeDraft = $this->createMock(ContentTypeDraft::class);
-        $eventNewContentTypeDraft = $this->createMock(ContentTypeDraft::class);
+        $newContentTypeDraft = self::createStub(ContentTypeDraft::class);
+        $eventNewContentTypeDraft = self::createStub(ContentTypeDraft::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('removeContentTypeTranslation')->willReturn($newContentTypeDraft);
 
@@ -638,11 +638,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(ContentTypeGroup::class),
+            self::createStub(ContentType::class),
+            self::createStub(ContentTypeGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->unassignContentTypeGroup(...$parameters);
@@ -664,11 +664,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(ContentTypeGroup::class),
+            self::createStub(ContentType::class),
+            self::createStub(ContentTypeGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeUnassignContentTypeGroupEvent::class, static function (BeforeUnassignContentTypeGroupEvent $event) {
             $event->stopPropagation();
@@ -697,10 +697,10 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
+            self::createStub(ContentTypeDraft::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->publishContentTypeDraft(...$parameters);
@@ -722,10 +722,10 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
+            self::createStub(ContentTypeDraft::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforePublishContentTypeDraftEvent::class, static function (BeforePublishContentTypeDraftEvent $event) {
             $event->stopPropagation();
@@ -754,12 +754,12 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(FieldDefinition::class),
-            $this->createMock(FieldDefinitionUpdateStruct::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(FieldDefinition::class),
+            self::createStub(FieldDefinitionUpdateStruct::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->updateFieldDefinition(...$parameters);
@@ -781,12 +781,12 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(FieldDefinition::class),
-            $this->createMock(FieldDefinitionUpdateStruct::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(FieldDefinition::class),
+            self::createStub(FieldDefinitionUpdateStruct::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeUpdateFieldDefinitionEvent::class, static function (BeforeUpdateFieldDefinitionEvent $event) {
             $event->stopPropagation();
@@ -815,11 +815,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(FieldDefinition::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(FieldDefinition::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->removeFieldDefinition(...$parameters);
@@ -841,11 +841,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(FieldDefinition::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(FieldDefinition::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeRemoveFieldDefinitionEvent::class, static function (BeforeRemoveFieldDefinitionEvent $event) {
             $event->stopPropagation();
@@ -874,11 +874,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(ContentTypeGroup::class),
+            self::createStub(ContentType::class),
+            self::createStub(ContentTypeGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->assignContentTypeGroup(...$parameters);
@@ -900,11 +900,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(ContentTypeGroup::class),
+            self::createStub(ContentType::class),
+            self::createStub(ContentTypeGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeAssignContentTypeGroupEvent::class, static function (BeforeAssignContentTypeGroupEvent $event) {
             $event->stopPropagation();
@@ -933,11 +933,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(ContentTypeUpdateStruct::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(ContentTypeUpdateStruct::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->updateContentTypeDraft(...$parameters);
@@ -959,11 +959,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(ContentTypeUpdateStruct::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(ContentTypeUpdateStruct::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeUpdateContentTypeDraftEvent::class, static function (BeforeUpdateContentTypeDraftEvent $event) {
             $event->stopPropagation();
@@ -992,10 +992,10 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
+            self::createStub(ContentType::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $service = new ContentTypeService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteContentType(...$parameters);
@@ -1017,10 +1017,10 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
+            self::createStub(ContentType::class),
         ];
 
-        $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
+        $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteContentTypeEvent::class, static function (BeforeDeleteContentTypeEvent $event) {
             $event->stopPropagation();
@@ -1049,11 +1049,11 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(User::class),
+            self::createStub(ContentType::class),
+            self::createStub(User::class),
         ];
 
-        $contentTypeCopy = $this->createMock(ContentType::class);
+        $contentTypeCopy = self::createStub(ContentType::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('copyContentType')->willReturn($contentTypeCopy);
 
@@ -1078,12 +1078,12 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(User::class),
+            self::createStub(ContentType::class),
+            self::createStub(User::class),
         ];
 
-        $contentTypeCopy = $this->createMock(ContentType::class);
-        $eventContentTypeCopy = $this->createMock(ContentType::class);
+        $contentTypeCopy = self::createStub(ContentType::class);
+        $eventContentTypeCopy = self::createStub(ContentType::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('copyContentType')->willReturn($contentTypeCopy);
 
@@ -1113,12 +1113,12 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(User::class),
+            self::createStub(ContentType::class),
+            self::createStub(User::class),
         ];
 
-        $contentTypeCopy = $this->createMock(ContentType::class);
-        $eventContentTypeCopy = $this->createMock(ContentType::class);
+        $contentTypeCopy = self::createStub(ContentType::class);
+        $eventContentTypeCopy = self::createStub(ContentType::class);
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('copyContentType')->willReturn($contentTypeCopy);
 

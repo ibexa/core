@@ -37,7 +37,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
             'random_value_5cff79c31834c3.69513526',
         ];
 
-        $urlAlias = $this->createMock(URLAlias::class);
+        $urlAlias = self::createStub(URLAlias::class);
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createGlobalUrlAlias')->willReturn($urlAlias);
 
@@ -69,8 +69,8 @@ class URLAliasServiceTest extends AbstractServiceTestCase
             'random_value_5cff79c31839d9.22502123',
         ];
 
-        $urlAlias = $this->createMock(URLAlias::class);
-        $eventUrlAlias = $this->createMock(URLAlias::class);
+        $urlAlias = self::createStub(URLAlias::class);
+        $eventUrlAlias = self::createStub(URLAlias::class);
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createGlobalUrlAlias')->willReturn($urlAlias);
 
@@ -107,8 +107,8 @@ class URLAliasServiceTest extends AbstractServiceTestCase
             'random_value_5cff79c3183a85.16422549',
         ];
 
-        $urlAlias = $this->createMock(URLAlias::class);
-        $eventUrlAlias = $this->createMock(URLAlias::class);
+        $urlAlias = self::createStub(URLAlias::class);
+        $eventUrlAlias = self::createStub(URLAlias::class);
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createGlobalUrlAlias')->willReturn($urlAlias);
 
@@ -141,10 +141,10 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
         ];
 
-        $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
+        $innerServiceMock = self::createStub(URLAliasServiceInterface::class);
 
         $service = new URLAliasService($innerServiceMock, $traceableEventDispatcher);
         $service->refreshSystemUrlAliasesForLocation(...$parameters);
@@ -166,10 +166,10 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
         ];
 
-        $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
+        $innerServiceMock = self::createStub(URLAliasServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeRefreshSystemUrlAliasesForLocationEvent::class, static function (BeforeRefreshSystemUrlAliasesForLocationEvent $event) {
             $event->stopPropagation();
@@ -198,14 +198,14 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
             'random_value_5cff79c3184f05.03459159',
             'random_value_5cff79c3184f14.18292216',
             'random_value_5cff79c3184f24.01158164',
             'random_value_5cff79c3184f32.03833593',
         ];
 
-        $urlAlias = $this->createMock(URLAlias::class);
+        $urlAlias = self::createStub(URLAlias::class);
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createUrlAlias')->willReturn($urlAlias);
 
@@ -230,15 +230,15 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
             'random_value_5cff79c3184fd7.07408772',
             'random_value_5cff79c3184fe2.98616568',
             'random_value_5cff79c3184ff0.62652505',
             'random_value_5cff79c3185003.87499400',
         ];
 
-        $urlAlias = $this->createMock(URLAlias::class);
-        $eventUrlAlias = $this->createMock(URLAlias::class);
+        $urlAlias = self::createStub(URLAlias::class);
+        $eventUrlAlias = self::createStub(URLAlias::class);
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createUrlAlias')->willReturn($urlAlias);
 
@@ -268,15 +268,15 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
             'random_value_5cff79c3185072.24449261',
             'random_value_5cff79c3185080.62311461',
             'random_value_5cff79c3185095.31877612',
             'random_value_5cff79c31850a4.20254218',
         ];
 
-        $urlAlias = $this->createMock(URLAlias::class);
-        $eventUrlAlias = $this->createMock(URLAlias::class);
+        $urlAlias = self::createStub(URLAlias::class);
+        $eventUrlAlias = self::createStub(URLAlias::class);
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createUrlAlias')->willReturn($urlAlias);
 
@@ -312,7 +312,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
             [],
         ];
 
-        $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
+        $innerServiceMock = self::createStub(URLAliasServiceInterface::class);
 
         $service = new URLAliasService($innerServiceMock, $traceableEventDispatcher);
         $service->removeAliases(...$parameters);
@@ -337,7 +337,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
             [],
         ];
 
-        $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
+        $innerServiceMock = self::createStub(URLAliasServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeRemoveAliasesEvent::class, static function (BeforeRemoveAliasesEvent $event) {
             $event->stopPropagation();

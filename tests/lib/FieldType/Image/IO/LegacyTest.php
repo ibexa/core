@@ -15,12 +15,11 @@ use Ibexa\Core\FieldType\Image\IO\OptionsProvider;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\FieldType\Image\IO\Legacy
- */
+#[CoversClass(LegacyIOService::class)]
 final class LegacyTest extends TestCase
 {
     protected LegacyIOService $service;

@@ -15,13 +15,13 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\RelationList\Type as RelationListType;
 use Ibexa\Core\FieldType\RelationList\Value as RelationListValue;
 use Ibexa\Core\Repository\Values\Content\Relation;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     use RelationSearchBaseIntegrationTestTrait;
@@ -235,7 +235,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -271,9 +271,9 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -320,7 +320,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -339,7 +339,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -349,7 +349,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new RelationListValue()],
@@ -357,41 +357,41 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new RelationListValue([4, 49]),
             ],
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected static function getValidSearchValueOne()
     {
         return [11];
     }
 
-    protected function getValidSearchValueTwo()
+    protected static function getValidSearchValueTwo()
     {
         return [12];
     }
 
-    protected function getSearchTargetValueOne(): int
+    protected static function getSearchTargetValueOne(): int
     {
         return 11;
     }
 
-    protected function getSearchTargetValueTwo(): int
+    protected static function getSearchTargetValueTwo(): int
     {
         return 12;
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected static function getValidMultivaluedSearchValuesOne()
     {
         return [11, 12];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected static function getValidMultivaluedSearchValuesTwo()
     {
         return [13, 14];
     }

@@ -11,11 +11,17 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Filter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as CoveredCriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+#[CoversMethod(CoveredCriterionQueryBuilder::class, 'buildQueryConstraint')]
+#[CoversMethod(CoveredCriterionQueryBuilder::class, 'accepts')]
+#[CoversMethod(CriterionVisitor::class, 'visitCriteria')]
 abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor */
@@ -29,7 +35,7 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
     /**
      * Data provider for {@see testVisitCriteriaProducesQuery}.
      */
-    abstract public function getFilteringCriteriaQueryData(): iterable;
+    abstract public static function getFilteringCriteriaQueryData(): iterable;
 
     protected function setUp(): void
     {
@@ -43,14 +49,9 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
     }
 
     /**
-     * @dataProvider getFilteringCriteriaQueryData
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder::buildQueryConstraint
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder::accepts
-     * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor::visitCriteria
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
+    #[DataProvider('getFilteringCriteriaQueryData')]
     public function testVisitCriteriaProducesQuery(
         FilteringCriterion $criterion,
         string $expectedQuery,

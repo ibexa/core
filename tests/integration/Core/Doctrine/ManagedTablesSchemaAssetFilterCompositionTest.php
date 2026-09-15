@@ -10,7 +10,9 @@ namespace Ibexa\Tests\Integration\Core\Doctrine;
 
 use Doctrine\Bundle\DoctrineBundle\Dbal\SchemaAssetsFilterManager;
 use Doctrine\DBAL\Configuration;
+use Ibexa\Bundle\Core\DependencyInjection\Compiler\InjectEntityManagerMappingsPass;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Both InjectEntityManagerMappingsPass and DoctrineBundle's DbalSchemaFilterPass install a
@@ -18,9 +20,8 @@ use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
  * Configuration::setSchemaAssetsFilter() overwrites rather than composes, this verifies in a
  * fully booted kernel - i.e. with the real compiler pass ordering - that neither the legacy
  * schema protection nor a project's own schema filter gets lost.
- *
- * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\InjectEntityManagerMappingsPass
  */
+#[CoversClass(InjectEntityManagerMappingsPass::class)]
 final class ManagedTablesSchemaAssetFilterCompositionTest extends IbexaKernelTestCase
 {
     protected static function getKernelClass(): string

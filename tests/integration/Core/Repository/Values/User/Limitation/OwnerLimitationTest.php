@@ -10,13 +10,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(OwnerLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class OwnerLimitationTest extends BaseLimitationTestCase
 {
     public function testOwnerLimitationAllow()

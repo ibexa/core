@@ -8,20 +8,19 @@
 namespace Ibexa\Tests\Core\FieldType\Image\PathGenerator;
 
 use Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group fieldType
- * @group ibexa_image
- */
+#[Group('fieldType')]
+#[Group('ibexa_image')]
 class LegacyPathGeneratorTest extends TestCase
 {
     /**
      * @param mixed $data
      * @param mixed $expectedPath
-     *
-     * @dataProvider provideStoragePathForFieldData
      */
+    #[DataProvider('provideStoragePathForFieldData')]
     public function testGetStoragePathForField($data, $expectedPath)
     {
         $pathGenerator = new LegacyPathGenerator();
@@ -36,7 +35,7 @@ class LegacyPathGeneratorTest extends TestCase
         );
     }
 
-    public function provideStoragePathForFieldData()
+    public static function provideStoragePathForFieldData()
     {
         return [
             [

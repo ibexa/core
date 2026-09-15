@@ -11,10 +11,9 @@ namespace Ibexa\Tests\Core\IO\Flysystem\VisibilityConverter;
 use Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter;
 use Ibexa\Core\IO\Flysystem\VisibilityConverter\DFSVisibilityConverter;
 use League\Flysystem\Visibility;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\IO\Flysystem\VisibilityConverter\DFSVisibilityConverter
- */
+#[CoversClass(DFSVisibilityConverter::class)]
 final class DFSVisibilityConverterTest extends BaseVisibilityConverterTestCase
 {
     private const DFS_FILE_FLAGS = 0640;
@@ -31,7 +30,7 @@ final class DFSVisibilityConverterTest extends BaseVisibilityConverterTestCase
         );
     }
 
-    public function getDataForTestForFile(): iterable
+    public static function getDataForTestForFile(): iterable
     {
         yield 'public visibility (from DFS config)' => [
             Visibility::PUBLIC,
@@ -43,7 +42,7 @@ final class DFSVisibilityConverterTest extends BaseVisibilityConverterTestCase
         ];
     }
 
-    public function getDataForTestForDirectory(): iterable
+    public static function getDataForTestForDirectory(): iterable
     {
         yield 'public visibility (from DFS config)' => [
             Visibility::PUBLIC,
@@ -55,7 +54,7 @@ final class DFSVisibilityConverterTest extends BaseVisibilityConverterTestCase
         ];
     }
 
-    public function getDataForTestInverseForFile(): iterable
+    public static function getDataForTestInverseForFile(): iterable
     {
         yield self::DFS_FILE_FLAGS . ' (DFS config) is public' => [
             self::DFS_FILE_FLAGS,
@@ -71,7 +70,7 @@ final class DFSVisibilityConverterTest extends BaseVisibilityConverterTestCase
         ];
     }
 
-    public function getDataForTestInverseForDirectory(): iterable
+    public static function getDataForTestInverseForDirectory(): iterable
     {
         yield self::DFS_DIRECTORY_FLAGS . ' (DFS config) is public' => [
             self::DFS_DIRECTORY_FLAGS,

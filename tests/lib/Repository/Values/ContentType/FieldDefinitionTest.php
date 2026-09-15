@@ -10,16 +10,15 @@ namespace Ibexa\Tests\Core\Repository\Values\ContentType;
 
 use Ibexa\Core\FieldType\Value as BaseFieldValue;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\ContentType\FieldDefinition
- */
+#[CoversClass(FieldDefinition::class)]
 final class FieldDefinitionTest extends TestCase
 {
     public function testStrictGetters(): void
     {
-        $defaultValueMock = $this->createMock(BaseFieldValue::class);
+        $defaultValueMock = self::createStub(BaseFieldValue::class);
         $fieldDefinition = new FieldDefinition(
             [
                 'id' => 123,

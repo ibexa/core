@@ -12,10 +12,9 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     /**

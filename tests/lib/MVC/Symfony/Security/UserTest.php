@@ -31,7 +31,7 @@ class UserTest extends TestCase
                     ],
                 ]
             )
-            ->setMethods(['getUserId'])
+            ->onlyMethods(['getUserId'])
             ->getMockForAbstractClass();
 
         $roles = ['ROLE_USER'];
@@ -92,7 +92,7 @@ class UserTest extends TestCase
 
     public function testIsEqualToNotSameUserType()
     {
-        $user = new User($this->createMock(APIUser::class));
+        $user = new User(self::createStub(APIUser::class));
         $user2 = $this->createMock(ReferenceUserInterface::class);
         $user2
             ->expects(self::once())
@@ -103,8 +103,8 @@ class UserTest extends TestCase
 
     public function testSetAPIUser()
     {
-        $apiUserA = $this->createMock(APIUser::class);
-        $apiUserB = $this->createMock(APIUser::class);
+        $apiUserA = self::createStub(APIUser::class);
+        $apiUserB = self::createStub(APIUser::class);
 
         $user = new User($apiUserA);
         $user->setAPIUser($apiUserB);

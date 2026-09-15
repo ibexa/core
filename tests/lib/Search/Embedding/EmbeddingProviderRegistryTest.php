@@ -18,7 +18,7 @@ final class EmbeddingProviderRegistryTest extends TestCase
     public function testHasEmbeddingProvider(): void
     {
         $registry = new EmbeddingProviderRegistry([
-            'existing' => $this->createMock(EmbeddingProviderInterface::class),
+            'existing' => self::createStub(EmbeddingProviderInterface::class),
         ]);
 
         self::assertTrue($registry->hasEmbeddingProvider('existing'));
@@ -27,7 +27,7 @@ final class EmbeddingProviderRegistryTest extends TestCase
 
     public function testGetEmbeddingProvider(): void
     {
-        $expectedEmbeddingProvider = $this->createMock(EmbeddingProviderInterface::class);
+        $expectedEmbeddingProvider = self::createStub(EmbeddingProviderInterface::class);
 
         $registry = new EmbeddingProviderRegistry([
             'example' => $expectedEmbeddingProvider,
@@ -50,8 +50,8 @@ final class EmbeddingProviderRegistryTest extends TestCase
 
     public function testGetEmbeddingProviders(): void
     {
-        $embeddingProviderA = $this->createMock(EmbeddingProviderInterface::class);
-        $embeddingProviderB = $this->createMock(EmbeddingProviderInterface::class);
+        $embeddingProviderA = self::createStub(EmbeddingProviderInterface::class);
+        $embeddingProviderB = self::createStub(EmbeddingProviderInterface::class);
 
         $registry = new EmbeddingProviderRegistry([
             'existingA' => $embeddingProviderA,

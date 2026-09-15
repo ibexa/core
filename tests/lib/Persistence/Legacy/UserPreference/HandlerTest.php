@@ -13,11 +13,10 @@ use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Handler;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Mapper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\UserPreference\Handler
- */
+#[CoversClass(Handler::class)]
 class HandlerTest extends TestCase
 {
     public const USER_PREFERENCE_ID = 1;

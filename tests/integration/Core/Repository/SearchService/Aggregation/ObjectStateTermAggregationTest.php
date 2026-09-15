@@ -14,7 +14,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBui
 
 final class ObjectStateTermAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         $aggregation = new ObjectStateTermAggregation('object_state', 'ibexa_lock');
 
@@ -25,8 +25,8 @@ final class ObjectStateTermAggregationTest extends AbstractAggregationTestCase
         ]);
 
         $builder->setEntryMapper(
-            function (string $identifier): ObjectState {
-                $objectStateService = $this->getRepository()->getObjectStateService();
+            static function (string $identifier): ObjectState {
+                $objectStateService = static::resolveRepository()->getObjectStateService();
 
                 static $objectStateGroup = null;
                 if ($objectStateGroup === null) {

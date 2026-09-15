@@ -23,12 +23,12 @@ final class RelationListFacadeTest extends TestCase
 
     private RelationListFacade $relationListFacade;
 
-    private VersionInfo&MockObject $versionInfo;
+    private VersionInfo&\PHPUnit\Framework\MockObject\Stub $versionInfo;
 
     protected function setUp(): void
     {
         $this->contentService = $this->createMock(ContentService::class);
-        $this->versionInfo = $this->createMock(VersionInfo::class);
+        $this->versionInfo = self::createStub(VersionInfo::class);
         $this->relationListFacade = new RelationListFacade($this->contentService);
     }
 
@@ -73,7 +73,7 @@ final class RelationListFacadeTest extends TestCase
 
     public function testGetRelationsYieldsRelationsWhenPresent(): void
     {
-        $relation = $this->createMock(Relation::class);
+        $relation = self::createStub(Relation::class);
 
         $relationListItem = $this->createMock(RelationListItemInterface::class);
         $relationListItem

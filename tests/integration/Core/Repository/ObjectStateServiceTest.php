@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\ObjectStateService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct;
@@ -16,14 +17,45 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the ObjectStateService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService
- *
- * @group object-state
  */
+#[CoversClass(ObjectStateService::class)]
+#[CoversMethod(ObjectStateService::class, 'newObjectStateGroupCreateStruct()')]
+#[CoversMethod(ObjectStateService::class, 'newObjectStateGroupUpdateStruct()')]
+#[CoversMethod(ObjectStateService::class, 'newObjectStateCreateStruct()')]
+#[CoversMethod(ObjectStateService::class, 'newObjectStateUpdateStruct()')]
+#[CoversMethod(ObjectStateService::class, 'createObjectStateGroup()')]
+#[CoversMethod(ObjectStateService::class, 'loadObjectStateGroup')]
+#[CoversMethod(ObjectStateService::class, 'loadObjectStateGroup()')]
+#[CoversMethod(ObjectStateService::class, 'loadGroupByIdentifier')]
+#[CoversMethod(ObjectStateService::class, 'loadObjectStateGroups()')]
+#[CoversMethod(ObjectStateService::class, 'loadObjectStateGroups($offset)')]
+#[CoversMethod(ObjectStateService::class, 'loadObjectStateGroups($offset, $limit)')]
+#[CoversMethod(ObjectStateService::class, 'loadObjectStates()')]
+#[CoversMethod(ObjectStateService::class, 'updateObjectStateGroup')]
+#[CoversMethod(ObjectStateService::class, 'updateObjectStateGroup()')]
+#[CoversMethod(ObjectStateService::class, 'createObjectState()')]
+#[CoversMethod(ObjectStateService::class, 'createObjectState')]
+#[CoversMethod(ObjectStateService::class, 'loadObjectState()')]
+#[CoversMethod(ObjectStateService::class, 'loadObjectStateByIdentifier')]
+#[CoversMethod(ObjectStateService::class, 'updateObjectState')]
+#[CoversMethod(ObjectStateService::class, 'updateObjectState()')]
+#[CoversMethod(ObjectStateService::class, 'setPriorityOfObjectState')]
+#[CoversMethod(ObjectStateService::class, 'getContentState()')]
+#[CoversMethod(ObjectStateService::class, 'setContentState()')]
+#[CoversMethod(ObjectStateService::class, 'setContentState')]
+#[CoversMethod(ObjectStateService::class, 'getContentCount()')]
+#[CoversMethod(ObjectStateService::class, 'deleteObjectState()')]
+#[CoversMethod(ObjectStateService::class, 'deleteObjectStateGroup()')]
+#[Group('object-state')]
 class ObjectStateServiceTest extends BaseTestCase
 {
     private const EXISTING_OBJECT_STATE_GROUP_IDENTIFIER = 'ibexa_lock';
@@ -34,9 +66,6 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the newObjectStateGroupCreateStruct() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::newObjectStateGroupCreateStruct()
      */
     public function testNewObjectStateGroupCreateStruct()
     {
@@ -62,9 +91,8 @@ class ObjectStateServiceTest extends BaseTestCase
      * testNewObjectStateGroupCreateStructValues.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct $objectStateGroupCreate
-     *
-     * @depends testNewObjectStateGroupCreateStruct
      */
+    #[Depends('testNewObjectStateGroupCreateStruct')]
     public function testNewObjectStateGroupCreateStructValues(ObjectStateGroupCreateStruct $objectStateGroupCreate)
     {
         $this->assertPropertiesCorrect(
@@ -80,9 +108,6 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the newObjectStateGroupUpdateStruct() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::newObjectStateGroupUpdateStruct()
      */
     public function testNewObjectStateGroupUpdateStruct()
     {
@@ -106,9 +131,8 @@ class ObjectStateServiceTest extends BaseTestCase
      * testNewObjectStateGroupUpdateStructValues.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct $objectStateGroupUpdate
-     *
-     * @depends testNewObjectStateGroupUpdateStruct
      */
+    #[Depends('testNewObjectStateGroupUpdateStruct')]
     public function testNewObjectStateGroupUpdateStructValues(ObjectStateGroupUpdateStruct $objectStateGroupUpdate)
     {
         $this->assertPropertiesCorrect(
@@ -124,9 +148,6 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the newObjectStateCreateStruct() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::newObjectStateCreateStruct()
      */
     public function testNewObjectStateCreateStruct()
     {
@@ -152,9 +173,8 @@ class ObjectStateServiceTest extends BaseTestCase
      * testNewObjectStateCreateStructValues.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct $objectStateCreate
-     *
-     * @depends testNewObjectStateCreateStruct
      */
+    #[Depends('testNewObjectStateCreateStruct')]
     public function testNewObjectStateCreateStructValues(ObjectStateCreateStruct $objectStateCreate)
     {
         $this->assertPropertiesCorrect(
@@ -171,9 +191,6 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the newObjectStateUpdateStruct() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::newObjectStateUpdateStruct()
      */
     public function testNewObjectStateUpdateStruct()
     {
@@ -197,9 +214,8 @@ class ObjectStateServiceTest extends BaseTestCase
      * testNewObjectStateUpdateStructValues.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct $objectStateUpdate
-     *
-     * @depends testNewObjectStateUpdateStruct
      */
+    #[Depends('testNewObjectStateUpdateStruct')]
     public function testNewObjectStateUpdateStructValues(ObjectStateUpdateStruct $objectStateUpdate)
     {
         $this->assertPropertiesCorrect(
@@ -215,12 +231,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the createObjectStateGroup() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::createObjectStateGroup()
-     *
-     * @depends testNewObjectStateGroupCreateStructValues
      */
+    #[Depends('testNewObjectStateGroupCreateStructValues')]
     public function testCreateObjectStateGroup()
     {
         $repository = $this->getRepository();
@@ -258,9 +270,8 @@ class ObjectStateServiceTest extends BaseTestCase
      * testCreateObjectStateGroupStructValues.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $createdObjectStateGroup
-     *
-     * @depends testCreateObjectStateGroup
      */
+    #[Depends('testCreateObjectStateGroup')]
     public function testCreateObjectStateGroupStructValues(ObjectStateGroup $createdObjectStateGroup)
     {
         $this->assertPropertiesCorrect(
@@ -284,12 +295,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the createObjectStateGroup() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::createObjectStateGroup()
-     *
-     * @depends testCreateObjectStateGroup
      */
+    #[Depends('testCreateObjectStateGroup')]
     public function testCreateObjectStateGroupThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -320,8 +327,6 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the loadObjectStateGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectStateGroup
      */
     public function testLoadObjectStateGroup()
     {
@@ -358,12 +363,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the loadObjectStateGroup() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectStateGroup()
-     *
-     * @depends testLoadObjectStateGroup
      */
+    #[Depends('testLoadObjectStateGroup')]
     public function testLoadObjectStateGroupThrowsNotFoundException()
     {
         $this->expectException(NotFoundException::class);
@@ -383,9 +384,6 @@ class ObjectStateServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadGroupByIdentifier
-     */
     public function testLoadObjectStateGroupByIdentifier(): void
     {
         $repository = $this->getRepository();
@@ -414,9 +412,6 @@ class ObjectStateServiceTest extends BaseTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadGroupByIdentifier
-     */
     public function testLoadObjectStateGroupByIdentifierThrowsNotFoundException(): void
     {
         $repository = $this->getRepository();
@@ -436,12 +431,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the loadObjectStateGroups() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectStateGroups()
-     *
-     * @depends testLoadObjectStateGroup
      */
+    #[Depends('testLoadObjectStateGroup')]
     public function testLoadObjectStateGroups()
     {
         $repository = $this->getRepository();
@@ -538,12 +529,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the loadObjectStateGroups() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectStateGroups($offset)
-     *
-     * @depends testLoadObjectStateGroups
      */
+    #[Depends('testLoadObjectStateGroups')]
     public function testLoadObjectStateGroupsWithOffset()
     {
         $repository = $this->getRepository();
@@ -591,12 +578,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the loadObjectStateGroups() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectStateGroups($offset, $limit)
-     *
-     * @depends testLoadObjectStateGroupsWithOffset
      */
+    #[Depends('testLoadObjectStateGroupsWithOffset')]
     public function testLoadObjectStateGroupsWithOffsetAndLimit()
     {
         $repository = $this->getRepository();
@@ -623,12 +606,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the loadObjectStates() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectStates()
-     *
-     * @depends testLoadObjectStateGroup
      */
+    #[Depends('testLoadObjectStateGroup')]
     public function testLoadObjectStates()
     {
         $repository = $this->getRepository();
@@ -659,11 +638,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the updateObjectStateGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectStateGroup
-     *
-     * @depends testLoadObjectStateGroup
      */
+    #[Depends('testLoadObjectStateGroup')]
     public function testUpdateObjectStateGroup()
     {
         $repository = $this->getRepository();
@@ -716,11 +692,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test service method for partially updating object state group.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectStateGroup
-     *
-     * @depends testLoadObjectStateGroup
      */
+    #[Depends('testLoadObjectStateGroup')]
     public function testUpdateObjectStateGroupChosenFieldsOnly()
     {
         $repository = $this->getRepository();
@@ -757,12 +730,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the updateObjectStateGroup() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectStateGroup()
-     *
-     * @depends testUpdateObjectStateGroup
      */
+    #[Depends('testUpdateObjectStateGroup')]
     public function testUpdateObjectStateGroupThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -811,9 +780,8 @@ class ObjectStateServiceTest extends BaseTestCase
      * testUpdateObjectStateGroupStructValues.
      *
      * @param array $testData
-     *
-     * @depends testUpdateObjectStateGroup
      */
+    #[Depends('testUpdateObjectStateGroup')]
     public function testUpdateObjectStateGroupStructValues(array $testData)
     {
         list(
@@ -834,13 +802,9 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the createObjectState() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::createObjectState()
-     *
-     * @depends testLoadObjectStateGroup
-     * @depends testNewObjectStateCreateStruct
      */
+    #[Depends('testLoadObjectStateGroup')]
+    #[Depends('testNewObjectStateCreateStruct')]
     public function testCreateObjectState()
     {
         $repository = $this->getRepository();
@@ -891,8 +855,6 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test service method for creating object state in empty group.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::createObjectState
      */
     public function testCreateObjectStateInEmptyGroup()
     {
@@ -947,13 +909,9 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the createObjectState() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::createObjectState()
-     *
-     * @depends testLoadObjectStateGroup
-     * @depends testCreateObjectState
      */
+    #[Depends('testLoadObjectStateGroup')]
+    #[Depends('testCreateObjectState')]
     public function testCreateObjectStateThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -994,9 +952,8 @@ class ObjectStateServiceTest extends BaseTestCase
      * testCreateObjectStateStructValues.
      *
      * @param array $testData
-     *
-     * @depends testCreateObjectState
      */
+    #[Depends('testCreateObjectState')]
     public function testCreateObjectStateStructValues(array $testData)
     {
         list(
@@ -1020,12 +977,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the loadObjectState() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectState()
-     *
-     * @depends testLoadObjectStateGroup
      */
+    #[Depends('testLoadObjectStateGroup')]
     public function testLoadObjectState()
     {
         $repository = $this->getRepository();
@@ -1048,9 +1001,6 @@ class ObjectStateServiceTest extends BaseTestCase
         return $loadedObjectState;
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectStateByIdentifier
-     */
     public function testLoadObjectStateByIdentifier(): void
     {
         $repository = $this->getRepository();
@@ -1082,9 +1032,6 @@ class ObjectStateServiceTest extends BaseTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectStateByIdentifier
-     */
     public function testLoadObjectStateByIdentifierThrowsNotFoundException(): void
     {
         $repository = $this->getRepository();
@@ -1114,9 +1061,8 @@ class ObjectStateServiceTest extends BaseTestCase
      * testLoadObjectStateStructValues.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $loadedObjectState
-     *
-     * @depends testLoadObjectState
      */
+    #[Depends('testLoadObjectState')]
     public function testLoadObjectStateStructValues(ObjectState $loadedObjectState)
     {
         $this->assertPropertiesCorrect(
@@ -1145,12 +1091,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the loadObjectState() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::loadObjectState()
-     *
-     * @depends testLoadObjectState
      */
+    #[Depends('testLoadObjectState')]
     public function testLoadObjectStateThrowsNotFoundException()
     {
         $this->expectException(NotFoundException::class);
@@ -1174,7 +1116,7 @@ class ObjectStateServiceTest extends BaseTestCase
      *
      * @return array
      */
-    public function getPrioritizedLanguagesList()
+    public static function getPrioritizedLanguagesList()
     {
         return [
             [[], null],
@@ -1190,11 +1132,11 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * Test that multi-language logic for loadObjectStateGroups respects prioritized language list.
      *
-     * @dataProvider getPrioritizedLanguagesList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode
      */
+    #[DataProvider('getPrioritizedLanguagesList')]
     public function testLoadObjectStateGroupsWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
@@ -1231,11 +1173,11 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * Test that multi-language logic for loadObjectStateGroup respects prioritized language list.
      *
-     * @dataProvider getPrioritizedLanguagesList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode
      */
+    #[DataProvider('getPrioritizedLanguagesList')]
     public function testLoadObjectStateGroupWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
@@ -1267,11 +1209,11 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * Test that multi-language logic for loadObjectState respects prioritized language list.
      *
-     * @dataProvider getPrioritizedLanguagesList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode
      */
+    #[DataProvider('getPrioritizedLanguagesList')]
     public function testLoadObjectStateWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
@@ -1303,11 +1245,11 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * Test that multi-language logic for loadObjectStates respects prioritized language list.
      *
-     * @dataProvider getPrioritizedLanguagesList
      *
      * @param string[] $languageCodes
      * @param string|null $expectedLanguageCode
      */
+    #[DataProvider('getPrioritizedLanguagesList')]
     public function testLoadObjectStatesWithPrioritizedLanguagesList($languageCodes, $expectedLanguageCode)
     {
         $repository = $this->getRepository();
@@ -1357,11 +1299,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the updateObjectState() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectState
-     *
-     * @depends testLoadObjectState
      */
+    #[Depends('testLoadObjectState')]
     public function testUpdateObjectState()
     {
         $repository = $this->getRepository();
@@ -1413,11 +1352,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test service method for partially updating object state.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectState
-     *
-     * @depends testLoadObjectState
      */
+    #[Depends('testLoadObjectState')]
     public function testUpdateObjectStateChosenFieldsOnly()
     {
         $repository = $this->getRepository();
@@ -1460,12 +1396,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the updateObjectState() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectState()
-     *
-     * @depends testUpdateObjectState
      */
+    #[Depends('testUpdateObjectState')]
     public function testUpdateObjectStateThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -1505,9 +1437,8 @@ class ObjectStateServiceTest extends BaseTestCase
      * testUpdateObjectStateStructValues.
      *
      * @param array $testData
-     *
-     * @depends testUpdateObjectState
      */
+    #[Depends('testUpdateObjectState')]
     public function testUpdateObjectStateStructValues(array $testData)
     {
         list(
@@ -1541,12 +1472,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the setPriorityOfObjectState() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::setPriorityOfObjectState
-     *
-     * @depends testLoadObjectState
      */
+    #[Depends('testLoadObjectState')]
     public function testSetPriorityOfObjectState()
     {
         $repository = $this->getRepository();
@@ -1581,13 +1508,9 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the getContentState() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::getContentState()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentInfo
-     * @depends testLoadObjectState
      */
+    #[DependsExternal(ContentServiceTest::class, 'testLoadContentInfo')]
+    #[Depends('testLoadObjectState')]
     public function testGetContentState()
     {
         $repository = $this->getRepository();
@@ -1621,11 +1544,9 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * testGetInitialObjectState.
-     *
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentInfo
-     * @depends testLoadObjectState
      */
+    #[DependsExternal(ContentServiceTest::class, 'testLoadContentInfo')]
+    #[Depends('testLoadObjectState')]
     public function testGetInitialObjectState()
     {
         $repository = $this->getRepository();
@@ -1687,13 +1608,9 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the setContentState() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::setContentState()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentInfo
-     * @depends testLoadObjectState
      */
+    #[DependsExternal(ContentServiceTest::class, 'testLoadContentInfo')]
+    #[Depends('testLoadObjectState')]
     public function testSetContentState()
     {
         $repository = $this->getRepository();
@@ -1734,11 +1651,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the setContentState() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::setContentState
-     *
-     * @depends testSetContentState
      */
+    #[Depends('testSetContentState')]
     public function testSetContentStateThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -1778,12 +1692,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the getContentCount() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::getContentCount()
-     *
-     * @depends testLoadObjectState
      */
+    #[Depends('testLoadObjectState')]
     public function testGetContentCount()
     {
         $repository = $this->getRepository();
@@ -1803,12 +1713,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteObjectState() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::deleteObjectState()
-     *
-     * @depends testLoadObjectState
      */
+    #[Depends('testLoadObjectState')]
     public function testDeleteObjectState()
     {
         $repository = $this->getRepository();
@@ -1837,12 +1743,8 @@ class ObjectStateServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteObjectStateGroup() method.
-     *
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::deleteObjectStateGroup()
-     *
-     * @depends testLoadObjectStateGroup
      */
+    #[Depends('testLoadObjectStateGroup')]
     public function testDeleteObjectStateGroup()
     {
         $repository = $this->getRepository();

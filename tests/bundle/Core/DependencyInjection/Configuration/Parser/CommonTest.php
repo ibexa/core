@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Common;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Yaml\Yaml;
 
 class CommonTest extends AbstractParserTestCase
@@ -171,9 +172,7 @@ class CommonTest extends AbstractParserTestCase
         );
     }
 
-    /**
-     * @dataProvider sessionSettingsProvider
-     */
+    #[DataProvider('sessionSettingsProvider')]
     public function testSessionSettings(array $inputParams, array $expected)
     {
         $this->load(
@@ -187,7 +186,7 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('session', $expected['session'], 'ibexa_demo_site');
     }
 
-    public function sessionSettingsProvider()
+    public static function sessionSettingsProvider()
     {
         return [
             [

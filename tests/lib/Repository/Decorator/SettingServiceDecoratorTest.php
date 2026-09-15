@@ -37,7 +37,7 @@ class SettingServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(SettingCreateStruct::class)];
+        $parameters = [self::createStub(SettingCreateStruct::class)];
 
         $serviceMock->expects(self::once())->method('createSetting')->with(...$parameters);
 
@@ -50,8 +50,8 @@ class SettingServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Setting::class),
-            $this->createMock(SettingUpdateStruct::class),
+            self::createStub(Setting::class),
+            self::createStub(SettingUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateSetting')->with(...$parameters);
@@ -79,7 +79,7 @@ class SettingServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Setting::class)];
+        $parameters = [self::createStub(Setting::class)];
 
         $serviceMock->expects(self::once())->method('deleteSetting')->with(...$parameters);
 

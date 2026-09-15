@@ -72,7 +72,7 @@ class HandlerLocationTest extends AbstractTestCase
         );
 
         return new Content\Handler(
-            $this->createMock(ContentGateway::class),
+            self::createStub(ContentGateway::class),
             new Content\Location\Gateway\DoctrineDatabase(
                 $connection,
                 new CriteriaConverter(
@@ -169,7 +169,7 @@ class HandlerLocationTest extends AbstractTestCase
                 $this->getLanguageMaskGenerator(),
                 $this->getFullTextSearchConfiguration()
             ),
-            $this->createMock(ContentMapper::class),
+            self::createStub(ContentMapper::class),
             $this->getLocationMapperMock(),
             $this->getLanguageHandler(),
             $this->getFullTextMapper($this->getContentTypeHandler())
@@ -184,12 +184,12 @@ class HandlerLocationTest extends AbstractTestCase
     protected function getLocationMapperMock()
     {
         $mapperMock = $this->getMockBuilder(LocationMapper::class)
-            ->setMethods(['createLocationsFromRows'])
+            ->onlyMethods(['createLocationsFromRows'])
             ->getMock();
         $mapperMock
             ->expects(self::any())
             ->method('createLocationsFromRows')
-            ->with(self::isType('array'))
+            ->with(self::isArray())
             ->will(
                 self::returnCallback(
                     static function ($rows): array {

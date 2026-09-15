@@ -11,19 +11,34 @@ use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\SectionService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\Content\SectionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the SectionService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\SectionService
- *
- * @group integration
- * @group section
  */
+#[CoversClass(SectionService::class)]
+#[CoversMethod(SectionService::class, 'newSectionCreateStruct()')]
+#[CoversMethod(SectionService::class, 'createSection()')]
+#[CoversMethod(SectionService::class, 'loadSection()')]
+#[CoversMethod(SectionService::class, 'newSectionUpdateStruct()')]
+#[CoversMethod(SectionService::class, 'updateSection()')]
+#[CoversMethod(SectionService::class, 'loadSections()')]
+#[CoversMethod(SectionService::class, 'loadSectionByIdentifier()')]
+#[CoversMethod(SectionService::class, 'countAssignedContents()')]
+#[CoversMethod(SectionService::class, 'isSectionUsed()')]
+#[CoversMethod(SectionService::class, 'assignSection()')]
+#[CoversMethod(SectionService::class, 'assignSectionToSubtree()')]
+#[CoversMethod(SectionService::class, 'deleteSection()')]
+#[Group('integration')]
+#[Group('section')]
 class SectionServiceTest extends BaseTestCase
 {
     private const SECTION_UNIQUE_KEY = 'uniqueKey';
@@ -74,8 +89,6 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the newSectionCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::newSectionCreateStruct()
      */
     public function testNewSectionCreateStruct()
     {
@@ -92,11 +105,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the createSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
-     *
-     * @depends testNewSectionCreateStruct
      */
+    #[Depends('testNewSectionCreateStruct')]
     public function testCreateSection()
     {
         $repository = $this->getRepository();
@@ -116,11 +126,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the createSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
-     *
-     * @depends testNewSectionCreateStruct
      */
+    #[Depends('testNewSectionCreateStruct')]
     public function testCreateSectionForUserWithSectionLimitation()
     {
         $repository = $this->getRepository();
@@ -155,11 +162,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the createSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
-     *
-     * @depends testCreateSection
      */
+    #[Depends('testCreateSection')]
     public function testCreateSectionThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -186,11 +190,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the loadSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSection()
-     *
-     * @depends testCreateSection
      */
+    #[Depends('testCreateSection')]
     public function testLoadSection()
     {
         $repository = $this->getRepository();
@@ -209,8 +210,6 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the loadSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSection()
      */
     public function testLoadSectionThrowsNotFoundException()
     {
@@ -230,8 +229,6 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the newSectionUpdateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::newSectionUpdateStruct()
      */
     public function testNewSectionUpdateStruct()
     {
@@ -248,13 +245,10 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the updateSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
-     *
-     * @depends testCreateSection
-     * @depends testLoadSection
-     * @depends testNewSectionUpdateStruct
      */
+    #[Depends('testCreateSection')]
+    #[Depends('testLoadSection')]
+    #[Depends('testNewSectionUpdateStruct')]
     public function testUpdateSection()
     {
         $repository = $this->getRepository();
@@ -286,13 +280,10 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the updateSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
-     *
-     * @depends testCreateSection
-     * @depends testLoadSection
-     * @depends testNewSectionUpdateStruct
      */
+    #[Depends('testCreateSection')]
+    #[Depends('testLoadSection')]
+    #[Depends('testNewSectionUpdateStruct')]
     public function testUpdateSectionForUserWithSectionLimitation()
     {
         $repository = $this->getRepository();
@@ -344,11 +335,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the updateSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
-     *
-     * @depends testUpdateSection
      */
+    #[Depends('testUpdateSection')]
     public function testUpdateSectionKeepsSectionIdentifierOnNameUpdate()
     {
         $repository = $this->getRepository();
@@ -372,11 +360,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the updateSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
-     *
-     * @depends testUpdateSection
      */
+    #[Depends('testUpdateSection')]
     public function testUpdateSectionWithSectionIdentifierOnNameUpdate()
     {
         $repository = $this->getRepository();
@@ -403,11 +388,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the updateSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
-     *
-     * @depends testUpdateSection
      */
+    #[Depends('testUpdateSection')]
     public function testUpdateSectionKeepsSectionNameOnIdentifierUpdate()
     {
         $repository = $this->getRepository();
@@ -432,11 +414,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the updateSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
-     *
-     * @depends testUpdateSection
      */
+    #[Depends('testUpdateSection')]
     public function testUpdateSectionThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -470,11 +449,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the loadSections() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
-     *
-     * @depends testCreateSection
      */
+    #[Depends('testCreateSection')]
     public function testLoadSections()
     {
         $repository = $this->getRepository();
@@ -493,11 +469,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the loadSections() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
-     *
-     * @depends testCreateSection
      */
+    #[Depends('testCreateSection')]
     public function testLoadSectionsReturnsDefaultSectionsByDefault()
     {
         $repository = $this->getRepository();
@@ -555,11 +528,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the loadSectionByIdentifier() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSectionByIdentifier()
-     *
-     * @depends testCreateSection
      */
+    #[Depends('testCreateSection')]
     public function testLoadSectionByIdentifier()
     {
         $repository = $this->getRepository();
@@ -581,8 +551,6 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the loadSectionByIdentifier() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSectionByIdentifier()
      */
     public function testLoadSectionByIdentifierThrowsNotFoundException()
     {
@@ -600,8 +568,6 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the countAssignedContents() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::countAssignedContents()
      */
     public function testCountAssignedContents()
     {
@@ -629,8 +595,6 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the isSectionUsed() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::isSectionUsed()
      */
     public function testIsSectionUsed()
     {
@@ -658,11 +622,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the assignSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::assignSection()
-     *
-     * @depends testCountAssignedContents
      */
+    #[Depends('testCountAssignedContents')]
     public function testAssignSection()
     {
         $repository = $this->getRepository();
@@ -716,11 +677,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the assignSectionToSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::assignSectionToSubtree()
-     *
-     * @depends testCreateSection
      */
+    #[Depends('testCreateSection')]
     public function testAssignSectionToSubtree()
     {
         $repository = $this->getRepository();
@@ -769,11 +727,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the countAssignedContents() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::countAssignedContents()
-     *
-     * @depends testCreateSection
      */
+    #[Depends('testCreateSection')]
     public function testCountAssignedContentsReturnsZeroByDefault()
     {
         $repository = $this->getRepository();
@@ -796,11 +751,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the isSectionUsed() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::isSectionUsed()
-     *
-     * @depends testCreateSection
      */
+    #[Depends('testCreateSection')]
     public function testIsSectionUsedReturnsZeroByDefault()
     {
         $repository = $this->getRepository();
@@ -823,11 +775,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
-     *
-     * @depends testLoadSections
      */
+    #[Depends('testLoadSections')]
     public function testDeleteSection()
     {
         $repository = $this->getRepository();
@@ -850,11 +799,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
-     *
-     * @depends testDeleteSection
      */
+    #[Depends('testDeleteSection')]
     public function testDeleteSectionThrowsNotFoundException()
     {
         $this->expectException(NotFoundException::class);
@@ -880,11 +826,8 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
-     *
-     * @depends testAssignSection
      */
+    #[Depends('testAssignSection')]
     public function testDeleteSectionThrowsBadStateException()
     {
         $this->expectException(BadStateException::class);
@@ -918,12 +861,9 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the createSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
-     *
-     * @depends testCreateSection
-     * @depends testLoadSectionByIdentifier
      */
+    #[Depends('testCreateSection')]
+    #[Depends('testLoadSectionByIdentifier')]
     public function testCreateSectionInTransactionWithRollback()
     {
         $repository = $this->getRepository();
@@ -964,12 +904,9 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the createSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
-     *
-     * @depends testCreateSection
-     * @depends testLoadSectionByIdentifier
      */
+    #[Depends('testCreateSection')]
+    #[Depends('testLoadSectionByIdentifier')]
     public function testCreateSectionInTransactionWithCommit()
     {
         $repository = $this->getRepository();
@@ -1006,12 +943,9 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the createSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
-     *
-     * @depends testUpdateSection
-     * @depends testLoadSectionByIdentifier
      */
+    #[Depends('testUpdateSection')]
+    #[Depends('testLoadSectionByIdentifier')]
     public function testUpdateSectionInTransactionWithRollback()
     {
         $repository = $this->getRepository();
@@ -1050,12 +984,9 @@ class SectionServiceTest extends BaseTestCase
 
     /**
      * Test for the createSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
-     *
-     * @depends testUpdateSection
-     * @depends testLoadSectionByIdentifier
      */
+    #[Depends('testUpdateSection')]
+    #[Depends('testLoadSectionByIdentifier')]
     public function testUpdateSectionInTransactionWithCommit()
     {
         $repository = $this->getRepository();

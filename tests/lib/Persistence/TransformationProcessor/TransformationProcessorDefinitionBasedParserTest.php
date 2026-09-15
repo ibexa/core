@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Persistence\TransformationProcessor;
 
 use Ibexa\Core\Persistence;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class TransformationProcessorDefinitionBasedParserTest extends TestCase
 {
@@ -27,9 +28,7 @@ final class TransformationProcessorDefinitionBasedParserTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getTestFiles
-     */
+    #[DataProvider('getTestFiles')]
     public function testParse(string $file): void
     {
         $parser = new Persistence\TransformationProcessor\DefinitionBased\Parser();

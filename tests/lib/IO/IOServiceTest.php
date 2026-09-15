@@ -18,12 +18,12 @@ use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\IOService;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\IO\IOService
- */
+#[CoversClass(IOService::class)]
 class IOServiceTest extends TestCase
 {
     public const string PREFIX = 'test-prefix';
@@ -76,9 +76,7 @@ class IOServiceTest extends TestCase
         return $binaryCreateStruct;
     }
 
-    /**
-     * @depends testNewBinaryCreateStructFromLocalFile
-     */
+    #[Depends('testNewBinaryCreateStructFromLocalFile')]
     public function testCreateBinaryFile(BinaryFileCreateStruct $createStruct): BinaryFile
     {
         $createStruct->id = 'my/path.php';
@@ -227,9 +225,7 @@ class IOServiceTest extends TestCase
         return $this->loadBinaryFileByUriNotFound();
     }
 
-    /**
-     * @depends testLoadBinaryFile
-     */
+    #[Depends('testLoadBinaryFile')]
     public function testGetFileContents(BinaryFile $binaryFile): void
     {
         $expectedContents = file_get_contents(__FILE__);
@@ -246,9 +242,7 @@ class IOServiceTest extends TestCase
         );
     }
 
-    /**
-     * @depends testCreateBinaryFile
-     */
+    #[Depends('testCreateBinaryFile')]
     public function testExists(BinaryFile $binaryFile): void
     {
         $this->metadataHandlerMock
@@ -279,9 +273,7 @@ class IOServiceTest extends TestCase
         );
     }
 
-    /**
-     * @depends testCreateBinaryFile
-     */
+    #[Depends('testCreateBinaryFile')]
     public function testGetMimeType(BinaryFile $binaryFile): void
     {
         $this->metadataHandlerMock
@@ -298,9 +290,7 @@ class IOServiceTest extends TestCase
         );
     }
 
-    /**
-     * @depends testCreateBinaryFile
-     */
+    #[Depends('testCreateBinaryFile')]
     public function testDeleteBinaryFile(BinaryFile $binaryFile): void
     {
         $this->metadataHandlerMock

@@ -10,11 +10,11 @@ namespace Ibexa\Tests\Core\Repository\NameSchema;
 
 use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
 use Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor
- */
+#[CoversClass(SchemaIdentifierExtractor::class)]
 final class SchemaIdentifierExtractorTest extends TestCase
 {
     private SchemaIdentifierExtractorInterface $extractor;
@@ -22,7 +22,7 @@ final class SchemaIdentifierExtractorTest extends TestCase
     /**
      * @return iterable<string, array{string, array<string, array<string>>}>
      */
-    public function getDataForTestExtract(): iterable
+    public static function getDataForTestExtract(): iterable
     {
         $schemaString = '<short_name|name>';
         yield $schemaString => [
@@ -111,10 +111,9 @@ final class SchemaIdentifierExtractorTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataForTestExtract
-     *
      * @param array<string, array<string>> $expectedStrategyIdentifierMap
      */
+    #[DataProvider('getDataForTestExtract')]
     public function testExtract(string $schemaString, array $expectedStrategyIdentifierMap): void
     {
         $extracted = $this->extractor->extract($schemaString);

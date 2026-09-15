@@ -9,12 +9,13 @@ namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence as SPIPersistence;
 use Ibexa\Core\Persistence\Cache;
+use Ibexa\Core\Persistence\Cache\Handler;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Test case for Persistence\Cache\Handler.
- *
- * @covers \Ibexa\Core\Persistence\Cache\Handler
  */
+#[CoversClass(Handler::class)]
 class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
 {
     public function testHandler()

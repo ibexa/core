@@ -13,12 +13,12 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * @internal
- *
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase
  */
+#[CoversClass(DoctrineDatabase::class)]
 final class DoctrineDatabaseTest extends IbexaKernelTestCase
 {
     private const int CONTENT_ID = 2342;

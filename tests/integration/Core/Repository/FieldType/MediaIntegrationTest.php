@@ -12,16 +12,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\BinaryBase\Value as BinaryBaseValue;
 use Ibexa\Core\FieldType\Media\Type as MediaType;
 use Ibexa\Core\FieldType\Media\Value as MediaValue;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
 {
-    protected function getFixtureData(): array
+    protected static function getFixtureData(): array
     {
         return [
             'create' => [
@@ -81,7 +81,7 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
         ];
     }
 
-    protected function buildBinaryFileValueFromFixtureData(array $fileFieldValueData): BinaryBaseValue
+    protected static function buildBinaryFileValueFromFixtureData(array $fileFieldValueData): BinaryBaseValue
     {
         return new MediaValue($fileFieldValueData);
     }
@@ -94,7 +94,7 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
         );
     }
 
-    protected function buildBinaryFileValue(string $fileId): BinaryBaseValue
+    protected static function buildBinaryFileValue(string $fileId): BinaryBaseValue
     {
         return new MediaValue(
             [
@@ -103,9 +103,9 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
         );
     }
 
-    public function provideToHashData(): array
+    public static function provideToHashData(): array
     {
-        $fixture = $this->getFixtureData();
+        $fixture = static::getFixtureData();
         $expected = $fixture['create'];
 
         $expected['uri'] = $expected['inputUri'];
@@ -118,7 +118,7 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
         $expected['width'] = 0;
         $expected['height'] = 0;
 
-        $fieldValue = $this->getValidCreationFieldData();
+        $fieldValue = static::buildBinaryFileValueFromFixtureData($fixture['create']);
         $fieldValue->uri = $expected['uri'];
 
         return [
@@ -129,12 +129,12 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
         ];
     }
 
-    public function provideFromHashData(): array
+    public static function provideFromHashData(): array
     {
-        $fixture = $this->getFixtureData();
+        $fixture = static::getFixtureData();
         $fixture['create']['uri'] = $fixture['create']['id'];
 
-        $fieldValue = $this->getValidCreationFieldData();
+        $fieldValue = static::buildBinaryFileValueFromFixtureData($fixture['create']);
         $fieldValue->uri = $fixture['create']['uri'];
 
         return [
@@ -148,14 +148,14 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
     /**
      * @return list<array<\Ibexa\Core\FieldType\BinaryBase\Value>>
      */
-    public function providerForTestIsEmptyValue(): array
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new MediaValue()],
         ];
     }
 
-    protected function getValidSearchValueOne(): MediaValue
+    protected static function getValidSearchValueOne(): MediaValue
     {
         return new MediaValue(
             [
@@ -166,7 +166,7 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
         );
     }
 
-    protected function getValidSearchValueTwo(): MediaValue
+    protected static function getValidSearchValueTwo(): MediaValue
     {
         return new MediaValue(
             [

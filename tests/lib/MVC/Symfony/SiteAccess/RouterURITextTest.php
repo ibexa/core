@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 
 class RouterURITextTest extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'default_sa'],
@@ -131,7 +131,7 @@ class RouterURITextTest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            self::createStub(LoggerInterface::class),
             'default_sa',
             [
                 'URIText' => [

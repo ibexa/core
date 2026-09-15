@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -38,7 +39,7 @@ class GeneratorTest extends TestCase
         $this->generator->setLogger($this->logger);
     }
 
-    public function generateProvider()
+    public static function generateProvider()
     {
         return [
             ['foo_bar', [], UrlGeneratorInterface::ABSOLUTE_PATH],
@@ -53,9 +54,7 @@ class GeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider generateProvider
-     */
+    #[DataProvider('generateProvider')]
     public function testSimpleGenerate($urlResource, array $parameters, $referenceType)
     {
         $matcher = $this->createMock(URILexer::class);
@@ -86,9 +85,7 @@ class GeneratorTest extends TestCase
         self::assertSame($fullUri, $this->generator->generate($urlResource, $parameters, $referenceType));
     }
 
-    /**
-     * @dataProvider generateProvider
-     */
+    #[DataProvider('generateProvider')]
     public function testGenerateWithSiteAccessNoReverseMatch($urlResource, array $parameters, $referenceType)
     {
         $matcher = $this->createMock(URILexer::class);

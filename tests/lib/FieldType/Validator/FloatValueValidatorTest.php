@@ -12,15 +12,16 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Core\FieldType\Float\Value as FloatValue;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\FloatValueValidator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @covers \Ibexa\Core\FieldType\Validator\FloatValueValidator
- *
  * @extends BaseNumericValidatorTestCase<FloatValueValidator>
- *
- * @group fieldType
- * @group validator
  */
+#[CoversClass(FloatValueValidator::class)]
+#[Group('fieldType')]
+#[Group('validator')]
 final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
 {
     private const float MIN_FLOAT_VALUE = 1.4285714285714;
@@ -31,22 +32,22 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
         return new FloatValueValidator();
     }
 
-    protected function getMinNumericValueName(): string
+    protected static function getMinNumericValueName(): string
     {
         return 'minFloatValue';
     }
 
-    protected function getMaxNumericValueName(): string
+    protected static function getMaxNumericValueName(): string
     {
         return 'maxFloatValue';
     }
 
-    protected function getMinFloatValue(): float
+    protected static function getMinFloatValue(): float
     {
         return self::MIN_FLOAT_VALUE;
     }
 
-    protected function getMaxFloatValue(): float
+    protected static function getMaxFloatValue(): float
     {
         return self::MAX_FLOAT_VALUE;
     }
@@ -93,9 +94,7 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
         );
     }
 
-    /**
-     * @dataProvider providerForValidateOK
-     */
+    #[DataProvider('providerForValidateOK')]
     public function testValidateCorrectValues(float $value): void
     {
         $validator = $this->getValidatorInstance();
@@ -108,7 +107,7 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
     /**
      * @return list<array{float}>
      */
-    public function providerForValidateOK(): array
+    public static function providerForValidateOK(): array
     {
         return [
             [
@@ -129,9 +128,7 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForValidateKO
-     */
+    #[DataProvider('providerForValidateKO')]
     public function testValidateWrongValues(float $value, string $message): void
     {
         $validator = $this->getValidatorInstance();
@@ -144,20 +141,20 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
     /**
      * @return list<array{float, string}>
      */
-    public function providerForValidateKO(): array
+    public static function providerForValidateKO(): array
     {
         return [
             [-self::MIN_FLOAT_VALUE, strtr(
                 self::VALUE_TOO_LOW_VALIDATION_MESSAGE,
-                [self::SIZE_PARAM => $this->getMinFloatValue()]
+                [self::SIZE_PARAM => self::getMinFloatValue()]
             )],
-            [0, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinFloatValue()])],
-            [1.4142857142857, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinFloatValue()])],
-            [1.5857142857143, strtr(self::VALUE_TOO_HIGH_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMaxFloatValue()])],
+            [0, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => self::getMinFloatValue()])],
+            [1.4142857142857, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => self::getMinFloatValue()])],
+            [1.5857142857143, strtr(self::VALUE_TOO_HIGH_VALIDATION_MESSAGE, [self::SIZE_PARAM => self::getMaxFloatValue()])],
         ];
     }
 
-    public function providerForValidateConstraintsOK(): iterable
+    public static function providerForValidateConstraintsOK(): iterable
     {
         yield [[]];
         yield [[self::MAX => 3.2]];
@@ -168,7 +165,7 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
         yield [[self::MIN => null, self::MAX => null]];
     }
 
-    protected function getIncorrectNumericTypeValidationMessage(string $parameterName): string
+    protected static function getIncorrectNumericTypeValidationMessage(string $parameterName): string
     {
         return sprintf(
             "Validator parameter '%s' value must be of numeric type",

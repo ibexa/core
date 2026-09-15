@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Base\Container\Compiler;
 use Ibexa\Core\Base\Container\Compiler\FieldTypeRegistryPass;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -33,9 +34,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new FieldTypeRegistryPass());
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[DataProvider('tagsProvider')]
     public function testRegisterFieldType(string $tag)
     {
         $fieldTypeIdentifier = 'field_type_identifier';
@@ -54,10 +53,9 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @dataProvider tagsProvider
-     *
      * @param string $tag
      */
+    #[DataProvider('tagsProvider')]
     public function testRegisterFieldTypeNoAlias(string $tag)
     {
         $this->expectException(\LogicException::class);
@@ -77,7 +75,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function tagsProvider(): array
+    public static function tagsProvider(): array
     {
         return [
             [FieldTypeRegistryPass::FIELD_TYPE_SERVICE_TAG],

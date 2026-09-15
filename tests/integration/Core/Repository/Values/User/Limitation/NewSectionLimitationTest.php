@@ -9,13 +9,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewSectionLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewSectionLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(NewSectionLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class NewSectionLimitationTest extends BaseLimitationTestCase
 {
     public function testNewSectionLimitationAllow()

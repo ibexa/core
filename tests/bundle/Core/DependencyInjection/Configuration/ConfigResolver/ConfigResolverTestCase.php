@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\ConfigResolv
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -58,9 +59,7 @@ abstract class ConfigResolverTestCase extends TestCase
         $resolver->getParameter('undefined');
     }
 
-    /**
-     * @dataProvider parameterProvider
-     */
+    #[DataProvider('parameterProvider')]
     public function testGetParameterGlobalScope(string $paramName, $expectedValue): void
     {
         $globalScopeParameter = sprintf('%s.%s.%s', $this->getNamespace(), $this->getScope(), $paramName);
@@ -78,7 +77,7 @@ abstract class ConfigResolverTestCase extends TestCase
         self::assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
     }
 
-    public function parameterProvider(): array
+    public static function parameterProvider(): array
     {
         return [
             ['foo', 'bar'],

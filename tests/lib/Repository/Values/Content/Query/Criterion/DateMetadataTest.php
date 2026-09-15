@@ -8,13 +8,12 @@
 namespace Ibexa\Tests\Core\Repository\Values\Content\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\DateMetadata;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DateMetadataTest extends TestCase
 {
-    /**
-     * @dataProvider provideValidConstructorArguments
-     */
+    #[DataProvider('provideValidConstructorArguments')]
     public function testConstruction(string $target, string $operator, $value): void
     {
         $criterion = new DateMetadata($target, $operator, $value);

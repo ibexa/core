@@ -12,11 +12,11 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeDraft;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\ContentType\ContentType
- */
+#[CoversClass(ContentType::class)]
 final class ContentTypeTest extends TestCase
 {
     private const string EXAMPLE_FIELD_DEFINITION_IDENTIFIER = 'example';
@@ -32,7 +32,7 @@ final class ContentTypeTest extends TestCase
 
     public function testGetFieldDefinition(): void
     {
-        $fieldDefinition = $this->createMock(FieldDefinition::class);
+        $fieldDefinition = self::createStub(FieldDefinition::class);
 
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
 
@@ -96,7 +96,7 @@ final class ContentTypeTest extends TestCase
 
     public function testGetFieldDefinitionsOfType(): void
     {
-        $expectedFieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
+        $expectedFieldDefinitionCollection = self::createStub(APIFieldDefinitionCollection::class);
 
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $fieldDefinitionCollection
@@ -117,7 +117,7 @@ final class ContentTypeTest extends TestCase
 
     public function testGetFirstFieldDefinitionOfType(): void
     {
-        $expectedFieldDefinition = $this->createMock(FieldDefinition::class);
+        $expectedFieldDefinition = self::createStub(FieldDefinition::class);
 
         $filteredFieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $filteredFieldDefinitionCollection
@@ -141,9 +141,7 @@ final class ContentTypeTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider provideForDeprecatedPropertyAccessMatchesMethodCallResult
-     */
+    #[DataProvider('provideForDeprecatedPropertyAccessMatchesMethodCallResult')]
     public function testDeprecatedPropertyAccessMatchesMethodCallResult(bool $isContainer): void
     {
         $contentTypeDraft = new ContentTypeDraft([
@@ -162,7 +160,7 @@ final class ContentTypeTest extends TestCase
     /**
      * @return iterable<string, array{0: bool}>
      */
-    public function provideForDeprecatedPropertyAccessMatchesMethodCallResult(): iterable
+    public static function provideForDeprecatedPropertyAccessMatchesMethodCallResult(): iterable
     {
         yield 'content type draft is a container' => [true];
         yield 'content type draft is not a container' => [false];

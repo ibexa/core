@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
 use Ibexa\Contracts\Core\Repository\Collections\TotalCountAwareInterface;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -21,10 +23,14 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Tests\Core\Repository\Filtering\TestContentProvider;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use IteratorAggregate;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal for internal use by Ibexa Kernel test cases
  */
+#[CoversMethod(ContentService::class, 'find')]
+#[CoversMethod(LocationService::class, 'find')]
 abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
 {
     private const PAGINATION_EXPECTED_TOTAL_COUNT = 5;
@@ -46,15 +52,11 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
     abstract protected function getDefaultSortClause(): FilteringSortClause;
 
     /**
-     * @dataProvider getFilterFactories
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::find
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::find
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[DataProvider('getFilterFactories')]
     public function testFind(callable $filterFactory): void
     {
         $filter = $this->buildFilter(
@@ -130,10 +132,6 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
     }
 
     /**
-     * @covers  \Ibexa\Contracts\Core\Repository\ContentService::find
-     *
-     * @dataProvider getUserLimitationData
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
      * @param string[] $expectedContentRemoteIds
      *
@@ -141,6 +139,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[DataProvider('getUserLimitationData')]
     public function testFindByUserWithLimitations(
         array $limitations,
         array $expectedContentRemoteIds
@@ -168,7 +167,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
     /**
      * Data provider consumed by children implementations.
      */
-    public function getFilterFactories(): iterable
+    public static function getFilterFactories(): iterable
     {
         // Note: Filter relying on database data cannot be instantiated here
         // because database data is not available yet
@@ -206,7 +205,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
             5,
         ];
 
-        foreach ($this->getCriteriaForInitialData() as $dataSetName => $filter) {
+        foreach (static::getCriteriaForInitialData() as $dataSetName => $filter) {
             yield $dataSetName => [
                 static function (Content $parentFolder) use ($filter): Filter {
                     return new Filter($filter);
@@ -227,7 +226,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
      *
      * @see getFilterFactories
      */
-    public function getCriteriaForInitialData(): iterable
+    public static function getCriteriaForInitialData(): iterable
     {
         yield 'Ancestor=/1/5/44/45/' => new Criterion\Ancestor('/1/5/44/45/');
         yield 'ContentId=57' => new Criterion\ContentId(57);
@@ -315,9 +314,9 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function getUserLimitationData(): iterable
+    public static function getUserLimitationData(): iterable
     {
-        $repository = $this->getRepository(false);
+        $repository = static::resolveRepository(false);
 
         // Content type Limitations
         $contentTypeService = $repository->getContentTypeService();

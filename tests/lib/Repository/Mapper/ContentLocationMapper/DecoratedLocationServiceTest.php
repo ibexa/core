@@ -83,11 +83,20 @@ class DecoratedLocationServiceTest extends TestCase
         $this->innerLocationService
             ->method('loadLocationList')
             ->willReturn($locations);
+        $matcher = self::atLeastOnce();
 
         $this->mapper
-            ->expects(self::atLeastOnce())
-            ->method('setMapping')
-            ->withConsecutive([1, 2], [3, 4]);
+            ->expects($matcher)
+            ->method('setMapping')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame(1, $parameters[0]);
+                    $this->assertSame(2, $parameters[1]);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame(3, $parameters[0]);
+                    $this->assertSame(4, $parameters[1]);
+                }
+            });
 
         $actualLocations = $this->locationService->loadLocationList([1, 2]);
 
@@ -126,11 +135,20 @@ class DecoratedLocationServiceTest extends TestCase
             ->method('loadLocations')
             ->with($contentInfo)
             ->willReturn($locations);
+        $matcher = self::atLeastOnce();
 
         $this->mapper
-            ->expects(self::atLeastOnce())
-            ->method('setMapping')
-            ->withConsecutive([1, 2], [3, 4]);
+            ->expects($matcher)
+            ->method('setMapping')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame(1, $parameters[0]);
+                    $this->assertSame(2, $parameters[1]);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame(3, $parameters[0]);
+                    $this->assertSame(4, $parameters[1]);
+                }
+            });
 
         $actualLocations = iterator_to_array($this->locationService->loadLocations($contentInfo));
 
@@ -171,11 +189,20 @@ class DecoratedLocationServiceTest extends TestCase
             ->method('loadLocationChildren')
             ->with($location)
             ->willReturn($locationList);
+        $matcher = self::atLeastOnce();
 
         $this->mapper
-            ->expects(self::atLeastOnce())
-            ->method('setMapping')
-            ->withConsecutive([1, 2], [3, 4]);
+            ->expects($matcher)
+            ->method('setMapping')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame(1, $parameters[0]);
+                    $this->assertSame(2, $parameters[1]);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame(3, $parameters[0]);
+                    $this->assertSame(4, $parameters[1]);
+                }
+            });
 
         $actualLocations = $this->locationService->loadLocationChildren($location);
 
@@ -210,11 +237,20 @@ class DecoratedLocationServiceTest extends TestCase
         $this->innerLocationService
             ->method('loadAllLocations')
             ->willReturn($locations);
+        $matcher = self::atLeastOnce();
 
         $this->mapper
-            ->expects(self::atLeastOnce())
-            ->method('setMapping')
-            ->withConsecutive([1, 2], [3, 4]);
+            ->expects($matcher)
+            ->method('setMapping')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame(1, $parameters[0]);
+                    $this->assertSame(2, $parameters[1]);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame(3, $parameters[0]);
+                    $this->assertSame(4, $parameters[1]);
+                }
+            });
 
         $actualLocations = $this->locationService->loadAllLocations();
 

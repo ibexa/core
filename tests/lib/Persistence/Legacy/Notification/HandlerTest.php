@@ -17,11 +17,10 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use Ibexa\Core\Persistence\Legacy\Notification\Handler;
 use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Notification\Handler
- */
+#[CoversClass(Handler::class)]
 class HandlerTest extends TestCase
 {
     public const NOTIFICATION_ID = 1;

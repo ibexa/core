@@ -14,11 +14,12 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\Relation\Value;
 use Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    public function providerForTestGetViewParameters()
+    public static function providerForTestGetViewParameters()
     {
         return [
             [ContentInfo::STATUS_DRAFT, ['available' => true]],
@@ -27,9 +28,7 @@ class ParameterProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestGetViewParameters
-     */
+    #[DataProvider('providerForTestGetViewParameters')]
     public function testGetViewParameters($status, array $expected)
     {
         $contentServiceMock = $this->createMock(ContentService::class);

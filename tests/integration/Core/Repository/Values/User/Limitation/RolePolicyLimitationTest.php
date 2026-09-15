@@ -14,16 +14,17 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class RolePolicyLimitationTest extends BaseLimitationTestCase
 {
     /**
      * Data provider for {@see testRolePoliciesWithOverlappingLimitations}.
      */
-    public function providerForTestRolePoliciesWithOverlappingLimitations()
+    public static function providerForTestRolePoliciesWithOverlappingLimitations()
     {
         // get actual locations count for the given subtree when user is (by default) an admin
-        $actualSubtreeLocationsCount = $this->getSubtreeLocationsCount('/1/2/');
+        $actualSubtreeLocationsCount = static::getSubtreeLocationsCountForFreshRepository('/1/2/');
         self::assertGreaterThan(0, $actualSubtreeLocationsCount);
 
         return [
@@ -38,12 +39,12 @@ class RolePolicyLimitationTest extends BaseLimitationTestCase
     /**
      * Test if role with wider policy is not overlapped by limitation (uncovered in EZP-26476).
      *
-     * @dataProvider providerForTestRolePoliciesWithOverlappingLimitations
      *
      * @param int $expectedSubtreeLocationsCount
      * @param string $widePolicyModule
      * @param string $widePolicyFunction
      */
+    #[DataProvider('providerForTestRolePoliciesWithOverlappingLimitations')]
     public function testRolePoliciesWithOverlappingLimitations(
         $expectedSubtreeLocationsCount,
         $widePolicyModule,
@@ -110,6 +111,25 @@ class RolePolicyLimitationTest extends BaseLimitationTestCase
         $query = new LocationQuery(['filter' => $criterion]);
 
         $result = $this->getRepository()->getSearchService()->findLocations($query);
+
+        return $result->totalCount;
+    }
+
+    /**
+     * Same as {@see self::getSubtreeLocationsCount()}, but callable from the static data
+     * provider: resolves an independent, freshly-initialized Repository rather than reusing
+     * the test instance's cached one (there is no test instance yet at provider time).
+     *
+     * @param string $subtreePathString
+     *
+     * @return int|null
+     */
+    protected static function getSubtreeLocationsCountForFreshRepository(string $subtreePathString)
+    {
+        $criterion = new Criterion\Subtree($subtreePathString);
+        $query = new LocationQuery(['filter' => $criterion]);
+
+        $result = static::resolveRepository()->getSearchService()->findLocations($query);
 
         return $result->totalCount;
     }

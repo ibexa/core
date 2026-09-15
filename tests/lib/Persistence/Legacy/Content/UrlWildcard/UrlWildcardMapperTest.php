@@ -10,10 +10,9 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlWildcard;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper
- */
+#[CoversClass(Mapper::class)]
 class UrlWildcardMapperTest extends TestCase
 {
     /**

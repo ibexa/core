@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ViewProvidersPass;
 use Ibexa\Core\MVC\Symfony\View\Provider\Registry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -33,9 +34,7 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new ViewProvidersPass());
     }
 
-    /**
-     * @dataProvider addViewProviderProvider
-     */
+    #[DataProvider('addViewProviderProvider')]
     public function testAddViewProvider($declaredPriority, $expectedPriority)
     {
         $def = new Definition();
@@ -58,7 +57,7 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function addViewProviderProvider()
+    public static function addViewProviderProvider()
     {
         return [
             [null, 0],

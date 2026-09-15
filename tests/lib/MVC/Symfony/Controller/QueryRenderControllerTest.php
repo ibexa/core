@@ -15,17 +15,17 @@ use Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInter
 use Ibexa\Core\Pagination\Pagerfanta\Pagerfanta;
 use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
 use Ibexa\Core\Query\QueryFactoryInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @covers \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
- *
  * @phpstan-import-type TOptionsArray from \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
  *
  * @template TSearchHitValueObject of \Ibexa\Contracts\Core\Repository\Values\ValueObject
  */
+#[CoversClass(QueryRenderController::class)]
 final class QueryRenderControllerTest extends TestCase
 {
     private const int EXAMPLE_CURRENT_PAGE = 3;

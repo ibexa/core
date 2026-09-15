@@ -13,30 +13,30 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBui
 
 final class UserMetadataTermAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
-        yield '::OWNER' => $this->createOwnerTermAggregationDataSet();
-        yield '::GROUP' => $this->createGroupTermAggregationDataSet();
-        yield '::MODIFIER' => $this->createModifierTermAggregationDataSet();
+        yield '::OWNER' => self::createOwnerTermAggregationDataSet();
+        yield '::GROUP' => self::createGroupTermAggregationDataSet();
+        yield '::MODIFIER' => self::createModifierTermAggregationDataSet();
     }
 
-    public function dataProviderForTestFindLocationWithAggregation(): iterable
+    public static function dataProviderForTestFindLocationWithAggregation(): iterable
     {
-        yield from $this->dataProviderForTestFindContentWithAggregation();
+        yield from static::dataProviderForTestFindContentWithAggregation();
     }
 
-    private function createOwnerTermAggregationDataSet(): array
+    private static function createOwnerTermAggregationDataSet(): array
     {
         $aggregation = new UserMetadataTermAggregation('owner', UserMetadataTermAggregation::OWNER);
 
         $builder = new TermAggregationDataSetBuilder($aggregation);
         $builder->setExpectedEntries(['admin' => 18]);
-        $builder->setEntryMapper([$this->getRepository()->getUserService(), 'loadUserByLogin']);
+        $builder->setEntryMapper([static::resolveRepository()->getUserService(), 'loadUserByLogin']);
 
         return $builder->build();
     }
 
-    private function createGroupTermAggregationDataSet(): array
+    private static function createGroupTermAggregationDataSet(): array
     {
         $aggregation = new UserMetadataTermAggregation('user_group', UserMetadataTermAggregation::GROUP);
 
@@ -46,18 +46,18 @@ final class UserMetadataTermAggregationTest extends AbstractAggregationTestCase
             14 => 18,
             4 => 18,
         ]);
-        $builder->setEntryMapper([$this->getRepository()->getUserService(), 'loadUserGroup']);
+        $builder->setEntryMapper([static::resolveRepository()->getUserService(), 'loadUserGroup']);
 
         return $builder->build();
     }
 
-    private function createModifierTermAggregationDataSet(): array
+    private static function createModifierTermAggregationDataSet(): array
     {
         $aggregation = new UserMetadataTermAggregation('modifier', UserMetadataTermAggregation::MODIFIER);
 
         $builder = new TermAggregationDataSetBuilder($aggregation);
         $builder->setExpectedEntries(['admin' => 18]);
-        $builder->setEntryMapper([$this->getRepository()->getUserService(), 'loadUserByLogin']);
+        $builder->setEntryMapper([static::resolveRepository()->getUserService(), 'loadUserByLogin']);
 
         return $builder->build();
     }

@@ -44,10 +44,13 @@ abstract class Base extends TestCase
             return $this->userMock;
         }
 
-        return $this->userMock = $this->getMockBuilder(APIUser::class)
-            ->setConstructorArgs([])
-            ->setMethods($mockMethods)
-            ->getMock();
+        $builder = $this->getMockBuilder(APIUser::class)
+            ->setConstructorArgs([]);
+        if ($mockMethods !== []) {
+            $builder->onlyMethods(array_values($mockMethods));
+        }
+
+        return $this->userMock = $builder->getMock();
     }
 
     /**

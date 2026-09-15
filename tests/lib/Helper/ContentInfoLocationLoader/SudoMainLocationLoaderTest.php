@@ -111,11 +111,11 @@ class SudoMainLocationLoaderTest extends TestCase
             $repositoryMock = $this
                 ->getMockBuilder($repositoryClass)
                 ->disableOriginalConstructor()
-                ->setMethods(
-                    array_diff(
+                ->onlyMethods(
+                    array_values(array_diff(
                         get_class_methods($repositoryClass),
                         ['sudo']
-                    )
+                    ))
                 )
                 ->getMock();
         }
@@ -152,7 +152,7 @@ class SudoMainLocationLoaderTest extends TestCase
 
         return $this
             ->getMockBuilder(PermissionResolver::class)
-            ->setMethods(null)
+            ->onlyMethods([])
             ->setConstructorArgs(
                 [
                     $this

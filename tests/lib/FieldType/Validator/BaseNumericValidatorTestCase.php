@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Core\FieldType\Validator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -35,33 +36,33 @@ abstract class BaseNumericValidatorTestCase extends TestCase
      */
     abstract protected function getValidatorInstance(): Validator;
 
-    abstract protected function getMinNumericValueName(): string;
+    abstract protected static function getMinNumericValueName(): string;
 
-    abstract protected function getMaxNumericValueName(): string;
+    abstract protected static function getMaxNumericValueName(): string;
 
     /**
      * @return iterable<array{min?: ?scalar, max?: ?scalar}>
      */
-    abstract public function providerForValidateConstraintsOK(): iterable;
+    abstract public static function providerForValidateConstraintsOK(): iterable;
 
     /**
      * @return iterable<list<array<string, scalar>>>
      */
     abstract public static function providerForConstraintsInitializeSetGet(): iterable;
 
-    abstract protected function getIncorrectNumericTypeValidationMessage(string $parameterName): string;
+    abstract protected static function getIncorrectNumericTypeValidationMessage(string $parameterName): string;
 
     /**
      * @return iterable<string, array{array<string, mixed>, array<string>}>
      */
-    final public function providerForValidateConstraintsKO(): iterable
+    final public static function providerForValidateConstraintsKO(): iterable
     {
-        $minNumericValueName = $this->getMinNumericValueName();
-        $minValueNumericTypeValidationMessage = $this->getIncorrectNumericTypeValidationMessage(
+        $minNumericValueName = static::getMinNumericValueName();
+        $minValueNumericTypeValidationMessage = static::getIncorrectNumericTypeValidationMessage(
             $minNumericValueName
         );
-        $maxNumericValueName = $this->getMaxNumericValueName();
-        $maxValueNumericTypeValidationMessage = $this->getIncorrectNumericTypeValidationMessage(
+        $maxNumericValueName = static::getMaxNumericValueName();
+        $maxValueNumericTypeValidationMessage = static::getIncorrectNumericTypeValidationMessage(
             $maxNumericValueName
         );
 
@@ -136,9 +137,8 @@ abstract class BaseNumericValidatorTestCase extends TestCase
     /**
      * @param array<string, mixed> $constraints
      * @param array<int, string> $expectedMessages
-     *
-     * @dataProvider providerForValidateConstraintsKO
      */
+    #[DataProvider('providerForValidateConstraintsKO')]
     final public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages): void
     {
         $validator = $this->getValidatorInstance();
@@ -175,10 +175,9 @@ abstract class BaseNumericValidatorTestCase extends TestCase
     }
 
     /**
-     * @dataProvider providerForValidateConstraintsOK
-     *
      * @param array{min?: ?scalar, max?: ?scalar} $data
      */
+    #[DataProvider('providerForValidateConstraintsOK')]
     public function testValidateConstraintsCorrectValues(array $data): void
     {
         $validator = $this->getValidatorInstance();
@@ -197,12 +196,11 @@ abstract class BaseNumericValidatorTestCase extends TestCase
     }
 
     /**
-     * @dataProvider providerForConstraintsInitializeSetGet
-     *
      * @param array<string, scalar> $constraints
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      */
+    #[DataProvider('providerForConstraintsInitializeSetGet')]
     final public function testConstraintsInitializeGet(array $constraints): void
     {
         $minNumericValueName = $this->getMinNumericValueName();
@@ -216,10 +214,9 @@ abstract class BaseNumericValidatorTestCase extends TestCase
     }
 
     /**
-     * @dataProvider providerForConstraintsInitializeSetGet
-     *
      * @param array<string, scalar> $constraints
      */
+    #[DataProvider('providerForConstraintsInitializeSetGet')]
     final public function testConstraintsSetGet(array $constraints): void
     {
         $minNumericValueName = $this->getMinNumericValueName();

@@ -13,6 +13,7 @@ use Ibexa\Core\QueryType\ArrayQueryTypeRegistry;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryType\TestQueryType;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryTypeBundle;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -31,9 +32,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new QueryTypePass());
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[DataProvider('tagsProvider')]
     public function testRegisterTaggedQueryType(string $tag): void
     {
         $def = new Definition();
@@ -50,9 +49,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[DataProvider('tagsProvider')]
     public function testRegisterTaggedQueryTypeWithClassAsParameter(string $tag): void
     {
         $this->setParameter('query_type_class', TestQueryType::class);
@@ -75,9 +72,8 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
      *
      * The QueryType class will still be registered, as the aliases are different from the
      * built-in alias of the class.
-     *
-     * @dataProvider tagsProvider
      */
+    #[DataProvider('tagsProvider')]
     public function testTaggedOverride(string $tag): void
     {
         $this->setParameter('kernel.bundles', ['QueryTypeBundle' => QueryTypeBundle::class]);
@@ -107,7 +103,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function tagsProvider(): iterable
+    public static function tagsProvider(): iterable
     {
         return [
             [QueryTypePass::QUERY_TYPE_SERVICE_TAG],

@@ -8,24 +8,24 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware\Language;
 
+use Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver;
 use Ibexa\Core\Repository\SiteAccessAware\Language\LanguageResolver;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver
- * @covers \Ibexa\Core\Repository\SiteAccessAware\Language\LanguageResolver
- */
+#[CoversClass(AbstractLanguageResolver::class)]
+#[CoversClass(LanguageResolver::class)]
 class LanguageResolverTest extends TestCase
 {
     /**
-     * @dataProvider getDataForTestGetPrioritizedLanguages
-     *
      * @param array $expectedPrioritizedLanguagesList
      * @param array $configLanguages
      * @param bool $defaultShowAllTranslations
      * @param array|null $forcedLanguages
      * @param string|null $contextLanguage
      */
+    #[DataProvider('getDataForTestGetPrioritizedLanguages')]
     public function testGetPrioritizedLanguages(
         array $expectedPrioritizedLanguagesList,
         array $configLanguages,
@@ -57,7 +57,7 @@ class LanguageResolverTest extends TestCase
      *
      * @return array
      */
-    public function getDataForTestGetPrioritizedLanguages(): array
+    public static function getDataForTestGetPrioritizedLanguages(): array
     {
         return [
             [

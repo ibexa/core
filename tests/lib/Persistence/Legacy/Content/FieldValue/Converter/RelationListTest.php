@@ -14,11 +14,11 @@ use Ibexa\Core\FieldType\RelationList\Type;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter
- */
+#[CoversClass(RelationListConverter::class)]
 class RelationListTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter */
@@ -30,14 +30,12 @@ class RelationListTest extends TestCase
         $this->converter = $this
             ->getMockBuilder(RelationListConverter::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getRelationXmlHashFromDB'])
+            ->onlyMethods(['getRelationXmlHashFromDB'])
             ->getMock();
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
+    #[Group('fieldType')]
+    #[Group('relationlist')]
     public function testToStorageValue()
     {
         $destinationContentIds = [3, 2, 1];
@@ -103,10 +101,8 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
+    #[Group('fieldType')]
+    #[Group('relationlist')]
     public function testToStorageValueEmpty()
     {
         $destinationContentIds = [];
@@ -137,10 +133,8 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
+    #[Group('fieldType')]
+    #[Group('relationlist')]
     public function testToFieldValue()
     {
         $storageFieldValue = new StorageFieldValue();
@@ -164,10 +158,8 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
+    #[Group('fieldType')]
+    #[Group('relationlist')]
     public function testToFieldValueEmpty()
     {
         $storageFieldValue = new StorageFieldValue();
@@ -191,10 +183,8 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
+    #[Group('fieldType')]
+    #[Group('relationlist')]
     public function testToStorageFieldDefinition()
     {
         $fieldDefinition = new PersistenceFieldDefinition(
@@ -234,10 +224,8 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
+    #[Group('fieldType')]
+    #[Group('relationlist')]
     public function testToFieldDefinitionMultiple()
     {
         $storageFieldDefinition = new StorageFieldDefinition();

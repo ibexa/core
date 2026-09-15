@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[CoversClass(ContentService::class)]
 final class LoadVersionInfoTest extends RepositoryTestCase
 {
     /**

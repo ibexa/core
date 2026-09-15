@@ -10,25 +10,32 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\URLWildcardService;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the URLWildcardService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService
- *
- * @group url-wildcard
  */
+#[CoversClass(URLWildcardService::class)]
+#[CoversMethod(URLWildcardService::class, 'create()')]
+#[CoversMethod(URLWildcardService::class, 'load()')]
+#[CoversMethod(URLWildcardService::class, 'update')]
+#[CoversMethod(URLWildcardService::class, 'remove()')]
+#[CoversMethod(URLWildcardService::class, 'loadAll()')]
+#[CoversMethod(URLWildcardService::class, 'translate()')]
+#[Group('url-wildcard')]
 class URLWildcardServiceTest extends BaseTestCase
 {
     /**
      * Test for the create() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
      */
     public function testCreate()
     {
@@ -53,11 +60,8 @@ class URLWildcardServiceTest extends BaseTestCase
      * Test for the create() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
-     *
-     * @depends testCreate
      */
+    #[Depends('testCreate')]
     public function testCreateSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard)
     {
         $this->assertPropertiesCorrect(
@@ -72,11 +76,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the create() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
-     *
-     * @depends testCreate
      */
+    #[Depends('testCreate')]
     public function testCreateWithOptionalForwardParameter()
     {
         $repository = $this->getRepository();
@@ -100,11 +101,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the create() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
-     *
-     * @depends testCreate
      */
+    #[Depends('testCreate')]
     public function testCreateThrowsInvalidArgumentExceptionOnDuplicateSourceUrl()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -125,11 +123,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the create() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
-     *
-     * @depends testCreate
      */
+    #[Depends('testCreate')]
     public function testCreateThrowsContentValidationExceptionWhenPatternsAndPlaceholdersNotMatch()
     {
         $this->expectException(ContentValidationException::class);
@@ -147,11 +142,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the create() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
-     *
-     * @depends testCreate
      */
+    #[Depends('testCreate')]
     public function testCreateThrowsContentValidationExceptionWhenPlaceholdersNotValidNumberSequence()
     {
         $this->expectException(ContentValidationException::class);
@@ -171,11 +163,8 @@ class URLWildcardServiceTest extends BaseTestCase
      * Test for the load() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::load()
-     *
-     * @depends testCreate
      */
+    #[Depends('testCreate')]
     public function testLoad()
     {
         $repository = $this->getRepository();
@@ -202,11 +191,8 @@ class URLWildcardServiceTest extends BaseTestCase
      * Test for the load() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::load()
-     *
-     * @depends testLoad
      */
+    #[Depends('testLoad')]
     public function testLoadSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard)
     {
         $this->assertPropertiesCorrect(
@@ -223,11 +209,8 @@ class URLWildcardServiceTest extends BaseTestCase
      * Test for the load() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::load()
-     *
-     * @depends testLoad
      */
+    #[Depends('testLoad')]
     public function testLoadThrowsNotFoundException(URLWildcard $urlWildcard)
     {
         $this->expectException(NotFoundException::class);
@@ -243,8 +226,6 @@ class URLWildcardServiceTest extends BaseTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::update
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
@@ -288,11 +269,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the remove() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::remove()
-     *
-     * @depends testLoad
      */
+    #[Depends('testLoad')]
     public function testRemove()
     {
         $this->expectException(NotFoundException::class);
@@ -318,11 +296,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the loadAll() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll()
-     *
-     * @depends testCreate
      */
+    #[Depends('testCreate')]
     public function testLoadAll()
     {
         $repository = $this->getRepository();
@@ -349,11 +324,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the loadAll() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll()
-     *
-     * @depends testLoadAll
      */
+    #[Depends('testLoadAll')]
     public function testLoadAllWithOffsetParameter()
     {
         $repository = $this->getRepository();
@@ -374,11 +346,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the loadAll() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll()
-     *
-     * @depends testLoadAll
      */
+    #[Depends('testLoadAll')]
     public function testLoadAllWithOffsetAndLimitParameter()
     {
         $repository = $this->getRepository();
@@ -399,11 +368,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the loadAll() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll()
-     *
-     * @depends testLoadAll
      */
+    #[Depends('testLoadAll')]
     public function testLoadAllReturnsEmptyArrayByDefault()
     {
         $repository = $this->getRepository();
@@ -422,11 +388,8 @@ class URLWildcardServiceTest extends BaseTestCase
      * Test for the translate() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
-     *
-     * @depends testCreate
      */
+    #[Depends('testCreate')]
     public function testTranslate()
     {
         $repository = $this->getRepository();
@@ -453,11 +416,8 @@ class URLWildcardServiceTest extends BaseTestCase
      * Test for the translate() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult $result
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
-     *
-     * @depends testTranslate
      */
+    #[Depends('testTranslate')]
     public function testTranslateSetsPropertiesOnTranslationResult(URLWildcardTranslationResult $result)
     {
         $this->assertPropertiesCorrect(
@@ -471,11 +431,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the translate() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
-     *
-     * @depends testTranslate
      */
+    #[Depends('testTranslate')]
     public function testTranslateWithForwardSetToTrue()
     {
         $repository = $this->getRepository();
@@ -501,11 +458,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the translate() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
-     *
-     * @depends testTranslate
      */
+    #[Depends('testTranslate')]
     public function testTranslateReturnsLongestMatchingWildcard()
     {
         $repository = $this->getRepository();
@@ -526,11 +480,8 @@ class URLWildcardServiceTest extends BaseTestCase
 
     /**
      * Test for the translate() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
-     *
-     * @depends testTranslate
      */
+    #[Depends('testTranslate')]
     public function testTranslateThrowsNotFoundExceptionWhenNotAliasOrWildcardMatches()
     {
         $this->expectException(NotFoundException::class);

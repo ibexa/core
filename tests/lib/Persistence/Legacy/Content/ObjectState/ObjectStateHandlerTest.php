@@ -16,10 +16,9 @@ use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase as APIBaseTest;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
- */
+#[CoversClass(Handler::class)]
 class ObjectStateHandlerTest extends LanguageAwareTestCase
 {
     /**
@@ -253,27 +252,21 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
                 )
             );
 
-        $gatewayMock->expects(self::exactly(2))
-            ->method('deleteObjectStateLinks');
-
-        $gatewayMock->expects(self::exactly(2))
-            ->method('deleteObjectState');
-
-        $gatewayMock->expects(self::at(1))
+        $deleteObjectStateLinksMatcher = self::exactly(2);
+        $gatewayMock->expects($deleteObjectStateLinksMatcher)
             ->method('deleteObjectStateLinks')
-            ->with(self::equalTo(1));
+            ->willReturnCallback(static function ($stateId) use ($deleteObjectStateLinksMatcher): void {
+                $expected = $deleteObjectStateLinksMatcher->numberOfInvocations() === 1 ? 1 : 2;
+                self::assertSame($expected, $stateId);
+            });
 
-        $gatewayMock->expects(self::at(2))
+        $deleteObjectStateMatcher = self::exactly(2);
+        $gatewayMock->expects($deleteObjectStateMatcher)
             ->method('deleteObjectState')
-            ->with(self::equalTo(1));
-
-        $gatewayMock->expects(self::at(3))
-            ->method('deleteObjectStateLinks')
-            ->with(self::equalTo(2));
-
-        $gatewayMock->expects(self::at(4))
-            ->method('deleteObjectState')
-            ->with(self::equalTo(2));
+            ->willReturnCallback(static function ($stateId) use ($deleteObjectStateMatcher): void {
+                $expected = $deleteObjectStateMatcher->numberOfInvocations() === 1 ? 1 : 2;
+                self::assertSame($expected, $stateId);
+            });
 
         $gatewayMock->expects(self::once())
             ->method('deleteObjectStateGroup')
@@ -451,20 +444,18 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
                 )
             );
 
-        $gatewayMock->expects(self::exactly(3))
-            ->method('updateObjectStatePriority');
-
-        $gatewayMock->expects(self::at(2))
+        $updateObjectStatePriorityMatcher = self::exactly(3);
+        $gatewayMock->expects($updateObjectStatePriorityMatcher)
             ->method('updateObjectStatePriority')
-            ->with(self::equalTo(2), self::equalTo(0));
-
-        $gatewayMock->expects(self::at(3))
-            ->method('updateObjectStatePriority')
-            ->with(self::equalTo(1), self::equalTo(1));
-
-        $gatewayMock->expects(self::at(4))
-            ->method('updateObjectStatePriority')
-            ->with(self::equalTo(3), self::equalTo(2));
+            ->willReturnCallback(static function ($stateId, $priority) use ($updateObjectStatePriorityMatcher): void {
+                [$expectedStateId, $expectedPriority] = match ($updateObjectStatePriorityMatcher->numberOfInvocations()) {
+                    1 => [2, 0],
+                    2 => [1, 1],
+                    3 => [3, 2],
+                };
+                self::assertSame($expectedStateId, $stateId);
+                self::assertSame($expectedPriority, $priority);
+            });
 
         $handler->setPriority(2, 0);
     }
@@ -635,7 +626,6 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         if (!isset($this->mapperMock)) {
             $this->mapperMock = $this->getMockBuilder(Mapper::class)
                 ->setConstructorArgs([$this->getLanguageHandler()])
-                ->setMethods([])
                 ->getMock();
         }
 

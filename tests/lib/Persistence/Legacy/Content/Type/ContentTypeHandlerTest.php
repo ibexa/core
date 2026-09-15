@@ -25,11 +25,10 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as UpdateHandler;
 use Ibexa\Core\Persistence\Legacy\Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Handler
- */
+#[CoversClass(Handler::class)]
 class ContentTypeHandlerTest extends TestCase
 {
     /**
@@ -114,7 +113,6 @@ class ContentTypeHandlerTest extends TestCase
             );
 
         $handlerMock = $this->getMockBuilder(Handler::class)
-            ->setMethods(['loadGroup'])
             ->setConstructorArgs([
                 $gatewayMock,
                 $mapperMock,
@@ -122,6 +120,7 @@ class ContentTypeHandlerTest extends TestCase
                 $this->getStorageDispatcherMock(),
                 $this->getFieldTypeAliasResolver(),
             ])
+            ->onlyMethods(['loadGroup'])
             ->getMock();
 
         $handlerMock->expects(self::once())
@@ -552,7 +551,6 @@ class ContentTypeHandlerTest extends TestCase
             );
 
         $handlerMock = $this->getMockBuilder(Handler::class)
-            ->setMethods(['load'])
             ->setConstructorArgs([
                 $gatewayMock,
                 $this->getMapperMock(),
@@ -560,6 +558,7 @@ class ContentTypeHandlerTest extends TestCase
                 $this->getStorageDispatcherMock(),
                 $this->getFieldTypeAliasResolver(),
             ])
+            ->onlyMethods(['load'])
             ->getMock();
 
         $handlerMock->expects(self::once())
@@ -652,7 +651,6 @@ class ContentTypeHandlerTest extends TestCase
             );
 
         $handlerMock = $this->getMockBuilder(Handler::class)
-            ->setMethods(['load', 'internalCreate'])
             ->setConstructorArgs([
                 $gatewayMock,
                 $mapperMock,
@@ -660,6 +658,7 @@ class ContentTypeHandlerTest extends TestCase
                 $this->getStorageDispatcherMock(),
                 $this->getFieldTypeAliasResolver(),
             ])
+            ->onlyMethods(['load', 'internalCreate'])
             ->getMock();
 
         $handlerMock->expects(self::once())
@@ -706,7 +705,6 @@ class ContentTypeHandlerTest extends TestCase
             );
 
         $handlerMock = $this->getMockBuilder(Handler::class)
-            ->setMethods(['load', 'internalCreate', 'update'])
             ->setConstructorArgs([
                 $gatewayMock,
                 $mapperMock,
@@ -714,6 +712,7 @@ class ContentTypeHandlerTest extends TestCase
                 $this->getStorageDispatcherMock(),
                 $this->getFieldTypeAliasResolver(),
             ])
+            ->onlyMethods(['load', 'internalCreate', 'update'])
             ->getMock();
 
         $userId = 42;
@@ -1037,23 +1036,20 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getPartlyMockedHandler(['load']);
         $updateHandlerMock = $this->getUpdateHandlerMock();
 
-        $handler->expects(self::at(0))
+        $matcher = self::exactly(2);
+        $handler->expects($matcher)
             ->method('load')
-            ->with(
-                self::equalTo(23),
-                self::equalTo(1)
-            )->will(
-                self::returnValue(new Type())
-            );
+            ->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame([23, 1], $parameters);
 
-        $handler->expects(self::at(1))
-            ->method('load')
-            ->with(
-                self::equalTo(23),
-                self::equalTo(0)
-            )->will(
-                self::throwException(new Exception\TypeNotFound((string)23, 0))
-            );
+                    return new Type();
+                }
+
+                $this->assertSame([23, 0], $parameters);
+
+                throw new Exception\TypeNotFound((string)23, 0);
+            });
 
         $updateHandlerMock->expects(self::never())
             ->method('updateContentObjects');
@@ -1095,7 +1091,6 @@ class ContentTypeHandlerTest extends TestCase
     protected function getPartlyMockedHandler(array $methods)
     {
         return $this->getMockBuilder(Handler::class)
-            ->setMethods($methods)
             ->setConstructorArgs(
                 [
                     $this->getGatewayMock(),
@@ -1105,6 +1100,7 @@ class ContentTypeHandlerTest extends TestCase
                     $this->getFieldTypeAliasResolver(),
                 ]
             )
+            ->onlyMethods(array_values($methods))
             ->getMock();
     }
 
@@ -1134,10 +1130,12 @@ class ContentTypeHandlerTest extends TestCase
     protected function getMapperMock($methods = [])
     {
         if (!isset($this->mapperMock)) {
-            $this->mapperMock = $this->getMockBuilder(Mapper::class)
-                ->disableOriginalConstructor()
-                ->setMethods($methods)
-                ->getMock();
+            $builder = $this->getMockBuilder(Mapper::class)
+                ->disableOriginalConstructor();
+            if ($methods !== []) {
+                $builder->onlyMethods(array_values($methods));
+            }
+            $this->mapperMock = $builder->getMock();
         }
 
         return $this->mapperMock;
@@ -1153,7 +1151,6 @@ class ContentTypeHandlerTest extends TestCase
         if (!isset($this->updateHandlerMock)) {
             $this->updateHandlerMock = $this->getMockBuilder(UpdateHandler::class)
                 ->disableOriginalConstructor()
-                ->setMethods([])
                 ->getMock();
         }
 
@@ -1221,7 +1218,6 @@ class ContentTypeHandlerTest extends TestCase
             );
 
         $handlerMock = $this->getMockBuilder(Handler::class)
-            ->setMethods(['load', 'update'])
             ->setConstructorArgs([
                 $this->getGatewayMock(),
                 $mapperMock,
@@ -1229,6 +1225,7 @@ class ContentTypeHandlerTest extends TestCase
                 $this->getStorageDispatcherMock(),
                 $this->getFieldTypeAliasResolver(),
             ])
+            ->onlyMethods(['load', 'update'])
             ->getMock();
 
         $handlerMock->expects(self::once())

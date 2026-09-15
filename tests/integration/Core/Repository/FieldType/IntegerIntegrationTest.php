@@ -11,13 +11,13 @@ use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Integer\Value as IntegerValue;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 class IntegerIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -156,7 +156,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -207,9 +207,9 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -256,7 +256,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -273,7 +273,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -283,35 +283,35 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new IntegerValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new IntegerValue(23),
             ],
             [new IntegerValue(0)],
             [new IntegerValue(0.0)],
         ];
     }
 
-    protected function getValidSearchValueOne(): int
+    protected static function getValidSearchValueOne(): int
     {
         return 25;
     }
 
-    protected function getValidSearchValueTwo(): int
+    protected static function getValidSearchValueTwo(): int
     {
         return 26;
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['25', '26'],

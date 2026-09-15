@@ -46,7 +46,7 @@ class URLServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(URLQuery::class)];
+        $parameters = [self::createStub(URLQuery::class)];
 
         $serviceMock->expects(self::once())->method('findUrls')->with(...$parameters);
 
@@ -59,7 +59,7 @@ class URLServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(URL::class),
+            self::createStub(URL::class),
             10,
             100,
         ];
@@ -99,8 +99,8 @@ class URLServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(URL::class),
-            $this->createMock(URLUpdateStruct::class),
+            self::createStub(URL::class),
+            self::createStub(URLUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateUrl')->with(...$parameters);

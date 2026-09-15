@@ -11,10 +11,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
- */
+#[CoversClass(Mapper::class)]
 class MapperTest extends TestCase
 {
     /**

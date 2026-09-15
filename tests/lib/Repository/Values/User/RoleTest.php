@@ -11,11 +11,14 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Core\Repository\Values\User\Role;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\User\Role
- */
+#[CoversClass(Role::class)]
+#[CoversMethod(Role::class, '__get')]
+#[CoversMethod(Role::class, '__set')]
+#[CoversMethod(Role::class, '__unset')]
 class RoleTest extends TestCase
 {
     use ValueObjectTestTrait;
@@ -37,8 +40,6 @@ class RoleTest extends TestCase
 
     /**
      * Test retrieving missing property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Role::__get
      */
     public function testMissingProperty(): void
     {
@@ -52,8 +53,6 @@ class RoleTest extends TestCase
 
     /**
      * Test setting read only property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Role::__set
      */
     public function testReadOnlyProperty(): void
     {
@@ -77,8 +76,6 @@ class RoleTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Role::__unset
      */
     public function testUnsetProperty(): void
     {

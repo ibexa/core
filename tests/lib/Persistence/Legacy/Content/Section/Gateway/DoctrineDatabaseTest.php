@@ -10,10 +10,10 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Section\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Depends;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase::insertSection
- */
+#[CoversMethod(DoctrineDatabase::class, 'insertSection')]
 class DoctrineDatabaseTest extends TestCase
 {
     /**
@@ -232,9 +232,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    /**
-     * @depends testCountContentObjectsInSection
-     */
+    #[Depends('testCountContentObjectsInSection')]
     public function testAssignSectionToContent()
     {
         $this->insertDatabaseFixture(

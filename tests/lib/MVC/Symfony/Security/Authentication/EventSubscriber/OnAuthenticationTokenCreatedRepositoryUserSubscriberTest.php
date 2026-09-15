@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\OnAuthenticationTokenCreatedRepositoryUserSubscriber;
 use Ibexa\Core\MVC\Symfony\Security\User;
 use Ibexa\Core\Repository\Values\User\User as ApiUser;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\InMemoryUser;
@@ -26,7 +27,7 @@ final class OnAuthenticationTokenCreatedRepositoryUserSubscriberTest extends Tes
     public function testGetSubscribedEvents(): void
     {
         $subscriber = new OnAuthenticationTokenCreatedRepositoryUserSubscriber(
-            $this->createMock(PermissionResolver::class)
+            self::createStub(PermissionResolver::class)
         );
 
         self::assertEquals(
@@ -37,9 +38,7 @@ final class OnAuthenticationTokenCreatedRepositoryUserSubscriberTest extends Tes
         );
     }
 
-    /**
-     * @dataProvider dataProviderForTestSettingCurrentUserReference
-     */
+    #[DataProvider('dataProviderForTestSettingCurrentUserReference')]
     public function testSettingCurrentUserReference(
         UserInterface $user,
         bool $isPermissionResolverInvoked
@@ -59,10 +58,10 @@ final class OnAuthenticationTokenCreatedRepositoryUserSubscriberTest extends Tes
     /**
      * @return iterable<string, array{\Symfony\Component\Security\Core\User\UserInterface, bool}>
      */
-    public function dataProviderForTestSettingCurrentUserReference(): iterable
+    public static function dataProviderForTestSettingCurrentUserReference(): iterable
     {
         yield 'authorizing Ibexa user' => [
-            new User($this->createMock(ApiUser::class)),
+            new User(self::createStub(ApiUser::class)),
             true,
         ];
 

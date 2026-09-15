@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\SearchService as CoveredSearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
@@ -26,10 +27,17 @@ use Ibexa\Core\Repository\SearchService;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Ibexa\Core\Search\Common\BackgroundIndexer\NullIndexer;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Mock test case for Search service.
  */
+#[CoversMethod(CoveredSearchService::class, '__construct')]
+#[CoversMethod(CoveredSearchService::class, 'addPermissionsCriterion')]
+#[CoversMethod(CoveredSearchService::class, 'findContent')]
+#[CoversMethod(CoveredSearchService::class, 'findSingle')]
+#[CoversMethod(CoveredSearchService::class, 'findLocations')]
 class SearchTest extends BaseServiceMockTest
 {
     protected $repositoryMock;
@@ -40,8 +48,6 @@ class SearchTest extends BaseServiceMockTest
 
     /**
      * Test for the __construct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::__construct
      */
     public function testConstructor()
     {
@@ -62,7 +68,7 @@ class SearchTest extends BaseServiceMockTest
         );
     }
 
-    public function providerForFindContentValidatesLocationCriteriaAndSortClauses()
+    public static function providerForFindContentValidatesLocationCriteriaAndSortClauses()
     {
         return [
             [
@@ -92,9 +98,7 @@ class SearchTest extends BaseServiceMockTest
         ];
     }
 
-    /**
-     * @dataProvider providerForFindContentValidatesLocationCriteriaAndSortClauses
-     */
+    #[DataProvider('providerForFindContentValidatesLocationCriteriaAndSortClauses')]
     public function testFindContentValidatesLocationCriteriaAndSortClauses($query, $exceptionMessage)
     {
         $this->expectException(InvalidArgumentException::class);
@@ -123,7 +127,7 @@ class SearchTest extends BaseServiceMockTest
         self::fail('Expected exception was not thrown');
     }
 
-    public function providerForFindSingleValidatesLocationCriteria()
+    public static function providerForFindSingleValidatesLocationCriteria()
     {
         return [
             [
@@ -141,9 +145,7 @@ class SearchTest extends BaseServiceMockTest
         ];
     }
 
-    /**
-     * @dataProvider providerForFindSingleValidatesLocationCriteria
-     */
+    #[DataProvider('providerForFindSingleValidatesLocationCriteria')]
     public function testFindSingleValidatesLocationCriteria($criterion, $exceptionMessage)
     {
         $this->expectException(InvalidArgumentException::class);
@@ -173,9 +175,6 @@ class SearchTest extends BaseServiceMockTest
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
     public function testFindContentThrowsHandlerException()
     {
@@ -213,8 +212,6 @@ class SearchTest extends BaseServiceMockTest
 
     /**
      * Test for the findContent() method when search is out of sync with persistence.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
     public function testFindContentWhenDomainMapperThrowsException()
     {
@@ -230,7 +227,8 @@ class SearchTest extends BaseServiceMockTest
                 $mapper = $this->getContentDomainMapperMock(),
                 $this->getPermissionCriterionResolverMock(),
                 $indexer,
-            ])->setMethods(['internalFindContentInfo'])
+            ])
+            ->onlyMethods(['internalFindContentInfo'])
             ->getMock();
 
         $info = new SPIContentInfo(['id' => 33]);
@@ -260,9 +258,6 @@ class SearchTest extends BaseServiceMockTest
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
     public function testFindContentNoPermissionsFilter()
     {
@@ -325,9 +320,6 @@ class SearchTest extends BaseServiceMockTest
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
     public function testFindContentWithPermission()
     {
@@ -398,9 +390,6 @@ class SearchTest extends BaseServiceMockTest
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
     public function testFindContentWithNoPermission()
     {
@@ -513,9 +502,6 @@ class SearchTest extends BaseServiceMockTest
 
     /**
      * Test for the findSingle() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findSingle
      */
     public function testFindSingleThrowsNotFoundException()
     {
@@ -549,9 +535,6 @@ class SearchTest extends BaseServiceMockTest
 
     /**
      * Test for the findSingle() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findSingle
      */
     public function testFindSingleThrowsHandlerException()
     {
@@ -785,8 +768,6 @@ class SearchTest extends BaseServiceMockTest
 
     /**
      * Test for the findLocations() method when search is out of sync with persistence.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations
      */
     public function testFindLocationsBackgroundIndexerWhenDomainMapperThrowsException()
     {
@@ -802,7 +783,8 @@ class SearchTest extends BaseServiceMockTest
                 $mapper = $this->getContentDomainMapperMock(),
                 $this->getPermissionCriterionResolverMock(),
                 $indexer,
-            ])->setMethods(['addPermissionsCriterion'])
+            ])
+            ->onlyMethods(['addPermissionsCriterion'])
             ->getMock();
 
         $location = new SPILocation(['id' => 44]);
@@ -814,7 +796,7 @@ class SearchTest extends BaseServiceMockTest
         $result = new SearchResult(['searchHits' => [new SearchHit(['valueObject' => $location])], 'totalCount' => 2]);
         $searchHandler->expects(self::once())
             ->method('findLocations')
-            ->with(self::isInstanceOf(LocationQuery::class), self::isType('array'))
+            ->with(self::isInstanceOf(LocationQuery::class), self::isArray())
             ->willReturn($result);
 
         $mapper->expects(self::once())

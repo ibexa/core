@@ -24,7 +24,7 @@ class UrlAliasServiceTest extends AbstractServiceTestCase
         return URLAliasService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public static function providerForPassTroughMethods()
     {
         $location = new Location();
         $urlAlias = new URLAlias();
@@ -42,7 +42,7 @@ class UrlAliasServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public static function providerForLanguagesLookupMethods()
     {
         $location = new Location();
         $urlAlias = new URLAlias();

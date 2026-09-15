@@ -11,13 +11,12 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(UserGroupLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class UserGroupLimitationTest extends BaseLimitationTestCase
 {
     public function testUserGroupLimitationAllow()

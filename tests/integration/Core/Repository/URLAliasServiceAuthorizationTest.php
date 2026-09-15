@@ -8,16 +8,19 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\URLAliasService;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DependsExternal;
 
+#[CoversMethod(URLAliasService::class, 'createUrlAlias()')]
+#[CoversMethod(URLAliasService::class, 'createGlobalUrlAlias()')]
+#[CoversMethod(URLAliasService::class, 'removeAliases()')]
 class URLAliasServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testCreateUrlAlias
      */
+    #[DependsExternal(URLAliasServiceTest::class, 'testCreateUrlAlias')]
     public function testCreateUrlAliasThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -47,11 +50,8 @@ class URLAliasServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the createGlobalUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testCreateGlobalUrlAlias
      */
+    #[DependsExternal(URLAliasServiceTest::class, 'testCreateGlobalUrlAlias')]
     public function testCreateGlobalUrlAliasThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -75,11 +75,8 @@ class URLAliasServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the removeAliases() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::removeAliases()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testRemoveAliases
      */
+    #[DependsExternal(URLAliasServiceTest::class, 'testRemoveAliases')]
     public function testRemoveAliasesThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);

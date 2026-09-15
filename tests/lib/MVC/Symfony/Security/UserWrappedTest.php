@@ -11,39 +11,38 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface;
 use Ibexa\Core\MVC\Symfony\Security\UserWrapped;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 final class UserWrappedTest extends TestCase
 {
-    private APIUser & MockObject $apiUser;
+    private APIUser&\PHPUnit\Framework\MockObject\Stub $apiUser;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->apiUser = $this->createMock(APIUser::class);
+        $this->apiUser = self::createStub(APIUser::class);
     }
 
     public function testGetSetAPIUser(): void
     {
-        $originalUser = $this->createMock(SymfonyUserInterface::class);
+        $originalUser = self::createStub(SymfonyUserInterface::class);
         $userWrapped = new UserWrapped($originalUser, $this->apiUser);
         self::assertSame($this->apiUser, $userWrapped->getAPIUser());
 
-        $newApiUser = $this->createMock(APIUser::class);
+        $newApiUser = self::createStub(APIUser::class);
         $userWrapped->setAPIUser($newApiUser);
         self::assertSame($newApiUser, $userWrapped->getAPIUser());
     }
 
     public function testGetSetWrappedUser(): void
     {
-        $originalUser = $this->createMock(SymfonyUserInterface::class);
+        $originalUser = self::createStub(SymfonyUserInterface::class);
         $userWrapped = new UserWrapped($originalUser, $this->apiUser);
         self::assertSame($originalUser, $userWrapped->getWrappedUser());
 
-        $newWrappedUser = $this->createMock(UserInterface::class);
+        $newWrappedUser = self::createStub(UserInterface::class);
         $userWrapped->setWrappedUser($newWrappedUser);
         self::assertSame($newWrappedUser, $userWrapped->getWrappedUser());
     }
@@ -53,7 +52,7 @@ final class UserWrappedTest extends TestCase
         $originalUser = $this->createMock(SymfonyUserInterface::class);
         $user = new UserWrapped($originalUser, $this->apiUser);
 
-        self::assertTrue($user->isEqualTo($this->createMock(SymfonyUserInterface::class)));
+        self::assertTrue($user->isEqualTo(self::createStub(SymfonyUserInterface::class)));
 
         $originalUser
             ->expects(self::once())
@@ -81,7 +80,7 @@ final class UserWrappedTest extends TestCase
     {
         $originalUser = $this->createMock(UserEquatableInterface::class);
         $user = new UserWrapped($originalUser, $this->apiUser);
-        $otherUser = $this->createMock(SymfonyUserInterface::class);
+        $otherUser = self::createStub(SymfonyUserInterface::class);
         $originalUser
             ->expects(self::once())
             ->method('isEqualTo')
@@ -92,7 +91,7 @@ final class UserWrappedTest extends TestCase
 
     public function testNotSerializeApiUser(): void
     {
-        $originalUser = $this->createMock(UserInterface::class);
+        $originalUser = self::createStub(UserInterface::class);
         $user = new UserWrapped($originalUser, $this->apiUser);
         $serialized = serialize($user);
         $unserializedUser = unserialize($serialized);

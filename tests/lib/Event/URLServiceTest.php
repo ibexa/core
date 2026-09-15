@@ -24,11 +24,11 @@ class URLServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(URL::class),
-            $this->createMock(URLUpdateStruct::class),
+            self::createStub(URL::class),
+            self::createStub(URLUpdateStruct::class),
         ];
 
-        $updatedUrl = $this->createMock(URL::class);
+        $updatedUrl = self::createStub(URL::class);
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 
@@ -53,12 +53,12 @@ class URLServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(URL::class),
-            $this->createMock(URLUpdateStruct::class),
+            self::createStub(URL::class),
+            self::createStub(URLUpdateStruct::class),
         ];
 
-        $updatedUrl = $this->createMock(URL::class);
-        $eventUpdatedUrl = $this->createMock(URL::class);
+        $updatedUrl = self::createStub(URL::class);
+        $eventUpdatedUrl = self::createStub(URL::class);
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 
@@ -88,12 +88,12 @@ class URLServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(URL::class),
-            $this->createMock(URLUpdateStruct::class),
+            self::createStub(URL::class),
+            self::createStub(URLUpdateStruct::class),
         ];
 
-        $updatedUrl = $this->createMock(URL::class);
-        $eventUpdatedUrl = $this->createMock(URL::class);
+        $updatedUrl = self::createStub(URL::class);
+        $eventUpdatedUrl = self::createStub(URL::class);
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 

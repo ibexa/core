@@ -11,10 +11,9 @@ use Ibexa\Contracts\Core\FieldType\FieldStorage;
 use Ibexa\Core\FieldType\NullStorage;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry
- */
+#[CoversClass(StorageRegistry::class)]
 class StorageRegistryTest extends TestCase
 {
     private const TYPE_NAME = 'some-type';

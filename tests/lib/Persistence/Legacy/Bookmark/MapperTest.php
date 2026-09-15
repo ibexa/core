@@ -11,11 +11,10 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Mapper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper
- */
+#[CoversClass(Mapper::class)]
 class MapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper */

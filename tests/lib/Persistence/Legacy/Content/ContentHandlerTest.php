@@ -33,11 +33,12 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use ReflectionException;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Handler
- */
+#[CoversClass(Handler::class)]
+#[CoversMethod(Handler::class, 'loadVersionInfoList')]
 class ContentHandlerTest extends TestCase
 {
     private const RELATION_ID = 1;
@@ -129,7 +130,7 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $locationMock = $this->getLocationGatewayMock();
         $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
-        $contentTypeMock = $this->createMock(Type::class);
+        $contentTypeMock = self::createStub(Type::class);
         $createStruct = $this->getCreateStructFixture();
 
         $contentTypeHandlerMock->expects(self::once())
@@ -164,7 +165,7 @@ class ContentHandlerTest extends TestCase
             ->method('insertVersion')
             ->with(
                 self::isInstanceOf(VersionInfo::class),
-                self::isType('array')
+                self::isArray()
             )->will(self::returnValue(1));
 
         $fieldHandlerMock->expects(self::once())
@@ -225,7 +226,7 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $metadataUpdateStruct = new MetadataUpdateStruct();
 
-        $handler->expects(self::at(0))
+        $handler->expects(self::once())
             ->method('loadVersionInfo')
             ->with(23, 1)
             ->will(
@@ -302,7 +303,7 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $metadataUpdateStruct = new MetadataUpdateStruct();
 
-        $handler->expects(self::at(0))
+        $handler->expects(self::once())
             ->method('loadVersionInfo')
             ->with(23, 2)
             ->will(
@@ -320,7 +321,7 @@ class ContentHandlerTest extends TestCase
             );
 
         $handler
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('setStatus')
             ->with(23, VersionInfo::STATUS_ARCHIVED, 1);
 
@@ -547,15 +548,22 @@ class ContentHandlerTest extends TestCase
             2 => $this->getContentFixtureForDraft(2, 2),
             3 => $this->getContentFixtureForDraft(3, 1),
         ];
-        $mapperMock->expects(self::at(0))
+        $extractContentFromRowsMatcher = self::exactly(2);
+        $mapperMock->expects($extractContentFromRowsMatcher)
             ->method('extractContentFromRows')
-            ->with(self::equalTo([$contentRows[0]]), self::equalTo([$nameDataRows[0]]))
-            ->willReturn([$expected[2]]);
+            ->willReturnCallback(static function (array $rows, array $nameRows, string $prefix = 'content_', ?array $translations = null) use ($extractContentFromRowsMatcher, $contentRows, $nameDataRows, $expected): array {
+                if ($extractContentFromRowsMatcher->numberOfInvocations() === 1) {
+                    self::assertSame([$contentRows[0]], $rows);
+                    self::assertSame([$nameDataRows[0]], $nameRows);
 
-        $mapperMock->expects(self::at(1))
-            ->method('extractContentFromRows')
-            ->with(self::equalTo([$contentRows[1]]), self::equalTo([$nameDataRows[1]]))
-            ->willReturn([$expected[3]]);
+                    return [$expected[2]];
+                }
+
+                self::assertSame([$contentRows[1]], $rows);
+                self::assertSame([$nameDataRows[1]], $nameRows);
+
+                return [$expected[3]];
+            });
 
         $fieldHandlerMock->expects(self::exactly(2))
             ->method('loadExternalFieldData')
@@ -639,7 +647,7 @@ class ContentHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
-        $contentTypeMock = $this->createMock(Type::class);
+        $contentTypeMock = self::createStub(Type::class);
         $contentStub = new Content(
             [
                 'versionInfo' => new VersionInfo(
@@ -674,16 +682,19 @@ class ContentHandlerTest extends TestCase
                 self::isInstanceOf(Type::class)
             );
 
-        $handler->expects(self::at(0))
+        $loadMatcher = self::exactly(2);
+        $handler->expects($loadMatcher)
             ->method('load')
             ->with(14, 4)
-            ->will(self::returnValue($contentStub));
+            ->willReturnCallback(static function () use ($loadMatcher, $contentStub) {
+                if ($loadMatcher->numberOfInvocations() === 1) {
+                    return $contentStub;
+                }
 
-        $handler->expects(self::at(1))
-            ->method('load')
-            ->with(14, 4);
+                return null;
+            });
 
-        $handler->expects(self::at(2))
+        $handler->expects(self::once())
             ->method('loadContentInfo')
             ->with(14);
 
@@ -754,7 +765,7 @@ class ContentHandlerTest extends TestCase
             ->with(14)
             ->will(
                 self::returnValue(
-                    $this->createMock(ContentInfo::class)
+                    self::createStub(ContentInfo::class)
                 )
             );
 
@@ -819,7 +830,7 @@ class ContentHandlerTest extends TestCase
             ->with(14)
             ->will(
                 self::returnValue(
-                    $this->createMock(ContentInfo::class)
+                    self::createStub(ContentInfo::class)
                 )
             );
 
@@ -1089,7 +1100,7 @@ class ContentHandlerTest extends TestCase
      */
     public function testDeleteContentWithLocations()
     {
-        $handlerMock = $this->getPartlyMockedHandler(['getAllLocationIds']);
+        $handlerMock = $this->getPartlyMockedHandler([]);
         $gatewayMock = $this->getGatewayMock();
         $treeHandlerMock = $this->getTreeHandlerMock();
 
@@ -1265,7 +1276,7 @@ class ContentHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
-        $contentTypeMock = $this->createMock(Type::class);
+        $contentTypeMock = self::createStub(Type::class);
         $time = time();
         $createStructStub = new CreateStruct(
             [
@@ -1283,11 +1294,6 @@ class ContentHandlerTest extends TestCase
             ->method('loadContentInfo')
             ->with(self::equalTo(23))
             ->will(self::returnValue(new ContentInfo(['currentVersionNo' => 2])));
-
-        $handler->expects(self::at(1))
-            ->method('load')
-            ->with(self::equalTo(23), self::equalTo(2))
-            ->will(self::returnValue(new Content()));
 
         $mapperMock->expects(self::once())
             ->method('createCreateStructFromContent')
@@ -1338,19 +1344,26 @@ class ContentHandlerTest extends TestCase
                 ),
             ]
         );
-        $handler->expects(self::at(4))
+        $copyLoadMatcher = self::exactly(2);
+        $handler->expects($copyLoadMatcher)
             ->method('load')
-            ->with(self::equalTo(23), self::equalTo(1))
-            ->will(
-                self::returnValue(
-                    new Content(
-                        [
-                            'versionInfo' => $versionInfo,
-                            'fields' => [],
-                        ]
-                    )
-                )
-            );
+            ->willReturnCallback(static function ($contentId, $versionNo) use ($copyLoadMatcher, $versionInfo) {
+                self::assertSame(23, $contentId);
+                if ($copyLoadMatcher->numberOfInvocations() === 1) {
+                    self::assertSame(2, $versionNo);
+
+                    return new Content();
+                }
+
+                self::assertSame(1, $versionNo);
+
+                return new Content(
+                    [
+                        'versionInfo' => $versionInfo,
+                        'fields' => [],
+                    ]
+                );
+            });
 
         $versionInfo->creationDate = $time;
         $versionInfo->modificationDate = $time;
@@ -1358,7 +1371,7 @@ class ContentHandlerTest extends TestCase
             ->method('insertVersion')
             ->with(
                 self::equalTo($versionInfo),
-                self::isType('array')
+                self::isArray()
             )->will(self::returnValue(42));
 
         $versionInfo = clone $versionInfo;
@@ -1457,8 +1470,6 @@ class ContentHandlerTest extends TestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Persistence\Legacy\Content\Handler::loadVersionInfoList
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testLoadVersionInfoList(): void
@@ -1547,7 +1558,6 @@ class ContentHandlerTest extends TestCase
     protected function getPartlyMockedHandler(array $methods)
     {
         return $this->getMockBuilder(Handler::class)
-            ->setMethods($methods)
             ->setConstructorArgs(
                 [
                     $this->getGatewayMock(),
@@ -1561,6 +1571,7 @@ class ContentHandlerTest extends TestCase
                     $this->getLanguageHandlerMock(),
                 ]
             )
+            ->onlyMethods(array_values($methods))
             ->getMock();
     }
 

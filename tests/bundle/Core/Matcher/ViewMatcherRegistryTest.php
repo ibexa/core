@@ -10,11 +10,10 @@ namespace Ibexa\Tests\Bundle\Core\Matcher;
 use Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry
- */
+#[CoversClass(ViewMatcherRegistry::class)]
 final class ViewMatcherRegistryTest extends TestCase
 {
     private const MATCHER_NAME = 'test_matcher';

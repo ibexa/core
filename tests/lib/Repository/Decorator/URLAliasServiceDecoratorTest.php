@@ -36,7 +36,7 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
             'random_value_5ced05ce0f45c8.98320978',
             'random_value_5ced05ce0f45f9.49337276',
             true,
@@ -72,7 +72,7 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
             true,
             'random_value_5ced05ce0f4720.32499208',
         ];
@@ -131,7 +131,7 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
             'random_value_5ced05ce0f4803.92292057',
         ];
 
@@ -157,7 +157,7 @@ class URLAliasServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Location::class)];
+        $parameters = [self::createStub(Location::class)];
 
         $serviceMock->expects(self::once())->method('refreshSystemUrlAliasesForLocation')->with(...$parameters);
 

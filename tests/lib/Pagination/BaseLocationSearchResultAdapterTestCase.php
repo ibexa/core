@@ -68,7 +68,7 @@ abstract class BaseLocationSearchResultAdapterTestCase extends BaseSearchResultA
         for ($i = 0; $i < self::EXAMPLE_LIMIT; ++$i) {
             $hits[] = new SearchHit(
                 [
-                    'valueObject' => $this->createMock(APILocation::class),
+                    'valueObject' => self::createStub(APILocation::class),
                 ]
             );
         }

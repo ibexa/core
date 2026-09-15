@@ -13,13 +13,13 @@ use Ibexa\Bundle\Core\ControllerArgumentResolver\LocationArgumentResolver;
 use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
-/**
- * @covers \Ibexa\Bundle\Core\Converter\LocationArgumentResolver
- */
+#[CoversClass(LocationArgumentResolver::class)]
 final class LocationArgumentResolverTest extends TestCase
 {
     private const PARAMETER_LOCATION_ID = 'locationId';
@@ -28,13 +28,10 @@ final class LocationArgumentResolverTest extends TestCase
 
     protected function setUp(): void
     {
-        $locationService = $this->createMock(LocationService::class);
-        $this->locationArgumentResolver = new LocationArgumentResolver($locationService);
+        $this->locationArgumentResolver = new LocationArgumentResolver(self::createStub(LocationService::class));
     }
 
-    /**
-     * @dataProvider dataProviderForTestResolverForUnsupportedRequest
-     */
+    #[DataProvider('dataProviderForTestResolverForUnsupportedRequest')]
     public function testResolveForUnsupportedRequest(
         Request $request,
         ArgumentMetadata $argumentMetadata
@@ -58,7 +55,7 @@ final class LocationArgumentResolverTest extends TestCase
                     'locationId' => 'foo',
                 ]
             ),
-            $this->createArgumentMetadata(Location::class)
+            self::createArgumentMetadata(Location::class)
         );
 
         self::assertInstanceOf(Generator::class, $generator);
@@ -69,8 +66,8 @@ final class LocationArgumentResolverTest extends TestCase
     public function testResolve(): void
     {
         $resolvedArgumentsGenerator = $this->locationArgumentResolver->resolve(
-            $this->createRequest(true, false, 1),
-            $this->createArgumentMetadata(Location::class)
+            self::createRequest(true, false, 1),
+            self::createArgumentMetadata(Location::class)
         );
 
         self::assertInstanceOf(Generator::class, $resolvedArgumentsGenerator);
@@ -91,37 +88,32 @@ final class LocationArgumentResolverTest extends TestCase
      *     \Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata
      * }>
      */
-    public function dataProviderForTestResolverForUnsupportedRequest(): iterable
+    public static function dataProviderForTestResolverForUnsupportedRequest(): iterable
     {
-        $locationBasedArgumentMetadata = $this->createArgumentMetadata(Location::class);
+        $locationBasedArgumentMetadata = self::createArgumentMetadata(Location::class);
 
         yield 'Not supported - type different than Ibexa\Contracts\Core\Repository\Values\Content\Location' => [
-            $this->createRequest(true, false, 1),
-            $this->createArgumentMetadata('foo'),
+            self::createRequest(true, false, 1),
+            self::createArgumentMetadata('foo'),
         ];
 
         yield 'Not supported - locationId passed to request attributes' => [
-            $this->createRequest(false, true, 1),
+            self::createRequest(false, true, 1),
             $locationBasedArgumentMetadata,
         ];
 
         yield 'Not supported - locationId passed to request attributes and query' => [
-            $this->createRequest(true, true, 1),
+            self::createRequest(true, true, 1),
             $locationBasedArgumentMetadata,
         ];
     }
 
-    private function createArgumentMetadata(string $type): ArgumentMetadata
+    private static function createArgumentMetadata(string $type): ArgumentMetadata
     {
-        $argumentMetadata = $this->createMock(ArgumentMetadata::class);
-        $argumentMetadata
-            ->method('getType')
-            ->willReturn($type);
-
-        return $argumentMetadata;
+        return new ArgumentMetadata('locationId', $type, false, false, null);
     }
 
-    private function createRequest(
+    private static function createRequest(
         bool $addToQuery,
         bool $addToAttributes,
         ?int $locationId = null

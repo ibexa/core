@@ -12,21 +12,21 @@ use ArrayIterator;
 use Generator;
 use Ibexa\Core\Search\Indexer\ContentIdBatchList;
 use IteratorAggregate;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 
-/**
- * @covers \Ibexa\Core\Search\Indexer\ContentIdBatchList
- */
+#[CoversClass(ContentIdBatchList::class)]
 final class ContentIdBatchListTest extends TestCase
 {
     /**
      * @return iterable<string, array{iterable<int, array<int>>, int, array<int, array<int>>}>
      */
-    public function getDataForTestGetIterator(): iterable
+    public static function getDataForTestGetIterator(): iterable
     {
         yield 'generator' => [
-            $this->buildGenerator(),
+            self::buildGenerator(),
             5,
             [
                 [1, 2, 3],
@@ -49,7 +49,7 @@ final class ContentIdBatchListTest extends TestCase
         ];
 
         yield 'Traversable object' => [
-            $this->buildTraversableObject(),
+            self::buildTraversableObject(),
             5,
             [
                 [1, 2, 3, 4],
@@ -58,18 +58,17 @@ final class ContentIdBatchListTest extends TestCase
         ];
 
         yield 'empty generator' => [
-            $this->buildEmptyGenerator(),
+            self::buildEmptyGenerator(),
             0,
             [],
         ];
     }
 
     /**
-     * @dataProvider getDataForTestGetIterator
-     *
      * @param iterable<int, array<int>> $list
      * @param array<int, array<int>> $expectedBatches
      */
+    #[DataProvider('getDataForTestGetIterator')]
     public function testGetIterator(iterable $list, int $totalCount, array $expectedBatches): void
     {
         $contentIdBatchList = new ContentIdBatchList($list, $totalCount);
@@ -86,13 +85,13 @@ final class ContentIdBatchListTest extends TestCase
         self::assertSame(3, $contentIdBatchList->getCount());
     }
 
-    private function buildGenerator(): Generator
+    private static function buildGenerator(): Generator
     {
         yield [1, 2, 3];
         yield [4, 5];
     }
 
-    private function buildEmptyGenerator(): \Generator
+    private static function buildEmptyGenerator(): \Generator
     {
         yield from [];
     }
@@ -100,7 +99,7 @@ final class ContentIdBatchListTest extends TestCase
     /**
      * @return \Traversable<int, array<int>>
      */
-    private function buildTraversableObject(): Traversable
+    private static function buildTraversableObject(): Traversable
     {
         return new class() implements IteratorAggregate {
             /**

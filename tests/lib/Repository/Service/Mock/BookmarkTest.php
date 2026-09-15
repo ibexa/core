@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
+use Ibexa\Contracts\Core\Repository\BookmarkService as CoveredBookmarkService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -20,8 +21,13 @@ use Ibexa\Core\Repository\BookmarkService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 
+#[CoversMethod(CoveredBookmarkService::class, 'createBookmark')]
+#[CoversMethod(CoveredBookmarkService::class, 'deleteBookmark')]
+#[CoversMethod(CoveredBookmarkService::class, 'loadBookmarks')]
+#[CoversMethod(CoveredBookmarkService::class, 'isBookmarked')]
 class BookmarkTest extends BaseServiceMockTest
 {
     public const BOOKMARK_ID = 2;
@@ -50,9 +56,6 @@ class BookmarkTest extends BaseServiceMockTest
             ->willReturn($permissionResolverMock);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
-     */
     public function testCreateBookmark()
     {
         $location = $this->createLocation(self::LOCATION_ID);
@@ -80,9 +83,6 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
-     */
     public function testCreateBookmarkThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -104,9 +104,6 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
-     */
     public function testCreateBookmarkWithRollback()
     {
         $this->expectException(\Exception::class);
@@ -125,15 +122,12 @@ class BookmarkTest extends BaseServiceMockTest
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('create')
-                ->willThrowException($this->createMock(Exception::class));
+                ->willThrowException(self::createStub(Exception::class));
         });
 
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
-     */
     public function testDeleteBookmarkExisting()
     {
         $location = $this->createLocation(self::LOCATION_ID);
@@ -158,9 +152,6 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->deleteBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
-     */
     public function testDeleteBookmarkWithRollback()
     {
         $this->expectException(\Exception::class);
@@ -179,15 +170,12 @@ class BookmarkTest extends BaseServiceMockTest
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('delete')
-                ->willThrowException($this->createMock(Exception::class));
+                ->willThrowException(self::createStub(Exception::class));
         });
 
         $this->createBookmarkService()->deleteBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
-     */
     public function testDeleteBookmarkNonExisting()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -209,9 +197,6 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->deleteBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
-     */
     public function testLoadBookmarks()
     {
         $offset = 0;
@@ -246,9 +231,6 @@ class BookmarkTest extends BaseServiceMockTest
         self::assertEquals($expectedItems, $bookmarks->items);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::isBookmarked
-     */
     public function testLocationShouldNotBeBookmarked()
     {
         $this->bookmarkHandler
@@ -333,7 +315,7 @@ class BookmarkTest extends BaseServiceMockTest
         return $this
             ->getMockBuilder(BookmarkService::class)
             ->setConstructorArgs([$this->getRepositoryMock(), $this->bookmarkHandler])
-            ->setMethods($methods)
+            ->onlyMethods(array_values($methods ?? []))
             ->getMock();
     }
 }

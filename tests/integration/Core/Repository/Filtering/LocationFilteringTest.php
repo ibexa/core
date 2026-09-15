@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use IteratorAggregate;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -54,16 +55,14 @@ final class LocationFilteringTest extends BaseRepositoryFilteringTestCase
     /**
      * @return iterable<string, array{bool, int, int, int}>
      */
-    public function isBookmarkedProvider(): iterable
+    public static function isBookmarkedProvider(): iterable
     {
         // [isBookmarkedCriterion, initialCount, afterCreateCount, afterDeleteCount]
         yield 'bookmarked=true' => [true, 0, 1, 0];
         yield 'bookmarked=false' => [false, 1, 0, 1];
     }
 
-    /**
-     * @dataProvider isBookmarkedProvider
-     */
+    #[DataProvider('isBookmarkedProvider')]
     public function testIsBookmarkedTrueAndFalse(
         bool $isBookmarked,
         int $initialCount,
@@ -189,7 +188,7 @@ final class LocationFilteringTest extends BaseRepositoryFilteringTestCase
         return new Query\SortClause\Location\Id();
     }
 
-    public function getCriteriaForInitialData(): iterable
+    public static function getCriteriaForInitialData(): iterable
     {
         yield 'Location\\Depth=2' => new Criterion\Location\Depth(Criterion\Operator::EQ, 2);
         yield 'Location\\IsMainLocation' => new Criterion\Location\IsMainLocation(

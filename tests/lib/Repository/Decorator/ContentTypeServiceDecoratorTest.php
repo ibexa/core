@@ -42,7 +42,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(ContentTypeGroupCreateStruct::class)];
+        $parameters = [self::createStub(ContentTypeGroupCreateStruct::class)];
 
         $serviceMock->expects(self::once())->method('createContentTypeGroup')->with(...$parameters);
 
@@ -97,8 +97,8 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentTypeGroup::class),
-            $this->createMock(ContentTypeGroupUpdateStruct::class),
+            self::createStub(ContentTypeGroup::class),
+            self::createStub(ContentTypeGroupUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateContentTypeGroup')->with(...$parameters);
@@ -111,7 +111,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(ContentTypeGroup::class)];
+        $parameters = [self::createStub(ContentTypeGroup::class)];
 
         $serviceMock->expects(self::once())->method('deleteContentTypeGroup')->with(...$parameters);
 
@@ -124,7 +124,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentTypeCreateStruct::class),
+            self::createStub(ContentTypeCreateStruct::class),
             ['content_type_group_identifier'],
         ];
 
@@ -211,7 +211,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentTypeGroup::class),
+            self::createStub(ContentTypeGroup::class),
             ['random_value_5ced05ce1023d7.35531928'],
         ];
 
@@ -225,7 +225,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(ContentType::class)];
+        $parameters = [self::createStub(ContentType::class)];
 
         $serviceMock->expects(self::once())->method('createContentTypeDraft')->with(...$parameters);
 
@@ -238,8 +238,8 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(ContentTypeUpdateStruct::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(ContentTypeUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateContentTypeDraft')->with(...$parameters);
@@ -252,7 +252,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(ContentType::class)];
+        $parameters = [self::createStub(ContentType::class)];
 
         $serviceMock->expects(self::once())->method('deleteContentType')->with(...$parameters);
 
@@ -265,8 +265,8 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(User::class),
+            self::createStub(ContentType::class),
+            self::createStub(User::class),
         ];
 
         $serviceMock->expects(self::once())->method('copyContentType')->with(...$parameters);
@@ -280,8 +280,8 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(ContentTypeGroup::class),
+            self::createStub(ContentType::class),
+            self::createStub(ContentTypeGroup::class),
         ];
 
         $serviceMock->expects(self::once())->method('assignContentTypeGroup')->with(...$parameters);
@@ -295,8 +295,8 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentType::class),
-            $this->createMock(ContentTypeGroup::class),
+            self::createStub(ContentType::class),
+            self::createStub(ContentTypeGroup::class),
         ];
 
         $serviceMock->expects(self::once())->method('unassignContentTypeGroup')->with(...$parameters);
@@ -310,8 +310,8 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(FieldDefinitionCreateStruct::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(FieldDefinitionCreateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('addFieldDefinition')->with(...$parameters);
@@ -325,8 +325,8 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(FieldDefinition::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(FieldDefinition::class),
         ];
 
         $serviceMock->expects(self::once())->method('removeFieldDefinition')->with(...$parameters);
@@ -340,9 +340,9 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
-            $this->createMock(FieldDefinition::class),
-            $this->createMock(FieldDefinitionUpdateStruct::class),
+            self::createStub(ContentTypeDraft::class),
+            self::createStub(FieldDefinition::class),
+            self::createStub(FieldDefinitionUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateFieldDefinition')->with(...$parameters);
@@ -355,7 +355,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(ContentTypeDraft::class)];
+        $parameters = [self::createStub(ContentTypeDraft::class)];
 
         $serviceMock->expects(self::once())->method('publishContentTypeDraft')->with(...$parameters);
 
@@ -442,7 +442,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(ContentType::class)];
+        $parameters = [self::createStub(ContentType::class)];
 
         $serviceMock->expects(self::once())->method('isContentTypeUsed')->with(...$parameters);
 
@@ -455,7 +455,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentTypeDraft::class),
+            self::createStub(ContentTypeDraft::class),
             'random_value_5ced05ce105c21.42399370',
         ];
 

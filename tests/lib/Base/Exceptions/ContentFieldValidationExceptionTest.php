@@ -11,10 +11,9 @@ namespace Ibexa\Tests\Core\Base\Exceptions;
 use Ibexa\Core\Base\Exceptions\ContentFieldValidationException;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Tests\Core\Search\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Base\Exceptions\ContentFieldValidationException
- */
+#[CoversClass(ContentFieldValidationException::class)]
 final class ContentFieldValidationExceptionTest extends TestCase
 {
     /**

@@ -11,10 +11,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**

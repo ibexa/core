@@ -11,11 +11,10 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Keyword\Type as KeywordType;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
 use Ibexa\Core\FieldType\ValidationError;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group fieldType
- * @group ibexa_integer
- */
+#[Group('fieldType')]
+#[Group('ibexa_integer')]
 class KeywordTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): KeywordType
@@ -41,7 +40,7 @@ class KeywordTest extends FieldTypeTestCase
         return new KeywordValue([]);
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -51,7 +50,7 @@ class KeywordTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -79,7 +78,7 @@ class KeywordTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -93,7 +92,7 @@ class KeywordTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -112,10 +111,10 @@ class KeywordTest extends FieldTypeTestCase
         return 'ibexa_keyword';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new KeywordValue([]), '', [], 'en_GB'],
             [new KeywordValue(['foo', 'bar']), 'foo, bar', [], 'en_GB'],
         ];
     }
@@ -123,7 +122,7 @@ class KeywordTest extends FieldTypeTestCase
     /**
      * @return iterable<string, array{0: array<string, mixed>, 1: \Ibexa\Core\FieldType\Keyword\Value}>
      */
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'multiple keywords' => [
             [],
@@ -148,7 +147,7 @@ class KeywordTest extends FieldTypeTestCase
      *     2: array<\Ibexa\Contracts\Core\FieldType\ValidationError>
      * }>
      */
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         $maxLen = KeywordType::MAX_KEYWORD_LENGTH;
 

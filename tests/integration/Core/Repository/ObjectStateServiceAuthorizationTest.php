@@ -8,24 +8,32 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\ObjectStateService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the ObjectStateService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService
- *
- * @group integration
- * @group authorization
  */
+#[CoversClass(ObjectStateService::class)]
+#[CoversMethod(ObjectStateService::class, 'createObjectStateGroup()')]
+#[CoversMethod(ObjectStateService::class, 'updateObjectStateGroup()')]
+#[CoversMethod(ObjectStateService::class, 'deleteObjectStateGroup()')]
+#[CoversMethod(ObjectStateService::class, 'createObjectState()')]
+#[CoversMethod(ObjectStateService::class, 'updateObjectState()')]
+#[CoversMethod(ObjectStateService::class, 'setPriorityOfObjectState()')]
+#[CoversMethod(ObjectStateService::class, 'deleteObjectState()')]
+#[CoversMethod(ObjectStateService::class, 'setContentState()')]
+#[Group('integration')]
+#[Group('authorization')]
 class ObjectStateServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createObjectStateGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::createObjectStateGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testCreateObjectStateGroup
      */
+    #[DependsExternal(ObjectStateServiceTest::class, 'testCreateObjectStateGroup')]
     public function testCreateObjectStateGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -66,11 +74,8 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the updateObjectStateGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectStateGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testUpdateObjectStateGroup
      */
+    #[DependsExternal(ObjectStateServiceTest::class, 'testUpdateObjectStateGroup')]
     public function testUpdateObjectStateGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -116,11 +121,8 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the deleteObjectStateGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::deleteObjectStateGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testDeleteObjectStateGroup
      */
+    #[DependsExternal(ObjectStateServiceTest::class, 'testDeleteObjectStateGroup')]
     public function testDeleteObjectStateGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -153,11 +155,8 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the createObjectState() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::createObjectState()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testCreateObjectState
      */
+    #[DependsExternal(ObjectStateServiceTest::class, 'testCreateObjectState')]
     public function testCreateObjectStateThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -205,11 +204,8 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the updateObjectState() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectState()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testUpdateObjectState
      */
+    #[DependsExternal(ObjectStateServiceTest::class, 'testUpdateObjectState')]
     public function testUpdateObjectStateThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -256,11 +252,8 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the setPriorityOfObjectState() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::setPriorityOfObjectState()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testSetPriorityOfObjectState
      */
+    #[DependsExternal(ObjectStateServiceTest::class, 'testSetPriorityOfObjectState')]
     public function testSetPriorityOfObjectStateThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -295,11 +288,8 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the deleteObjectState() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::deleteObjectState()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testDeleteObjectState
      */
+    #[DependsExternal(ObjectStateServiceTest::class, 'testDeleteObjectState')]
     public function testDeleteObjectStateThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -330,11 +320,8 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the setContentState() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::setContentState()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testSetContentState
      */
+    #[DependsExternal(ObjectStateServiceTest::class, 'testSetContentState')]
     public function testSetContentStateThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);

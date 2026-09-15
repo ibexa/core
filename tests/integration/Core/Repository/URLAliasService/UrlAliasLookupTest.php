@@ -10,10 +10,9 @@ namespace Ibexa\Tests\Integration\Core\Repository\URLAliasService;
 
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\URLAliasService
- */
+#[CoversClass(URLAliasService::class)]
 final class UrlAliasLookupTest extends RepositoryTestCase
 {
     /**

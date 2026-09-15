@@ -29,7 +29,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         return ObjectStateService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public static function providerForPassTroughMethods()
     {
         $objectStateGroupCreateStruct = new ObjectStateGroupCreateStruct();
         $objectStateGroupUpdateStruct = new ObjectStateGroupUpdateStruct();
@@ -63,7 +63,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public static function providerForLanguagesLookupMethods()
     {
         $objectStateGroup = new ObjectStateGroup();
         $objectState = new ObjectState();

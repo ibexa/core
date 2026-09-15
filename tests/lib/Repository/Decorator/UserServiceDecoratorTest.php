@@ -49,8 +49,8 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(UserGroupCreateStruct::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroupCreateStruct::class),
+            self::createStub(UserGroup::class),
         ];
 
         $serviceMock->expects(self::once())->method('createUserGroup')->with(...$parameters);
@@ -94,7 +94,7 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroup::class),
             self::EXAMPLE_OFFSET,
             self::EXAMPLE_LIMIT,
             ['random_value_5ced05ce176401.55725588'],
@@ -110,7 +110,7 @@ class UserServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(UserGroup::class)];
+        $parameters = [self::createStub(UserGroup::class)];
 
         $serviceMock->expects(self::once())->method('deleteUserGroup')->with(...$parameters);
 
@@ -123,8 +123,8 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(UserGroup::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroup::class),
+            self::createStub(UserGroup::class),
         ];
 
         $serviceMock->expects(self::once())->method('moveUserGroup')->with(...$parameters);
@@ -138,8 +138,8 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(UserGroup::class),
-            $this->createMock(UserGroupUpdateStruct::class),
+            self::createStub(UserGroup::class),
+            self::createStub(UserGroupUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateUserGroup')->with(...$parameters);
@@ -153,7 +153,7 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(UserCreateStruct::class),
+            self::createStub(UserCreateStruct::class),
             ['random_value_5ced05ce177102.13726421'],
         ];
 
@@ -183,7 +183,7 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(User::class),
+            self::createStub(User::class),
             'random_value_5ced05ce1771c7.58152750',
         ];
 
@@ -242,7 +242,7 @@ class UserServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(User::class)];
+        $parameters = [self::createStub(User::class)];
 
         $serviceMock->expects(self::once())->method('deleteUser')->with(...$parameters);
 
@@ -255,8 +255,8 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserUpdateStruct::class),
+            self::createStub(User::class),
+            self::createStub(UserUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateUser')->with(...$parameters);
@@ -270,7 +270,7 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(User::class),
+            self::createStub(User::class),
             'H@xi0r!',
         ];
 
@@ -285,8 +285,8 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserTokenUpdateStruct::class),
+            self::createStub(User::class),
+            self::createStub(UserTokenUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateUserToken')->with(...$parameters);
@@ -312,8 +312,8 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(User::class),
+            self::createStub(UserGroup::class),
         ];
 
         $serviceMock->expects(self::once())->method('assignUserToUserGroup')->with(...$parameters);
@@ -327,8 +327,8 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(User::class),
+            self::createStub(UserGroup::class),
         ];
 
         $serviceMock->expects(self::once())->method('unAssignUserFromUserGroup')->with(...$parameters);
@@ -342,7 +342,7 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(User::class),
+            self::createStub(User::class),
             self::EXAMPLE_OFFSET,
             self::EXAMPLE_LIMIT,
             ['random_value_5ced05ce177f66.49237325'],
@@ -359,7 +359,7 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroup::class),
             self::EXAMPLE_OFFSET,
             self::EXAMPLE_LIMIT,
             ['random_value_5ced05ce177fc8.32448790'],
@@ -375,7 +375,7 @@ class UserServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Content::class)];
+        $parameters = [self::createStub(Content::class)];
 
         $serviceMock->expects(self::once())->method('isUser')->with(...$parameters);
 
@@ -387,7 +387,7 @@ class UserServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Content::class)];
+        $parameters = [self::createStub(Content::class)];
 
         $serviceMock->expects(self::once())->method('isUserGroup')->with(...$parameters);
 
@@ -404,7 +404,7 @@ class UserServiceDecoratorTest extends TestCase
             'random_value_5ced05ce178049.06911955',
             'random_value_5ced05ce178050.58319472',
             'random_value_5ced05ce178063.84822784',
-            $this->createMock(ContentType::class),
+            self::createStub(ContentType::class),
         ];
 
         $serviceMock->expects(self::once())->method('newUserCreateStruct')->with(...$parameters);
@@ -419,7 +419,7 @@ class UserServiceDecoratorTest extends TestCase
 
         $parameters = [
             'random_value_5ced05ce178098.19193304',
-            $this->createMock(ContentType::class),
+            self::createStub(ContentType::class),
         ];
 
         $serviceMock->expects(self::once())->method('newUserGroupCreateStruct')->with(...$parameters);
@@ -458,7 +458,7 @@ class UserServiceDecoratorTest extends TestCase
 
         $parameters = [
             'random_value_5ced05ce1780f2.97072127',
-            $this->createMock(PasswordValidationContext::class),
+            self::createStub(PasswordValidationContext::class),
         ];
 
         $serviceMock->expects(self::once())->method('validatePassword')->with(...$parameters);

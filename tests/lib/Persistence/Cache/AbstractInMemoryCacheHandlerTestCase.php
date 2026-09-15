@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * Abstract test case for spi cache impl, with in-memory handling.
  */
@@ -17,11 +19,9 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
 
     abstract public function getHandlerClassName(): string;
 
-    abstract public function providerForUnCachedMethods(): array;
+    abstract public static function providerForUnCachedMethods(): array;
 
     /**
-     * @dataProvider providerForUnCachedMethods
-     *
      * @param string $method
      * @param array $arguments
      * @param array|null $tagGeneratingArguments
@@ -30,6 +30,7 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
      * @param array|null $key
      * @param mixed $returnValue
      */
+    #[DataProvider('providerForUnCachedMethods')]
     final public function testUnCachedMethods(
         string $method,
         array $arguments,
@@ -63,22 +64,30 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
 
         if ($tags || $key) {
             if ($tagGeneratingArguments) {
+                $matcher = self::exactly(count($tagGeneratingArguments));
                 $this->cacheIdentifierGeneratorMock
-                    ->expects(self::exactly(count($tagGeneratingArguments)))
+                    ->expects($matcher)
                     ->method('generateTag')
-                    ->withConsecutive(...$tagGeneratingArguments)
-                    ->willReturnOnConsecutiveCalls(...$tags);
+                    ->willReturnCallback(function (...$parameters) use ($matcher, $tagGeneratingArguments, $tags) {
+                        $this->assertEquals($tagGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+
+                        return $tags[$matcher->numberOfInvocations() - 1];
+                    });
             }
 
             if ($keyGeneratingArguments) {
                 $callsCount = count($keyGeneratingArguments);
 
                 if (is_array($key)) {
+                    $matcher = self::exactly($callsCount);
                     $this->cacheIdentifierGeneratorMock
-                        ->expects(self::exactly($callsCount))
+                        ->expects($matcher)
                         ->method('generateKey')
-                        ->withConsecutive(...$keyGeneratingArguments)
-                        ->willReturnOnConsecutiveCalls(...$key);
+                        ->willReturnCallback(function (...$parameters) use ($matcher, $keyGeneratingArguments, $key) {
+                            $this->assertEquals($keyGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+
+                            return $key[$matcher->numberOfInvocations() - 1];
+                        });
                 } else {
                     $this->cacheIdentifierGeneratorMock
                         ->expects(self::exactly($callsCount))
@@ -109,11 +118,9 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
         self::assertEquals($returnValue, $actualReturnValue);
     }
 
-    abstract public function providerForCachedLoadMethodsHit(): array;
+    abstract public static function providerForCachedLoadMethodsHit(): array;
 
     /**
-     * @dataProvider providerForCachedLoadMethodsHit
-     *
      * @param string $method
      * @param array $arguments
      * @param string $key
@@ -125,6 +132,7 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
      * @param bool $multi Default false, set to true if method will lookup several cache items.
      * @param array $additionalCalls Sets of additional calls being made to handlers, with 4 values (0: handler name, 1: handler class, 2: method, 3: return data)
      */
+    #[DataProvider('providerForCachedLoadMethodsHit')]
     final public function testLoadMethodsCacheHit(
         string $method,
         array $arguments,
@@ -145,19 +153,27 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
         $this->loggerMock->expects(self::never())->method('logCacheMiss');
 
         if ($tagGeneratingArguments) {
+            $matcher = self::exactly(count($tagGeneratingArguments));
             $this->cacheIdentifierGeneratorMock
-                ->expects(self::exactly(count($tagGeneratingArguments)))
+                ->expects($matcher)
                 ->method('generateTag')
-                ->withConsecutive(...$tagGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$tagGeneratingResults);
+                ->willReturnCallback(function (...$parameters) use ($matcher, $tagGeneratingArguments, $tagGeneratingResults) {
+                    $this->assertEquals($tagGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+
+                    return $tagGeneratingResults[$matcher->numberOfInvocations() - 1];
+                });
         }
 
         if ($keyGeneratingArguments) {
+            $matcher = self::exactly(count($keyGeneratingArguments));
             $this->cacheIdentifierGeneratorMock
-                ->expects(self::exactly(count($keyGeneratingArguments)))
+                ->expects($matcher)
                 ->method('generateKey')
-                ->withConsecutive(...$keyGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$keyGeneratingResults);
+                ->willReturnCallback(function (...$parameters) use ($matcher, $keyGeneratingArguments, $keyGeneratingResults) {
+                    $this->assertEquals($keyGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+
+                    return $keyGeneratingResults[$matcher->numberOfInvocations() - 1];
+                });
         }
 
         if ($multi) {
@@ -190,11 +206,9 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
         self::assertEquals($data, $return);
     }
 
-    abstract public function providerForCachedLoadMethodsMiss(): array;
+    abstract public static function providerForCachedLoadMethodsMiss(): array;
 
     /**
-     * @dataProvider providerForCachedLoadMethodsMiss
-     *
      * @param string $method
      * @param array $arguments
      * @param string $key
@@ -206,6 +220,7 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
      * @param bool $multi Default false, set to true if method will lookup several cache items.
      * @param array $additionalCalls Sets of additional calls being made to handlers, with 4 values (0: handler name, 1: handler class, 2: method, 3: return data)
      */
+    #[DataProvider('providerForCachedLoadMethodsMiss')]
     final public function testLoadMethodsCacheMiss(
         string $method,
         array $arguments,
@@ -226,19 +241,27 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
         $this->loggerMock->expects(self::never())->method('logCacheHit');
 
         if ($tagGeneratingArguments) {
+            $matcher = self::exactly(count($tagGeneratingArguments));
             $this->cacheIdentifierGeneratorMock
-                ->expects(self::exactly(count($tagGeneratingArguments)))
+                ->expects($matcher)
                 ->method('generateTag')
-                ->withConsecutive(...$tagGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$tagGeneratingResults);
+                ->willReturnCallback(function (...$parameters) use ($matcher, $tagGeneratingArguments, $tagGeneratingResults) {
+                    $this->assertEquals($tagGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+
+                    return $tagGeneratingResults[$matcher->numberOfInvocations() - 1];
+                });
         }
 
         if ($keyGeneratingArguments) {
+            $matcher = self::exactly(count($keyGeneratingArguments));
             $this->cacheIdentifierGeneratorMock
-                ->expects(self::exactly(count($keyGeneratingArguments)))
+                ->expects($matcher)
                 ->method('generateKey')
-                ->withConsecutive(...$keyGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$keyGeneratingResults);
+                ->willReturnCallback(function (...$parameters) use ($matcher, $keyGeneratingArguments, $keyGeneratingResults) {
+                    $this->assertEquals($keyGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+
+                    return $keyGeneratingResults[$matcher->numberOfInvocations() - 1];
+                });
         }
 
         if ($multi) {

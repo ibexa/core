@@ -9,20 +9,22 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPIHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
-use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Limitation\LocationLimitationType;
+use Ibexa\Core\Repository\Values\Content\Content as CoreContent;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Repository\Values\Content\VersionInfo as CoreVersionInfo;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Test Case for LimitationType.
@@ -61,7 +63,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue()
     {
         return [
             [new LocationLimitation()],
@@ -71,13 +73,11 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestAcceptValue
-     *
-     * @depends testConstruct
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation $limitation
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
+    #[DataProvider('providerForTestAcceptValue')]
     public function testAcceptValue(LocationLimitation $limitation, LocationLimitationType $limitationType)
     {
         $limitationType->acceptValue($limitation);
@@ -86,7 +86,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException()
     {
         return [
             [new ObjectStateLimitation()],
@@ -95,13 +95,11 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestAcceptValueException
-     *
-     * @depends testConstruct
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
+    #[DataProvider('providerForTestAcceptValueException')]
     public function testAcceptValueException(Limitation $limitation, LocationLimitationType $limitationType)
     {
         $this->expectException(InvalidArgumentException::class);
@@ -112,7 +110,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidatePass()
+    public static function providerForTestValidatePass()
     {
         return [
             [new LocationLimitation()],
@@ -122,10 +120,9 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestValidatePass
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation $limitation
      */
+    #[DataProvider('providerForTestValidatePass')]
     public function testValidatePass(LocationLimitation $limitation)
     {
         if (!empty($limitation->limitationValues)) {
@@ -134,12 +131,14 @@ class LocationLimitationTypeTest extends Base
                 ->method('locationHandler')
                 ->will(self::returnValue($this->locationHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->locationHandlerMock
-                    ->expects(self::at($key))
-                    ->method('load')
-                    ->with($value);
-            }
+            $limitationValues = $limitation->limitationValues;
+            $matcher = self::exactly(count($limitationValues));
+            $this->locationHandlerMock
+                ->expects($matcher)
+                ->method('load')
+                ->willReturnCallback(static function ($actualValue, ?array $translations = null, bool $useAlwaysAvailable = true) use ($matcher, $limitationValues): void {
+                    self::assertSame($limitationValues[$matcher->numberOfInvocations() - 1], $actualValue);
+                });
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -152,7 +151,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidateError()
+    public static function providerForTestValidateError()
     {
         return [
             [new LocationLimitation(), 0],
@@ -162,11 +161,10 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestValidateError
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation $limitation
      * @param int $errorCount
      */
+    #[DataProvider('providerForTestValidateError')]
     public function testValidateError(LocationLimitation $limitation, $errorCount)
     {
         if (!empty($limitation->limitationValues)) {
@@ -175,13 +173,17 @@ class LocationLimitationTypeTest extends Base
                 ->method('locationHandler')
                 ->will(self::returnValue($this->locationHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->locationHandlerMock
-                    ->expects(self::at($key))
-                    ->method('load')
-                    ->with($value)
-                    ->will(self::throwException(new NotFoundException('location', $value)));
-            }
+            $limitationValues = $limitation->limitationValues;
+            $matcher = self::exactly(count($limitationValues));
+            $this->locationHandlerMock
+                ->expects($matcher)
+                ->method('load')
+                ->willReturnCallback(static function ($actualValue, ?array $translations = null, bool $useAlwaysAvailable = true) use ($matcher, $limitationValues): void {
+                    $value = $limitationValues[$matcher->numberOfInvocations() - 1];
+                    self::assertSame($value, $actualValue);
+
+                    throw new NotFoundException('location', $value);
+                });
         } else {
             $this->getPersistenceMock()
                 ->expects(self::never())
@@ -196,10 +198,9 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testBuildValue(LocationLimitationType $limitationType)
     {
         $expected = ['test', 'test' => 9];
@@ -213,28 +214,17 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate()
+    public static function providerForTestEvaluate()
     {
-        // Mocks for testing Content & VersionInfo objects, should only be used once because of expect rules.
-        $contentMock = $this->createMock(APIContent::class);
-        $versionInfoMock = $this->createMock(APIVersionInfo::class);
+        $contentMock = new CoreContent([
+            'versionInfo' => new CoreVersionInfo([
+                'contentInfo' => new ContentInfo(['published' => true]),
+            ]),
+        ]);
 
-        $contentMock
-            ->expects(self::once())
-            ->method('getVersionInfo')
-            ->will(self::returnValue($versionInfoMock));
-
-        $versionInfoMock
-            ->expects(self::once())
-            ->method('getContentInfo')
-            ->will(self::returnValue(new ContentInfo(['published' => true])));
-
-        $versionInfoMock2 = $this->createMock(APIVersionInfo::class);
-
-        $versionInfoMock2
-            ->expects(self::once())
-            ->method('getContentInfo')
-            ->will(self::returnValue(new ContentInfo(['published' => true])));
+        $versionInfoMock2 = new CoreVersionInfo([
+            'contentInfo' => new ContentInfo(['published' => true]),
+        ]);
 
         return [
             // ContentInfo, with targets, no access
@@ -242,7 +232,7 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(),
                 'object' => new ContentInfo(['published' => true]),
                 'targets' => [new Location(['id' => 55])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => false,
             ],
             // ContentInfo, with targets, no access
@@ -250,7 +240,7 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(['limitationValues' => [2]]),
                 'object' => new ContentInfo(['published' => true]),
                 'targets' => [new Location(['id' => 55])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => false,
             ],
             // ContentInfo, with targets, with access
@@ -258,7 +248,7 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(['limitationValues' => [2]]),
                 'object' => new ContentInfo(['id' => 23, 'published' => true]),
                 'targets' => [new Location(['id' => 2])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => true,
             ],
             // ContentInfo, no targets, with access
@@ -266,7 +256,7 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(['limitationValues' => [2]]),
                 'object' => new ContentInfo(['id' => 23, 'published' => true]),
                 'targets' => null,
-                'persistence' => [new Location(['id' => 2])],
+                'persistenceLocations' => [new Location(['id' => 2])],
                 'expected' => true,
             ],
             // ContentInfo, no targets, no access
@@ -274,7 +264,7 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(['limitationValues' => [2, 43]]),
                 'object' => new ContentInfo(['id' => 23, 'published' => true]),
                 'targets' => null,
-                'persistence' => [new Location(['id' => 55])],
+                'persistenceLocations' => [new Location(['id' => 55])],
                 'expected' => false,
             ],
             // ContentInfo, no targets, un-published, with access
@@ -286,7 +276,7 @@ class LocationLimitationTypeTest extends Base
                     'status' => ContentInfo::STATUS_DRAFT,
                 ]),
                 'targets' => null,
-                'persistence' => [new Location(['id' => 2])],
+                'persistenceLocations' => [new Location(['id' => 2])],
                 'expected' => true,
             ],
             // ContentInfo, no targets, un-published, no access
@@ -298,7 +288,7 @@ class LocationLimitationTypeTest extends Base
                     'status' => ContentInfo::STATUS_DRAFT,
                 ]),
                 'targets' => null,
-                'persistence' => [new Location(['id' => 55])],
+                'persistenceLocations' => [new Location(['id' => 55])],
                 'expected' => false,
             ],
             // Content, with targets, with access
@@ -306,7 +296,7 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(['limitationValues' => [2]]),
                 'object' => $contentMock,
                 'targets' => [new Location(['id' => 2])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => true,
             ],
             // VersionInfo, with targets, with access
@@ -314,7 +304,7 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(['limitationValues' => [2]]),
                 'object' => $versionInfoMock2,
                 'targets' => [new Location(['id' => 2])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => true,
             ],
             // ContentCreateStruct, no targets, no access
@@ -322,7 +312,7 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(['limitationValues' => [2]]),
                 'object' => new ContentCreateStruct(),
                 'targets' => [],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => false,
             ],
             // ContentCreateStruct, with targets, no access
@@ -330,7 +320,7 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(['limitationValues' => [2, 43]]),
                 'object' => new ContentCreateStruct(),
                 'targets' => [new LocationCreateStruct(['parentLocationId' => 55])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => false,
             ],
             // ContentCreateStruct, with targets, with access
@@ -338,15 +328,13 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new LocationLimitation(['limitationValues' => [2, 43]]),
                 'object' => new ContentCreateStruct(),
                 'targets' => [new LocationCreateStruct(['parentLocationId' => 43])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => true,
             ],
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluate
-     */
+    #[DataProvider('providerForTestEvaluate')]
     public function testEvaluate(
         LocationLimitation $limitation,
         ValueObject $object,
@@ -394,7 +382,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument()
     {
         return [
             // invalid limitation
@@ -402,35 +390,33 @@ class LocationLimitationTypeTest extends Base
                 'limitation' => new ObjectStateLimitation(),
                 'object' => new ContentInfo(),
                 'targets' => [new Location()],
-                'persistence' => [],
+                'persistenceLocations' => [],
             ],
             // invalid object
             [
                 'limitation' => new LocationLimitation(),
                 'object' => new ObjectStateLimitation(),
                 'targets' => [new Location()],
-                'persistence' => [],
+                'persistenceLocations' => [],
             ],
             // invalid target
             [
                 'limitation' => new LocationLimitation(),
                 'object' => new ContentInfo(),
                 'targets' => [new ObjectStateLimitation()],
-                'persistence' => [],
+                'persistenceLocations' => [],
             ],
             // invalid target when using ContentCreateStruct
             [
                 'limitation' => new LocationLimitation(),
                 'object' => new ContentCreateStruct(),
                 'targets' => [new Location()],
-                'persistence' => [],
+                'persistenceLocations' => [],
             ],
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluateInvalidArgument
-     */
+    #[DataProvider('providerForTestEvaluateInvalidArgument')]
     public function testEvaluateInvalidArgument(
         Limitation $limitation,
         ValueObject $object,
@@ -462,10 +448,9 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testGetCriterionInvalidValue(LocationLimitationType $limitationType)
     {
         $this->expectException(\RuntimeException::class);
@@ -477,10 +462,9 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testGetCriterionSingleValue(LocationLimitationType $limitationType)
     {
         $criterion = $limitationType->getCriterion(
@@ -496,10 +480,9 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testGetCriterionMultipleValues(LocationLimitationType $limitationType)
     {
         $criterion = $limitationType->getCriterion(
@@ -515,10 +498,9 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testValueSchema(LocationLimitationType $limitationType)
     {
         self::assertEquals(

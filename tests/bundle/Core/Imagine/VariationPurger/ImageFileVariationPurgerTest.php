@@ -14,12 +14,11 @@ use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger
- */
+#[CoversClass(ImageFileVariationPurger::class)]
 final class ImageFileVariationPurgerTest extends TestCase
 {
     protected IOServiceInterface & MockObject $ioServiceMock;
@@ -42,16 +41,30 @@ final class ImageFileVariationPurgerTest extends TestCase
                 'path/to/2nd/image.png',
             ]
         );
+        $matcher = self::exactly(4);
 
         $this->pathGeneratorMock
-            ->expects(self::exactly(4))
-            ->method('getVariationPath')
-            ->withConsecutive(
-                ['path/to/1st/image.jpg', 'large'],
-                ['path/to/1st/image.jpg', 'gallery'],
-                ['path/to/2nd/image.png', 'large'],
-                ['path/to/2nd/image.png', 'gallery']
-            );
+            ->expects($matcher)
+            ->method('getVariationPath')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('path/to/1st/image.jpg', $parameters[0]);
+                    $this->assertSame('large', $parameters[1]);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('path/to/1st/image.jpg', $parameters[0]);
+                    $this->assertSame('gallery', $parameters[1]);
+                }
+                if ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame('path/to/2nd/image.png', $parameters[0]);
+                    $this->assertSame('large', $parameters[1]);
+                }
+                if ($matcher->numberOfInvocations() === 4) {
+                    $this->assertSame('path/to/2nd/image.png', $parameters[0]);
+                    $this->assertSame('gallery', $parameters[1]);
+                }
+
+                return '';
+            });
 
         $purger->purge(['large', 'gallery']);
     }

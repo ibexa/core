@@ -22,10 +22,9 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     /**

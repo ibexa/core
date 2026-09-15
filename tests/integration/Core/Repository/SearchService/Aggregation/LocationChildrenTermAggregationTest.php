@@ -12,12 +12,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Location\LocationChildrenTermAggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult;
 use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBuilder\TermAggregationDataSetBuilder;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class LocationChildrenTermAggregationTest extends AbstractAggregationTestCase
 {
-    /**
-     * @dataProvider dataProviderForTestFindContentWithAggregation
-     */
+    #[DataProvider('dataProviderForTestFindContentWithAggregation')]
     public function testFindContentWithAggregation(
         Aggregation $aggregation,
         AggregationResult $expectedResult
@@ -25,7 +24,7 @@ final class LocationChildrenTermAggregationTest extends AbstractAggregationTestC
         self::markTestSkipped('LocationChildrenTermAggregation is only available for Location search');
     }
 
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         $aggregation = new LocationChildrenTermAggregation('children');
 
@@ -42,7 +41,7 @@ final class LocationChildrenTermAggregationTest extends AbstractAggregationTestC
         ]);
 
         $builder->setEntryMapper([
-            $this->getRepository()->getLocationService(),
+            static::resolveRepository()->getLocationService(),
             'loadLocation',
         ]);
 

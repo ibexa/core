@@ -23,6 +23,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Field as Fie
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Search\Common\FieldNameResolver;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Integration test for searching and sorting with Field criterion and Field sort clause.
@@ -117,7 +119,7 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return mixed
      */
-    abstract protected function getValidSearchValueOne();
+    abstract protected static function getValidSearchValueOne();
 
     /**
      * Get search target field value One.
@@ -127,9 +129,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return mixed
      */
-    protected function getSearchTargetValueOne()
+    protected static function getSearchTargetValueOne()
     {
-        return $this->getValidSearchValueOne();
+        return static::getValidSearchValueOne();
     }
 
     /**
@@ -145,7 +147,7 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return mixed
      */
-    abstract protected function getValidSearchValueTwo();
+    abstract protected static function getValidSearchValueTwo();
 
     /**
      * Get search target field value Two.
@@ -155,9 +157,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return mixed
      */
-    protected function getSearchTargetValueTwo()
+    protected static function getSearchTargetValueTwo()
     {
-        return $this->getValidSearchValueTwo();
+        return static::getValidSearchValueTwo();
     }
 
     /**
@@ -182,7 +184,7 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return array
      */
-    protected function getAdditionallyIndexedFieldData()
+    protected static function getAdditionallyIndexedFieldData()
     {
         return [];
     }
@@ -209,11 +211,11 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return array
      */
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
-        self::markTestSkipped(
-            'Skipped by default, override in the concrete test case as required by the field type.'
-        );
+        // Empty by default; fullTextFindProvider() falls back to a skip-sentinel row for this
+        // case, since markTestSkipped() cannot be called from a static data provider (PHPUnit 11).
+        return [];
     }
 
     public function checkFullTextSupport()
@@ -331,13 +333,13 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return array
      */
-    public function findProvider()
+    public static function findProvider()
     {
-        $additionalFields = $this->getAdditionallyIndexedFieldData();
+        $additionalFields = static::getAdditionallyIndexedFieldData();
         $additionalFields[] = [
             null,
-            $this->getSearchTargetValueOne(),
-            $this->getSearchTargetValueTwo(),
+            static::getSearchTargetValueOne(),
+            static::getSearchTargetValueTwo(),
         ];
         $templates = [
             [true, true],
@@ -369,11 +371,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value EQ One
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindEqualsOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::EQ, $valueOne);
@@ -389,11 +389,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value EQ One )
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotEqualsOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::EQ, $valueOne));
@@ -409,11 +407,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value EQ Two
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindEqualsTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::EQ, $valueTwo);
@@ -429,11 +425,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value EQ Two )
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotEqualsTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::EQ, $valueTwo));
@@ -449,11 +443,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value IN [One]
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindInOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::IN, [$valueOne]);
@@ -469,11 +461,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value IN [One] )
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotInOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(
@@ -491,11 +481,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value IN [Two]
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindInTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::IN, [$valueTwo]);
@@ -511,11 +499,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value IN [Two] )
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotInTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(
@@ -533,11 +519,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value IN [One,Two]
      *
      * The result should contain both Content One and Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindInOneTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field(
@@ -560,11 +544,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value IN [One,Two] )
      *
      * The result should be empty.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotInOneTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(
@@ -589,11 +571,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value GT One
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindGreaterThanOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::GT, $valueOne);
@@ -609,11 +589,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value GT One )
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotGreaterThanOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::GT, $valueOne));
@@ -629,11 +607,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value GT Two
      *
      * The result should be empty.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindGreaterThanTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::GT, $valueTwo);
@@ -649,11 +625,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value GT Two )
      *
      * The result should contain both Content One and Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotGreaterThanTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::GT, $valueTwo));
@@ -669,11 +643,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value GTE One
      *
      * The result should contain both Content One and Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindGreaterThanOrEqualOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::GTE, $valueOne);
@@ -689,11 +661,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value GTE One )
      *
      * The result should be empty.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotGreaterThanOrEqual($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::GTE, $valueOne));
@@ -709,11 +679,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value GTE Two
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindGreaterThanOrEqualTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::GTE, $valueTwo);
@@ -729,11 +697,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value GTE Two )
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotGreaterThanOrEqualTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::GTE, $valueTwo));
@@ -749,11 +715,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value LT One
      *
      * The result should be empty.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindLowerThanOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::LT, $valueOne);
@@ -769,11 +733,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value LT One )
      *
      * The result should contain both Content One and Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotLowerThanOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::LT, $valueOne));
@@ -789,11 +751,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value LT Two
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindLowerThanTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::LT, $valueTwo);
@@ -809,11 +769,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value LT Two )
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotLowerThanTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::LT, $valueTwo));
@@ -829,11 +787,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value LTE One
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindLowerThanOrEqualOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::LTE, $valueOne);
@@ -849,11 +805,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value LTE One )
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotLowerThanOrEqualOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::LTE, $valueOne));
@@ -869,11 +823,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value LTE Two
      *
      * The result should contain both Content One and Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindLowerThanOrEqualTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::LTE, $valueTwo);
@@ -889,11 +841,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value LTE Two )
      *
      * The result should be empty.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotLowerThanOrEqualTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::LTE, $valueTwo));
@@ -909,11 +859,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value BETWEEN [One,Two]
      *
      * The result should contain both Content One and Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindBetweenOneTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field(
@@ -936,11 +884,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value BETWEEN [One,Two] )
      *
      * The result should contain both Content One and Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotBetweenOneTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(
@@ -965,11 +911,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value BETWEEN [Two,One]
      *
      * The result should be empty.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindBetweenTwoOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field(
@@ -992,11 +936,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value BETWEEN [Two,One] )
      *
      * The result should contain both Content One and Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotBetweenTwoOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(
@@ -1021,11 +963,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value CONTAINS One
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindContainsOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::CONTAINS, $valueOne);
@@ -1041,11 +981,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value CONTAINS One )
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotContainsOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(new Field('data', Operator::CONTAINS, $valueOne));
@@ -1061,11 +999,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     value CONTAINS Two
      *
      * The result should contain Content Two.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindContainsTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new Field('data', Operator::CONTAINS, $valueTwo);
@@ -1081,11 +1017,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
      *     NOT( value CONTAINS Two )
      *
      * The result should contain Content One.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotContainsTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         $criteria = new LogicalNot(
@@ -1097,11 +1031,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
 
     /**
      * Tests search with LIKE operator, with NO wildcard.
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindLikeOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         // (in case test is skipped for current search engine)
@@ -1114,11 +1046,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
 
     /**
      * Tests search with LIKE operator, with wildcard at the end (on strings).
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotLikeOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         if ($this->supportsLikeWildcard($valueOne)) {
@@ -1134,11 +1064,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
 
     /**
      * Tests search with LIKE operator, with wildcard at the start (on strings).
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindLikeTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         if ($this->supportsLikeWildcard($valueTwo)) {
@@ -1152,11 +1080,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
 
     /**
      * Tests search with LIKE operator, with wildcard in the middle (on strings).
-     *
-     * @dataProvider findProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('findProvider')]
     public function testFindNotLikeTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
     {
         if ($this->supportsLikeWildcard($valueTwo)) {
@@ -1248,9 +1174,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
         }
     }
 
-    public function sortProvider()
+    public static function sortProvider()
     {
-        $additionalFields = $this->getAdditionallyIndexedFieldData();
+        $additionalFields = static::getAdditionallyIndexedFieldData();
         $additionalFields[] = null;
         $templates = [
             [true, true],
@@ -1273,11 +1199,9 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
 
     /**
      * Tests Content Search sort with Field sort clause on a field of specific field type.
-     *
-     * @dataProvider sortProvider
-     *
-     * @depends testCreateTestContent
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('sortProvider')]
     public function testSort($ascending, $content, $modifyField, array $context)
     {
         [$repository, $contentOneId, $contentTwoId] = $context;
@@ -1301,8 +1225,23 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
         $this->assertSortResult($searchResult, $ascending, $contentOneId, $contentTwoId);
     }
 
-    public function fullTextFindProvider()
+    /**
+     * Sentinel value yielded by {@see self::fullTextFindProvider()} when
+     * {@see self::getFullTextIndexedFieldData()} is empty (default), since PHPUnit 11 treats an
+     * empty data provider as a hard error rather than a skip. testFullTextFind* skip on it.
+     */
+    protected const NO_FULLTEXT_DATA = '__no_fulltext_data__';
+
+    public static function fullTextFindProvider()
     {
+        $indexedFieldData = static::getFullTextIndexedFieldData();
+
+        if ($indexedFieldData === []) {
+            return [
+                [self::NO_FULLTEXT_DATA, self::NO_FULLTEXT_DATA, false, false],
+            ];
+        }
+
         $templates = [
             [true, true],
             [true, false],
@@ -1312,7 +1251,7 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
 
         $fixture = [];
 
-        foreach ($this->getFullTextIndexedFieldData() as $valueSet) {
+        foreach ($indexedFieldData as $valueSet) {
             foreach ($templates as $template) {
                 array_unshift($template, $valueSet[1]);
                 array_unshift($template, $valueSet[0]);
@@ -1324,13 +1263,16 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
         return $fixture;
     }
 
-    /**
-     * @dataProvider fullTextFindProvider
-     *
-     * @depends testCreateTestContent
-     */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('fullTextFindProvider')]
     public function testFullTextFindOne($valueOne, $valueTwo, $filter, $content, array $context)
     {
+        if ($valueOne === self::NO_FULLTEXT_DATA) {
+            self::markTestSkipped(
+                'Skipped by default, override getFullTextIndexedFieldData() in the concrete test case as required by the field type.'
+            );
+        }
+
         $this->checkFullTextSupport();
 
         $criteria = new Criterion\FullText($valueOne);
@@ -1338,13 +1280,16 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
         $this->assertFindResult($context, $criteria, true, false, $filter, $content, null);
     }
 
-    /**
-     * @dataProvider fullTextFindProvider
-     *
-     * @depends testCreateTestContent
-     */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('fullTextFindProvider')]
     public function testFullTextFindTwo($valueOne, $valueTwo, $filter, $content, array $context)
     {
+        if ($valueOne === self::NO_FULLTEXT_DATA) {
+            self::markTestSkipped(
+                'Skipped by default, override getFullTextIndexedFieldData() in the concrete test case as required by the field type.'
+            );
+        }
+
         $this->checkFullTextSupport();
 
         $criteria = new Criterion\FullText($valueTwo);

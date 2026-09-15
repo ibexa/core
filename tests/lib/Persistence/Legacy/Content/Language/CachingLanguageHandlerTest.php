@@ -16,10 +16,9 @@ use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
- */
+#[CoversClass(CachingHandler::class)]
 class CachingLanguageHandlerTest extends TestCase
 {
     /**
@@ -254,17 +253,25 @@ class CachingLanguageHandlerTest extends TestCase
         $cacheMock = $this->getLanguageCacheMock();
         $innerHandlerMock = $this->getInnerLanguageHandlerMock();
         $cacheIdentifierGeneratorMock = $this->getCacheIdentifierGeneratorMock();
+        $matcher = self::exactly(2);
 
-        $cacheIdentifierGeneratorMock->expects(self::exactly(2))
-            ->method('generateKey')
-            ->withConsecutive(
-                ['language', [2], true],
-                ['language_list', [], true]
-            )
-            ->willReturnOnConsecutiveCalls(
-                'ibx-la-2',
-                'ibx-lal'
-            );
+        $cacheIdentifierGeneratorMock->expects($matcher)
+            ->method('generateKey')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('language', $parameters[0]);
+                    $this->assertSame([2], $parameters[1]);
+                    $this->assertTrue($parameters[2]);
+
+                    return 'ibx-la-2';
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('language_list', $parameters[0]);
+                    $this->assertSame([], $parameters[1]);
+                    $this->assertTrue($parameters[2]);
+
+                    return 'ibx-lal';
+                }
+            });
 
         $innerHandlerMock->expects(self::once())
             ->method('delete')

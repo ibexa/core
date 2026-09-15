@@ -52,7 +52,7 @@ class PatternTest extends CriterionHandlerTestCase
             ->with('%' . $criterion->pattern . '%', ParameterType::STRING, ':pattern')
             ->willReturn(':pattern');
 
-        $converter = $this->createMock(CriteriaConverter::class);
+        $converter = self::createStub(CriteriaConverter::class);
 
         $handler = new PatternHandler();
         $actual = $handler->handle($converter, $queryBuilder, $criterion);

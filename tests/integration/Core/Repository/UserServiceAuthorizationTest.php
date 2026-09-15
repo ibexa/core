@@ -8,24 +8,39 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\UserService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the UserService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\UserService
- *
- * @group integration
- * @group authorization
  */
+#[CoversClass(UserService::class)]
+#[CoversMethod(UserService::class, 'loadUserGroup()')]
+#[CoversMethod(UserService::class, 'loadUserGroupByRemoteId()')]
+#[CoversMethod(UserService::class, 'loadSubUserGroups()')]
+#[CoversMethod(UserService::class, 'createUserGroup()')]
+#[CoversMethod(UserService::class, 'deleteUserGroup()')]
+#[CoversMethod(UserService::class, 'moveUserGroup()')]
+#[CoversMethod(UserService::class, 'updateUserGroup()')]
+#[CoversMethod(UserService::class, 'createUser()')]
+#[CoversMethod(UserService::class, 'deleteUser()')]
+#[CoversMethod(UserService::class, 'updateUser()')]
+#[CoversMethod(UserService::class, 'updateUserPassword')]
+#[CoversMethod(UserService::class, 'assignUserToUserGroup()')]
+#[CoversMethod(UserService::class, 'unAssignUssrFromUserGroup()')]
+#[CoversMethod(UserService::class, 'loadUserGroupsOfUser()')]
+#[CoversMethod(UserService::class, 'loadUsersOfUserGroup()')]
+#[Group('integration')]
+#[Group('authorization')]
 class UserServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the loadUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUserGroup
      */
+    #[DependsExternal(UserServiceTest::class, 'testLoadUserGroup')]
     public function testLoadUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -49,11 +64,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadUserGroupByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroupByRemoteId()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUserGroupByRemoteId
      */
+    #[DependsExternal(UserServiceTest::class, 'testLoadUserGroupByRemoteId')]
     public function testLoadUserGroupByRemoteIdThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
@@ -75,11 +87,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadSubUserGroups() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadSubUserGroups()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadSubUserGroups
      */
+    #[DependsExternal(UserServiceTest::class, 'testLoadSubUserGroups')]
     public function testLoadSubUserGroupsThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -103,11 +112,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the createUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUserGroup
      */
+    #[DependsExternal(UserServiceTest::class, 'testCreateUserGroup')]
     public function testCreateUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -138,11 +144,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the deleteUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::deleteUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testDeleteUserGroup
      */
+    #[DependsExternal(UserServiceTest::class, 'testDeleteUserGroup')]
     public function testDeleteUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -166,11 +169,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the moveUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::moveUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testMoveUserGroup
      */
+    #[DependsExternal(UserServiceTest::class, 'testMoveUserGroup')]
     public function testMoveUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -201,11 +201,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the updateUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testUpdateUserGroup
      */
+    #[DependsExternal(UserServiceTest::class, 'testUpdateUserGroup')]
     public function testUpdateUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -239,11 +236,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the createUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testCreateUserThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -283,11 +277,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the deleteUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::deleteUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testDeleteUser
      */
+    #[DependsExternal(UserServiceTest::class, 'testDeleteUser')]
     public function testDeleteUserThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -309,8 +300,6 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the updateUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
      */
     public function testUpdateUserThrowsUnauthorizedException()
     {
@@ -335,9 +324,6 @@ class UserServiceAuthorizationTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserPassword
-     */
     public function testUpdateUserPasswordThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
@@ -362,11 +348,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the assignUserToUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::assignUserToUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testAssignUserToUserGroup
      */
+    #[DependsExternal(UserServiceTest::class, 'testAssignUserToUserGroup')]
     public function testAssignUserToUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -395,11 +378,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the unAssignUssrFromUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::unAssignUssrFromUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testUnAssignUserFromUserGroup
      */
+    #[DependsExternal(UserServiceTest::class, 'testUnAssignUserFromUserGroup')]
     public function testUnAssignUserFromUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -436,11 +416,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadUserGroupsOfUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroupsOfUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUserGroupsOfUser
      */
+    #[DependsExternal(UserServiceTest::class, 'testLoadUserGroupsOfUser')]
     public function testLoadUserGroupsOfUserThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -463,11 +440,8 @@ class UserServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadUsersOfUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUsersOfUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUsersOfUserGroup
      */
+    #[DependsExternal(UserServiceTest::class, 'testLoadUsersOfUserGroup')]
     public function testLoadUsersOfUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);

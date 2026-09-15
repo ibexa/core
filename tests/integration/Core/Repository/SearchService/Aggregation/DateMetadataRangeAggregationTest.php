@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\Rang
 
 final class DateMetadataRangeAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         $timezone = new DateTimeZone('+0000');
 

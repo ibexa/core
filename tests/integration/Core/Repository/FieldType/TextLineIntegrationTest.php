@@ -11,13 +11,13 @@ use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 class TextLineIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -156,7 +156,7 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             [
@@ -207,9 +207,9 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -256,7 +256,7 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -273,7 +273,7 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -283,7 +283,7 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new TextLineValue()],
@@ -293,39 +293,39 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new TextLineValue('Example'),
             ],
             [new TextLineValue('0')],
         ];
     }
 
-    protected function getValidSearchValueOne(): string
+    protected static function getValidSearchValueOne(): string
     {
         return 'aaa';
     }
 
-    protected function getSearchTargetValueOne(): string
+    protected static function getSearchTargetValueOne(): string
     {
         // ensure case-insensitivity
-        return strtoupper($this->getValidSearchValueOne());
+        return strtoupper(static::getValidSearchValueOne());
     }
 
-    protected function getValidSearchValueTwo(): string
+    protected static function getValidSearchValueTwo(): string
     {
         return 'bbb';
     }
 
-    protected function getSearchTargetValueTwo(): string
+    protected static function getSearchTargetValueTwo(): string
     {
         // ensure case-insensitivity
-        return strtoupper($this->getValidSearchValueTwo());
+        return strtoupper(static::getValidSearchValueTwo());
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['aaa', 'bbb'],

@@ -12,16 +12,18 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\ContentIdQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\LanguageCodeQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\ParentLocationIdQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder
- */
+#[CoversClass(LogicalAndQueryBuilder::class)]
+#[CoversClass(LogicalOrQueryBuilder::class)]
+#[CoversClass(LogicalNotQueryBuilder::class)]
 final class LogicalOperatorQueryBuilderQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
-    public function getFilteringCriteriaQueryData(): iterable
+    public static function getFilteringCriteriaQueryData(): iterable
     {
         yield 'Parent Location ID=1 AND Language Code=eng-GB' => [
             new Criterion\LogicalAnd(

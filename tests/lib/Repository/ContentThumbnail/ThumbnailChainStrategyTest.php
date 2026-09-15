@@ -22,11 +22,11 @@ class ThumbnailChainStrategyTest extends TestCase
         $firstStrategyMock = $this->createMock(ThumbnailStrategy::class);
         $secondStrategyMock = $this->createMock(ThumbnailStrategy::class);
 
-        $contentTypeMock = $this->createMock(ContentType::class);
+        $contentTypeMock = self::createStub(ContentType::class);
         $fieldMocks = [
-            $this->createMock(Field::class),
-            $this->createMock(Field::class),
-            $this->createMock(Field::class),
+            self::createStub(Field::class),
+            self::createStub(Field::class),
+            self::createStub(Field::class),
         ];
 
         $firstStrategyMock
@@ -58,11 +58,11 @@ class ThumbnailChainStrategyTest extends TestCase
         $secondStrategyMock = $this->createMock(ThumbnailStrategy::class);
         $thirdStrategyMock = $this->createMock(ThumbnailStrategy::class);
 
-        $contentTypeMock = $this->createMock(ContentType::class);
+        $contentTypeMock = self::createStub(ContentType::class);
         $fieldMocks = [
-            $this->createMock(Field::class),
-            $this->createMock(Field::class),
-            $this->createMock(Field::class),
+            self::createStub(Field::class),
+            self::createStub(Field::class),
+            self::createStub(Field::class),
         ];
 
         $firstStrategyMock

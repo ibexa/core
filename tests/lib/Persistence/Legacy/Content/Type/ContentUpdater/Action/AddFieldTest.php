@@ -14,13 +14,16 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
 /**
  * Test case for content type Updater.
  */
+#[CoversMethod(ContentUpdater::class, '__construct')]
 class AddFieldTest extends TestCase
 {
     /**
@@ -54,9 +57,6 @@ class AddFieldTest extends TestCase
      */
     protected $addFieldAction;
 
-    /**
-     * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater::__construct
-     */
     public function testConstructor()
     {
         $action = new AddField(
@@ -90,7 +90,7 @@ class AddFieldTest extends TestCase
             ->will(self::returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects(self::at(2))
+            ->expects(self::once())
             ->method('load')
             ->with($contentId, 1)
             ->will(self::returnValue([]));
@@ -130,7 +130,7 @@ class AddFieldTest extends TestCase
             ->will(self::returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects(self::at(2))
+            ->expects(self::once())
             ->method('load')
             ->with($contentId, 1)
             ->will(self::returnValue([]));
@@ -141,17 +141,21 @@ class AddFieldTest extends TestCase
             ->with([], [])
             ->will(self::returnValue([$content]));
 
+        $matcher = self::exactly(2);
         $action
-            ->expects(self::at(0))
+            ->expects($matcher)
             ->method('insertField')
-            ->with($content, $this->getFieldReference(null, 1, 'eng-GB'))
-            ->will(self::returnValue('fieldId1'));
+            ->willReturnCallback(function (...$parameters) use ($matcher, $content) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertEquals([$content, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
 
-        $action
-            ->expects(self::at(1))
-            ->method('insertField')
-            ->with($content, $this->getFieldReference(null, 1, 'ger-DE'))
-            ->will(self::returnValue('fieldId2'));
+                    return 'fieldId1';
+                }
+
+                $this->assertEquals([$content, $this->getFieldReference(null, 1, 'ger-DE')], $parameters);
+
+                return 'fieldId2';
+            });
 
         $action->apply($contentId);
     }
@@ -176,41 +180,39 @@ class AddFieldTest extends TestCase
             ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
             ->will(self::returnValue([]));
 
+        $loadMatcher = self::exactly(2);
         $this->getContentGatewayMock()
-            ->expects(self::at(2))
+            ->expects($loadMatcher)
             ->method('load')
-            ->with($contentId, 1)
-            ->will(self::returnValue([]));
+            ->willReturnCallback(function (...$parameters) use ($loadMatcher, $contentId) {
+                $this->assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
+                return [];
+            });
+
+        $extractMatcher = self::exactly(2);
         $this->getContentMapperMock()
-            ->expects(self::at(0))
+            ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will(self::returnValue([$content1]));
+            ->willReturnCallback(function (...$parameters) use ($extractMatcher, $content1, $content2) {
+                $this->assertSame([[], [], 'content_', null], $parameters);
 
-        $this->getContentGatewayMock()
-            ->expects(self::at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will(self::returnValue([]));
+                return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
+            });
 
-        $this->getContentMapperMock()
-            ->expects(self::at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will(self::returnValue([$content2]));
-
+        $insertMatcher = self::exactly(2);
         $action
-            ->expects(self::at(0))
+            ->expects($insertMatcher)
             ->method('insertField')
-            ->with($content1, $this->getFieldReference(null, 1, 'eng-GB'))
-            ->will(self::returnValue('fieldId1'));
+            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2) {
+                if ($insertMatcher->numberOfInvocations() === 1) {
+                    $this->assertEquals([$content1, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
+                } else {
+                    $this->assertEquals([$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')], $parameters);
+                }
 
-        $action
-            ->expects(self::at(1))
-            ->method('insertField')
-            ->with($content2, $this->getFieldReference('fieldId1', 2, 'eng-GB'))
-            ->will(self::returnValue('fieldId1'));
+                return 'fieldId1';
+            });
 
         $action->apply($contentId);
     }
@@ -235,53 +237,50 @@ class AddFieldTest extends TestCase
             ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
             ->will(self::returnValue([]));
 
+        $loadMatcher = self::exactly(2);
         $this->getContentGatewayMock()
-            ->expects(self::at(2))
+            ->expects($loadMatcher)
             ->method('load')
-            ->with($contentId, 1)
-            ->will(self::returnValue([]));
+            ->willReturnCallback(function (...$parameters) use ($loadMatcher, $contentId) {
+                $this->assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
+                return [];
+            });
+
+        $extractMatcher = self::exactly(2);
         $this->getContentMapperMock()
-            ->expects(self::at(0))
+            ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will(self::returnValue([$content1]));
+            ->willReturnCallback(function (...$parameters) use ($extractMatcher, $content1, $content2) {
+                $this->assertSame([[], [], 'content_', null], $parameters);
 
-        $this->getContentGatewayMock()
-            ->expects(self::at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will(self::returnValue([]));
+                return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
+            });
 
-        $this->getContentMapperMock()
-            ->expects(self::at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will(self::returnValue([$content2]));
-
+        $insertMatcher = self::exactly(4);
         $action
-            ->expects(self::at(0))
+            ->expects($insertMatcher)
             ->method('insertField')
-            ->with($content1, $this->getFieldReference(null, 1, 'eng-GB'))
-            ->will(self::returnValue('fieldId1'));
+            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2) {
+                switch ($insertMatcher->numberOfInvocations()) {
+                    case 1:
+                        $this->assertEquals([$content1, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
 
-        $action
-            ->expects(self::at(1))
-            ->method('insertField')
-            ->with($content1, $this->getFieldReference(null, 1, 'ger-DE'))
-            ->will(self::returnValue('fieldId2'));
+                        return 'fieldId1';
+                    case 2:
+                        $this->assertEquals([$content1, $this->getFieldReference(null, 1, 'ger-DE')], $parameters);
 
-        $action
-            ->expects(self::at(2))
-            ->method('insertField')
-            ->with($content2, $this->getFieldReference('fieldId1', 2, 'eng-GB'))
-            ->will(self::returnValue('fieldId1'));
+                        return 'fieldId2';
+                    case 3:
+                        $this->assertEquals([$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')], $parameters);
 
-        $action
-            ->expects(self::at(3))
-            ->method('insertField')
-            ->with($content2, $this->getFieldReference('fieldId2', 2, 'ger-DE'))
-            ->will(self::returnValue('fieldId2'));
+                        return 'fieldId1';
+                    default:
+                        $this->assertEquals([$content2, $this->getFieldReference('fieldId2', 2, 'ger-DE')], $parameters);
+
+                        return 'fieldId2';
+                }
+            });
 
         $action->apply($contentId);
     }
@@ -623,9 +622,8 @@ class AddFieldTest extends TestCase
      */
     protected function getMockedAction($methods = [])
     {
-        return $this
+        $builder = $this
             ->getMockBuilder(AddField::class)
-            ->setMethods((array)$methods)
             ->setConstructorArgs(
                 [
                     $this->getContentGatewayMock(),
@@ -634,7 +632,12 @@ class AddFieldTest extends TestCase
                     $this->getContentStorageHandlerMock(),
                     $this->getContentMapperMock(),
                 ]
-            )
-            ->getMock();
+            );
+
+        if ($methods !== []) {
+            $builder->onlyMethods($methods);
+        }
+
+        return $builder->getMock();
     }
 }

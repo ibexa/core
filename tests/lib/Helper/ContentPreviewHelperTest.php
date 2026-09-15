@@ -94,7 +94,7 @@ class ContentPreviewHelperTest extends TestCase
     public function testPreviewedContent()
     {
         self::assertNull($this->previewHelper->getPreviewedContent());
-        $content = $this->createMock(APIContent::class);
+        $content = self::createStub(APIContent::class);
         $this->previewHelper->setPreviewedContent($content);
         self::assertSame($content, $this->previewHelper->getPreviewedContent());
     }
@@ -102,7 +102,7 @@ class ContentPreviewHelperTest extends TestCase
     public function testPreviewedLocation()
     {
         self::assertNull($this->previewHelper->getPreviewedLocation());
-        $location = $this->createMock(APILocation::class);
+        $location = self::createStub(APILocation::class);
         $this->previewHelper->setPreviewedLocation($location);
         self::assertSame($location, $this->previewHelper->getPreviewedLocation());
     }

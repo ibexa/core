@@ -199,7 +199,7 @@ class HandlerContentTest extends AbstractTestCase
                 ),
                 $this->getLanguageHandler()
             ),
-            $this->createMock(LocationGateway::class),
+            self::createStub(LocationGateway::class),
             new Content\WordIndexer\Gateway\DoctrineDatabase(
                 $this->getDatabaseConnection(),
                 $this->getContentTypeHandler(),
@@ -209,7 +209,7 @@ class HandlerContentTest extends AbstractTestCase
                 $this->getFullTextSearchConfiguration()
             ),
             $this->getContentMapperMock(),
-            $this->createMock(LocationMapper::class),
+            self::createStub(LocationMapper::class),
             $this->getLanguageHandler(),
             $this->getFullTextMapper($this->getContentTypeHandler())
         );
@@ -232,11 +232,11 @@ class HandlerContentTest extends AbstractTestCase
                     $this->getFieldTypeAliasResolver(),
                 ]
             )
-            ->setMethods(['extractContentInfoFromRows'])
+            ->onlyMethods(['extractContentInfoFromRows'])
             ->getMock();
         $mapperMock->expects(self::any())
             ->method('extractContentInfoFromRows')
-            ->with(self::isType('array'))
+            ->with(self::isArray())
             ->will(
                 self::returnCallback(
                     static function ($rows): array {
@@ -266,7 +266,7 @@ class HandlerContentTest extends AbstractTestCase
     {
         return $this->getMockBuilder(FieldHandler::class)
             ->disableOriginalConstructor()
-            ->setMethods(['loadExternalFieldData'])
+            ->onlyMethods(['loadExternalFieldData'])
             ->getMock();
     }
 

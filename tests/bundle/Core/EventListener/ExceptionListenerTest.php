@@ -24,6 +24,7 @@ use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,7 +67,7 @@ class ExceptionListenerTest extends TestCase
     private function generateExceptionEvent(Exception $exception): ExceptionEvent
     {
         return new ExceptionEvent(
-            $this->createMock(HttpKernelInterface::class),
+            self::createStub(HttpKernelInterface::class),
             new Request(),
             HttpKernelInterface::MAIN_REQUEST,
             $exception
@@ -114,10 +115,9 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @dataProvider badRequestExceptionProvider
-     *
      * @param \Exception&\Ibexa\Core\Base\Translatable $exception
      */
+    #[DataProvider('badRequestExceptionProvider')]
     public function testBadRequestException(Exception $exception): void
     {
         $messageTemplate = 'some message template';
@@ -138,10 +138,9 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @dataProvider provideDataForTestForbiddenException
-     *
      * @param \Exception&\Ibexa\Core\Base\Translatable $exception
      */
+    #[DataProvider('provideDataForTestForbiddenException')]
     public function testForbiddenException(Exception $exception): void
     {
         $messageTemplate = 'some message template';
@@ -174,10 +173,9 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @dataProvider otherExceptionProvider
-     *
      * @param \Exception&\Ibexa\Core\Base\Translatable $exception
      */
+    #[DataProvider('otherExceptionProvider')]
     public function testOtherRepositoryException(Exception $exception): void
     {
         $messageTemplate = 'some message template';
@@ -200,7 +198,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * @return iterable<array{\Exception&\Ibexa\Core\Base\Translatable}>
      */
-    public function badRequestExceptionProvider(): iterable
+    public static function badRequestExceptionProvider(): iterable
     {
         return [
             [new BadStateException('foo', 'bar')],
@@ -213,7 +211,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * @return iterable<array{\Exception&\Ibexa\Core\Base\Translatable}>
      */
-    public function provideDataForTestForbiddenException(): iterable
+    public static function provideDataForTestForbiddenException(): iterable
     {
         return [
             [new ForbiddenException('foo "%param%"', ['%param%' => 'bar'])],
@@ -228,7 +226,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * @return iterable<array{\Exception&\Ibexa\Core\Base\Translatable}>
      */
-    public function otherExceptionProvider(): iterable
+    public static function otherExceptionProvider(): iterable
     {
         return [
             [new MissingClass('foo')],

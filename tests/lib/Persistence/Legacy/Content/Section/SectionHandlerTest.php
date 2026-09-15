@@ -11,10 +11,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Section;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Handler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Section\Handler
- */
+#[CoversClass(Handler::class)]
 class SectionHandlerTest extends TestCase
 {
     /**

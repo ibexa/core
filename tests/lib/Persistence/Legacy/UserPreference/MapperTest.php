@@ -10,11 +10,10 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\UserPreference;
 
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Mapper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper
- */
+#[CoversClass(Mapper::class)]
 class MapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper */

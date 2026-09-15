@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter;
 
 use Ibexa\Bundle\Core\Imagine\Filter\AbstractFilter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class AbstractFilterTest extends TestCase
@@ -34,9 +35,7 @@ class AbstractFilterTest extends TestCase
         self::assertSame($options, $this->filter->getOptions());
     }
 
-    /**
-     * @dataProvider getSetOptionNoDefaulValueProvider
-     */
+    #[DataProvider('getSetOptionNoDefaulValueProvider')]
     public function testGetSetOptionNoDefaultValue($optionName, $value)
     {
         self::assertFalse($this->filter->hasOption($optionName));
@@ -46,7 +45,7 @@ class AbstractFilterTest extends TestCase
         self::assertSame($value, $this->filter->getOption($optionName));
     }
 
-    public function getSetOptionNoDefaulValueProvider()
+    public static function getSetOptionNoDefaulValueProvider()
     {
         return [
             ['foo', 'bar'],
@@ -58,9 +57,7 @@ class AbstractFilterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getSetOptionWithDefaulValueProvider
-     */
+    #[DataProvider('getSetOptionWithDefaulValueProvider')]
     public function testGetSetOptionWithDefaultValue($optionName, $value, $defaultValue)
     {
         self::assertFalse($this->filter->hasOption($optionName));
@@ -70,7 +67,7 @@ class AbstractFilterTest extends TestCase
         self::assertSame($value, $this->filter->getOption($optionName));
     }
 
-    public function getSetOptionWithDefaulValueProvider()
+    public static function getSetOptionWithDefaulValueProvider()
     {
         return [
             ['foo', 'bar', 'default'],

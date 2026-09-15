@@ -12,14 +12,13 @@ use ArrayObject;
 use Ibexa\Bundle\IO\DependencyInjection\Compiler\IOConfigurationPass;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-/**
- * @covers \Ibexa\Bundle\IO\DependencyInjection\Compiler\IOConfigurationPass
- */
+#[CoversClass(IOConfigurationPass::class)]
 final class IOConfigurationPassTest extends AbstractCompilerPassTestCase
 {
     protected ConfigurationFactory & MockObject $metadataConfigurationFactoryMock;

@@ -18,13 +18,14 @@ use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use SimpleXMLElement;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter
- */
+#[CoversClass(DateAndTimeConverter::class)]
 class DateAndTimeTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter */
@@ -40,10 +41,8 @@ class DateAndTimeTest extends TestCase
         $this->date = new DateTime('@1048633200');
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testToStorageValue()
     {
         $value = new FieldValue();
@@ -60,10 +59,8 @@ class DateAndTimeTest extends TestCase
         self::assertSame('', $storageFieldValue->sortKeyString);
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testToFieldValue()
     {
         $storageFieldValue = new StorageFieldValue();
@@ -87,7 +84,7 @@ class DateAndTimeTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function providerForTestToStorageValueMissingData(): array
+    public static function providerForTestToStorageValueMissingData(): array
     {
         return [
             [['current_time' => 1048633200, 'rfc850' => 'Thu, 01 Jan 2003 00:00:00 GMT']],
@@ -96,13 +93,11 @@ class DateAndTimeTest extends TestCase
     }
 
     /**
-     * @group fieldType
-     * @group dateTime
-     *
-     * @dataProvider providerForTestToStorageValueMissingData
-     *
      * @param mixed[]|null $data
      */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
+    #[DataProvider('providerForTestToStorageValueMissingData')]
     public function testToStorageValueNoTimestampKey(?array $data): void
     {
         $value = new FieldValue();
@@ -116,10 +111,8 @@ class DateAndTimeTest extends TestCase
         self::assertSame('', $storageFieldValue->sortKeyString);
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testToStorageFieldDefinitionWithAdjustment()
     {
         $storageFieldDef = new StorageFieldDefinition();
@@ -157,10 +150,8 @@ class DateAndTimeTest extends TestCase
         }
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testToStorageFieldDefinitionNoDefault()
     {
         $storageFieldDef = new StorageFieldDefinition();
@@ -190,10 +181,8 @@ class DateAndTimeTest extends TestCase
         self::assertNull($storageFieldDef->dataText5);
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testToStorageFieldDefinitionCurrentDate()
     {
         $storageFieldDef = new StorageFieldDefinition();
@@ -240,10 +229,8 @@ class DateAndTimeTest extends TestCase
         ];
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testToFieldDefinitionNoDefault()
     {
         $fieldDef = new PersistenceFieldDefinition();
@@ -258,10 +245,8 @@ class DateAndTimeTest extends TestCase
         self::assertNull($fieldDef->defaultValue->data);
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testToFieldDefinitionCurrentDate()
     {
         $time = time();
@@ -283,10 +268,8 @@ class DateAndTimeTest extends TestCase
         self::assertEqualsWithDelta($time + 1, $dateTimeFromString->getTimestamp(), 1, 'Time does not match within 1s delta');
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testToFieldDefinitionWithAdjustmentAndSeconds()
     {
         $fieldDef = new PersistenceFieldDefinition();
@@ -314,10 +297,8 @@ class DateAndTimeTest extends TestCase
         self::assertLessThanOrEqual($timestamp + 1, $dateTimeFromString->getTimestamp());
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testToFieldDefinitionWithAdjustmentNoSeconds()
     {
         $fieldDef = new PersistenceFieldDefinition();
@@ -371,10 +352,8 @@ EOT;
         return $xmlString;
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testGetDateIntervalFromXML()
     {
         $dateIntervalReference = DateInterval::createFromDateString('2 years, 1 months, -4 days, 2 hours, 0 minutes, 34 seconds');
@@ -395,10 +374,8 @@ EOT;
         self::assertSame($dateIntervalReference->invert, $generatedDateInterval->invert);
     }
 
-    /**
-     * @group fieldType
-     * @group dateTime
-     */
+    #[Group('fieldType')]
+    #[Group('dateTime')]
     public function testGenerateDateIntervalXML()
     {
         $dateIntervalReference = DateInterval::createFromDateString('2 years, 1 month, -4 days, 2 hours, 0 minute, 34 seconds');

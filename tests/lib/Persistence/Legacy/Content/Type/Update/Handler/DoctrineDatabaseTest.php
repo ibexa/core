@@ -11,11 +11,10 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**

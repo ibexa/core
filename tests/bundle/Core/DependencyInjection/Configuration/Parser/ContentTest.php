@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Content as ContentConfigParser;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Yaml\Yaml;
 
 class ContentTest extends AbstractParserTestCase
@@ -34,9 +35,7 @@ class ContentTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('content.default_ttl', 60, 'ibexa_demo_site');
     }
 
-    /**
-     * @dataProvider contentSettingsProvider
-     */
+    #[DataProvider('contentSettingsProvider')]
     public function testContentSettings(array $config, array $expected)
     {
         $this->load(
@@ -52,7 +51,7 @@ class ContentTest extends AbstractParserTestCase
         }
     }
 
-    public function contentSettingsProvider()
+    public static function contentSettingsProvider()
     {
         return [
             [

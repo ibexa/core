@@ -9,13 +9,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentUserGroupLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentUserGroupLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(ParentUserGroupLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class ParentUserGroupLimitationTest extends BaseLimitationTestCase
 {
     public function testParentUserGroupLimitationAllow()

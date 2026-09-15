@@ -17,13 +17,14 @@ use Ibexa\Core\FieldType\User\Type;
 use Ibexa\Core\FieldType\User\Value as UserValue;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 class UserIntegrationTest extends BaseIntegrationTestCase
 {
     private const TEST_LOGIN = 'hans';
@@ -191,7 +192,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         self::assertNotNull($field->value->contentId);
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [];
     }
@@ -252,7 +253,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         self::assertNotNull($field->value->contentId);
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
         return [
             [
@@ -315,7 +316,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -356,7 +357,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -410,7 +411,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         self::markTestSkipped('User field will never be created empty');
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new UserValue()],
@@ -418,11 +419,16 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new UserValue([
+                    'login' => self::TEST_LOGIN,
+                    'email' => sprintf('%s@example.com', self::TEST_LOGIN),
+                    'enabled' => true,
+                    'plainPassword' => 'PassWord42',
+                ]),
             ],
         ];
     }
@@ -457,9 +463,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         return parent::testAddFieldDefinition();
     }
 
-    /**
-     * @depends testCreateContent
-     */
+    #[Depends('testCreateContent')]
     public function testCopyField($content)
     {
         // Users cannot be copied.
@@ -469,17 +473,13 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         return parent::testCopyField($content);
     }
 
-    /**
-     * @depends testCopyField
-     */
+    #[Depends('testCopyField')]
     public function testCopiedFieldType($content)
     {
         self::markTestSkipped('Users cannot be copied, content is not passed to test.');
     }
 
-    /**
-     * @depends testCopiedFieldType
-     */
+    #[Depends('testCopiedFieldType')]
     public function testCopiedExternalData(Field $field)
     {
         self::markTestSkipped('Users cannot be copied, field is not passed to test.');

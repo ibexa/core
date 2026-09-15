@@ -18,10 +18,9 @@ use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\StatusCr
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\TypeCriterionHandler;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase::insert
- */
+#[CoversMethod(DoctrineDatabase::class, 'insert')]
 class DoctrineDatabaseTest extends TestCase
 {
     public const EXISTING_NOTIFICATION_ID = 1;

@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\Controller\Content\ViewController;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Voter\CoreVoter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -27,16 +28,14 @@ class CoreVoterTest extends TestCase
         $this->permissionResolver = $this->createMock(PermissionResolver::class);
     }
 
-    /**
-     * @dataProvider supportsAttributeProvider
-     */
+    #[DataProvider('supportsAttributeProvider')]
     public function testSupportsAttribute($attribute, $expectedResult)
     {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
 
-    public function supportsAttributeProvider()
+    public static function supportsAttributeProvider()
     {
         return [
             ['foo', false],
@@ -48,23 +47,21 @@ class CoreVoterTest extends TestCase
                 new Attribute(
                     'foo',
                     'bar',
-                    ['valueObject' => $this->getMockForAbstractClass(ValueObject::class)]
+                    ['valueObject' => self::createStub(ValueObject::class)]
                 ),
                 false,
             ],
         ];
     }
 
-    /**
-     * @dataProvider supportsClassProvider
-     */
+    #[DataProvider('supportsClassProvider')]
     public function testSupportsClass($class)
     {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertTrue($voter->supportsClass($class));
     }
 
-    public function supportsClassProvider()
+    public static function supportsClassProvider()
     {
         return [
             ['foo'],
@@ -74,23 +71,21 @@ class CoreVoterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider voteInvalidAttributeProvider
-     */
+    #[DataProvider('voteInvalidAttributeProvider')]
     public function testVoteInvalidAttribute(array $attributes)
     {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertSame(
             VoterInterface::ACCESS_ABSTAIN,
             $voter->vote(
-                $this->createMock(TokenInterface::class),
+                self::createStub(TokenInterface::class),
                 new \stdClass(),
                 $attributes
             )
         );
     }
 
-    public function voteInvalidAttributeProvider()
+    public static function voteInvalidAttributeProvider()
     {
         return [
             [[]],
@@ -102,7 +97,7 @@ class CoreVoterTest extends TestCase
                     new Attribute(
                         'foo',
                         'bar',
-                        ['valueObject' => $this->getMockForAbstractClass(ValueObject::class)]
+                        ['valueObject' => self::createStub(ValueObject::class)]
                     ),
                 ],
                 false,
@@ -110,9 +105,7 @@ class CoreVoterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider voteProvider
-     */
+    #[DataProvider('voteProvider')]
     public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult)
     {
         $voter = new CoreVoter($this->permissionResolver);
@@ -131,14 +124,14 @@ class CoreVoterTest extends TestCase
         self::assertSame(
             $expectedResult,
             $voter->vote(
-                $this->createMock(TokenInterface::class),
+                self::createStub(TokenInterface::class),
                 new \stdClass(),
                 [$attribute]
             )
         );
     }
 
-    public function voteProvider()
+    public static function voteProvider()
     {
         return [
             [
@@ -166,8 +159,8 @@ class CoreVoterTest extends TestCase
                     'content',
                     'read',
                     [
-                        'valueObject' => $this->getMockForAbstractClass(ValueObject::class),
-                        'targets' => $this->getMockForAbstractClass(ValueObject::class),
+                        'valueObject' => self::createStub(ValueObject::class),
+                        'targets' => self::createStub(ValueObject::class),
                     ]
                 ),
                 null,
@@ -178,8 +171,8 @@ class CoreVoterTest extends TestCase
                     'content',
                     'read',
                     [
-                        'valueObject' => $this->getMockForAbstractClass(ValueObject::class),
-                        'targets' => [$this->getMockForAbstractClass(ValueObject::class)],
+                        'valueObject' => self::createStub(ValueObject::class),
+                        'targets' => [self::createStub(ValueObject::class)],
                     ]
                 ),
                 null,
@@ -190,8 +183,8 @@ class CoreVoterTest extends TestCase
                     'content',
                     'read',
                     [
-                        'valueObject' => $this->getMockForAbstractClass(ValueObject::class),
-                        'targets' => $this->getMockForAbstractClass(ValueObject::class),
+                        'valueObject' => self::createStub(ValueObject::class),
+                        'targets' => self::createStub(ValueObject::class),
                     ]
                 ),
                 null,
@@ -202,8 +195,8 @@ class CoreVoterTest extends TestCase
                     'content',
                     'read',
                     [
-                        'valueObject' => $this->getMockForAbstractClass(ValueObject::class),
-                        'targets' => [$this->getMockForAbstractClass(ValueObject::class)],
+                        'valueObject' => self::createStub(ValueObject::class),
+                        'targets' => [self::createStub(ValueObject::class)],
                     ]
                 ),
                 null,

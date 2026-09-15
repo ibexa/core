@@ -20,13 +20,16 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\ImageAsset;
+use Ibexa\Core\FieldType\Relation\Type;
 use Ibexa\Core\FieldType\ValidationError;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * @group fieldType
- * @group ibexa_image_asset
- */
+#[CoversMethod(Type::class, 'getRelations')]
+#[Group('fieldType')]
+#[Group('ibexa_image_asset')]
 class ImageAssetTest extends FieldTypeTestCase
 {
     private const int DESTINATION_CONTENT_ID = 14;
@@ -103,7 +106,7 @@ class ImageAssetTest extends FieldTypeTestCase
         return new ImageAsset\Value();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -113,13 +116,13 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         $destinationContentId = 7;
 
         yield 'null input' => [
             null,
-            $this->getEmptyValueExpectation(),
+            new ImageAsset\Value(),
         ];
 
         yield 'content id' => [
@@ -135,7 +138,7 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         $destinationContentId = 7;
         $alternativeText = 'The alternative text for image';
@@ -165,7 +168,7 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         $destinationContentId = 7;
         $alternativeText = 'The alternative text for image';
@@ -192,9 +195,13 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
-        yield from [];
+        yield 'no invalid data sets defined' => [
+            ['__no_data__' => 'No invalid data sets for validate() defined for this FieldType.'],
+            new ImageAsset\Value(),
+            [],
+        ];
     }
 
     public function testValidateNonAsset(): void
@@ -240,25 +247,24 @@ class ImageAssetTest extends FieldTypeTestCase
         ], $validationErrors);
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'empty value' => [
             [],
-            $this->getEmptyValueExpectation(),
+            new ImageAsset\Value(),
         ];
     }
 
     /**
-     * @dataProvider provideDataForTestValidateValidNonEmptyAssetValue
-     *
      * @param array<\Ibexa\Core\FieldType\ValidationError> $expectedValidationErrors
      */
+    #[DataProvider('provideDataForTestValidateValidNonEmptyAssetValue')]
     public function testValidateValidNonEmptyAssetValue(
         int $fileSize,
         array $expectedValidationErrors
     ): void {
         $destinationContentId = 7;
-        $destinationContent = $this->createMock(Content::class);
+        $destinationContent = self::createStub(Content::class);
 
         $this->contentServiceMock
             ->expects(self::once())
@@ -311,7 +317,7 @@ class ImageAssetTest extends FieldTypeTestCase
      *     array<\Ibexa\Core\FieldType\ValidationError>,
      * }>
      */
-    public function provideDataForTestValidateValidNonEmptyAssetValue(): iterable
+    public static function provideDataForTestValidateValidNonEmptyAssetValue(): iterable
     {
         yield 'No validation errors' => [
             123456,
@@ -333,11 +339,11 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
             'empty_destination_content_id' => [
-                $this->getEmptyValueExpectation(),
+                new ImageAsset\Value(),
                 '',
                 [],
                 'en_GB',
@@ -351,9 +357,7 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideDataForGetName
-     */
+    #[DataProvider('provideDataForGetName')]
     public function testGetName(
         SPIValue $value,
         string $expected,
@@ -375,8 +379,6 @@ class ImageAssetTest extends FieldTypeTestCase
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Relation\Type::getRelations
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testGetRelations(): void

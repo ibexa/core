@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
 {
@@ -29,9 +30,8 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
      * @param string[] $values
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
-     *
-     * @dataProvider dataProviderForTestSortingByContentTranslatedName
      */
+    #[DataProvider('dataProviderForTestSortingByContentTranslatedName')]
     public function testContentSortingByContentTranslatedName(
         iterable $inputValues,
         SortClause $sortClause,
@@ -58,9 +58,8 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
      * @param string[] $values
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
-     *
-     * @dataProvider dataProviderForTestSortingByContentTranslatedName
      */
+    #[DataProvider('dataProviderForTestSortingByContentTranslatedName')]
     public function testLocationSortingByContentTranslatedName(
         iterable $inputValues,
         SortClause $sortClause,
@@ -83,7 +82,7 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
         $this->assertSearchResultOrderByRemoteId($expectedOrderedRemoteIds, $actualResults);
     }
 
-    public function dataProviderForTestSortingByContentTranslatedName(): iterable
+    public static function dataProviderForTestSortingByContentTranslatedName(): iterable
     {
         $inputValues = [
             'foo' => [

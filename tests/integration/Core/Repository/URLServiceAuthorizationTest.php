@@ -8,15 +8,18 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
+#[CoversMethod(URLService::class, 'findUrls')]
+#[CoversMethod(URLService::class, 'updateUrl')]
+#[CoversMethod(URLService::class, 'loadById')]
 class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 {
     /**
      * Test for the findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls
      */
     public function testFindUrlsThrowsUnauthorizedException()
     {
@@ -44,8 +47,6 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 
     /**
      * Test for the updateUrl() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::updateUrl
      */
     public function testUpdateUrlThrowsUnauthorizedException()
     {
@@ -75,8 +76,6 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 
     /**
      * Test for the loadById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::loadById
      */
     public function testLoadByIdThrowsUnauthorizedException()
     {
@@ -102,8 +101,6 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 
     /**
      * Test for the loadByUrl() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::loadById
      */
     public function testLoadByUrlThrowsUnauthorizedException()
     {

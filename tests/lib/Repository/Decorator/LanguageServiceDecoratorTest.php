@@ -33,7 +33,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(LanguageCreateStruct::class)];
+        $parameters = [self::createStub(LanguageCreateStruct::class)];
 
         $serviceMock->expects(self::once())->method('createLanguage')->with(...$parameters);
 
@@ -46,7 +46,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
             'random_value_5ced05ce0e4e45.35668562',
         ];
 
@@ -60,7 +60,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Language::class)];
+        $parameters = [self::createStub(Language::class)];
 
         $serviceMock->expects(self::once())->method('enableLanguage')->with(...$parameters);
 
@@ -72,7 +72,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Language::class)];
+        $parameters = [self::createStub(Language::class)];
 
         $serviceMock->expects(self::once())->method('disableLanguage')->with(...$parameters);
 
@@ -144,7 +144,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Language::class)];
+        $parameters = [self::createStub(Language::class)];
 
         $serviceMock->expects(self::once())->method('deleteLanguage')->with(...$parameters);
 

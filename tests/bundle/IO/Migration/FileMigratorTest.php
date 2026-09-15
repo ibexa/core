@@ -11,16 +11,16 @@ namespace Ibexa\Tests\Bundle\IO\Migration;
 use DateTime;
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator;
+use Ibexa\Bundle\IO\Migration\MigrationHandler;
 use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\IO\Migration\MigrationHandler
- */
+#[CoversClass(MigrationHandler::class)]
 final class FileMigratorTest extends TestCase
 {
     /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler>&\PHPUnit\Framework\MockObject\MockObject */

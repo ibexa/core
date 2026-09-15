@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Security\PolicyProvider;
 
 use Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider\PoliciesConfigBuilder;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\Config\Resource\FileResource;
@@ -15,9 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class PoliciesConfigBuilderTest extends TestCase
 {
-    /**
-     * @dataProvider policiesConfigProvider
-     */
+    #[DataProvider('policiesConfigProvider')]
     public function testAddConfig(array $configOne, array $configTwo, array $expectedConfig): void
     {
         $containerBuilder = new ContainerBuilder();
@@ -29,7 +28,7 @@ class PoliciesConfigBuilderTest extends TestCase
         self::assertSame($expectedConfig, $containerBuilder->getParameter('ibexa.api.role.policy_map'));
     }
 
-    public function policiesConfigProvider(): array
+    public static function policiesConfigProvider(): array
     {
         return [
             'add' => [

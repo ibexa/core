@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser\Field
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\FieldType\ImageAsset as ImageAssetConfigParser;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser\AbstractParserTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ImageAssetTest extends AbstractParserTestCase
 {
@@ -40,9 +41,7 @@ class ImageAssetTest extends AbstractParserTestCase
         );
     }
 
-    /**
-     * @dataProvider imageAssetSettingsProvider
-     */
+    #[DataProvider('imageAssetSettingsProvider')]
     public function testImageAssetSettings(array $config, array $expected)
     {
         $this->load(
@@ -58,7 +57,7 @@ class ImageAssetTest extends AbstractParserTestCase
         }
     }
 
-    public function imageAssetSettingsProvider(): array
+    public static function imageAssetSettingsProvider(): array
     {
         return [
             [

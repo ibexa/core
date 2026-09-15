@@ -25,8 +25,8 @@ class GlobalHelperTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\Templating\GlobalHelper */
     protected $helper;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $container;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\DependencyInjection\ContainerInterface */
+    protected \PHPUnit\Framework\MockObject\Stub $container;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     protected $locationService;
@@ -44,7 +44,7 @@ class GlobalHelperTest extends TestCase
     {
         parent::setUp();
 
-        $this->container = $this->createMock(ContainerInterface::class);
+        $this->container = self::createStub(ContainerInterface::class);
         $this->locationService = $this->createMock(LocationService::class);
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $this->router = $this->createMock(RouterInterface::class);
@@ -56,7 +56,7 @@ class GlobalHelperTest extends TestCase
     {
         $request = new Request();
         $requestStack = new RequestStack([$request]);
-        $siteAccess = $this->createMock(SiteAccess::class);
+        $siteAccess = self::createStub(SiteAccess::class);
         $request->attributes->set('siteaccess', $siteAccess);
         $this->helper->setRequestStack($requestStack);
 

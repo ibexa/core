@@ -10,10 +10,9 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
- */
+#[CoversClass(Registry::class)]
 class FieldValueConverterRegistryTest extends TestCase
 {
     private const TYPE_NAME = 'some-type';

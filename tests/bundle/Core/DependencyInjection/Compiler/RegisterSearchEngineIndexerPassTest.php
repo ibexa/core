@@ -12,6 +12,7 @@ use Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\RegisterSearchEngineIndexerPass;
 use LogicException;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -33,9 +34,7 @@ final class RegisterSearchEngineIndexerPassTest extends AbstractCompilerPassTest
         $container->addCompilerPass(new RegisterSearchEngineIndexerPass());
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[DataProvider('tagsProvider')]
     public function testRegisterSearchEngineIndexer(string $tag): void
     {
         $definition = new Definition();
@@ -56,9 +55,7 @@ final class RegisterSearchEngineIndexerPassTest extends AbstractCompilerPassTest
         );
     }
 
-    /**
-     * @dataProvider tagsProvider
-     */
+    #[DataProvider('tagsProvider')]
     public function testRegisterSearchEngineIndexerWithoutAliasThrowsLogicException(string $tag): void
     {
         $this->expectException(LogicException::class);
@@ -70,7 +67,7 @@ final class RegisterSearchEngineIndexerPassTest extends AbstractCompilerPassTest
         $this->compile();
     }
 
-    public function tagsProvider(): iterable
+    public static function tagsProvider(): iterable
     {
         return [
             [RegisterSearchEngineIndexerPass::SEARCH_ENGINE_INDEXER_SERVICE_TAG],

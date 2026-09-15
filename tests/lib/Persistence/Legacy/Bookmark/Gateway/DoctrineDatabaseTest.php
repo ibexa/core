@@ -12,10 +12,10 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway
- */
+#[CoversClass(Gateway::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     public const EXISTING_BOOKMARK_ID = 1;
@@ -75,23 +75,19 @@ class DoctrineDatabaseTest extends TestCase
         self::assertEquals([self::EXISTING_BOOKMARK_DATA], $data);
     }
 
-    /**
-     * @dataProvider dataProviderForLoadUserBookmarks
-     */
+    #[DataProvider('dataProviderForLoadUserBookmarks')]
     public function testLoadUserBookmarks(int $userId, int $offset, int $limit, array $expected)
     {
         self::assertEquals($expected, $this->getGateway()->loadUserBookmarks($userId, $offset, $limit));
     }
 
-    /**
-     * @dataProvider dataProviderForLoadUserBookmarks
-     */
+    #[DataProvider('dataProviderForLoadUserBookmarks')]
     public function testCountUserBookmarks(int $userId, int $offset, int $limit, array $expected)
     {
         self::assertEquals(count($expected), $this->getGateway()->countUserBookmarks($userId));
     }
 
-    public function dataProviderForLoadUserBookmarks(): array
+    public static function dataProviderForLoadUserBookmarks(): array
     {
         $fixtures = (require __DIR__ . '/../_fixtures/bookmarks.php')[DoctrineDatabase::TABLE_BOOKMARKS];
 

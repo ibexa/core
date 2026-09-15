@@ -13,11 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\User\User
- */
+#[CoversClass(User::class)]
 final class UserTest extends TestCase
 {
     use ValueObjectTestTrait;

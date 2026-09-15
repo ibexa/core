@@ -12,11 +12,10 @@ use Exception;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler;
 use Ibexa\Core\Persistence\Legacy\TransactionHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\TransactionHandler
- */
+#[CoversClass(TransactionHandler::class)]
 class TransactionHandlerTest extends TestCase
 {
     /**

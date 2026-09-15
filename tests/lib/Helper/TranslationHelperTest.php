@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -101,11 +102,10 @@ class TranslationHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getTranslatedNameProvider
-     *
      * @param array $prioritizedLanguages
      * @param string $expectedLocale
      */
+    #[DataProvider('getTranslatedNameProvider')]
     public function testGetTranslatedName(array $prioritizedLanguages, $expectedLocale)
     {
         $content = $this->generateContent();
@@ -119,11 +119,10 @@ class TranslationHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getTranslatedNameProvider
-     *
      * @param array $prioritizedLanguages
      * @param string $expectedLocale
      */
+    #[DataProvider('getTranslatedNameProvider')]
     public function testGetTranslatedNameByContentInfo(array $prioritizedLanguages, $expectedLocale)
     {
         $versionInfo = $this->generateVersionInfo();
@@ -146,7 +145,7 @@ class TranslationHelperTest extends TestCase
         self::assertSame($this->translatedNames[$expectedLocale], $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo));
     }
 
-    public function getTranslatedNameProvider()
+    public static function getTranslatedNameProvider()
     {
         return [
             [['fre-FR', 'eng-GB'], 'fre-FR'],
@@ -217,11 +216,10 @@ class TranslationHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getTranslatedFieldProvider
-     *
      * @param array $prioritizedLanguages
      * @param string $expectedLocale
      */
+    #[DataProvider('getTranslatedFieldProvider')]
     public function getTranslatedField(array $prioritizedLanguages, $expectedLocale)
     {
         $content = $this->generateContent();
@@ -234,7 +232,7 @@ class TranslationHelperTest extends TestCase
         self::assertSame($this->translatedFields[$expectedLocale], $this->translationHelper->getTranslatedField($content, 'test'));
     }
 
-    public function getTranslatedFieldProvider()
+    public static function getTranslatedFieldProvider()
     {
         return [
             [['fre-FR', 'eng-GB'], 'fre-FR'],
@@ -266,9 +264,7 @@ class TranslationHelperTest extends TestCase
         self::assertNull($this->translationHelper->getTranslationSiteAccess('eng-DE'));
     }
 
-    /**
-     * @dataProvider getTranslationSiteAccessProvider
-     */
+    #[DataProvider('getTranslationSiteAccessProvider')]
     public function testGetTranslationSiteAccess($language, array $translationSiteAccesses, array $relatedSiteAccesses, $expectedResult)
     {
         $this->configResolver
@@ -286,7 +282,7 @@ class TranslationHelperTest extends TestCase
         self::assertSame($expectedResult, $this->translationHelper->getTranslationSiteAccess($language));
     }
 
-    public function getTranslationSiteAccessProvider()
+    public static function getTranslationSiteAccessProvider()
     {
         return [
             ['eng-GB', ['fre', 'eng', 'heb'], ['esl', 'fre', 'eng', 'heb'], 'eng'],

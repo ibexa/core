@@ -14,10 +14,9 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
- */
+#[CoversClass(Handler::class)]
 class LanguageHandlerTest extends TestCase
 {
     /**

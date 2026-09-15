@@ -15,12 +15,11 @@ use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Log\LoggerInterface;
 use SplFileInfo;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitor
- */
+#[CoversClass(ExceptionMessageTemplateFileVisitor::class)]
 final class ExceptionMessageTemplateFileVisitorTest extends BaseMessageExtractorPhpFileVisitorTestCase
 {
     public static function getDataForTestExtractTranslation(): iterable

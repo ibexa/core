@@ -11,19 +11,20 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * This test will try to execute search queries that might be interpreted as "pure negative"
  * by the search backend and hence produce incorrect results.
- *
- * @group regression
  */
+#[Group('regression')]
 class PureNegativeQueryTest extends BaseTestCase
 {
-    public function providerForTestMatchAll()
+    public static function providerForTestMatchAll()
     {
         $query = new Query(['filter' => new Criterion\MatchAll()]);
-        $result = $this->getRepository()->getSearchService()->findContent($query);
+        $result = static::resolveRepository()->getSearchService()->findContent($query);
         // Sanity check
         self::assertGreaterThan(0, $result->totalCount);
         $totalCount = $result->totalCount;
@@ -214,11 +215,10 @@ class PureNegativeQueryTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestMatchAll
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param int $totalCount
      */
+    #[DataProvider('providerForTestMatchAll')]
     public function testMatchAllContentInfoQuery($criterion, $totalCount)
     {
         $query = new Query(
@@ -233,11 +233,10 @@ class PureNegativeQueryTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestMatchAll
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param int $totalCount
      */
+    #[DataProvider('providerForTestMatchAll')]
     public function testMatchAllContentInfoFilter($criterion, $totalCount)
     {
         $query = new Query(
@@ -252,11 +251,10 @@ class PureNegativeQueryTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestMatchAll
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param int $totalCount
      */
+    #[DataProvider('providerForTestMatchAll')]
     public function testMatchAllLocationQuery($criterion, $totalCount)
     {
         $query = new LocationQuery(
@@ -271,11 +269,10 @@ class PureNegativeQueryTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestMatchAll
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param int $totalCount
      */
+    #[DataProvider('providerForTestMatchAll')]
     public function testMatchAllLocationFilter($criterion, $totalCount)
     {
         $query = new LocationQuery(

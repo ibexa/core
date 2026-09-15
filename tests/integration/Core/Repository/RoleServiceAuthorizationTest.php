@@ -8,28 +8,44 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\RoleService;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the RoleService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\RoleService
- *
- * @group integration
- * @group authorization
  */
+#[CoversClass(RoleService::class)]
+#[CoversMethod(RoleService::class, 'createRole()')]
+#[CoversMethod(RoleService::class, 'loadRole()')]
+#[CoversMethod(RoleService::class, 'loadRoleByIdentifier()')]
+#[CoversMethod(RoleService::class, 'loadRoles()')]
+#[CoversMethod(RoleService::class, 'deleteRole()')]
+#[CoversMethod(RoleService::class, 'updatePolicyByRoleDraft()')]
+#[CoversMethod(RoleService::class, 'removePolicy()')]
+#[CoversMethod(RoleService::class, 'removePolicyByRoleDraft()')]
+#[CoversMethod(RoleService::class, 'assignRoleToUserGroup()')]
+#[CoversMethod(RoleService::class, 'assignRoleToUserGroup($role, $userGroup, $roleLimitation)')]
+#[CoversMethod(RoleService::class, 'removeRoleAssignment()')]
+#[CoversMethod(RoleService::class, 'assignRoleToUser()')]
+#[CoversMethod(RoleService::class, 'assignRoleToUser($role, $user, $roleLimitation)')]
+#[CoversMethod(RoleService::class, 'getRoleAssignments()')]
+#[CoversMethod(RoleService::class, 'getRoleAssignmentsForUser()')]
+#[CoversMethod(RoleService::class, 'getRoleAssignmentsForUserGroup()')]
+#[Group('integration')]
+#[Group('authorization')]
 class RoleServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testCreateRole
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testCreateRole')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testCreateRoleThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -56,12 +72,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRole()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testLoadRole
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testLoadRole')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testLoadRoleThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -85,12 +98,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadRoleByIdentifier() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoleByIdentifier()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testLoadRoleByIdentifier
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testLoadRoleByIdentifier')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testLoadRoleByIdentifierThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -114,8 +124,6 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadRoles() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoles()
      */
     public function testLoadRolesLoadsEmptyListForAnonymousUser()
     {
@@ -137,8 +145,6 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadRoles() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoles()
      */
     public function testLoadRolesForUserWithSubtreeLimitation()
     {
@@ -167,12 +173,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the deleteRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::deleteRole()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testDeleteRole
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testDeleteRole')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testDeleteRoleThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -196,12 +199,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the updatePolicy() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::updatePolicyByRoleDraft()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testUpdatePolicyByRoleDraft
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testUpdatePolicyByRoleDraft')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testUpdatePolicyByRoleDraftThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -244,12 +244,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the removePolicy() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removePolicy()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemovePolicyByRoleDraft
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testRemovePolicyByRoleDraft')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testRemovePolicyThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -289,12 +286,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the removePolicyByRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removePolicyByRoleDraft()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemovePolicyByRoleDraft
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testRemovePolicyByRoleDraft')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testDeletePolicyThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -323,12 +317,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUserGroup
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testAssignRoleToUserGroup')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testAssignRoleToUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -358,12 +349,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup($role, $userGroup, $roleLimitation)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUserGroup
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testAssignRoleToUserGroup')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testAssignRoleToUserGroupThrowsUnauthorizedExceptionWithRoleLimitationParameter()
     {
         $this->expectException(UnauthorizedException::class);
@@ -400,12 +388,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the removeRoleAssignment() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removeRoleAssignment()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemoveRoleAssignmentFromUserGroup
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testRemoveRoleAssignmentFromUserGroup')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testRemoveRoleAssignmentFromUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -444,12 +429,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUser
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testAssignRoleToUser')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testAssignRoleToUserThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -473,12 +455,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUser($role, $user, $roleLimitation)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUser
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testAssignRoleToUser')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testAssignRoleToUserThrowsUnauthorizedExceptionWithRoleLimitationParameter()
     {
         $this->expectException(UnauthorizedException::class);
@@ -509,12 +488,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the removeRoleAssignment() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removeRoleAssignment()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemoveRoleAssignment
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testRemoveRoleAssignment')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testRemoveRoleAssignmentThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -546,12 +522,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the getRoleAssignments() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignments()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testGetRoleAssignments
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testGetRoleAssignments')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testGetRoleAssignmentsThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
@@ -575,8 +548,6 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the getRoleAssignmentsForUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUser()
      */
     public function testGetRoleAssignmentsForUserLoadsEmptyListForAnonymousUser()
     {
@@ -597,8 +568,6 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the getRoleAssignmentsForUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUser()
      */
     public function testGetRoleAssignmentsForUserWithSubtreeLimitation()
     {
@@ -627,12 +596,9 @@ class RoleServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the getRoleAssignmentsForUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUserGroup()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testGetRoleAssignmentsForUserGroup
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
+    #[DependsExternal(RoleServiceTest::class, 'testGetRoleAssignmentsForUserGroup')]
+    #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
     public function testGetRoleAssignmentsForUserGroupThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);

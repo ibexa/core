@@ -12,13 +12,14 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\MemberOfLimitation;
 use Ibexa\Core\Limitation\MemberOfLimitationType;
 use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class MemberOfLimitationTest extends BaseLimitationIntegrationTestCase
 {
     private const ADMIN_GROUP_ID = 14;
     private const USERS_GROUP_ID = 4;
 
-    public function userPermissionLimitationProvider(): array
+    public static function userPermissionLimitationProvider(): array
     {
         $allowInAdministratorsLimitation = new MemberOfLimitation();
         $allowInAdministratorsLimitation->limitationValues[] = self::ADMIN_GROUP_ID;
@@ -36,9 +37,7 @@ final class MemberOfLimitationTest extends BaseLimitationIntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider userPermissionLimitationProvider
-     */
+    #[DataProvider('userPermissionLimitationProvider')]
     public function testCanUserAssignRoleToUser(array $limitations, bool $expectedResult): void
     {
         $repository = $this->getRepository();

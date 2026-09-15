@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Embeddings as EmbeddingsConfigParser;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Yaml\Yaml;
 
 final class EmbeddingsTest extends AbstractParserTestCase
@@ -74,9 +75,8 @@ final class EmbeddingsTest extends AbstractParserTestCase
     /**
      * @param array<mixed> $config
      * @param array<mixed> $expected
-     *
-     * @dataProvider embeddingsSettingsProvider
      */
+    #[DataProvider('embeddingsSettingsProvider')]
     public function testEmbeddingsSettings(array $config, array $expected): void
     {
         $this->load(
@@ -114,7 +114,7 @@ final class EmbeddingsTest extends AbstractParserTestCase
      *     }
      * }>
      */
-    public function embeddingsSettingsProvider(): array
+    public static function embeddingsSettingsProvider(): array
     {
         return [
             [

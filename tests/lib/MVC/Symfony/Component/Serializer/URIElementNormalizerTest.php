@@ -12,20 +12,19 @@ use Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer
- */
+#[CoversClass(URIElementNormalizer::class)]
 final class URIElementNormalizerTest extends TestCase
 {
     /**
-     * @dataProvider provideForTestNormalization
-     *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[DataProvider('provideForTestNormalization')]
     public function testNormalization(bool $initializeUriElements): void
     {
         $normalizer = new URIElementNormalizer();
@@ -66,7 +65,7 @@ final class URIElementNormalizerTest extends TestCase
     {
         $normalizer = new URIElementNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(URIElement::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization(self::createStub(URIElement::class)));
+        self::assertFalse($normalizer->supportsNormalization(self::createStub(Matcher::class)));
     }
 }

@@ -9,11 +9,10 @@ namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\View;
 
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry::setParameterProvider
- */
+#[CoversMethod(ParameterProviderRegistry::class, 'setParameterProvider')]
 class ParameterProviderRegistryTest extends TestCase
 {
     public function testSetHasParameterProvider()
@@ -21,7 +20,7 @@ class ParameterProviderRegistryTest extends TestCase
         $registry = new ParameterProviderRegistry();
         self::assertFalse($registry->hasParameterProvider('foo'));
         $registry->setParameterProvider(
-            $this->createMock(ParameterProviderInterface::class),
+            self::createStub(ParameterProviderInterface::class),
             'foo'
         );
         self::assertTrue($registry->hasParameterProvider('foo'));
@@ -37,7 +36,7 @@ class ParameterProviderRegistryTest extends TestCase
 
     public function testGetParameterProvider()
     {
-        $provider = $this->createMock(ParameterProviderInterface::class);
+        $provider = self::createStub(ParameterProviderInterface::class);
         $registry = new ParameterProviderRegistry();
         $registry->setParameterProvider($provider, 'foo');
         self::assertSame($provider, $registry->getParameterProvider('foo'));

@@ -32,7 +32,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         return TrashHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
         return [
@@ -40,17 +40,19 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
         return [
+            [self::NO_DATA_METHOD, [], ''],
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
         return [
+            [self::NO_DATA_METHOD, [], ''],
         ];
     }
 
@@ -111,7 +113,6 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerHandler = $this->createMock($this->getHandlerClassName());
-        $contentHandlerMock = $this->createMock(ContentHandler::class);
         $locationHandlerMock = $this->createMock(LocationHandler::class);
         $userHandlerMock = $this->createMock(PersistenceUserHandler::class);
 
@@ -126,7 +127,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
 
         $this->persistenceHandlerMock
             ->method('contentHandler')
-            ->willReturn($contentHandlerMock);
+            ->willReturn(self::createStub(ContentHandler::class));
 
         $this->persistenceHandlerMock
             ->method('locationHandler')
@@ -140,20 +141,33 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             ->expects(self::once())
             ->method($this->getHandlerMethodName())
             ->willReturn($innerHandler);
+        $matcher = self::exactly(3);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(3))
-            ->method('generateTag')
-            ->withConsecutive(
-                ['role_assignment_role_list', [$roleId], false],
-                ['content', [$contentId], false],
-                ['location_path', [$locationId], false]
-            )
-            ->willReturnOnConsecutiveCalls(
-                'rarl-' . $roleId,
-                'c-' . $contentId,
-                'lp-' . $locationId
-            );
+            ->expects($matcher)
+            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher, $roleId, $contentId, $locationId) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('role_assignment_role_list', $parameters[0]);
+                    $this->assertSame([$roleId], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'rarl-' . $roleId;
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame([$contentId], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'c-' . $contentId;
+                }
+                if ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame('location_path', $parameters[0]);
+                    $this->assertSame([$locationId], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'lp-' . $locationId;
+                }
+            });
 
         $this->cacheMock
             ->expects(self::once())
@@ -207,20 +221,33 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             'lp-' . $trashedId,
             'c-' . $relationSourceContentId,
         ];
+        $matcher = self::exactly(3);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(3))
-            ->method('generateTag')
-            ->withConsecutive(
-                ['content', [$relationSourceContentId], false],
-                ['content', [$contentId], false],
-                ['location_path', [$trashedId], false]
-            )
-            ->willReturnOnConsecutiveCalls(
-                'c-' . $relationSourceContentId,
-                'c-' . $contentId,
-                'lp-' . $trashedId
-            );
+            ->expects($matcher)
+            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher, $relationSourceContentId, $contentId, $trashedId) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame([$relationSourceContentId], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'c-' . $relationSourceContentId;
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame([$contentId], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'c-' . $contentId;
+                }
+                if ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame('location_path', $parameters[0]);
+                    $this->assertSame([$trashedId], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'lp-' . $trashedId;
+                }
+            });
 
         $this->cacheMock
             ->expects(self::once())
@@ -278,13 +305,17 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             'c-' . $contentId,
             'lp-' . $trashedId,
         ];
+        $matcher = self::exactly(6);
 
         //one set of arguments and tags for each relation
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(6))
+            ->expects($matcher)
             ->method('generateTag')
-            ->withConsecutive(...array_merge($cacheIdentifierGeneratorArguments, $cacheIdentifierGeneratorArguments))
-            ->willReturnOnConsecutiveCalls(...array_merge($tags, $tags));
+            ->willReturnCallback(function (...$parameters) use ($matcher, $cacheIdentifierGeneratorArguments, $tags) {
+                $this->assertSame(array_merge($cacheIdentifierGeneratorArguments, $cacheIdentifierGeneratorArguments)[$matcher->numberOfInvocations() - 1], $parameters);
+
+                return array_merge($tags, $tags)[$matcher->numberOfInvocations() - 1];
+            });
 
         $this->cacheMock
             ->expects(self::once())

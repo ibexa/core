@@ -16,14 +16,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for indexing operations with a search engine.
- *
- * @group integration
- * @group search
- * @group indexing
  */
+#[Group('integration')]
+#[Group('search')]
+#[Group('indexing')]
 class SearchEngineIndexingTest extends BaseTestCase
 {
     /**
@@ -55,10 +57,10 @@ class SearchEngineIndexingTest extends BaseTestCase
     /**
      * Test that indexing full text data depends on the isSearchable flag on the field definition.
      *
-     * @depends testFindContentInfoFullTextIsSearchable
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
+    #[Depends('testFindContentInfoFullTextIsSearchable')]
     public function testFindLocationsFullTextIsSearchable(ContentInfo $contentInfo)
     {
         $searchTerm = 'pamplemousse';
@@ -83,9 +85,8 @@ class SearchEngineIndexingTest extends BaseTestCase
 
     /**
      * Test that indexing full text data depends on the isSearchable flag on the field definition.
-     *
-     * @depends testFindContentInfoFullTextIsSearchable
      */
+    #[Depends('testFindContentInfoFullTextIsSearchable')]
     public function testFindContentInfoFullTextIsNotSearchable()
     {
         $searchTerm = 'pamplemousse';
@@ -107,9 +108,8 @@ class SearchEngineIndexingTest extends BaseTestCase
 
     /**
      * Test that indexing full text data depends on the isSearchable flag on the field definition.
-     *
-     * @depends testFindLocationsFullTextIsSearchable
      */
+    #[Depends('testFindLocationsFullTextIsSearchable')]
     public function testFindLocationsFullTextIsNotSearchable()
     {
         $searchTerm = 'pamplemousse';
@@ -816,9 +816,8 @@ class SearchEngineIndexingTest extends BaseTestCase
      * @param string $text Content Item field value text (to be indexed)
      * @param string $searchForText text based on which Content Item should be found
      * @param array $ignoreForSetupFactories list of SetupFactories to be ignored
-     *
-     * @dataProvider getSpecialFullTextCases
      */
+    #[DataProvider('getSpecialFullTextCases')]
     public function testIndexingSpecialFullTextCases($text, $searchForText)
     {
         $repository = $this->getRepository();
@@ -845,9 +844,8 @@ class SearchEngineIndexingTest extends BaseTestCase
 
     /**
      * Check if FullText indexing works for email addresses.
-     *
-     * @dataProvider getEmailAddressesCases
      */
+    #[DataProvider('getEmailAddressesCases')]
     public function testIndexingEmailFieldCases(string $email, string $searchForText): void
     {
         $repository = $this->getRepository();
@@ -875,7 +873,7 @@ class SearchEngineIndexingTest extends BaseTestCase
     /**
      * Data Provider for {@see testIndexingSpecialFullTextCases()} method.
      */
-    public function getEmailAddressesCases(): array
+    public static function getEmailAddressesCases(): array
     {
         return [
             ['test@TEST.com', 'test@test.com'],
@@ -891,7 +889,7 @@ class SearchEngineIndexingTest extends BaseTestCase
      *
      * @return array
      */
-    public function getSpecialFullTextCases()
+    public static function getSpecialFullTextCases()
     {
         return [
             ['UPPERCASE TEXT', 'uppercase text'],

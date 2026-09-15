@@ -10,11 +10,11 @@ namespace Ibexa\Tests\Bundle\Core;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver
- */
+#[CoversClass(ChainConfigResolver::class)]
 class ChainConfigResolverTest extends TestCase
 {
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver */
@@ -86,22 +86,13 @@ class ChainConfigResolverTest extends TestCase
             ChainConfigResolver::class,
             ['sortResolvers']
         );
-        $resolver
-            ->expects(self::at(0))
-            ->method('sortResolvers')
-            ->will(
-                self::returnValue(
-                    [$high, $medium, $low]
-                )
-            );
         // The second time sortResolvers() is called, we're supposed to get the newly added router ($highest)
         $resolver
-            ->expects(self::at(1))
+            ->expects(self::exactly(2))
             ->method('sortResolvers')
-            ->will(
-                self::returnValue(
-                    [$highest, $high, $medium, $low]
-                )
+            ->willReturnOnConsecutiveCalls(
+                [$high, $medium, $low],
+                [$highest, $high, $medium, $low]
             );
 
         $resolver->addResolver($low, 10);
@@ -161,13 +152,12 @@ class ChainConfigResolverTest extends TestCase
     }
 
     /**
-     * @dataProvider getParameterProvider
-     *
      * @param string $paramName
      * @param string $namespace
      * @param string $scope
      * @param mixed $expectedValue
      */
+    #[DataProvider('getParameterProvider')]
     public function testGetParameter($paramName, $namespace, $scope, $expectedValue)
     {
         $resolver = $this->createMock(ConfigResolverInterface::class);
@@ -181,7 +171,7 @@ class ChainConfigResolverTest extends TestCase
         self::assertSame($expectedValue, $this->chainResolver->getParameter($paramName, $namespace, $scope));
     }
 
-    public function getParameterProvider()
+    public static function getParameterProvider()
     {
         return [
             ['foo', 'namespace', 'scope', 'someValue'],
@@ -245,18 +235,21 @@ class ChainConfigResolverTest extends TestCase
     private function createResolverMocks()
     {
         return [
-            $this->createMock(ConfigResolverInterface::class),
-            $this->createMock(ConfigResolverInterface::class),
-            $this->createMock(ConfigResolverInterface::class),
+            self::createStub(ConfigResolverInterface::class),
+            self::createStub(ConfigResolverInterface::class),
+            self::createStub(ConfigResolverInterface::class),
         ];
     }
 
     private function buildMock($class, array $methods = [])
     {
-        return $this
+        $builder = $this
             ->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
+            ->disableOriginalConstructor();
+        if ($methods !== []) {
+            $builder->onlyMethods(array_values($methods));
+        }
+
+        return $builder->getMock();
     }
 }

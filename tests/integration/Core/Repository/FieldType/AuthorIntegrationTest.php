@@ -13,13 +13,13 @@ use Ibexa\Core\FieldType\Author\Author;
 use Ibexa\Core\FieldType\Author\AuthorCollection;
 use Ibexa\Core\FieldType\Author\Type;
 use Ibexa\Core\FieldType\Author\Value as AuthorValue;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     /**
@@ -188,7 +188,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array[]
      */
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData()
     {
         return [
             ['Sindelfingen', InvalidArgumentException::class],
@@ -248,9 +248,9 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData()
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -307,7 +307,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData()
     {
         return [
             [
@@ -340,7 +340,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData()
     {
         return [
             [
@@ -366,7 +366,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public static function providerForTestIsEmptyValue()
     {
         return [
             [new AuthorValue()],
@@ -374,11 +374,21 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public static function providerForTestIsNotEmptyValue()
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new AuthorValue(
+                    [
+                        new Author(
+                            [
+                                'id' => 23,
+                                'name' => 'Hans Mueller',
+                                'email' => 'hans@example.com',
+                            ]
+                        ),
+                    ]
+                ),
             ],
             [
                 new AuthorValue(
@@ -396,7 +406,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected static function getValidSearchValueOne()
     {
         return [
             new Author(
@@ -409,7 +419,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getValidSearchValueTwo()
+    protected static function getValidSearchValueTwo()
     {
         return [
             new Author(
@@ -422,17 +432,17 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getSearchTargetValueOne(): string
+    protected static function getSearchTargetValueOne(): string
     {
         return 'Ferdinand';
     }
 
-    protected function getSearchTargetValueTwo(): string
+    protected static function getSearchTargetValueTwo(): string
     {
         return 'Greta';
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected static function getAdditionallyIndexedFieldData()
     {
         return [
             [
@@ -453,7 +463,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected static function getValidMultivaluedSearchValuesOne()
     {
         return [
             new Author(
@@ -473,7 +483,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected static function getValidMultivaluedSearchValuesTwo()
     {
         return [
             new Author(
@@ -500,17 +510,17 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getMultivaluedSearchTargetValuesOne()
+    protected static function getMultivaluedSearchTargetValuesOne()
     {
         return ['Antoinette', 'Ferdinand'];
     }
 
-    protected function getMultivaluedSearchTargetValuesTwo()
+    protected static function getMultivaluedSearchTargetValuesTwo()
     {
         return ['Greta', 'Leopold', 'Maximilian'];
     }
 
-    protected function getAdditionallyIndexedMultivaluedFieldData()
+    protected static function getAdditionallyIndexedMultivaluedFieldData()
     {
         return [
             [
@@ -526,7 +536,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected static function getFullTextIndexedFieldData()
     {
         return [
             ['Ferdinand', 'Greta'],

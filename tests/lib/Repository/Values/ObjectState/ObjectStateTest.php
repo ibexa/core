@@ -9,14 +9,22 @@ namespace Ibexa\Tests\Core\Repository\Values\ObjectState;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
+use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup as CoveredObjectStateGroup;
 use Ibexa\Core\Repository\Values\ObjectState\ObjectState;
+use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Tests\Core\Repository\Values\MultiLanguageTestTrait;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState
- */
+#[CoversClass(ObjectState::class)]
+#[CoversMethod(ObjectState::class, '__get')]
+#[CoversMethod(ObjectStateGroup::class, '__get')]
+#[CoversMethod(ObjectState::class, '__set')]
+#[CoversMethod(ObjectStateGroup::class, '__set')]
+#[CoversMethod(ObjectState::class, '__unset')]
+#[CoversMethod(CoveredObjectStateGroup::class, '__unset')]
 class ObjectStateTest extends TestCase
 {
     use ValueObjectTestTrait;
@@ -75,9 +83,6 @@ class ObjectStateTest extends TestCase
 
     /**
      * Test retrieving missing property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__get
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__get
      */
     public function testMissingProperty()
     {
@@ -91,9 +96,6 @@ class ObjectStateTest extends TestCase
 
     /**
      * Test setting read only property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__set
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__set
      */
     public function testReadOnlyProperty()
     {
@@ -120,9 +122,6 @@ class ObjectStateTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__unset
-     * @covers \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup::__unset
      */
     public function testUnsetProperty()
     {

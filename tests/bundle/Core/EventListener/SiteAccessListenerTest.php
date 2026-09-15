@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -42,7 +43,7 @@ class SiteAccessListenerTest extends TestCase
         );
     }
 
-    public function siteAccessMatchProvider()
+    public static function siteAccessMatchProvider()
     {
         return [
             ['/foo/bar', '/foo/bar', '', []],
@@ -60,9 +61,7 @@ class SiteAccessListenerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider siteAccessMatchProvider
-     */
+    #[DataProvider('siteAccessMatchProvider')]
     public function testOnSiteAccessMatchMasterRequest(
         $uri,
         $expectedSemanticPathinfo,
@@ -97,12 +96,10 @@ class SiteAccessListenerTest extends TestCase
         self::assertSame($this->defaultSiteaccess->groups, $siteAccess->groups);
     }
 
-    /**
-     * @dataProvider siteAccessMatchProvider
-     */
+    #[DataProvider('siteAccessMatchProvider')]
     public function testOnSiteAccessMatchSubRequest($uri, $semanticPathinfo, $vpString, $expectedViewParameters)
     {
-        $siteAccess = new SiteAccess('test', 'test', $this->createMock(SiteAccess\Matcher::class));
+        $siteAccess = new SiteAccess('test', 'test', self::createStub(SiteAccess\Matcher::class));
         $request = Request::create($uri);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         if (!empty($vpString)) {

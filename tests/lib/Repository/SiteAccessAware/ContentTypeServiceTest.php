@@ -35,7 +35,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         return ContentTypeService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public static function providerForPassTroughMethods()
     {
         $contentTypeGroupCreateStruct = new ContentTypeGroupCreateStruct();
         $contentTypeGroupUpdateStruct = new ContentTypeGroupUpdateStruct();
@@ -107,7 +107,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public static function providerForLanguagesLookupMethods()
     {
         $contentType = new ContentType();
         $contentTypeGroup = new ContentTypeGroup();

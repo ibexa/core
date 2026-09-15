@@ -134,126 +134,150 @@ class TreeHandlerTest extends TestCase
             ]
         );
 
-        // Original call
-        $this->getLocationGatewayMock()
-            ->expects(self::at(0))
-            ->method('getBasicNodeData')
-            ->with(42)
-            ->will(
-                self::returnValue(
-                    [
-                        'contentobject_id' => 100,
-                        'main_node_id' => 200,
-                    ]
-                )
-            );
-        $this->getLocationGatewayMock()
-            ->expects(self::at(1))
-            ->method('getChildren')
-            ->with(42)
-            ->will(
-                self::returnValue(
-                    [
-                        ['node_id' => 201],
-                        ['node_id' => 202],
-                    ]
-                )
-            );
+        // Calls to getBasicNodeData(), getChildren(), countLocationsByContentId(), removeLocation()
+        // and deleteNodeAssignment() interleave across the original call and both recursive calls,
+        // so a single shared counter tracks the global invocation order across all of them.
+        $invocationOrder = 0;
 
-        // First recursive call
         $this->getLocationGatewayMock()
-            ->expects(self::at(2))
+            ->expects(self::exactly(3))
             ->method('getBasicNodeData')
-            ->with(201)
-            ->will(
-                self::returnValue(
-                    [
-                        'contentobject_id' => 101,
-                        'main_node_id' => 201,
-                    ]
-                )
-            );
+            ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder) {
+                $order = $invocationOrder++;
+                switch ($order) {
+                    case 0:
+                        self::assertSame(42, $nodeId);
+
+                        return [
+                            'contentobject_id' => 100,
+                            'main_node_id' => 200,
+                        ];
+                    case 2:
+                        self::assertSame(201, $nodeId);
+
+                        return [
+                            'contentobject_id' => 101,
+                            'main_node_id' => 201,
+                        ];
+                    case 7:
+                        self::assertSame(202, $nodeId);
+
+                        return [
+                            'contentobject_id' => 102,
+                            'main_node_id' => 202,
+                        ];
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for getBasicNodeData()', $order));
+                }
+            });
+
         $this->getLocationGatewayMock()
-            ->expects(self::at(3))
+            ->expects(self::exactly(3))
             ->method('getChildren')
-            ->with(201)
-            ->will(self::returnValue([]));
+            ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder) {
+                $order = $invocationOrder++;
+                switch ($order) {
+                    case 1:
+                        self::assertSame(42, $nodeId);
+
+                        return [
+                            ['node_id' => 201],
+                            ['node_id' => 202],
+                        ];
+                    case 3:
+                        self::assertSame(201, $nodeId);
+
+                        return [];
+                    case 8:
+                        self::assertSame(202, $nodeId);
+
+                        return [];
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for getChildren()', $order));
+                }
+            });
+
         $this->getLocationGatewayMock()
-            ->expects(self::at(4))
+            ->expects(self::exactly(2))
             ->method('countLocationsByContentId')
-            ->with(101)
-            ->will(self::returnValue(1));
+            ->willReturnCallback(static function (int $contentId) use (&$invocationOrder) {
+                $order = $invocationOrder++;
+                switch ($order) {
+                    case 4:
+                        self::assertSame(101, $contentId);
+
+                        return 1;
+                    case 9:
+                        self::assertSame(102, $contentId);
+
+                        return 2;
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for countLocationsByContentId()', $order));
+                }
+            });
+
         $treeHandler
             ->expects(self::once())
             ->method('removeRawContent')
             ->with(101);
-        $this->getLocationGatewayMock()
-            ->expects(self::at(5))
-            ->method('removeLocation')
-            ->with(201);
-        $this->getLocationGatewayMock()
-            ->expects(self::at(6))
-            ->method('deleteNodeAssignment')
-            ->with(101);
 
-        // Second recursive call
         $this->getLocationGatewayMock()
-            ->expects(self::at(7))
-            ->method('getBasicNodeData')
-            ->with(202)
-            ->will(
-                self::returnValue(
-                    [
-                        'contentobject_id' => 102,
-                        'main_node_id' => 202,
-                    ]
-                )
-            );
+            ->expects(self::exactly(3))
+            ->method('removeLocation')
+            ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder) {
+                $order = $invocationOrder++;
+                switch ($order) {
+                    case 5:
+                        self::assertSame(201, $nodeId);
+                        break;
+                    case 11:
+                        self::assertSame(202, $nodeId);
+                        break;
+                    case 13:
+                        self::assertSame(42, $nodeId);
+                        break;
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for removeLocation()', $order));
+                }
+            });
+
         $this->getLocationGatewayMock()
-            ->expects(self::at(8))
-            ->method('getChildren')
-            ->with(202)
-            ->will(self::returnValue([]));
+            ->expects(self::exactly(3))
+            ->method('deleteNodeAssignment')
+            ->willReturnCallback(static function (int $contentId) use (&$invocationOrder) {
+                $order = $invocationOrder++;
+                switch ($order) {
+                    case 6:
+                        self::assertSame(101, $contentId);
+                        break;
+                    case 12:
+                        self::assertSame(102, $contentId);
+                        break;
+                    case 14:
+                        self::assertSame(100, $contentId);
+                        break;
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for deleteNodeAssignment()', $order));
+                }
+            });
+
         $this->getLocationGatewayMock()
-            ->expects(self::at(9))
-            ->method('countLocationsByContentId')
-            ->with(102)
-            ->will(self::returnValue(2));
-        $this->getLocationGatewayMock()
-            ->expects(self::at(10))
+            ->expects(self::once())
             ->method('getFallbackMainNodeData')
             ->with(102, 202)
-            ->will(
-                self::returnValue(
-                    [
-                        'node_id' => 203,
-                        'contentobject_version' => 1,
-                        'parent_node_id' => 204,
-                    ]
-                )
-            );
+            ->willReturnCallback(static function () use (&$invocationOrder) {
+                self::assertSame(10, $invocationOrder++);
+
+                return [
+                    'node_id' => 203,
+                    'contentobject_version' => 1,
+                    'parent_node_id' => 204,
+                ];
+            });
         $treeHandler
             ->expects(self::once())
             ->method('changeMainLocation')
             ->with(102, 203);
-        $this->getLocationGatewayMock()
-            ->expects(self::at(11))
-            ->method('removeLocation')
-            ->with(202);
-        $this->getLocationGatewayMock()
-            ->expects(self::at(12))
-            ->method('deleteNodeAssignment')
-            ->with(102);
-
-        // Continuation of the original call
-        $this->getLocationGatewayMock()
-            ->expects(self::at(13))
-            ->method('removeLocation')
-            ->with(42);
-        $this->getLocationGatewayMock()
-            ->expects(self::at(14))
-            ->method('deleteNodeAssignment')
-            ->with(100);
 
         // Start
         $treeHandler->removeSubtree(42);
@@ -264,7 +288,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler = $this->getTreeHandler();
 
         $this->getLocationGatewayMock()
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('getBasicNodeData')
             ->with(69)
             ->will(
@@ -295,29 +319,47 @@ class TreeHandlerTest extends TestCase
             ]
         );
 
+        // loadLocation() and loadContentInfo() are called on the same partial mock in an
+        // interleaved order, so a shared counter tracks the global invocation order.
+        $invocationOrder = 0;
+
         $treeHandler
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('loadLocation')
-            ->with(34)
-            ->will(self::returnValue(new Location(['parentId' => 42])));
+            ->willReturnCallback(static function (int $locationId) use (&$invocationOrder) {
+                $order = $invocationOrder++;
+                switch ($order) {
+                    case 0:
+                        self::assertSame(34, $locationId);
+
+                        return new Location(['parentId' => 42]);
+                    case 2:
+                        self::assertSame(42, $locationId);
+
+                        return new Location(['contentId' => 84]);
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for loadLocation()', $order));
+                }
+            });
 
         $treeHandler
-            ->expects(self::at(1))
+            ->expects(self::exactly(2))
             ->method('loadContentInfo')
-            ->with('12')
-            ->will(self::returnValue(new ContentInfo(['currentVersionNo' => 1])));
+            ->willReturnCallback(static function ($contentId) use (&$invocationOrder) {
+                $order = $invocationOrder++;
+                switch ($order) {
+                    case 1:
+                        self::assertEquals('12', $contentId);
 
-        $treeHandler
-            ->expects(self::at(2))
-            ->method('loadLocation')
-            ->with(42)
-            ->will(self::returnValue(new Location(['contentId' => 84])));
+                        return new ContentInfo(['currentVersionNo' => 1]);
+                    case 3:
+                        self::assertEquals('84', $contentId);
 
-        $treeHandler
-            ->expects(self::at(3))
-            ->method('loadContentInfo')
-            ->with('84')
-            ->will(self::returnValue(new ContentInfo(['sectionId' => 4])));
+                        return new ContentInfo(['sectionId' => 4]);
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for loadContentInfo()', $order));
+                }
+            });
 
         $this->getLocationGatewayMock()
             ->expects(self::once())
@@ -342,29 +384,47 @@ class TreeHandlerTest extends TestCase
             ]
         );
 
+        // loadLocation() and loadContentInfo() are called on the same partial mock in an
+        // interleaved order, so a shared counter tracks the global invocation order.
+        $invocationOrder = 0;
+
         $treeHandler
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('loadLocation')
-            ->with(34)
-            ->will(self::returnValue(new Location(['parentId' => 1])));
+            ->willReturnCallback(static function (int $locationId) use (&$invocationOrder) {
+                $order = $invocationOrder++;
+                switch ($order) {
+                    case 0:
+                        self::assertSame(34, $locationId);
+
+                        return new Location(['parentId' => 1]);
+                    case 2:
+                        self::assertSame(1, $locationId);
+
+                        return new Location(['contentId' => 84]);
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for loadLocation()', $order));
+                }
+            });
 
         $treeHandler
-            ->expects(self::at(1))
+            ->expects(self::exactly(2))
             ->method('loadContentInfo')
-            ->with('12')
-            ->will(self::returnValue(new ContentInfo(['currentVersionNo' => 1])));
+            ->willReturnCallback(static function ($contentId) use (&$invocationOrder) {
+                $order = $invocationOrder++;
+                switch ($order) {
+                    case 1:
+                        self::assertEquals('12', $contentId);
 
-        $treeHandler
-            ->expects(self::at(2))
-            ->method('loadLocation')
-            ->with(1)
-            ->will(self::returnValue(new Location(['contentId' => 84])));
+                        return new ContentInfo(['currentVersionNo' => 1]);
+                    case 3:
+                        self::assertEquals('84', $contentId);
 
-        $treeHandler
-            ->expects(self::at(3))
-            ->method('loadContentInfo')
-            ->with('84')
-            ->will(self::returnValue(new ContentInfo(['sectionId' => 4])));
+                        return new ContentInfo(['sectionId' => 4]);
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for loadContentInfo()', $order));
+                }
+            });
 
         $this->getLocationGatewayMock()
             ->expects(self::once())
@@ -549,7 +609,6 @@ class TreeHandlerTest extends TestCase
     protected function getPartlyMockedTreeHandler(array $methods)
     {
         return $this->getMockBuilder(TreeHandler::class)
-            ->setMethods($methods)
             ->setConstructorArgs(
                 [
                     $this->getLocationGatewayMock(),
@@ -559,6 +618,7 @@ class TreeHandlerTest extends TestCase
                     $this->getFieldHandlerMock(),
                 ]
             )
+            ->onlyMethods(array_values($methods))
             ->getMock();
     }
 

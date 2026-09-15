@@ -14,6 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -30,9 +31,7 @@ class RouterTest extends RouterBaseTestCase
         return $this->createRouter(true);
     }
 
-    /**
-     * @dataProvider matchProvider
-     */
+    #[DataProvider('matchProvider')]
     public function testMatch(SimplifiedRequest $request, $siteAccess)
     {
         $router = $this->createRouter();
@@ -99,7 +98,7 @@ class RouterTest extends RouterBaseTestCase
         $router->setSiteAccess();
     }
 
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'default_sa'],
@@ -167,8 +166,8 @@ class RouterTest extends RouterBaseTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $matcherBuilder = $this->createMock(MatcherBuilderInterface::class);
-        $logger = $this->createMock(LoggerInterface::class);
+        $matcherBuilder = self::createStub(MatcherBuilderInterface::class);
+        $logger = self::createStub(LoggerInterface::class);
         $siteAccessProvider = $this->createMock(SiteAccess\SiteAccessProviderInterface::class);
         $siteAccessProvider
             ->method('isDefined')
@@ -181,7 +180,7 @@ class RouterTest extends RouterBaseTestCase
     public function testMatchByName()
     {
         $matcherBuilder = $this->createMock(MatcherBuilderInterface::class);
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = self::createStub(LoggerInterface::class);
         $matcherClass = 'Map\Host';
         $matchedSiteAccess = 'foo';
         $matcherConfig = [
@@ -212,12 +211,12 @@ class RouterTest extends RouterBaseTestCase
             ->method('buildMatcher')
             ->will(
                 self::onConsecutiveCalls(
-                    $this->createMock(Matcher::class),
+                    self::createStub(Matcher::class),
                     $matcher
                 )
             );
 
-        $reverseMatchedMatcher = $this->createMock(VersatileMatcher::class);
+        $reverseMatchedMatcher = self::createStub(VersatileMatcher::class);
         $matcher
             ->expects(self::once())
             ->method('reverseMatch')
@@ -254,7 +253,7 @@ class RouterTest extends RouterBaseTestCase
             ->expects(self::once())
             ->method('buildMatcher')
             ->with($matcherClass, $matcherConfig, $request)
-            ->will(self::returnValue($this->createMock(Matcher::class)));
+            ->will(self::returnValue(self::createStub(Matcher::class)));
 
         $logger
             ->expects(self::once())
@@ -266,7 +265,7 @@ class RouterTest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            self::createStub(LoggerInterface::class),
             'default_sa',
             [
                 'Map\\URI' => [

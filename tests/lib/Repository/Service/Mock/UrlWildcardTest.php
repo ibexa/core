@@ -14,15 +14,22 @@ use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\URLWildcardService as CoveredURLWildcardService;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Core\Base\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Core\Repository\URLWildcardService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Mock Test case for UrlWildcard Service.
  */
+#[CoversMethod(CoveredURLWildcardService::class, 'create')]
+#[CoversMethod(CoveredURLWildcardService::class, 'remove')]
+#[CoversMethod(CoveredURLWildcardService::class, 'loadAll')]
+#[CoversMethod(CoveredURLWildcardService::class, 'translate')]
 class UrlWildcardTest extends BaseServiceMockTest
 {
     private const EXAMPLE_URL_WILDCARD_ID = 1;
@@ -42,8 +49,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the create() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create
      */
     public function testCreateThrowsUnauthorizedException()
     {
@@ -69,8 +74,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the create() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create
      */
     public function testCreateThrowsInvalidArgumentException()
     {
@@ -100,7 +103,7 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService->create('/lorem/ipsum', 'opossum', true);
     }
 
-    public function providerForTestCreateThrowsContentValidationException()
+    public static function providerForTestCreateThrowsContentValidationException()
     {
         return [
             ['fruit', 'food/{1}', true],
@@ -111,11 +114,8 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the create() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create
-     *
-     * @dataProvider providerForTestCreateThrowsContentValidationException
      */
+    #[DataProvider('providerForTestCreateThrowsContentValidationException')]
     public function testCreateThrowsContentValidationException($sourceUrl, $destinationUrl, $forward)
     {
         $this->expectException(ContentValidationException::class);
@@ -144,7 +144,7 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService->create($sourceUrl, $destinationUrl, $forward);
     }
 
-    public function providerForTestCreate()
+    public static function providerForTestCreate()
     {
         return [
             ['fruit', 'food', true],
@@ -159,11 +159,8 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the create() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create
-     *
-     * @dataProvider providerForTestCreate
      */
+    #[DataProvider('providerForTestCreate')]
     public function testCreate($sourceUrl, $destinationUrl, $forward)
     {
         $mockedService = $this->getPartlyMockedURLWildcardService();
@@ -230,8 +227,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the create() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create
      */
     public function testCreateWithRollback()
     {
@@ -283,8 +278,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the remove() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::remove
      */
     public function testRemoveThrowsUnauthorizedException()
     {
@@ -316,8 +309,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the remove() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::remove
      */
     public function testRemove()
     {
@@ -354,8 +345,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the remove() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::remove
      */
     public function testRemoveWithRollback()
     {
@@ -398,8 +387,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the load() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::remove
      */
     public function testLoadThrowsException()
     {
@@ -424,8 +411,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the load() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::remove
      */
     public function testLoad()
     {
@@ -467,8 +452,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the loadAll() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll
      */
     public function testLoadAll()
     {
@@ -490,8 +473,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the loadAll() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll
      */
     public function testLoadAllWithLimitAndOffset()
     {
@@ -539,7 +520,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * @return array
      */
-    public function providerForTestTranslateThrowsNotFoundException()
+    public static function providerForTestTranslateThrowsNotFoundException()
     {
         return [
             [
@@ -579,11 +560,8 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the translate() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate
-     *
-     * @dataProvider providerForTestTranslateThrowsNotFoundException
      */
+    #[DataProvider('providerForTestTranslateThrowsNotFoundException')]
     public function testTranslateThrowsNotFoundException($createArray, $url)
     {
         $this->expectException(NotFoundException::class);
@@ -606,7 +584,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * @return array
      */
-    public function providerForTestTranslate()
+    public static function providerForTestTranslate()
     {
         return [
             [
@@ -686,11 +664,8 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the translate() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate
-     *
-     * @dataProvider providerForTestTranslate
      */
+    #[DataProvider('providerForTestTranslate')]
     public function testTranslate($createArray, $url, $uri)
     {
         $mockedService = $this->getPartlyMockedURLWildcardService();
@@ -723,8 +698,6 @@ class UrlWildcardTest extends BaseServiceMockTest
 
     /**
      * Test for the translate() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate
      */
     public function testTranslateUsesLongestMatchingWildcard()
     {
@@ -767,7 +740,6 @@ class UrlWildcardTest extends BaseServiceMockTest
     protected function getPartlyMockedURLWildcardService(?array $methods = null)
     {
         return $this->getMockBuilder(URLWildcardService::class)
-            ->setMethods($methods)
             ->setConstructorArgs(
                 [
                     $this->getRepositoryMock(),
@@ -775,6 +747,7 @@ class UrlWildcardTest extends BaseServiceMockTest
                     $this->permissionResolver,
                 ]
             )
+            ->onlyMethods(array_values($methods ?? []))
             ->getMock();
     }
 }

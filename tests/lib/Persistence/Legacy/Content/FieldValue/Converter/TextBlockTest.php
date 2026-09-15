@@ -15,11 +15,11 @@ use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter
- */
+#[CoversClass(TextBlockConverter::class)]
 class TextBlockTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter */
@@ -41,10 +41,8 @@ They called me Mr Glass.
 EOT;
     }
 
-    /**
-     * @group fieldType
-     * @group textBlock
-     */
+    #[Group('fieldType')]
+    #[Group('textBlock')]
     public function testToStorageValue()
     {
         $value = new FieldValue();
@@ -58,10 +56,8 @@ EOT;
         self::assertSame(0, $storageFieldValue->sortKeyInt);
     }
 
-    /**
-     * @group fieldType
-     * @group textBlock
-     */
+    #[Group('fieldType')]
+    #[Group('textBlock')]
     public function testToFieldValue()
     {
         $storageFieldValue = new StorageFieldValue();
@@ -74,10 +70,8 @@ EOT;
         self::assertSame($storageFieldValue->sortKeyString, $fieldValue->sortKey);
     }
 
-    /**
-     * @group fieldType
-     * @group textBlock
-     */
+    #[Group('fieldType')]
+    #[Group('textBlock')]
     public function testToStorageFieldDefinition()
     {
         $storageFieldDef = new StorageFieldDefinition();
@@ -101,10 +95,8 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group textBlock
-     */
+    #[Group('fieldType')]
+    #[Group('textBlock')]
     public function testToFieldDefinition()
     {
         $fieldDef = new PersistenceFieldDefinition();

@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\ComplexSettings;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParser;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ComplexSettingParserTest extends TestCase
@@ -20,23 +21,19 @@ class ComplexSettingParserTest extends TestCase
         $this->parser = new ComplexSettingParser();
     }
 
-    /**
-     * @dataProvider provideSettings
-     */
+    #[DataProvider('provideSettings')]
     public function testContainsDynamicSettings($setting, $expected)
     {
         self::assertEquals($expected[0], $this->parser->containsDynamicSettings($setting), 'string');
     }
 
-    /**
-     * @dataProvider provideSettings
-     */
+    #[DataProvider('provideSettings')]
     public function testParseComplexSetting($setting, $expected)
     {
         self::assertEquals($expected[1], $this->parser->parseComplexSetting($setting), 'string');
     }
 
-    public function provideSettings()
+    public static function provideSettings()
     {
         // array( setting, array( isDynamicSetting, containsDynamicSettings ) )
         return [

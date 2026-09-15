@@ -53,8 +53,8 @@ class SiteAccessServiceTest extends TestCase
     public function testGetCurrentSiteAccess(): void
     {
         $service = new SiteAccessService(
-            $this->createMock(SiteAccessProviderInterface::class),
-            $this->createMock(ConfigResolverInterface::class)
+            self::createStub(SiteAccessProviderInterface::class),
+            self::createStub(ConfigResolverInterface::class)
         );
 
         self::assertNull($service->getCurrent());
@@ -81,8 +81,8 @@ class SiteAccessServiceTest extends TestCase
     public function testOnConfigScopeChangeMakesGetCurrentReflectTheNewSiteAccess(): void
     {
         $service = new SiteAccessService(
-            $this->createStub(SiteAccessProviderInterface::class),
-            $this->createStub(ConfigResolverInterface::class)
+            self::createStub(SiteAccessProviderInterface::class),
+            self::createStub(ConfigResolverInterface::class)
         );
 
         $baseSiteAccess = new SiteAccess('base');
@@ -97,8 +97,8 @@ class SiteAccessServiceTest extends TestCase
     public function testOnConfigScopeRestoreBringsBackThePreviousSiteAccess(): void
     {
         $service = new SiteAccessService(
-            $this->createStub(SiteAccessProviderInterface::class),
-            $this->createStub(ConfigResolverInterface::class)
+            self::createStub(SiteAccessProviderInterface::class),
+            self::createStub(ConfigResolverInterface::class)
         );
 
         $baseSiteAccess = new SiteAccess('base');
@@ -114,8 +114,8 @@ class SiteAccessServiceTest extends TestCase
     public function testOnConfigScopeRestoreNeverDropsTheBaseSiteAccess(): void
     {
         $service = new SiteAccessService(
-            $this->createStub(SiteAccessProviderInterface::class),
-            $this->createStub(ConfigResolverInterface::class)
+            self::createStub(SiteAccessProviderInterface::class),
+            self::createStub(ConfigResolverInterface::class)
         );
 
         $baseSiteAccess = new SiteAccess('base');
@@ -129,8 +129,8 @@ class SiteAccessServiceTest extends TestCase
     public function testNestedConfigScopeChangesAndRestoresRoundTripLikeAStack(): void
     {
         $service = new SiteAccessService(
-            $this->createStub(SiteAccessProviderInterface::class),
-            $this->createStub(ConfigResolverInterface::class)
+            self::createStub(SiteAccessProviderInterface::class),
+            self::createStub(ConfigResolverInterface::class)
         );
 
         $baseSiteAccess = new SiteAccess('base');
@@ -160,7 +160,7 @@ class SiteAccessServiceTest extends TestCase
         );
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
-            $this->createMock(ConfigResolverInterface::class)
+            self::createStub(ConfigResolverInterface::class)
         );
 
         self::assertEquals(
@@ -177,7 +177,7 @@ class SiteAccessServiceTest extends TestCase
         );
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
-            $this->createMock(ConfigResolverInterface::class)
+            self::createStub(ConfigResolverInterface::class)
         );
 
         $this->expectException(NotFoundException::class);

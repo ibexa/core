@@ -9,17 +9,19 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
-use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\ParentDepthLimitationType;
+use Ibexa\Core\Repository\Values\Content\Content as CoreContent;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Repository\Values\Content\VersionInfo as CoreVersionInfo;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Test Case for LimitationType.
@@ -60,7 +62,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue()
     {
         return [
             [new ParentDepthLimitation()],
@@ -70,13 +72,11 @@ class ParentDepthLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestAcceptValue
-     *
-     * @depends testConstruct
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
      * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
+    #[DataProvider('providerForTestAcceptValue')]
     public function testAcceptValue(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType)
     {
         $limitationType->acceptValue($limitation);
@@ -85,7 +85,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException()
     {
         return [
             [new ObjectStateLimitation()],
@@ -94,13 +94,11 @@ class ParentDepthLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestAcceptValueException
-     *
-     * @depends testConstruct
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
      * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
+    #[DataProvider('providerForTestAcceptValueException')]
     public function testAcceptValueException(Limitation $limitation, ParentDepthLimitationType $limitationType)
     {
         $this->expectException(InvalidArgumentException::class);
@@ -111,7 +109,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidatePass()
+    public static function providerForTestValidatePass()
     {
         return [
             [new ParentDepthLimitation()],
@@ -121,12 +119,10 @@ class ParentDepthLimitationTypeTest extends Base
     }
 
     /**
-     * @dataProvider providerForTestValidatePass
-     *
-     * @depends testConstruct
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
      */
+    #[Depends('testConstruct')]
+    #[DataProvider('providerForTestValidatePass')]
     public function testValidatePass(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType)
     {
         $validationErrors = $limitationType->validate($limitation);
@@ -134,10 +130,9 @@ class ParentDepthLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testBuildValue(ParentDepthLimitationType $limitationType)
     {
         $expected = [2, 7];
@@ -154,28 +149,18 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate()
+    public static function providerForTestEvaluate()
     {
-        // Mocks for testing Content & VersionInfo objects, should only be used once because of expect rules.
-        $contentMock = $this->createMock(APIContent::class);
-        $versionInfoMock = $this->createMock(APIVersionInfo::class);
+        // Real Content & VersionInfo objects, avoiding mocks since providers must be static.
+        $content = new CoreContent([
+            'versionInfo' => new CoreVersionInfo([
+                'contentInfo' => new ContentInfo(['published' => true]),
+            ]),
+        ]);
 
-        $contentMock
-            ->expects(self::once())
-            ->method('getVersionInfo')
-            ->will(self::returnValue($versionInfoMock));
-
-        $versionInfoMock
-            ->expects(self::once())
-            ->method('getContentInfo')
-            ->will(self::returnValue(new ContentInfo(['published' => true])));
-
-        $versionInfoMock2 = $this->createMock(APIVersionInfo::class);
-
-        $versionInfoMock2
-            ->expects(self::once())
-            ->method('getContentInfo')
-            ->will(self::returnValue(new ContentInfo(['published' => true])));
+        $versionInfo = new CoreVersionInfo([
+            'contentInfo' => new ContentInfo(['published' => true]),
+        ]);
 
         return [
             // ContentInfo, with targets, no access
@@ -183,7 +168,7 @@ class ParentDepthLimitationTypeTest extends Base
                 'limitation' => new ParentDepthLimitation(),
                 'object' => new ContentInfo(['published' => true]),
                 'targets' => [new Location()],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => false,
             ],
             // ContentInfo, with targets, no access
@@ -191,7 +176,7 @@ class ParentDepthLimitationTypeTest extends Base
                 'limitation' => new ParentDepthLimitation(['limitationValues' => [2]]),
                 'object' => new ContentInfo(['published' => true]),
                 'targets' => [new Location(['depth' => 55])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => false,
             ],
             // ContentInfo, with targets, with access
@@ -199,7 +184,7 @@ class ParentDepthLimitationTypeTest extends Base
                 'limitation' => new ParentDepthLimitation(['limitationValues' => [2]]),
                 'object' => new ContentInfo(['published' => true]),
                 'targets' => [new Location(['depth' => 2])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => true,
             ],
             // ContentInfo, no targets, with access
@@ -210,7 +195,7 @@ class ParentDepthLimitationTypeTest extends Base
                     'published' => true,
                 ]),
                 'targets' => null,
-                'persistence' => [new Location(['depth' => 2])],
+                'persistenceLocations' => [new Location(['depth' => 2])],
                 'expected' => true,
             ],
             // ContentInfo, no targets, no access
@@ -221,7 +206,7 @@ class ParentDepthLimitationTypeTest extends Base
                     'published' => true,
                 ]),
                 'targets' => null,
-                'persistence' => [new Location(['depth' => 55])],
+                'persistenceLocations' => [new Location(['depth' => 55])],
                 'expected' => false,
             ],
             // ContentInfo, no targets, un-published, with access
@@ -232,7 +217,7 @@ class ParentDepthLimitationTypeTest extends Base
                     'published' => false,
                 ]),
                 'targets' => null,
-                'persistence' => [new Location(['depth' => 2])],
+                'persistenceLocations' => [new Location(['depth' => 2])],
                 'expected' => true,
             ],
             // ContentInfo, no targets, un-published, no access
@@ -243,23 +228,23 @@ class ParentDepthLimitationTypeTest extends Base
                     'published' => false,
                 ]),
                 'targets' => null,
-                'persistence' => [new Location(['depth' => 55])],
+                'persistenceLocations' => [new Location(['depth' => 55])],
                 'expected' => false,
             ],
             // Content, with targets, with access
             [
                 'limitation' => new ParentDepthLimitation(['limitationValues' => [2]]),
-                'object' => $contentMock,
+                'object' => $content,
                 'targets' => [new Location(['depth' => 2])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => true,
             ],
             // VersionInfo, with targets, with access
             [
                 'limitation' => new ParentDepthLimitation(['limitationValues' => [2]]),
-                'object' => $versionInfoMock2,
+                'object' => $versionInfo,
                 'targets' => [new Location(['depth' => 2])],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => true,
             ],
             // ContentCreateStruct, no targets, no access
@@ -267,7 +252,7 @@ class ParentDepthLimitationTypeTest extends Base
                 'limitation' => new ParentDepthLimitation(['limitationValues' => [2]]),
                 'object' => new ContentCreateStruct(),
                 'targets' => [],
-                'persistence' => [],
+                'persistenceLocations' => [],
                 'expected' => false,
             ],
             // ContentCreateStruct, with targets, no access
@@ -275,7 +260,7 @@ class ParentDepthLimitationTypeTest extends Base
                 'limitation' => new ParentDepthLimitation(['limitationValues' => [2, 43]]),
                 'object' => new ContentCreateStruct(),
                 'targets' => [new LocationCreateStruct(['parentLocationId' => 55])],
-                'persistence' => [
+                'persistenceLocations' => [
                     55 => new Location(['depth' => 42]),
                 ],
                 'expected' => false,
@@ -285,7 +270,7 @@ class ParentDepthLimitationTypeTest extends Base
                 'limitation' => new ParentDepthLimitation(['limitationValues' => [2, 42]]),
                 'object' => new ContentCreateStruct(),
                 'targets' => [new LocationCreateStruct(['parentLocationId' => 43])],
-                'persistence' => [
+                'persistenceLocations' => [
                     43 => new Location(['depth' => 42]),
                 ],
                 'expected' => true,
@@ -293,9 +278,7 @@ class ParentDepthLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluate
-     */
+    #[DataProvider('providerForTestEvaluate')]
     public function testEvaluate(
         ParentDepthLimitation $limitation,
         ValueObject $object,
@@ -360,7 +343,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument()
     {
         return [
             // invalid limitation
@@ -368,35 +351,33 @@ class ParentDepthLimitationTypeTest extends Base
                 'limitation' => new ObjectStateLimitation(),
                 'object' => new ContentInfo(),
                 'targets' => [new Location()],
-                'persistence' => [],
+                'persistenceLocations' => [],
             ],
             // invalid object
             [
                 'limitation' => new ParentDepthLimitation(),
                 'object' => new ObjectStateLimitation(),
                 'targets' => [new Location()],
-                'persistence' => [],
+                'persistenceLocations' => [],
             ],
             // invalid target
             [
                 'limitation' => new ParentDepthLimitation(),
                 'object' => new ContentInfo(),
                 'targets' => [new ObjectStateLimitation()],
-                'persistence' => [],
+                'persistenceLocations' => [],
             ],
             // invalid target when using ContentCreateStruct
             [
                 'limitation' => new ParentDepthLimitation(),
                 'object' => new ContentCreateStruct(),
                 'targets' => [new Location()],
-                'persistence' => [],
+                'persistenceLocations' => [],
             ],
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluateInvalidArgument
-     */
+    #[DataProvider('providerForTestEvaluateInvalidArgument')]
     public function testEvaluateInvalidArgument(
         Limitation $limitation,
         ValueObject $object,

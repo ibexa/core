@@ -15,13 +15,12 @@ use Imagine\Image\BoxInterface;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;
 use Imagine\Image\Palette\Color\ColorInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class GenericProviderTest extends TestCase
 {
-    /**
-     * @dataProvider getPlaceholderDataProvider
-     */
+    #[DataProvider('getPlaceholderDataProvider')]
     public function testGetPlaceholder(ImageValue $value, $expectedText, array $options = [])
     {
         $font = $this->createMock(AbstractFont::class);
@@ -41,7 +40,7 @@ class GenericProviderTest extends TestCase
         $font
             ->expects(self::any())
             ->method('box')
-            ->willReturn($this->createMock(BoxInterface::class));
+            ->willReturn(self::createStub(BoxInterface::class));
 
         $image = $this->createMock(ImageInterface::class);
 
@@ -70,7 +69,7 @@ class GenericProviderTest extends TestCase
         $provider->getPlaceholder($value, $options);
     }
 
-    public function getPlaceholderDataProvider()
+    public static function getPlaceholderDataProvider()
     {
         return [
             [

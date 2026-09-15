@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader;
 use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class CropFilterLoaderTest extends TestCase
@@ -29,17 +30,15 @@ class CropFilterLoaderTest extends TestCase
         $this->loader->setInnerLoader($this->innerLoader);
     }
 
-    /**
-     * @dataProvider loadInvalidProvider
-     */
+    #[DataProvider('loadInvalidProvider')]
     public function testLoadInvalidOptions(array $options)
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->loader->load($this->createMock(ImageInterface::class), $options);
+        $this->loader->load(self::createStub(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    public static function loadInvalidProvider()
     {
         return [
             [[]],
@@ -57,7 +56,7 @@ class CropFilterLoaderTest extends TestCase
         $offsetX = 100;
         $offsetY = 200;
 
-        $image = $this->createMock(ImageInterface::class);
+        $image = self::createStub(ImageInterface::class);
         $this->innerLoader
             ->expects(self::once())
             ->method('load')

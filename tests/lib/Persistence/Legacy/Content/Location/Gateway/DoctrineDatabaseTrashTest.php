@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 {
     protected function getLocationGateway()
@@ -92,9 +92,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getUntrashedLocationValues
-     */
+    #[DataProvider('getUntrashedLocationValues')]
     public function testUntrashLocationDefault($property, $value)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -185,9 +183,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getLoadTrashValues
-     */
+    #[DataProvider('getLoadTrashValues')]
     public function testLoadTrashByLocationId($field, $value)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -290,9 +286,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getTrashValues
-     */
+    #[DataProvider('getTrashValues')]
     public function testListTrashItem($key, $value)
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');

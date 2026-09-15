@@ -18,6 +18,8 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\ObjectStateLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Test Case for LimitationType.
@@ -88,7 +90,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate(): array
+    public static function providerForTestEvaluate(): array
     {
         return [
             'ContentInfo, published, no Limitations, no access' => [
@@ -177,9 +179,7 @@ class ObjectStateLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluate
-     */
+    #[DataProvider('providerForTestEvaluate')]
     public function testEvaluate(
         ObjectStateLimitation $limitation,
         ValueObject $object,
@@ -238,10 +238,9 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType)
     {
         $this->expectException(\RuntimeException::class);
@@ -253,10 +252,9 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
+    #[Depends('testConstruct')]
     public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType)
     {
         $criterion = $limitationType->getCriterion(

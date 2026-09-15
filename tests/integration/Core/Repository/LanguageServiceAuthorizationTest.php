@@ -8,23 +8,26 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\LanguageService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the LanguageService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\LanguageService
- *
- * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
- *
- * @group integration
- * @group authorization
  */
+#[CoversClass(LanguageService::class)]
+#[CoversMethod(LanguageService::class, 'createLanguage()')]
+#[CoversMethod(LanguageService::class, 'updateLanguageName()')]
+#[CoversMethod(LanguageService::class, 'enableLanguage()')]
+#[CoversMethod(LanguageService::class, 'disableLanguage()')]
+#[CoversMethod(LanguageService::class, 'deleteLanguage()')]
+#[Group('integration')]
+#[Group('authorization')]
 class LanguageServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage()
      */
     public function testCreateLanguageThrowsUnauthorizedException()
     {
@@ -55,8 +58,6 @@ class LanguageServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the updateLanguageName() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName()
      */
     public function testUpdateLanguageNameThrowsUnauthorizedException()
     {
@@ -91,8 +92,6 @@ class LanguageServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the enableLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::enableLanguage()
      */
     public function testEnableLanguageThrowsUnauthorizedException()
     {
@@ -125,8 +124,6 @@ class LanguageServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the disableLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::disableLanguage()
      */
     public function testDisableLanguageThrowsUnauthorizedException()
     {
@@ -159,8 +156,6 @@ class LanguageServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the deleteLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage()
      */
     public function testDeleteLanguageThrowsUnauthorizedException()
     {

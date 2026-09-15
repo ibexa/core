@@ -11,16 +11,19 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
+#[CoversMethod(Section::class, '__get')]
+#[CoversMethod(Section::class, '__set')]
+#[CoversMethod(Section::class, '__isset')]
+#[CoversMethod(Section::class, '__unset')]
 class SectionTest extends TestCase
 {
     use ValueObjectTestTrait;
 
     /**
      * Test retrieving missing property.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Section::__get
      */
     public function testMissingProperty()
     {
@@ -34,8 +37,6 @@ class SectionTest extends TestCase
 
     /**
      * Test setting read only property.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Section::__set
      */
     public function testReadOnlyProperty()
     {
@@ -48,8 +49,6 @@ class SectionTest extends TestCase
 
     /**
      * Test if property exists.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Section::__isset
      */
     public function testIsPropertySet()
     {
@@ -64,8 +63,6 @@ class SectionTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Section::__unset
      */
     public function testUnsetProperty()
     {

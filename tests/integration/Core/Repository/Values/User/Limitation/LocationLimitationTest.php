@@ -9,19 +9,16 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(LocationLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class LocationLimitationTest extends BaseLimitationTestCase
 {
     /**
      * Tests a LocationLimitation.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation
      */
     public function testLocationLimitationAllow()
     {

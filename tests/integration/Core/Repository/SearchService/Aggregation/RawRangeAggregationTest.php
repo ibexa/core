@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\Rang
 
 final class RawRangeAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         yield [
             new RawRangeAggregation(

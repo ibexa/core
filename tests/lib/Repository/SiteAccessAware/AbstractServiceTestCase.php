@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Closure;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -30,6 +31,14 @@ abstract class AbstractServiceTestCase extends TestCase
      * used.
      */
     public const LANG_ARG = 0;
+
+    /**
+     * Sentinel method name yielded by {@see providerForLanguagesLookupMethods()} implementations
+     * that legitimately have no language-lookup methods to test; PHPUnit 11 treats an empty data
+     * provider as a hard error, so a single sentinel row is yielded instead and the two consuming
+     * test methods skip immediately when they see it.
+     */
+    protected const NO_DATA_METHOD = '__no_data__';
 
     /** @var \object|\PHPUnit\Framework\MockObject\MockObject */
     protected $innerApiServiceMock;
@@ -70,19 +79,19 @@ abstract class AbstractServiceTestCase extends TestCase
     /**
      * @return array See signature on {@link testForPassTrough} for arguments and their type.
      */
-    abstract public function providerForPassTroughMethods();
+    abstract public static function providerForPassTroughMethods();
 
     /**
      * Make sure these methods does nothing more then passing the arguments to inner service.
      *
      * Methods tested here are basically those without as languages argument.
      *
-     * @dataProvider providerForPassTroughMethods
      *
      * @param string $method
      * @param array $arguments
      * @param mixed $return
      */
+    #[DataProvider('providerForPassTroughMethods')]
     final public function testForPassTrough($method, array $arguments, $return = true)
     {
         if ($return) {
@@ -109,7 +118,7 @@ abstract class AbstractServiceTestCase extends TestCase
      * @return array See signature on {@link testForLanguagesLookup} for arguments and their type.
      *               NOTE: languages / prioritizedLanguage, can be set to 0, it will be replaced by tests methods.
      */
-    abstract public function providerForLanguagesLookupMethods();
+    abstract public static function providerForLanguagesLookupMethods();
 
     /**
      * Method to be able to customize the logic for setting expected language argument during {@see testForLanguagesLookup()}.
@@ -143,10 +152,9 @@ abstract class AbstractServiceTestCase extends TestCase
     }
 
     /**
-     * @dataProvider providerForLanguagesLookupMethods
-     *
      * @param array<mixed> $arguments
      */
+    #[DataProvider('providerForLanguagesLookupMethods')]
     final public function testForLanguagesLookup(
         string $method,
         array $arguments,
@@ -155,6 +163,10 @@ abstract class AbstractServiceTestCase extends TestCase
         ?callable $callback = null,
         ?int $alwaysAvailableArgumentIndex = null
     ) {
+        if ($method === self::NO_DATA_METHOD) {
+            self::markTestSkipped($arguments[0] ?? 'No language-lookup methods for this service.');
+        }
+
         $languages = ['eng-GB', 'eng-US'];
 
         $arguments = $this->setLanguagesLookupArguments($arguments, $languageArgumentIndex);
@@ -211,10 +223,9 @@ abstract class AbstractServiceTestCase extends TestCase
     }
 
     /**
-     * @dataProvider providerForLanguagesLookupMethods
-     *
      * @param array<mixed> $arguments
      */
+    #[DataProvider('providerForLanguagesLookupMethods')]
     final public function testForLanguagesPassTrough(
         string $method,
         array $arguments,
@@ -223,6 +234,10 @@ abstract class AbstractServiceTestCase extends TestCase
         ?callable $callback = null,
         ?int $alwaysAvailableArgumentIndex = null
     ) {
+        if ($method === self::NO_DATA_METHOD) {
+            self::markTestSkipped($arguments[0] ?? 'No language-lookup methods for this service.');
+        }
+
         $languages = ['eng-GB', 'eng-US'];
         $arguments = $this->setLanguagesPassTroughArguments($arguments, $languageArgumentIndex, $languages);
 
@@ -258,13 +273,26 @@ abstract class AbstractServiceTestCase extends TestCase
     }
 
     /**
+     * @param iterable<mixed> $data
+     *
+     * @return array<mixed>
+     */
+    private static function toArray(iterable $data): array
+    {
+        return is_array($data) ? $data : iterator_to_array($data);
+    }
+
+    /**
      * @todo replace with coverage testing (see EZP-31035)
      */
     final public function testIfThereIsMissingTest(): void
     {
         $tested = array_merge(
-            array_column($this->providerForLanguagesLookupMethods(), 0),
-            array_column($this->providerForPassTroughMethods(), 0)
+            array_diff(
+                array_column(self::toArray($this->providerForLanguagesLookupMethods()), 0),
+                [self::NO_DATA_METHOD]
+            ),
+            array_column(self::toArray($this->providerForPassTroughMethods()), 0)
         );
 
         $class = new ReflectionClass($this->getSiteAccessAwareServiceClassName());

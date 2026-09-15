@@ -12,9 +12,12 @@ use Ibexa\Bundle\Core\Routing\DefaultRouter;
 use Ibexa\Bundle\IO\BinaryStreamResponse;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
+use Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
 use Ibexa\Tests\Core\MVC\Symfony\Controller\Controller\Content\DownloadControllerTestTrait;
 use Ibexa\Tests\Integration\Core\MVC\Symfony\InternalRoutingTestKernel;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Routing\Router as FrameworkRouter;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,11 +34,8 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * @group integration
- *
- * @covers \Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController
- */
+#[CoversClass(DownloadController::class)]
+#[Group('integration')]
 final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
 {
     use DownloadControllerTestTrait;

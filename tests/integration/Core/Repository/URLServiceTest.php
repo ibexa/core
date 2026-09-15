@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use DateTime;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
@@ -17,15 +18,24 @@ use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\URL\UsageSearchResult;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the UserService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\URLService
- *
- * @group integration
- * @group url
  */
+#[CoversClass(URLService::class)]
+#[CoversMethod(URLService::class, 'findUrls()')]
+#[CoversMethod(URLService::class, 'findUrls')]
+#[CoversMethod(URLService::class, 'updateUrl()')]
+#[CoversMethod(URLService::class, 'loadById')]
+#[CoversMethod(URLService::class, 'loadByUrl')]
+#[CoversMethod(URLService::class, 'createUpdateStruct')]
+#[Group('integration')]
+#[Group('url')]
 class URLServiceTest extends BaseURLServiceTestCase
 {
     private const TOTAL_URLS_COUNT = 20;
@@ -170,8 +180,6 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
      */
     public function testFindUrls()
     {
@@ -206,8 +214,6 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
      */
     public function testFindUrlsWithoutCounting()
     {
@@ -243,11 +249,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingMatchNone()
     {
         $query = new URLQuery();
@@ -258,11 +261,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingPatternCriterion()
     {
         $expectedUrls = [
@@ -281,11 +281,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingValidityCriterionValid()
     {
         $expectedUrls = [
@@ -318,11 +315,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingSectionIdCriterion(): void
     {
         $expectedUrls = [
@@ -339,11 +333,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingSectionIdAndValidityCriterionValid(): void
     {
         $expectedUrls = [
@@ -363,11 +354,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingSectionIdentifierCriterion(): void
     {
         $expectedUrls = [
@@ -384,11 +372,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingSectionIdentifierAndValidityCriterionValid(): void
     {
         $expectedUrls = [
@@ -410,11 +395,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingSectionIdentifierOrSectionIdCriterion(): void
     {
         $expectedUrls = [
@@ -436,11 +418,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingValidityCriterionInvalid()
     {
         $expectedUrls = [
@@ -455,11 +434,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsUsingVisibleOnlyCriterion()
     {
         $expectedUrls = [
@@ -513,8 +489,6 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
      */
     public function testFindUrlsWithInvalidOffsetThrowsInvalidArgumentException()
     {
@@ -534,8 +508,6 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
      */
     public function testFindUrlsWithInvalidLimitThrowsInvalidArgumentException()
     {
@@ -555,11 +527,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsWithOffset()
     {
         $expectedUrls = [
@@ -585,11 +554,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsWithOffsetAndLimit()
     {
         $expectedUrls = [
@@ -609,11 +575,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
      */
+    #[Depends('testFindUrls')]
     public function testFindUrlsWithLimitZero()
     {
         $query = new URLQuery();
@@ -625,13 +588,9 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
-     *
-     * @depends testFindUrls
-     *
-     * @dataProvider dataProviderForFindUrlsWithSorting
      */
+    #[Depends('testFindUrls')]
+    #[DataProvider('dataProviderForFindUrlsWithSorting')]
     public function testFindUrlsWithSorting(SortClause $sortClause, array $expectedUrls)
     {
         $query = new URLQuery();
@@ -641,7 +600,7 @@ class URLServiceTest extends BaseURLServiceTestCase
         $this->doTestFindUrls($query, $expectedUrls, count($expectedUrls), false);
     }
 
-    public function dataProviderForFindUrlsWithSorting()
+    public static function dataProviderForFindUrlsWithSorting()
     {
         $urlsSortedById = [
             '/content/view/sitemap/2',
@@ -679,8 +638,6 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::updateUrl() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::updateUrl()
      */
     public function testUpdateUrl()
     {
@@ -712,8 +669,6 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::updateUrl() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::updateUrl()
      */
     public function testUpdateUrlStatus()
     {
@@ -748,11 +703,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::updateUrl() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::updateUrl()
-     *
-     * @depends testUpdateUrl
      */
+    #[Depends('testUpdateUrl')]
     public function testUpdateUrlWithNonUniqueUrl()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -775,8 +727,6 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::loadById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::loadById
      */
     public function testLoadById()
     {
@@ -803,11 +753,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::loadById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::loadById
-     *
-     * @depends testLoadById
      */
+    #[Depends('testLoadById')]
     public function testLoadByIdThrowsNotFoundException()
     {
         $repository = $this->getRepository();
@@ -823,8 +770,6 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::loadByUrl() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::loadByUrl
      */
     public function testLoadByUrl()
     {
@@ -851,11 +796,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::loadByUrl() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::loadByUrl
-     *
-     * @depends testLoadByUrl
      */
+    #[Depends('testLoadByUrl')]
     public function testLoadByUrlThrowsNotFoundException()
     {
         $repository = $this->getRepository();
@@ -872,7 +814,6 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::createUpdateStruct() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::createUpdateStruct
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct
      */
@@ -894,9 +835,8 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::createUpdateStruct() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct $updateStruct
-     *
-     * @depends testCreateUpdateStruct
      */
+    #[Depends('testCreateUpdateStruct')]
     public function testCreateUpdateStructValues(URLUpdateStruct $updateStruct)
     {
         $this->assertPropertiesCorrect([
@@ -908,11 +848,9 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::testFindUsages() method.
-     *
-     * @depends testLoadById
-     *
-     * @dataProvider dataProviderForFindUsages
      */
+    #[Depends('testLoadById')]
+    #[DataProvider('dataProviderForFindUsages')]
     public function testFindUsages($urlId, $offset, $limit, array $expectedContentInfos, $expectedTotalCount = null)
     {
         $repository = $this->getRepository();
@@ -931,7 +869,7 @@ class URLServiceTest extends BaseURLServiceTestCase
         $this->assertUsagesSearchResultItems($usagesSearchResults, $expectedContentInfos);
     }
 
-    public function dataProviderForFindUsages()
+    public static function dataProviderForFindUsages()
     {
         return [
             // findUsages($url, 0, -1)
@@ -943,9 +881,8 @@ class URLServiceTest extends BaseURLServiceTestCase
 
     /**
      * Test for URLService::testFindUsages() method.
-     *
-     * @depends testFindUsages
      */
+    #[Depends('testFindUsages')]
     public function testFindUsagesReturnsEmptySearchResults()
     {
         $repository = $this->getRepository();

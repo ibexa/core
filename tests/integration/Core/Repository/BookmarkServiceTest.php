@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Contracts\Core\Repository\BookmarkService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -17,12 +18,18 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Test case for the BookmarkService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\BookmarkService
  */
+#[CoversClass(BookmarkService::class)]
+#[CoversMethod(BookmarkService::class, 'isBookmarked')]
+#[CoversMethod(BookmarkService::class, 'createBookmark')]
+#[CoversMethod(BookmarkService::class, 'deleteBookmark')]
+#[CoversMethod(BookmarkService::class, 'loadBookmarks')]
 class BookmarkServiceTest extends BaseTestCase
 {
     public const LOCATION_ID_BOOKMARKED = 5;
@@ -70,9 +77,7 @@ class BookmarkServiceTest extends BaseTestCase
         self::assertTrue($afterCreateBookmark);
     }
 
-    /**
-     * @depends testCreateBookmark
-     */
+    #[Depends('testCreateBookmark')]
     public function testCreateBookmarkThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -107,9 +112,7 @@ class BookmarkServiceTest extends BaseTestCase
         self::assertFalse($afterDeleteBookmark);
     }
 
-    /**
-     * @depends testDeleteBookmark
-     */
+    #[Depends('testDeleteBookmark')]
     public function testDeleteBookmarkThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);

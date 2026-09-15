@@ -26,10 +26,9 @@ use Ibexa\Core\Persistence\Legacy\Handler;
 use Ibexa\Core\Persistence\Legacy\TransactionHandler;
 use Ibexa\Core\Persistence\Legacy\User\Handler as UserHandler;
 use Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Handler::contentHandler
- */
+#[CoversMethod(Handler::class, 'contentHandler')]
 class HandlerTest extends TestCase
 {
     public function testContentHandler(): void

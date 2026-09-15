@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Compiler\SlugConverterConfigurationPas
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -26,21 +27,20 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @dataProvider configurationProvider
-     *
      * @param array $commandsToAdd
      * @param array $existingOldParameters
      * @param array $expectedCommands
      *
      * @throws \ReflectionException
      */
+    #[DataProvider('configurationProvider')]
     public function testMergeConfigurations(
         array $commandsToAdd,
         array $existingOldParameters,
         array $expectedCommands
     ) {
         $definition = new Definition(SlugConverter::class);
-        $definition->setArgument(0, $this->createMock(TransformationProcessor::class));
+        $definition->setArgument(0, self::createStub(TransformationProcessor::class));
         $definition->setArgument(1, $existingOldParameters);
         $definition->setPublic(true);
 
@@ -70,7 +70,7 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         self::assertEquals('url_cleanup', $configuration['transformationGroups']['urlalias']['cleanupMethod']);
     }
 
-    public function configurationProvider()
+    public static function configurationProvider()
     {
         $injectedBySemanticCommands = [
             'new_command_to_add',

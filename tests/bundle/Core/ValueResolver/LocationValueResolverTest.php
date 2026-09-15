@@ -42,7 +42,7 @@ final class LocationValueResolverTest extends TestCase
         $argumentMetadata = $this->createMock(ArgumentMetadata::class);
         $argumentMetadata->method('getType')->willReturn(Location::class);
 
-        $mockLocation = $this->createMock(Location::class);
+        $mockLocation = self::createStub(Location::class);
 
         $this->contentPreviewHelperMock
             ->method('isPreviewActive')

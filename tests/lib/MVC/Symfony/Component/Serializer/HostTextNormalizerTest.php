@@ -48,7 +48,7 @@ final class HostTextNormalizerTest extends TestCase
     {
         $normalizer = new HostTextNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(HostText::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization(self::createStub(HostText::class)));
+        self::assertFalse($normalizer->supportsNormalization(self::createStub(Matcher::class)));
     }
 }

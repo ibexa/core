@@ -12,6 +12,7 @@ use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ScaleFilterLoaderTest extends TestCase
@@ -30,17 +31,15 @@ class ScaleFilterLoaderTest extends TestCase
         $this->loader->setInnerLoader($this->innerLoader);
     }
 
-    /**
-     * @dataProvider loadInvalidProvider
-     */
+    #[DataProvider('loadInvalidProvider')]
     public function testLoadInvalidOptions(array $options)
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->loader->load($this->createMock(ImageInterface::class), $options);
+        $this->loader->load(self::createStub(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    public static function loadInvalidProvider()
     {
         return [
             [[]],

@@ -117,7 +117,7 @@ abstract class LanguageAwareTestCase extends TestCase
     protected function getFullTextMapper(Persistence\Legacy\Content\Type\Handler $contentTypeHandler)
     {
         return new FullTextMapper(
-            $this->createMock(FieldRegistry::class),
+            self::createStub(FieldRegistry::class),
             $contentTypeHandler
         );
     }

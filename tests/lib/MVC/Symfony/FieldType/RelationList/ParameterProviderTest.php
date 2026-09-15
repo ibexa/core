@@ -12,11 +12,12 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\RelationList\Value;
 use Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    public function providerForTestGetViewParameters()
+    public static function providerForTestGetViewParameters()
     {
         return [
             [[123, 456, 789], ['available' => [123 => true, 456 => true, 789 => false]]],
@@ -26,9 +27,7 @@ class ParameterProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestGetViewParameters
-     */
+    #[DataProvider('providerForTestGetViewParameters')]
     public function testGetViewParameters(array $desinationContentIds, array $expected)
     {
         $contentServiceMock = $this->createMock(ContentService::class);

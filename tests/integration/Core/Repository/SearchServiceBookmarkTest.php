@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Tests\Integration\Core\RepositorySearchTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SearchServiceBookmarkTest extends RepositorySearchTestCase
 {
@@ -55,11 +56,10 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
     }
 
     /**
-     * @dataProvider provideDataForTestCriterion
-     *
      * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion> $criteria
      * @param array<string> $remoteIds
      */
+    #[DataProvider('provideDataForTestCriterion')]
     public function testCriterion(
         int $expectedCount,
         array $criteria,
@@ -76,7 +76,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
      *     array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion>
      * }>
      */
-    public function provideDataForTestCriterion(): iterable
+    public static function provideDataForTestCriterion(): iterable
     {
         yield 'All bookmarked locations' => [
             self::ALL_BOOKMARKED_LOCATIONS,

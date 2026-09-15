@@ -11,11 +11,10 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Language
- */
+#[CoversClass(Language::class)]
 class LanguageTest extends TestCase
 {
     use ValueObjectTestTrait;

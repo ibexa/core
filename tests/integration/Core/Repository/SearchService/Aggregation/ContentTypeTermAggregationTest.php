@@ -13,7 +13,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBui
 
 final class ContentTypeTermAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         $aggregation = new ContentTypeTermAggregation('content_type');
 
@@ -29,7 +29,7 @@ final class ContentTypeTermAggregationTest extends AbstractAggregationTestCase
         ]);
 
         $builder->setEntryMapper([
-            $this->getRepository()->getContentTypeService(),
+            static::resolveRepository()->getContentTypeService(),
             'loadContentTypeByIdentifier',
         ]);
 

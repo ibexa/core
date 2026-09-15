@@ -21,6 +21,7 @@ use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository as CoreRepository;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Mock test case for PermissionResolver.
@@ -29,19 +30,19 @@ use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
  */
 class PermissionTest extends BaseServiceMockTest
 {
-    public function providerForTestHasAccessReturnsTrue()
+    public static function providerForTestHasAccessReturnsTrue()
     {
         return [
             [
                 [
-                    25 => $this->createRole(
+                    25 => self::createRole(
                         [
                             ['dummy-module', 'dummy-function', 'dummy-limitation'],
                             ['dummy-module2', 'dummy-function2', 'dummy-limitation2'],
                         ],
                         25
                     ),
-                    26 => $this->createRole(
+                    26 => self::createRole(
                         [
                             ['*', 'dummy-function', 'dummy-limitation'],
                         ],
@@ -63,7 +64,7 @@ class PermissionTest extends BaseServiceMockTest
             ],
             [
                 [
-                    27 => $this->createRole(
+                    27 => self::createRole(
                         [
                             ['dummy-module', '*', 'dummy-limitation'],
                         ],
@@ -80,7 +81,7 @@ class PermissionTest extends BaseServiceMockTest
             ],
             [
                 [
-                    28 => $this->createRole(
+                    28 => self::createRole(
                         [
                             ['dummy-module', 'dummy-function', '*'],
                         ],
@@ -100,9 +101,8 @@ class PermissionTest extends BaseServiceMockTest
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @dataProvider providerForTestHasAccessReturnsTrue
      */
+    #[DataProvider('providerForTestHasAccessReturnsTrue')]
     public function testHasAccessReturnsTrue(array $roles, array $roleAssignments)
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
@@ -115,26 +115,20 @@ class PermissionTest extends BaseServiceMockTest
             ->with(self::equalTo(10), self::equalTo(true))
             ->will(self::returnValue($roleAssignments));
 
-        foreach ($roleAssignments as $at => $roleAssignment) {
-            $userHandlerMock
-                ->expects(self::at($at + 1))
-                ->method('loadRole')
-                ->with($roleAssignment->roleId)
-                ->will(self::returnValue($roles[$roleAssignment->roleId]));
-        }
+        $this->mockLoadRoleSequence($userHandlerMock, $roleAssignments, $roles);
 
         $result = $mockedService->hasAccess('dummy-module', 'dummy-function');
 
         self::assertTrue($result);
     }
 
-    public function providerForTestHasAccessReturnsFalse()
+    public static function providerForTestHasAccessReturnsFalse()
     {
         return [
             [[], []],
             [
                 [
-                    29 => $this->createRole(
+                    29 => self::createRole(
                         [
                             ['dummy-module', 'dummy-function', 'dummy-limitation'],
                         ],
@@ -151,7 +145,7 @@ class PermissionTest extends BaseServiceMockTest
             ],
             [
                 [
-                    30 => $this->createRole(
+                    30 => self::createRole(
                         [
                             ['dummy-module', '*', 'dummy-limitation'],
                         ],
@@ -171,9 +165,8 @@ class PermissionTest extends BaseServiceMockTest
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @dataProvider providerForTestHasAccessReturnsFalse
      */
+    #[DataProvider('providerForTestHasAccessReturnsFalse')]
     public function testHasAccessReturnsFalse(array $roles, array $roleAssignments)
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
@@ -186,13 +179,7 @@ class PermissionTest extends BaseServiceMockTest
             ->with(self::equalTo(10), self::equalTo(true))
             ->will(self::returnValue($roleAssignments));
 
-        foreach ($roleAssignments as $at => $roleAssignment) {
-            $userHandlerMock
-                ->expects(self::at($at + 1))
-                ->method('loadRole')
-                ->with($roleAssignment->roleId)
-                ->will(self::returnValue($roles[$roleAssignment->roleId]));
-        }
+        $this->mockLoadRoleSequence($userHandlerMock, $roleAssignments, $roles);
 
         $result = $service->hasAccess('dummy-module2', 'dummy-function2');
 
@@ -230,12 +217,12 @@ class PermissionTest extends BaseServiceMockTest
     /**
      * @return array
      */
-    public function providerForTestHasAccessReturnsPermissionSets()
+    public static function providerForTestHasAccessReturnsPermissionSets()
     {
         return [
             [
                 [
-                    31 => $this->createRole(
+                    31 => self::createRole(
                         [
                             ['dummy-module', 'dummy-function', 'test-limitation'],
                         ],
@@ -252,13 +239,13 @@ class PermissionTest extends BaseServiceMockTest
             ],
             [
                 [
-                    31 => $this->createRole(
+                    31 => self::createRole(
                         [
                             ['dummy-module', 'dummy-function', 'test-limitation'],
                         ],
                         31
                     ),
-                    32 => $this->createRole(
+                    32 => self::createRole(
                         [
                             ['dummy-module', 'dummy-function', 'test-limitation2'],
                         ],
@@ -283,9 +270,8 @@ class PermissionTest extends BaseServiceMockTest
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @dataProvider providerForTestHasAccessReturnsPermissionSets
      */
+    #[DataProvider('providerForTestHasAccessReturnsPermissionSets')]
     public function testHasAccessReturnsPermissionSets(array $roles, array $roleAssignments)
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
@@ -301,37 +287,39 @@ class PermissionTest extends BaseServiceMockTest
         $userHandlerMock
             ->expects(self::once())
             ->method('loadRoleAssignmentsByGroupId')
-            ->with(self::isType('integer'), self::equalTo(true))
+            ->with(self::isInt(), self::equalTo(true))
             ->will(self::returnValue($roleAssignments));
 
-        foreach ($roleAssignments as $at => $roleAssignment) {
-            $userHandlerMock
-                ->expects(self::at($at + 1))
-                ->method('loadRole')
-                ->with($roleAssignment->roleId)
-                ->will(self::returnValue($roles[$roleAssignment->roleId]));
-        }
+        $this->mockLoadRoleSequence($userHandlerMock, $roleAssignments, $roles);
 
         $permissionSets = [];
-        $count = 0;
+        $expectedBuildDomainPolicyObjectCalls = [];
         /* @var $roleAssignments \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[] */
         foreach ($roleAssignments as $i => $roleAssignment) {
             $permissionSet = ['limitation' => null];
             foreach ($roles[$roleAssignment->roleId]->policies as $k => $policy) {
                 $policyName = 'policy-' . $i . '-' . $k;
-                $return = self::returnValue($policyName);
                 $permissionSet['policies'][] = $policyName;
 
-                $roleDomainMapper
-                    ->expects(self::at($count++))
-                    ->method('buildDomainPolicyObject')
-                    ->with($policy)
-                    ->will($return);
+                $expectedBuildDomainPolicyObjectCalls[] = [$policy, $policyName];
             }
 
             if (!empty($permissionSet['policies'])) {
                 $permissionSets[] = $permissionSet;
             }
+        }
+
+        if ($expectedBuildDomainPolicyObjectCalls !== []) {
+            $buildDomainPolicyObjectMatcher = self::exactly(count($expectedBuildDomainPolicyObjectCalls));
+            $roleDomainMapper
+                ->expects($buildDomainPolicyObjectMatcher)
+                ->method('buildDomainPolicyObject')
+                ->willReturnCallback(static function ($policy) use ($buildDomainPolicyObjectMatcher, $expectedBuildDomainPolicyObjectCalls) {
+                    [$expectedPolicy, $policyName] = $expectedBuildDomainPolicyObjectCalls[$buildDomainPolicyObjectMatcher->numberOfInvocations() - 1];
+                    self::assertSame($expectedPolicy, $policy);
+
+                    return $policyName;
+                });
         }
 
         /* @var $repositoryMock \Ibexa\Core\Repository\Repository */
@@ -344,12 +332,12 @@ class PermissionTest extends BaseServiceMockTest
     /**
      * @return array
      */
-    public function providerForTestHasAccessReturnsLimitationNotFoundException()
+    public static function providerForTestHasAccessReturnsLimitationNotFoundException()
     {
         return [
             [
                 [
-                    31 => $this->createRole(
+                    31 => self::createRole(
                         [
                             ['dummy-module', 'dummy-function', 'notfound'],
                         ],
@@ -366,13 +354,13 @@ class PermissionTest extends BaseServiceMockTest
             ],
             [
                 [
-                    31 => $this->createRole(
+                    31 => self::createRole(
                         [
                             ['dummy-module', 'dummy-function', 'test-limitation'],
                         ],
                         31
                     ),
-                    32 => $this->createRole(
+                    32 => self::createRole(
                         [
                             ['dummy-module', 'dummy-function', 'notfound'],
                         ],
@@ -397,9 +385,8 @@ class PermissionTest extends BaseServiceMockTest
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @dataProvider providerForTestHasAccessReturnsLimitationNotFoundException
      */
+    #[DataProvider('providerForTestHasAccessReturnsLimitationNotFoundException')]
     public function testHasAccessReturnsLimitationNotFoundException(array $roles, array $roleAssignments)
     {
         $this->expectException(LimitationNotFoundException::class);
@@ -417,35 +404,23 @@ class PermissionTest extends BaseServiceMockTest
         $userHandlerMock
             ->expects(self::once())
             ->method('loadRoleAssignmentsByGroupId')
-            ->with(self::isType('integer'), self::equalTo(true))
+            ->with(self::isInt(), self::equalTo(true))
             ->will(self::returnValue($roleAssignments));
 
-        foreach ($roleAssignments as $at => $roleAssignment) {
-            $userHandlerMock
-                ->expects(self::at($at + 1))
-                ->method('loadRole')
-                ->with($roleAssignment->roleId)
-                ->will(self::returnValue($roles[$roleAssignment->roleId]));
-        }
+        $this->mockLoadRoleSequence($userHandlerMock, $roleAssignments, $roles);
 
-        $count = 0;
+        $expectedBuildDomainPolicyObjectCalls = [];
         /* @var $roleAssignments \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[] */
         foreach ($roleAssignments as $i => $roleAssignment) {
             $permissionSet = ['limitation' => null];
             foreach ($roles[$roleAssignment->roleId]->policies as $k => $policy) {
                 $policyName = 'policy-' . $i . '-' . $k;
                 if ($policy->limitations === 'notfound') {
-                    $return = self::throwException(new LimitationNotFoundException('notfound'));
+                    $expectedBuildDomainPolicyObjectCalls[] = [$policy, null];
                 } else {
-                    $return = self::returnValue($policyName);
                     $permissionSet['policies'][] = $policyName;
+                    $expectedBuildDomainPolicyObjectCalls[] = [$policy, $policyName];
                 }
-
-                $roleDomainMapper
-                    ->expects(self::at($count++))
-                    ->method('buildDomainPolicyObject')
-                    ->with($policy)
-                    ->will($return);
 
                 if ($policy->limitations === 'notfound') {
                     break 2; // no more execution after exception
@@ -453,18 +428,33 @@ class PermissionTest extends BaseServiceMockTest
             }
         }
 
+        $buildDomainPolicyObjectMatcher = self::exactly(count($expectedBuildDomainPolicyObjectCalls));
+        $roleDomainMapper
+            ->expects($buildDomainPolicyObjectMatcher)
+            ->method('buildDomainPolicyObject')
+            ->willReturnCallback(static function ($policy) use ($buildDomainPolicyObjectMatcher, $expectedBuildDomainPolicyObjectCalls) {
+                [$expectedPolicy, $policyName] = $expectedBuildDomainPolicyObjectCalls[$buildDomainPolicyObjectMatcher->numberOfInvocations() - 1];
+                self::assertSame($expectedPolicy, $policy);
+
+                if ($policyName === null) {
+                    throw new LimitationNotFoundException('notfound');
+                }
+
+                return $policyName;
+            });
+
         $permissionResolverMock->hasAccess('dummy-module', 'dummy-function');
     }
 
     /**
      * @return array
      */
-    public function providerForTestHasAccessReturnsInvalidArgumentValueException()
+    public static function providerForTestHasAccessReturnsInvalidArgumentValueException()
     {
         return [
             [
                 [
-                    31 => $this->createRole(
+                    31 => self::createRole(
                         [
                             ['test-module', 'test-function', '*'],
                         ],
@@ -481,13 +471,13 @@ class PermissionTest extends BaseServiceMockTest
             ],
             [
                 [
-                    31 => $this->createRole(
+                    31 => self::createRole(
                         [
                             ['other-module', 'test-function', '*'],
                         ],
                         31
                     ),
-                    32 => $this->createRole(
+                    32 => self::createRole(
                         [
                             ['test-module', 'other-function', '*'],
                         ],
@@ -512,9 +502,8 @@ class PermissionTest extends BaseServiceMockTest
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @dataProvider providerForTestHasAccessReturnsInvalidArgumentValueException
      */
+    #[DataProvider('providerForTestHasAccessReturnsInvalidArgumentValueException')]
     public function testHasAccessReturnsInvalidArgumentValueException(array $roles, array $roleAssignments)
     {
         $this->expectException(InvalidArgumentValue::class);
@@ -530,12 +519,12 @@ class PermissionTest extends BaseServiceMockTest
         }
     }
 
-    public function providerForTestHasAccessReturnsPermissionSetsWithRoleLimitation()
+    public static function providerForTestHasAccessReturnsPermissionSetsWithRoleLimitation()
     {
         return [
             [
                 [
-                    32 => $this->createRole(
+                    32 => self::createRole(
                         [
                             [
                                 'dummy-module', 'dummy-function', [
@@ -560,7 +549,7 @@ class PermissionTest extends BaseServiceMockTest
             ],
             [
                 [
-                    33 => $this->createRole([['*', '*', '*']], 33),
+                    33 => self::createRole([['*', '*', '*']], 33),
                 ],
                 [
                     new RoleAssignment(
@@ -577,9 +566,8 @@ class PermissionTest extends BaseServiceMockTest
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @dataProvider providerForTestHasAccessReturnsPermissionSetsWithRoleLimitation
      */
+    #[DataProvider('providerForTestHasAccessReturnsPermissionSetsWithRoleLimitation')]
     public function testHasAccessReturnsPermissionSetsWithRoleLimitation(array $roles, array $roleAssignments)
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
@@ -597,40 +585,28 @@ class PermissionTest extends BaseServiceMockTest
         $userHandlerMock
             ->expects(self::once())
             ->method('loadRoleAssignmentsByGroupId')
-            ->with(self::isType('integer'), self::equalTo(true))
+            ->with(self::isInt(), self::equalTo(true))
             ->will(self::returnValue($roleAssignments));
 
-        foreach ($roleAssignments as $at => $roleAssignment) {
-            $userHandlerMock
-                ->expects(self::at($at + 1))
-                ->method('loadRole')
-                ->with($roleAssignment->roleId)
-                ->will(self::returnValue($roles[$roleAssignment->roleId]));
-        }
+        $this->mockLoadRoleSequence($userHandlerMock, $roleAssignments, $roles);
 
         $permissionSets = [];
+        $expectedBuildDomainPolicyObjectCalls = [];
+        $expectedBuildValueCalls = [];
         /** @var $roleAssignments \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[] */
         foreach ($roleAssignments as $i => $roleAssignment) {
             $permissionSet = [];
             foreach ($roles[$roleAssignment->roleId]->policies as $k => $policy) {
                 $policyName = "policy-{$i}-{$k}";
                 $permissionSet['policies'][] = $policyName;
-                $roleDomainMapper
-                    ->expects(self::at($k))
-                    ->method('buildDomainPolicyObject')
-                    ->with($policy)
-                    ->will(self::returnValue($policyName));
+                $expectedBuildDomainPolicyObjectCalls[] = [$policy, $policyName];
             }
 
             $limitation = $this->createMock(Limitation::class);
             $limitation->method('getIdentifier')->willReturn("limitation-{$i}");
 
             $permissionSet['limitation'] = $limitation;
-            $limitationTypeMock
-                ->expects(self::at($i))
-                ->method('buildValue')
-                ->with($roleAssignment->values)
-                ->will(self::returnValue($permissionSet['limitation']));
+            $expectedBuildValueCalls[] = [$roleAssignment->values, $permissionSet['limitation']];
             $limitationService
                 ->expects(self::any())
                 ->method('getLimitationType')
@@ -640,10 +616,65 @@ class PermissionTest extends BaseServiceMockTest
             $permissionSets[] = $permissionSet;
         }
 
+        if ($expectedBuildDomainPolicyObjectCalls !== []) {
+            $buildDomainPolicyObjectMatcher = self::exactly(count($expectedBuildDomainPolicyObjectCalls));
+            $roleDomainMapper
+                ->expects($buildDomainPolicyObjectMatcher)
+                ->method('buildDomainPolicyObject')
+                ->willReturnCallback(static function ($policy) use ($buildDomainPolicyObjectMatcher, $expectedBuildDomainPolicyObjectCalls) {
+                    [$expectedPolicy, $policyName] = $expectedBuildDomainPolicyObjectCalls[$buildDomainPolicyObjectMatcher->numberOfInvocations() - 1];
+                    self::assertSame($expectedPolicy, $policy);
+
+                    return $policyName;
+                });
+        }
+
+        if ($expectedBuildValueCalls !== []) {
+            $buildValueMatcher = self::exactly(count($expectedBuildValueCalls));
+            $limitationTypeMock
+                ->expects($buildValueMatcher)
+                ->method('buildValue')
+                ->willReturnCallback(static function ($values) use ($buildValueMatcher, $expectedBuildValueCalls) {
+                    [$expectedValues, $limitation] = $expectedBuildValueCalls[$buildValueMatcher->numberOfInvocations() - 1];
+                    self::assertSame($expectedValues, $values);
+
+                    return $limitation;
+                });
+        }
+
         self::assertEquals(
             $permissionSets,
             $permissionResolverMock->hasAccess('dummy-module', 'dummy-function')
         );
+    }
+
+    /**
+     * Sets up the expectation that $userHandlerMock->loadRole() is called once per
+     * $roleAssignment, in order, each returning the matching entry from $roles.
+     *
+     * @param \PHPUnit\Framework\MockObject\MockObject $userHandlerMock
+     * @param \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[] $roleAssignments
+     * @param \Ibexa\Contracts\Core\Persistence\User\Role[] $roles
+     */
+    private function mockLoadRoleSequence($userHandlerMock, array $roleAssignments, array $roles): void
+    {
+        if ($roleAssignments === []) {
+            $userHandlerMock->expects(self::never())->method('loadRole');
+
+            return;
+        }
+
+        $roleAssignmentList = array_values($roleAssignments);
+        $matcher = self::exactly(count($roleAssignmentList));
+        $userHandlerMock
+            ->expects($matcher)
+            ->method('loadRole')
+            ->willReturnCallback(static function ($roleId, $status = Role::STATUS_DEFINED) use ($matcher, $roleAssignmentList, $roles) {
+                $roleAssignment = $roleAssignmentList[$matcher->numberOfInvocations() - 1];
+                self::assertSame($roleAssignment->roleId, $roleId);
+
+                return $roles[$roleAssignment->roleId];
+            });
     }
 
     /**
@@ -654,7 +685,7 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\Role
      */
-    private function createRole(array $policiesData, $roleId = null)
+    private static function createRole(array $policiesData, $roleId = null)
     {
         $policies = [];
         foreach ($policiesData as $policyData) {
@@ -675,7 +706,7 @@ class PermissionTest extends BaseServiceMockTest
         );
     }
 
-    public function providerForTestCanUserSimple()
+    public static function providerForTestCanUserSimple()
     {
         return [
             [true, true],
@@ -688,9 +719,8 @@ class PermissionTest extends BaseServiceMockTest
      * Test for the canUser() method.
      *
      * Tests execution paths with permission sets equaling to boolean value or empty array.
-     *
-     * @dataProvider providerForTestCanUserSimple
      */
+    #[DataProvider('providerForTestCanUserSimple')]
     public function testCanUserSimple($permissionSets, $result)
     {
         $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
@@ -725,9 +755,9 @@ class PermissionTest extends BaseServiceMockTest
         );
 
         $policyMock = $this->getMockBuilder(Policy::class)
-            ->setMethods(['getLimitations'])
             ->setConstructorArgs([])
             ->disableOriginalConstructor()
+            ->addMethods(['getLimitations'])
             ->getMock();
 
         $policyMock
@@ -782,8 +812,8 @@ class PermissionTest extends BaseServiceMockTest
             ->will(self::returnValue('test-policy-limitation-identifier'));
 
         $policyMock = $this->getMockBuilder(Policy::class)
-            ->setMethods(['getLimitations'])
             ->setConstructorArgs([])
+            ->addMethods(['getLimitations'])
             ->getMock();
 
         $policyMock
@@ -806,7 +836,7 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @return array
      */
-    public function providerForTestCanUserComplex()
+    public static function providerForTestCanUserComplex()
     {
         return [
             [
@@ -886,13 +916,12 @@ class PermissionTest extends BaseServiceMockTest
      * Test for the canUser() method.
      *
      * Tests execution paths with permission sets containing limitations.
-     *
-     * @dataProvider providerForTestCanUserComplex
      */
+    #[DataProvider('providerForTestCanUserComplex')]
     public function testCanUserComplex(array $roleLimitationEvaluations, array $policyLimitationEvaluations, $userCan)
     {
         /** @var $valueObject \Ibexa\Contracts\Core\Repository\Values\ValueObject */
-        $valueObject = $this->createMock(ValueObject::class);
+        $valueObject = self::createStub(ValueObject::class);
         $limitationServiceMock = $this->getLimitationServiceMock();
         $permissionResolverMock = $this->getPermissionResolverMock(
             [
@@ -914,7 +943,7 @@ class PermissionTest extends BaseServiceMockTest
             ->method('getCurrentUserReference')
             ->will(self::returnValue(new UserReference(14)));
 
-        $invocation = 0;
+        $expectedGetLimitationTypeCalls = [];
         for ($i = 0; $i < count($permissionSets); ++$i) {
             $limitation = $this->createMock(Type::class);
             $limitation
@@ -922,11 +951,7 @@ class PermissionTest extends BaseServiceMockTest
                 ->method('evaluate')
                 ->with($permissionSets[$i]['limitation'], $userRef, $valueObject, [$valueObject])
                 ->will(self::returnValue($roleLimitationEvaluations[$i]));
-            $limitationServiceMock
-                ->expects(self::at($invocation++))
-                ->method('getLimitationType')
-                ->with('test-role-limitation-identifier')
-                ->will(self::returnValue($limitation));
+            $expectedGetLimitationTypeCalls[] = ['test-role-limitation-identifier', $limitation];
 
             if (!$roleLimitationEvaluations[$i]) {
                 continue;
@@ -944,11 +969,7 @@ class PermissionTest extends BaseServiceMockTest
                         ->method('evaluate')
                         ->with($limitations[$k], $userRef, $valueObject, [$valueObject])
                         ->will(self::returnValue($policyLimitationEvaluations[$i][$j][$k]));
-                    $limitationServiceMock
-                        ->expects(self::at($invocation++))
-                        ->method('getLimitationType')
-                        ->with('test-policy-limitation-identifier')
-                        ->will(self::returnValue($limitation));
+                    $expectedGetLimitationTypeCalls[] = ['test-policy-limitation-identifier', $limitation];
 
                     if (!$policyLimitationEvaluations[$i][$j][$k]) {
                         $limitationsPass = false;
@@ -962,6 +983,17 @@ class PermissionTest extends BaseServiceMockTest
                 }
             }
         }
+
+        $getLimitationTypeMatcher = self::exactly(count($expectedGetLimitationTypeCalls));
+        $limitationServiceMock
+            ->expects($getLimitationTypeMatcher)
+            ->method('getLimitationType')
+            ->willReturnCallback(static function ($identifier) use ($getLimitationTypeMatcher, $expectedGetLimitationTypeCalls) {
+                [$expectedIdentifier, $limitation] = $expectedGetLimitationTypeCalls[$getLimitationTypeMatcher->numberOfInvocations() - 1];
+                self::assertSame($expectedIdentifier, $identifier);
+
+                return $limitation;
+            });
 
         self::assertEquals(
             $userCan,
@@ -1019,9 +1051,14 @@ class PermissionTest extends BaseServiceMockTest
                 ->with('anonymous_user_id')
                 ->willReturn(10);
 
-            $this->permissionResolverMock = $this
-                ->getMockBuilder(PermissionResolver::class)
-                ->setMethods($methods)
+            $builder = $this
+                ->getMockBuilder(PermissionResolver::class);
+            if ($methods === null) {
+                $builder->onlyMethods([]);
+            } elseif ($methods !== []) {
+                $builder->onlyMethods($methods);
+            }
+            $this->permissionResolverMock = $builder
                 ->setConstructorArgs(
                     [
                         $this->getRoleDomainMapperMock(),

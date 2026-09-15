@@ -8,16 +8,16 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[CoversClass(ContentService::class)]
 final class UpdateContentTest extends RepositoryTestCase
 {
     /**

@@ -38,7 +38,7 @@ class SectionServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(SectionCreateStruct::class)];
+        $parameters = [self::createStub(SectionCreateStruct::class)];
 
         $serviceMock->expects(self::once())->method('createSection')->with(...$parameters);
 
@@ -51,8 +51,8 @@ class SectionServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Section::class),
-            $this->createMock(SectionUpdateStruct::class),
+            self::createStub(Section::class),
+            self::createStub(SectionUpdateStruct::class),
         ];
 
         $serviceMock->expects(self::once())->method('updateSection')->with(...$parameters);
@@ -101,7 +101,7 @@ class SectionServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Section::class)];
+        $parameters = [self::createStub(Section::class)];
 
         $serviceMock->expects(self::once())->method('countAssignedContents')->with(...$parameters);
 
@@ -113,7 +113,7 @@ class SectionServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Section::class)];
+        $parameters = [self::createStub(Section::class)];
 
         $serviceMock->expects(self::once())->method('isSectionUsed')->with(...$parameters);
 
@@ -126,8 +126,8 @@ class SectionServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(Section::class),
+            self::createStub(ContentInfo::class),
+            self::createStub(Section::class),
         ];
 
         $serviceMock->expects(self::once())->method('assignSection')->with(...$parameters);
@@ -141,8 +141,8 @@ class SectionServiceDecoratorTest extends TestCase
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Location::class),
-            $this->createMock(Section::class),
+            self::createStub(Location::class),
+            self::createStub(Section::class),
         ];
 
         $serviceMock->expects(self::once())->method('assignSectionToSubtree')->with(...$parameters);
@@ -155,7 +155,7 @@ class SectionServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Section::class)];
+        $parameters = [self::createStub(Section::class)];
 
         $serviceMock->expects(self::once())->method('deleteSection')->with(...$parameters);
 

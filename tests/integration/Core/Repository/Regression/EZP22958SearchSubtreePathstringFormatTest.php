@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Issue EZP-21906.
@@ -23,9 +24,8 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTestCase
 
     /**
      * Tests that invalid path string provided for subtree criterion result in exception.
-     *
-     * @dataProvider searchContentQueryWithInvalidDataProvider
      */
+    #[DataProvider('searchContentQueryWithInvalidDataProvider')]
     public function testSearchContentSubtreeShouldThrowException($pathString)
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -41,9 +41,8 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTestCase
 
     /**
      * Tests that path string provided for subtree criterion is valid.
-     *
-     * @dataProvider searchContentQueryProvider
      */
+    #[DataProvider('searchContentQueryProvider')]
     public function testSearchContentSubtree($pathString)
     {
         $query = new Query(
@@ -55,7 +54,7 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTestCase
         $result = $this->getRepository()->getSearchService()->findContent($query);
     }
 
-    public function searchContentQueryProvider()
+    public static function searchContentQueryProvider()
     {
         return [
             [
@@ -70,7 +69,7 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTestCase
         ];
     }
 
-    public function searchContentQueryWithInvalidDataProvider()
+    public static function searchContentQueryWithInvalidDataProvider()
     {
         return [
             [

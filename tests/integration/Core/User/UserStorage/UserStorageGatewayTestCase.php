@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Core\FieldType\User\UserStorage\Gateway;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * User Field Type external storage gateway tests.
@@ -20,7 +21,7 @@ abstract class UserStorageGatewayTestCase extends BaseCoreFieldTypeIntegrationTe
 {
     abstract protected function getGateway(): Gateway;
 
-    public function providerForGetFieldData(): array
+    public static function providerForGetFieldData(): array
     {
         $expectedUserData = [
             10 => [
@@ -55,18 +56,14 @@ abstract class UserStorageGatewayTestCase extends BaseCoreFieldTypeIntegrationTe
         ];
     }
 
-    /**
-     * @dataProvider providerForGetFieldData
-     */
+    #[DataProvider('providerForGetFieldData')]
     public function testGetFieldData(?int $fieldId, ?int $userId, array $expectedUserData): void
     {
         $data = $this->getGateway()->getFieldData($fieldId, $userId);
         self::assertEquals($expectedUserData, $data);
     }
 
-    /**
-     * @dataProvider getDataForTestCountUsersWithUnsupportedHashType
-     */
+    #[DataProvider('getDataForTestCountUsersWithUnsupportedHashType')]
     public function testCountUsersWithUnsupportedHashType(
         int $expectedCount,
         ?string $fixtureFilePath
@@ -80,7 +77,7 @@ abstract class UserStorageGatewayTestCase extends BaseCoreFieldTypeIntegrationTe
         self::assertEquals($expectedCount, $actualCount);
     }
 
-    public function getDataForTestCountUsersWithUnsupportedHashType(): iterable
+    public static function getDataForTestCountUsersWithUnsupportedHashType(): iterable
     {
         yield 'no unsupported hashes' => [
             0,

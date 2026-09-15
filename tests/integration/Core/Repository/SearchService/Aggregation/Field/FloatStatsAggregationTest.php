@@ -16,7 +16,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\FixtureGen
 
 final class FloatStatsAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         yield [
             new FloatStatsAggregation('float_stats', 'content_type', 'float_field_2'),

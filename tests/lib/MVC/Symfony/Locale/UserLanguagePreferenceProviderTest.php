@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\UserPreferenceService;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\HeaderBag;
@@ -46,11 +47,10 @@ final class UserLanguagePreferenceProviderTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForTestGetPreferredLanguages
-     *
      * @param list<string> $userLanguages
      * @param list<string> $expectedEzLanguageCodes
      */
+    #[DataProvider('providerForTestGetPreferredLanguages')]
     public function testGetPreferredLanguagesWithoutUserLanguage(array $userLanguages, array $expectedEzLanguageCodes): void
     {
         $request = new Request();
@@ -85,11 +85,10 @@ final class UserLanguagePreferenceProviderTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForTestGetPreferredLanguagesWithUserPreferredLanguage
-     *
      * @param list<string> $userLanguages
      * @param list<string> $expectedEzLanguageCodes
      */
+    #[DataProvider('providerForTestGetPreferredLanguagesWithUserPreferredLanguage')]
     public function testGetPreferredLanguagesWithUserPreferredLanguage(
         array $userLanguages,
         array $expectedEzLanguageCodes
@@ -164,7 +163,7 @@ final class UserLanguagePreferenceProviderTest extends TestCase
      *
      * @return array<int, array{list<string>, list<string>}>
      */
-    public function providerForTestGetPreferredLanguages(): array
+    public static function providerForTestGetPreferredLanguages(): array
     {
         return [
             [[], ['eng-GB', 'eng-US']],
@@ -180,7 +179,7 @@ final class UserLanguagePreferenceProviderTest extends TestCase
      *
      * @return array<int, array{list<string>, list<string>}>
      */
-    public function providerForTestGetPreferredLanguagesWithUserPreferredLanguage(): array
+    public static function providerForTestGetPreferredLanguagesWithUserPreferredLanguage(): array
     {
         return [
             [[], ['nor-NO', 'eng-GB', 'eng-US']],

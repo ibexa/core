@@ -10,9 +10,17 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\MVC\RepositoryAware;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation as ParentLocationIdMatcher;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversMethod(ParentLocationIdMatcher::class, 'matchLocation')]
+#[CoversMethod(MultipleValued::class, 'setMatchingConfig')]
+#[CoversMethod(ParentLocationIdMatcher::class, 'matchContentInfo')]
+#[CoversMethod(RepositoryAware::class, 'setRepository')]
 class ParentLocationTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation */
@@ -25,61 +33,50 @@ class ParentLocationTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchLocationProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
+    #[DataProvider('matchLocationProvider')]
+    public function testMatchLocation($matchingConfig, int $parentLocationId, $expectedResult)
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        self::assertSame($expectedResult, $this->matcher->matchLocation($location));
+        self::assertSame($expectedResult, $this->matcher->matchLocation($this->getLocationMock(['parentLocationId' => $parentLocationId])));
     }
 
-    public function matchLocationProvider()
+    public static function matchLocationProvider()
     {
         return [
             [
                 123,
-                $this->getLocationMock(['parentLocationId' => 123]),
+                123,
                 true,
             ],
             [
                 123,
-                $this->getLocationMock(['parentLocationId' => 456]),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->getLocationMock(['parentLocationId' => 456]),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->getLocationMock(['parentLocationId' => 789]),
+                789,
                 true,
             ],
         ];
     }
 
     /**
-     * @dataProvider matchContentInfoProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation::matchContentInfo
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
+    #[DataProvider('matchContentInfoProvider')]
+    public function testMatchContentInfo($matchingConfig, int $parentLocationId, $expectedResult)
     {
-        $this->matcher->setRepository($repository);
+        $this->matcher->setRepository($this->generateRepositoryMockForParentLocationId($parentLocationId));
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
             $expectedResult,
@@ -87,27 +84,27 @@ class ParentLocationTest extends BaseTestCase
         );
     }
 
-    public function matchContentInfoProvider()
+    public static function matchContentInfoProvider()
     {
         return [
             [
                 123,
-                $this->generateRepositoryMockForParentLocationId(123),
+                123,
                 true,
             ],
             [
                 123,
-                $this->generateRepositoryMockForParentLocationId(456),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->generateRepositoryMockForParentLocationId(456),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->generateRepositoryMockForParentLocationId(789),
+                789,
                 true,
             ],
         ];

@@ -23,14 +23,14 @@ use Symfony\Component\Routing\RouterInterface;
 
 class RequestEventListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    private \PHPUnit\Framework\MockObject\Stub $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $router;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\Routing\RouterInterface */
+    private \PHPUnit\Framework\MockObject\Stub $router;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface */
-    private $logger;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Psr\Log\LoggerInterface */
+    private \PHPUnit\Framework\MockObject\Stub $logger;
 
     /** @var \Ibexa\Bundle\Core\EventListener\RequestEventListener */
     private $requestEventListener;
@@ -48,15 +48,15 @@ class RequestEventListenerTest extends TestCase
     {
         parent::setUp();
 
-        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
-        $this->router = $this->createMock(RouterInterface::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->configResolver = self::createStub(ConfigResolverInterface::class);
+        $this->router = self::createStub(RouterInterface::class);
+        $this->logger = self::createStub(LoggerInterface::class);
 
         $this->requestEventListener = new RequestEventListener($this->configResolver, $this->router, 'foobar', $this->logger);
 
         $this->request = $this
             ->getMockBuilder(Request::class)
-            ->setMethods(['getSession', 'hasSession'])
+            ->onlyMethods(['getSession', 'hasSession'])
             ->getMock();
 
         $this->httpKernel = $this->createMock(HttpKernelInterface::class);

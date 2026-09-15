@@ -11,15 +11,13 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\UserPasswordValidator;
 use Ibexa\Tests\Core\Search\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * @covers \Ibexa\Core\Repository\Validator\UserPasswordValidator
- */
+#[CoversClass(UserPasswordValidator::class)]
 class UserPasswordValidatorTest extends TestCase
 {
-    /**
-     * @dataProvider dateProviderForValidate
-     */
+    #[DataProvider('dateProviderForValidate')]
     public function testValidate(array $constraints, string $password, array $expectedErrors)
     {
         $validator = new UserPasswordValidator($constraints);
@@ -27,7 +25,7 @@ class UserPasswordValidatorTest extends TestCase
         self::assertEqualsCanonicalizing($expectedErrors, $validator->validate($password), '');
     }
 
-    public function dateProviderForValidate(): array
+    public static function dateProviderForValidate(): array
     {
         return [
             [

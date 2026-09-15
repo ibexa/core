@@ -11,11 +11,12 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\Content\TrashItem
- */
+#[CoversClass(TrashItem::class)]
+#[CoversMethod(TrashItem::class, '__unset')]
 class TrashItemTest extends TestCase
 {
     use ValueObjectTestTrait;
@@ -61,8 +62,6 @@ class TrashItemTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\Content\TrashItem::__unset
      */
     public function testUnsetProperty()
     {

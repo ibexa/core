@@ -27,7 +27,7 @@ class AbsolutePrefixTest extends PrefixTest
         return new AbsolutePrefix($ioConfigResolverMock);
     }
 
-    public function provideData(): array
+    public static function provideData(): array
     {
         return [
             [

@@ -9,19 +9,20 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\URLWildcardService;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
+use Ibexa\Contracts\Core\Repository\URLWildcardService;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion as CriterionURL;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case criterion for URLWildcard.
- *
- * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService
- *
- * @group url-wildcard
  */
+#[CoversClass(URLWildcardService::class)]
+#[Group('url-wildcard')]
 class CriterionTest extends BaseTestCase
 {
     protected function setUp(): void

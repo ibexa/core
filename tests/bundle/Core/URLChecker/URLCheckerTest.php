@@ -55,8 +55,8 @@ class URLCheckerTest extends TestCase
             ->willReturn($this->createSearchResults($groups));
 
         $handlers = [
-            'http' => $this->createMock(URLHandlerInterface::class),
-            'https' => $this->createMock(URLHandlerInterface::class),
+            'http' => self::createStub(URLHandlerInterface::class),
+            'https' => self::createStub(URLHandlerInterface::class),
         ];
 
         foreach ($handlers as $scheme => $handler) {
@@ -91,7 +91,7 @@ class URLCheckerTest extends TestCase
             ->with('Unsupported URL schema: https');
 
         $handlers = [
-            'http' => $this->createMock(URLHandlerInterface::class),
+            'http' => self::createStub(URLHandlerInterface::class),
         ];
 
         foreach ($handlers as $scheme => $handler) {

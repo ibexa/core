@@ -54,7 +54,7 @@ class ValidityTest extends CriterionHandlerTestCase
             ->with((int)$criterion->isValid, ParameterType::INTEGER, ':is_valid')
             ->willReturn(':is_valid');
 
-        $converter = $this->createMock(CriteriaConverter::class);
+        $converter = self::createStub(CriteriaConverter::class);
 
         $handler = new ValidityHandler();
         $actual = $handler->handle($converter, $queryBuilder, $criterion);

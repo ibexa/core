@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map\URI as URIMapMatcher;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class RouterMapURITest extends TestCase
@@ -17,9 +18,8 @@ class RouterMapURITest extends TestCase
      * @param array  $config
      * @param string $pathinfo
      * @param string $expectedMapKey
-     *
-     * @dataProvider setRequestProvider
      */
+    #[DataProvider('setRequestProvider')]
     public function testSetGetRequest($config, $pathinfo, $expectedMapKey)
     {
         $request = new SimplifiedRequest('http', '', 80, $pathinfo);
@@ -32,9 +32,8 @@ class RouterMapURITest extends TestCase
     /**
      * @param string $uri
      * @param string $expectedFixedUpURI
-     *
-     * @dataProvider fixupURIProvider
      */
+    #[DataProvider('fixupURIProvider')]
     public function testAnalyseURI($uri, $expectedFixedUpURI)
     {
         $matcher = new URIMapMatcher([]);
@@ -50,9 +49,8 @@ class RouterMapURITest extends TestCase
     /**
      * @param string $fullUri
      * @param string $linkUri
-     *
-     * @dataProvider fixupURIProvider
      */
+    #[DataProvider('fixupURIProvider')]
     public function testAnalyseLink($fullUri, $linkUri)
     {
         $matcher = new URIMapMatcher([]);
@@ -65,7 +63,7 @@ class RouterMapURITest extends TestCase
         self::assertSame($fullUri, $unserializedMatcher->analyseLink($linkUri));
     }
 
-    public function setRequestProvider()
+    public static function setRequestProvider()
     {
         return [
             [['foo' => 'bar'], '/bar/baz', 'bar'],
@@ -73,7 +71,7 @@ class RouterMapURITest extends TestCase
         ];
     }
 
-    public function fixupURIProvider()
+    public static function fixupURIProvider()
     {
         return [
             ['/foo', '/'],

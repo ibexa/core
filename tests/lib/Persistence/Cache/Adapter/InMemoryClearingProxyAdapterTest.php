@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Cache\Adapter;
 
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Cache\CacheItem;
@@ -145,9 +146,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         self::assertTrue($this->cache->hasItem('first'));
     }
 
-    /**
-     * @dataProvider providerForDelete
-     */
+    #[DataProvider('providerForDelete')]
     public function testDelete(string $method, $argument)
     {
         $this->innerPool
@@ -165,7 +164,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         self::assertTrue($this->cache->$method($argument));
     }
 
-    public function providerForDelete(): array
+    public static function providerForDelete(): array
     {
         return [
             ['deleteItem', 'first'],
@@ -176,9 +175,8 @@ class InMemoryClearingProxyAdapterTest extends TestCase
 
     /**
      * Test for clear and invalidateTags as both expects a clear to in-memory as it on purpose does not track tags.
-     *
-     * @dataProvider providerForClearAndInvalidation
      */
+    #[DataProvider('providerForClearAndInvalidation')]
     public function testClearAndInvalidation(string $method, $argument)
     {
         if ($argument) {
@@ -202,7 +200,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         self::assertTrue($this->cache->$method($argument));
     }
 
-    public function providerForClearAndInvalidation(): array
+    public static function providerForClearAndInvalidation(): array
     {
         return [
             ['invalidateTags', ['my_tag']],

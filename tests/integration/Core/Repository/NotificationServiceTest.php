@@ -10,15 +10,17 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\NotificationService;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Test case for the NotificationService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\NotificationService
  */
+#[CoversClass(NotificationService::class)]
 class NotificationServiceTest extends BaseTestCase
 {
     public function testLoadNotifications(): void
@@ -207,9 +209,7 @@ class NotificationServiceTest extends BaseTestCase
         self::assertGreaterThan(0, $notification->id);
     }
 
-    /**
-     * @depends testCreateNotification
-     */
+    #[Depends('testCreateNotification')]
     public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingOwner(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -228,9 +228,7 @@ class NotificationServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    /**
-     * @depends testCreateNotification
-     */
+    #[Depends('testCreateNotification')]
     public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingType(): void
     {
         $this->expectException(InvalidArgumentException::class);

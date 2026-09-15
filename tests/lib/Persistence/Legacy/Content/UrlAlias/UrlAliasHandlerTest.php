@@ -30,25 +30,27 @@ use Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler;
 use Ibexa\Core\Persistence\Utf8Converter;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
- *
- * @group urlalias-handler
- */
+#[CoversClass(Handler::class)]
+#[CoversMethod(Handler::class, 'publishUrlAliasForLocation')]
+#[Group('urlalias-handler')]
 class UrlAliasHandlerTest extends TestCase
 {
     /**
      * Test for the lookup() method.
      *
      * Simple lookup case.
-     *
-     * @group location
-     * @group virtual
-     * @group resource
-     * @group case-correction
-     * @group multiple-languages
      */
+    #[Group('location')]
+    #[Group('virtual')]
+    #[Group('resource')]
+    #[Group('case-correction')]
+    #[Group('multiple-languages')]
     public function testLookup()
     {
         $handler = $this->getHandler();
@@ -62,12 +64,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Trying to lookup non existent URL alias throws NotFoundException.
-     *
-     *
-     * @group location
-     * @group virtual
-     * @group resource
      */
+    #[Group('location')]
+    #[Group('virtual')]
+    #[Group('resource')]
     public function testLookupThrowsNotFoundException()
     {
         $this->expectException(NotFoundException::class);
@@ -80,10 +80,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Trying to lookup URL alias with exceeded path segments limit
-     *
-     * @group location
-     * @group case-correction
      */
+    #[Group('location')]
+    #[Group('case-correction')]
     public function testLookupThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -92,7 +91,7 @@ class UrlAliasHandlerTest extends TestCase
         $handler->lookup(str_repeat('/1', 99));
     }
 
-    public function providerForTestLookupLocationUrlAlias()
+    public static function providerForTestLookupLocationUrlAlias()
     {
         return [
             [
@@ -341,13 +340,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupLocationUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group location
      */
+    #[Depends('testLookup')]
+    #[Group('location')]
+    #[DataProvider('providerForTestLookupLocationUrlAlias')]
     public function testLookupLocationUrlAlias(
         $url,
         array $pathData,
@@ -392,15 +388,15 @@ class UrlAliasHandlerTest extends TestCase
      * to is available in it.
      *
      *
-     * @dataProvider providerForTestLookupLocationUrlAlias
      *
-     * @depends testLookup
      *
-     * @group case-correction
-     * @group location
      *
      * @todo refactor, only forward pertinent
      */
+    #[Depends('testLookup')]
+    #[Group('case-correction')]
+    #[Group('location')]
+    #[DataProvider('providerForTestLookupLocationUrlAlias')]
     public function testLookupLocationCaseCorrection(
         $url,
         array $pathData,
@@ -433,7 +429,7 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    public function providerForTestLookupLocationMultipleLanguages()
+    public static function providerForTestLookupLocationMultipleLanguages()
     {
         return [
             [
@@ -521,14 +517,11 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the lookup() method.
-     *
-     * @dataProvider providerForTestLookupLocationMultipleLanguages
-     *
-     * @depends testLookup
-     *
-     * @group multiple-languages
-     * @group location
      */
+    #[Depends('testLookup')]
+    #[Group('multiple-languages')]
+    #[Group('location')]
+    #[DataProvider('providerForTestLookupLocationMultipleLanguages')]
     public function testLookupLocationMultipleLanguages(
         $url,
         array $pathData,
@@ -565,12 +558,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * @todo document
-     *
-     * @depends testLookup
-     *
-     * @group history
-     * @group location
      */
+    #[Depends('testLookup')]
+    #[Group('history')]
+    #[Group('location')]
     public function testLookupLocationHistoryUrlAlias()
     {
         $handler = $this->getHandler();
@@ -584,7 +575,7 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    public function providerForTestLookupCustomLocationUrlAlias()
+    public static function providerForTestLookupCustomLocationUrlAlias()
     {
         return [
             [
@@ -704,14 +695,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupCustomLocationUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group location
-     * @group custom
      */
+    #[Depends('testLookup')]
+    #[Group('location')]
+    #[Group('custom')]
+    #[DataProvider('providerForTestLookupCustomLocationUrlAlias')]
     public function testLookupCustomLocationUrlAlias(
         $url,
         array $pathData,
@@ -748,14 +736,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupCustomLocationUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group location
-     * @group custom
      */
+    #[Depends('testLookup')]
+    #[Group('location')]
+    #[Group('custom')]
+    #[DataProvider('providerForTestLookupCustomLocationUrlAlias')]
     public function testLookupCustomLocationUrlAliasCaseCorrection(
         $url,
         array $pathData,
@@ -789,7 +774,7 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    public function providerForTestLookupVirtualUrlAlias()
+    public static function providerForTestLookupVirtualUrlAlias()
     {
         return [
             [
@@ -807,13 +792,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that NOP action redirects to site root.
-     *
-     * @dataProvider providerForTestLookupVirtualUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group virtual
      */
+    #[Depends('testLookup')]
+    #[Group('virtual')]
+    #[DataProvider('providerForTestLookupVirtualUrlAlias')]
     public function testLookupVirtualUrlAlias($url, $id)
     {
         $handler = $this->getHandler();
@@ -824,7 +806,7 @@ class UrlAliasHandlerTest extends TestCase
         $this->assertVirtualUrlAliasValid($urlAlias, $id);
     }
 
-    public function providerForTestLookupResourceUrlAlias()
+    public static function providerForTestLookupResourceUrlAlias()
     {
         return [
             [
@@ -878,13 +860,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupResourceUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group resource
      */
+    #[Depends('testLookup')]
+    #[Group('resource')]
+    #[DataProvider('providerForTestLookupResourceUrlAlias')]
     public function testLookupResourceUrlAlias(
         $url,
         $pathData,
@@ -922,13 +901,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupResourceUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group resource
      */
+    #[Depends('testLookup')]
+    #[Group('resource')]
+    #[DataProvider('providerForTestLookupResourceUrlAlias')]
     public function testLookupResourceUrlAliasCaseInsensitive(
         $url,
         $pathData,
@@ -964,10 +940,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the lookup() method with uppercase utf8 characters.
-     *
-     *
-     * @depends testLookup
      */
+    #[Depends('testLookup')]
     public function testLookupUppercaseIri()
     {
         $handler = $this->getHandler();
@@ -1055,11 +1029,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testLookupLocationUrlAlias
-     *
-     * @group publish
      */
+    #[Depends('testLookupLocationUrlAlias')]
+    #[Group('publish')]
     public function testPublishUrlAliasForLocation()
     {
         $handler = $this->getHandler();
@@ -1099,11 +1071,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
     public function testPublishUrlAliasForLocationRepublish()
     {
         $handler = $this->getHandler();
@@ -1125,11 +1095,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
     public function testPublishUrlAliasCreatesUniqueAlias()
     {
         $handler = $this->getHandler();
@@ -1168,22 +1136,19 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * @return array
      */
-    public function providerForTestPublishUrlAliasForLocationComplex()
+    public static function providerForTestPublishUrlAliasForLocationComplex()
     {
-        return $this->providerForTestLookupLocationUrlAlias();
+        return self::providerForTestLookupLocationUrlAlias();
     }
 
     /**
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @dataProvider providerForTestPublishUrlAliasForLocationComplex
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
+    #[DataProvider('providerForTestPublishUrlAliasForLocationComplex')]
     public function testPublishUrlAliasForLocationComplex(
         $url,
         $pathData,
@@ -1227,11 +1192,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
     public function testPublishUrlAliasForLocationSameAliasForMultipleLanguages()
     {
         $handler = $this->getHandler();
@@ -1276,11 +1239,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
     public function testPublishUrlAliasForLocationDowngradesOldEntryToHistory()
     {
         $handler = $this->getHandler();
@@ -1348,13 +1309,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationSameAliasForMultipleLanguages
-     *
-     * @group publish
-     * @group downgrade
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationSameAliasForMultipleLanguages')]
+    #[Group('publish')]
+    #[Group('downgrade')]
     public function testPublishUrlAliasForLocationDowngradesOldEntryRemovesLanguage()
     {
         $handler = $this->getHandler();
@@ -1423,12 +1382,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationDowngradesOldEntryToHistory
-     *
-     * @group publish
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationDowngradesOldEntryToHistory')]
+    #[Group('publish')]
     public function testPublishUrlAliasForLocationReusesHistory()
     {
         $handler = $this->getHandler();
@@ -1456,12 +1413,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationDowngradesOldEntryToHistory
-     *
-     * @group publish
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationDowngradesOldEntryToHistory')]
+    #[Group('publish')]
     public function testPublishUrlAliasForLocationReusesHistoryOfDifferentLanguage()
     {
         $handler = $this->getHandler();
@@ -1509,11 +1464,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
     public function testPublishUrlAliasForLocationReusesCustomAlias()
     {
         $handler = $this->getHandler();
@@ -1534,9 +1487,8 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
      */
+    #[Depends('testPublishUrlAliasForLocation')]
     public function testPublishUrlAliasForLocationReusingNopElement()
     {
         $handler = $this->getHandler();
@@ -1604,10 +1556,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationReusingNopElement
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationReusingNopElement')]
     public function testPublishUrlAliasForLocationReusingNopElementChangesCustomPath()
     {
         $handler = $this->getHandler();
@@ -1652,10 +1603,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationReusingNopElementChangesCustomPath
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationReusingNopElementChangesCustomPath')]
     public function testPublishUrlAliasForLocationReusingNopElementChangesCustomPathAndCreatesHistory()
     {
         $handler = $this->getHandler();
@@ -1694,9 +1644,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the publishUrlAliasForLocation() method.
-     *
-     * @group cleanup
      */
+    #[Group('cleanup')]
     public function testPublishUrlAliasReuseNopCleanupCustomAliasIsDestroyed()
     {
         $handler = $this->getHandler();
@@ -1768,9 +1717,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the publishUrlAliasForLocation() method.
-     *
-     * @group cleanup
      */
+    #[Group('cleanup')]
     public function testPublishUrlAliasReuseHistoryCleanup()
     {
         $handler = $this->getHandler();
@@ -1832,9 +1780,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the publishUrlAliasForLocation() method.
-     *
-     * @group cleanup
      */
+    #[Group('cleanup')]
     public function testPublishUrlAliasReuseAutogeneratedCleanup()
     {
         $handler = $this->getHandler();
@@ -1897,11 +1844,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createCustomUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasBehaviour()
     {
         $handlerMock = $this->getPartlyMockedHandler(['createUrlAlias']);
@@ -1930,11 +1875,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createGlobalUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group global
      */
+    #[Group('create')]
+    #[Group('global')]
     public function testCreateGlobalUrlAliasBehaviour()
     {
         $handlerMock = $this->getPartlyMockedHandler(['createUrlAlias']);
@@ -1963,11 +1906,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAlias()
     {
         $handler = $this->getHandler();
@@ -2010,11 +1951,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasWithNonameParts()
     {
         $handler = $this->getHandler();
@@ -2084,11 +2023,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the createUrlAlias() method.
      *
      *
-     * @group create
-     * @group custom
      *
      * @todo pathData
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreatedCustomUrlAliasIsLoadable()
     {
         $handler = $this->getHandler();
@@ -2128,11 +2067,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasWithNopElement(): void
     {
         $handler = $this->getHandler();
@@ -2190,11 +2127,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasReusesHistory()
     {
         $handler = $this->getHandler();
@@ -2236,10 +2171,8 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @group create
-     * @group custom
-     */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasAddLanguage(): void
     {
         $handler = $this->getHandler();
@@ -2289,11 +2222,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasReusesHistoryOfDifferentLanguage()
     {
         $handler = $this->getHandler();
@@ -2337,11 +2268,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasReusesNopElement()
     {
         $handler = $this->getHandler();
@@ -2391,11 +2320,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasReusesLocationElement()
     {
         $handler = $this->getHandler();
@@ -2425,10 +2352,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the listGlobalURLAliases() method.
-     *
-     *
-     * @depends testLookupResourceUrlAlias
      */
+    #[Depends('testLookupResourceUrlAlias')]
     public function testListGlobalURLAliases()
     {
         $handler = $this->getHandler();
@@ -2448,10 +2373,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the listGlobalURLAliases() method.
-     *
-     *
-     * @depends testLookupResourceUrlAlias
      */
+    #[Depends('testLookupResourceUrlAlias')]
     public function testListGlobalURLAliasesWithLanguageCode()
     {
         $handler = $this->getHandler();
@@ -2470,10 +2393,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the listGlobalURLAliases() method.
-     *
-     *
-     * @depends testLookupResourceUrlAlias
      */
+    #[Depends('testLookupResourceUrlAlias')]
     public function testListGlobalURLAliasesWithOffset()
     {
         $handler = $this->getHandler();
@@ -2491,10 +2412,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the listGlobalURLAliases() method.
-     *
-     *
-     * @depends testLookupResourceUrlAlias
      */
+    #[Depends('testLookupResourceUrlAlias')]
     public function testListGlobalURLAliasesWithOffsetAndLimit()
     {
         $handler = $this->getHandler();
@@ -3017,10 +2936,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the loadUrlAlias() method.
-     *
-     *
-     * @dataProvider providerForTestLookupLocationMultipleLanguages
      */
+    #[DataProvider('providerForTestLookupLocationMultipleLanguages')]
     public function testLoadAutogeneratedUrlAlias(
         $url,
         array $pathData,
@@ -3055,10 +2972,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the loadUrlAlias() method.
-     *
-     *
-     * @dataProvider providerForTestLookupResourceUrlAlias
      */
+    #[DataProvider('providerForTestLookupResourceUrlAlias')]
     public function testLoadResourceUrlAlias(
         $url,
         $pathData,
@@ -3094,10 +3009,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the loadUrlAlias() method.
-     *
-     *
-     * @dataProvider providerForTestLookupVirtualUrlAlias
      */
+    #[DataProvider('providerForTestLookupVirtualUrlAlias')]
     public function testLoadVirtualUrlAlias($url, $id)
     {
         $handler = $this->getHandler();
@@ -3172,7 +3085,7 @@ class UrlAliasHandlerTest extends TestCase
         $handler->loadUrlAlias('non-existent');
     }
 
-    public function providerForTestPublishUrlAliasForLocationSkipsReservedWord()
+    public static function providerForTestPublishUrlAliasForLocationSkipsReservedWord()
     {
         return [
             [
@@ -3188,13 +3101,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the publishUrlAliasForLocation() method.
-     *
-     * @dataProvider providerForTestPublishUrlAliasForLocationSkipsReservedWord
-     *
-     * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler::publishUrlAliasForLocation
-     *
-     * @group publish
      */
+    #[Group('publish')]
+    #[DataProvider('providerForTestPublishUrlAliasForLocationSkipsReservedWord')]
     public function testPublishUrlAliasForLocationSkipsReservedWord($text, $alias)
     {
         $handler = $this->getHandler();
@@ -3210,9 +3119,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSimple()
     {
         $handler = $this->getHandler();
@@ -3296,9 +3204,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSimpleWithHistory()
     {
         $handler = $this->getHandler();
@@ -3448,9 +3355,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSimpleWithConflict()
     {
         $handler = $this->getHandler();
@@ -3554,9 +3460,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSiblingsSimple()
     {
         $handler = $this->getHandler();
@@ -3628,9 +3533,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSiblingsSimpleReverse()
     {
         $handler = $this->getHandler();
@@ -3702,9 +3606,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSiblingsSimpleWithHistory()
     {
         $handler = $this->getHandler();
@@ -3830,9 +3733,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSiblingsSimpleWithHistoryReverse()
     {
         $handler = $this->getHandler();
@@ -3958,9 +3860,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSiblingsSameName()
     {
         $handler = $this->getHandler();
@@ -4032,9 +3933,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSiblingsSameNameReverse()
     {
         $handler = $this->getHandler();
@@ -4106,9 +4006,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedSiblingsSameNameMultipleLanguages()
     {
         $handler = $this->getHandler();
@@ -4238,9 +4137,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedMultipleLanguagesSimple()
     {
         $handler = $this->getHandler();
@@ -4273,9 +4171,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedMultipleLanguagesDifferentLanguagesSimple()
     {
         $handler = $this->getHandler();
@@ -4495,9 +4392,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedMultipleLanguagesDifferentLanguages()
     {
         $handler = $this->getHandler();
@@ -4653,9 +4549,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedMultipleLanguagesWithCompositeHistory()
     {
         $handler = $this->getHandler();
@@ -4946,9 +4841,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedWithReusingExternalHistory()
     {
         $handler = $this->getHandler();
@@ -5098,9 +4992,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedWithReusingNopEntry()
     {
         $handler = $this->getHandler();
@@ -5250,11 +5143,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @depends testLocationSwappedWithReusingNopEntry
-     *
-     * @group swap
      */
+    #[Depends('testLocationSwappedWithReusingNopEntry')]
+    #[Group('swap')]
     public function testLocationSwappedWithReusingNopEntryCustomAliasIsDestroyed()
     {
         $handler = $this->getHandler();
@@ -5275,9 +5166,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedUpdatesLocationPathIdentificationString()
     {
         $handler = $this->getHandler();
@@ -5302,9 +5192,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
+    #[Group('swap')]
     public function testLocationSwappedMultipleLanguagesUpdatesLocationPathIdentificationString()
     {
         $handler = $this->getHandler();
@@ -5359,17 +5248,17 @@ class UrlAliasHandlerTest extends TestCase
         return $this->getMockBuilder(Handler::class)
             ->setConstructorArgs(
                 [
-                    $this->createMock(UrlAliasGateway::class),
-                    $this->createMock(Mapper::class),
-                    $this->createMock(LocationGateway::class),
-                    $this->createMock(LanguageHandler::class),
-                    $this->createMock(SlugConverter::class),
-                    $this->createMock(Gateway::class),
-                    $this->createMock(LanguageMaskGenerator::class),
-                    $this->createMock(TransactionHandler::class),
+                    self::createStub(UrlAliasGateway::class),
+                    self::createStub(Mapper::class),
+                    self::createStub(LocationGateway::class),
+                    self::createStub(LanguageHandler::class),
+                    self::createStub(SlugConverter::class),
+                    self::createStub(Gateway::class),
+                    self::createStub(LanguageMaskGenerator::class),
+                    self::createStub(TransactionHandler::class),
                 ]
             )
-            ->setMethods($methods)
+            ->onlyMethods(array_values($methods))
             ->getMock();
     }
 
@@ -5405,7 +5294,7 @@ class UrlAliasHandlerTest extends TestCase
             $slugConverter,
             $contentGateway,
             $languageMaskGenerator,
-            $this->createMock(TransactionHandler::class)
+            self::createStub(TransactionHandler::class)
         );
     }
 
@@ -5477,7 +5366,7 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @return array
      */
-    public function providerForArchiveUrlAliasesForDeletedTranslations()
+    public static function providerForArchiveUrlAliasesForDeletedTranslations()
     {
         return [
             [2, ['eng-GB', 'pol-PL'], 'pol-PL'],
@@ -5486,12 +5375,11 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForArchiveUrlAliasesForDeletedTranslations
-     *
      * @param int $locationId
      * @param string[] $expectedLanguages expected language codes before deleting
      * @param string $removeLanguage language code to be deleted
      */
+    #[DataProvider('providerForArchiveUrlAliasesForDeletedTranslations')]
     public function testArchiveUrlAliasesForDeletedTranslations(
         $locationId,
         array $expectedLanguages,

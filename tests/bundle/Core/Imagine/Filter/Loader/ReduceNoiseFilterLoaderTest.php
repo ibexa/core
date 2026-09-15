@@ -15,8 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 class ReduceNoiseFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $filter;
+    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
+    private \PHPUnit\Framework\MockObject\Stub $filter;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader */
     private $loader;
@@ -24,7 +24,7 @@ class ReduceNoiseFilterLoaderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->filter = $this->createMock(FilterInterface::class);
+        $this->filter = self::createStub(FilterInterface::class);
         $this->loader = new ReduceNoiseFilterLoader($this->filter);
     }
 
@@ -32,6 +32,6 @@ class ReduceNoiseFilterLoaderTest extends TestCase
     {
         $this->expectException(NotSupportedException::class);
 
-        $this->loader->load($this->createMock(ImageInterface::class));
+        $this->loader->load(self::createStub(ImageInterface::class));
     }
 }

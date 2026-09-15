@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Validation;
 
 use Ibexa\Contracts\Core\Validation\StructValidator;
 use Ibexa\Contracts\Core\Validation\ValidationFailedException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -18,9 +19,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @covers \Ibexa\Contracts\Core\Validation\StructValidator
- */
+#[CoversClass(StructValidator::class)]
 final class StructValidatorTest extends TestCase
 {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface&\PHPUnit\Framework\MockObject\MockObject) */

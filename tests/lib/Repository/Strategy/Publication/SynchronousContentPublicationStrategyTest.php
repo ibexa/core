@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Strategy\ContentPublication\SynchronousContentPublicationStrategy;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class SynchronousContentPublicationStrategyTest extends TestCase
@@ -20,24 +21,23 @@ final class SynchronousContentPublicationStrategyTest extends TestCase
     public function testSupportsAlwaysReturnsTrue(): void
     {
         $strategy = new SynchronousContentPublicationStrategy(
-            $this->createStub(ContentService::class)
+            self::createStub(ContentService::class)
         );
 
         self::assertTrue($strategy->supports());
     }
 
     /**
-     * @dataProvider providerForTestPublishVersionDelegatesToContentService
-     *
      * @param list<string>|null $translations
      * @param list<string> $expectedTranslations
      */
+    #[DataProvider('providerForTestPublishVersionDelegatesToContentService')]
     public function testPublishVersionDelegatesToContentService(
         ?array $translations,
         array $expectedTranslations
     ): void {
-        $versionInfo = $this->createStub(VersionInfo::class);
-        $content = $this->createStub(Content::class);
+        $versionInfo = self::createStub(VersionInfo::class);
+        $content = self::createStub(Content::class);
 
         $contentService = $this->createMock(ContentService::class);
         $contentService

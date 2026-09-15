@@ -12,10 +12,9 @@ use Ibexa\Contracts\Core\Persistence\FieldType as SPIPersistenceFieldType;
 use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 use Ibexa\Core\Persistence\FieldTypeRegistry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\FieldTypeRegistry
- */
+#[CoversClass(FieldTypeRegistry::class)]
 class FieldTypeRegistryTest extends TestCase
 {
     private const FIELD_TYPE_IDENTIFIER = 'some-type';

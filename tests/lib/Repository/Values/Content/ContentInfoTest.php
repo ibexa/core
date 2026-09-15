@@ -10,11 +10,10 @@ namespace Ibexa\Tests\Core\Repository\Values\Content;
 
 use DateTimeImmutable;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
- */
+#[CoversClass(ContentInfo::class)]
 final class ContentInfoTest extends TestCase
 {
     public function testCreateObject(): void

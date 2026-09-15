@@ -19,7 +19,7 @@ final class ChainContentPublicationStrategyTest extends TestCase
 {
     public function testPublishVersionExecutesFirstSupportingStrategy(): void
     {
-        $versionInfo = $this->createStub(VersionInfo::class);
+        $versionInfo = self::createStub(VersionInfo::class);
         $result = new ContentPublicationResult(null);
 
         $notSupportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
@@ -101,6 +101,6 @@ final class ChainContentPublicationStrategyTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('No content publication strategy supports the current publication.');
 
-        $chain->publishVersion($this->createMock(VersionInfo::class));
+        $chain->publishVersion(self::createStub(VersionInfo::class));
     }
 }

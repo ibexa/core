@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
 use Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -30,12 +31,10 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
         $this->configResolver = $configResolver;
     }
 
-    /**
-     * @dataProvider matchConfigProvider
-     */
+    #[DataProvider('matchConfigProvider')]
     public function testMatch($parameterName, $namespace, $scope, $viewsConfiguration, $matchedConfig): void
     {
-        $view = $this->createMock(ContentView::class);
+        $view = self::createStub(ContentView::class);
         $this->configResolver->expects(self::atLeastOnce())->method('getParameter')->with(
             $parameterName,
             $namespace,
@@ -54,7 +53,7 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
         self::assertEquals($matchedConfig, $matcherFactory->match($view));
     }
 
-    public function matchConfigProvider(): array
+    public static function matchConfigProvider(): array
     {
         return [
             [

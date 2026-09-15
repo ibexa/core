@@ -18,10 +18,10 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     /**
@@ -438,9 +438,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getTypeCreationExpectations
-     */
+    #[DataProvider('getTypeCreationExpectations')]
     public function testInsertType($column, $expectation)
     {
         $gateway = $this->getGateway();
@@ -472,9 +470,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getTypeCreationContentClassNameExpectations
-     */
+    #[DataProvider('getTypeCreationContentClassNameExpectations')]
     public function testInsertTypeContentClassName($column, $expectation)
     {
         $gateway = $this->getGateway();
@@ -812,9 +808,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @dataProvider getTypeUpdateExpectations
-     */
+    #[DataProvider('getTypeUpdateExpectations')]
     public function testUpdateType($fieldName, $expectedValue)
     {
         $this->insertDatabaseFixture(

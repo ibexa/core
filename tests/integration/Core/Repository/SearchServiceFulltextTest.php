@@ -15,17 +15,19 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 
 /**
  * Test case for full text search in the SearchService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\SearchService
- *
- * @group integration
- * @group search
- * @group fulltext
  */
+#[CoversClass(SearchService::class)]
+#[Group('integration')]
+#[Group('search')]
+#[Group('fulltext')]
 class SearchServiceFulltextTest extends BaseTestCase
 {
     protected function setUp(): void
@@ -100,7 +102,7 @@ class SearchServiceFulltextTest extends BaseTestCase
      *
      * @see testPrepareContent
      */
-    public function providerForTestFulltextSearchSolr7(): array
+    public static function providerForTestFulltextSearchSolr7(): array
     {
         return [
             [
@@ -180,11 +182,9 @@ class SearchServiceFulltextTest extends BaseTestCase
      * @param string $searchString
      * @param array $expectedKeys
      * @param array $idMap
-     *
-     * @depends testPrepareContent
-     *
-     * @dataProvider providerForTestFulltextSearchSolr7
      */
+    #[Depends('testPrepareContent')]
+    #[DataProvider('providerForTestFulltextSearchSolr7')]
     public function testFulltextContentSearchSolr7(string $searchString, array $expectedKeys, array $idMap): void
     {
         if (false === $this->isSolrMajorVersionInRange('7.0.0', '8.0.0')) {
@@ -211,11 +211,9 @@ class SearchServiceFulltextTest extends BaseTestCase
      * @param $searchString
      * @param array $expectedKeys
      * @param array $idMap
-     *
-     * @depends testPrepareContent
-     *
-     * @dataProvider providerForTestFulltextSearchSolr7
      */
+    #[Depends('testPrepareContent')]
+    #[DataProvider('providerForTestFulltextSearchSolr7')]
     public function testFulltextLocationSearchSolr7($searchString, array $expectedKeys, array $idMap): void
     {
         if (false === $this->isSolrMajorVersionInRange('7.0.0', '8.0.0')) {

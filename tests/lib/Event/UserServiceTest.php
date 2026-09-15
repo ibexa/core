@@ -47,11 +47,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroup::class),
-            $this->createMock(UserGroupUpdateStruct::class),
+            self::createStub(UserGroup::class),
+            self::createStub(UserGroupUpdateStruct::class),
         ];
 
-        $updatedUserGroup = $this->createMock(UserGroup::class);
+        $updatedUserGroup = self::createStub(UserGroup::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('updateUserGroup')->willReturn($updatedUserGroup);
 
@@ -76,12 +76,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroup::class),
-            $this->createMock(UserGroupUpdateStruct::class),
+            self::createStub(UserGroup::class),
+            self::createStub(UserGroupUpdateStruct::class),
         ];
 
-        $updatedUserGroup = $this->createMock(UserGroup::class);
-        $eventUpdatedUserGroup = $this->createMock(UserGroup::class);
+        $updatedUserGroup = self::createStub(UserGroup::class);
+        $eventUpdatedUserGroup = self::createStub(UserGroup::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('updateUserGroup')->willReturn($updatedUserGroup);
 
@@ -111,12 +111,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroup::class),
-            $this->createMock(UserGroupUpdateStruct::class),
+            self::createStub(UserGroup::class),
+            self::createStub(UserGroupUpdateStruct::class),
         ];
 
-        $updatedUserGroup = $this->createMock(UserGroup::class);
-        $eventUpdatedUserGroup = $this->createMock(UserGroup::class);
+        $updatedUserGroup = self::createStub(UserGroup::class);
+        $eventUpdatedUserGroup = self::createStub(UserGroup::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('updateUserGroup')->willReturn($updatedUserGroup);
 
@@ -149,11 +149,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserUpdateStruct::class),
+            self::createStub(User::class),
+            self::createStub(UserUpdateStruct::class),
         ];
 
-        $updatedUser = $this->createMock(User::class);
+        $updatedUser = self::createStub(User::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('updateUser')->willReturn($updatedUser);
 
@@ -178,12 +178,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserUpdateStruct::class),
+            self::createStub(User::class),
+            self::createStub(UserUpdateStruct::class),
         ];
 
-        $updatedUser = $this->createMock(User::class);
-        $eventUpdatedUser = $this->createMock(User::class);
+        $updatedUser = self::createStub(User::class);
+        $eventUpdatedUser = self::createStub(User::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('updateUser')->willReturn($updatedUser);
 
@@ -213,12 +213,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserUpdateStruct::class),
+            self::createStub(User::class),
+            self::createStub(UserUpdateStruct::class),
         ];
 
-        $updatedUser = $this->createMock(User::class);
-        $eventUpdatedUser = $this->createMock(User::class);
+        $updatedUser = self::createStub(User::class);
+        $eventUpdatedUser = self::createStub(User::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('updateUser')->willReturn($updatedUser);
 
@@ -251,11 +251,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(User::class),
+            self::createStub(UserGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(UserServiceInterface::class);
+        $innerServiceMock = self::createStub(UserServiceInterface::class);
 
         $service = new UserService($innerServiceMock, $traceableEventDispatcher);
         $service->unAssignUserFromUserGroup(...$parameters);
@@ -277,11 +277,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(User::class),
+            self::createStub(UserGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(UserServiceInterface::class);
+        $innerServiceMock = self::createStub(UserServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeUnAssignUserFromUserGroupEvent::class, static function (BeforeUnAssignUserFromUserGroupEvent $event) {
             $event->stopPropagation();
@@ -310,7 +310,7 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroup::class),
         ];
 
         $locations = [];
@@ -338,7 +338,7 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroup::class),
         ];
 
         $locations = [];
@@ -372,7 +372,7 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroup::class),
         ];
 
         $locations = [];
@@ -409,11 +409,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(User::class),
+            self::createStub(UserGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(UserServiceInterface::class);
+        $innerServiceMock = self::createStub(UserServiceInterface::class);
 
         $service = new UserService($innerServiceMock, $traceableEventDispatcher);
         $service->assignUserToUserGroup(...$parameters);
@@ -435,11 +435,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(User::class),
+            self::createStub(UserGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(UserServiceInterface::class);
+        $innerServiceMock = self::createStub(UserServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeAssignUserToUserGroupEvent::class, static function (BeforeAssignUserToUserGroupEvent $event) {
             $event->stopPropagation();
@@ -468,7 +468,7 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
+            self::createStub(User::class),
         ];
 
         $locations = [];
@@ -496,7 +496,7 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
+            self::createStub(User::class),
         ];
 
         $locations = [];
@@ -530,7 +530,7 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
+            self::createStub(User::class),
         ];
 
         $locations = [];
@@ -567,11 +567,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroup::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroup::class),
+            self::createStub(UserGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(UserServiceInterface::class);
+        $innerServiceMock = self::createStub(UserServiceInterface::class);
 
         $service = new UserService($innerServiceMock, $traceableEventDispatcher);
         $service->moveUserGroup(...$parameters);
@@ -593,11 +593,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroup::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroup::class),
+            self::createStub(UserGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(UserServiceInterface::class);
+        $innerServiceMock = self::createStub(UserServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeMoveUserGroupEvent::class, static function (BeforeMoveUserGroupEvent $event) {
             $event->stopPropagation();
@@ -626,11 +626,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserCreateStruct::class),
+            self::createStub(UserCreateStruct::class),
             [],
         ];
 
-        $user = $this->createMock(User::class);
+        $user = self::createStub(User::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('createUser')->willReturn($user);
 
@@ -655,12 +655,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserCreateStruct::class),
+            self::createStub(UserCreateStruct::class),
             [],
         ];
 
-        $user = $this->createMock(User::class);
-        $eventUser = $this->createMock(User::class);
+        $user = self::createStub(User::class);
+        $eventUser = self::createStub(User::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('createUser')->willReturn($user);
 
@@ -690,12 +690,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserCreateStruct::class),
+            self::createStub(UserCreateStruct::class),
             [],
         ];
 
-        $user = $this->createMock(User::class);
-        $eventUser = $this->createMock(User::class);
+        $user = self::createStub(User::class);
+        $eventUser = self::createStub(User::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('createUser')->willReturn($user);
 
@@ -728,11 +728,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroupCreateStruct::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroupCreateStruct::class),
+            self::createStub(UserGroup::class),
         ];
 
-        $userGroup = $this->createMock(UserGroup::class);
+        $userGroup = self::createStub(UserGroup::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('createUserGroup')->willReturn($userGroup);
 
@@ -757,12 +757,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroupCreateStruct::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroupCreateStruct::class),
+            self::createStub(UserGroup::class),
         ];
 
-        $userGroup = $this->createMock(UserGroup::class);
-        $eventUserGroup = $this->createMock(UserGroup::class);
+        $userGroup = self::createStub(UserGroup::class);
+        $eventUserGroup = self::createStub(UserGroup::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('createUserGroup')->willReturn($userGroup);
 
@@ -792,12 +792,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(UserGroupCreateStruct::class),
-            $this->createMock(UserGroup::class),
+            self::createStub(UserGroupCreateStruct::class),
+            self::createStub(UserGroup::class),
         ];
 
-        $userGroup = $this->createMock(UserGroup::class);
-        $eventUserGroup = $this->createMock(UserGroup::class);
+        $userGroup = self::createStub(UserGroup::class);
+        $eventUserGroup = self::createStub(UserGroup::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('createUserGroup')->willReturn($userGroup);
 
@@ -830,11 +830,11 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserTokenUpdateStruct::class),
+            self::createStub(User::class),
+            self::createStub(UserTokenUpdateStruct::class),
         ];
 
-        $updatedUser = $this->createMock(User::class);
+        $updatedUser = self::createStub(User::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('updateUserToken')->willReturn($updatedUser);
 
@@ -859,12 +859,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserTokenUpdateStruct::class),
+            self::createStub(User::class),
+            self::createStub(UserTokenUpdateStruct::class),
         ];
 
-        $updatedUser = $this->createMock(User::class);
-        $eventUpdatedUser = $this->createMock(User::class);
+        $updatedUser = self::createStub(User::class);
+        $eventUpdatedUser = self::createStub(User::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('updateUserToken')->willReturn($updatedUser);
 
@@ -894,12 +894,12 @@ class UserServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(User::class),
-            $this->createMock(UserTokenUpdateStruct::class),
+            self::createStub(User::class),
+            self::createStub(UserTokenUpdateStruct::class),
         ];
 
-        $updatedUser = $this->createMock(User::class);
-        $eventUpdatedUser = $this->createMock(User::class);
+        $updatedUser = self::createStub(User::class);
+        $eventUpdatedUser = self::createStub(User::class);
         $innerServiceMock = $this->createMock(UserServiceInterface::class);
         $innerServiceMock->method('updateUserToken')->willReturn($updatedUser);
 

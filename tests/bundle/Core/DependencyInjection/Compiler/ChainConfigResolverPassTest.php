@@ -10,13 +10,13 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainConfigResolverPass;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainConfigResolverPass
- */
+#[CoversClass(ChainConfigResolverPass::class)]
 class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
 {
     protected function setUp(): void
@@ -39,9 +39,8 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
     /**
      * @param int|null $declaredPriority
      * @param int $expectedPriority
-     *
-     * @dataProvider addResolverProvider
      */
+    #[DataProvider('addResolverProvider')]
     public function testAddResolver($declaredPriority, $expectedPriority)
     {
         $resolverDef = new Definition();
@@ -63,7 +62,7 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function addResolverProvider()
+    public static function addResolverProvider()
     {
         return [
             [null, 0],

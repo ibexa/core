@@ -13,13 +13,12 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator
- */
+#[CoversClass(ContentDownloadUrlGenerator::class)]
 final class ContentDownloadUrlGeneratorTest extends TestCase
 {
     private const string ROUTE = 'ibexa.content.download.field_id.filename';

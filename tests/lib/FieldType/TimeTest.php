@@ -11,11 +11,10 @@ use DateTime;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Time\Type as Time;
 use Ibexa\Core\FieldType\Time\Value as TimeValue;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group fieldType
- * @group ibexa_time
- */
+#[Group('fieldType')]
+#[Group('ibexa_time')]
 class TimeTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): Time
@@ -50,7 +49,7 @@ class TimeTest extends FieldTypeTestCase
         return new TimeValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -60,7 +59,7 @@ class TimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         $dateTime = new DateTime();
         // change timezone to UTC (+00:00) to be able to calculate proper TimeValue
@@ -106,7 +105,7 @@ class TimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -124,7 +123,7 @@ class TimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -142,7 +141,7 @@ class TimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -163,7 +162,7 @@ class TimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -186,10 +185,10 @@ class TimeTest extends FieldTypeTestCase
         return 'ibexa_time';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new TimeValue(), '', [], 'en_GB'],
             [new TimeValue(200), '12:03:20 am', [], 'en_GB'],
         ];
     }

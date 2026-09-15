@@ -12,17 +12,19 @@ use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
-/**
- * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage
- */
+#[CoversClass(DoctrineStorage::class)]
+#[CoversMethod(DoctrineStorage::class, 'getIdUrlMap')]
+#[CoversMethod(DoctrineStorage::class, 'getUrlIdMap')]
+#[CoversMethod(DoctrineStorage::class, 'insertUrl')]
+#[CoversMethod(DoctrineStorage::class, 'linkUrl')]
+#[CoversMethod(DoctrineStorage::class, 'unlinkUrl')]
 class DoctrineStorageTest extends TestCase
 {
     private DoctrineStorage $storageGateway;
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::getIdUrlMap
-     */
     public function testGetIdUrlMap()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
@@ -40,9 +42,6 @@ class DoctrineStorageTest extends TestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::getUrlIdMap
-     */
     public function testGetUrlIdMap()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
@@ -64,9 +63,6 @@ class DoctrineStorageTest extends TestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::insertUrl
-     */
     public function testInsertUrl()
     {
         $gateway = $this->getStorageGateway();
@@ -110,9 +106,6 @@ class DoctrineStorageTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::linkUrl
-     */
     public function testLinkUrl()
     {
         $gateway = $this->getStorageGateway();
@@ -147,9 +140,6 @@ class DoctrineStorageTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::unlinkUrl
-     */
     public function testUnlinkUrl()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');

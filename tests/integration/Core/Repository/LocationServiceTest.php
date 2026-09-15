@@ -12,6 +12,7 @@ use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
@@ -27,22 +28,49 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the LocationService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\LocationService
- *
- * @group location
  */
+#[CoversClass(LocationService::class)]
+#[CoversMethod(LocationService::class, 'newLocationCreateStruct()')]
+#[CoversMethod(LocationService::class, 'createLocation()')]
+#[CoversMethod(LocationService::class, 'createLocation')]
+#[CoversMethod(LocationService::class, 'loadLocation')]
+#[CoversMethod(LocationService::class, 'loadLocation()')]
+#[CoversMethod(LocationService::class, 'loadLocationList')]
+#[CoversMethod(LocationService::class, 'loadLocationByRemoteId()')]
+#[CoversMethod(LocationService::class, 'loadLocations()')]
+#[CoversMethod(LocationService::class, 'loadLocations($contentInfo, $rootLocation)')]
+#[CoversMethod(LocationService::class, 'loadLocationChildren')]
+#[CoversMethod(LocationService::class, 'loadParentLocationsForDraftContent')]
+#[CoversMethod(LocationService::class, 'getLocationChildCount()')]
+#[CoversMethod(LocationService::class, 'loadLocationChildren()')]
+#[CoversMethod(LocationService::class, 'newLocationUpdateStruct')]
+#[CoversMethod(LocationService::class, 'updateLocation()')]
+#[CoversMethod(LocationService::class, 'swapLocation()')]
+#[CoversMethod(LocationService::class, 'swapLocation')]
+#[CoversMethod(LocationService::class, 'hideLocation()')]
+#[CoversMethod(LocationService::class, 'unhideLocation()')]
+#[CoversMethod(LocationService::class, 'deleteLocation()')]
+#[CoversMethod(LocationService::class, 'deleteLocation')]
+#[CoversMethod(LocationService::class, 'copySubtree()')]
+#[CoversMethod(LocationService::class, 'copySubtree')]
+#[CoversMethod(LocationService::class, 'moveSubtree')]
+#[CoversMethod(LocationService::class, 'moveSubtree()')]
+#[Group('location')]
 class LocationServiceTest extends BaseTestCase
 {
     /**
      * Test for the newLocationCreateStruct() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::newLocationCreateStruct()
      */
     public function testNewLocationCreateStruct()
     {
@@ -70,11 +98,8 @@ class LocationServiceTest extends BaseTestCase
      * Test for the newLocationCreateStruct() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct $locationCreate
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::newLocationCreateStruct()
-     *
-     * @depends testNewLocationCreateStruct
      */
+    #[Depends('testNewLocationCreateStruct')]
     public function testNewLocationCreateStructValues(LocationCreateStruct $locationCreate)
     {
         $this->assertPropertiesCorrect(
@@ -93,11 +118,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the createLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation()
-     *
-     * @depends testNewLocationCreateStruct
      */
+    #[Depends('testNewLocationCreateStruct')]
     public function testCreateLocation()
     {
         $repository = $this->getRepository();
@@ -141,12 +163,9 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the createLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation
-     *
-     * @depends testCreateLocation
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testHideContent
      */
+    #[Depends('testCreateLocation')]
+    #[DependsExternal(ContentServiceTest::class, 'testHideContent')]
     public function testCreateLocationChecksContentVisibility(): void
     {
         $repository = $this->getRepository();
@@ -183,8 +202,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the createLocation() method with utilizing default ContentType sorting options.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation
      */
     public function testCreateLocationWithContentTypeSortingOptions(): void
     {
@@ -220,11 +237,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the createLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation()
-     *
-     * @depends testCreateLocation
      */
+    #[Depends('testCreateLocation')]
     public function testCreateLocationStructValues(array $data)
     {
         $locationCreate = $data['locationCreate'];
@@ -252,11 +266,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the createLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation()
-     *
-     * @depends testNewLocationCreateStruct
      */
+    #[Depends('testNewLocationCreateStruct')]
     public function testCreateLocationThrowsInvalidArgumentExceptionContentAlreadyBelowParent()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -287,11 +298,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the createLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation()
-     *
-     * @depends testNewLocationCreateStruct
      */
+    #[Depends('testNewLocationCreateStruct')]
     public function testCreateLocationThrowsInvalidArgumentExceptionParentIsSubLocationOfContent()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -322,11 +330,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the createLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation()
-     *
-     * @depends testNewLocationCreateStruct
      */
+    #[Depends('testNewLocationCreateStruct')]
     public function testCreateLocationThrowsInvalidArgumentExceptionRemoteIdExists()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -357,13 +362,9 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the createLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation()
-     *
-     * @depends testNewLocationCreateStruct
-     *
-     * @dataProvider dataProviderForOutOfRangeLocationPriority
      */
+    #[Depends('testNewLocationCreateStruct')]
+    #[DataProvider('dataProviderForOutOfRangeLocationPriority')]
     public function testCreateLocationThrowsInvalidArgumentExceptionPriorityIsOutOfRange($priority)
     {
         $this->expectException(InvalidArgumentException::class);
@@ -396,18 +397,15 @@ class LocationServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    public function dataProviderForOutOfRangeLocationPriority()
+    public static function dataProviderForOutOfRangeLocationPriority()
     {
         return [[-2147483649], [2147483648]];
     }
 
     /**
      * Test for the createLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation()
-     *
-     * @depends testCreateLocation
      */
+    #[Depends('testCreateLocation')]
     public function testCreateLocationInTransactionWithRollback()
     {
         $repository = $this->getRepository();
@@ -456,11 +454,8 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocation() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocation
-     *
-     * @depends testCreateLocation
      */
+    #[Depends('testCreateLocation')]
     public function testLoadLocation()
     {
         $repository = $this->getRepository();
@@ -484,11 +479,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocation()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testLoadLocationRootStructValues()
     {
         $repository = $this->getRepository();
@@ -563,11 +555,8 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocation() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocation()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testLoadLocationStructValues(Location $location)
     {
         $this->assertPropertiesCorrect(
@@ -656,11 +645,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocation()
-     *
-     * @depends testCreateLocation
      */
+    #[Depends('testCreateLocation')]
     public function testLoadLocationThrowsNotFoundException()
     {
         $this->expectException(NotFoundException::class);
@@ -679,8 +665,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocationList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationList
      */
     public function testLoadLocationList(): void
     {
@@ -699,11 +683,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocationList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationList
-     *
-     * @depends testLoadLocationList
      */
+    #[Depends('testLoadLocationList')]
     public function testLoadLocationListPrioritizedLanguagesFallback(): void
     {
         $repository = $this->getRepository();
@@ -720,11 +701,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocationList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationList
-     *
-     * @depends testLoadLocationListPrioritizedLanguagesFallback
      */
+    #[Depends('testLoadLocationListPrioritizedLanguagesFallback')]
     public function testLoadLocationListPrioritizedLanguagesFallbackAndAlwaysAvailable(): void
     {
         $repository = $this->getRepository();
@@ -744,8 +722,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocationList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationList
      */
     public function testLoadLocationListWithRootLocationId()
     {
@@ -766,8 +742,6 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocationList() method.
      *
      * Ensures the list is returned in the same order as passed IDs array.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationList
      */
     public function testLoadLocationListInCorrectOrder()
     {
@@ -788,11 +762,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocationByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationByRemoteId()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testLoadLocationByRemoteId()
     {
         $repository = $this->getRepository();
@@ -813,11 +784,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocationByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationByRemoteId()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testLoadLocationByRemoteIdThrowsNotFoundException()
     {
         $this->expectException(NotFoundException::class);
@@ -836,11 +804,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocations()
-     *
-     * @depends testCreateLocation
      */
+    #[Depends('testCreateLocation')]
     public function testLoadLocations()
     {
         $repository = $this->getRepository();
@@ -869,11 +834,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocations()
-     *
-     * @depends testLoadLocations
      */
+    #[Depends('testLoadLocations')]
     public function testLoadLocationsContent(array $locations)
     {
         self::assertCount(1, $locations);
@@ -903,11 +865,8 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocations() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocations($contentInfo, $rootLocation)
-     *
-     * @depends testLoadLocations
      */
+    #[Depends('testLoadLocations')]
     public function testLoadLocationsLimitedSubtree()
     {
         $repository = $this->getRepository();
@@ -951,11 +910,8 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocations() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location[] $locations
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocations()
-     *
-     * @depends testLoadLocationsLimitedSubtree
      */
+    #[Depends('testLoadLocationsLimitedSubtree')]
     public function testLoadLocationsLimitedSubtreeContent(array $locations)
     {
         self::assertCount(1, $locations);
@@ -968,11 +924,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocations()
-     *
-     * @depends testLoadLocations
      */
+    #[Depends('testLoadLocations')]
     public function testLoadLocationsThrowsBadStateException()
     {
         $this->expectException(BadStateException::class);
@@ -999,11 +952,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocations($contentInfo, $rootLocation)
-     *
-     * @depends testLoadLocations
      */
+    #[Depends('testLoadLocations')]
     public function testLoadLocationsThrowsBadStateExceptionLimitedSubtree()
     {
         $this->expectException(BadStateException::class);
@@ -1035,11 +985,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocationChildren() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testLoadLocationChildren()
     {
         $repository = $this->getRepository();
@@ -1069,8 +1016,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test loading parent Locations for draft Content.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadParentLocationsForDraftContent
      */
     public function testLoadParentLocationsForDraftContent()
     {
@@ -1106,10 +1051,10 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test that trying to load parent Locations throws Exception if Content is not a draft.
      *
-     * @depends testLoadParentLocationsForDraftContent
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentDraft
      */
+    #[Depends('testLoadParentLocationsForDraftContent')]
     public function testLoadParentLocationsForDraftContentThrowsBadStateException(Content $contentDraft)
     {
         $this->expectException(BadStateException::class);
@@ -1126,8 +1071,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the getLocationChildCount() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::getLocationChildCount()
      */
     public function testGetLocationChildCount()
     {
@@ -1144,8 +1087,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the getLocationChildCount() method with a limitation on the number of children.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::getLocationChildCount()
      */
     public function testGetLocationChildCountWithLimitation(): void
     {
@@ -1163,11 +1104,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the loadLocationChildren() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren()
-     *
-     * @depends testLoadLocationChildren
      */
+    #[Depends('testLoadLocationChildren')]
     public function testLoadLocationChildrenData(LocationList $locations)
     {
         self::assertCount(5, $locations->locations);
@@ -1197,9 +1135,6 @@ class LocationServiceTest extends BaseTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren
-     */
     public function testLoadLocationChildrenWithOffset(): LocationList
     {
         $repository = $this->getRepository();
@@ -1222,11 +1157,8 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocationChildren() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationList $locations
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren
-     *
-     * @depends testLoadLocationChildrenWithOffset
      */
+    #[Depends('testLoadLocationChildrenWithOffset')]
     public function testLoadLocationChildrenDataWithOffset(LocationList $locations): void
     {
         self::assertCount(3, $locations->locations);
@@ -1248,11 +1180,7 @@ class LocationServiceTest extends BaseTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren
-     *
-     * @depends testLoadLocationChildren
-     */
+    #[Depends('testLoadLocationChildren')]
     public function testLoadLocationChildrenWithOffsetAndLimit(): LocationList
     {
         $repository = $this->getRepository();
@@ -1271,11 +1199,7 @@ class LocationServiceTest extends BaseTestCase
         return $childLocations;
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren
-     *
-     * @depends testLoadLocationChildrenWithOffsetAndLimit
-     */
+    #[Depends('testLoadLocationChildrenWithOffsetAndLimit')]
     public function testLoadLocationChildrenDataWithOffsetAndLimit(LocationList $locations): void
     {
         self::assertCount(2, $locations->locations);
@@ -1296,7 +1220,7 @@ class LocationServiceTest extends BaseTestCase
         );
     }
 
-    public function providerForLoadLocationChildrenRespectsParentSortingClauses(): iterable
+    public static function providerForLoadLocationChildrenRespectsParentSortingClauses(): iterable
     {
         yield 'Name_ASC' => [
             Location::SORT_FIELD_NAME,
@@ -1391,12 +1315,9 @@ class LocationServiceTest extends BaseTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren
-     *
-     * @dataProvider providerForLoadLocationChildrenRespectsParentSortingClauses
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
+    #[DataProvider('providerForLoadLocationChildrenRespectsParentSortingClauses')]
     public function testLoadLocationChildrenRespectsParentSortingClauses(
         int $sortField,
         int $sortOrder,
@@ -1428,8 +1349,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the newLocationUpdateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::newLocationUpdateStruct
      */
     public function testNewLocationUpdateStruct()
     {
@@ -1459,11 +1378,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the updateLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::updateLocation()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testUpdateLocation()
     {
         $repository = $this->getRepository();
@@ -1498,11 +1414,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the updateLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::updateLocation()
-     *
-     * @depends testUpdateLocation
      */
+    #[Depends('testUpdateLocation')]
     public function testUpdateLocationStructValues(array $data)
     {
         $originalLocation = $data['originalLocation'];
@@ -1529,11 +1442,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the updateLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::updateLocation()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testUpdateLocationWithSameRemoteId()
     {
         $repository = $this->getRepository();
@@ -1565,11 +1475,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the updateLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::updateLocation()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testUpdateLocationThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -1595,13 +1502,9 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the updateLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::updateLocation()
-     *
-     * @depends testLoadLocation
-     *
-     * @dataProvider dataProviderForOutOfRangeLocationPriority
      */
+    #[Depends('testLoadLocation')]
+    #[DataProvider('dataProviderForOutOfRangeLocationPriority')]
     public function testUpdateLocationThrowsInvalidArgumentExceptionPriorityIsOutOfRange($priority)
     {
         $this->expectException(InvalidArgumentException::class);
@@ -1628,11 +1531,8 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test for the updateLocation() method.
      * Ref EZP-23302: Update Location fails if no change is performed with the update.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::updateLocation()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testUpdateLocationTwice()
     {
         $repository = $this->getRepository();
@@ -1660,11 +1560,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the swapLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::swapLocation()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testSwapLocation()
     {
         $repository = $this->getRepository();
@@ -1721,7 +1618,6 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test for the swapLocation() method with custom aliases.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::swapLocation
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -1764,7 +1660,6 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test swapping secondary Location with main Location.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::swapLocation
      *
      * @see https://issues.ibexa.co/browse/EZP-28663
      *
@@ -1871,12 +1766,11 @@ class LocationServiceTest extends BaseTestCase
     }
 
     /**
-     * @depends testSwapLocationForMainAndSecondaryLocation
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content[] $contentItems Content items created by testSwapLocationForSecondaryLocation
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[Depends('testSwapLocationForMainAndSecondaryLocation')]
     public function testSwapLocationDoesNotCorruptSearchResults(array $contentItems)
     {
         $repository = $this->getRepository(false);
@@ -1920,7 +1814,6 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test swapping two secondary (non-main) Locations.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::swapLocation
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
@@ -1977,8 +1870,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test swapping Main Location of a Content with another one updates Content item Main Location.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::swapLocation
      */
     public function testSwapLocationUpdatesMainLocation()
     {
@@ -2015,8 +1906,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test if location swap affects related bookmarks.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::swapLocation
      */
     public function testBookmarksAreSwappedAfterSwapLocation()
     {
@@ -2052,11 +1941,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the hideLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::hideLocation()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testHideLocation()
     {
         $repository = $this->getRepository();
@@ -2123,11 +2009,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the unhideLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::unhideLocation()
-     *
-     * @depends testHideLocation
      */
+    #[Depends('testHideLocation')]
     public function testUnhideLocation()
     {
         $repository = $this->getRepository();
@@ -2168,11 +2051,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the unhideLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::unhideLocation()
-     *
-     * @depends testUnhideLocation
      */
+    #[Depends('testUnhideLocation')]
     public function testUnhideLocationNotUnhidesHiddenSubtree()
     {
         $repository = $this->getRepository();
@@ -2234,11 +2114,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::deleteLocation()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testDeleteLocation()
     {
         $repository = $this->getRepository();
@@ -2284,11 +2161,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::deleteLocation()
-     *
-     * @depends testDeleteLocation
      */
+    #[Depends('testDeleteLocation')]
     public function testDeleteLocationDecrementsChildCountOnParent()
     {
         $repository = $this->getRepository();
@@ -2332,8 +2206,6 @@ class LocationServiceTest extends BaseTestCase
      * Test for the deleteLocation() method.
      *
      * Related issue: EZP-21904
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::deleteLocation()
      */
     public function testDeleteContentObjectLastLocation()
     {
@@ -2376,11 +2248,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteLocation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::deleteLocation
-     *
-     * @depends testDeleteLocation
      */
+    #[Depends('testDeleteLocation')]
     public function testDeleteLocationDeletesRelatedBookmarks()
     {
         $repository = $this->getRepository();
@@ -2428,9 +2297,6 @@ class LocationServiceTest extends BaseTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::deleteLocation
-     */
     public function testDeleteUnusedLocationWhichPreviousHadContentWithRelativeAlias(): void
     {
         $repository = $this->getRepository(false);
@@ -2498,11 +2364,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the copySubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::copySubtree()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testCopySubtree()
     {
         $repository = $this->getRepository();
@@ -2551,11 +2414,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the copySubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::copySubtree()
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testCopySubtreeWithAliases()
     {
         $repository = $this->getRepository();
@@ -2590,9 +2450,6 @@ class LocationServiceTest extends BaseTestCase
         $this->assertGeneratedAliases($urlAliasService, $expectedSubItemAliases);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::copySubtree
-     */
     public function testCopySubtreeWithTranslatedContent(): void
     {
         $repository = $this->getRepository();
@@ -2673,11 +2530,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the copySubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::copySubtree()
-     *
-     * @depends testCopySubtree
      */
+    #[Depends('testCopySubtree')]
     public function testCopySubtreeUpdatesSubtreeProperties()
     {
         $repository = $this->getRepository();
@@ -2740,11 +2594,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the copySubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::copySubtree()
-     *
-     * @depends testCopySubtree
      */
+    #[Depends('testCopySubtree')]
     public function testCopySubtreeIncrementsChildCountOfNewParent()
     {
         $repository = $this->getRepository();
@@ -2784,9 +2635,6 @@ class LocationServiceTest extends BaseTestCase
         self::assertEquals($childCountBefore + 1, $childCountAfter);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::copySubtree()
-     */
     public function testCopySubtreeWithInvisibleChild(): void
     {
         $repository = $this->getRepository();
@@ -2829,11 +2677,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the copySubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::copySubtree()
-     *
-     * @depends testCopySubtree
      */
+    #[Depends('testCopySubtree')]
     public function testCopySubtreeThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -2866,11 +2711,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testMoveSubtree(): void
     {
         $repository = $this->getRepository();
@@ -2917,11 +2759,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testMoveSubtreeToLocationWithoutContent(): void
     {
         $repository = $this->getRepository();
@@ -2953,11 +2792,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testMoveSubtreeThrowsExceptionOnMoveNotIntoContainer(): void
     {
         $repository = $this->getRepository();
@@ -2987,11 +2823,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
-     *
-     * @depends testLoadLocation
      */
+    #[Depends('testLoadLocation')]
     public function testMoveSubtreeThrowsExceptionOnMoveToSame(): void
     {
         $repository = $this->getRepository();
@@ -3017,11 +2850,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
-     *
-     * @depends testMoveSubtree
      */
+    #[Depends('testMoveSubtree')]
     public function testMoveSubtreeHidden(): void
     {
         $repository = $this->getRepository();
@@ -3071,11 +2901,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree()
-     *
-     * @depends testMoveSubtree
      */
+    #[Depends('testMoveSubtree')]
     public function testMoveSubtreeUpdatesSubtreeProperties()
     {
         $repository = $this->getRepository();
@@ -3133,11 +2960,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree()
-     *
-     * @depends testMoveSubtreeUpdatesSubtreeProperties
      */
+    #[Depends('testMoveSubtreeUpdatesSubtreeProperties')]
     public function testMoveSubtreeUpdatesSubtreePropertiesHidden()
     {
         $repository = $this->getRepository();
@@ -3199,11 +3023,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree()
-     *
-     * @depends testMoveSubtree
      */
+    #[Depends('testMoveSubtree')]
     public function testMoveSubtreeIncrementsChildCountOfNewParent()
     {
         $repository = $this->getRepository();
@@ -3258,11 +3079,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree()
-     *
-     * @depends testMoveSubtree
      */
+    #[Depends('testMoveSubtree')]
     public function testMoveSubtreeDecrementsChildCountOfOldParent()
     {
         $repository = $this->getRepository();
@@ -3318,7 +3136,6 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test moving invisible (hidden by parent) subtree.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -3358,9 +3175,8 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test for the moveSubtree() method.
-     *
-     * @depends testMoveSubtree
      */
+    #[Depends('testMoveSubtree')]
     public function testMoveSubtreeThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -3398,7 +3214,6 @@ class LocationServiceTest extends BaseTestCase
      * Test that Legacy ibexa_content_tree.path_identification_string field is correctly updated
      * after moving subtree.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
      *
      * @throws \ErrorException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
@@ -3446,8 +3261,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test that is_visible is set correct for children when moving a location where a child is hidden by content (not by location).
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
      */
     public function testMoveSubtreeKeepsContentHiddenOnChildrenAndParent(): void
     {
@@ -3509,8 +3322,6 @@ class LocationServiceTest extends BaseTestCase
 
     /**
      * Test that is_visible is set correct for children when moving a content which is hidden (location is not hidden).
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
      */
     public function testMoveSubtreeKeepsContentHiddenOnChildren(): void
     {
@@ -3577,7 +3388,6 @@ class LocationServiceTest extends BaseTestCase
      * Test validating whether content that is being moved is still allowed to be moved when one of its locations
      * is inaccessible by a current user, however, when moved location is accessible.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */

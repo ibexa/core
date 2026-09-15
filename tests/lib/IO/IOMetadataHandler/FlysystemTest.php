@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
 use League\Flysystem\UnableToRetrieveMetadata;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemTest extends TestCase
@@ -109,9 +110,7 @@ class FlysystemTest extends TestCase
         $this->handler->load($notExistentPath);
     }
 
-    /**
-     * @dataProvider getDataForFileExists
-     */
+    #[DataProvider('getDataForFileExists')]
     public function testExists(string $filePath, bool $exists): void
     {
         $this->filesystem
@@ -124,7 +123,7 @@ class FlysystemTest extends TestCase
         self::assertSame($exists, $this->handler->exists($filePath));
     }
 
-    public function getDataForFileExists(): iterable
+    public static function getDataForFileExists(): iterable
     {
         $filePath = 'prefix/my/file.png';
 

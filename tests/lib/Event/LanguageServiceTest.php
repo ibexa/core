@@ -32,10 +32,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
+        $innerServiceMock = self::createStub(LanguageServiceInterface::class);
 
         $service = new LanguageService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteLanguage(...$parameters);
@@ -57,10 +57,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
+        $innerServiceMock = self::createStub(LanguageServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteLanguageEvent::class, static function (BeforeDeleteLanguageEvent $event) {
             $event->stopPropagation();
@@ -89,10 +89,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(LanguageCreateStruct::class),
+            self::createStub(LanguageCreateStruct::class),
         ];
 
-        $language = $this->createMock(Language::class);
+        $language = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('createLanguage')->willReturn($language);
 
@@ -117,11 +117,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(LanguageCreateStruct::class),
+            self::createStub(LanguageCreateStruct::class),
         ];
 
-        $language = $this->createMock(Language::class);
-        $eventLanguage = $this->createMock(Language::class);
+        $language = self::createStub(Language::class);
+        $eventLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('createLanguage')->willReturn($language);
 
@@ -151,11 +151,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(LanguageCreateStruct::class),
+            self::createStub(LanguageCreateStruct::class),
         ];
 
-        $language = $this->createMock(Language::class);
-        $eventLanguage = $this->createMock(Language::class);
+        $language = self::createStub(Language::class);
+        $eventLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('createLanguage')->willReturn($language);
 
@@ -188,11 +188,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
             'random_value_5cff79c3161276.87987683',
         ];
 
-        $updatedLanguage = $this->createMock(Language::class);
+        $updatedLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('updateLanguageName')->willReturn($updatedLanguage);
 
@@ -217,12 +217,12 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
             'random_value_5cff79c3161312.94068030',
         ];
 
-        $updatedLanguage = $this->createMock(Language::class);
-        $eventUpdatedLanguage = $this->createMock(Language::class);
+        $updatedLanguage = self::createStub(Language::class);
+        $eventUpdatedLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('updateLanguageName')->willReturn($updatedLanguage);
 
@@ -252,12 +252,12 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
             'random_value_5cff79c3161386.01414999',
         ];
 
-        $updatedLanguage = $this->createMock(Language::class);
-        $eventUpdatedLanguage = $this->createMock(Language::class);
+        $updatedLanguage = self::createStub(Language::class);
+        $eventUpdatedLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('updateLanguageName')->willReturn($updatedLanguage);
 
@@ -290,10 +290,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $disabledLanguage = $this->createMock(Language::class);
+        $disabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('disableLanguage')->willReturn($disabledLanguage);
 
@@ -318,11 +318,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $disabledLanguage = $this->createMock(Language::class);
-        $eventDisabledLanguage = $this->createMock(Language::class);
+        $disabledLanguage = self::createStub(Language::class);
+        $eventDisabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('disableLanguage')->willReturn($disabledLanguage);
 
@@ -352,11 +352,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $disabledLanguage = $this->createMock(Language::class);
-        $eventDisabledLanguage = $this->createMock(Language::class);
+        $disabledLanguage = self::createStub(Language::class);
+        $eventDisabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('disableLanguage')->willReturn($disabledLanguage);
 
@@ -389,10 +389,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $enabledLanguage = $this->createMock(Language::class);
+        $enabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('enableLanguage')->willReturn($enabledLanguage);
 
@@ -417,11 +417,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $enabledLanguage = $this->createMock(Language::class);
-        $eventEnabledLanguage = $this->createMock(Language::class);
+        $enabledLanguage = self::createStub(Language::class);
+        $eventEnabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('enableLanguage')->willReturn($enabledLanguage);
 
@@ -451,11 +451,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $enabledLanguage = $this->createMock(Language::class);
-        $eventEnabledLanguage = $this->createMock(Language::class);
+        $enabledLanguage = self::createStub(Language::class);
+        $eventEnabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('enableLanguage')->willReturn($enabledLanguage);
 

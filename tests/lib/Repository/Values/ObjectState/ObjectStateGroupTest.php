@@ -12,11 +12,14 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Tests\Core\Repository\Values\MultiLanguageTestTrait;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup
- */
+#[CoversClass(ObjectStateGroup::class)]
+#[CoversMethod(ObjectStateGroup::class, '__get')]
+#[CoversMethod(ObjectStateGroup::class, '__set')]
+#[CoversMethod(ObjectStateGroup::class, '__unset')]
 class ObjectStateGroupTest extends TestCase
 {
     use ValueObjectTestTrait;
@@ -74,8 +77,6 @@ class ObjectStateGroupTest extends TestCase
 
     /**
      * Test retrieving missing property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__get
      */
     public function testMissingProperty()
     {
@@ -89,8 +90,6 @@ class ObjectStateGroupTest extends TestCase
 
     /**
      * Test setting read only property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__set
      */
     public function testReadOnlyProperty()
     {
@@ -117,8 +116,6 @@ class ObjectStateGroupTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__unset
      */
     public function testUnsetProperty()
     {

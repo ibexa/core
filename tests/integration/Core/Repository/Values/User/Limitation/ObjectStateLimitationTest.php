@@ -17,14 +17,14 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Core\Limitation\ObjectStateLimitationType;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
- * @covers \Ibexa\Core\Limitation\ObjectStateLimitationType
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(ObjectStateLimitation::class)]
+#[CoversClass(ObjectStateLimitationType::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class ObjectStateLimitationTest extends BaseLimitationTestCase
 {
     public const OBJECT_STATE_LOCK_GROUP_ID = 2;
