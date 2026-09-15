@@ -12,7 +12,9 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\DBAL\Connection;
 use FOS\JsRoutingBundle\FOSJsRoutingBundle;
 use Ibexa\Bundle\Core\IbexaCoreBundle;
+use Ibexa\Bundle\DoctrineSchema\DoctrineSchemaBundle;
 use Ibexa\Bundle\LegacySearchEngine\IbexaLegacySearchEngineBundle;
+use Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository;
@@ -139,6 +141,8 @@ class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
     {
         yield new SecurityBundle();
         yield new IbexaCoreBundle();
+        yield new DoctrineSchemaBundle();
+        yield new IbexaRepositoryInstallerBundle();
         yield new IbexaLegacySearchEngineBundle();
         yield new JMSTranslationBundle();
         yield new FOSJsRoutingBundle();
