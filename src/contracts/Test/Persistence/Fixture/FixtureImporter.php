@@ -10,6 +10,9 @@ namespace Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Schema\Column;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
@@ -38,23 +41,74 @@ final class FixtureImporter
         $data = $fixture->load();
 
         $tablesList = array_keys($data);
-        // truncate all tables, even the ones initially empty (some tests are affected by this)
-        $this->truncateTables(array_reverse($tablesList));
 
-        $nonEmptyTablesData = array_filter(
-            $data,
-            static function ($tableData): bool {
-                return !empty($tableData);
+        $this->withoutForeignKeyChecks(function () use ($data, $tablesList): void {
+            // truncate all tables, even the ones initially empty (some tests are affected by this)
+            $this->truncateTables(array_reverse($tablesList));
+
+            $nonEmptyTablesData = array_filter(
+                $data,
+                static function ($tableData): bool {
+                    return !empty($tableData);
+                }
+            );
+            foreach ($nonEmptyTablesData as $table => $rows) {
+                foreach ($rows as $row) {
+                    $this->connection->insert($table, $row);
+                }
             }
-        );
-        foreach ($nonEmptyTablesData as $table => $rows) {
-            foreach ($rows as $row) {
-                $this->connection->insert($table, $row);
-            }
-        }
+        });
 
         if ($this->connection->getDatabasePlatform()->supportsSequences()) {
             $this->resetSequences($tablesList);
+        }
+    }
+
+    /**
+     * Run $work with referential integrity checks suspended for this session.
+     *
+     * A fixture is a bulk load, not an ordered sequence of valid states: it truncates every table it
+     * mentions and re-inserts rows in the order they happen to appear, and a row may legitimately
+     * reference data that another fixture - or a later bootstrap step, such as migrations - supplies.
+     * SQLite ignores foreign keys unless explicitly asked not to, so this only ever mattered on
+     * MySQL/MariaDB and PostgreSQL, where the same fixtures fail mid-import.
+     *
+     * Best effort: if the session is not allowed to toggle the setting (PostgreSQL requires elevated
+     * privileges for this), the work still runs, just with the checks left on.
+     */
+    private function withoutForeignKeyChecks(callable $work): void
+    {
+        $platform = $this->connection->getDatabasePlatform();
+
+        if ($platform instanceof AbstractMySQLPlatform) {
+            $disable = 'SET FOREIGN_KEY_CHECKS = 0';
+            $restore = 'SET FOREIGN_KEY_CHECKS = 1';
+        } elseif ($platform instanceof PostgreSQLPlatform) {
+            // constraints here are not DEFERRABLE, so SET CONSTRAINTS would be a no-op; suppressing
+            // the triggers that implement them is the only session-level lever
+            $disable = "SET session_replication_role = 'replica'";
+            $restore = "SET session_replication_role = 'origin'";
+        } elseif ($platform instanceof SQLitePlatform) {
+            $disable = 'PRAGMA foreign_keys = OFF';
+            $restore = 'PRAGMA foreign_keys = ON';
+        } else {
+            $work();
+
+            return;
+        }
+
+        try {
+            $this->connection->executeStatement($disable);
+        } catch (DBALException) {
+            $work();
+
+            return;
+        }
+
+        try {
+            $work();
+        } finally {
+            $this->connection->executeStatement($restore);
         }
     }
 
