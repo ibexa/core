@@ -19,6 +19,7 @@ use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
@@ -70,15 +71,20 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
 
     public function enterNode(Node $node): null
     {
-        if (!$node instanceof Node\Expr\New_
+        if (
+            !$node instanceof Node\Expr\New_
             || !$node->class instanceof Node\Name
             || strtolower((string)$node->class) !== 'validationerror'
+        // no argument, or a first-class callable / partial application placeholder: nothing to extract
+            || !isset($node->args[0])
+            || !$node->args[0] instanceof Arg
         ) {
             $this->previousNode = $node;
 
             return null;
         }
 
+        $firstArgument = $node->args[0];
         $ignore = false;
         $desc = $meaning = null;
         if (null !== $docComment = $this->getDocCommentForNode($node)) {
@@ -93,12 +99,12 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
             }
         }
 
-        if (!$node->args[0]->value instanceof String_) {
+        if (!$firstArgument->value instanceof String_) {
             if ($ignore) {
                 return null;
             }
 
-            $message = sprintf('Can only extract the translation ID from a scalar string, but got "%s". Refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).', get_class($node->args[0]->value), $this->file, $node->args[0]->value->getLine());
+            $message = sprintf('Can only extract the translation ID from a scalar string, but got "%s". Refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).', get_class($firstArgument->value), $this->file, $firstArgument->value->getLine());
 
             if (isset($this->logger)) {
                 $this->logger->error($message);
@@ -109,15 +115,16 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
             throw new RuntimeException($message);
         }
 
-        $message = new Message($node->args[0]->value->value, $this->defaultDomain);
+        $message = new Message($firstArgument->value->value, $this->defaultDomain);
         $message->setDesc($desc);
         $message->setMeaning($meaning);
         $message->addSource($this->fileSourceFactory->create($this->file, $node->getLine()));
         $this->catalogue->add($message);
 
         // plural
-        if (isset($node->args[1]) && $node->args[1]->value instanceof String_) {
-            $message = new Message($node->args[1]->value->value, $this->defaultDomain);
+        $pluralArgument = $node->args[1] ?? null;
+        if ($pluralArgument instanceof Arg && $pluralArgument->value instanceof String_) {
+            $message = new Message($pluralArgument->value->value, $this->defaultDomain);
             $message->setDesc($desc);
             $message->setMeaning($meaning);
             $message->addSource($this->fileSourceFactory->create($this->file, $node->getLine()));
@@ -180,7 +187,7 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
     {
         // check if there is a doc comment for the ID argument
         // ->trans(/** @Desc("FOO") */ 'my.id')
-        if (null !== $comment = $node->args[0]->getDocComment()) {
+        if (isset($node->args[0]) && null !== $comment = $node->args[0]->getDocComment()) {
             return $comment->getText();
         }
 

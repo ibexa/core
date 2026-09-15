@@ -14,6 +14,7 @@ use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\Extractor\File\DefaultPhpFileExtractor;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use Psr\Log\LoggerAwareTrait;
@@ -51,22 +52,24 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
 
     public function enterNode(Node $node): null
     {
-        $methodCallNodeName = null;
-        if ($node instanceof Node\Expr\MethodCall) {
-            $methodCallNodeName = $node->name instanceof Node\Identifier ? $node->name->name : $node->name;
-        }
         if (
-            !is_string($methodCallNodeName)
-            || !array_key_exists($methodCallNodeName, $this->methodsToExtractFrom)
+            !$node instanceof Node\Expr\MethodCall
+            || !$node->name instanceof Node\Identifier
+            || !array_key_exists($node->name->name, $this->methodsToExtractFrom)
+            // no argument, or a first-class callable / partial application placeholder: nothing to extract
+            || !isset($node->args[0])
+            || !$node->args[0] instanceof Arg
         ) {
             $this->previousNode = $node;
 
             return null;
         }
 
+        $firstArgument = $node->args[0];
+
         $ignore = $this->isIgnore($node);
 
-        if (!$node->args[0]->value instanceof String_) {
+        if (!$firstArgument->value instanceof String_) {
             if (!$ignore) {
                 $message = sprintf(
                     'Can only extract the translation id from a scalar string, but got "%s". Please refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).',
@@ -81,7 +84,7 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
             return null;
         }
 
-        $id = $node->args[0]->value->value;
+        $id = $firstArgument->value->value;
 
         $message = new Message($id, $this->defaultDomain);
         $message->addSource($this->fileSourceFactory->create($this->file, $node->getLine()));
@@ -99,7 +102,7 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
 
     private function getDocCommentForNode(Node $node): ?string
     {
-        if (null !== $comment = $node->args[0]->getDocComment()) {
+        if (isset($node->args[0]) && null !== $comment = $node->args[0]->getDocComment()) {
             return $comment->getText();
         }
 
