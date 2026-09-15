@@ -8293,12 +8293,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
 
 		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\ArgPlaceholder\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
-
-		-
 			message: '#^Call to function is_object\(\) with PhpParser\\Comment\\Doc will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -8329,12 +8323,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/FieldTypesTranslationExtractor.php
 
 		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\ArgPlaceholder\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/MVC/Symfony/Translation/TranslatableExceptionsFileVisitor.php
-
-		-
 			message: '#^Parameter \#1 \$desc of method JMS\\TranslationBundle\\Model\\Message\:\:setDesc\(\) expects string, string\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -8345,12 +8333,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/lib/MVC/Symfony/Translation/TranslatableExceptionsFileVisitor.php
-
-		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\ArgPlaceholder\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
-			identifier: property.notFound
-			count: 2
-			path: src/lib/MVC/Symfony/Translation/ValidationErrorFileVisitor.php
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Translation\\ValidationErrorFileVisitor\:\:setLogger\(\) has no return type specified\.$#'
