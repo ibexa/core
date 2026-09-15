@@ -40,6 +40,7 @@ use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Contracts\Core\Validation\StructValidator;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
@@ -399,7 +400,8 @@ class Repository implements RepositoryInterface
             $this,
             $this->persistenceHandler->contentLanguageHandler(),
             $this->getPermissionResolver(),
-            $this->serviceSettings['language']
+            new StructValidator($this->validator),
+            $this->serviceSettings['language'],
         );
 
         return $this->languageService;
