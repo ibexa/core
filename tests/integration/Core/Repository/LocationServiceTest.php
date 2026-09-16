@@ -25,6 +25,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 
@@ -2412,11 +2413,11 @@ class LocationServiceTest extends BaseTestCase
         $connection = $this->getRawDatabaseConnection();
         $query = $connection->createQueryBuilder();
         $query
-            ->select('COUNT(id)')
-            ->from('ibexa_content_bookmark')
+            ->select('COUNT(' . DoctrineDatabase::COLUMN_ID . ')')
+            ->from(DoctrineDatabase::TABLE_BOOKMARKS)
             ->where(
                 $query->expr()->eq(
-                    'node_id',
+                    DoctrineDatabase::COLUMN_LOCATION_ID,
                     $query->createNamedParameter($childLocation->getId(), ParameterType::INTEGER)
                 )
             );

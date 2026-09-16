@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Locat
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as Criterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
+use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IsBookmarkedQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
 
@@ -21,8 +22,9 @@ final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilde
 {
     private const CURRENT_USER_ID = 14;
 
-    private const BOOKMARK_EXISTS_SUBQUERY = 'SELECT 1 FROM ibexa_content_bookmark bookmark WHERE '
-        . '(bookmark.user_id = :dcValue%1$d) AND (bookmark.node_id = location.node_id)';
+    private const BOOKMARK_EXISTS_SUBQUERY = 'SELECT 1 FROM ' . DoctrineDatabase::TABLE_BOOKMARKS . ' bookmark WHERE '
+        . '(bookmark.' . DoctrineDatabase::COLUMN_USER_ID . ' = :dcValue%1$d)'
+        . ' AND (bookmark.' . DoctrineDatabase::COLUMN_LOCATION_ID . ' = location.node_id)';
 
     /**
      * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion, string, array<string, int>}>
