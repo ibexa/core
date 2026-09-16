@@ -25,7 +25,7 @@ final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilde
         . '(bookmark.user_id = :dcValue%1$d) AND (bookmark.node_id = location.node_id)';
 
     /**
-     * @return iterable<array-key, array{Criterion, string, array<string, int>}>
+     * @return iterable<array-key, array{\Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface, string, array<string, int>}>
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      */

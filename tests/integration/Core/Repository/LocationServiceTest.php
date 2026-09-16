@@ -2423,7 +2423,7 @@ class LocationServiceTest extends BaseTestCase
 
         self::assertSame(
             0,
-            (int)$query->execute()->fetchColumn(),
+            (int)$query->executeQuery()->fetchOne(),
             'Bookmark row of a deleted Location should have been removed'
         );
     }

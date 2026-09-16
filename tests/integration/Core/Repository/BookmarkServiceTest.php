@@ -277,7 +277,7 @@ class BookmarkServiceTest extends BaseTestCase
     /**
      * Asserts both that the bookmark is no longer listed and that its row is actually gone.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \ErrorException
      */
     private function assertBookmarkGone(int $locationId): void
@@ -296,7 +296,7 @@ class BookmarkServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private static function assertBookmarkRowCount(
         int $expectedCount,
@@ -316,7 +316,7 @@ class BookmarkServiceTest extends BaseTestCase
 
         self::assertSame(
             $expectedCount,
-            (int)$query->execute()->fetchColumn(),
+            (int)$query->executeQuery()->fetchOne(),
             sprintf(
                 'Expected %d "%s" row(s) for Location %d',
                 $expectedCount,
