@@ -38,6 +38,7 @@ use Ibexa\Core\FieldType\Relation\Value as RelationValue;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use InvalidArgumentException;
 use ReflectionClass;
+use ReflectionProperty;
 use Symfony\Bridge\PhpUnit\ClockMock;
 
 /**
@@ -3673,13 +3674,14 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
      * @depends testAddRelation
-     * @depends loadRelationList
+     * @depends testLoadRelationList
      */
     public function testLoadRelationsSkipsArchivedContent()
     {
         $trashService = $this->getRepository()->getTrashService();
 
-        $draft = $this->createContentDraftVersion1();
+        // trashing location 56 below would purge a draft created under it
+        $draft = $this->createContentDraftVersion1(2);
 
         // Load other content objects
         $media = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
@@ -3736,7 +3738,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
      * @depends testAddRelation
-     * @depends loadRelationList
+     * @depends testLoadRelationList
      */
     public function testLoadRelationsSkipsDraftContent()
     {
@@ -5075,7 +5077,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      *
      * @depends testCreateContent
      * @depends testLoadContentInfo
-     * @depends testLoadContentDrafts
+     * @depends testLoadContentDraftList
      */
     public function testDeleteVersionInTransactionWithCommit()
     {
@@ -7172,20 +7174,43 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $anonymousUserId = $this->generateId('user', 10);
         $repository->getPermissionResolver()->setCurrentUserReference($repository->getUserService()->loadUser($anonymousUserId));
 
+        // the ContentService instance is shared across the test run, restore the setting afterwards
+        $originalGracePeriod = $this->getGracePeriod();
         $this->setGracePeriod(10);
 
-        //Reset clock, to make sure that upfront operations did not exceed grace period.
-        ClockMock::withClockMock(strtotime('2025-04-01 14:00:02'));
-        $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        try {
+            //Reset clock, to make sure that upfront operations did not exceed grace period.
+            ClockMock::withClockMock(strtotime('2025-04-01 14:00:02'));
+            $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
-        ClockMock::sleep(20);
-        $this->expectException(CoreUnauthorizedException::class);
-        $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+            ClockMock::sleep(20);
+            $this->expectException(CoreUnauthorizedException::class);
+            $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        } finally {
+            ClockMock::withClockMock(false);
+            $this->setGracePeriod($originalGracePeriod);
+        }
+    }
 
-        ClockMock::withClockMock(false);
+    private function getGracePeriod(): int
+    {
+        return $this->getInnerContentServiceSettingsProperty()->getValue(
+            $this->getInnerContentService()
+        )['grace_period_in_seconds'];
     }
 
     private function setGracePeriod(int $value): void
+    {
+        $innerService = $this->getInnerContentService();
+        $settingsProperty = $this->getInnerContentServiceSettingsProperty();
+
+        $settings = $settingsProperty->getValue($innerService);
+        $settings['grace_period_in_seconds'] = $value;
+
+        $settingsProperty->setValue($innerService, $settings);
+    }
+
+    private function getInnerContentService(): object
     {
         $reflection = new ReflectionClass($this->contentService);
         $serviceProperty = $reflection->getProperty('service');
@@ -7197,15 +7222,15 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $innerServiceProperty = $serviceReflection->getProperty('innerService');
         $innerServiceProperty->setAccessible(true);
 
-        $innerService = $innerServiceProperty->getValue($service);
+        return $innerServiceProperty->getValue($service);
+    }
 
-        $innerServiceReflection = new ReflectionClass($innerService);
+    private function getInnerContentServiceSettingsProperty(): ReflectionProperty
+    {
+        $innerServiceReflection = new ReflectionClass($this->getInnerContentService());
         $settingsProperty = $innerServiceReflection->getProperty('settings');
         $settingsProperty->setAccessible(true);
 
-        $settings = $settingsProperty->getValue($innerService);
-        $settings['grace_period_in_seconds'] = $value;
-
-        $settingsProperty->setValue($innerService, $settings);
+        return $settingsProperty;
     }
 }

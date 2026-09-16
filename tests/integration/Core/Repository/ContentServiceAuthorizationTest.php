@@ -723,32 +723,31 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
     /**
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
+     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDraftList
      */
-    public function testLoadContentDraftsThrowsUnauthorizedException()
+    public function testLoadContentDraftListReturnsEmptyListForUserWithoutVersionReadAccess(): void
     {
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
 
-        $this->expectException(UnauthorizedException::class);
-        $this->expectExceptionMessageMatches('/\'versionread\' \'content\'/');
+        $draftList = $this->contentService->loadContentDraftList();
 
-        $this->contentService->loadContentDraftList();
+        self::assertSame(0, $draftList->totalCount);
+        self::assertEmpty($draftList->items);
     }
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
+     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDraftList
      */
-    public function testLoadContentDraftsThrowsUnauthorizedExceptionWithUser()
+    public function testLoadContentDraftListReturnsEmptyListForUserWithoutVersionReadAccessWithUser(): void
     {
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
 
-        $this->expectException(UnauthorizedException::class);
-        $this->expectExceptionMessageMatches('/\'versionread\' \'content\'/');
+        $draftList = $this->contentService->loadContentDraftList($this->administratorUser);
 
-        $this->contentService->loadContentDraftList($this->administratorUser);
+        self::assertSame(0, $draftList->totalCount);
+        self::assertEmpty($draftList->items);
     }
 
     /**
@@ -911,13 +910,11 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
     }
 
     /**
-     * Test for the loadRelations() method.
-     *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadRelationList
      */
-    public function testLoadRelationsThrowsUnauthorizedException()
+    public function testLoadRelationsReturnsEmptyListForUserWithoutReadAccess(): void
     {
         $mediaEditor = $this->createMediaUserVersion1();
 
@@ -931,29 +928,27 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
         $this->permissionResolver->setCurrentUserReference($mediaEditor);
 
-        $this->expectException(UnauthorizedException::class);
-        $this->expectExceptionMessageMatches('/\'read\' \'content\'/');
+        $relationList = $this->contentService->loadRelationList($versionInfo);
 
-        $this->contentService->loadRelationList($versionInfo);
+        self::assertSame(0, $relationList->totalCount);
+        self::assertEmpty($relationList->items);
     }
 
     /**
-     * Test for the loadRelations() method.
-     *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadRelationList
      */
-    public function testLoadRelationsForDraftVersionThrowsUnauthorizedException()
+    public function testLoadRelationsForDraftVersionReturnsEmptyListForUserWithoutVersionReadAccess(): void
     {
         $draft = $this->createContentDraftVersion1();
 
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
 
-        $this->expectException(UnauthorizedException::class);
-        $this->expectExceptionMessageMatches('/\'versionread\' \'content\'/');
+        $relationList = $this->contentService->loadRelationList($draft->versionInfo);
 
-        $this->contentService->loadRelationList($draft->versionInfo);
+        self::assertSame(0, $relationList->totalCount);
+        self::assertEmpty($relationList->items);
     }
 
     /**
@@ -1066,9 +1061,9 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
     }
 
     /**
-     * Test that for an user that doesn't have access (read permissions) to an
-     * related object, executing loadRelations() would not throw any exception,
-     * only that the non-readable related object(s) won't be loaded.
+     * Test that for a user that doesn't have access (read permissions) to a
+     * related object, executing loadRelationList() would not throw any exception, and
+     * would instead expose the non-readable related object(s) as unauthorized list items.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
@@ -1180,31 +1175,42 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
         $actualRelations = $this->contentService->loadRelationList($testFolder->getVersionInfo());
 
         // assert results
-        // verify that the only expected relations are from the 2 readable objects
+        // one item per relation, non-readable targets come back as UnauthorizedRelationListItem
+        self::assertCount(
+            4,
+            $actualRelations->items,
+            'Expected one list item per relation, including the unauthorized ones'
+        );
+
+        // verify that the only readable relations are from the 2 readable objects
         // Main Folder and Available Folder
         $expectedRelations = [
             $mainRelation->destinationContentInfo->id => $mainRelation,
             $availableRelation->destinationContentInfo->id => $availableRelation,
         ];
 
-        // assert there are as many expected relations as actual ones
-        self::assertEquals(
-            count($expectedRelations),
-            count($actualRelations->items),
-            "Expected '" . count($expectedRelations)
-            . "' relations found '" . count($actualRelations->items) . "'"
-        );
+        $unauthorizedItemsCount = 0;
 
         // assert each relation
         /**
          * @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface $relationListItem
          */
         foreach ($actualRelations as $relationListItem) {
+            if (!$relationListItem->hasRelation()) {
+                // non-readable target
+                ++$unauthorizedItemsCount;
+                continue;
+            }
+
             /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Relation $relation */
             $relation = $relationListItem->getRelation();
             $destination = $relation->destinationContentInfo;
+            self::assertArrayHasKey(
+                $destination->id,
+                $expectedRelations,
+                "Non expected relation with '{$destination->id}' id found"
+            );
             $expected = $expectedRelations[$destination->id]->destinationContentInfo;
-            self::assertNotEmpty($expected, "Non expected relation with '{$destination->id}' id found");
             self::assertEquals(
                 $expected->id,
                 $destination->id,
@@ -1220,12 +1226,19 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
             unset($expectedRelations[$destination->id]);
         }
 
-        // verify all expected relations were found
+        // verify all expected (readable) relations were found
         self::assertCount(
             0,
             $expectedRelations,
             "Expected to find '" . (count($expectedRelations) + count($actualRelations->items))
             . "' relations found '" . count($actualRelations->items) . "'"
+        );
+
+        // verify the 2 non-readable relations came back as unauthorized placeholders
+        self::assertSame(
+            2,
+            $unauthorizedItemsCount,
+            'Expected the 2 relations towards non-readable content to be reported as unauthorized'
         );
     }
 
