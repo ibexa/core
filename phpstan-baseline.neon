@@ -4669,42 +4669,6 @@ parameters:
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:createCurlHandlerForUrl\(\) has parameter \$handlers with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:doValidate\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:isSuccessful\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:isSuccessful\(\) has parameter \$statusCode with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:validate\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
 			message: '#^Access to protected property Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\URL\:\:\$url\.$#'
 			identifier: property.protected
 			count: 1

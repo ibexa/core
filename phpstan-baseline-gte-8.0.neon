@@ -67,12 +67,6 @@ parameters:
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
 
 		-
-			message: '#^Parameter \#1 \$handle of function curl_getinfo expects CurlHandle, resource given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
 			message: '#^Parameter \#2 \$handle of function curl_multi_add_handle expects CurlHandle, resource given\.$#'
 			identifier: argument.type
 			count: 2
