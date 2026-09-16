@@ -3517,36 +3517,6 @@ parameters:
 			path: src/bundle/Core/URLChecker/Handler/AbstractURLHandler.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:doValidate\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:isSuccessful\(\) has parameter \$statusCode with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:validate\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: '#^Parameter \#1 \$handle of function curl_getinfo expects CurlHandle, resource given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
 			message: '#^Access to protected property Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\URL\:\:\$url\.$#'
 			identifier: property.protected
 			count: 1
@@ -23003,12 +22973,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/integration/Core/Repository/BaseURLServiceTestCase.php
-
-		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Bookmark\\\\BookmarkList'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Bookmark\\BookmarkList will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/integration/Core/Repository/BookmarkServiceTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\BookmarkServiceTest\:\:testCreateBookmark\(\) has no return type specified\.$#'
@@ -54842,12 +54806,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\BookmarkTest\:\:testLoadBookmarks\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/BookmarkTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\BookmarkTest\:\:testLoadBookmarksEmptyList\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Service/Mock/BookmarkTest.php
