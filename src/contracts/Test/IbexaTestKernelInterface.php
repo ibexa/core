@@ -21,6 +21,12 @@ interface IbexaTestKernelInterface
 
     /**
      * @return iterable<string>
+     *
+     * @deprecated since Ibexa 4.6.x. Test schema is built from
+     *             {@see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent} — the same path
+     *             `ibexa:install` uses — so a kernel no longer declares which schema files to load;
+     *             whichever bundles it registers is what the schema contains. Implementations may
+     *             return an empty iterable. Will be removed in 6.0.
      */
     public function getSchemaFiles(): iterable;
 
