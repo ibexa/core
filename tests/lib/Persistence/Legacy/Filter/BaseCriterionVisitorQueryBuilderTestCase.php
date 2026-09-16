@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
@@ -85,6 +86,10 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
             ->willReturn(
                 new ExpressionBuilder($connectionMock)
             );
+        // Criterion Query Builders which render a sub-query need a platform to build its SQL
+        $connectionMock
+            ->method('getDatabasePlatform')
+            ->willReturn(new SqlitePlatform());
 
         return new FilteringQueryBuilder($connectionMock);
     }
