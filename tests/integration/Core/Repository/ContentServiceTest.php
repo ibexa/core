@@ -37,7 +37,7 @@ use Ibexa\Core\FieldType\Relation\Value as RelationValue;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use InvalidArgumentException;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
@@ -51,38 +51,7 @@ use Symfony\Bridge\PhpUnit\ClockMock;
  *
  * @see \Ibexa\Contracts\Core\Repository\ContentService
  */
-#[CoversMethod(ContentService::class, 'newContentCreateStruct')]
-#[CoversMethod(ContentService::class, 'createContent')]
-#[CoversMethod(ContentService::class, 'loadContentInfo')]
-#[CoversMethod(ContentService::class, 'loadContentInfoList')]
-#[CoversMethod(ContentService::class, 'loadContentInfoByRemoteId')]
-#[CoversMethod(ContentService::class, 'loadVersionInfo')]
-#[CoversMethod(ContentService::class, 'loadVersionInfoById')]
-#[CoversMethod(ContentService::class, 'loadContentByContentInfo')]
-#[CoversMethod(ContentService::class, 'loadContentByVersionInfo')]
-#[CoversMethod(ContentService::class, 'loadContent')]
-#[CoversMethod(ContentService::class, 'loadContentByRemoteId')]
-#[CoversMethod(ContentService::class, 'publishVersion')]
-#[CoversMethod(ContentService::class, 'createContentDraft')]
-#[CoversMethod(ContentService::class, 'newContentUpdateStruct')]
-#[CoversMethod(ContentService::class, 'updateContent')]
-#[CoversMethod(ContentService::class, 'newContentMetadataUpdateStruct')]
-#[CoversMethod(ContentService::class, 'updateContentMetadata')]
-#[CoversMethod(ContentService::class, 'deleteContent')]
-#[CoversMethod(ContentService::class, 'loadContentDraftList')]
-#[CoversMethod(ContentService::class, 'deleteVersion')]
-#[CoversMethod(ContentService::class, 'loadVersions')]
-#[CoversMethod(ContentService::class, 'copyContent')]
-#[CoversMethod(ContentService::class, 'addRelation')]
-#[CoversMethod(ContentService::class, 'loadRelationList')]
-#[CoversMethod(ContentService::class, 'countReverseRelations')]
-#[CoversMethod(ContentService::class, 'loadReverseRelations')]
-#[CoversMethod(ContentService::class, 'loadReverseRelationList')]
-#[CoversMethod(ContentService::class, 'deleteRelation')]
-#[CoversMethod(ContentService::class, 'deleteTranslation')]
-#[CoversMethod(ContentService::class, 'deleteTranslationFromDraft')]
-#[CoversMethod(ContentService::class, 'hideContent')]
-#[CoversMethod(ContentService::class, 'revealContent')]
+#[CoversClass(ContentService::class)]
 #[Group('content')]
 class ContentServiceTest extends BaseContentServiceTestCase
 {

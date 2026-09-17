@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\ContentTypeService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -18,20 +17,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the ContentTypeServiceAuthorization using in memory storage.
  */
 #[CoversClass(ContentTypeService::class)]
-#[CoversMethod(ContentTypeService::class, 'createContentTypeGroup')]
-#[CoversMethod(ContentTypeService::class, 'updateContentTypeGroup')]
-#[CoversMethod(ContentTypeService::class, 'deleteContentTypeGroup')]
-#[CoversMethod(ContentTypeService::class, 'createContentType')]
-#[CoversMethod(ContentTypeService::class, 'updateContentTypeDraft')]
-#[CoversMethod(ContentTypeService::class, 'addFieldDefinition')]
-#[CoversMethod(ContentTypeService::class, 'removeFieldDefinition')]
-#[CoversMethod(ContentTypeService::class, 'updateFieldDefinition')]
-#[CoversMethod(ContentTypeService::class, 'publishContentTypeDraft')]
-#[CoversMethod(ContentTypeService::class, 'createContentTypeDraft')]
-#[CoversMethod(ContentTypeService::class, 'deleteContentType')]
-#[CoversMethod(ContentTypeService::class, 'copyContentType')]
-#[CoversMethod(ContentTypeService::class, 'assignContentTypeGroup')]
-#[CoversMethod(ContentTypeService::class, 'unassignContentTypeGroup')]
 #[Group('integration')]
 #[Group('authorization')]
 class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase

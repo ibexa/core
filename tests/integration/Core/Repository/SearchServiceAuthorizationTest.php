@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Repository\SearchService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -21,8 +20,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the SearchService.
  */
 #[CoversClass(SearchService::class)]
-#[CoversMethod(SearchService::class, 'findContent')]
-#[CoversMethod(SearchService::class, 'findSingle')]
 #[Group('integration')]
 #[Group('authorization')]
 class SearchServiceAuthorizationTest extends BaseTestCase

@@ -13,13 +13,9 @@ use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Tests\Core\Repository\Values\MultiLanguageTestTrait;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(ObjectStateGroup::class)]
-#[CoversMethod(ObjectStateGroup::class, '__get')]
-#[CoversMethod(ObjectStateGroup::class, '__set')]
-#[CoversMethod(ObjectStateGroup::class, '__unset')]
 class ObjectStateGroupTest extends TestCase
 {
     use ValueObjectTestTrait;

@@ -9,12 +9,10 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\URLAliasService;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
 
-#[CoversMethod(URLAliasService::class, 'createUrlAlias')]
-#[CoversMethod(URLAliasService::class, 'createGlobalUrlAlias')]
-#[CoversMethod(URLAliasService::class, 'removeAliases')]
+#[CoversClass(URLAliasService::class)]
 class URLAliasServiceAuthorizationTest extends BaseTestCase
 {
     /**

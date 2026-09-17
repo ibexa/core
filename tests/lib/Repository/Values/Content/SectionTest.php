@@ -11,13 +11,10 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversMethod(Section::class, '__get')]
-#[CoversMethod(Section::class, '__set')]
-#[CoversMethod(Section::class, '__isset')]
-#[CoversMethod(Section::class, '__unset')]
+#[CoversClass(Section::class)]
 class SectionTest extends TestCase
 {
     use ValueObjectTestTrait;

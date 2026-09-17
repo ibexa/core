@@ -15,10 +15,8 @@ use Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller;
 use Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 
 #[CoversClass(IbexaRepositoryInstallerExtension::class)]
-#[CoversMethod(IbexaRepositoryInstallerExtension::class, 'load')]
 class IbexaInstallerExtensionTest extends AbstractExtensionTestCase
 {
     public function testLoadLoadsTaggedCoreInstaller(): void

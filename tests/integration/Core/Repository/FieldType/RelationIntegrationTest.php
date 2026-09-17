@@ -15,13 +15,13 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Relation\Value as RelationValue;
 use Ibexa\Core\Repository\Values\Content\Relation;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
  */
-#[CoversMethod(BaseIntegrationTestCase::class, 'getValidatorSchema')]
+#[CoversClass(BaseIntegrationTestCase::class)]
 #[Group('integration')]
 #[Group('field-type')]
 class RelationIntegrationTest extends SearchBaseIntegrationTestCase

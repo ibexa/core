@@ -20,7 +20,6 @@ use Ibexa\Core\Repository\ContentService as CoveredContentService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -28,10 +27,8 @@ use PHPUnit\Framework\Attributes\Group;
  * Test cases for ContentService APIs calls made by user with LanguageLimitation on chosen policies.
  */
 #[CoversClass(LanguageLimitation::class)]
-#[CoversMethod(PermissionResolver::class, 'canUser')]
-#[CoversMethod(CoveredContentService::class, 'createContentDraft')]
-#[CoversMethod(CoveredContentService::class, 'updateContent')]
-#[CoversMethod(CoveredContentService::class, 'publishVersion')]
+#[CoversClass(PermissionResolver::class)]
+#[CoversClass(CoveredContentService::class)]
 #[Group('integration')]
 #[Group('authorization')]
 #[Group('language-limited-content-mgm')]

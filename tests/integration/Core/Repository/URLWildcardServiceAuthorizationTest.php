@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\URLWildcardService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -18,8 +17,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the URLWildcardService.
  */
 #[CoversClass(URLWildcardService::class)]
-#[CoversMethod(URLWildcardService::class, 'create')]
-#[CoversMethod(URLWildcardService::class, 'remove')]
 #[Group('integration')]
 #[Group('authorization')]
 class URLWildcardServiceAuthorizationTest extends BaseTestCase

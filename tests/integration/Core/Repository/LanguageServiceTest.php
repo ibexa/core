@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
 use Ibexa\Core\Repository\LanguageService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -22,18 +21,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the LanguageService using in memory storage.
  */
 #[CoversClass(LanguageService::class)]
-#[CoversMethod(LanguageService::class, 'newLanguageCreateStruct')]
-#[CoversMethod(LanguageService::class, 'createLanguage')]
-#[CoversMethod(LanguageService::class, 'loadLanguageById')]
-#[CoversMethod(LanguageService::class, 'loadLanguageListById')]
-#[CoversMethod(LanguageService::class, 'updateLanguageName')]
-#[CoversMethod(LanguageService::class, 'enableLanguage')]
-#[CoversMethod(LanguageService::class, 'disableLanguage')]
-#[CoversMethod(LanguageService::class, 'loadLanguage')]
-#[CoversMethod(LanguageService::class, 'loadLanguageListByCode')]
-#[CoversMethod(LanguageService::class, 'loadLanguages')]
-#[CoversMethod(LanguageService::class, 'deleteLanguage')]
-#[CoversMethod(LanguageService::class, 'getDefaultLanguageCode')]
 #[Group('integration')]
 #[Group('language')]
 class LanguageServiceTest extends BaseTestCase

@@ -13,13 +13,12 @@ use Ibexa\Core\MVC\RepositoryAware;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType as ParentContentTypeMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversMethod(ParentContentTypeMatcher::class, 'matchLocation')]
-#[CoversMethod(MultipleValued::class, 'setMatchingConfig')]
-#[CoversMethod(RepositoryAware::class, 'setRepository')]
-#[CoversMethod(ParentContentTypeMatcher::class, 'matchContentInfo')]
+#[CoversClass(ParentContentTypeMatcher::class)]
+#[CoversClass(MultipleValued::class)]
+#[CoversClass(RepositoryAware::class)]
 class ParentContentTypeTest extends BaseTestCase
 {
     private const EXAMPLE_LOCATION_ID = 54;

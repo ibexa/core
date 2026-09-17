@@ -24,7 +24,6 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Repository\SearchService;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
@@ -35,9 +34,6 @@ use RuntimeException;
  * Test case for operations in the SearchService.
  */
 #[CoversClass(SearchService::class)]
-#[CoversMethod(SearchService::class, 'findContent')]
-#[CoversMethod(SearchService::class, 'findContentInfo')]
-#[CoversMethod(SearchService::class, 'findLocations')]
 #[Group('integration')]
 #[Group('search')]
 class SearchServiceTest extends BaseTestCase

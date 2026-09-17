@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\UserService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -18,21 +17,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the UserService using in memory storage.
  */
 #[CoversClass(UserService::class)]
-#[CoversMethod(UserService::class, 'loadUserGroup')]
-#[CoversMethod(UserService::class, 'loadUserGroupByRemoteId')]
-#[CoversMethod(UserService::class, 'loadSubUserGroups')]
-#[CoversMethod(UserService::class, 'createUserGroup')]
-#[CoversMethod(UserService::class, 'deleteUserGroup')]
-#[CoversMethod(UserService::class, 'moveUserGroup')]
-#[CoversMethod(UserService::class, 'updateUserGroup')]
-#[CoversMethod(UserService::class, 'createUser')]
-#[CoversMethod(UserService::class, 'deleteUser')]
-#[CoversMethod(UserService::class, 'updateUser')]
-#[CoversMethod(UserService::class, 'updateUserPassword')]
-#[CoversMethod(UserService::class, 'assignUserToUserGroup')]
-#[CoversMethod(UserService::class, 'unAssignUserFromUserGroup')]
-#[CoversMethod(UserService::class, 'loadUserGroupsOfUser')]
-#[CoversMethod(UserService::class, 'loadUsersOfUserGroup')]
 #[Group('integration')]
 #[Group('authorization')]
 class UserServiceAuthorizationTest extends BaseTestCase

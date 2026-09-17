@@ -14,10 +14,8 @@ use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 use Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 
 #[CoversClass(DoctrineDatabase::class)]
-#[CoversMethod(DoctrineDatabase::class, 'loadRoleAssignmentsByRoleIdWithOffsetAndLimit')]
 class DoctrineDatabaseTest extends TestCase
 {
     /**

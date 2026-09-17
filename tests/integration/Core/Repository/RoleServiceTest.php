@@ -32,7 +32,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroupRoleAssignment;
 use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
 use Ibexa\Core\Repository\RoleService as CoveredRoleService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
@@ -55,34 +54,6 @@ use PHPUnit\Framework\Attributes\Group;
  * <ul>
  */
 #[CoversClass(CoveredRoleService::class)]
-#[CoversMethod(CoveredRoleService::class, 'newRoleCreateStruct')]
-#[CoversMethod(CoveredRoleService::class, 'newRoleCopyStruct')]
-#[CoversMethod(CoveredRoleService::class, 'createRole')]
-#[CoversMethod(CoveredRoleService::class, 'createRoleDraft')]
-#[CoversMethod(CoveredRoleService::class, 'copyRole')]
-#[CoversMethod(CoveredRoleService::class, 'loadRole')]
-#[CoversMethod(CoveredRoleService::class, 'loadRoleDraft')]
-#[CoversMethod(CoveredRoleService::class, 'loadRoleByIdentifier')]
-#[CoversMethod(CoveredRoleService::class, 'loadRoles')]
-#[CoversMethod(CoveredRoleService::class, 'newRoleUpdateStruct')]
-#[CoversMethod(CoveredRoleService::class, 'updateRoleDraft')]
-#[CoversMethod(CoveredRoleService::class, 'deleteRole')]
-#[CoversMethod(CoveredRoleService::class, 'deleteRoleDraft')]
-#[CoversMethod(CoveredRoleService::class, 'newPolicyCreateStruct')]
-#[CoversMethod(CoveredRoleService::class, 'addPolicyByRoleDraft')]
-#[CoversMethod(CoveredRoleService::class, 'newPolicyUpdateStruct')]
-#[CoversMethod(CoveredRoleService::class, 'updatePolicyByRoleDraft')]
-#[CoversMethod(CoveredRoleService::class, 'removePolicyByRoleDraft')]
-#[CoversMethod(CoveredRoleService::class, 'loadRoleAssignment')]
-#[CoversMethod(CoveredRoleService::class, 'getRoleAssignments')]
-#[CoversMethod(CoveredRoleService::class, 'loadRoleAssignments')]
-#[CoversMethod(CoveredRoleService::class, 'countRoleAssignments')]
-#[CoversMethod(CoveredRoleService::class, 'assignRoleToUser')]
-#[CoversMethod(CoveredRoleService::class, 'removeRoleAssignment')]
-#[CoversMethod(CoveredRoleService::class, 'getRoleAssignmentsForUser')]
-#[CoversMethod(CoveredRoleService::class, 'assignRoleToUserGroup')]
-#[CoversMethod(CoveredRoleService::class, 'getRoleAssignmentsForUserGroup')]
-#[CoversMethod(CoveredRoleService::class, 'publishRoleDraft')]
 #[Group('role')]
 class RoleServiceTest extends BaseTestCase
 {

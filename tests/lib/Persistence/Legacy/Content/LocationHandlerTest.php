@@ -24,11 +24,9 @@ use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler as ObjectStateHand
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 
 #[CoversClass(Handler::class)]
-#[CoversMethod(Handler::class, 'countLocationsByContent')]
 class LocationHandlerTest extends TestCase
 {
     /**

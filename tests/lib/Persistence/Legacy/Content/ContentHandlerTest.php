@@ -34,12 +34,10 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionException;
 
 #[CoversClass(Handler::class)]
-#[CoversMethod(Handler::class, 'loadVersionInfoList')]
 class ContentHandlerTest extends TestCase
 {
     private const RELATION_ID = 1;

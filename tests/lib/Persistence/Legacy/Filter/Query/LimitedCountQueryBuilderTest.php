@@ -12,10 +12,8 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 
 #[CoversClass(LimitedCountQueryBuilder::class)]
-#[CoversMethod(LimitedCountQueryBuilder::class, 'wrap')]
 final class LimitedCountQueryBuilderTest extends TestCase
 {
     private LimitedCountQueryBuilder $limitedCountQueryBuilder;

@@ -17,17 +17,14 @@ use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBu
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversMethod(LogicalAndQueryBuilder::class, 'buildQueryConstraint')]
-#[CoversMethod(LogicalAndQueryBuilder::class, 'accepts')]
-#[CoversMethod(LogicalOrQueryBuilder::class, 'buildQueryConstraint')]
-#[CoversMethod(LogicalOrQueryBuilder::class, 'accepts')]
-#[CoversMethod(LogicalNotQueryBuilder::class, 'buildQueryConstraint')]
-#[CoversMethod(LogicalNotQueryBuilder::class, 'accepts')]
-#[CoversMethod(CriterionVisitor::class, 'visitCriteria')]
+#[CoversClass(LogicalAndQueryBuilder::class)]
+#[CoversClass(LogicalOrQueryBuilder::class)]
+#[CoversClass(LogicalNotQueryBuilder::class)]
+#[CoversClass(CriterionVisitor::class)]
 abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor */

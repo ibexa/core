@@ -11,12 +11,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Content as ContentIdMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversMethod(ContentIdMatcher::class, 'matchLocation')]
-#[CoversMethod(MultipleValued::class, 'setMatchingConfig')]
-#[CoversMethod(ContentIdMatcher::class, 'matchContentInfo')]
+#[CoversClass(ContentIdMatcher::class)]
+#[CoversClass(MultipleValued::class)]
 class ContentTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Content */

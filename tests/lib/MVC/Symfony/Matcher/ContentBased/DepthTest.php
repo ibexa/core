@@ -13,13 +13,12 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\RepositoryAware;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth as DepthMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversMethod(DepthMatcher::class, 'matchLocation')]
-#[CoversMethod(MultipleValued::class, 'setMatchingConfig')]
-#[CoversMethod(DepthMatcher::class, 'matchContentInfo')]
-#[CoversMethod(RepositoryAware::class, 'setRepository')]
+#[CoversClass(DepthMatcher::class)]
+#[CoversClass(MultipleValued::class)]
+#[CoversClass(RepositoryAware::class)]
 class DepthTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth */

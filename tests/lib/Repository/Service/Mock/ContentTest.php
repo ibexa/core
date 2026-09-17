@@ -60,7 +60,7 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
@@ -70,24 +70,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * Mock test case for Content service.
  */
-#[CoversMethod(ContentService::class, '__construct')]
-#[CoversMethod(ContentService::class, 'loadVersionInfoById')]
-#[CoversMethod(ContentService::class, 'loadVersionInfo')]
-#[CoversMethod(ContentService::class, 'loadContentByContentInfo')]
-#[CoversMethod(ContentService::class, 'loadContentByVersionInfo')]
-#[CoversMethod(ContentService::class, 'deleteContent')]
-#[CoversMethod(ContentService::class, 'deleteVersion')]
-#[CoversMethod(ContentService::class, 'createContent')]
-#[CoversMethod(ContentMapper::class, 'getLanguageCodesForCreate')]
-#[CoversMethod(ContentMapper::class, 'mapFieldsForCreate')]
-#[CoversMethod(ContentMapper::class, 'cloneField')]
-#[CoversMethod(ContentService::class, 'getDefaultObjectStates')]
-#[CoversMethod(ContentService::class, 'buildSPILocationCreateStructs')]
-#[CoversMethod(ContentService::class, 'updateContent')]
-#[CoversMethod(ContentMapper::class, 'getLanguageCodesForUpdate')]
-#[CoversMethod(ContentMapper::class, 'mapFieldsForUpdate')]
-#[CoversMethod(ContentService::class, 'copyContent')]
-#[CoversMethod(ContentService::class, 'internalPublishVersion')]
+#[CoversClass(ContentService::class)]
+#[CoversClass(ContentMapper::class)]
 class ContentTest extends BaseServiceMockTest
 {
     private const string EMPTY_FIELD_VALUE = 'empty';

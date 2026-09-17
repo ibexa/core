@@ -9,11 +9,11 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldType;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversMethod(FieldType::class, 'applyDefaultSettings')]
+#[CoversClass(FieldType::class)]
 class FieldTypeMockTest extends TestCase
 {
     public function testApplyDefaultSettingsThrowsInvalidArgumentException(): void

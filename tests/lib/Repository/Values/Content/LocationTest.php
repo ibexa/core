@@ -14,13 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Location::class)]
-#[CoversMethod(Location::class, '__set')]
-#[CoversMethod(Location::class, '__unset')]
 final class LocationTest extends TestCase
 {
     use ValueObjectTestTrait;

@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Core\Repository\LocationService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -22,18 +21,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the LocationService using in memory storage.
  */
 #[CoversClass(LocationService::class)]
-#[CoversMethod(LocationService::class, 'createLocation')]
-#[CoversMethod(LocationService::class, 'loadLocation')]
-#[CoversMethod(LocationService::class, 'loadLocationList')]
-#[CoversMethod(LocationService::class, 'loadLocationByRemoteId')]
-#[CoversMethod(LocationService::class, 'loadLocations')]
-#[CoversMethod(LocationService::class, 'updateLocation')]
-#[CoversMethod(LocationService::class, 'swapLocation')]
-#[CoversMethod(LocationService::class, 'hideLocation')]
-#[CoversMethod(LocationService::class, 'unhideLocation')]
-#[CoversMethod(LocationService::class, 'deleteLocation')]
-#[CoversMethod(LocationService::class, 'copySubtree')]
-#[CoversMethod(LocationService::class, 'moveSubtree')]
 #[Group('integration')]
 #[Group('authorization')]
 class LocationServiceAuthorizationTest extends BaseTestCase

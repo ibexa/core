@@ -12,10 +12,10 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\URLAliasService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversMethod(ContentService::class, 'publishVersion')]
-#[CoversMethod(URLAliasService::class, 'createUrlAlias')]
+#[CoversClass(ContentService::class)]
+#[CoversClass(URLAliasService::class)]
 final class CustomUrlAliasForMultilingualContentTest extends BaseTestCase
 {
     /**

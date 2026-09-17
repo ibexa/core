@@ -22,12 +22,12 @@ use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\ImageAsset;
 use Ibexa\Core\FieldType\Relation\Type;
 use Ibexa\Core\FieldType\ValidationError;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
-#[CoversMethod(Type::class, 'getRelations')]
+#[CoversClass(Type::class)]
 #[Group('fieldType')]
 #[Group('ibexa_image_asset')]
 class ImageAssetTest extends FieldTypeTestCase

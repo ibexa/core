@@ -31,11 +31,9 @@ use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\RoleService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 
 #[CoversClass(RoleService::class)]
-#[CoversMethod(LimitationService::class, 'validateLimitations')]
-#[CoversMethod(LimitationService::class, 'validateLimitation')]
+#[CoversClass(LimitationService::class)]
 class RoleTest extends BaseServiceMockTest
 {
     /**

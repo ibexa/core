@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\ContentService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
@@ -23,9 +22,6 @@ use PHPUnit\Framework\Attributes\Group;
  * These tests depends on TextLine field type being functional.
  */
 #[CoversClass(ContentService::class)]
-#[CoversMethod(ContentService::class, 'createContent')]
-#[CoversMethod(ContentService::class, 'createContentDraft')]
-#[CoversMethod(ContentService::class, 'updateContent')]
 #[Group('content')]
 class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
 {

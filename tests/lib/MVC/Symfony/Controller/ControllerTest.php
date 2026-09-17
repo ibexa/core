@@ -8,7 +8,7 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Controller;
 
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ use Twig\Environment;
 /**
  * @mvc
  */
-#[CoversMethod(Controller::class, 'render')]
+#[CoversClass(Controller::class)]
 class ControllerTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Controller\Controller */

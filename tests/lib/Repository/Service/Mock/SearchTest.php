@@ -26,17 +26,13 @@ use Ibexa\Core\Repository\SearchService;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Ibexa\Core\Search\Common\BackgroundIndexer\NullIndexer;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Mock test case for Search service.
  */
-#[CoversMethod(SearchService::class, '__construct')]
-#[CoversMethod(SearchService::class, 'addPermissionsCriterion')]
-#[CoversMethod(SearchService::class, 'findContent')]
-#[CoversMethod(SearchService::class, 'findSingle')]
-#[CoversMethod(SearchService::class, 'findLocations')]
+#[CoversClass(SearchService::class)]
 class SearchTest extends BaseServiceMockTest
 {
     protected $repositoryMock;

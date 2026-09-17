@@ -19,17 +19,12 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Core\Repository\BookmarkService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Test case for the BookmarkService.
  */
 #[CoversClass(BookmarkService::class)]
-#[CoversMethod(BookmarkService::class, 'isBookmarked')]
-#[CoversMethod(BookmarkService::class, 'createBookmark')]
-#[CoversMethod(BookmarkService::class, 'deleteBookmark')]
-#[CoversMethod(BookmarkService::class, 'loadBookmarks')]
 class BookmarkServiceTest extends BaseTestCase
 {
     public const LOCATION_ID_BOOKMARKED = 5;

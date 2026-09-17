@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\SettingService;
 use Ibexa\Contracts\Core\Repository\Values\Setting\Setting;
 use Ibexa\Core\Repository\SettingService as CoveredSettingService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -22,10 +21,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the SettingService using in memory storage.
  */
 #[CoversClass(CoveredSettingService::class)]
-#[CoversMethod(CoveredSettingService::class, 'createSetting')]
-#[CoversMethod(CoveredSettingService::class, 'loadSetting')]
-#[CoversMethod(CoveredSettingService::class, 'updateSetting')]
-#[CoversMethod(CoveredSettingService::class, 'deleteSetting')]
 #[Group('integration')]
 #[Group('setting')]
 final class SettingServiceTest extends BaseTestCase

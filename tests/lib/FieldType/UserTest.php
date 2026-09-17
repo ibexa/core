@@ -24,13 +24,12 @@ use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition as CoreFieldDefinition;
 use Ibexa\Core\Repository\Values\User\User as RepositoryUser;
 use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProvider;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 
-#[CoversMethod(Type::class, 'validate')]
-#[CoversMethod(Type::class, 'toPersistenceValue')]
+#[CoversClass(Type::class)]
 #[Group('fieldType')]
 #[Group('ibexa_url')]
 class UserTest extends FieldTypeTestCase

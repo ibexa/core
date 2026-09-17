@@ -10,16 +10,12 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\FieldType;
 use Ibexa\Core\Repository\FieldTypeService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the FieldTypeService using in memory storage.
  */
 #[CoversClass(FieldTypeService::class)]
-#[CoversMethod(FieldTypeService::class, 'getFieldTypes')]
-#[CoversMethod(FieldTypeService::class, 'getFieldType')]
-#[CoversMethod(FieldTypeService::class, 'hasFieldType')]
 #[Group('field-type')]
 class FieldTypeServiceTest extends BaseTestCase
 {

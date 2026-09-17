@@ -22,7 +22,6 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
@@ -32,11 +31,6 @@ use PHPUnit\Framework\Attributes\Group;
  *  Test case for operations in the PermissionResolver.
  */
 #[CoversClass(PermissionResolver::class)]
-#[CoversMethod(PermissionResolver::class, 'getCurrentUserReference')]
-#[CoversMethod(PermissionResolver::class, 'setCurrentUserReference')]
-#[CoversMethod(PermissionResolver::class, 'hasAccess')]
-#[CoversMethod(PermissionResolver::class, 'canUser')]
-#[CoversMethod(PermissionResolver::class, 'lookupLimitations')]
 #[Group('integration')]
 #[Group('permission')]
 class PermissionResolverTest extends BaseTestCase

@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
 use Ibexa\Core\Repository\RoleService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -21,19 +20,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the RoleService using in memory storage.
  */
 #[CoversClass(RoleService::class)]
-#[CoversMethod(RoleService::class, 'createRole')]
-#[CoversMethod(RoleService::class, 'loadRole')]
-#[CoversMethod(RoleService::class, 'loadRoleByIdentifier')]
-#[CoversMethod(RoleService::class, 'loadRoles')]
-#[CoversMethod(RoleService::class, 'deleteRole')]
-#[CoversMethod(RoleService::class, 'updatePolicyByRoleDraft')]
-#[CoversMethod(RoleService::class, 'removePolicyByRoleDraft')]
-#[CoversMethod(RoleService::class, 'assignRoleToUserGroup')]
-#[CoversMethod(RoleService::class, 'removeRoleAssignment')]
-#[CoversMethod(RoleService::class, 'assignRoleToUser')]
-#[CoversMethod(RoleService::class, 'getRoleAssignments')]
-#[CoversMethod(RoleService::class, 'getRoleAssignmentsForUser')]
-#[CoversMethod(RoleService::class, 'getRoleAssignmentsForUserGroup')]
 #[Group('integration')]
 #[Group('authorization')]
 class RoleServiceAuthorizationTest extends BaseTestCase

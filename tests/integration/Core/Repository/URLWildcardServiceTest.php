@@ -15,7 +15,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
 use Ibexa\Core\Repository\URLWildcardService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -23,12 +22,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the URLWildcardService.
  */
 #[CoversClass(URLWildcardService::class)]
-#[CoversMethod(URLWildcardService::class, 'create')]
-#[CoversMethod(URLWildcardService::class, 'load')]
-#[CoversMethod(URLWildcardService::class, 'update')]
-#[CoversMethod(URLWildcardService::class, 'remove')]
-#[CoversMethod(URLWildcardService::class, 'loadAll')]
-#[CoversMethod(URLWildcardService::class, 'translate')]
 #[Group('url-wildcard')]
 class URLWildcardServiceTest extends BaseTestCase
 {

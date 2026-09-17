@@ -20,13 +20,10 @@ use Ibexa\Core\Repository\BookmarkService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 
-#[CoversMethod(BookmarkService::class, 'createBookmark')]
-#[CoversMethod(BookmarkService::class, 'deleteBookmark')]
-#[CoversMethod(BookmarkService::class, 'loadBookmarks')]
-#[CoversMethod(BookmarkService::class, 'isBookmarked')]
+#[CoversClass(BookmarkService::class)]
 class BookmarkTest extends BaseServiceMockTest
 {
     public const BOOKMARK_ID = 2;

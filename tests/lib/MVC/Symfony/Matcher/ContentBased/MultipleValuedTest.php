@@ -9,13 +9,11 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
 use Ibexa\Core\MVC\RepositoryAware;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversMethod(MultipleValued::class, 'setMatchingConfig')]
-#[CoversMethod(MultipleValued::class, 'getValues')]
-#[CoversMethod(RepositoryAware::class, 'setRepository')]
-#[CoversMethod(MultipleValued::class, 'getRepository')]
+#[CoversClass(MultipleValued::class)]
+#[CoversClass(RepositoryAware::class)]
 class MultipleValuedTest extends BaseTestCase
 {
     #[DataProvider('matchingConfigProvider')]

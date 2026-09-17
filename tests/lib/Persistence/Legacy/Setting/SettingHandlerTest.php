@@ -12,10 +12,10 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 use Ibexa\Core\Persistence\Legacy\Setting\Handler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 
-#[CoversMethod(Handler::class, 'create')]
+#[CoversClass(Handler::class)]
 final class SettingHandlerTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Setting\Handler */

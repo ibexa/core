@@ -13,14 +13,8 @@ use Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 
 #[CoversClass(DoctrineStorage::class)]
-#[CoversMethod(DoctrineStorage::class, 'getIdUrlMap')]
-#[CoversMethod(DoctrineStorage::class, 'getUrlIdMap')]
-#[CoversMethod(DoctrineStorage::class, 'insertUrl')]
-#[CoversMethod(DoctrineStorage::class, 'linkUrl')]
-#[CoversMethod(DoctrineStorage::class, 'unlinkUrl')]
 class DoctrineStorageTest extends TestCase
 {
     private DoctrineStorage $storageGateway;

@@ -10,18 +10,12 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\LanguageService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the LanguageService using in memory storage.
  */
 #[CoversClass(LanguageService::class)]
-#[CoversMethod(LanguageService::class, 'createLanguage')]
-#[CoversMethod(LanguageService::class, 'updateLanguageName')]
-#[CoversMethod(LanguageService::class, 'enableLanguage')]
-#[CoversMethod(LanguageService::class, 'disableLanguage')]
-#[CoversMethod(LanguageService::class, 'deleteLanguage')]
 #[Group('integration')]
 #[Group('authorization')]
 class LanguageServiceAuthorizationTest extends BaseTestCase

@@ -12,14 +12,12 @@ use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\FileSizeValidator;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(FileSizeValidator::class)]
-#[CoversMethod(FileSizeValidator::class, 'validate')]
-#[CoversMethod(Validator::class, 'getMessage')]
+#[CoversClass(Validator::class)]
 #[Group('fieldType')]
 #[Group('validator')]
 class FileSizeValidatorTest extends TestCase

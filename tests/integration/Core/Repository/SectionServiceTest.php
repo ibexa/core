@@ -17,7 +17,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Core\Repository\SectionService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -25,18 +24,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the SectionService using in memory storage.
  */
 #[CoversClass(SectionService::class)]
-#[CoversMethod(SectionService::class, 'newSectionCreateStruct')]
-#[CoversMethod(SectionService::class, 'createSection')]
-#[CoversMethod(SectionService::class, 'loadSection')]
-#[CoversMethod(SectionService::class, 'newSectionUpdateStruct')]
-#[CoversMethod(SectionService::class, 'updateSection')]
-#[CoversMethod(SectionService::class, 'loadSections')]
-#[CoversMethod(SectionService::class, 'loadSectionByIdentifier')]
-#[CoversMethod(SectionService::class, 'countAssignedContents')]
-#[CoversMethod(SectionService::class, 'isSectionUsed')]
-#[CoversMethod(SectionService::class, 'assignSection')]
-#[CoversMethod(SectionService::class, 'assignSectionToSubtree')]
-#[CoversMethod(SectionService::class, 'deleteSection')]
 #[Group('integration')]
 #[Group('section')]
 class SectionServiceTest extends BaseTestCase

@@ -19,7 +19,6 @@ use Ibexa\Contracts\Core\Repository\Values\URL\UsageSearchResult;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Repository\URLService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
@@ -28,11 +27,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the UserService using in memory storage.
  */
 #[CoversClass(URLService::class)]
-#[CoversMethod(URLService::class, 'findUrls')]
-#[CoversMethod(URLService::class, 'updateUrl')]
-#[CoversMethod(URLService::class, 'loadById')]
-#[CoversMethod(URLService::class, 'loadByUrl')]
-#[CoversMethod(URLService::class, 'createUpdateStruct')]
 #[Group('integration')]
 #[Group('url')]
 class URLServiceTest extends BaseURLServiceTestCase

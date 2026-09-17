@@ -14,14 +14,12 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\MVC\RepositoryAware;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias as UrlAliasMatcher;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversMethod(UrlAliasMatcher::class, 'setMatchingConfig')]
-#[CoversMethod(MultipleValued::class, 'setMatchingConfig')]
-#[CoversMethod(UrlAliasMatcher::class, 'matchLocation')]
-#[CoversMethod(RepositoryAware::class, 'setRepository')]
-#[CoversMethod(UrlAliasMatcher::class, 'matchContentInfo')]
+#[CoversClass(UrlAliasMatcher::class)]
+#[CoversClass(MultipleValued::class)]
+#[CoversClass(RepositoryAware::class)]
 class UrlAliasTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias */

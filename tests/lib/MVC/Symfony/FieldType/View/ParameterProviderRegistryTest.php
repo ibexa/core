@@ -9,10 +9,10 @@ namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\View;
 
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversMethod(ParameterProviderRegistry::class, 'setParameterProvider')]
+#[CoversClass(ParameterProviderRegistry::class)]
 class ParameterProviderRegistryTest extends TestCase
 {
     public function testSetHasParameterProvider()

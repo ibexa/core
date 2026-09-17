@@ -31,13 +31,11 @@ use Ibexa\Core\Persistence\Utf8Converter;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
 
 #[CoversClass(Handler::class)]
-#[CoversMethod(Handler::class, 'publishUrlAliasForLocation')]
 #[Group('urlalias-handler')]
 class UrlAliasHandlerTest extends TestCase
 {

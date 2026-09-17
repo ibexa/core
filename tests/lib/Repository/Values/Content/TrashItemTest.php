@@ -12,11 +12,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(TrashItem::class)]
-#[CoversMethod(TrashItem::class, '__unset')]
 class TrashItemTest extends TestCase
 {
     use ValueObjectTestTrait;

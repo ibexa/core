@@ -29,7 +29,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Repository\LocationService;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
@@ -39,23 +38,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the LocationService using in memory storage.
  */
 #[CoversClass(LocationService::class)]
-#[CoversMethod(LocationService::class, 'newLocationCreateStruct')]
-#[CoversMethod(LocationService::class, 'createLocation')]
-#[CoversMethod(LocationService::class, 'loadLocation')]
-#[CoversMethod(LocationService::class, 'loadLocationList')]
-#[CoversMethod(LocationService::class, 'loadLocationByRemoteId')]
-#[CoversMethod(LocationService::class, 'loadLocations')]
-#[CoversMethod(LocationService::class, 'loadLocationChildren')]
-#[CoversMethod(LocationService::class, 'loadParentLocationsForDraftContent')]
-#[CoversMethod(LocationService::class, 'getLocationChildCount')]
-#[CoversMethod(LocationService::class, 'newLocationUpdateStruct')]
-#[CoversMethod(LocationService::class, 'updateLocation')]
-#[CoversMethod(LocationService::class, 'swapLocation')]
-#[CoversMethod(LocationService::class, 'hideLocation')]
-#[CoversMethod(LocationService::class, 'unhideLocation')]
-#[CoversMethod(LocationService::class, 'deleteLocation')]
-#[CoversMethod(LocationService::class, 'copySubtree')]
-#[CoversMethod(LocationService::class, 'moveSubtree')]
 #[Group('location')]
 class LocationServiceTest extends BaseTestCase
 {

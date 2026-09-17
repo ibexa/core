@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
@@ -46,8 +46,8 @@ use PHPUnit\Framework\Attributes\Group;
  *
  * @todo Finalize dependencies to other tests (including groups!)
  */
-#[CoversMethod(FieldType::class, 'isEmptyValue')]
-#[CoversMethod(ContentService::class, 'deleteTranslation')]
+#[CoversClass(FieldType::class)]
+#[CoversClass(ContentService::class)]
 #[Group('integration')]
 #[Group('field-type')]
 abstract class BaseIntegrationTestCase extends BaseTestCase

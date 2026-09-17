@@ -18,7 +18,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Repository as CoveredRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
@@ -27,31 +26,7 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the ContentServiceAuthorization using in memory storage.
  */
 #[CoversClass(ContentService::class)]
-#[CoversMethod(ContentService::class, 'createContent')]
-#[CoversMethod(ContentService::class, 'loadContentInfo')]
-#[CoversMethod(CoveredRepository::class, 'sudo')]
-#[CoversMethod(ContentService::class, 'loadContentInfoList')]
-#[CoversMethod(ContentService::class, 'loadContentInfoByRemoteId')]
-#[CoversMethod(ContentService::class, 'loadVersionInfo')]
-#[CoversMethod(ContentService::class, 'loadVersionInfoById')]
-#[CoversMethod(ContentService::class, 'loadContentByContentInfo')]
-#[CoversMethod(ContentService::class, 'loadContentByVersionInfo')]
-#[CoversMethod(ContentService::class, 'loadContent')]
-#[CoversMethod(ContentService::class, 'loadContentByRemoteId')]
-#[CoversMethod(ContentService::class, 'updateContentMetadata')]
-#[CoversMethod(ContentService::class, 'deleteContent')]
-#[CoversMethod(ContentService::class, 'createContentDraft')]
-#[CoversMethod(ContentService::class, 'countContentDrafts')]
-#[CoversMethod(ContentService::class, 'loadContentDraftList')]
-#[CoversMethod(ContentService::class, 'updateContent')]
-#[CoversMethod(ContentService::class, 'publishVersion')]
-#[CoversMethod(ContentService::class, 'deleteVersion')]
-#[CoversMethod(ContentService::class, 'loadVersions')]
-#[CoversMethod(ContentService::class, 'copyContent')]
-#[CoversMethod(ContentService::class, 'loadRelationList')]
-#[CoversMethod(ContentService::class, 'loadReverseRelations')]
-#[CoversMethod(ContentService::class, 'addRelation')]
-#[CoversMethod(ContentService::class, 'deleteRelation')]
+#[CoversClass(CoveredRepository::class)]
 #[Group('integration')]
 #[Group('authorization')]
 class ContentServiceAuthorizationTest extends BaseContentServiceTestCase

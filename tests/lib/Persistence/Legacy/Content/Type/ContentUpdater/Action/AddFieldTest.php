@@ -16,14 +16,14 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
 /**
  * Test case for content type Updater.
  */
-#[CoversMethod(ContentUpdater::class, '__construct')]
+#[CoversClass(ContentUpdater::class)]
 class AddFieldTest extends TestCase
 {
     /**

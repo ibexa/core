@@ -12,13 +12,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Core\Repository\Values\User\Role;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Role::class)]
-#[CoversMethod(Role::class, '__get')]
-#[CoversMethod(Role::class, '__set')]
-#[CoversMethod(Role::class, '__unset')]
 class RoleTest extends TestCase
 {
     use ValueObjectTestTrait;

@@ -9,14 +9,12 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Mock test case for Repository.
  */
-#[CoversMethod(Repository::class, 'beginTransaction')]
-#[CoversMethod(Repository::class, 'commit')]
-#[CoversMethod(Repository::class, 'rollback')]
+#[CoversClass(Repository::class)]
 class RepositoryTest extends BaseServiceMockTest
 {
     /**

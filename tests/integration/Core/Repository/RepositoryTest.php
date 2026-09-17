@@ -25,14 +25,12 @@ use Ibexa\Contracts\Core\Repository\URLWildcardService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Core\Repository\Repository;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the Repository using in memory storage.
  */
 #[CoversClass(Repository::class)]
-#[CoversMethod(Repository::class, 'getContentLanguageService')]
 #[Group('integration')]
 class RepositoryTest extends BaseTestCase
 {

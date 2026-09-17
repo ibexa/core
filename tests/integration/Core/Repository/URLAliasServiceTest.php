@@ -20,7 +20,6 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Core\Repository\URLAliasService;
 use Ibexa\Tests\Integration\Core\Repository\Common\SlugConverter as TestSlugConverter;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
@@ -29,13 +28,6 @@ use RuntimeException;
  * Test case for operations in the URLAliasService using in memory storage.
  */
 #[CoversClass(URLAliasService::class)]
-#[CoversMethod(URLAliasService::class, 'createUrlAlias')]
-#[CoversMethod(URLAliasService::class, 'createGlobalUrlAlias')]
-#[CoversMethod(URLAliasService::class, 'listLocationAliases')]
-#[CoversMethod(URLAliasService::class, 'listGlobalAliases')]
-#[CoversMethod(URLAliasService::class, 'removeAliases')]
-#[CoversMethod(URLAliasService::class, 'lookUp')]
-#[CoversMethod(URLAliasService::class, 'deleteCorruptedUrlAliases')]
 #[Group('url-alias')]
 class URLAliasServiceTest extends BaseTestCase
 {

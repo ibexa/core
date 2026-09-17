@@ -22,7 +22,7 @@ use Ibexa\Core\Repository\LocationService;
 use Ibexa\Core\Repository\URLAliasService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -30,9 +30,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Mock test case for UrlAlias Service.
  */
-#[CoversMethod(URLAliasService::class, 'createUrlAlias')]
-#[CoversMethod(URLAliasService::class, 'createGlobalUrlAlias')]
-#[CoversMethod(URLAliasService::class, 'removeAliases')]
+#[CoversClass(URLAliasService::class)]
 class UrlAliasTest extends BaseServiceMockTest
 {
     private const EXAMPLE_ID = 'eznode:42';

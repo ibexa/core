@@ -18,7 +18,6 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStr
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct;
 use Ibexa\Core\Repository\ObjectStateService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
@@ -28,26 +27,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the ObjectStateService using in memory storage.
  */
 #[CoversClass(ObjectStateService::class)]
-#[CoversMethod(ObjectStateService::class, 'newObjectStateGroupCreateStruct')]
-#[CoversMethod(ObjectStateService::class, 'newObjectStateGroupUpdateStruct')]
-#[CoversMethod(ObjectStateService::class, 'newObjectStateCreateStruct')]
-#[CoversMethod(ObjectStateService::class, 'newObjectStateUpdateStruct')]
-#[CoversMethod(ObjectStateService::class, 'createObjectStateGroup')]
-#[CoversMethod(ObjectStateService::class, 'loadObjectStateGroup')]
-#[CoversMethod(ObjectStateService::class, 'loadObjectStateGroupByIdentifier')]
-#[CoversMethod(ObjectStateService::class, 'loadObjectStateGroups')]
-#[CoversMethod(ObjectStateService::class, 'loadObjectStates')]
-#[CoversMethod(ObjectStateService::class, 'updateObjectStateGroup')]
-#[CoversMethod(ObjectStateService::class, 'createObjectState')]
-#[CoversMethod(ObjectStateService::class, 'loadObjectState')]
-#[CoversMethod(ObjectStateService::class, 'loadObjectStateByIdentifier')]
-#[CoversMethod(ObjectStateService::class, 'updateObjectState')]
-#[CoversMethod(ObjectStateService::class, 'setPriorityOfObjectState')]
-#[CoversMethod(ObjectStateService::class, 'getContentState')]
-#[CoversMethod(ObjectStateService::class, 'setContentState')]
-#[CoversMethod(ObjectStateService::class, 'getContentCount')]
-#[CoversMethod(ObjectStateService::class, 'deleteObjectState')]
-#[CoversMethod(ObjectStateService::class, 'deleteObjectStateGroup')]
 #[Group('object-state')]
 class ObjectStateServiceTest extends BaseTestCase
 {

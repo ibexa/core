@@ -13,10 +13,10 @@ use Ibexa\Core\FieldType\Author\AuthorCollection;
 use Ibexa\Core\FieldType\Author\Type as AuthorType;
 use Ibexa\Core\FieldType\Author\Value as AuthorValue;
 use Ibexa\Core\FieldType\Value;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 
-#[CoversMethod(AuthorCollection::class, 'removeAuthorsById')]
+#[CoversClass(AuthorCollection::class)]
 #[Group('fieldType')]
 #[Group('ibexa_author')]
 class AuthorTest extends FieldTypeTestCase

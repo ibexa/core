@@ -23,14 +23,14 @@ use Ibexa\Core\Repository\LocationService;
 use Ibexa\Tests\Core\Repository\Filtering\TestContentProvider;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use IteratorAggregate;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal for internal use by Ibexa Kernel test cases
  */
-#[CoversMethod(ContentService::class, 'find')]
-#[CoversMethod(LocationService::class, 'find')]
+#[CoversClass(ContentService::class)]
+#[CoversClass(LocationService::class)]
 abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
 {
     private const PAGINATION_EXPECTED_TOTAL_COUNT = 5;

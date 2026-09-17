@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
 use Ibexa\Core\Repository\TrashService as CoveredTrashService;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
@@ -22,11 +21,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the TrashService using in memory storage.
  */
 #[CoversClass(CoveredTrashService::class)]
-#[CoversMethod(CoveredTrashService::class, 'loadTrashItem')]
-#[CoversMethod(CoveredTrashService::class, 'trash')]
-#[CoversMethod(CoveredTrashService::class, 'recover')]
-#[CoversMethod(CoveredTrashService::class, 'emptyTrash')]
-#[CoversMethod(CoveredTrashService::class, 'deleteTrashItem')]
 #[Group('integration')]
 #[Group('authorization')]
 class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase

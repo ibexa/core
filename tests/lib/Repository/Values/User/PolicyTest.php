@@ -11,14 +11,10 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Core\Repository\Values\User\Policy;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversMethod(Policy::class, '__construct')]
-#[CoversMethod(Policy::class, '__get')]
-#[CoversMethod(Policy::class, '__set')]
-#[CoversMethod(Policy::class, '__isset')]
-#[CoversMethod(Policy::class, '__unset')]
+#[CoversClass(Policy::class)]
 class PolicyTest extends TestCase
 {
     use ValueObjectTestTrait;

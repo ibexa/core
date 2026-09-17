@@ -14,14 +14,14 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
 use Ibexa\Core\Repository\SearchService;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
  */
-#[CoversMethod(SearchService::class, 'findContent')]
+#[CoversClass(SearchService::class)]
 #[Group('integration')]
 #[Group('field-type')]
 class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase

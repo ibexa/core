@@ -20,7 +20,6 @@ use Ibexa\Core\Repository\SearchService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -28,7 +27,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for Location operations in the SearchService.
  */
 #[CoversClass(SearchService::class)]
-#[CoversMethod(SearchService::class, 'findLocations')]
 #[Group('integration')]
 #[Group('search')]
 class SearchServiceLocationTest extends BaseTestCase

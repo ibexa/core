@@ -17,14 +17,14 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
 use Ibexa\Core\Repository\SearchService;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
  */
-#[CoversMethod(SearchService::class, 'findContent')]
+#[CoversClass(SearchService::class)]
 #[Group('integration')]
 #[Group('field-type')]
 class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase

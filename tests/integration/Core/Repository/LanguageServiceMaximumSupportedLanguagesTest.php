@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
 use Ibexa\Core\Repository\LanguageService;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\Group;
  *
  * @see \Ibexa\Contracts\Core\Repository\LanguageService
  */
-#[CoversMethod(LanguageService::class, 'createLanguage')]
+#[CoversClass(LanguageService::class)]
 #[Group('integration')]
 #[Group('language')]
 class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase

@@ -11,11 +11,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 use Ibexa\Core\Repository\URLService;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversMethod(URLService::class, 'findUrls')]
-#[CoversMethod(URLService::class, 'updateUrl')]
-#[CoversMethod(URLService::class, 'loadById')]
+#[CoversClass(URLService::class)]
 class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 {
     /**
