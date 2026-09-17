@@ -16,14 +16,18 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\Repository\BookmarkService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 
 class BookmarkTest extends BaseServiceMockTest
 {
+    use ExpectDeprecationTrait;
+
     public const BOOKMARK_ID = 2;
     public const CURRENT_USER_ID = 7;
     public const LOCATION_ID = 1;
@@ -247,20 +251,35 @@ class BookmarkTest extends BaseServiceMockTest
     }
 
     /**
+     * @group legacy
+     *
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
      */
-    public function testLoadBookmarksThrowsInvalidArgumentExceptionOnNegativeLimit(): void
+    public function testLoadBookmarksTreatsNegativeLimitAsNoLimit(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Filtering slice limit needs to be >=0, got -1');
+        $this->expectDeprecation(
+            'Since ibexa/core 4.6.33: Passing a negative $limit to ' .
+            'Ibexa\Core\Repository\BookmarkService::loadBookmarks() is deprecated and will throw in 6.0. ' .
+            'Pass 0 to load all bookmarks instead'
+        );
+
+        $locationServiceMock = $this->createMock(LocationService::class);
+        $locationServiceMock
+            ->expects(self::once())
+            ->method('find')
+            ->with(self::callback(static function (Filter $filter): bool {
+                return $filter->getLimit() === 0;
+            }))
+            ->willReturn(new LocationList());
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::never())
-            ->method('getLocationService');
+            ->expects(self::any())
+            ->method('getLocationService')
+            ->willReturn($locationServiceMock);
 
-        // setUp() requires getCurrentUserReference() to be called at least once, and the
-        // argument is rejected before anything reaches the Query Builder which would call it
+        // See testLoadBookmarks(): setUp() requires getCurrentUserReference() to be called at
+        // least once, and the Query Builder which would call it is never reached here
         $repository->getPermissionResolver()->getCurrentUserReference();
 
         $this->createBookmarkService()->loadBookmarks(0, -1);
