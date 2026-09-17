@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContextualizerTest extends TestCase
 {
-    private const SA_NODE_NAME = 'heyho';
+    private const string SA_NODE_NAME = 'heyho';
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $container;
