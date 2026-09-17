@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <phpunit backupGlobals="false" bootstrap="tests/integration/bootstrap.php" processIsolation="false" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" failOnWarning="true" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
   <php>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     <ini name="error_reporting" value="-1"/>
     <env name="DATABASE_URL" value="sqlite://i@i/var/test-bootstrapper.db"/>
     <env name="KERNEL_CLASS" value="Ibexa\Tests\Integration\Core\TestKernel"/>
