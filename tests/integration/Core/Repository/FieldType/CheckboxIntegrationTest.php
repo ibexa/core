@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Repository;
-use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -17,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
+use Ibexa\Core\Repository\SearchService;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;

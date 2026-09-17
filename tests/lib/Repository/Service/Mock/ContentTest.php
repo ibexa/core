@@ -22,7 +22,6 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState as SPIObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group as SPIObjectStateGroup;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct as SPIContentUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
-use Ibexa\Contracts\Core\Repository\ContentService as CoveredContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService as APIContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -50,6 +49,7 @@ use Ibexa\Core\FieldType\Value;
 use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Core\Repository\Mapper\ContentMapper;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
@@ -69,24 +69,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * Mock test case for Content service.
  */
-#[CoversMethod(CoveredContentService::class, '__construct')]
-#[CoversMethod(CoveredContentService::class, 'loadVersionInfoById')]
-#[CoversMethod(CoveredContentService::class, 'loadVersionInfo')]
-#[CoversMethod(CoveredContentService::class, 'loadContentByContentInfo')]
-#[CoversMethod(CoveredContentService::class, 'loadContentByVersionInfo')]
-#[CoversMethod(CoveredContentService::class, 'deleteContent')]
-#[CoversMethod(CoveredContentService::class, 'deleteVersion')]
-#[CoversMethod(CoveredContentService::class, 'createContent')]
-#[CoversMethod(CoveredContentService::class, 'getLanguageCodesForCreate')]
-#[CoversMethod(CoveredContentService::class, 'mapFieldsForCreate')]
-#[CoversMethod(CoveredContentService::class, 'cloneField')]
-#[CoversMethod(CoveredContentService::class, 'getDefaultObjectStates')]
-#[CoversMethod(CoveredContentService::class, 'buildSPILocationCreateStructs')]
-#[CoversMethod(CoveredContentService::class, 'updateContent')]
-#[CoversMethod(CoveredContentService::class, 'getLanguageCodesForUpdate')]
-#[CoversMethod(CoveredContentService::class, 'mapFieldsForUpdate')]
-#[CoversMethod(CoveredContentService::class, 'copyContent')]
-#[CoversMethod(CoveredContentService::class, 'internalPublishVersion')]
+#[CoversMethod(ContentService::class, '__construct')]
+#[CoversMethod(ContentService::class, 'loadVersionInfoById')]
+#[CoversMethod(ContentService::class, 'loadVersionInfo')]
+#[CoversMethod(ContentService::class, 'loadContentByContentInfo')]
+#[CoversMethod(ContentService::class, 'loadContentByVersionInfo')]
+#[CoversMethod(ContentService::class, 'deleteContent')]
+#[CoversMethod(ContentService::class, 'deleteVersion')]
+#[CoversMethod(ContentService::class, 'createContent')]
+#[CoversMethod(ContentMapper::class, 'getLanguageCodesForCreate')]
+#[CoversMethod(ContentMapper::class, 'mapFieldsForCreate')]
+#[CoversMethod(ContentMapper::class, 'cloneField')]
+#[CoversMethod(ContentService::class, 'getDefaultObjectStates')]
+#[CoversMethod(ContentService::class, 'buildSPILocationCreateStructs')]
+#[CoversMethod(ContentService::class, 'updateContent')]
+#[CoversMethod(ContentMapper::class, 'getLanguageCodesForUpdate')]
+#[CoversMethod(ContentMapper::class, 'mapFieldsForUpdate')]
+#[CoversMethod(ContentService::class, 'copyContent')]
+#[CoversMethod(ContentService::class, 'internalPublishVersion')]
 class ContentTest extends BaseServiceMockTest
 {
     private const string EMPTY_FIELD_VALUE = 'empty';

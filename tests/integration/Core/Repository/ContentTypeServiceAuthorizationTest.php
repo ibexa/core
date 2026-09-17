@@ -7,8 +7,8 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Core\Repository\ContentTypeService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;

@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\ObjectStateService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct;
@@ -17,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct;
+use Ibexa\Core\Repository\ObjectStateService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -34,7 +34,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[CoversMethod(ObjectStateService::class, 'newObjectStateUpdateStruct')]
 #[CoversMethod(ObjectStateService::class, 'createObjectStateGroup')]
 #[CoversMethod(ObjectStateService::class, 'loadObjectStateGroup')]
-#[CoversMethod(ObjectStateService::class, 'loadGroupByIdentifier')]
+#[CoversMethod(ObjectStateService::class, 'loadObjectStateGroupByIdentifier')]
 #[CoversMethod(ObjectStateService::class, 'loadObjectStateGroups')]
 #[CoversMethod(ObjectStateService::class, 'loadObjectStates')]
 #[CoversMethod(ObjectStateService::class, 'updateObjectStateGroup')]

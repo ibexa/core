@@ -15,7 +15,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Repository;
-use Ibexa\Contracts\Core\Repository\RoleService as CoveredRoleService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct;
@@ -34,7 +33,7 @@ use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(CoveredRoleService::class)]
+#[CoversClass(RoleService::class)]
 #[CoversMethod(LimitationService::class, 'validateLimitations')]
 #[CoversMethod(LimitationService::class, 'validateLimitation')]
 class RoleTest extends BaseServiceMockTest

@@ -8,7 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\URLAliasService;
+use Ibexa\Core\Repository\URLAliasService;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 

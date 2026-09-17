@@ -9,13 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\SearchService;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Core\Repository\SearchService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;

@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -16,6 +15,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Core\Repository\ContentService;
+use Ibexa\Core\Repository\Repository as CoveredRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
@@ -28,7 +29,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[CoversClass(ContentService::class)]
 #[CoversMethod(ContentService::class, 'createContent')]
 #[CoversMethod(ContentService::class, 'loadContentInfo')]
-#[CoversMethod(Repository::class, 'sudo')]
+#[CoversMethod(CoveredRepository::class, 'sudo')]
 #[CoversMethod(ContentService::class, 'loadContentInfoList')]
 #[CoversMethod(ContentService::class, 'loadContentInfoByRemoteId')]
 #[CoversMethod(ContentService::class, 'loadVersionInfo')]

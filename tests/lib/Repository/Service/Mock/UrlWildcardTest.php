@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\URLWildcardService as CoveredURLWildcardService;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Core\Base\Exceptions\NotFoundException as APINotFoundException;
@@ -26,10 +25,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 /**
  * Mock Test case for UrlWildcard Service.
  */
-#[CoversMethod(CoveredURLWildcardService::class, 'create')]
-#[CoversMethod(CoveredURLWildcardService::class, 'remove')]
-#[CoversMethod(CoveredURLWildcardService::class, 'loadAll')]
-#[CoversMethod(CoveredURLWildcardService::class, 'translate')]
+#[CoversMethod(URLWildcardService::class, 'create')]
+#[CoversMethod(URLWildcardService::class, 'remove')]
+#[CoversMethod(URLWildcardService::class, 'loadAll')]
+#[CoversMethod(URLWildcardService::class, 'translate')]
 class UrlWildcardTest extends BaseServiceMockTest
 {
     private const EXAMPLE_URL_WILDCARD_ID = 1;

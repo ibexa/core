@@ -7,8 +7,8 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use Ibexa\Contracts\Core\Repository\LanguageService;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
+use Ibexa\Core\Repository\LanguageService;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;

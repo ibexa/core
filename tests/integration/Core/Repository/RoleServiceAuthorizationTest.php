@@ -8,10 +8,10 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\RoleService;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
+use Ibexa\Core\Repository\RoleService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
@@ -27,7 +27,6 @@ use PHPUnit\Framework\Attributes\Group;
 #[CoversMethod(RoleService::class, 'loadRoles')]
 #[CoversMethod(RoleService::class, 'deleteRole')]
 #[CoversMethod(RoleService::class, 'updatePolicyByRoleDraft')]
-#[CoversMethod(RoleService::class, 'removePolicy')]
 #[CoversMethod(RoleService::class, 'removePolicyByRoleDraft')]
 #[CoversMethod(RoleService::class, 'assignRoleToUserGroup')]
 #[CoversMethod(RoleService::class, 'removeRoleAssignment')]

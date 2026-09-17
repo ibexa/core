@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentTypeService;
 
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId;
@@ -22,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNo
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalOr;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Identifier;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Name;
+use Ibexa\Core\Repository\ContentTypeService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;

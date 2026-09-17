@@ -8,11 +8,10 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\TrashService as CoveredTrashService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
-use Ibexa\Core\Repository\TrashService;
+use Ibexa\Core\Repository\TrashService as CoveredTrashService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;

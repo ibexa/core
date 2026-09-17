@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\SearchService as CoveredSearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
@@ -33,11 +32,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 /**
  * Mock test case for Search service.
  */
-#[CoversMethod(CoveredSearchService::class, '__construct')]
-#[CoversMethod(CoveredSearchService::class, 'addPermissionsCriterion')]
-#[CoversMethod(CoveredSearchService::class, 'findContent')]
-#[CoversMethod(CoveredSearchService::class, 'findSingle')]
-#[CoversMethod(CoveredSearchService::class, 'findLocations')]
+#[CoversMethod(SearchService::class, '__construct')]
+#[CoversMethod(SearchService::class, 'addPermissionsCriterion')]
+#[CoversMethod(SearchService::class, 'findContent')]
+#[CoversMethod(SearchService::class, 'findSingle')]
+#[CoversMethod(SearchService::class, 'findLocations')]
 class SearchTest extends BaseServiceMockTest
 {
     protected $repositoryMock;

@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Contracts\Core\Repository\UserPreferenceService as CoveredUserPreferenceService;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference as APIUserPreference;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct as APIUserPreferenceSetStruct;
 use Ibexa\Core\Repository\UserPreferenceService;
@@ -21,10 +20,10 @@ use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversMethod(CoveredUserPreferenceService::class, 'setUserPreference')]
-#[CoversMethod(CoveredUserPreferenceService::class, 'getUserPreference')]
-#[CoversMethod(CoveredUserPreferenceService::class, 'loadUserPreferences')]
-#[CoversMethod(CoveredUserPreferenceService::class, 'getUserPreferenceCount')]
+#[CoversMethod(UserPreferenceService::class, 'setUserPreference')]
+#[CoversMethod(UserPreferenceService::class, 'getUserPreference')]
+#[CoversMethod(UserPreferenceService::class, 'loadUserPreferences')]
+#[CoversMethod(UserPreferenceService::class, 'getUserPreferenceCount')]
 class UserPreferenceTest extends BaseServiceMockTest
 {
     public const CURRENT_USER_ID = 14;

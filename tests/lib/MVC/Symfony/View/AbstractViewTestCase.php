@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\View;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\MVC\Symfony\View\BaseView;
 use Ibexa\Core\MVC\Symfony\View\View;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -16,7 +17,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(View::class)]
+#[CoversClass(BaseView::class)]
 abstract class AbstractViewTestCase extends TestCase
 {
     abstract protected function createViewUnderTest($template = null, array $parameters = [], $viewType = 'full'): View;

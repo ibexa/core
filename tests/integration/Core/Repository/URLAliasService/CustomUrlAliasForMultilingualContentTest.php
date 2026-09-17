@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\URLAliasService;
 
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\URLAliasService;
+use Ibexa\Core\Repository\ContentService;
+use Ibexa\Core\Repository\URLAliasService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversMethod;
 

@@ -9,10 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\UserPreferenceService;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceList;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct;
+use Ibexa\Core\Repository\UserPreferenceService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;

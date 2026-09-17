@@ -11,12 +11,13 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Core\Repository\ContentService as CoveredContentService;
+use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
@@ -28,9 +29,9 @@ use PHPUnit\Framework\Attributes\Group;
  */
 #[CoversClass(LanguageLimitation::class)]
 #[CoversMethod(PermissionResolver::class, 'canUser')]
-#[CoversMethod(ContentService::class, 'createContentDraft')]
-#[CoversMethod(ContentService::class, 'updateContent')]
-#[CoversMethod(ContentService::class, 'publishVersion')]
+#[CoversMethod(CoveredContentService::class, 'createContentDraft')]
+#[CoversMethod(CoveredContentService::class, 'updateContent')]
+#[CoversMethod(CoveredContentService::class, 'publishVersion')]
 #[Group('integration')]
 #[Group('authorization')]
 #[Group('language-limited-content-mgm')]

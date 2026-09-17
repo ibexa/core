@@ -7,7 +7,7 @@
 
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
-use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Core\Repository\Repository;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversMethod;
 

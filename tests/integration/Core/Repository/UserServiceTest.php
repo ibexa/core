@@ -16,7 +16,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
@@ -33,6 +32,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 use Ibexa\Core\FieldType\User\Type;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Persistence\Legacy\User\Gateway;
+use Ibexa\Core\Repository\UserService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\User\UserGroup;
@@ -70,7 +70,6 @@ use Symfony\Bridge\PhpUnit\ClockMock;
 #[CoversMethod(UserService::class, 'loadUserGroupsOfUser')]
 #[CoversMethod(UserService::class, 'loadUsersOfUserGroup')]
 #[CoversMethod(UserService::class, 'assignUserToUserGroup')]
-#[CoversMethod(UserService::class, 'unAssignUssrFromUserGroup')]
 #[CoversMethod(UserService::class, 'unAssignUserFromUserGroup')]
 #[CoversMethod(UserService::class, 'loadUserByToken')]
 #[CoversMethod(UserService::class, 'updateUserToken')]

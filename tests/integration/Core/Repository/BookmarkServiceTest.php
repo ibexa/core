@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
-use Ibexa\Contracts\Core\Repository\BookmarkService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -18,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
+use Ibexa\Core\Repository\BookmarkService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;

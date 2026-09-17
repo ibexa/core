@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
 use Ibexa\Contracts\Core\FieldType\ValidationError;
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeValidationException;
@@ -31,6 +30,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStru
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
+use Ibexa\Core\Repository\ContentTypeService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;

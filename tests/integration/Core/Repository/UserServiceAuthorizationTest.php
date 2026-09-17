@@ -8,7 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Core\Repository\UserService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
@@ -30,7 +30,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[CoversMethod(UserService::class, 'updateUser')]
 #[CoversMethod(UserService::class, 'updateUserPassword')]
 #[CoversMethod(UserService::class, 'assignUserToUserGroup')]
-#[CoversMethod(UserService::class, 'unAssignUssrFromUserGroup')]
+#[CoversMethod(UserService::class, 'unAssignUserFromUserGroup')]
 #[CoversMethod(UserService::class, 'loadUserGroupsOfUser')]
 #[CoversMethod(UserService::class, 'loadUsersOfUserGroup')]
 #[Group('integration')]

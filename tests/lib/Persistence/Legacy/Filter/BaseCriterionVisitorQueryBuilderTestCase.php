@@ -11,16 +11,22 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Filter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
-use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as CoveredCriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversMethod(CoveredCriterionQueryBuilder::class, 'buildQueryConstraint')]
-#[CoversMethod(CoveredCriterionQueryBuilder::class, 'accepts')]
+#[CoversMethod(LogicalAndQueryBuilder::class, 'buildQueryConstraint')]
+#[CoversMethod(LogicalAndQueryBuilder::class, 'accepts')]
+#[CoversMethod(LogicalOrQueryBuilder::class, 'buildQueryConstraint')]
+#[CoversMethod(LogicalOrQueryBuilder::class, 'accepts')]
+#[CoversMethod(LogicalNotQueryBuilder::class, 'buildQueryConstraint')]
+#[CoversMethod(LogicalNotQueryBuilder::class, 'accepts')]
 #[CoversMethod(CriterionVisitor::class, 'visitCriteria')]
 abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
 {

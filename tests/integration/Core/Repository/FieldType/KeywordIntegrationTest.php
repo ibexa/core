@@ -7,13 +7,13 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
+use Ibexa\Core\Repository\SearchService;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;

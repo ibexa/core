@@ -10,10 +10,10 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\NotificationService;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
+use Ibexa\Core\Repository\NotificationService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Depends;
 

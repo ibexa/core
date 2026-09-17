@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
@@ -35,6 +34,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException as CoreUnauthorizedException;
 use Ibexa\Core\FieldType\Relation\Value as RelationValue;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversMethod;

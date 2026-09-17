@@ -8,9 +8,9 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
+use Ibexa\Core\Repository\URLService;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
 #[CoversMethod(URLService::class, 'findUrls')]

@@ -8,12 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\IO\Flysystem\PathPrefixer;
 
+use Ibexa\Core\IO\Flysystem\PathPrefixer\BaseSiteAccessAwarePathPrefixer;
 use Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface;
 use Ibexa\Tests\Core\Search\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversClass(PathPrefixerInterface::class)]
+#[CoversClass(BaseSiteAccessAwarePathPrefixer::class)]
 abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
 {
     abstract protected function getPrefixer(): PathPrefixerInterface;

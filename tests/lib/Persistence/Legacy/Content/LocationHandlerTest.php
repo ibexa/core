@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as CoveredHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group as ObjectStateGroup;
@@ -29,7 +28,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 
 #[CoversClass(Handler::class)]
-#[CoversMethod(CoveredHandler::class, 'countLocationsByContent')]
+#[CoversMethod(Handler::class, 'countLocationsByContent')]
 class LocationHandlerTest extends TestCase
 {
     /**

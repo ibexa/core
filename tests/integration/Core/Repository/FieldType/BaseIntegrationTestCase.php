@@ -8,13 +8,13 @@
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository;
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;

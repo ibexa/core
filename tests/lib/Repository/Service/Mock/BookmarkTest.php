@@ -11,7 +11,6 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
-use Ibexa\Contracts\Core\Repository\BookmarkService as CoveredBookmarkService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -24,10 +23,10 @@ use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 
-#[CoversMethod(CoveredBookmarkService::class, 'createBookmark')]
-#[CoversMethod(CoveredBookmarkService::class, 'deleteBookmark')]
-#[CoversMethod(CoveredBookmarkService::class, 'loadBookmarks')]
-#[CoversMethod(CoveredBookmarkService::class, 'isBookmarked')]
+#[CoversMethod(BookmarkService::class, 'createBookmark')]
+#[CoversMethod(BookmarkService::class, 'deleteBookmark')]
+#[CoversMethod(BookmarkService::class, 'loadBookmarks')]
+#[CoversMethod(BookmarkService::class, 'isBookmarked')]
 class BookmarkTest extends BaseServiceMockTest
 {
     public const BOOKMARK_ID = 2;

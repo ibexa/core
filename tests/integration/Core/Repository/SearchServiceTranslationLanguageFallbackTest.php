@@ -8,12 +8,12 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use DateTime;
-use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Core\Repository\SearchService;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;

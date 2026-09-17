@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
 use DateTime;
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;

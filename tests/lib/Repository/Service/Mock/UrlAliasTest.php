@@ -15,7 +15,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as ApiNotFoundE
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
-use Ibexa\Contracts\Core\Repository\URLAliasService as CoveredURLAliasService;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\Base\Exceptions\ForbiddenException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -31,9 +30,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Mock test case for UrlAlias Service.
  */
-#[CoversMethod(CoveredURLAliasService::class, 'createUrlAlias')]
-#[CoversMethod(CoveredURLAliasService::class, 'createGlobalUrlAlias')]
-#[CoversMethod(CoveredURLAliasService::class, 'removeAliases')]
+#[CoversMethod(URLAliasService::class, 'createUrlAlias')]
+#[CoversMethod(URLAliasService::class, 'createGlobalUrlAlias')]
+#[CoversMethod(URLAliasService::class, 'removeAliases')]
 class UrlAliasTest extends BaseServiceMockTest
 {
     private const EXAMPLE_ID = 'eznode:42';

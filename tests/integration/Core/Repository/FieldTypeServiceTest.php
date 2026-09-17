@@ -8,7 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\FieldType;
-use Ibexa\Contracts\Core\Repository\FieldTypeService;
+use Ibexa\Core\Repository\FieldTypeService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;

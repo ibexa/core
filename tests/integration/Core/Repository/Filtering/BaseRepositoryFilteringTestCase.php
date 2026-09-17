@@ -9,8 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
 use Ibexa\Contracts\Core\Repository\Collections\TotalCountAwareInterface;
-use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -20,6 +18,8 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Core\Repository\ContentService;
+use Ibexa\Core\Repository\LocationService;
 use Ibexa\Tests\Core\Repository\Filtering\TestContentProvider;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use IteratorAggregate;

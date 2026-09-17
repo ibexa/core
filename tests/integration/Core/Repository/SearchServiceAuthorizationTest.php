@@ -7,11 +7,10 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\Repository\SearchService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
@@ -24,8 +23,6 @@ use PHPUnit\Framework\Attributes\Group;
 #[CoversClass(SearchService::class)]
 #[CoversMethod(SearchService::class, 'findContent')]
 #[CoversMethod(SearchService::class, 'findSingle')]
-#[CoversMethod(ContentService::class, 'findContent')]
-#[CoversMethod(ContentService::class, 'findSingle')]
 #[Group('integration')]
 #[Group('authorization')]
 class SearchServiceAuthorizationTest extends BaseTestCase
