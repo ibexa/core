@@ -26,6 +26,7 @@ use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 
 final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 {
@@ -33,9 +34,9 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     private UrlRedecoratorInterface & MockObject $redecorator;
 
-    private PathGenerator&\PHPUnit\Framework\MockObject\Stub $pathGenerator;
+    private PathGenerator&Stub $pathGenerator;
 
-    private AliasCleanerInterface&\PHPUnit\Framework\MockObject\Stub $aliasCleaner;
+    private AliasCleanerInterface&Stub $aliasCleaner;
 
     private FilePathNormalizerInterface & MockObject $filePathNormalizer;
 
@@ -43,7 +44,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     private ImageStorage $storage;
 
-    private FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\Stub $fileExtensionBlackListValidator;
+    private FileExtensionBlackListValidator&Stub $fileExtensionBlackListValidator;
 
     protected function setUp(): void
     {

@@ -64,6 +64,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -2461,10 +2462,7 @@ class ContentTest extends BaseServiceMockTest
         }
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType&\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock
-     */
-    private function acceptFieldTypeValueMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function acceptFieldTypeValueMock(FieldType&MockObject $fieldTypeMock): void
     {
         $fieldTypeMock->expects(self::any())
             ->method('acceptValue')
@@ -2493,10 +2491,7 @@ class ContentTest extends BaseServiceMockTest
             ->will(self::returnValue($fieldTypeMock));
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType&\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock
-     */
-    private function isEmptyValueFieldTypeMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function isEmptyValueFieldTypeMock(FieldType&MockObject $fieldTypeMock): void
     {
         $emptyValue = new ValueStub(self::EMPTY_FIELD_VALUE);
         $fieldTypeMock->expects(self::any())

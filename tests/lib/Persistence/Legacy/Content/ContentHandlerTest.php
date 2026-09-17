@@ -35,6 +35,7 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionException;
 
 #[CoversClass(Handler::class)]
@@ -113,10 +114,7 @@ class ContentHandlerTest extends TestCase
      */
     protected $contentTypeHandlerMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
-     */
-    private LanguageHandler $languageHandlerMock;
+    private LanguageHandler&MockObject $languageHandlerMock;
 
     /**
      * @todo Current method way to complex to test, refactor!
@@ -1603,10 +1601,7 @@ class ContentHandlerTest extends TestCase
         return $this->contentTypeHandlerMock;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
-     */
-    protected function getLanguageHandlerMock(): LanguageHandler
+    protected function getLanguageHandlerMock(): LanguageHandler&MockObject
     {
         if (!isset($this->languageHandlerMock)) {
             $this->languageHandlerMock = $this->createMock(LanguageHandler::class);

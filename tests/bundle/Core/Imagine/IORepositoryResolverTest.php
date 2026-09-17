@@ -23,6 +23,7 @@ use Liip\ImagineBundle\Model\Binary;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
@@ -38,7 +39,7 @@ final class IORepositoryResolverTest extends TestCase
 
     private IORepositoryResolver $imageResolver;
 
-    protected VariationPurger&\PHPUnit\Framework\MockObject\Stub $variationPurger;
+    protected VariationPurger&Stub $variationPurger;
 
     protected VariationPathGenerator & MockObject $variationPathGenerator;
 

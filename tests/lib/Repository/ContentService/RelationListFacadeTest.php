@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItem
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\ContentService\RelationListFacade;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class RelationListFacadeTest extends TestCase
@@ -23,7 +24,7 @@ final class RelationListFacadeTest extends TestCase
 
     private RelationListFacade $relationListFacade;
 
-    private VersionInfo&\PHPUnit\Framework\MockObject\Stub $versionInfo;
+    private VersionInfo&Stub $versionInfo;
 
     protected function setUp(): void
     {

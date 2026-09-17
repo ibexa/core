@@ -11,13 +11,14 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface;
 use Ibexa\Core\MVC\Symfony\Security\UserWrapped;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 final class UserWrappedTest extends TestCase
 {
-    private APIUser&\PHPUnit\Framework\MockObject\Stub $apiUser;
+    private APIUser&Stub $apiUser;
 
     protected function setUp(): void
     {
