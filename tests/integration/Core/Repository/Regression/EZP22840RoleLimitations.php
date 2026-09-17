@@ -17,11 +17,6 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
  */
 class EZP22840RoleLimitations extends BaseTestCase
 {
-    public function __construct()
-    {
-        parent::__construct(static::class);
-    }
-
     /**
      * Test Subtree Role Assignment Limitation against state/assign.
      */

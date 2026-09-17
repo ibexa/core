@@ -31987,12 +31987,6 @@ parameters:
 			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslations.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22840RoleLimitations\:\:__construct\(\) overrides @final method Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTestCase\:\:__construct\(\)\.$#'
-			identifier: method.parentMethodFinalByPhpDoc
-			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP22840RoleLimitations.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22840RoleLimitations\:\:testSectionRoleAssignLimitation\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
