@@ -454,21 +454,52 @@ class ParentContentTypeLimitationTypeTest extends Base
                 ],
                 'expected' => true,
             ],
+            // ContentCreateStruct, with multiple LocationCreateStruct targets, with access
+            [
+                'limitation' => new ParentContentTypeLimitation(['limitationValues' => [12, 34]]),
+                'object' => new ContentCreateStruct(),
+                'targets' => [
+                    new LocationCreateStruct(['parentLocationId' => 43]),
+                    new LocationCreateStruct(['parentLocationId' => 55]),
+                ],
+                'persistence' => [
+                    'locations' => [
+                        new SPILocation(['contentId' => 100]),
+                        new SPILocation(['contentId' => 200]),
+                    ],
+                    'contentInfos' => [
+                        new SPIContentInfo(['contentTypeId' => 12]),
+                        new SPIContentInfo(['contentTypeId' => 34]),
+                    ],
+                ],
+                'expected' => true,
+            ],
         ];
     }
 
-    protected function assertContentHandlerExpectations($callNo, $persistenceCalled, $contentId, $contentInfo)
+    /**
+     * @param int[]|string[] $contentIds
+     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[] $contentInfos
+     */
+    private function assertContentHandlerExpectations(array $contentIds, array $contentInfos): void
     {
-        $this->getPersistenceMock()
-            ->expects(self::once())
-            ->method('contentHandler')
-            ->will(self::returnValue($this->contentHandlerMock));
+        $contentIds = array_values($contentIds);
+        $contentInfos = array_values($contentInfos);
 
+        $this->getPersistenceMock()
+            ->expects(self::exactly(count($contentIds)))
+            ->method('contentHandler')
+            ->willReturn($this->contentHandlerMock);
+
+        $matcher = self::exactly(count($contentIds));
         $this->contentHandlerMock
-            ->expects(self::once())
+            ->expects($matcher)
             ->method('loadContentInfo')
-            ->with($contentId)
-            ->will(self::returnValue($contentInfo));
+            ->willReturnCallback(static function ($contentId) use ($matcher, $contentIds, $contentInfos) {
+                self::assertSame($contentIds[$matcher->numberOfInvocations() - 1], $contentId);
+
+                return $contentInfos[$matcher->numberOfInvocations() - 1];
+            });
     }
 
     #[DataProvider('providerForTestEvaluate')]
@@ -505,39 +536,46 @@ class ParentContentTypeLimitationTypeTest extends Base
                 ->expects(self::never())
                 ->method(self::anything());
         } elseif (!empty($targets)) {
+            $locationLoadArguments = [];
+            $locationLoadReturnValues = [];
+            $contentIds = [];
+            $contentInfos = [];
+
             foreach ($targets as $index => $target) {
                 if ($target instanceof LocationCreateStruct) {
-                    $this->getPersistenceMock()
-                        ->expects(self::once())
-                        ->method('locationHandler')
-                        ->will(self::returnValue($this->locationHandlerMock));
-
-                    $this->locationHandlerMock
-                        ->expects(self::once())
-                        ->method('load')
-                        ->with($target->parentLocationId)
-                        ->will(self::returnValue($location = $persistence['locations'][$index]));
-
-                    $contentId = $location->contentId;
+                    $locationLoadArguments[] = $target->parentLocationId;
+                    $location = $persistence['locations'][$index];
+                    $locationLoadReturnValues[] = $location;
+                    $contentIds[] = $location->contentId;
                 } else {
-                    $contentId = $target->contentId;
+                    $contentIds[] = $target->contentId;
                 }
 
-                $this->assertContentHandlerExpectations(
-                    $index,
-                    $target instanceof LocationCreateStruct,
-                    $contentId,
-                    $persistence['contentInfos'][$index]
-                );
+                $contentInfos[] = $persistence['contentInfos'][$index];
             }
+
+            if ($locationLoadArguments !== []) {
+                $this->getPersistenceMock()
+                    ->expects(self::exactly(count($locationLoadArguments)))
+                    ->method('locationHandler')
+                    ->willReturn($this->locationHandlerMock);
+
+                $locationMatcher = self::exactly(count($locationLoadArguments));
+                $this->locationHandlerMock
+                    ->expects($locationMatcher)
+                    ->method('load')
+                    ->willReturnCallback(static function ($parentLocationId) use ($locationMatcher, $locationLoadArguments, $locationLoadReturnValues) {
+                        self::assertSame($locationLoadArguments[$locationMatcher->numberOfInvocations() - 1], $parentLocationId);
+
+                        return $locationLoadReturnValues[$locationMatcher->numberOfInvocations() - 1];
+                    });
+            }
+
+            $this->assertContentHandlerExpectations($contentIds, $contentInfos);
         } else {
             $this->getPersistenceMock()
                 ->method('locationHandler')
                 ->will(self::returnValue($this->locationHandlerMock));
-
-            $this->getPersistenceMock()
-                ->method('contentHandler')
-                ->will(self::returnValue($this->contentHandlerMock));
 
             $this->locationHandlerMock
                 ->method(
@@ -562,14 +600,21 @@ class ParentContentTypeLimitationTypeTest extends Base
                 }
             }
 
-            foreach ($persistence['locations'] as $index => $location) {
-                $this->assertContentHandlerExpectations(
-                    $index,
-                    true,
-                    $location->contentId,
-                    $persistence['contentInfos'][$index]
-                );
+            $contentIds = [];
+            $contentInfos = [];
+            $contentInfoIndex = 0;
+            foreach ($persistence['locations'] as $location) {
+                // Locations with a depth > 0 are resolved to their parent location first (see
+                // ParentContentTypeLimitationType::loadParentLocations()); the parent's content ID
+                // is what evaluate() actually passes to contentHandler()->loadContentInfo().
+                $target = $persistence['parentLocations'][$location->parentId] ?? $location;
+
+                $contentIds[] = $target->contentId;
+                $contentInfos[] = $persistence['contentInfos'][$contentInfoIndex];
+                ++$contentInfoIndex;
             }
+
+            $this->assertContentHandlerExpectations($contentIds, $contentInfos);
         }
 
         $value = $limitationType->evaluate(

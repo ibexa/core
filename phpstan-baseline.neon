@@ -40801,36 +40801,6 @@ parameters:
 			path: tests/lib/Limitation/ObjectStateLimitationTypeTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has parameter \$callNo with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has parameter \$contentId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has parameter \$contentInfo with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has parameter \$persistenceCalled with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:getTestEvaluateContentMock\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
