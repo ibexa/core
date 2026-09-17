@@ -12,11 +12,6 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 class EZP22612URLAliasTranslations extends BaseTestCase
 {
-    public function __construct()
-    {
-        parent::__construct(static::class);
-    }
-
     protected function setUp(): void
     {
         $contentService = $this->getRepository()->getContentService();
