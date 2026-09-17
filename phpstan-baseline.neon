@@ -22291,18 +22291,6 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceAuthorizationTest\:\:testLoadContentDraftsThrowsUnauthorizedException\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceAuthorizationTest\:\:testLoadContentDraftsThrowsUnauthorizedExceptionWithUser\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceAuthorizationTest\:\:testLoadContentInfoByRemoteIdThrowsUnauthorizedException\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -22346,18 +22334,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceAuthorizationTest\:\:testLoadContentThrowsUnauthorizedExceptionsOnArchives\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceAuthorizationTest\:\:testLoadRelationsForDraftVersionThrowsUnauthorizedException\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceAuthorizationTest\:\:testLoadRelationsThrowsUnauthorizedException\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
