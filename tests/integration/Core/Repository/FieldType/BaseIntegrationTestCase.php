@@ -59,6 +59,13 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     public const VERSION_ARCHIVE_LIMIT = 5;
 
     /**
+     * Sentinel value a {@see self::providerForTestIsEmptyValue()} override returns when the
+     * field type has no "empty" representation, since PHPUnit 11 treats an empty data provider
+     * as a hard error rather than a skip.
+     */
+    protected const string NO_EMPTY_VALUE_DATA = '__no_empty_value_data__';
+
+    /**
      * Identifier of the custom field.
      *
      * @var string
@@ -389,13 +396,6 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     {
         return isset($overrideValues[$key]) ? $overrideValues[$key] : $default;
     }
-
-    /**
-     * Sentinel value a {@see self::providerForTestIsEmptyValue()} override returns when the
-     * field type has no "empty" representation, since PHPUnit 11 treats an empty data provider
-     * as a hard error rather than a skip.
-     */
-    protected const NO_EMPTY_VALUE_DATA = '__no_empty_value_data__';
 
     #[DataProvider('providerForTestIsEmptyValue')]
     public function testIsEmptyValue($value)

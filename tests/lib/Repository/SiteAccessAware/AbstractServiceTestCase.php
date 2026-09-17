@@ -38,7 +38,7 @@ abstract class AbstractServiceTestCase extends TestCase
      * provider as a hard error, so a single sentinel row is yielded instead and the two consuming
      * test methods skip immediately when they see it.
      */
-    protected const NO_DATA_METHOD = '__no_data__';
+    protected const string NO_DATA_METHOD = '__no_data__';
 
     /** @var \object|\PHPUnit\Framework\MockObject\MockObject */
     protected $innerApiServiceMock;
