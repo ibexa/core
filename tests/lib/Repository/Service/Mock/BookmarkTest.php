@@ -247,6 +247,26 @@ class BookmarkTest extends BaseServiceMockTest
     }
 
     /**
+     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
+     */
+    public function testLoadBookmarksThrowsInvalidArgumentExceptionOnNegativeLimit(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Filtering slice limit needs to be >=0, got -1');
+
+        $repository = $this->getRepositoryMock();
+        $repository
+            ->expects(self::never())
+            ->method('getLocationService');
+
+        // setUp() requires getCurrentUserReference() to be called at least once, and the
+        // argument is rejected before anything reaches the Query Builder which would call it
+        $repository->getPermissionResolver()->getCurrentUserReference();
+
+        $this->createBookmarkService()->loadBookmarks(0, -1);
+    }
+
+    /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::isBookmarked
      */
     public function testLocationShouldNotBeBookmarked()
