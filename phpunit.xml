@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-<phpunit backupGlobals="false" bootstrap="bootstrap.php" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+<phpunit backupGlobals="false" bootstrap="bootstrap.php" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" cacheDirectory=".phpunit.cache" backupStaticProperties="false" displayDetailsOnTestsThatTriggerDeprecations="true" failOnDeprecation="true">
   <php>
     <ini name="error_reporting" value="-1"/>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=82&amp;max[direct]=855&amp;max[indirect]=14&amp;verbose=0"/>
   </php>
   <testsuites>
     <testsuite name="unit_core">
@@ -24,6 +23,11 @@
       <directory>tests/bundle/LegacySearchEngine</directory>
     </testsuite>
   </testsuites>
+  <source baseline="phpunit.baseline.xml" ignoreIndirectDeprecations="false" ignoreSuppressionOfDeprecations="true">
+    <include>
+      <directory>src</directory>
+    </include>
+  </source>
   <extensions>
     <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension"/>
   </extensions>

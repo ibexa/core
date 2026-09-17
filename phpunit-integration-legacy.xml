@@ -4,12 +4,10 @@
     <env name="setupFactory" value="\Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy"/>
     <env name="backendVersion" value="5"/>
     <env name="fixtureDir" value="Legacy"/>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     <ini name="error_reporting" value="-1"/>
     <env name="DATABASE_URL" value="sqlite://:memory:"/>
     <env name="KERNEL_CLASS" value="Ibexa\Contracts\Core\Test\IbexaTestKernel"/>
     <env name="SEARCH_ENGINE" value="legacy"/>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
   </php>
   <testsuites>
     <testsuite name="integration_core">
