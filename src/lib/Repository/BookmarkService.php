@@ -96,13 +96,27 @@ class BookmarkService implements BookmarkServiceInterface
      */
     public function loadBookmarks(int $offset = 0, int $limit = 25): BookmarkList
     {
-        $filter = new Filter();
-        try {
-            $filter
-                ->withCriterion(new Criterion\Location\IsBookmarked())
-                ->withSortClause(new SortClause\Location\Bookmark\Id(Query::SORT_DESC))
-                ->sliceBy($limit, $offset);
+        if ($limit < 0) {
+            trigger_deprecation(
+                'ibexa/core',
+                '4.6.33',
+                sprintf(
+                    'Passing a negative $limit to %s() is deprecated and will throw in 6.0. ' .
+                    'Pass 0 to load all bookmarks instead',
+                    __METHOD__
+                )
+            );
 
+            $limit = 0;
+        }
+
+        $filter = new Filter();
+        $filter
+            ->withCriterion(new Criterion\Location\IsBookmarked())
+            ->withSortClause(new SortClause\Location\Bookmark\Id(Query::SORT_DESC))
+            ->sliceBy($limit, $offset);
+
+        try {
             $result = $this->repository->getLocationService()->find($filter, []);
         } catch (RepositoryException $e) {
             $this->logger->error($e->getMessage(), [
