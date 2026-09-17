@@ -13,13 +13,13 @@ use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
-/**
- * @covers \Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler
- */
+#[CoversClass(HTTPHandler::class)]
 final class HTTPHandlerTest extends TestCase
 {
     private const PARAMETER_NAME = 'url_handler.http.options';
@@ -104,9 +104,7 @@ final class HTTPHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider provideDataForTestIsSuccessful
-     */
+    #[DataProvider('provideDataForTestIsSuccessful')]
     public function testIsSuccessful(int $statusCode, bool $expected): void
     {
         $handler = $this->createHandler([]);
@@ -133,9 +131,7 @@ final class HTTPHandlerTest extends TestCase
         yield 'status 500' => [500, false];
     }
 
-    /**
-     * @dataProvider provideDataForTestShouldRetryWithGet
-     */
+    #[DataProvider('provideDataForTestShouldRetryWithGet')]
     public function testShouldRetryWithGet(
         int $statusCode,
         string $requestMethod,
@@ -185,9 +181,7 @@ final class HTTPHandlerTest extends TestCase
         self::assertCount(1, $queue, 'Retry must not consume the queue');
     }
 
-    /**
-     * @dataProvider provideCompleteRequestFinalResults
-     */
+    #[DataProvider('provideCompleteRequestFinalResults')]
     public function testCompleteRequestRecordsStatusAndSchedulesNextUrl(
         string $method,
         int $statusCode,

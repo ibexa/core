@@ -17,10 +17,6 @@ use Ibexa\Core\Repository\Values\Content\Relation;
 /**
  * Base integration test for field types handling content relations.
  *
- * @group integration
- * @group field-type
- * @group relation
- *
  * @since 6.1
  */
 trait RelationSearchBaseIntegrationTestTrait

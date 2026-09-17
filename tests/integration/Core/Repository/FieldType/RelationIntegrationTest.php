@@ -24,6 +24,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[CoversClass(BaseIntegrationTestCase::class)]
 #[Group('integration')]
 #[Group('field-type')]
+#[Group('relation')]
 class RelationIntegrationTest extends SearchBaseIntegrationTestCase
 {
     use RelationSearchBaseIntegrationTestTrait;

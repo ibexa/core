@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Repository\Values;
 
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription;
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageName;
+use PHPUnit\Framework\Attributes\Depends;
 use ReflectionClass;
 
 /**
@@ -19,10 +20,9 @@ use ReflectionClass;
 trait MultiLanguageTestTrait
 {
     /**
-     * @depends testNewClassWithMultiLanguageProperties
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
      */
+    #[Depends('testNewClassWithMultiLanguageProperties')]
     public function testGetMultiLanguagePrioritizedName($object)
     {
         if (!$object instanceof MultiLanguageName) {
@@ -38,10 +38,9 @@ trait MultiLanguageTestTrait
     }
 
     /**
-     * @depends testNewClassWithMultiLanguageProperties
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
      */
+    #[Depends('testNewClassWithMultiLanguageProperties')]
     public function testGetMultiLanguageDefaultName($object)
     {
         if (!$object instanceof MultiLanguageName) {
@@ -68,10 +67,9 @@ trait MultiLanguageTestTrait
     }
 
     /**
-     * @depends testNewClassWithMultiLanguageProperties
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
      */
+    #[Depends('testNewClassWithMultiLanguageProperties')]
     public function testGetMultiLanguagePrioritizedDescription($object)
     {
         if (!$object instanceof MultiLanguageDescription) {
@@ -87,10 +85,9 @@ trait MultiLanguageTestTrait
     }
 
     /**
-     * @depends testNewClassWithMultiLanguageProperties
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
      */
+    #[Depends('testNewClassWithMultiLanguageProperties')]
     public function testGetMultiLanguageDefaultDescription($object)
     {
         if (!$object instanceof MultiLanguageDescription) {

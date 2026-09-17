@@ -22,6 +22,7 @@ use PHPUnit\Framework\Attributes\Group;
  */
 #[Group('integration')]
 #[Group('field-type')]
+#[Group('relation')]
 class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     use RelationSearchBaseIntegrationTestTrait;

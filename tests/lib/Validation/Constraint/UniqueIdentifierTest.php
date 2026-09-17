@@ -9,12 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Validation\Constraint;
 
 use Ibexa\Contracts\Core\Validation\Constraint\UniqueIdentifier;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 
-/**
- * @covers \Ibexa\Contracts\Core\Validation\Constraint\UniqueIdentifier
- */
+#[CoversClass(UniqueIdentifier::class)]
 final class UniqueIdentifierTest extends TestCase
 {
     public function testNamedArguments(): void
