@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Bookmark\Id;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\Bookmark\IdSortClauseQueryBuilder;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +29,6 @@ final class IdSortClauseQueryBuilderTest extends TestCase
     private const BOOKMARK_ALIAS = 'ibexa_sort_bookmark';
     private const CONTENT_LOCATION_ALIAS = 'ibexa_sort_location';
     private const SORT_ALIAS = 'ibexa_filter_sort_bookmark_id';
-    private const CONTENT_ITEM_TABLE = 'ezcontentobject';
 
     /**
      * Location filtering: "location" is the FROM table, so the bookmarks table is joined
@@ -185,7 +185,7 @@ final class IdSortClauseQueryBuilderTest extends TestCase
             ->from(LocationGateway::CONTENT_TREE_TABLE, 'location')
             ->join(
                 'location',
-                self::CONTENT_ITEM_TABLE,
+                ContentGateway::CONTENT_ITEM_TABLE,
                 'content',
                 'content.id = location.contentobject_id'
             );
@@ -203,7 +203,7 @@ final class IdSortClauseQueryBuilderTest extends TestCase
         $queryBuilder = new FilteringQueryBuilder($this->createInMemoryConnection());
         $queryBuilder
             ->select('content.id')
-            ->from(self::CONTENT_ITEM_TABLE, 'content');
+            ->from(ContentGateway::CONTENT_ITEM_TABLE, 'content');
 
         return $queryBuilder;
     }
