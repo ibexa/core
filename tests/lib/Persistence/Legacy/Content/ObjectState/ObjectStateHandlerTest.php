@@ -252,20 +252,18 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
                 )
             );
 
-        $deleteObjectStateLinksMatcher = self::exactly(2);
-        $gatewayMock->expects($deleteObjectStateLinksMatcher)
+        $calls = [];
+
+        $gatewayMock->expects(self::exactly(2))
             ->method('deleteObjectStateLinks')
-            ->willReturnCallback(static function ($stateId) use ($deleteObjectStateLinksMatcher): void {
-                $expected = $deleteObjectStateLinksMatcher->numberOfInvocations() === 1 ? 1 : 2;
-                self::assertSame($expected, $stateId);
+            ->willReturnCallback(static function (int $stateId) use (&$calls): void {
+                $calls[] = ['deleteObjectStateLinks', $stateId];
             });
 
-        $deleteObjectStateMatcher = self::exactly(2);
-        $gatewayMock->expects($deleteObjectStateMatcher)
+        $gatewayMock->expects(self::exactly(2))
             ->method('deleteObjectState')
-            ->willReturnCallback(static function ($stateId) use ($deleteObjectStateMatcher): void {
-                $expected = $deleteObjectStateMatcher->numberOfInvocations() === 1 ? 1 : 2;
-                self::assertSame($expected, $stateId);
+            ->willReturnCallback(static function (int $stateId) use (&$calls): void {
+                $calls[] = ['deleteObjectState', $stateId];
             });
 
         $gatewayMock->expects(self::once())
@@ -273,6 +271,16 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
             ->with(self::equalTo(2));
 
         $handler->deleteGroup(2);
+
+        self::assertSame(
+            [
+                ['deleteObjectStateLinks', 1],
+                ['deleteObjectState', 1],
+                ['deleteObjectStateLinks', 2],
+                ['deleteObjectState', 2],
+            ],
+            $calls
+        );
     }
 
     public function testCreate()
