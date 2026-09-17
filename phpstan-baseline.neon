@@ -21475,12 +21475,6 @@ parameters:
 			path: tests/bundle/Core/SiteAccess/SiteAccessMatcherRegistryTest.php
 
 		-
-			message: '#^Call to an undefined method Ibexa\\Bundle\\Core\\URLChecker\\URLHandlerInterface&PHPUnit\\Framework\\MockObject\\Stub\:\:expects\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: tests/bundle/Core/URLChecker/URLCheckerTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\URLChecker\\URLCheckerTest\:\:configureUrlHandlerRegistry\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
