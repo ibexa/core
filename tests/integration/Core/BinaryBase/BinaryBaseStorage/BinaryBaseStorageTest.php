@@ -25,6 +25,7 @@ use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 
 class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 {
@@ -39,8 +40,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage|\PHPUnit\Framework\MockObject\MockObject */
     protected $storage;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\Stub */
-    protected \PHPUnit\Framework\MockObject\Stub $fileExtensionBlackListValidatorMock;
+    protected FileExtensionBlackListValidator&Stub $fileExtensionBlackListValidatorMock;
 
     protected function setUp(): void
     {

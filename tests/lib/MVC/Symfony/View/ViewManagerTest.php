@@ -19,6 +19,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Twig\Environment;
@@ -32,8 +33,7 @@ class ViewManagerTest extends TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Twig\Environment */
     private $templateEngineMock;
 
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private \PHPUnit\Framework\MockObject\Stub $eventDispatcherMock;
+    private EventDispatcherInterface&Stub $eventDispatcherMock;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\Repository */
     private $repositoryMock;

@@ -11,12 +11,12 @@ use Ibexa\Bundle\Core\Imagine\Filter\FilterInterface;
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader;
 use Imagine\Exception\NotSupportedException;
 use Imagine\Image\ImageInterface;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 class ReduceNoiseFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
-    private \PHPUnit\Framework\MockObject\Stub $filter;
+    private FilterInterface&Stub $filter;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader */
     private $loader;

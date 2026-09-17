@@ -15,6 +15,7 @@ use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent;
 use Ibexa\Core\MVC\Symfony\View\ViewEvents;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -30,8 +31,7 @@ class ViewControllerListenerTest extends TestCase
     /** @var \Symfony\Component\HttpKernel\Controller\ControllerResolver|\PHPUnit\Framework\MockObject\MockObject */
     private $controllerResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Psr\Log\LoggerInterface */
-    private \PHPUnit\Framework\MockObject\Stub $logger;
+    private LoggerInterface&Stub $logger;
 
     /** @var \Ibexa\Bundle\Core\EventListener\ViewControllerListener */
     private $controllerListener;

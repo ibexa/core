@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\EventListener\ConsoleCommandListener;
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\TestOutput;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;
@@ -40,8 +41,7 @@ class ConsoleCommandListenerTest extends TestCase
     /** @var \Symfony\Component\Console\Output\Output */
     private $testOutput;
 
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\Console\Command\Command */
-    private \PHPUnit\Framework\MockObject\Stub $command;
+    private Command&Stub $command;
 
     protected function setUp(): void
     {

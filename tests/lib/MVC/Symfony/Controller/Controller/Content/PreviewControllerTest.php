@@ -21,6 +21,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,8 +51,7 @@ final class PreviewControllerTest extends TestCase
     /** @var \Ibexa\Core\Helper\PreviewLocationProvider&\PHPUnit\Framework\MockObject\MockObject */
     protected PreviewLocationProvider $locationProvider;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker&\PHPUnit\Framework\MockObject\Stub */
-    protected \PHPUnit\Framework\MockObject\Stub $controllerChecker;
+    protected CustomLocationControllerChecker&Stub $controllerChecker;
 
     /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject */
     private LoggerInterface $logger;

@@ -15,6 +15,7 @@ use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class ImageConverterTest extends TestCase
@@ -29,11 +30,9 @@ final class ImageConverterTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter */
     private $imageConverter;
 
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Core\IO\UrlRedecoratorInterface */
-    private \PHPUnit\Framework\MockObject\Stub $urlRedecorator;
+    private UrlRedecoratorInterface&Stub $urlRedecorator;
 
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Core\IO\IOServiceInterface */
-    private \PHPUnit\Framework\MockObject\Stub $ioService;
+    private IOServiceInterface&Stub $ioService;
 
     protected function setUp(): void
     {

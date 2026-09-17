@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 use Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -23,8 +24,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
     /** @var \Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener */
     private $eventListener;
 
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\HttpKernel\HttpKernelInterface */
-    private \PHPUnit\Framework\MockObject\Stub $httpKernel;
+    private HttpKernelInterface&Stub $httpKernel;
 
     protected function setUp(): void
     {

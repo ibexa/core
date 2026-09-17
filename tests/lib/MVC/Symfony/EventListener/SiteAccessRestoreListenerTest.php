@@ -14,6 +14,8 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,11 +27,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 #[CoversClass(SiteAccessRestoreListener::class)]
 final class SiteAccessRestoreListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\HttpKernel\HttpKernelInterface */
-    private \PHPUnit\Framework\MockObject\Stub $kernel;
+    private HttpKernelInterface&Stub $kernel;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private EventDispatcherInterface $eventDispatcher;
+    private EventDispatcherInterface&MockObject $eventDispatcher;
 
     private RequestStack $requestStack;
 

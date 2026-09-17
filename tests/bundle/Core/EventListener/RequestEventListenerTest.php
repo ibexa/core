@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 use Ibexa\Bundle\Core\EventListener\RequestEventListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\PhpUnit\ClockMock;
@@ -23,14 +24,11 @@ use Symfony\Component\Routing\RouterInterface;
 
 class RequestEventListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private \PHPUnit\Framework\MockObject\Stub $configResolver;
+    private ConfigResolverInterface&Stub $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Symfony\Component\Routing\RouterInterface */
-    private \PHPUnit\Framework\MockObject\Stub $router;
+    private RouterInterface&Stub $router;
 
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Psr\Log\LoggerInterface */
-    private \PHPUnit\Framework\MockObject\Stub $logger;
+    private LoggerInterface&Stub $logger;
 
     /** @var \Ibexa\Bundle\Core\EventListener\RequestEventListener */
     private $requestEventListener;

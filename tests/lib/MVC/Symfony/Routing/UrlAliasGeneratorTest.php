@@ -22,6 +22,7 @@ use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -46,8 +47,7 @@ class UrlAliasGeneratorTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator */
     private $urlAliasGenerator;
 
-    /** @var \PHPUnit\Framework\MockObject\Stub&\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface */
-    private \PHPUnit\Framework\MockObject\Stub $siteAccessRouter;
+    private SiteAccessRouterInterface&Stub $siteAccessRouter;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $configResolver;
