@@ -21,11 +21,10 @@ use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversMethod(CoveredUserPreferenceService::class, 'setUserPreference()')]
 #[CoversMethod(CoveredUserPreferenceService::class, 'setUserPreference')]
-#[CoversMethod(CoveredUserPreferenceService::class, 'getUserPreference()')]
+#[CoversMethod(CoveredUserPreferenceService::class, 'getUserPreference')]
 #[CoversMethod(CoveredUserPreferenceService::class, 'loadUserPreferences')]
-#[CoversMethod(CoveredUserPreferenceService::class, 'getUserPreferenceCount()')]
+#[CoversMethod(CoveredUserPreferenceService::class, 'getUserPreferenceCount')]
 class UserPreferenceTest extends BaseServiceMockTest
 {
     public const CURRENT_USER_ID = 14;

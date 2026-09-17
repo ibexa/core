@@ -32,7 +32,7 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the Repository using in memory storage.
  */
 #[CoversClass(Repository::class)]
-#[CoversMethod(Repository::class, 'getContentLanguageService()')]
+#[CoversMethod(Repository::class, 'getContentLanguageService')]
 #[Group('integration')]
 class RepositoryTest extends BaseTestCase
 {

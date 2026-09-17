@@ -28,9 +28,8 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the UserService using in memory storage.
  */
 #[CoversClass(URLService::class)]
-#[CoversMethod(URLService::class, 'findUrls()')]
 #[CoversMethod(URLService::class, 'findUrls')]
-#[CoversMethod(URLService::class, 'updateUrl()')]
+#[CoversMethod(URLService::class, 'updateUrl')]
 #[CoversMethod(URLService::class, 'loadById')]
 #[CoversMethod(URLService::class, 'loadByUrl')]
 #[CoversMethod(URLService::class, 'createUpdateStruct')]

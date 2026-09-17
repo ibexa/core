@@ -32,12 +32,11 @@ use PHPUnit\Framework\Attributes\Group;
  *  Test case for operations in the PermissionResolver.
  */
 #[CoversClass(PermissionResolver::class)]
-#[CoversMethod(PermissionResolver::class, 'getCurrentUserReference()')]
-#[CoversMethod(PermissionResolver::class, 'setCurrentUserReference()')]
-#[CoversMethod(PermissionResolver::class, 'hasAccess()')]
-#[CoversMethod(PermissionResolver::class, 'canUser()')]
+#[CoversMethod(PermissionResolver::class, 'getCurrentUserReference')]
+#[CoversMethod(PermissionResolver::class, 'setCurrentUserReference')]
+#[CoversMethod(PermissionResolver::class, 'hasAccess')]
 #[CoversMethod(PermissionResolver::class, 'canUser')]
-#[CoversMethod(PermissionResolver::class, 'lookupLimitations()')]
+#[CoversMethod(PermissionResolver::class, 'lookupLimitations')]
 #[Group('integration')]
 #[Group('permission')]
 class PermissionResolverTest extends BaseTestCase

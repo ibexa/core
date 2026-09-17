@@ -23,12 +23,11 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the TrashService using in memory storage.
  */
 #[CoversClass(CoveredTrashService::class)]
-#[CoversMethod(CoveredTrashService::class, 'loadTrashItem()')]
+#[CoversMethod(CoveredTrashService::class, 'loadTrashItem')]
 #[CoversMethod(CoveredTrashService::class, 'trash')]
-#[CoversMethod(CoveredTrashService::class, 'recover()')]
-#[CoversMethod(CoveredTrashService::class, 'recover($trashItem, $newParentLocation)')]
-#[CoversMethod(CoveredTrashService::class, 'emptyTrash()')]
-#[CoversMethod(CoveredTrashService::class, 'deleteTrashItem()')]
+#[CoversMethod(CoveredTrashService::class, 'recover')]
+#[CoversMethod(CoveredTrashService::class, 'emptyTrash')]
+#[CoversMethod(CoveredTrashService::class, 'deleteTrashItem')]
 #[Group('integration')]
 #[Group('authorization')]
 class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase

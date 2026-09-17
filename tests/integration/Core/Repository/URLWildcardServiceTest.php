@@ -23,12 +23,12 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the URLWildcardService.
  */
 #[CoversClass(URLWildcardService::class)]
-#[CoversMethod(URLWildcardService::class, 'create()')]
-#[CoversMethod(URLWildcardService::class, 'load()')]
+#[CoversMethod(URLWildcardService::class, 'create')]
+#[CoversMethod(URLWildcardService::class, 'load')]
 #[CoversMethod(URLWildcardService::class, 'update')]
-#[CoversMethod(URLWildcardService::class, 'remove()')]
-#[CoversMethod(URLWildcardService::class, 'loadAll()')]
-#[CoversMethod(URLWildcardService::class, 'translate()')]
+#[CoversMethod(URLWildcardService::class, 'remove')]
+#[CoversMethod(URLWildcardService::class, 'loadAll')]
+#[CoversMethod(URLWildcardService::class, 'translate')]
 #[Group('url-wildcard')]
 class URLWildcardServiceTest extends BaseTestCase
 {

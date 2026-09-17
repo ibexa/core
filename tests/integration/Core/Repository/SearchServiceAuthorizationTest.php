@@ -22,10 +22,10 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the SearchService.
  */
 #[CoversClass(SearchService::class)]
-#[CoversMethod(SearchService::class, 'findContent()')]
-#[CoversMethod(SearchService::class, 'findSingle()')]
-#[CoversMethod(ContentService::class, 'findContent($query, $languageFilter, $filterOnUserPermissions)')]
-#[CoversMethod(ContentService::class, 'findSingle($query, $languageFilter, $filterOnUserPermissions)')]
+#[CoversMethod(SearchService::class, 'findContent')]
+#[CoversMethod(SearchService::class, 'findSingle')]
+#[CoversMethod(ContentService::class, 'findContent')]
+#[CoversMethod(ContentService::class, 'findSingle')]
 #[Group('integration')]
 #[Group('authorization')]
 class SearchServiceAuthorizationTest extends BaseTestCase

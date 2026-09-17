@@ -17,11 +17,11 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the LanguageService using in memory storage.
  */
 #[CoversClass(LanguageService::class)]
-#[CoversMethod(LanguageService::class, 'createLanguage()')]
-#[CoversMethod(LanguageService::class, 'updateLanguageName()')]
-#[CoversMethod(LanguageService::class, 'enableLanguage()')]
-#[CoversMethod(LanguageService::class, 'disableLanguage()')]
-#[CoversMethod(LanguageService::class, 'deleteLanguage()')]
+#[CoversMethod(LanguageService::class, 'createLanguage')]
+#[CoversMethod(LanguageService::class, 'updateLanguageName')]
+#[CoversMethod(LanguageService::class, 'enableLanguage')]
+#[CoversMethod(LanguageService::class, 'disableLanguage')]
+#[CoversMethod(LanguageService::class, 'deleteLanguage')]
 #[Group('integration')]
 #[Group('authorization')]
 class LanguageServiceAuthorizationTest extends BaseTestCase

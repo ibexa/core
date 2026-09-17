@@ -21,10 +21,10 @@ use PHPUnit\Framework\Attributes\Depends;
  * Test case for the UserPreferenceService.
  */
 #[CoversClass(UserPreferenceService::class)]
-#[CoversMethod(UserPreferenceService::class, 'loadUserPreferences()')]
-#[CoversMethod(UserPreferenceService::class, 'getUserPreference()')]
-#[CoversMethod(UserPreferenceService::class, 'setUserPreference()')]
-#[CoversMethod(UserPreferenceService::class, 'getUserPreferenceCount()')]
+#[CoversMethod(UserPreferenceService::class, 'loadUserPreferences')]
+#[CoversMethod(UserPreferenceService::class, 'getUserPreference')]
+#[CoversMethod(UserPreferenceService::class, 'setUserPreference')]
+#[CoversMethod(UserPreferenceService::class, 'getUserPreferenceCount')]
 class UserPreferenceServiceTest extends BaseTestCase
 {
     public function testLoadUserPreferences()

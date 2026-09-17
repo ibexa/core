@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\Group;
 /**
  * Integration test for use field type.
  */
-#[CoversMethod(BaseIntegrationTestCase::class, 'getValidatorSchema()')]
+#[CoversMethod(BaseIntegrationTestCase::class, 'getValidatorSchema')]
 #[Group('integration')]
 #[Group('field-type')]
 class RelationIntegrationTest extends SearchBaseIntegrationTestCase

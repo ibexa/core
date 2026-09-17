@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\Group;
  *
  * @see \Ibexa\Contracts\Core\Repository\LanguageService
  */
-#[CoversMethod(LanguageService::class, 'createLanguage()')]
+#[CoversMethod(LanguageService::class, 'createLanguage')]
 #[Group('integration')]
 #[Group('language')]
 class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase

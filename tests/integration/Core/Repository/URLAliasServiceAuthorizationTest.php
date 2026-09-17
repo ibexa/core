@@ -12,9 +12,9 @@ use Ibexa\Contracts\Core\Repository\URLAliasService;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DependsExternal;
 
-#[CoversMethod(URLAliasService::class, 'createUrlAlias()')]
-#[CoversMethod(URLAliasService::class, 'createGlobalUrlAlias()')]
-#[CoversMethod(URLAliasService::class, 'removeAliases()')]
+#[CoversMethod(URLAliasService::class, 'createUrlAlias')]
+#[CoversMethod(URLAliasService::class, 'createGlobalUrlAlias')]
+#[CoversMethod(URLAliasService::class, 'removeAliases')]
 class URLAliasServiceAuthorizationTest extends BaseTestCase
 {
     /**

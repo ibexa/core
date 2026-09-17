@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\Group;
 /**
  * Integration test for use field type.
  */
-#[CoversMethod(SearchService::class, 'findContent()')]
+#[CoversMethod(SearchService::class, 'findContent')]
 #[Group('integration')]
 #[Group('field-type')]
 class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase

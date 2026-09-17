@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\Group;
  */
 #[CoversClass(URLWildcardService::class)]
 #[CoversMethod(URLWildcardService::class, 'create')]
-#[CoversMethod(URLWildcardService::class, 'remove()')]
+#[CoversMethod(URLWildcardService::class, 'remove')]
 #[Group('integration')]
 #[Group('authorization')]
 class URLWildcardServiceAuthorizationTest extends BaseTestCase

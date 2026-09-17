@@ -28,7 +28,6 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for Location operations in the SearchService.
  */
 #[CoversClass(SearchService::class)]
-#[CoversMethod(SearchService::class, 'findLocations()')]
 #[CoversMethod(SearchService::class, 'findLocations')]
 #[Group('integration')]
 #[Group('search')]

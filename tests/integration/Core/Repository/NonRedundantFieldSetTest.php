@@ -23,9 +23,9 @@ use PHPUnit\Framework\Attributes\Group;
  * These tests depends on TextLine field type being functional.
  */
 #[CoversClass(ContentService::class)]
-#[CoversMethod(ContentService::class, 'createContent()')]
-#[CoversMethod(ContentService::class, 'createContentDraft()')]
-#[CoversMethod(ContentService::class, 'updateContent()')]
+#[CoversMethod(ContentService::class, 'createContent')]
+#[CoversMethod(ContentService::class, 'createContentDraft')]
+#[CoversMethod(ContentService::class, 'updateContent')]
 #[Group('content')]
 class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
 {

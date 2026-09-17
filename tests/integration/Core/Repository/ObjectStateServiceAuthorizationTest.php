@@ -18,14 +18,14 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the ObjectStateService using in memory storage.
  */
 #[CoversClass(ObjectStateService::class)]
-#[CoversMethod(ObjectStateService::class, 'createObjectStateGroup()')]
-#[CoversMethod(ObjectStateService::class, 'updateObjectStateGroup()')]
-#[CoversMethod(ObjectStateService::class, 'deleteObjectStateGroup()')]
-#[CoversMethod(ObjectStateService::class, 'createObjectState()')]
-#[CoversMethod(ObjectStateService::class, 'updateObjectState()')]
-#[CoversMethod(ObjectStateService::class, 'setPriorityOfObjectState()')]
-#[CoversMethod(ObjectStateService::class, 'deleteObjectState()')]
-#[CoversMethod(ObjectStateService::class, 'setContentState()')]
+#[CoversMethod(ObjectStateService::class, 'createObjectStateGroup')]
+#[CoversMethod(ObjectStateService::class, 'updateObjectStateGroup')]
+#[CoversMethod(ObjectStateService::class, 'deleteObjectStateGroup')]
+#[CoversMethod(ObjectStateService::class, 'createObjectState')]
+#[CoversMethod(ObjectStateService::class, 'updateObjectState')]
+#[CoversMethod(ObjectStateService::class, 'setPriorityOfObjectState')]
+#[CoversMethod(ObjectStateService::class, 'deleteObjectState')]
+#[CoversMethod(ObjectStateService::class, 'setContentState')]
 #[Group('integration')]
 #[Group('authorization')]
 class ObjectStateServiceAuthorizationTest extends BaseTestCase

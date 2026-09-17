@@ -17,9 +17,9 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the FieldTypeService using in memory storage.
  */
 #[CoversClass(FieldTypeService::class)]
-#[CoversMethod(FieldTypeService::class, 'getFieldTypes()')]
-#[CoversMethod(FieldTypeService::class, 'getFieldType()')]
-#[CoversMethod(FieldTypeService::class, 'hasFieldType()')]
+#[CoversMethod(FieldTypeService::class, 'getFieldTypes')]
+#[CoversMethod(FieldTypeService::class, 'getFieldType')]
+#[CoversMethod(FieldTypeService::class, 'hasFieldType')]
 #[Group('field-type')]
 class FieldTypeServiceTest extends BaseTestCase
 {

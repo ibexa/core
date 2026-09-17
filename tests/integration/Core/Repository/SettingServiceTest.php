@@ -21,10 +21,10 @@ use PHPUnit\Framework\Attributes\Group;
  * Test case for operations in the SettingService using in memory storage.
  */
 #[CoversClass(SettingService::class)]
-#[CoversMethod(SettingService::class, 'createSetting()')]
-#[CoversMethod(SettingService::class, 'loadSetting()')]
-#[CoversMethod(SettingService::class, 'updateSetting()')]
-#[CoversMethod(SettingService::class, 'deleteSetting()')]
+#[CoversMethod(SettingService::class, 'createSetting')]
+#[CoversMethod(SettingService::class, 'loadSetting')]
+#[CoversMethod(SettingService::class, 'updateSetting')]
+#[CoversMethod(SettingService::class, 'deleteSetting')]
 #[Group('integration')]
 #[Group('setting')]
 final class SettingServiceTest extends BaseTestCase

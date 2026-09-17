@@ -35,10 +35,9 @@ use RuntimeException;
  * Test case for operations in the SearchService.
  */
 #[CoversClass(SearchService::class)]
-#[CoversMethod(SearchService::class, 'findContent()')]
-#[CoversMethod(SearchService::class, 'findContentInfo()')]
-#[CoversMethod(SearchService::class, 'findLocations()')]
 #[CoversMethod(SearchService::class, 'findContent')]
+#[CoversMethod(SearchService::class, 'findContentInfo')]
+#[CoversMethod(SearchService::class, 'findLocations')]
 #[Group('integration')]
 #[Group('search')]
 class SearchServiceTest extends BaseTestCase
