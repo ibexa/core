@@ -20083,12 +20083,6 @@ parameters:
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventListener\\BackgroundIndexingTerminateListenerTest\:\:testIndexDelete\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventListener\\BackgroundIndexingTerminateListenerTest\:\:testIndexing\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1

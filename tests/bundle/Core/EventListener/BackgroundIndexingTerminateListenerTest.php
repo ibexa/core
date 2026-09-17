@@ -160,13 +160,8 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         ];
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo|\Ibexa\Contracts\Core\Persistence\Content\Location $value
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo|\Throwable $infoReturn
-     * @param \Ibexa\Contracts\Core\Persistence\Content|\Throwable|null $contentReturn
-     */
     #[DataProvider('indexDeleteProvider')]
-    public function testIndexDelete($value, $infoReturn, $contentReturn = null)
+    public function testIndexDelete(ContentInfo|Location $value, ContentInfo|\Throwable $infoReturn, Content|\Throwable|null $contentReturn = null): void
     {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
