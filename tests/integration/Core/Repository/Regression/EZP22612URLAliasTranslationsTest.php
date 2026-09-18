@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-class EZP22612URLAliasTranslations extends BaseTestCase
+class EZP22612URLAliasTranslationsTest extends BaseTestCase
 {
     protected function setUp(): void
     {
