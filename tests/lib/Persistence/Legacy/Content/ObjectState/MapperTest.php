@@ -17,7 +17,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(Mapper::class)]
 class MapperTest extends LanguageAwareTestCase
 {
-    public function testCreateObjectStateFromData()
+    public function testCreateObjectStateFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -32,7 +32,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateListFromData()
+    public function testCreateObjectStateListFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -47,7 +47,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateGroupFromData()
+    public function testCreateObjectStateGroupFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -62,7 +62,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateGroupListFromData()
+    public function testCreateObjectStateGroupListFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -77,7 +77,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateFromInputStruct()
+    public function testCreateObjectStateFromInputStruct(): void
     {
         $mapper = $this->getMapper();
 
@@ -92,7 +92,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateGroupFromInputStruct()
+    public function testCreateObjectStateGroupFromInputStruct(): void
     {
         $mapper = $this->getMapper();
 

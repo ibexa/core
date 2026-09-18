@@ -21,7 +21,7 @@ class EnvTest extends BaseTestCase
     /**
      * Verify Redis cache is setup if asked for, if not file system.
      */
-    public function testVerifyCacheDriver()
+    public function testVerifyCacheDriver(): void
     {
         $pool = $this->getSetupFactory()->getServiceContainer()->get('ibexa.cache_pool');
 

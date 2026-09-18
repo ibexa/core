@@ -30,7 +30,7 @@ class SudoMainLocationLoaderTest extends TestCase
         $this->loader = new SudoMainLocationLoader($this->getRepositoryMock());
     }
 
-    public function testLoadLocationNoMainLocation()
+    public function testLoadLocationNoMainLocation(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -43,7 +43,7 @@ class SudoMainLocationLoaderTest extends TestCase
         $this->loader->loadLocation($contentInfo);
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $contentInfo = new ContentInfo([
             'id' => 123,
@@ -70,7 +70,7 @@ class SudoMainLocationLoaderTest extends TestCase
         self::assertSame($location, $this->loader->loadLocation($contentInfo));
     }
 
-    public function testLoadLocationError()
+    public function testLoadLocationError(): void
     {
         $this->expectException(NotFoundException::class);
 

@@ -19,7 +19,7 @@ class URLAliasServiceAuthorizationTest extends BaseTestCase
      * Test for the createUrlAlias() method.
      */
     #[DependsExternal(URLAliasServiceTest::class, 'testCreateUrlAlias')]
-    public function testCreateUrlAliasThrowsUnauthorizedException()
+    public function testCreateUrlAliasThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -50,7 +50,7 @@ class URLAliasServiceAuthorizationTest extends BaseTestCase
      * Test for the createGlobalUrlAlias() method.
      */
     #[DependsExternal(URLAliasServiceTest::class, 'testCreateGlobalUrlAlias')]
-    public function testCreateGlobalUrlAliasThrowsUnauthorizedException()
+    public function testCreateGlobalUrlAliasThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -75,7 +75,7 @@ class URLAliasServiceAuthorizationTest extends BaseTestCase
      * Test for the removeAliases() method.
      */
     #[DependsExternal(URLAliasServiceTest::class, 'testRemoveAliases')]
-    public function testRemoveAliasesThrowsUnauthorizedException()
+    public function testRemoveAliasesThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

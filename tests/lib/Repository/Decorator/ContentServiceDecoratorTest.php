@@ -43,7 +43,7 @@ class ContentServiceDecoratorTest extends TestCase
         return $this->createMock(ContentService::class);
     }
 
-    public function testLoadContentInfoDecorator()
+    public function testLoadContentInfoDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -55,7 +55,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadContentInfo(...$parameters);
     }
 
-    public function testLoadContentInfoListDecorator()
+    public function testLoadContentInfoListDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -67,7 +67,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadContentInfoList(...$parameters);
     }
 
-    public function testLoadContentInfoByRemoteIdDecorator()
+    public function testLoadContentInfoByRemoteIdDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -79,7 +79,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadContentInfoByRemoteId(...$parameters);
     }
 
-    public function testLoadVersionInfoDecorator()
+    public function testLoadVersionInfoDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -94,7 +94,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadVersionInfo(...$parameters);
     }
 
-    public function testLoadVersionInfoByIdDecorator()
+    public function testLoadVersionInfoByIdDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -109,7 +109,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadVersionInfoById(...$parameters);
     }
 
-    public function testLoadContentByContentInfoDecorator()
+    public function testLoadContentByContentInfoDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -126,7 +126,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadContentByContentInfo(...$parameters);
     }
 
-    public function testLoadContentByVersionInfoDecorator()
+    public function testLoadContentByVersionInfoDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -142,7 +142,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadContentByVersionInfo(...$parameters);
     }
 
-    public function testLoadContentDecorator()
+    public function testLoadContentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -159,7 +159,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadContent(...$parameters);
     }
 
-    public function testLoadContentByRemoteIdDecorator()
+    public function testLoadContentByRemoteIdDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -176,7 +176,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadContentByRemoteId(...$parameters);
     }
 
-    public function testLoadContentListByContentInfoDecorator()
+    public function testLoadContentListByContentInfoDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -192,7 +192,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadContentListByContentInfo(...$parameters);
     }
 
-    public function testCreateContentDecorator()
+    public function testCreateContentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -207,7 +207,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->createContent(...$parameters);
     }
 
-    public function testUpdateContentMetadataDecorator()
+    public function testUpdateContentMetadataDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -222,7 +222,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->updateContentMetadata(...$parameters);
     }
 
-    public function testDeleteContentDecorator()
+    public function testDeleteContentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -234,7 +234,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->deleteContent(...$parameters);
     }
 
-    public function testCreateContentDraftDecorator()
+    public function testCreateContentDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -262,7 +262,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadContentDraftList(...$parameters);
     }
 
-    public function testUpdateContentDecorator()
+    public function testUpdateContentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -277,7 +277,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->updateContent(...$parameters);
     }
 
-    public function testPublishVersionDecorator()
+    public function testPublishVersionDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -289,7 +289,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->publishVersion(...$parameters);
     }
 
-    public function testDeleteVersionDecorator()
+    public function testDeleteVersionDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -301,7 +301,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->deleteVersion(...$parameters);
     }
 
-    public function testLoadVersionsDecorator()
+    public function testLoadVersionsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -313,7 +313,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadVersions(...$parameters);
     }
 
-    public function testCopyContentDecorator()
+    public function testCopyContentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -341,7 +341,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadRelationList(...$parameters);
     }
 
-    public function testLoadReverseRelationsDecorator()
+    public function testLoadReverseRelationsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -353,7 +353,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadReverseRelations(...$parameters);
     }
 
-    public function testAddRelationDecorator()
+    public function testAddRelationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -368,7 +368,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->addRelation(...$parameters);
     }
 
-    public function testDeleteRelationDecorator()
+    public function testDeleteRelationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -383,7 +383,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->deleteRelation(...$parameters);
     }
 
-    public function testDeleteTranslationDecorator()
+    public function testDeleteTranslationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -398,7 +398,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->deleteTranslation(...$parameters);
     }
 
-    public function testDeleteTranslationFromDraftDecorator()
+    public function testDeleteTranslationFromDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -413,7 +413,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->deleteTranslationFromDraft(...$parameters);
     }
 
-    public function testHideContentDecorator()
+    public function testHideContentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -425,7 +425,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->hideContent(...$parameters);
     }
 
-    public function testRevealContentDecorator()
+    public function testRevealContentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -437,7 +437,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->revealContent(...$parameters);
     }
 
-    public function testNewContentCreateStructDecorator()
+    public function testNewContentCreateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -452,7 +452,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->newContentCreateStruct(...$parameters);
     }
 
-    public function testNewContentMetadataUpdateStructDecorator()
+    public function testNewContentMetadataUpdateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -464,7 +464,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->newContentMetadataUpdateStruct(...$parameters);
     }
 
-    public function testNewContentUpdateStructDecorator()
+    public function testNewContentUpdateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

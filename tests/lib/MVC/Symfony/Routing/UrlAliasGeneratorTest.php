@@ -101,7 +101,7 @@ class UrlAliasGeneratorTest extends TestCase
         $this->urlAliasGenerator->setSiteAccessRouter($this->siteAccessRouter);
     }
 
-    public function testGetPathPrefixByRootLocationId()
+    public function testGetPathPrefixByRootLocationId(): void
     {
         $rootLocationId = 123;
         $rootLocation = new Location(['id' => $rootLocationId]);
@@ -122,7 +122,7 @@ class UrlAliasGeneratorTest extends TestCase
     }
 
     #[DataProvider('providerTestIsPrefixExcluded')]
-    public function testIsPrefixExcluded($uri, $expectedIsExcluded)
+    public function testIsPrefixExcluded($uri, $expectedIsExcluded): void
     {
         $this->urlAliasGenerator->setExcludedUriPrefixes(
             [
@@ -134,7 +134,10 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expectedIsExcluded, $this->urlAliasGenerator->isUriPrefixExcluded($uri));
     }
 
-    public static function providerTestIsPrefixExcluded()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerTestIsPrefixExcluded(): array
     {
         return [
             ['/foo/bar', false],
@@ -151,7 +154,7 @@ class UrlAliasGeneratorTest extends TestCase
         ];
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $locationId = 123;
         $location = new Location(['id' => $locationId]);
@@ -164,7 +167,7 @@ class UrlAliasGeneratorTest extends TestCase
     }
 
     #[DataProvider('providerTestDoGenerate')]
-    public function testDoGenerate(URLAlias $urlAlias, array $parameters, $expected)
+    public function testDoGenerate(URLAlias $urlAlias, array $parameters, $expected): void
     {
         $location = new Location(['id' => 123]);
         $this->urlAliasService
@@ -178,7 +181,10 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
 
-    public static function providerTestDoGenerate()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerTestDoGenerate(): array
     {
         return [
             'without_parameters' => [
@@ -208,7 +214,7 @@ class UrlAliasGeneratorTest extends TestCase
      * @param array $parameters
      */
     #[DataProvider('providerTestDoGenerateWithSiteaccess')]
-    public function testDoGenerateWithSiteAccessParam(URLAlias $urlAlias, array $parameters, string $expected)
+    public function testDoGenerateWithSiteAccessParam(URLAlias $urlAlias, array $parameters, string $expected): void
     {
         $siteaccessName = 'foo';
         $parameters += ['siteaccess' => $siteaccessName];
@@ -275,7 +281,10 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
 
-    public static function providerTestDoGenerateWithSiteaccess()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerTestDoGenerateWithSiteaccess(): array
     {
         return [
             [
@@ -394,7 +403,7 @@ class UrlAliasGeneratorTest extends TestCase
         );
     }
 
-    public function testDoGenerateNoUrlAlias()
+    public function testDoGenerateNoUrlAlias(): void
     {
         $location = new Location(['id' => 123, 'contentInfo' => new ContentInfo(['id' => 456])]);
         $uri = "/content/location/$location->id";
@@ -416,7 +425,7 @@ class UrlAliasGeneratorTest extends TestCase
     }
 
     #[DataProvider('providerTestDoGenerateRootLocation')]
-    public function testDoGenerateRootLocation(URLAlias $urlAlias, $isOutsideAndNotExcluded, $expected, $pathPrefix)
+    public function testDoGenerateRootLocation(URLAlias $urlAlias, $isOutsideAndNotExcluded, $expected, $pathPrefix): void
     {
         $excludedPrefixes = ['/products', '/shared'];
         $rootLocationId = 456;
@@ -452,7 +461,10 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, []));
     }
 
-    public static function providerTestDoGenerateRootLocation()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerTestDoGenerateRootLocation(): array
     {
         return [
             [

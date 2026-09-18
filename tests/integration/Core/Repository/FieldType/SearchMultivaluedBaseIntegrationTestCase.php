@@ -183,7 +183,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      *
      * @return array
      */
-    public static function findMultivaluedProvider()
+    public static function findMultivaluedProvider(): array
     {
         $additionalFields = static::getAdditionallyIndexedMultivaluedFieldData();
         $additionalFields[] = [
@@ -224,7 +224,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedEqualsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedEqualsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::EQ);
 
@@ -246,7 +246,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotEqualsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotEqualsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::EQ);
 
@@ -268,7 +268,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedInOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedInOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::IN);
 
@@ -288,7 +288,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotInOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotInOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::IN);
 
@@ -310,7 +310,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedInOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedInOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::IN);
 
@@ -330,7 +330,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotInOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotInOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::IN);
 
@@ -352,7 +352,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedContainsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedContainsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::CONTAINS);
 
@@ -374,7 +374,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotContainsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotContainsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::CONTAINS);
 
@@ -396,7 +396,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GT);
 
@@ -416,7 +416,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedGreaterThanOneFindsTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedGreaterThanOneFindsTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GT);
 
@@ -436,7 +436,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GT);
 
@@ -456,7 +456,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotGreaterThanOneFindsTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotGreaterThanOneFindsTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GT);
 
@@ -476,7 +476,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedGreaterThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedGreaterThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GTE);
 
@@ -498,7 +498,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotGreaterThanOrEqual($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotGreaterThanOrEqual($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GTE);
 
@@ -520,7 +520,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedLowerThanOneEmpty($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedLowerThanOneEmpty($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LT);
 
@@ -540,7 +540,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedLowerThanOneFindsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedLowerThanOneFindsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LT);
 
@@ -560,7 +560,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotLowerThanOneEmpty($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotLowerThanOneEmpty($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LT);
 
@@ -580,7 +580,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotLowerThanOneFindsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotLowerThanOneFindsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LT);
 
@@ -600,7 +600,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedLowerThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedLowerThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LTE);
 
@@ -622,7 +622,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotLowerThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotLowerThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LTE);
 
@@ -644,7 +644,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedBetweenOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedBetweenOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::BETWEEN);
 
@@ -675,7 +675,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotBetweenOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotBetweenOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::BETWEEN);
 
@@ -708,7 +708,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedBetweenTwoOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedBetweenTwoOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::BETWEEN);
 
@@ -739,7 +739,7 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
      */
     #[Depends('testCreateMultivaluedTestContent')]
     #[DataProvider('findMultivaluedProvider')]
-    public function testFindMultivaluedNotBetweenTwoOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotBetweenTwoOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::BETWEEN);
 

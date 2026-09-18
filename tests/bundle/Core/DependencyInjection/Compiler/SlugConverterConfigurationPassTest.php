@@ -38,7 +38,7 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         array $commandsToAdd,
         array $existingOldParameters,
         array $expectedCommands
-    ) {
+    ): void {
         $definition = new Definition(SlugConverter::class);
         $definition->setArgument(0, self::createStub(TransformationProcessor::class));
         $definition->setArgument(1, $existingOldParameters);
@@ -70,7 +70,10 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         self::assertEquals('url_cleanup', $configuration['transformationGroups']['urlalias']['cleanupMethod']);
     }
 
-    public static function configurationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function configurationProvider(): array
     {
         $injectedBySemanticCommands = [
             'new_command_to_add',

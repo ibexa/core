@@ -28,7 +28,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test for the newLanguageCreateStruct() method.
      */
-    public function testNewLanguageCreateStruct()
+    public function testNewLanguageCreateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -88,7 +88,7 @@ class LanguageServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
      */
     #[Depends('testCreateLanguage')]
-    public function testCreateLanguageSetsIdPropertyOnReturnedLanguage($language)
+    public function testCreateLanguageSetsIdPropertyOnReturnedLanguage($language): void
     {
         self::assertNotNull($language->id);
     }
@@ -99,7 +99,7 @@ class LanguageServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
      */
     #[Depends('testCreateLanguage')]
-    public function testCreateLanguageSetsExpectedProperties($language)
+    public function testCreateLanguageSetsExpectedProperties($language): void
     {
         self::assertEquals(
             [
@@ -119,7 +119,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the createLanguage() method.
      */
     #[Depends('testCreateLanguage')]
-    public function testCreateLanguageThrowsInvalidArgumentException()
+    public function testCreateLanguageThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'languageCreateStruct\' is invalid: language with the "nor-NO" language code already exists');
@@ -146,7 +146,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the loadLanguageById() method.
      */
     #[Depends('testCreateLanguage')]
-    public function testLoadLanguageById()
+    public function testLoadLanguageById(): void
     {
         $repository = $this->getRepository();
 
@@ -177,7 +177,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the loadLanguageById() method.
      */
     #[Depends('testLoadLanguageById')]
-    public function testLoadLanguageByIdThrowsNotFoundException()
+    public function testLoadLanguageByIdThrowsNotFoundException(): void
     {
         $repository = $this->getRepository();
 
@@ -200,7 +200,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the updateLanguageName() method.
      */
     #[Depends('testLoadLanguageById')]
-    public function testUpdateLanguageName()
+    public function testUpdateLanguageName(): void
     {
         $repository = $this->getRepository();
 
@@ -244,7 +244,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test service method for updating language name throwing InvalidArgumentException.
      */
-    public function testUpdateLanguageNameThrowsInvalidArgumentException()
+    public function testUpdateLanguageNameThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'newName\' is invalid: \'\' is incorrect value');
@@ -260,7 +260,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the enableLanguage() method.
      */
     #[Depends('testLoadLanguageById')]
-    public function testEnableLanguage()
+    public function testEnableLanguage(): void
     {
         $repository = $this->getRepository();
 
@@ -287,7 +287,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the disableLanguage() method.
      */
     #[Depends('testLoadLanguageById')]
-    public function testDisableLanguage()
+    public function testDisableLanguage(): void
     {
         $repository = $this->getRepository();
 
@@ -314,7 +314,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the loadLanguage() method.
      */
     #[Depends('testCreateLanguage')]
-    public function testLoadLanguage()
+    public function testLoadLanguage(): void
     {
         $repository = $this->getRepository();
 
@@ -362,7 +362,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the loadLanguage() method.
      */
     #[Depends('testLoadLanguage')]
-    public function testLoadLanguageThrowsNotFoundException()
+    public function testLoadLanguageThrowsNotFoundException(): void
     {
         $repository = $this->getRepository();
 
@@ -381,7 +381,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test service method for loading language throwing InvalidArgumentException.
      */
-    public function testLoadLanguageThrowsInvalidArgumentException()
+    public function testLoadLanguageThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'languageCode\' is invalid: language code has an invalid value');
@@ -396,7 +396,7 @@ class LanguageServiceTest extends BaseTestCase
      */
     #[Depends('testCreateLanguage')]
     #[Depends('testLoadLanguage')]
-    public function testLoadLanguages()
+    public function testLoadLanguages(): void
     {
         $repository = $this->getRepository();
 
@@ -451,7 +451,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the deleteLanguage() method.
      */
     #[Depends('testLoadLanguages')]
-    public function testDeleteLanguage()
+    public function testDeleteLanguage(): void
     {
         $repository = $this->getRepository();
         $languageService = $repository->getContentLanguageService();
@@ -491,7 +491,7 @@ class LanguageServiceTest extends BaseTestCase
      * we cannot declare them here.
      */
     #[Depends('testDeleteLanguage')]
-    public function testDeleteLanguageThrowsInvalidArgumentException()
+    public function testDeleteLanguageThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'language\' is invalid: Cannot delete language: some content still references the language');
@@ -533,7 +533,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test for the getDefaultLanguageCode() method.
      */
-    public function testGetDefaultLanguageCode()
+    public function testGetDefaultLanguageCode(): void
     {
         $repository = $this->getRepository();
         $languageService = $repository->getContentLanguageService();
@@ -548,7 +548,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the createLanguage() method.
      */
     #[Depends('testCreateLanguage')]
-    public function testCreateLanguageInTransactionWithRollback()
+    public function testCreateLanguageInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -591,7 +591,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the createLanguage() method.
      */
     #[Depends('testCreateLanguage')]
-    public function testCreateLanguageInTransactionWithCommit()
+    public function testCreateLanguageInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -630,7 +630,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the updateLanguageName() method.
      */
     #[Depends('testUpdateLanguageName')]
-    public function testUpdateLanguageNameInTransactionWithRollback()
+    public function testUpdateLanguageNameInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -666,7 +666,7 @@ class LanguageServiceTest extends BaseTestCase
      * Test for the updateLanguageName() method.
      */
     #[Depends('testUpdateLanguageName')]
-    public function testUpdateLanguageNameInTransactionWithCommit()
+    public function testUpdateLanguageNameInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 

@@ -85,7 +85,7 @@ class LocationHandlerTest extends TestCase
         );
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -100,7 +100,7 @@ class LocationHandlerTest extends TestCase
         self::assertInstanceOf(Location::class, $location);
     }
 
-    public function testLoadLocationSubtree()
+    public function testLoadLocationSubtree(): void
     {
         $this->locationGateway
             ->expects(self::once())
@@ -116,7 +116,7 @@ class LocationHandlerTest extends TestCase
         self::assertCount(2, $this->getLocationHandler()->loadSubtreeIds(77));
     }
 
-    public function testLoadLocationByRemoteId()
+    public function testLoadLocationByRemoteId(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -141,7 +141,7 @@ class LocationHandlerTest extends TestCase
         self::assertInstanceOf(Location::class, $location);
     }
 
-    public function testLoadLocationsByContent()
+    public function testLoadLocationsByContent(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -191,7 +191,7 @@ class LocationHandlerTest extends TestCase
         self::assertIsArray($locations);
     }
 
-    public function testMoveSubtree()
+    public function testMoveSubtree(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -273,7 +273,7 @@ class LocationHandlerTest extends TestCase
         $handler->move(69, 77);
     }
 
-    public function testHideUpdateHidden()
+    public function testHideUpdateHidden(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -300,7 +300,7 @@ class LocationHandlerTest extends TestCase
     }
 
     #[Depends('testHideUpdateHidden')]
-    public function testHideUnhideUpdateHidden()
+    public function testHideUnhideUpdateHidden(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -326,7 +326,7 @@ class LocationHandlerTest extends TestCase
         $handler->unhide(69);
     }
 
-    public function testSwapLocations()
+    public function testSwapLocations(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -338,7 +338,7 @@ class LocationHandlerTest extends TestCase
         $handler->swap(70, 78);
     }
 
-    public function testCreateLocation()
+    public function testCreateLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -376,7 +376,7 @@ class LocationHandlerTest extends TestCase
         $handler->create($createStruct);
     }
 
-    public function testUpdateLocation()
+    public function testUpdateLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -391,7 +391,7 @@ class LocationHandlerTest extends TestCase
         $handler->update($updateStruct, 23);
     }
 
-    public function testSetSectionForSubtree()
+    public function testSetSectionForSubtree(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -403,7 +403,7 @@ class LocationHandlerTest extends TestCase
         $handler->setSectionForSubtree(69, 3);
     }
 
-    public function testChangeMainLocation()
+    public function testChangeMainLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -418,7 +418,7 @@ class LocationHandlerTest extends TestCase
     /**
      * Test for the removeSubtree() method.
      */
-    public function testRemoveSubtree()
+    public function testRemoveSubtree(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -445,7 +445,7 @@ class LocationHandlerTest extends TestCase
     /**
      * Test for the copySubtree() method.
      */
-    public function testCopySubtree()
+    public function testCopySubtree(): void
     {
         $handler = $this->getPartlyMockedHandler(
             [

@@ -65,7 +65,7 @@ class RequestEventListenerTest extends TestCase
         );
     }
 
-    public function testSubscribedEvents()
+    public function testSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -78,7 +78,7 @@ class RequestEventListenerTest extends TestCase
         );
     }
 
-    public function testOnKernelRequestForwardSubRequest()
+    public function testOnKernelRequestForwardSubRequest(): void
     {
         $this->httpKernel
             ->expects(self::never())
@@ -88,7 +88,7 @@ class RequestEventListenerTest extends TestCase
         $this->requestEventListener->onKernelRequestForward($event);
     }
 
-    public function testOnKernelRequestForward()
+    public function testOnKernelRequestForward(): void
     {
         ClockMock::withClockMock(true);
 
@@ -119,14 +119,14 @@ class RequestEventListenerTest extends TestCase
         ClockMock::withClockMock(false);
     }
 
-    public function testOnKernelRequestRedirectSubRequest()
+    public function testOnKernelRequestRedirectSubRequest(): void
     {
         $event = new RequestEvent($this->httpKernel, new Request(), HttpKernelInterface::SUB_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
         self::assertFalse($event->hasResponse());
     }
 
-    public function testOnKernelRequestRedirect()
+    public function testOnKernelRequestRedirect(): void
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
@@ -147,7 +147,7 @@ class RequestEventListenerTest extends TestCase
         self::assertTrue($event->isPropagationStopped());
     }
 
-    public function testOnKernelRequestRedirectWithLocationId()
+    public function testOnKernelRequestRedirectWithLocationId(): void
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
@@ -170,7 +170,7 @@ class RequestEventListenerTest extends TestCase
         self::assertTrue($event->isPropagationStopped());
     }
 
-    public function testOnKernelRequestRedirectPrependSiteaccess()
+    public function testOnKernelRequestRedirectPrependSiteaccess(): void
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];

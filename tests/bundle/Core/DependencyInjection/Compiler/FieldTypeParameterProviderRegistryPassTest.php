@@ -35,7 +35,7 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
     }
 
     #[DataProvider('tagsProvider')]
-    public function testRegisterFieldType(string $tag)
+    public function testRegisterFieldType(string $tag): void
     {
         $fieldTypeIdentifier = 'field_type_identifier';
         $serviceId = 'service_id';
@@ -56,7 +56,7 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
      * @param string $tag
      */
     #[DataProvider('tagsProvider')]
-    public function testRegisterFieldTypeNoAlias(string $tag)
+    public function testRegisterFieldTypeNoAlias(string $tag): void
     {
         $this->expectException(\LogicException::class);
 

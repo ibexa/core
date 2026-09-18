@@ -64,7 +64,7 @@ class FlysystemTest extends TestCase
         self::assertEquals($expectedSpiBinaryFile, $spiBinaryFile);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->filesystem->expects(self::never())->method('delete');
         $this->handler->delete('prefix/my/file.png');

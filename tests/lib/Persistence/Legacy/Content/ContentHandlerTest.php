@@ -117,7 +117,7 @@ class ContentHandlerTest extends TestCase
     /**
      * @todo Current method way to complex to test, refactor!
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getContentHandler();
 
@@ -212,7 +212,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testPublishFirstVersion()
+    public function testPublishFirstVersion(): void
     {
         $handler = $this->getPartlyMockedHandler(['loadVersionInfo']);
 
@@ -289,7 +289,7 @@ class ContentHandlerTest extends TestCase
         $handler->publish(23, 1, $metadataUpdateStruct);
     }
 
-    public function testPublish()
+    public function testPublish(): void
     {
         $handler = $this->getPartlyMockedHandler(['loadVersionInfo', 'setStatus']);
 
@@ -372,7 +372,7 @@ class ContentHandlerTest extends TestCase
         $handler->publish(23, 2, $metadataUpdateStruct);
     }
 
-    public function testCreateDraftFromVersion()
+    public function testCreateDraftFromVersion(): void
     {
         $handler = $this->getPartlyMockedHandler(['load']);
 
@@ -469,7 +469,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getContentHandler();
 
@@ -514,7 +514,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadContentList()
+    public function testLoadContentList(): void
     {
         $handler = $this->getContentHandler();
 
@@ -573,7 +573,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadContentInfoByRemoteId()
+    public function testLoadContentInfoByRemoteId(): void
     {
         $contentInfoData = [new ContentInfo()];
         $this->getGatewayMock()->expects(self::once())
@@ -595,7 +595,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadErrorNotFound()
+    public function testLoadErrorNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -636,7 +636,7 @@ class ContentHandlerTest extends TestCase
         return $content;
     }
 
-    public function testUpdateContent()
+    public function testUpdateContent(): void
     {
         $handler = $this->getPartlyMockedHandler(['load', 'loadContentInfo']);
 
@@ -737,7 +737,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testUpdateMetadata()
+    public function testUpdateMetadata(): void
     {
         $handler = $this->getPartlyMockedHandler(['load', 'loadContentInfo']);
 
@@ -772,7 +772,7 @@ class ContentHandlerTest extends TestCase
         self::assertInstanceOf(ContentInfo::class, $resultContentInfo);
     }
 
-    public function testUpdateMetadataUpdatesPathIdentificationString()
+    public function testUpdateMetadataUpdatesPathIdentificationString(): void
     {
         $handler = $this->getPartlyMockedHandler(['load', 'loadContentInfo']);
         $locationGatewayMock = $this->getLocationGatewayMock();
@@ -895,7 +895,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadReverseRelations()
+    public function testLoadReverseRelations(): void
     {
         $handler = $this->getContentHandler();
 
@@ -924,7 +924,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testAddRelation()
+    public function testAddRelation(): void
     {
         // expected relation object after creation
         $expectedRelationObject = new Relation();
@@ -968,7 +968,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testRemoveRelation()
+    public function testRemoveRelation(): void
     {
         $gatewayMock = $this->getGatewayMock();
 
@@ -1027,7 +1027,7 @@ class ContentHandlerTest extends TestCase
         return $struct;
     }
 
-    public function testLoadDraftsForUser()
+    public function testLoadDraftsForUser(): void
     {
         $handler = $this->getContentHandler();
         $rows = [['content_version_contentobject_id' => 42, 'content_version_version' => 2]];
@@ -1058,7 +1058,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testListVersions()
+    public function testListVersions(): void
     {
         $handler = $this->getContentHandler();
 
@@ -1078,7 +1078,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testRemoveRawContent()
+    public function testRemoveRawContent(): void
     {
         $handler = $this->getContentHandler();
         $treeHandlerMock = $this->getTreeHandlerMock();
@@ -1094,7 +1094,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Test for the deleteContent() method.
      */
-    public function testDeleteContentWithLocations()
+    public function testDeleteContentWithLocations(): void
     {
         $handlerMock = $this->getPartlyMockedHandler([]);
         $gatewayMock = $this->getGatewayMock();
@@ -1119,7 +1119,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Test for the deleteContent() method.
      */
-    public function testDeleteContentWithoutLocations()
+    public function testDeleteContentWithoutLocations(): void
     {
         $handlerMock = $this->getPartlyMockedHandler(['removeRawContent']);
         $gatewayMock = $this->getGatewayMock();
@@ -1135,7 +1135,7 @@ class ContentHandlerTest extends TestCase
         $handlerMock->deleteContent(23);
     }
 
-    public function testDeleteVersion()
+    public function testDeleteVersion(): void
     {
         $handler = $this->getContentHandler();
 
@@ -1197,7 +1197,7 @@ class ContentHandlerTest extends TestCase
         $handler->deleteVersion(225, 2);
     }
 
-    public function testCopySingleVersion()
+    public function testCopySingleVersion(): void
     {
         $handler = $this->getPartlyMockedHandler(['load', 'internalCreate']);
         $gatewayMock = $this->getGatewayMock();
@@ -1258,7 +1258,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testCopyAllVersions()
+    public function testCopyAllVersions(): void
     {
         $handler = $this->getPartlyMockedHandler(
             [
@@ -1412,7 +1412,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testCopyThrowsNotFoundExceptionContentNotFound()
+    public function testCopyThrowsNotFoundExceptionContentNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1430,7 +1430,7 @@ class ContentHandlerTest extends TestCase
         $handler->copy(23);
     }
 
-    public function testCopyThrowsNotFoundExceptionVersionNotFound()
+    public function testCopyThrowsNotFoundExceptionVersionNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1448,7 +1448,7 @@ class ContentHandlerTest extends TestCase
         $result = $handler->copy(23, 32);
     }
 
-    public function testSetStatus()
+    public function testSetStatus(): void
     {
         $handler = $this->getContentHandler();
 

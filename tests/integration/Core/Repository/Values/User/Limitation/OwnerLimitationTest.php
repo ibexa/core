@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('limitation')]
 class OwnerLimitationTest extends BaseLimitationTestCase
 {
-    public function testOwnerLimitationAllow()
+    public function testOwnerLimitationAllow(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -85,7 +85,7 @@ class OwnerLimitationTest extends BaseLimitationTestCase
         $contentService->loadContent($content->id);
     }
 
-    public function testOwnerLimitationForbid()
+    public function testOwnerLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

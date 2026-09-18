@@ -14,13 +14,16 @@ use PHPUnit\Framework\TestCase;
 class DynamicSettingParserTest extends TestCase
 {
     #[DataProvider('isDynamicSettingProvider')]
-    public function testIsDynamicSetting($setting, $expected)
+    public function testIsDynamicSetting($setting, $expected): void
     {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->isDynamicSetting($setting));
     }
 
-    public static function isDynamicSettingProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function isDynamicSettingProvider(): array
     {
         return [
             ['foo', false],
@@ -39,7 +42,7 @@ class DynamicSettingParserTest extends TestCase
         ];
     }
 
-    public function testParseDynamicSettingFail()
+    public function testParseDynamicSettingFail(): void
     {
         $this->expectException(\OutOfBoundsException::class);
 
@@ -48,13 +51,16 @@ class DynamicSettingParserTest extends TestCase
     }
 
     #[DataProvider('parseDynamicSettingProvider')]
-    public function testParseDynamicSetting($setting, array $expected)
+    public function testParseDynamicSetting($setting, array $expected): void
     {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->parseDynamicSetting($setting));
     }
 
-    public static function parseDynamicSettingProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function parseDynamicSettingProvider(): array
     {
         return [
             [

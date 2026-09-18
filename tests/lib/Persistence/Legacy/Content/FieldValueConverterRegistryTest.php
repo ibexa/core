@@ -17,7 +17,7 @@ class FieldValueConverterRegistryTest extends TestCase
 {
     private const TYPE_NAME = 'some-type';
 
-    public function testRegister()
+    public function testRegister(): void
     {
         $converter = $this->getFieldValueConverterMock();
         $registry = new Registry([self::TYPE_NAME => $converter]);
@@ -25,7 +25,7 @@ class FieldValueConverterRegistryTest extends TestCase
         self::assertSame($converter, $registry->getConverter(self::TYPE_NAME));
     }
 
-    public function testGetStorage()
+    public function testGetStorage(): void
     {
         $converter = $this->getFieldValueConverterMock();
         $registry = new Registry([self::TYPE_NAME => $converter]);
@@ -38,7 +38,7 @@ class FieldValueConverterRegistryTest extends TestCase
         );
     }
 
-    public function testGetNotFound()
+    public function testGetNotFound(): void
     {
         $this->expectException(Converter\Exception\NotFound::class);
 

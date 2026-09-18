@@ -29,7 +29,7 @@ class MediaTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('ibexa_media')]
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
 
@@ -65,7 +65,7 @@ class MediaTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('ibexa_media')]
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(

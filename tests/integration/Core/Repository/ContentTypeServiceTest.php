@@ -73,7 +73,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the newContentTypeGroupCreateStruct() method.
      */
     #[Depends('testNewContentTypeGroupCreateStruct')]
-    public function testNewContentTypeGroupCreateStructValues($createStruct)
+    public function testNewContentTypeGroupCreateStructValues($createStruct): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -163,7 +163,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the createContentTypeGroup() method.
      */
     #[Depends('testCreateContentTypeGroupStructValues')]
-    public function testCreateContentTypeGroupStructLanguageDependentValues(array $data)
+    public function testCreateContentTypeGroupStructLanguageDependentValues(array $data): void
     {
         $createStruct = $data['createStruct'];
         $group = $data['group'];
@@ -181,7 +181,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the createContentTypeGroup() method.
      */
     #[Depends('testCreateContentTypeGroup')]
-    public function testCreateContentTypeGroupThrowsInvalidArgumentException()
+    public function testCreateContentTypeGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$contentTypeGroupCreateStruct\' is invalid: A group with the identifier \'Content\' already exists');
@@ -246,7 +246,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeGroup() method.
      */
     #[Depends('testLoadContentTypeGroup')]
-    public function testLoadContentTypeGroupStructValues(ContentTypeGroup $group)
+    public function testLoadContentTypeGroupStructValues(ContentTypeGroup $group): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -264,7 +264,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the loadContentTypeGroup() method.
      */
-    public function testLoadContentTypeGroupThrowsNotFoundException()
+    public function testLoadContentTypeGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -303,7 +303,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeGroupByIdentifier() method.
      */
     #[Depends('testLoadContentTypeGroupByIdentifier')]
-    public function testLoadContentTypeGroupByIdentifierStructValues(ContentTypeGroup $group)
+    public function testLoadContentTypeGroupByIdentifierStructValues(ContentTypeGroup $group): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -318,7 +318,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeGroupByIdentifier() method.
      */
     #[Depends('testLoadContentTypeGroupByIdentifier')]
-    public function testLoadContentTypeGroupByIdentifierThrowsNotFoundException()
+    public function testLoadContentTypeGroupByIdentifierThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -374,7 +374,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeGroups() method.
      */
     #[Depends('testLoadContentTypeGroups')]
-    public function testLoadContentTypeGroupsIdentifiers($groups)
+    public function testLoadContentTypeGroupsIdentifiers($groups): void
     {
         self::assertCount(4, $groups);
 
@@ -403,7 +403,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the newContentTypeGroupUpdateStruct() method.
      */
-    public function testNewContentTypeGroupUpdateStruct()
+    public function testNewContentTypeGroupUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -493,7 +493,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the updateContentTypeGroup() method.
      */
     #[Depends('testUpdateContentTypeGroupStructValues')]
-    public function testUpdateContentTypeGroupStructLanguageDependentValues(array $data)
+    public function testUpdateContentTypeGroupStructLanguageDependentValues(array $data): void
     {
         $expectedValues = [
             'identifier' => $data['updateStruct']->identifier,
@@ -515,7 +515,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the updateContentTypeGroup() method.
      */
     #[Depends('testUpdateContentTypeGroup')]
-    public function testUpdateContentTypeGroupThrowsInvalidArgumentException()
+    public function testUpdateContentTypeGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$contentTypeGroupUpdateStruct->identifier\' is invalid: given identifier already exists');
@@ -541,7 +541,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the deleteContentTypeGroup() method.
      */
     #[Depends('testLoadContentTypeGroup')]
-    public function testDeleteContentTypeGroup()
+    public function testDeleteContentTypeGroup(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -625,7 +625,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the newContentTypeCreateStruct() method.
      */
     #[Depends('testNewContentTypeCreateStruct')]
-    public function testNewContentTypeCreateStructValues($createStruct)
+    public function testNewContentTypeCreateStructValues($createStruct): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -674,7 +674,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the newFieldDefinitionCreateStruct() method.
      */
     #[Depends('testNewFieldDefinitionCreateStruct')]
-    public function testNewFieldDefinitionCreateStructValues($createStruct)
+    public function testNewFieldDefinitionCreateStructValues($createStruct): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -700,7 +700,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the deleteContentTypeGroup() method.
      */
     #[Depends('testDeleteContentTypeGroup')]
-    public function testDeleteContentTypeGroupThrowsInvalidArgumentException()
+    public function testDeleteContentTypeGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -831,7 +831,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @param array $data
      */
     #[Depends('testCreateContentType')]
-    public function testCreateContentTypeStructValues(array $data)
+    public function testCreateContentTypeStructValues(array $data): void
     {
         $typeCreate = $data['typeCreate'];
         $contentType = $data['contentType'];
@@ -962,7 +962,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the createContentType() method.
      */
     #[Depends('testCreateContentType')]
-    public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateIdentifier()
+    public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateIdentifier(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$contentTypeCreateStruct\' is invalid: Another content type with identifier \'folder\' exists');
@@ -994,7 +994,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * remoteId.
      */
     #[Depends('testCreateContentType')]
-    public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateRemoteId()
+    public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateRemoteId(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Another content type with remoteId \'a3d405b81be900468eb153d774f4f0d2\' exists');
@@ -1026,7 +1026,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the createContentType() method creating content with duplicate field identifiers.
      */
     #[Depends('testCreateContentType')]
-    public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateFieldIdentifier()
+    public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateFieldIdentifier(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$contentTypeCreateStruct\' is invalid: The argument contains duplicate Field definition identifier \'title\'');
@@ -1061,7 +1061,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * existing identifier.
      */
     #[Depends('testCreateContentType')]
-    public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateContentTypeIdentifier()
+    public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateContentTypeIdentifier(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Another content type with identifier \'blog-post\' exists');
@@ -1097,7 +1097,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the createContentType() method.
      */
     #[Depends('testCreateContentType')]
-    public function testCreateContentTypeThrowsContentTypeFieldDefinitionValidationException()
+    public function testCreateContentTypeThrowsContentTypeFieldDefinitionValidationException(): void
     {
         $repository = $this->getRepository();
 
@@ -1153,7 +1153,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the createContentTypeGroup() method called with no groups.
      */
     #[Depends('testCreateContentType')]
-    public function testCreateContentTypeThrowsInvalidArgumentExceptionGroupsEmpty()
+    public function testCreateContentTypeThrowsInvalidArgumentExceptionGroupsEmpty(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$contentTypeGroups\' is invalid: The argument must contain at least one content type group');
@@ -1197,7 +1197,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the newContentTypeUpdateStruct() method.
      */
     #[Depends('testNewContentTypeUpdateStruct')]
-    public function testNewContentTypeUpdateStructValues($typeUpdate)
+    public function testNewContentTypeUpdateStructValues($typeUpdate): void
     {
         foreach ($typeUpdate as $propertyName => $propertyValue) {
             self::assertNull(
@@ -1211,7 +1211,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeDraft() method.
      */
     #[Depends('testCreateContentType')]
-    public function testLoadContentTypeDraft()
+    public function testLoadContentTypeDraft(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -1234,7 +1234,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeDraft() method.
      */
     #[Depends('testLoadContentTypeDraft')]
-    public function testLoadContentTypeDraftThrowsNotFoundException()
+    public function testLoadContentTypeDraftThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1252,7 +1252,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the loadContentTypeDraft() method.
      */
-    public function testLoadContentTypeDraftThrowsNotFoundExceptionIfDiffrentOwner()
+    public function testLoadContentTypeDraftThrowsNotFoundExceptionIfDiffrentOwner(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1271,7 +1271,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the loadContentTypeDraft() method.
      */
-    public function testCanLoadContentTypeDraftEvenIfDiffrentOwner()
+    public function testCanLoadContentTypeDraftEvenIfDiffrentOwner(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -1342,7 +1342,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the updateContentTypeDraft() method.
      */
     #[Depends('testUpdateContentTypeDraft')]
-    public function testUpdateContentTypeDraftStructValues($data)
+    public function testUpdateContentTypeDraftStructValues($data): void
     {
         $originalType = $data['originalType'];
         $updateStruct = $data['updateStruct'];
@@ -1385,7 +1385,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testUpdateContentTypeDraftWithNewTranslation()
+    public function testUpdateContentTypeDraftWithNewTranslation(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -1422,7 +1422,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the updateContentTypeDraft() method.
      */
     #[Depends('testUpdateContentTypeDraft')]
-    public function testUpdateContentTypeDraftThrowsInvalidArgumentExceptionDuplicateIdentifier()
+    public function testUpdateContentTypeDraftThrowsInvalidArgumentExceptionDuplicateIdentifier(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1444,7 +1444,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the updateContentTypeDraft() method.
      */
     #[Depends('testUpdateContentTypeDraft')]
-    public function testUpdateContentTypeDraftThrowsInvalidArgumentExceptionDuplicateRemoteId()
+    public function testUpdateContentTypeDraftThrowsInvalidArgumentExceptionDuplicateRemoteId(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1466,7 +1466,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the updateContentTypeDraft() method.
      */
     #[Depends('testUpdateContentTypeDraft')]
-    public function testUpdateContentTypeDraftThrowsInvalidArgumentExceptionNoDraftForAuthenticatedUser()
+    public function testUpdateContentTypeDraftThrowsInvalidArgumentExceptionNoDraftForAuthenticatedUser(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$contentTypeDraft\' is invalid: There is no content type draft assigned to the authenticated user');
@@ -1554,7 +1554,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the addFieldDefinition() method.
      */
     #[Depends('testAddFieldDefinition')]
-    public function testAddFieldDefinitionStructValues(array $data)
+    public function testAddFieldDefinitionStructValues(array $data): void
     {
         $loadedType = $data['loadedType'];
         $fieldDefCreate = $data['fieldDefCreate'];
@@ -1579,7 +1579,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the addFieldDefinition() method.
      */
     #[Depends('testAddFieldDefinition')]
-    public function testAddFieldDefinitionThrowsInvalidArgumentExceptionDuplicateFieldIdentifier()
+    public function testAddFieldDefinitionThrowsInvalidArgumentExceptionDuplicateFieldIdentifier(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1603,7 +1603,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * times to the same ContentType.
      */
     #[Depends('testAddFieldDefinition')]
-    public function testAddFieldDefinitionThrowsContentTypeFieldDefinitionValidationException()
+    public function testAddFieldDefinitionThrowsContentTypeFieldDefinitionValidationException(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -1660,7 +1660,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * times to the same ContentType.
      */
     #[Depends('testAddFieldDefinition')]
-    public function testAddFieldDefinitionThrowsBadStateExceptionNonRepeatableField()
+    public function testAddFieldDefinitionThrowsBadStateExceptionNonRepeatableField(): void
     {
         $this->expectException(BadStateException::class);
         $this->expectExceptionMessage('The content type already contains a Field definition of the singular Field Type \'ibexa_user\'');
@@ -1699,7 +1699,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Testing that field definition of non-repeatable field type can not be added multiple
      * times to the same ContentTypeCreateStruct.
      */
-    public function testCreateContentThrowsContentTypeValidationException()
+    public function testCreateContentThrowsContentTypeValidationException(): void
     {
         $this->expectException(ContentTypeValidationException::class);
         $this->expectExceptionMessage('Field Type \'ibexa_user\' is singular and cannot be used more than once in a content type');
@@ -1751,7 +1751,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * already has Content instances.
      */
     #[Depends('testAddFieldDefinition')]
-    public function testAddFieldDefinitionThrowsBadStateExceptionContentInstances()
+    public function testAddFieldDefinitionThrowsBadStateExceptionContentInstances(): void
     {
         $this->expectException(BadStateException::class);
         $this->expectExceptionMessage('A Field definition of the \'ibexa_user\' Field Type cannot be added because the content type already has Content items');
@@ -1822,7 +1822,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @param array $data
      */
     #[Depends('testRemoveFieldDefinition')]
-    public function testRemoveFieldDefinitionRemoved(array $data)
+    public function testRemoveFieldDefinitionRemoved(array $data): void
     {
         $removedFieldDefinition = $data['removedFieldDefinition'];
         $loadedType = $data['loadedType'];
@@ -1843,7 +1843,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the removeFieldDefinition() method.
      */
     #[Depends('testRemoveFieldDefinition')]
-    public function testRemoveFieldDefinitionThrowsInvalidArgumentException()
+    public function testRemoveFieldDefinitionThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1867,7 +1867,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test removeFieldDefinition() method for field in a different draft throws an exception.
      */
     #[Depends('testRemoveFieldDefinition')]
-    public function testRemoveFieldDefinitionThrowsInvalidArgumentExceptionOnWrongDraft()
+    public function testRemoveFieldDefinitionThrowsInvalidArgumentExceptionOnWrongDraft(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1955,7 +1955,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content[] $data
      */
     #[Depends('testRemoveFieldDefinitionRemovesFieldFromContent')]
-    public function testRemoveFieldDefinitionRemovesFieldFromContentRemoved($data)
+    public function testRemoveFieldDefinitionRemovesFieldFromContentRemoved($data): void
     {
         list(
             $contentVersion1Archived,
@@ -2070,7 +2070,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content[] $data
      */
     #[Depends('testAddFieldDefinitionAddsFieldToContent')]
-    public function testAddFieldDefinitionAddsFieldToContentAdded(array $data)
+    public function testAddFieldDefinitionAddsFieldToContentAdded(array $data): void
     {
         list(
             $contentVersion1Archived,
@@ -2130,7 +2130,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
      */
     #[Depends('testNewFieldDefinitionUpdateStruct')]
-    public function testNewFieldDefinitionUpdateStructValues($fieldDefinitionUpdateStruct)
+    public function testNewFieldDefinitionUpdateStructValues($fieldDefinitionUpdateStruct): void
     {
         foreach ($fieldDefinitionUpdateStruct as $propertyName => $propertyValue) {
             self::assertNull(
@@ -2197,7 +2197,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         ];
     }
 
-    public function testUpdateFieldDefinitionWithNewTranslation()
+    public function testUpdateFieldDefinitionWithNewTranslation(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2264,7 +2264,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @param array $data
      */
     #[Depends('testUpdateFieldDefinition')]
-    public function testUpdateFieldDefinitionStructValues(array $data)
+    public function testUpdateFieldDefinitionStructValues(array $data): void
     {
         $originalField = $data['originalField'];
         $updatedField = $data['updatedField'];
@@ -2293,7 +2293,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the updateFieldDefinition() method using an empty FieldDefinitionUpdateStruct.
      */
-    public function testUpdateFieldDefinitionWithEmptyStruct()
+    public function testUpdateFieldDefinitionWithEmptyStruct(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2319,7 +2319,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the updateFieldDefinition() method with already defined field identifier.
      */
-    public function testUpdateFieldDefinitionThrowsInvalidArgumentExceptionFieldIdentifierExists()
+    public function testUpdateFieldDefinitionThrowsInvalidArgumentExceptionFieldIdentifierExists(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$fieldDefinitionUpdateStruct\' is invalid: Another Field definition with identifier \'title\' exists in the content type');
@@ -2349,7 +2349,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the updateFieldDefinition() method trying to update non-existent field.
      */
     #[Depends('testLoadContentTypeDraft')]
-    public function testUpdateFieldDefinitionThrowsInvalidArgumentExceptionForUndefinedField()
+    public function testUpdateFieldDefinitionThrowsInvalidArgumentExceptionForUndefinedField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$fieldDefinition\' is invalid: The given Field definition does not belong to the content type');
@@ -2380,7 +2380,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the publishContentTypeDraft() method.
      */
     #[Depends('testLoadContentTypeDraft')]
-    public function testPublishContentTypeDraft()
+    public function testPublishContentTypeDraft(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2407,7 +2407,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the publishContentTypeDraft() method setting proper ContentType nameSchema.
      */
     #[Depends('testPublishContentTypeDraft')]
-    public function testPublishContentTypeDraftSetsNameSchema()
+    public function testPublishContentTypeDraftSetsNameSchema(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2441,7 +2441,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test that publishing content type Draft refreshes list of content types in content type groups.
      */
-    public function testPublishContentTypeDraftRefreshesContentTypesList()
+    public function testPublishContentTypeDraftRefreshesContentTypesList(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2494,7 +2494,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the publishContentTypeDraft() method.
      */
     #[Depends('testPublishContentTypeDraft')]
-    public function testPublishContentTypeDraftThrowsBadStateException()
+    public function testPublishContentTypeDraftThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -2515,7 +2515,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the createContentTypeGroup() method trying to create content type without any fields.
      */
     #[Depends('testPublishContentTypeDraft')]
-    public function testPublishContentTypeDraftThrowsInvalidArgumentExceptionWithoutFields()
+    public function testPublishContentTypeDraftThrowsInvalidArgumentExceptionWithoutFields(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$contentTypeDraft\' is invalid: The content type draft should have at least one Field definition');
@@ -2576,7 +2576,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @param string[] $languageCodes
      */
     #[DataProvider('getPrioritizedLanguageList')]
-    public function testLoadContentTypeWithPrioritizedLanguagesList(array $languageCodes)
+    public function testLoadContentTypeWithPrioritizedLanguagesList(array $languageCodes): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2611,7 +2611,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * @return array
      */
-    public static function getPrioritizedLanguageList()
+    public static function getPrioritizedLanguageList(): array
     {
         return [
             [[]],
@@ -2665,7 +2665,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentType() method.
      */
     #[Depends('testLoadContentTypeStructValues')]
-    public function testLoadContentTypeFieldDefinitions(APIFieldDefinitionCollection $fieldDefinitions)
+    public function testLoadContentTypeFieldDefinitions(APIFieldDefinitionCollection $fieldDefinitions): void
     {
         $expectedFieldDefinitions = [
             'name' => [
@@ -2758,7 +2758,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentType() method.
      */
     #[Depends('testLoadContentType')]
-    public function testLoadContentTypeThrowsNotFoundException()
+    public function testLoadContentTypeThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -2804,7 +2804,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      */
     #[Depends('testLoadContentTypeByIdentifier')]
-    public function testLoadContentTypeByIdentifierReturnsCorrectInstance($contentType)
+    public function testLoadContentTypeByIdentifierReturnsCorrectInstance($contentType): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2819,7 +2819,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeByIdentifier() method.
      */
     #[Depends('testLoadContentTypeByIdentifier')]
-    public function testLoadContentTypeByIdentifierThrowsNotFoundException()
+    public function testLoadContentTypeByIdentifierThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -2862,7 +2862,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeByRemoteId() method.
      */
     #[Depends('testLoadContentTypeByRemoteId')]
-    public function testLoadContentTypeByRemoteIdReturnsCorrectInstance($contentType)
+    public function testLoadContentTypeByRemoteIdReturnsCorrectInstance($contentType): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2877,7 +2877,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeByRemoteId() method.
      */
     #[Depends('testLoadContentType')]
-    public function testLoadContentTypeByRemoteIdThrowsNotFoundException()
+    public function testLoadContentTypeByRemoteIdThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -2895,7 +2895,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypeList() method.
      */
     #[Depends('testLoadContentType')]
-    public function testLoadContentTypeList()
+    public function testLoadContentTypeList(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2941,7 +2941,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the loadContentTypes() method.
      */
     #[Depends('testLoadContentTypes')]
-    public function testLoadContentTypesContent(array $types)
+    public function testLoadContentTypesContent(array $types): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -3046,7 +3046,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the createContentTypeDraft() method.
      */
     #[Depends('testCreateContentTypeDraftStructValues')]
-    public function testCreateContentTypeDraftStructLanguageDependentValues(array $data)
+    public function testCreateContentTypeDraftStructLanguageDependentValues(array $data): void
     {
         $originalType = $data['originalType'];
         $typeDraft = $data['typeDraft'];
@@ -3067,7 +3067,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the createContentTypeDraft() method.
      */
     #[Depends('testCreateContentTypeDraft')]
-    public function testCreateContentTypeDraftThrowsBadStateException()
+    public function testCreateContentTypeDraftThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -3089,7 +3089,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the deleteContentType() method.
      */
     #[Depends('testLoadContentTypeByIdentifier')]
-    public function testDeleteContentType()
+    public function testDeleteContentType(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -3111,7 +3111,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the deleteContentType() method.
      */
     #[Depends('testDeleteContentType')]
-    public function testDeleteContentTypeThrowsBadStateException()
+    public function testDeleteContentTypeThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -3178,7 +3178,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @param array $data
      */
     #[Depends('testCopyContentType')]
-    public function testCopyContentTypeStructValues(array $data)
+    public function testCopyContentTypeStructValues(array $data): void
     {
         $originalType = $data['originalType'];
         $copiedType = $data['copiedType'];
@@ -3266,7 +3266,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the copyContentType() method.
      */
     #[Depends('testCopyContentType')]
-    public function testCopyContentTypeWithSecondParameter()
+    public function testCopyContentTypeWithSecondParameter(): void
     {
         $repository = $this->getRepository();
 
@@ -3297,7 +3297,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     #[Depends('testLoadContentTypeGroupByIdentifier')]
     #[Depends('testLoadContentTypeByIdentifier')]
     #[Depends('testLoadContentType')]
-    public function testAssignContentTypeGroup()
+    public function testAssignContentTypeGroup(): void
     {
         $repository = $this->getRepository();
 
@@ -3329,7 +3329,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the assignContentTypeGroup() method.
      */
     #[Depends('testAssignContentTypeGroup')]
-    public function testAssignContentTypeGroupThrowsInvalidArgumentException()
+    public function testAssignContentTypeGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -3352,7 +3352,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the unassignContentTypeGroup() method.
      */
     #[Depends('testAssignContentTypeGroup')]
-    public function testUnassignContentTypeGroup()
+    public function testUnassignContentTypeGroup(): void
     {
         $repository = $this->getRepository();
 
@@ -3388,7 +3388,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the unassignContentTypeGroup() method.
      */
     #[Depends('testUnassignContentTypeGroup')]
-    public function testUnassignContentTypeGroupThrowsInvalidArgumentException()
+    public function testUnassignContentTypeGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -3409,7 +3409,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the unassignContentTypeGroup() method.
      */
     #[Depends('testUnassignContentTypeGroup')]
-    public function testUnassignContentTypeGroupThrowsBadStateException()
+    public function testUnassignContentTypeGroupThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -3433,7 +3433,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testLoadContentTypeGroup')]
     #[Depends('testCreateContentTypeGroup')]
-    public function testCreateContentTypeGroupInTransactionWithRollback()
+    public function testCreateContentTypeGroupInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -3477,7 +3477,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testLoadContentTypeGroup')]
     #[Depends('testCreateContentTypeGroup')]
-    public function testCreateContentTypeGroupInTransactionWithCommit()
+    public function testCreateContentTypeGroupInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -3517,7 +3517,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testUpdateContentTypeGroup')]
     #[Depends('testLoadContentTypeGroupByIdentifier')]
-    public function testUpdateContentTypeGroupInTransactionWithRollback()
+    public function testUpdateContentTypeGroupInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -3558,7 +3558,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testUpdateContentTypeGroup')]
     #[Depends('testLoadContentTypeGroupByIdentifier')]
-    public function testUpdateContentTypeGroupInTransactionWithCommit()
+    public function testUpdateContentTypeGroupInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -3601,7 +3601,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testDeleteContentTypeGroup')]
     #[Depends('testLoadContentTypeGroupByIdentifierThrowsNotFoundException')]
-    public function testDeleteContentTypeGroupWithRollback()
+    public function testDeleteContentTypeGroupWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -3647,7 +3647,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testDeleteContentTypeGroup')]
     #[Depends('testLoadContentTypeGroupByIdentifierThrowsNotFoundException')]
-    public function testDeleteContentTypeGroupWithCommit()
+    public function testDeleteContentTypeGroupWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -3693,7 +3693,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testCreateContentType')]
     #[Depends('testLoadContentTypeByIdentifierThrowsNotFoundException')]
-    public function testCreateContentTypeInTransactionWithRollback()
+    public function testCreateContentTypeInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -3751,7 +3751,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testCreateContentType')]
     #[Depends('testLoadContentTypeByIdentifierThrowsNotFoundException')]
-    public function testCreateContentTypeInTransactionWithCommit()
+    public function testCreateContentTypeInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -3806,7 +3806,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     #[Depends('testCopyContentType')]
     #[Depends('testLoadContentTypeByIdentifier')]
     #[Depends('testLoadContentTypeThrowsNotFoundException')]
-    public function testCopyContentTypeInTransactionWithRollback()
+    public function testCopyContentTypeInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -3848,7 +3848,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     #[Depends('testCopyContentType')]
     #[Depends('testLoadContentTypeByIdentifier')]
     #[Depends('testLoadContentTypeThrowsNotFoundException')]
-    public function testCopyContentTypeInTransactionWithCommit()
+    public function testCopyContentTypeInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -3885,7 +3885,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testCopyContentType')]
     #[Depends('testLoadContentTypeByIdentifierThrowsNotFoundException')]
-    public function testDeleteContentTypeInTransactionWithRollback()
+    public function testDeleteContentTypeInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -3922,7 +3922,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      */
     #[Depends('testCopyContentType')]
     #[Depends('testLoadContentTypeByIdentifierThrowsNotFoundException')]
-    public function testDeleteContentTypeInTransactionWithCommit()
+    public function testDeleteContentTypeInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -3962,7 +3962,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the assignContentTypeGroup() method.
      */
     #[Depends('testAssignContentTypeGroup')]
-    public function testAssignContentTypeGroupInTransactionWithRollback()
+    public function testAssignContentTypeGroupInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -4006,7 +4006,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * Test for the assignContentTypeGroup() method.
      */
     #[Depends('testAssignContentTypeGroup')]
-    public function testAssignContentTypeGroupInTransactionWithCommit()
+    public function testAssignContentTypeGroupInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -4049,7 +4049,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the isContentTypeUsed() method.
      */
-    public function testIsContentTypeUsed()
+    public function testIsContentTypeUsed(): void
     {
         $repository = $this->getRepository();
 
@@ -4073,7 +4073,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRemoveContentTypeTranslation()
+    public function testRemoveContentTypeTranslation(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -4113,7 +4113,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRemoveContentTypeTranslationWithMultilingualData()
+    public function testRemoveContentTypeTranslationWithMultilingualData(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -4173,7 +4173,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testUpdateContentTypeDraftWithNewTranslationWithMultilingualData()
+    public function testUpdateContentTypeDraftWithNewTranslationWithMultilingualData(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -4300,7 +4300,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the deleteUserDrafts() method.
      */
-    public function testDeleteUserDrafts()
+    public function testDeleteUserDrafts(): void
     {
         $this->expectException(NotFoundException::class);
 

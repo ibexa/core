@@ -65,7 +65,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
         );
     }
 
-    public function testGetVariationWrongValue()
+    public function testGetVariationWrongValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -82,7 +82,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
     }
 
     #[DataProvider('getVariationProvider')]
-    public function testGetVariationSkipsPlaceholderGeneration(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
+    public function testGetVariationSkipsPlaceholderGeneration(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters): void
     {
         $expectedVariation = self::createStub(ImageVariation::class);
 
@@ -113,7 +113,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
     }
 
     #[DataProvider('getVariationProvider')]
-    public function testGetVariationOriginalFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
+    public function testGetVariationOriginalFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters): void
     {
         $expectedVariation = self::createStub(ImageVariation::class);
 
@@ -144,7 +144,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
     }
 
     #[DataProvider('getVariationProvider')]
-    public function testGetVariationOriginalNotFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
+    public function testGetVariationOriginalNotFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters): void
     {
         $placeholderPath = '/tmp/placeholder.jpg';
         $binaryCreateStruct = new BinaryFileCreateStruct();
@@ -265,7 +265,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
     }
 
     #[DataProvider('supportsValueProvider')]
-    public function testSupportsValue(Value $value, bool $isSupported)
+    public function testSupportsValue(Value $value, bool $isSupported): void
     {
         self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
     }

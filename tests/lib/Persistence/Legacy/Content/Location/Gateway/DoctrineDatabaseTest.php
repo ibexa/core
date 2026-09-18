@@ -66,7 +66,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         }
     }
 
-    public function testLoadLocationByRemoteId()
+    public function testLoadLocationByRemoteId(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -75,7 +75,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertLoadLocationProperties($data);
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -84,7 +84,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertLoadLocationProperties($data);
     }
 
-    public function testLoadLocationList()
+    public function testLoadLocationList(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -97,7 +97,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertLoadLocationProperties($locationRow);
     }
 
-    public function testLoadInvalidLocation()
+    public function testLoadInvalidLocation(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -106,7 +106,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->getBasicNodeData(1337);
     }
 
-    public function testLoadLocationDataByContent()
+    public function testLoadLocationDataByContent(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -121,7 +121,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertLoadLocationProperties($locationRow);
     }
 
-    public function testLoadParentLocationDataForDraftContentAll()
+    public function testLoadParentLocationDataForDraftContentAll(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -136,7 +136,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertLoadLocationProperties($locationRow);
     }
 
-    public function testLoadLocationDataByContentLimitSubtree()
+    public function testLoadLocationDataByContentLimitSubtree(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -147,7 +147,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(0, $locationsData);
     }
 
-    public function testMoveSubtreePathUpdate()
+    public function testMoveSubtreePathUpdate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -192,7 +192,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testMoveHiddenDestinationUpdate()
+    public function testMoveHiddenDestinationUpdate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -238,7 +238,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testMoveHiddenSourceUpdate()
+    public function testMoveHiddenSourceUpdate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -284,7 +284,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testMoveHiddenSourceChildUpdate()
+    public function testMoveHiddenSourceChildUpdate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -335,7 +335,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @throws \Exception
      */
-    public function testMoveSubtreeAssignmentUpdate()
+    public function testMoveSubtreeAssignmentUpdate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -367,7 +367,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testHideUpdateHidden()
+    public function testHideUpdateHidden(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -390,7 +390,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[Depends('testHideUpdateHidden')]
-    public function testHideUnhideUpdateHidden()
+    public function testHideUnhideUpdateHidden(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -414,7 +414,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[Depends('testHideUpdateHidden')]
-    public function testHideUnhideParentTree()
+    public function testHideUnhideParentTree(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -441,7 +441,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[Depends('testHideUpdateHidden')]
-    public function testHideUnhidePartialSubtree()
+    public function testHideUnhidePartialSubtree(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -467,7 +467,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testSwapLocations()
+    public function testSwapLocations(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -487,7 +487,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateLocation()
+    public function testCreateLocation(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -521,7 +521,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateLocation')]
-    public function testGetMainNodeId()
+    public function testGetMainNodeId(): void
     {
         $gateway = $this->getLocationGateway();
 
@@ -563,7 +563,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals($mainLocation->id, $res = $methodReflection->invoke($gateway, 68));
     }
 
-    public static function getCreateLocationValues()
+    /**
+     * @return array<mixed>
+     */
+    public static function getCreateLocationValues(): array
     {
         return [
             ['contentobject_id', 68],
@@ -584,7 +587,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     #[Depends('testCreateLocation')]
     #[DataProvider('getCreateLocationValues')]
-    public function testCreateLocationValues($field, $value)
+    public function testCreateLocationValues($field, $value): void
     {
         if ($value === null) {
             self::markTestIncomplete('Proper value setting yet unknown.');
@@ -621,7 +624,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getCreateLocationReturnValues()
+    /**
+     * @return array<mixed>
+     */
+    public static function getCreateLocationReturnValues(): array
     {
         return [
             ['id', 228],
@@ -640,7 +646,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     #[Depends('testCreateLocation')]
     #[DataProvider('getCreateLocationReturnValues')]
-    public function testCreateLocationReturnValues($field, $value)
+    public function testCreateLocationReturnValues($field, $value): void
     {
         if ($value === null) {
             self::markTestIncomplete('Proper value setting yet unknown.');
@@ -671,7 +677,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals($value, $location->$field);
     }
 
-    public static function getUpdateLocationData()
+    /**
+     * @return array<mixed>
+     */
+    public static function getUpdateLocationData(): array
     {
         return [
             ['priority', 23],
@@ -682,7 +691,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[DataProvider('getUpdateLocationData')]
-    public function testUpdateLocation($field, $value)
+    public function testUpdateLocation($field, $value): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -708,7 +717,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getNodeAssignmentValues()
+    /**
+     * @return array<mixed>
+     */
+    public static function getNodeAssignmentValues(): array
     {
         return [
             ['contentobject_version', [1]],
@@ -789,7 +801,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      */
     #[Depends('testCreateLocation')]
     #[DataProvider('getNodeAssignmentValues')]
-    public function testCreateLocationNodeAssignmentCreation(string $field, array $expectedResult)
+    public function testCreateLocationNodeAssignmentCreation(string $field, array $expectedResult): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -817,7 +829,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateLocation')]
-    public function testCreateLocationNodeAssignmentCreationMainLocation()
+    public function testCreateLocationNodeAssignmentCreationMainLocation(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -843,7 +855,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateLocationsContentVersionNo()
+    public function testUpdateLocationsContentVersionNo(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -883,7 +895,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteNodeAssignment()
+    public function testDeleteNodeAssignment(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -902,7 +914,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteNodeAssignmentWithSecondArgument()
+    public function testDeleteNodeAssignmentWithSecondArgument(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
@@ -931,7 +943,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getConvertNodeAssignmentsLocationValues()
+    /**
+     * @return array<mixed>
+     */
+    public static function getConvertNodeAssignmentsLocationValues(): array
     {
         return [
             ['contentobject_id', '68'],
@@ -954,7 +969,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     #[Depends('testCreateLocationNodeAssignmentCreation')]
     #[DataProvider('getConvertNodeAssignmentsLocationValues')]
-    public function testConvertNodeAssignments($field, $value)
+    public function testConvertNodeAssignments($field, $value): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -1012,7 +1027,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateLocationNodeAssignmentCreation')]
-    public function testConvertNodeAssignmentsMainLocation()
+    public function testConvertNodeAssignmentsMainLocation(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -1046,7 +1061,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateLocationNodeAssignmentCreation')]
-    public function testConvertNodeAssignmentsParentHidden()
+    public function testConvertNodeAssignmentsParentHidden(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -1084,7 +1099,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateLocationNodeAssignmentCreation')]
-    public function testConvertNodeAssignmentsParentInvisible()
+    public function testConvertNodeAssignmentsParentInvisible(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -1122,7 +1137,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateLocationNodeAssignmentCreation')]
-    public function testConvertNodeAssignmentsUpdateAssignment()
+    public function testConvertNodeAssignmentsUpdateAssignment(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -1154,7 +1169,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Test for the setSectionForSubtree() method.
      */
-    public function testSetSectionForSubtree()
+    public function testSetSectionForSubtree(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/../../_fixtures/contentobjects.php');
         $gateway = $this->getLocationGateway();
@@ -1178,7 +1193,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @throws \Doctrine\DBAL\Exception
      */
-    public function testChangeMainLocation()
+    public function testChangeMainLocation(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         // Create additional location and assignment for test purpose
@@ -1313,7 +1328,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Test for the getChildren() method.
      */
-    public function testGetChildren()
+    public function testGetChildren(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -1377,7 +1392,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Test for the removeLocation() method.
      */
-    public function testRemoveLocation()
+    public function testRemoveLocation(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
@@ -1392,7 +1407,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         }
     }
 
-    public static function providerForTestUpdatePathIdentificationString()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestUpdatePathIdentificationString(): array
     {
         return [
             [77, 2, 'new_solutions', 'new_solutions'],
@@ -1409,7 +1427,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $parentLocationId,
         $text,
         $expected
-    ) {
+    ): void {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
         $gateway = $this->getLocationGateway();

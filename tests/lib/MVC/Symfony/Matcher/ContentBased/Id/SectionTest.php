@@ -32,13 +32,16 @@ class SectionTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $sectionId, $expectedResult)
+    public function testMatchLocation($matchingConfig, int $sectionId, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->generateLocationForSectionId($sectionId)));
     }
 
-    public static function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         return [
             [
@@ -91,13 +94,16 @@ class SectionTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $sectionId, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, int $sectionId, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchContentInfo($this->getContentInfoMock(['sectionId' => $sectionId])));
     }
 
-    public static function matchContentInfoProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchContentInfoProvider(): array
     {
         return [
             [

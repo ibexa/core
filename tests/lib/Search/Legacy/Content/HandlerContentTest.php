@@ -273,7 +273,7 @@ class HandlerContentTest extends AbstractTestCase
     /**
      * Bug #80.
      */
-    public function testFindWithoutOffsetLimit()
+    public function testFindWithoutOffsetLimit(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -294,7 +294,7 @@ class HandlerContentTest extends AbstractTestCase
     /**
      * Bug #81, bug #82.
      */
-    public function testFindWithZeroLimit()
+    public function testFindWithZeroLimit(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -321,7 +321,7 @@ class HandlerContentTest extends AbstractTestCase
     /**
      * Issue with offsetting to the nonexistent results produces \ezcQueryInvalidParameterException exception.
      */
-    public function testFindWithOffsetToNonexistent()
+    public function testFindWithOffsetToNonexistent(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -345,7 +345,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFindSingle()
+    public function testFindSingle(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -354,7 +354,7 @@ class HandlerContentTest extends AbstractTestCase
         self::assertEquals(10, $contentInfo->id);
     }
 
-    public function testFindSingleWithNonSearchableField()
+    public function testFindSingleWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -368,7 +368,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFindContentWithNonSearchableField()
+    public function testFindContentWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -387,7 +387,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFindSingleTooMany()
+    public function testFindSingleTooMany(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -395,7 +395,7 @@ class HandlerContentTest extends AbstractTestCase
         $locator->findSingle(new Criterion\ContentId([4, 10, 12, 23]));
     }
 
-    public function testFindSingleZero()
+    public function testFindSingleZero(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -403,7 +403,7 @@ class HandlerContentTest extends AbstractTestCase
         $locator->findSingle(new Criterion\ContentId(0));
     }
 
-    public function testContentIdFilter()
+    public function testContentIdFilter(): void
     {
         $this->assertSearchResults(
             [4, 10],
@@ -420,7 +420,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testContentIdFilterCount()
+    public function testContentIdFilterCount(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -438,7 +438,7 @@ class HandlerContentTest extends AbstractTestCase
         self::assertSame(2, $result->totalCount);
     }
 
-    public function testContentAndCombinatorFilter()
+    public function testContentAndCombinatorFilter(): void
     {
         $this->assertSearchResults(
             [4],
@@ -462,7 +462,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testContentOrCombinatorFilter()
+    public function testContentOrCombinatorFilter(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -498,7 +498,7 @@ class HandlerContentTest extends AbstractTestCase
         }
     }
 
-    public function testContentNotCombinatorFilter()
+    public function testContentNotCombinatorFilter(): void
     {
         $this->assertSearchResults(
             [4],
@@ -524,7 +524,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testContentSubtreeFilterIn()
+    public function testContentSubtreeFilterIn(): void
     {
         $this->assertSearchResults(
             [67, 68, 69, 70, 71, 72, 73, 74],
@@ -541,7 +541,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testContentSubtreeFilterEq()
+    public function testContentSubtreeFilterEq(): void
     {
         $this->assertSearchResults(
             [67, 68, 69, 70, 71, 72, 73, 74],
@@ -556,7 +556,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testContentTypeIdFilter()
+    public function testContentTypeIdFilter(): void
     {
         $this->assertSearchResults(
             [10, 14, 226],
@@ -571,7 +571,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testContentTypeIdentifierFilter()
+    public function testContentTypeIdentifierFilter(): void
     {
         $this->assertSearchResults(
             [41, 45, 49, 50, 51],
@@ -587,7 +587,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testContentTypeGroupFilter()
+    public function testContentTypeGroupFilter(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 42, 225, 226],
@@ -602,7 +602,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testDateMetadataFilterModifiedGreater()
+    public function testDateMetadataFilterModifiedGreater(): void
     {
         $this->assertSearchResults(
             [11, 225, 226],
@@ -621,7 +621,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testDateMetadataFilterModifiedGreaterOrEqual()
+    public function testDateMetadataFilterModifiedGreaterOrEqual(): void
     {
         $this->assertSearchResults(
             [11, 14, 225, 226],
@@ -640,7 +640,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testDateMetadataFilterModifiedIn()
+    public function testDateMetadataFilterModifiedIn(): void
     {
         $this->assertSearchResults(
             [11, 14, 225, 226],
@@ -659,7 +659,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testDateMetadataFilterModifiedBetween()
+    public function testDateMetadataFilterModifiedBetween(): void
     {
         $this->assertSearchResults(
             [11, 14, 225, 226],
@@ -678,7 +678,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testDateMetadataFilterCreatedBetween()
+    public function testDateMetadataFilterCreatedBetween(): void
     {
         $this->assertSearchResults(
             [66, 131, 225],
@@ -697,7 +697,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testLocationIdFilter()
+    public function testLocationIdFilter(): void
     {
         $this->assertSearchResults(
             [4, 65],
@@ -712,7 +712,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testParentLocationIdFilter()
+    public function testParentLocationIdFilter(): void
     {
         $this->assertSearchResults(
             [4, 41, 45, 56, 65],
@@ -727,7 +727,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testRemoteIdFilter()
+    public function testRemoteIdFilter(): void
     {
         $this->assertSearchResults(
             [4, 10],
@@ -744,7 +744,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testLocationRemoteIdFilter()
+    public function testLocationRemoteIdFilter(): void
     {
         $this->assertSearchResults(
             [4, 65],
@@ -761,7 +761,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testSectionFilter()
+    public function testSectionFilter(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 42, 226],
@@ -776,7 +776,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testStatusFilter()
+    public function testStatusFilter(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 41, 42, 45, 49],
@@ -802,7 +802,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldFilter()
+    public function testFieldFilter(): void
     {
         $this->assertSearchResults(
             [11],
@@ -821,7 +821,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldFilterIn()
+    public function testFieldFilterIn(): void
     {
         $this->assertSearchResults(
             [11, 42],
@@ -840,7 +840,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldFilterContainsPartial()
+    public function testFieldFilterContainsPartial(): void
     {
         $this->assertSearchResults(
             [42],
@@ -859,7 +859,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldFilterContainsSimple()
+    public function testFieldFilterContainsSimple(): void
     {
         $this->assertSearchResults(
             [77],
@@ -878,7 +878,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldFilterContainsSimpleNoMatch()
+    public function testFieldFilterContainsSimpleNoMatch(): void
     {
         $this->assertSearchResults(
             [],
@@ -897,7 +897,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldFilterBetween()
+    public function testFieldFilterBetween(): void
     {
         $this->assertSearchResults(
             [186, 187],
@@ -916,7 +916,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldFilterOr()
+    public function testFieldFilterOr(): void
     {
         $this->assertSearchResults(
             [11, 186, 187],
@@ -944,7 +944,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFullTextFilter()
+    public function testFullTextFilter(): void
     {
         $this->assertSearchResults(
             [191],
@@ -959,7 +959,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFullTextWildcardFilter()
+    public function testFullTextWildcardFilter(): void
     {
         $this->assertSearchResults(
             [191],
@@ -974,7 +974,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFullTextDisabledWildcardFilter()
+    public function testFullTextDisabledWildcardFilter(): void
     {
         $this->assertSearchResults(
             [],
@@ -991,7 +991,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFullTextFilterStopwordRemoval()
+    public function testFullTextFilterStopwordRemoval(): void
     {
         $handler = $this->getContentSearchHandler(
             [
@@ -1012,7 +1012,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFullTextFilterNoStopwordRemoval()
+    public function testFullTextFilterNoStopwordRemoval(): void
     {
         $handler = $this->getContentSearchHandler(
             [
@@ -1042,7 +1042,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFullTextFilterInvalidStopwordThreshold()
+    public function testFullTextFilterInvalidStopwordThreshold(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1053,7 +1053,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testObjectStateIdFilter()
+    public function testObjectStateIdFilter(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 41, 42, 45, 49],
@@ -1069,7 +1069,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testObjectStateIdFilterIn()
+    public function testObjectStateIdFilterIn(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 41, 42, 45, 49],
@@ -1085,7 +1085,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testLanguageCodeFilter()
+    public function testLanguageCodeFilter(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 41, 42, 45, 49],
@@ -1101,7 +1101,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testLanguageCodeFilterIn()
+    public function testLanguageCodeFilterIn(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 41, 42, 45, 49],
@@ -1117,7 +1117,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testLanguageCodeFilterWithAlwaysAvailable()
+    public function testLanguageCodeFilterWithAlwaysAvailable(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 41, 42, 45, 49, 50, 51, 56, 57, 65, 68, 70, 74, 76, 80],
@@ -1133,7 +1133,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testVisibilityFilter()
+    public function testVisibilityFilter(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 41, 42, 45, 49],
@@ -1151,7 +1151,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterOwnerWrongUserId()
+    public function testUserMetadataFilterOwnerWrongUserId(): void
     {
         $this->assertSearchResults(
             [],
@@ -1169,7 +1169,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterOwnerAdministrator()
+    public function testUserMetadataFilterOwnerAdministrator(): void
     {
         $this->assertSearchResults(
             [4, 10, 11, 12, 13, 14, 41, 42, 45, 49],
@@ -1189,7 +1189,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterOwnerEqAMember()
+    public function testUserMetadataFilterOwnerEqAMember(): void
     {
         $this->assertSearchResults(
             [223],
@@ -1207,7 +1207,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterOwnerInAMember()
+    public function testUserMetadataFilterOwnerInAMember(): void
     {
         $this->assertSearchResults(
             [223],
@@ -1225,7 +1225,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterCreatorEqAMember()
+    public function testUserMetadataFilterCreatorEqAMember(): void
     {
         $this->assertSearchResults(
             [223],
@@ -1243,7 +1243,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterCreatorInAMember()
+    public function testUserMetadataFilterCreatorInAMember(): void
     {
         $this->assertSearchResults(
             [223],
@@ -1261,7 +1261,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterEqGroupMember()
+    public function testUserMetadataFilterEqGroupMember(): void
     {
         $this->assertSearchResults(
             [223],
@@ -1279,7 +1279,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterInGroupMember()
+    public function testUserMetadataFilterInGroupMember(): void
     {
         $this->assertSearchResults(
             [223],
@@ -1297,7 +1297,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterEqGroupMemberNoMatch()
+    public function testUserMetadataFilterEqGroupMemberNoMatch(): void
     {
         $this->assertSearchResults(
             [],
@@ -1315,7 +1315,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testUserMetadataFilterInGroupMemberNoMatch()
+    public function testUserMetadataFilterInGroupMemberNoMatch(): void
     {
         $this->assertSearchResults(
             [],
@@ -1333,7 +1333,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldRelationFilterContainsSingle()
+    public function testFieldRelationFilterContainsSingle(): void
     {
         $this->assertSearchResults(
             [67],
@@ -1351,7 +1351,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldRelationFilterContainsSingleNoMatch()
+    public function testFieldRelationFilterContainsSingleNoMatch(): void
     {
         $this->assertSearchResults(
             [],
@@ -1369,7 +1369,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldRelationFilterContainsArray()
+    public function testFieldRelationFilterContainsArray(): void
     {
         $this->assertSearchResults(
             [67],
@@ -1387,7 +1387,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldRelationFilterContainsArrayNotMatch()
+    public function testFieldRelationFilterContainsArrayNotMatch(): void
     {
         $this->assertSearchResults(
             [],
@@ -1405,7 +1405,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldRelationFilterInArray()
+    public function testFieldRelationFilterInArray(): void
     {
         $this->assertSearchResults(
             [67, 75],
@@ -1423,7 +1423,7 @@ class HandlerContentTest extends AbstractTestCase
         );
     }
 
-    public function testFieldRelationFilterInArrayNotMatch()
+    public function testFieldRelationFilterInArrayNotMatch(): void
     {
         $this->assertSearchResults(
             [],

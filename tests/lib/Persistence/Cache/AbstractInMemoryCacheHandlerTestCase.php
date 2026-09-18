@@ -40,7 +40,7 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
         ?array $key = null,
         $returnValue = null,
         bool $callInnerHandler = true
-    ) {
+    ): void {
         $handlerMethodName = $this->getHandlerMethodName();
 
         $this->loggerMock->expects(self::once())->method('logCall');
@@ -144,7 +144,7 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
         $data = null,
         bool $multi = false,
         array $additionalCalls = []
-    ) {
+    ): void {
         $cacheItem = $this->getCacheItem($key, $multi ? reset($data) : $data);
         $handlerMethodName = $this->getHandlerMethodName();
 
@@ -232,7 +232,7 @@ abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerT
         $data = null,
         bool $multi = false,
         array $additionalCalls = []
-    ) {
+    ): void {
         $cacheItem = $this->getCacheItem($key, null);
         $handlerMethodName = $this->getHandlerMethodName();
 

@@ -43,7 +43,7 @@ class DateAndTimeTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = [
@@ -61,7 +61,7 @@ class DateAndTimeTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataInt = $this->date->getTimestamp();
@@ -113,7 +113,7 @@ class DateAndTimeTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testToStorageFieldDefinitionWithAdjustment()
+    public function testToStorageFieldDefinitionWithAdjustment(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $dateInterval = DateInterval::createFromDateString('+10 years, -1 month, +3 days, -13 hours');
@@ -152,7 +152,7 @@ class DateAndTimeTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testToStorageFieldDefinitionNoDefault()
+    public function testToStorageFieldDefinitionNoDefault(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -183,7 +183,7 @@ class DateAndTimeTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testToStorageFieldDefinitionCurrentDate()
+    public function testToStorageFieldDefinitionCurrentDate(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -231,7 +231,7 @@ class DateAndTimeTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testToFieldDefinitionNoDefault()
+    public function testToFieldDefinitionNoDefault(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(
@@ -247,7 +247,7 @@ class DateAndTimeTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testToFieldDefinitionCurrentDate()
+    public function testToFieldDefinitionCurrentDate(): void
     {
         $time = time();
         $fieldDef = new PersistenceFieldDefinition();
@@ -270,7 +270,7 @@ class DateAndTimeTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testToFieldDefinitionWithAdjustmentAndSeconds()
+    public function testToFieldDefinitionWithAdjustmentAndSeconds(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $dateInterval = DateInterval::createFromDateString('2 years, 1 month, -4 days, 2 hours, 0 minute, 34 seconds');
@@ -299,7 +299,7 @@ class DateAndTimeTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testToFieldDefinitionWithAdjustmentNoSeconds()
+    public function testToFieldDefinitionWithAdjustmentNoSeconds(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $seconds = 34;
@@ -354,7 +354,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testGetDateIntervalFromXML()
+    public function testGetDateIntervalFromXML(): void
     {
         $dateIntervalReference = DateInterval::createFromDateString('2 years, 1 months, -4 days, 2 hours, 0 minutes, 34 seconds');
 
@@ -376,7 +376,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('dateTime')]
-    public function testGenerateDateIntervalXML()
+    public function testGenerateDateIntervalXML(): void
     {
         $dateIntervalReference = DateInterval::createFromDateString('2 years, 1 month, -4 days, 2 hours, 0 minute, 34 seconds');
         $dom = new DOMDocument();

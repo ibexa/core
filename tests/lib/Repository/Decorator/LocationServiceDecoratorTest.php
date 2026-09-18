@@ -35,7 +35,7 @@ class LocationServiceDecoratorTest extends TestCase
         return $this->createMock(LocationService::class);
     }
 
-    public function testCopySubtreeDecorator()
+    public function testCopySubtreeDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -50,7 +50,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->copySubtree(...$parameters);
     }
 
-    public function testLoadLocationDecorator()
+    public function testLoadLocationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -66,7 +66,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->loadLocation(...$parameters);
     }
 
-    public function testLoadLocationListDecorator()
+    public function testLoadLocationListDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -82,7 +82,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->loadLocationList(...$parameters);
     }
 
-    public function testLoadLocationByRemoteIdDecorator()
+    public function testLoadLocationByRemoteIdDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -98,7 +98,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->loadLocationByRemoteId(...$parameters);
     }
 
-    public function testLoadLocationsDecorator()
+    public function testLoadLocationsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -114,7 +114,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->loadLocations(...$parameters);
     }
 
-    public function testLoadLocationChildrenDecorator()
+    public function testLoadLocationChildrenDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -131,7 +131,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->loadLocationChildren(...$parameters);
     }
 
-    public function testLoadParentLocationsForDraftContentDecorator()
+    public function testLoadParentLocationsForDraftContentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -146,7 +146,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->loadParentLocationsForDraftContent(...$parameters);
     }
 
-    public function testGetLocationChildCountDecorator()
+    public function testGetLocationChildCountDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -158,7 +158,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->getLocationChildCount(...$parameters);
     }
 
-    public function testCreateLocationDecorator()
+    public function testCreateLocationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -173,7 +173,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->createLocation(...$parameters);
     }
 
-    public function testUpdateLocationDecorator()
+    public function testUpdateLocationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -188,7 +188,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->updateLocation(...$parameters);
     }
 
-    public function testSwapLocationDecorator()
+    public function testSwapLocationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -203,7 +203,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->swapLocation(...$parameters);
     }
 
-    public function testHideLocationDecorator()
+    public function testHideLocationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -215,7 +215,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->hideLocation(...$parameters);
     }
 
-    public function testUnhideLocationDecorator()
+    public function testUnhideLocationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -227,7 +227,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->unhideLocation(...$parameters);
     }
 
-    public function testMoveSubtreeDecorator()
+    public function testMoveSubtreeDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -242,7 +242,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->moveSubtree(...$parameters);
     }
 
-    public function testDeleteLocationDecorator()
+    public function testDeleteLocationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -254,7 +254,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->deleteLocation(...$parameters);
     }
 
-    public function testNewLocationCreateStructDecorator()
+    public function testNewLocationCreateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -266,7 +266,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->newLocationCreateStruct(...$parameters);
     }
 
-    public function testNewLocationUpdateStructDecorator()
+    public function testNewLocationUpdateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -278,7 +278,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->newLocationUpdateStruct(...$parameters);
     }
 
-    public function testGetAllLocationsCountDecorator()
+    public function testGetAllLocationsCountDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -290,7 +290,7 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->getAllLocationsCount(...$parameters);
     }
 
-    public function testLoadAllLocationsDecorator()
+    public function testLoadAllLocationsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

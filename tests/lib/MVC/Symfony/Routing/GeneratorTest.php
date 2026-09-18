@@ -39,7 +39,10 @@ class GeneratorTest extends TestCase
         $this->generator->setLogger($this->logger);
     }
 
-    public static function generateProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function generateProvider(): array
     {
         return [
             ['foo_bar', [], UrlGeneratorInterface::ABSOLUTE_PATH],
@@ -55,7 +58,7 @@ class GeneratorTest extends TestCase
     }
 
     #[DataProvider('generateProvider')]
-    public function testSimpleGenerate($urlResource, array $parameters, $referenceType)
+    public function testSimpleGenerate($urlResource, array $parameters, $referenceType): void
     {
         $matcher = $this->createMock(URILexer::class);
         $this->generator->setSiteAccess(new SiteAccess('test', 'fake', $matcher));
@@ -86,7 +89,7 @@ class GeneratorTest extends TestCase
     }
 
     #[DataProvider('generateProvider')]
-    public function testGenerateWithSiteAccessNoReverseMatch($urlResource, array $parameters, $referenceType)
+    public function testGenerateWithSiteAccessNoReverseMatch($urlResource, array $parameters, $referenceType): void
     {
         $matcher = $this->createMock(URILexer::class);
         $this->generator->setSiteAccess(new SiteAccess('test', 'test', $matcher));

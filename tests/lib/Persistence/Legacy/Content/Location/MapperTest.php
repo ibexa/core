@@ -74,7 +74,7 @@ class MapperTest extends TestCase
         'sortOrder' => 1,
     ];
 
-    public function testCreateLocationFromRow()
+    public function testCreateLocationFromRow(): void
     {
         $mapper = new Mapper();
 
@@ -88,7 +88,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testCreateLocationsFromRows()
+    public function testCreateLocationsFromRows(): void
     {
         $inputRows = [];
         for ($i = 0; $i < 3; ++$i) {
@@ -110,7 +110,7 @@ class MapperTest extends TestCase
         }
     }
 
-    public function testCreateTrashedFromRow()
+    public function testCreateTrashedFromRow(): void
     {
         $mapper = new Mapper();
 
@@ -127,7 +127,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testCreateLocationFromRowWithPrefix()
+    public function testCreateLocationFromRowWithPrefix(): void
     {
         $prefix = 'some_prefix_';
 
@@ -146,7 +146,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testGetLocationCreateStruct()
+    public function testGetLocationCreateStruct(): void
     {
         $mapper = new Mapper();
 

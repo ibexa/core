@@ -20,7 +20,7 @@ class PlaceholderProviderRegistryTest extends TestCase
     private const BAR = 'bar';
 
     #[Depends('testGetProviderKnown')]
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $providers = [
             self::FOO => $this->getPlaceholderProviderMock(),
@@ -44,7 +44,7 @@ class PlaceholderProviderRegistryTest extends TestCase
         self::assertSame($provider, $registry->getProvider(self::FOO));
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $registry = new PlaceholderProviderRegistry([
             'supported' => $this->getPlaceholderProviderMock(),
@@ -54,7 +54,7 @@ class PlaceholderProviderRegistryTest extends TestCase
         self::assertFalse($registry->supports('unsupported'));
     }
 
-    public function testGetProviderKnown()
+    public function testGetProviderKnown(): void
     {
         $provider = $this->getPlaceholderProviderMock();
 
@@ -65,7 +65,7 @@ class PlaceholderProviderRegistryTest extends TestCase
         self::assertEquals($provider, $registry->getProvider(self::FOO));
     }
 
-    public function testGetProviderUnknown()
+    public function testGetProviderUnknown(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

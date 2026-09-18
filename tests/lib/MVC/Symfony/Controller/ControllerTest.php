@@ -41,7 +41,7 @@ class ControllerTest extends TestCase
             ->will(self::returnValue($this->templateEngineMock));
     }
 
-    public function testRender()
+    public function testRender(): void
     {
         $view = 'some:valid:view.html.twig';
         $params = ['foo' => 'bar', 'truc' => 'muche'];
@@ -56,7 +56,7 @@ class ControllerTest extends TestCase
         self::assertSame($tplResult, $response->getContent());
     }
 
-    public function testRenderWithResponse()
+    public function testRenderWithResponse(): void
     {
         $response = new Response();
         $view = 'some:valid:view.html.twig';

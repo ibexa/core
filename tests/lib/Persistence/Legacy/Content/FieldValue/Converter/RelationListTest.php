@@ -36,7 +36,7 @@ class RelationListTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('relationlist')]
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $destinationContentIds = [3, 2, 1];
         $fieldValue = new FieldValue();
@@ -103,7 +103,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('relationlist')]
-    public function testToStorageValueEmpty()
+    public function testToStorageValueEmpty(): void
     {
         $destinationContentIds = [];
         $fieldValue = new FieldValue();
@@ -135,7 +135,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('relationlist')]
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->sortKeyString = '';
@@ -160,7 +160,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('relationlist')]
-    public function testToFieldValueEmpty()
+    public function testToFieldValueEmpty(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->sortKeyString = '';
@@ -185,7 +185,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('relationlist')]
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $fieldDefinition = new PersistenceFieldDefinition(
             [
@@ -226,7 +226,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('relationlist')]
-    public function testToFieldDefinitionMultiple()
+    public function testToFieldDefinitionMultiple(): void
     {
         $storageFieldDefinition = new StorageFieldDefinition();
         $storageFieldDefinition->dataText5 = <<<EOT

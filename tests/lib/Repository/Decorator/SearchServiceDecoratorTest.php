@@ -30,7 +30,7 @@ class SearchServiceDecoratorTest extends TestCase
         return $this->createMock(SearchService::class);
     }
 
-    public function testFindContentDecorator()
+    public function testFindContentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -46,7 +46,7 @@ class SearchServiceDecoratorTest extends TestCase
         $decoratedService->findContent(...$parameters);
     }
 
-    public function testFindContentInfoDecorator()
+    public function testFindContentInfoDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -62,7 +62,7 @@ class SearchServiceDecoratorTest extends TestCase
         $decoratedService->findContentInfo(...$parameters);
     }
 
-    public function testFindSingleDecorator()
+    public function testFindSingleDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -78,7 +78,7 @@ class SearchServiceDecoratorTest extends TestCase
         $decoratedService->findSingle(...$parameters);
     }
 
-    public function testSuggestDecorator()
+    public function testSuggestDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -95,7 +95,7 @@ class SearchServiceDecoratorTest extends TestCase
         $decoratedService->suggest(...$parameters);
     }
 
-    public function testFindLocationsDecorator()
+    public function testFindLocationsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

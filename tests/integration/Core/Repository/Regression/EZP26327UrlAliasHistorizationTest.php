@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('ezp26327')]
 class EZP26327UrlAliasHistorizationTest extends BaseTestCase
 {
-    public function testHistorization()
+    public function testHistorization(): void
     {
         $contentService = $this->getRepository()->getContentService();
         $contentTypeService = $this->getRepository()->getContentTypeService();

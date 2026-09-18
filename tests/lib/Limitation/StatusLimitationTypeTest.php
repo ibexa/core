@@ -30,7 +30,7 @@ class StatusLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\StatusLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): StatusLimitationType
     {
         return new StatusLimitationType();
     }
@@ -38,7 +38,7 @@ class StatusLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue(): array
     {
         return [
             [new StatusLimitation()],
@@ -63,7 +63,7 @@ class StatusLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(StatusLimitation $limitation, StatusLimitationType $limitationType)
+    public function testAcceptValue(StatusLimitation $limitation, StatusLimitationType $limitationType): void
     {
         $limitationType->acceptValue($limitation);
     }
@@ -71,7 +71,7 @@ class StatusLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException(): array
     {
         return [
             [new ObjectStateLimitation()],
@@ -85,7 +85,7 @@ class StatusLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, StatusLimitationType $limitationType)
+    public function testAcceptValueException(Limitation $limitation, StatusLimitationType $limitationType): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -95,7 +95,7 @@ class StatusLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidateError()
+    public static function providerForTestValidateError(): array
     {
         return [
             [new StatusLimitation(), 0],
@@ -153,7 +153,7 @@ class StatusLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(StatusLimitation $limitation, $errorCount, StatusLimitationType $limitationType)
+    public function testValidateError(StatusLimitation $limitation, $errorCount, StatusLimitationType $limitationType): void
     {
         $validationErrors = $limitationType->validate($limitation);
         self::assertCount($errorCount, $validationErrors);
@@ -163,7 +163,7 @@ class StatusLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testBuildValue(StatusLimitationType $limitationType)
+    public function testBuildValue(StatusLimitationType $limitationType): void
     {
         $expected = ['test', 'test' => 9];
         $value = $limitationType->buildValue($expected);
@@ -213,7 +213,7 @@ class StatusLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluate()
+    public static function providerForTestEvaluate(): array
     {
         return [
             // VersionInfo, no access
@@ -269,7 +269,7 @@ class StatusLimitationTypeTest extends Base
         bool $shouldBeCalled,
         $expected,
         StatusLimitationType $limitationType
-    ) {
+    ): void {
         $object = $objectType === 'versionInfo' ? $this->getVersionInfoMock($shouldBeCalled) : $this->getContentMock($shouldBeCalled);
 
         $userMock = $this->getUserMock();
@@ -290,7 +290,7 @@ class StatusLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument(): array
     {
         $versionInfoStub = new class() extends APIVersionInfo {
             public function getContentInfo(): \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
@@ -344,7 +344,7 @@ class StatusLimitationTypeTest extends Base
         Limitation $limitation,
         ValueObject $object,
         StatusLimitationType $limitationType
-    ) {
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         $userMock = $this->getUserMock();
@@ -362,7 +362,7 @@ class StatusLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterion(StatusLimitationType $limitationType)
+    public function testGetCriterion(StatusLimitationType $limitationType): void
     {
         $this->expectException(NotImplementedException::class);
 
@@ -373,7 +373,7 @@ class StatusLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testValueSchema(StatusLimitationType $limitationType)
+    public function testValueSchema(StatusLimitationType $limitationType): void
     {
         self::markTestSkipped('Method valueSchema() is not implemented');
     }

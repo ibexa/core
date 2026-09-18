@@ -75,7 +75,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
         $languageCode,
         $alwaysAvailable,
         $expectedIndicator
-    ) {
+    ): void {
         $generator = $this->getMaskGenerator();
 
         self::assertSame(
@@ -89,7 +89,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @return array
      */
-    public static function getLanguageIndicatorData()
+    public static function getLanguageIndicatorData(): array
     {
         return [
             'not_available' => [
@@ -105,7 +105,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
         ];
     }
 
-    public function testIsLanguageAlwaysAvailable()
+    public function testIsLanguageAlwaysAvailable(): void
     {
         $generator = $this->getMaskGenerator();
 
@@ -120,7 +120,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
         );
     }
 
-    public function testIsLanguageAlwaysAvailableOtherLanguage()
+    public function testIsLanguageAlwaysAvailableOtherLanguage(): void
     {
         $generator = $this->getMaskGenerator();
 
@@ -135,7 +135,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
         );
     }
 
-    public function testIsLanguageAlwaysAvailableNoDefault()
+    public function testIsLanguageAlwaysAvailableNoDefault(): void
     {
         $generator = $this->getMaskGenerator();
 
@@ -154,7 +154,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('isAlwaysAvailableProvider')]
-    public function testIsAlwaysAvailable($langMask, $expectedResult)
+    public function testIsAlwaysAvailable($langMask, $expectedResult): void
     {
         $generator = $this->getMaskGenerator();
         self::assertSame($expectedResult, $generator->isAlwaysAvailable($langMask));
@@ -165,7 +165,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @return array
      */
-    public static function isAlwaysAvailableProvider()
+    public static function isAlwaysAvailableProvider(): array
     {
         return [
             [2, false],
@@ -177,7 +177,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     }
 
     #[DataProvider('removeAlwaysAvailableFlagProvider')]
-    public function testRemoveAlwaysAvailableFlag($langMask, $expectedResult)
+    public function testRemoveAlwaysAvailableFlag($langMask, $expectedResult): void
     {
         $generator = $this->getMaskGenerator();
         self::assertSame($expectedResult, $generator->removeAlwaysAvailableFlag($langMask));
@@ -188,7 +188,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @return array
      */
-    public static function removeAlwaysAvailableFlagProvider()
+    public static function removeAlwaysAvailableFlagProvider(): array
     {
         return [
             [3, 2],
@@ -203,7 +203,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      * @param array $expectedResult
      */
     #[DataProvider('languageIdsFromMaskProvider')]
-    public function testExtractLanguageIdsFromMask($langMask, array $expectedResult)
+    public function testExtractLanguageIdsFromMask($langMask, array $expectedResult): void
     {
         $generator = $this->getMaskGenerator();
         self::assertSame($expectedResult, $generator->extractLanguageIdsFromMask($langMask));
@@ -214,7 +214,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @return array
      */
-    public static function languageIdsFromMaskProvider()
+    public static function languageIdsFromMaskProvider(): array
     {
         return [
             [

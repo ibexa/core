@@ -27,7 +27,7 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new DataCollectorPass());
     }
 
-    public function testAddCollector()
+    public function testAddCollector(): void
     {
         $defA = new Definition();
         $defA->addTag('ibexa.debug.data_collector', [

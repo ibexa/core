@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(FieldNameResolver::class)]
 class FieldNameResolverTest extends TestCase
 {
-    public function testGetFieldNamesReturnsEmptyArray()
+    public function testGetFieldNamesReturnsEmptyArray(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -60,7 +60,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEmpty($fieldNames);
     }
 
-    public function testGetFieldNames()
+    public function testGetFieldNames(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -128,7 +128,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetFieldNamesWithNamedField()
+    public function testGetFieldNamesWithNamedField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -198,7 +198,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetFieldNamesWithTypedField()
+    public function testGetFieldNamesWithTypedField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -259,7 +259,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetFieldNamesWithTypedAndNamedField()
+    public function testGetFieldNamesWithTypedAndNamedField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -320,7 +320,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetSortFieldName()
+    public function testGetSortFieldName(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $sortClauseMock = $this->getSortClauseMock();
@@ -365,7 +365,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('index_field_name', $fieldName);
     }
 
-    public function testGetSortFieldNameReturnsNull()
+    public function testGetSortFieldNameReturnsNull(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $sortClauseMock = $this->getSortClauseMock();
@@ -396,7 +396,7 @@ class FieldNameResolverTest extends TestCase
         self::assertNull($fieldName);
     }
 
-    public function testGetIndexFieldNameCustomField()
+    public function testGetIndexFieldNameCustomField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap']);
 
@@ -424,7 +424,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('custom_field_name', key($customFieldName));
     }
 
-    public function testGetIndexFieldNameNamedField()
+    public function testGetIndexFieldNameNamedField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap']);
         $indexFieldType = $this->getIndexFieldTypeMock();
@@ -486,7 +486,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('generated_typed_field_name', key($fieldName));
     }
 
-    public function testGetIndexFieldNameDefaultMatchField()
+    public function testGetIndexFieldNameDefaultMatchField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap']);
         $indexFieldType = $this->getIndexFieldTypeMock();
@@ -553,7 +553,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('generated_typed_field_name', key($fieldName));
     }
 
-    public function testGetIndexFieldNameDefaultSortField()
+    public function testGetIndexFieldNameDefaultSortField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap']);
         $indexFieldType = $this->getIndexFieldTypeMock();
@@ -620,7 +620,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('generated_typed_field_name', key($fieldName));
     }
 
-    public function testGetIndexFieldNameDefaultMatchFieldThrowsRuntimeException()
+    public function testGetIndexFieldNameDefaultMatchFieldThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -664,7 +664,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetIndexFieldNameDefaultSortFieldThrowsRuntimeException()
+    public function testGetIndexFieldNameDefaultSortFieldThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -708,7 +708,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetIndexFieldNameNamedFieldThrowsRuntimeException()
+    public function testGetIndexFieldNameNamedFieldThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 

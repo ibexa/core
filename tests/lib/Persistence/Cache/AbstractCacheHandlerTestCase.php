@@ -48,7 +48,7 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
         ?array $tags = null,
         $key = null,
         $returnValue = null
-    ) {
+    ): void {
         $handlerMethodName = $this->getHandlerMethodName();
 
         $this->loggerMock->expects(self::once())->method('logCall');
@@ -153,7 +153,7 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
         $data = null,
         bool $multi = false,
         array $additionalCalls = []
-    ) {
+    ): void {
         if ($method === self::NO_DATA_METHOD) {
             self::markTestSkipped('No cached load methods for this handler.');
         }
@@ -243,7 +243,7 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
         $data = null,
         bool $multi = false,
         array $additionalCalls = []
-    ) {
+    ): void {
         if ($method === self::NO_DATA_METHOD) {
             self::markTestSkipped('No cached load methods for this handler.');
         }

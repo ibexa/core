@@ -26,7 +26,7 @@ class ISBNTest extends TestCase
     }
 
     #[DataProvider('providerForTestToFieldDefinition')]
-    public function testToFieldDefinition($dataInt, $excpectedIsbn13Value)
+    public function testToFieldDefinition($dataInt, $excpectedIsbn13Value): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDefinition = new StorageFieldDefinition([
@@ -40,7 +40,10 @@ class ISBNTest extends TestCase
         self::assertSame($excpectedIsbn13Value, $fieldSettings['isISBN13']);
     }
 
-    public static function providerForTestToFieldDefinition()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestToFieldDefinition(): array
     {
         return [
             [1, true],

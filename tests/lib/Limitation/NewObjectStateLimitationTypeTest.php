@@ -53,7 +53,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\NewObjectStateLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): NewObjectStateLimitationType
     {
         return new NewObjectStateLimitationType($this->getPersistenceMock());
     }
@@ -61,7 +61,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue(): array
     {
         return [
             [new NewObjectStateLimitation()],
@@ -76,7 +76,7 @@ class NewObjectStateLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(NewObjectStateLimitation $limitation, NewObjectStateLimitationType $limitationType)
+    public function testAcceptValue(NewObjectStateLimitation $limitation, NewObjectStateLimitationType $limitationType): void
     {
         $limitationType->acceptValue($limitation);
     }
@@ -84,7 +84,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException(): array
     {
         return [
             [new ObjectStateLimitation()],
@@ -98,7 +98,7 @@ class NewObjectStateLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, NewObjectStateLimitationType $limitationType)
+    public function testAcceptValueException(Limitation $limitation, NewObjectStateLimitationType $limitationType): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -108,7 +108,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidatePass()
+    public static function providerForTestValidatePass(): array
     {
         return [
             [new NewObjectStateLimitation()],
@@ -121,7 +121,7 @@ class NewObjectStateLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation $limitation
      */
     #[DataProvider('providerForTestValidatePass')]
-    public function testValidatePass(NewObjectStateLimitation $limitation)
+    public function testValidatePass(NewObjectStateLimitation $limitation): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -149,7 +149,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidateError()
+    public static function providerForTestValidateError(): array
     {
         return [
             [new NewObjectStateLimitation(), 0],
@@ -163,7 +163,7 @@ class NewObjectStateLimitationTypeTest extends Base
      * @param int $errorCount
      */
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(NewObjectStateLimitation $limitation, $errorCount)
+    public function testValidateError(NewObjectStateLimitation $limitation, $errorCount): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -199,7 +199,7 @@ class NewObjectStateLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\NewObjectStateLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testBuildValue(NewObjectStateLimitationType $limitationType)
+    public function testBuildValue(NewObjectStateLimitationType $limitationType): void
     {
         $expected = ['test', 'test' => 9];
         $value = $limitationType->buildValue($expected);
@@ -212,7 +212,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluate()
+    public static function providerForTestEvaluate(): array
     {
         return [
             // ContentInfo, no access
@@ -266,7 +266,7 @@ class NewObjectStateLimitationTypeTest extends Base
         ValueObject $object,
         array $targets,
         $expected
-    ) {
+    ): void {
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
 
@@ -294,7 +294,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument(): array
     {
         return [
             // invalid limitation
@@ -323,7 +323,7 @@ class NewObjectStateLimitationTypeTest extends Base
         Limitation $limitation,
         ValueObject $object,
         array $targets
-    ) {
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -352,7 +352,7 @@ class NewObjectStateLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\NewObjectStateLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterion(NewObjectStateLimitationType $limitationType)
+    public function testGetCriterion(NewObjectStateLimitationType $limitationType): void
     {
         $this->expectException(NotImplementedException::class);
 
@@ -366,7 +366,7 @@ class NewObjectStateLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\NewObjectStateLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testValueSchema(NewObjectStateLimitationType $limitationType)
+    public function testValueSchema(NewObjectStateLimitationType $limitationType): void
     {
         $this->expectException(NotImplementedException::class);
 

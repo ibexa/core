@@ -45,7 +45,7 @@ class CachingLanguageHandlerTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
     protected $cacheIdentifierGeneratorMock;
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getLanguageHandler();
         $innerHandlerMock = $this->getInnerLanguageHandlerMock();
@@ -99,7 +99,7 @@ class CachingLanguageHandlerTest extends TestCase
         return $language;
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $handler = $this->getLanguageHandler();
 
@@ -118,7 +118,7 @@ class CachingLanguageHandlerTest extends TestCase
         $handler->update($languageFixture);
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -142,7 +142,7 @@ class CachingLanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadFailure()
+    public function testLoadFailure(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -172,7 +172,7 @@ class CachingLanguageHandlerTest extends TestCase
         $handler->load(2);
     }
 
-    public function testLoadByLanguageCode()
+    public function testLoadByLanguageCode(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -196,7 +196,7 @@ class CachingLanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadByLanguageCodeFailure()
+    public function testLoadByLanguageCodeFailure(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -226,7 +226,7 @@ class CachingLanguageHandlerTest extends TestCase
         $handler->loadByLanguageCode('eng-US');
     }
 
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -247,7 +247,7 @@ class CachingLanguageHandlerTest extends TestCase
         self::assertIsArray($result);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();

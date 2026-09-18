@@ -57,7 +57,7 @@ class ContentTypeLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\ContentTypeLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): ContentTypeLimitationType
     {
         return new ContentTypeLimitationType($this->getPersistenceMock());
     }
@@ -65,7 +65,7 @@ class ContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue(): array
     {
         return [
             [new ContentTypeLimitation()],
@@ -80,7 +80,7 @@ class ContentTypeLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(ContentTypeLimitation $limitation, ContentTypeLimitationType $limitationType)
+    public function testAcceptValue(ContentTypeLimitation $limitation, ContentTypeLimitationType $limitationType): void
     {
         $limitationType->acceptValue($limitation);
     }
@@ -88,7 +88,7 @@ class ContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException(): array
     {
         return [
             [new ObjectStateLimitation()],
@@ -102,7 +102,7 @@ class ContentTypeLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, ContentTypeLimitationType $limitationType)
+    public function testAcceptValueException(Limitation $limitation, ContentTypeLimitationType $limitationType): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -112,7 +112,7 @@ class ContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidatePass()
+    public static function providerForTestValidatePass(): array
     {
         return [
             [new ContentTypeLimitation()],
@@ -125,7 +125,7 @@ class ContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation $limitation
      */
     #[DataProvider('providerForTestValidatePass')]
-    public function testValidatePass(ContentTypeLimitation $limitation)
+    public function testValidatePass(ContentTypeLimitation $limitation): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -153,7 +153,7 @@ class ContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidateError()
+    public static function providerForTestValidateError(): array
     {
         return [
             [new ContentTypeLimitation(), 0],
@@ -167,7 +167,7 @@ class ContentTypeLimitationTypeTest extends Base
      * @param int $errorCount
      */
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(ContentTypeLimitation $limitation, $errorCount)
+    public function testValidateError(ContentTypeLimitation $limitation, $errorCount): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -203,7 +203,7 @@ class ContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ContentTypeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testBuildValue(ContentTypeLimitationType $limitationType)
+    public function testBuildValue(ContentTypeLimitationType $limitationType): void
     {
         $expected = ['test', 'test' => 9];
         $value = $limitationType->buildValue($expected);
@@ -216,7 +216,7 @@ class ContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluate()
+    public static function providerForTestEvaluate(): array
     {
         $contentMock = new CoreContent([
             'versionInfo' => new CoreVersionInfo([
@@ -301,7 +301,7 @@ class ContentTypeLimitationTypeTest extends Base
         ValueObject $object,
         array $targets,
         $expected
-    ) {
+    ): void {
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
 
@@ -329,7 +329,7 @@ class ContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument(): array
     {
         return [
             // invalid limitation
@@ -352,7 +352,7 @@ class ContentTypeLimitationTypeTest extends Base
         Limitation $limitation,
         ValueObject $object,
         array $targets
-    ) {
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -381,7 +381,7 @@ class ContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ContentTypeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionInvalidValue(ContentTypeLimitationType $limitationType)
+    public function testGetCriterionInvalidValue(ContentTypeLimitationType $limitationType): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -395,7 +395,7 @@ class ContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ContentTypeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionSingleValue(ContentTypeLimitationType $limitationType)
+    public function testGetCriterionSingleValue(ContentTypeLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new ContentTypeLimitation(['limitationValues' => [9]]),
@@ -413,7 +413,7 @@ class ContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ContentTypeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionMultipleValues(ContentTypeLimitationType $limitationType)
+    public function testGetCriterionMultipleValues(ContentTypeLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new ContentTypeLimitation(['limitationValues' => [9, 55]]),
@@ -431,7 +431,7 @@ class ContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ContentTypeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testValueSchema(ContentTypeLimitationType $limitationType)
+    public function testValueSchema(ContentTypeLimitationType $limitationType): void
     {
         $this->expectException(NotImplementedException::class);
 

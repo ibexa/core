@@ -33,7 +33,7 @@ class SiteAccessListenerTest extends TestCase
         $this->listener = new SiteAccessListener($this->defaultSiteaccess);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -43,7 +43,10 @@ class SiteAccessListenerTest extends TestCase
         );
     }
 
-    public static function siteAccessMatchProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function siteAccessMatchProvider(): array
     {
         return [
             ['/foo/bar', '/foo/bar', '', []],
@@ -67,7 +70,7 @@ class SiteAccessListenerTest extends TestCase
         $expectedSemanticPathinfo,
         $expectedVPString,
         array $expectedVPArray
-    ) {
+    ): void {
         $uri = rawurldecode($uri);
         $semanticPathinfoPos = strpos($uri, $expectedSemanticPathinfo);
         if ($semanticPathinfoPos !== 0) {
@@ -97,7 +100,7 @@ class SiteAccessListenerTest extends TestCase
     }
 
     #[DataProvider('siteAccessMatchProvider')]
-    public function testOnSiteAccessMatchSubRequest($uri, $semanticPathinfo, $vpString, $expectedViewParameters)
+    public function testOnSiteAccessMatchSubRequest($uri, $semanticPathinfo, $vpString, $expectedViewParameters): void
     {
         $siteAccess = new SiteAccess('test', 'test', self::createStub(SiteAccess\Matcher::class));
         $request = Request::create($uri);

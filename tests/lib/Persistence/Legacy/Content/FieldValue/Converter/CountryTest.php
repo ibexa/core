@@ -31,7 +31,10 @@ class CountryTest extends TestCase
         $this->converter = new CountryConverter();
     }
 
-    public static function providerForTestToStorageValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestToStorageValue(): array
     {
         return [
             [['BE', 'FR'], 'belgium,france', 'BE,FR', 'belgium,france'],
@@ -42,7 +45,7 @@ class CountryTest extends TestCase
     #[Group('fieldType')]
     #[Group('country')]
     #[DataProvider('providerForTestToStorageValue')]
-    public function testToStorageValue($data, $sortKey, $dataText, $sortKeyString)
+    public function testToStorageValue($data, $sortKey, $dataText, $sortKeyString): void
     {
         $value = new FieldValue();
         $value->data = $data;
@@ -54,7 +57,10 @@ class CountryTest extends TestCase
         self::assertSame($sortKeyString, $storageFieldValue->sortKeyString);
     }
 
-    public static function providerForTestToFieldValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestToFieldValue(): array
     {
         return [
             ['BE,FR', 'belgium,france', ['BE', 'FR']],
@@ -65,7 +71,7 @@ class CountryTest extends TestCase
     #[Group('fieldType')]
     #[Group('country')]
     #[DataProvider('providerForTestToFieldValue')]
-    public function testToFieldValue($dataText, $sortKeyString, $data)
+    public function testToFieldValue($dataText, $sortKeyString, $data): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = $dataText;
@@ -78,7 +84,7 @@ class CountryTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('country')]
-    public function testToStorageFieldDefinitionMultiple()
+    public function testToStorageFieldDefinitionMultiple(): void
     {
         $defaultValue = new FieldValue();
         $defaultValue->data = ['BE', 'FR'];
@@ -111,7 +117,7 @@ class CountryTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('country')]
-    public function testToStorageFieldDefinitionSingle()
+    public function testToStorageFieldDefinitionSingle(): void
     {
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
@@ -140,7 +146,7 @@ class CountryTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('country')]
-    public function testToFieldDefinitionMultiple()
+    public function testToFieldDefinitionMultiple(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
 
@@ -165,7 +171,7 @@ class CountryTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('country')]
-    public function testToFieldDefinitionSingle()
+    public function testToFieldDefinitionSingle(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
 

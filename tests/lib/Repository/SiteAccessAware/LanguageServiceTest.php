@@ -24,7 +24,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         return LanguageService::class;
     }
 
-    public static function providerForPassTroughMethods()
+    public static function providerForPassTroughMethods(): array
     {
         $languageCreateStruct = new LanguageCreateStruct();
         $language = new Language();
@@ -55,7 +55,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    public static function providerForLanguagesLookupMethods()
+    /**
+     * @return iterable<mixed>
+     */
+    public static function providerForLanguagesLookupMethods(): iterable
     {
         // string $method, array $arguments, bool $return, int $languageArgumentIndex
         yield [self::NO_DATA_METHOD, ['LanguageService has no language-lookup methods.'], null, 0];

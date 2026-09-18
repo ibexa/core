@@ -18,7 +18,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class LocaleParameterProviderTest extends TestCase
 {
-    public static function providerForTestGetViewParameters()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestGetViewParameters(): array
     {
         return [
             [true, 'fr_FR'],
@@ -27,7 +30,7 @@ class LocaleParameterProviderTest extends TestCase
     }
 
     #[DataProvider('providerForTestGetViewParameters')]
-    public function testGetViewParameters($hasRequestLocale, $expectedLocale)
+    public function testGetViewParameters($hasRequestLocale, $expectedLocale): void
     {
         $field = new Field(['languageCode' => 'cro-HR']);
         $parameterProvider = new LocaleParameterProvider($this->getLocaleConverterMock());

@@ -28,7 +28,7 @@ class TransformationProcessorDefinitionBasedTest extends TestCase
         );
     }
 
-    public function testSimpleNormalizationLowercase()
+    public function testSimpleNormalizationLowercase(): void
     {
         $processor = $this->getProcessor();
 
@@ -38,7 +38,7 @@ class TransformationProcessorDefinitionBasedTest extends TestCase
         );
     }
 
-    public function testSimpleNormalizationUppercase()
+    public function testSimpleNormalizationUppercase(): void
     {
         $processor = $this->getProcessor();
 
@@ -48,7 +48,7 @@ class TransformationProcessorDefinitionBasedTest extends TestCase
         );
     }
 
-    public function testApplyAllLowercaseNormalizations()
+    public function testApplyAllLowercaseNormalizations(): void
     {
         $processor = $this->getProcessor();
 
@@ -63,7 +63,7 @@ class TransformationProcessorDefinitionBasedTest extends TestCase
      * available can be compiled without errors. The actual expectation is not
      * important.
      */
-    public function testAllNormalizations()
+    public function testAllNormalizations(): void
     {
         $processor = $this->getProcessor();
 

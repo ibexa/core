@@ -24,7 +24,7 @@ class MapperTest extends TestCase
         $this->mapper = new Mapper();
     }
 
-    public function testExtractUserPreferencesFromRows()
+    public function testExtractUserPreferencesFromRows(): void
     {
         $rows = [
             [

@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('limitation')]
 class ParentContentTypeLimitationTest extends BaseLimitationTestCase
 {
-    public function testParentContentTypeLimitationAllow()
+    public function testParentContentTypeLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -66,7 +66,7 @@ class ParentContentTypeLimitationTest extends BaseLimitationTestCase
         );
     }
 
-    public function testParentContentTypeLimitationForbid()
+    public function testParentContentTypeLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

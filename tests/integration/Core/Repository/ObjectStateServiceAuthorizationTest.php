@@ -25,7 +25,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
      * Test for the createObjectStateGroup() method.
      */
     #[DependsExternal(ObjectStateServiceTest::class, 'testCreateObjectStateGroup')]
-    public function testCreateObjectStateGroupThrowsUnauthorizedException()
+    public function testCreateObjectStateGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -67,7 +67,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
      * Test for the updateObjectStateGroup() method.
      */
     #[DependsExternal(ObjectStateServiceTest::class, 'testUpdateObjectStateGroup')]
-    public function testUpdateObjectStateGroupThrowsUnauthorizedException()
+    public function testUpdateObjectStateGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -114,7 +114,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
      * Test for the deleteObjectStateGroup() method.
      */
     #[DependsExternal(ObjectStateServiceTest::class, 'testDeleteObjectStateGroup')]
-    public function testDeleteObjectStateGroupThrowsUnauthorizedException()
+    public function testDeleteObjectStateGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -148,7 +148,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
      * Test for the createObjectState() method.
      */
     #[DependsExternal(ObjectStateServiceTest::class, 'testCreateObjectState')]
-    public function testCreateObjectStateThrowsUnauthorizedException()
+    public function testCreateObjectStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -197,7 +197,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
      * Test for the updateObjectState() method.
      */
     #[DependsExternal(ObjectStateServiceTest::class, 'testUpdateObjectState')]
-    public function testUpdateObjectStateThrowsUnauthorizedException()
+    public function testUpdateObjectStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -245,7 +245,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
      * Test for the setPriorityOfObjectState() method.
      */
     #[DependsExternal(ObjectStateServiceTest::class, 'testSetPriorityOfObjectState')]
-    public function testSetPriorityOfObjectStateThrowsUnauthorizedException()
+    public function testSetPriorityOfObjectStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -281,7 +281,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
      * Test for the deleteObjectState() method.
      */
     #[DependsExternal(ObjectStateServiceTest::class, 'testDeleteObjectState')]
-    public function testDeleteObjectStateThrowsUnauthorizedException()
+    public function testDeleteObjectStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -313,7 +313,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
      * Test for the setContentState() method.
      */
     #[DependsExternal(ObjectStateServiceTest::class, 'testSetContentState')]
-    public function testSetContentStateThrowsUnauthorizedException()
+    public function testSetContentStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

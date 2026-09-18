@@ -24,7 +24,7 @@ use Ibexa\Core\Event\LanguageService;
 
 class LanguageServiceTest extends AbstractServiceTestCase
 {
-    public function testDeleteLanguageEvents()
+    public function testDeleteLanguageEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteLanguageEvent::class,
@@ -49,7 +49,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteLanguageStopPropagationInBeforeEvents()
+    public function testDeleteLanguageStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteLanguageEvent::class,
@@ -81,7 +81,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateLanguageEvents()
+    public function testCreateLanguageEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateLanguageEvent::class,
@@ -109,7 +109,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateLanguageResultInBeforeEvents()
+    public function testReturnCreateLanguageResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateLanguageEvent::class,
@@ -143,7 +143,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateLanguageStopPropagationInBeforeEvents()
+    public function testCreateLanguageStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateLanguageEvent::class,
@@ -180,7 +180,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateLanguageNameEvents()
+    public function testUpdateLanguageNameEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateLanguageNameEvent::class,
@@ -209,7 +209,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateLanguageNameResultInBeforeEvents()
+    public function testReturnUpdateLanguageNameResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateLanguageNameEvent::class,
@@ -244,7 +244,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateLanguageNameStopPropagationInBeforeEvents()
+    public function testUpdateLanguageNameStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateLanguageNameEvent::class,
@@ -282,7 +282,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDisableLanguageEvents()
+    public function testDisableLanguageEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDisableLanguageEvent::class,
@@ -310,7 +310,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnDisableLanguageResultInBeforeEvents()
+    public function testReturnDisableLanguageResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDisableLanguageEvent::class,
@@ -344,7 +344,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDisableLanguageStopPropagationInBeforeEvents()
+    public function testDisableLanguageStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDisableLanguageEvent::class,
@@ -381,7 +381,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testEnableLanguageEvents()
+    public function testEnableLanguageEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeEnableLanguageEvent::class,
@@ -409,7 +409,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnEnableLanguageResultInBeforeEvents()
+    public function testReturnEnableLanguageResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeEnableLanguageEvent::class,
@@ -443,7 +443,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testEnableLanguageStopPropagationInBeforeEvents()
+    public function testEnableLanguageStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeEnableLanguageEvent::class,

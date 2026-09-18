@@ -42,7 +42,7 @@ class RemoveFieldTest extends TestCase
      */
     protected $removeFieldAction;
 
-    public function testApplySingleVersionSingleTranslation()
+    public function testApplySingleVersionSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1];
@@ -90,7 +90,7 @@ class RemoveFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsSingleTranslation()
+    public function testApplyMultipleVersionsSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];
@@ -150,7 +150,7 @@ class RemoveFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsMultipleTranslations()
+    public function testApplyMultipleVersionsMultipleTranslations(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];

@@ -106,7 +106,7 @@ class TranslationHelperTest extends TestCase
      * @param string $expectedLocale
      */
     #[DataProvider('getTranslatedNameProvider')]
-    public function testGetTranslatedName(array $prioritizedLanguages, $expectedLocale)
+    public function testGetTranslatedName(array $prioritizedLanguages, $expectedLocale): void
     {
         $content = $this->generateContent();
         $this->configResolver
@@ -123,7 +123,7 @@ class TranslationHelperTest extends TestCase
      * @param string $expectedLocale
      */
     #[DataProvider('getTranslatedNameProvider')]
-    public function testGetTranslatedNameByContentInfo(array $prioritizedLanguages, $expectedLocale)
+    public function testGetTranslatedNameByContentInfo(array $prioritizedLanguages, $expectedLocale): void
     {
         $versionInfo = $this->generateVersionInfo();
         $contentInfo = new ContentInfo([
@@ -145,7 +145,10 @@ class TranslationHelperTest extends TestCase
         self::assertSame($this->translatedNames[$expectedLocale], $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo));
     }
 
-    public static function getTranslatedNameProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function getTranslatedNameProvider(): array
     {
         return [
             [['fre-FR', 'eng-GB'], 'fre-FR'],
@@ -156,7 +159,7 @@ class TranslationHelperTest extends TestCase
         ];
     }
 
-    public function testGetTranslatedNameByContentInfoForcedLanguage()
+    public function testGetTranslatedNameByContentInfoForcedLanguage(): void
     {
         $versionInfo = $this->generateVersionInfo();
         $contentInfo = new ContentInfo([
@@ -178,7 +181,7 @@ class TranslationHelperTest extends TestCase
         self::assertSame('Mon nom en français', $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo, 'eng-US'));
     }
 
-    public function testGetTranslatedNameByContentInfoForcedLanguageMainLanguage()
+    public function testGetTranslatedNameByContentInfoForcedLanguageMainLanguage(): void
     {
         $name = 'Name in main language';
         $mainLanguage = 'eng-GB';
@@ -204,7 +207,7 @@ class TranslationHelperTest extends TestCase
         );
     }
 
-    public function testGetTranslatedNameForcedLanguage()
+    public function testGetTranslatedNameForcedLanguage(): void
     {
         $content = $this->generateContent();
         $this->configResolver
@@ -232,7 +235,10 @@ class TranslationHelperTest extends TestCase
         self::assertSame($this->translatedFields[$expectedLocale], $this->translationHelper->getTranslatedField($content, 'test'));
     }
 
-    public static function getTranslatedFieldProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function getTranslatedFieldProvider(): array
     {
         return [
             [['fre-FR', 'eng-GB'], 'fre-FR'],
@@ -243,7 +249,7 @@ class TranslationHelperTest extends TestCase
         ];
     }
 
-    public function testGetTranslationSiteAccessUnkownLanguage()
+    public function testGetTranslationSiteAccessUnkownLanguage(): void
     {
         $this->configResolver
             ->expects(self::exactly(2))
@@ -265,7 +271,7 @@ class TranslationHelperTest extends TestCase
     }
 
     #[DataProvider('getTranslationSiteAccessProvider')]
-    public function testGetTranslationSiteAccess($language, array $translationSiteAccesses, array $relatedSiteAccesses, $expectedResult)
+    public function testGetTranslationSiteAccess($language, array $translationSiteAccesses, array $relatedSiteAccesses, $expectedResult): void
     {
         $this->configResolver
             ->expects(self::exactly(2))
@@ -282,7 +288,10 @@ class TranslationHelperTest extends TestCase
         self::assertSame($expectedResult, $this->translationHelper->getTranslationSiteAccess($language));
     }
 
-    public static function getTranslationSiteAccessProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function getTranslationSiteAccessProvider(): array
     {
         return [
             ['eng-GB', ['fre', 'eng', 'heb'], ['esl', 'fre', 'eng', 'heb'], 'eng'],
@@ -300,7 +309,7 @@ class TranslationHelperTest extends TestCase
         ];
     }
 
-    public function testGetAvailableLanguagesWithTranslationSiteAccesses()
+    public function testGetAvailableLanguagesWithTranslationSiteAccesses(): void
     {
         $this->configResolver
             ->expects(self::any())
@@ -321,7 +330,7 @@ class TranslationHelperTest extends TestCase
         self::assertSame($expectedLanguages, $this->translationHelper->getAvailableLanguages());
     }
 
-    public function testGetAvailableLanguagesWithoutTranslationSiteAccesses()
+    public function testGetAvailableLanguagesWithoutTranslationSiteAccesses(): void
     {
         $this->configResolver
             ->expects(self::any())

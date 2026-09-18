@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(Mapper::class)]
 class MapperTest extends TestCase
 {
-    public function testCreateLanguageFromCreateStruct()
+    public function testCreateLanguageFromCreateStruct(): void
     {
         $mapper = new Mapper();
 
@@ -31,7 +31,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testExtractLanguagesFromRows()
+    public function testExtractLanguagesFromRows(): void
     {
         $mapper = new Mapper();
 

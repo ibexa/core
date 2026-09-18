@@ -48,7 +48,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -60,7 +60,10 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         );
     }
 
-    public static function indexingProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function indexingProvider(): array
     {
         $info = new ContentInfo(['id' => 33]);
         $location = new Location(['id' => 44, 'contentId' => 33]);
@@ -82,7 +85,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
      * @param \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject|null $logger
      */
     #[DataProvider('indexingProvider')]
-    public function testIndexing(?array $values = null, $logger = null)
+    public function testIndexing(?array $values = null, $logger = null): void
     {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
@@ -140,7 +143,10 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         $this->listener->reindex();
     }
 
-    public static function indexDeleteProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function indexDeleteProvider(): array
     {
         $location = new Location(['id' => 44, 'contentId' => 33]);
         $info = new ContentInfo(['id' => 33, 'currentVersionNo' => 2, 'status' => ContentInfo::STATUS_PUBLISHED]);

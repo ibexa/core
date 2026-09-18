@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class RouteReferenceTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $route = 'my_route';
         $params = ['foo' => 'bar', 'some' => 'thing'];
@@ -21,7 +21,7 @@ class RouteReferenceTest extends TestCase
         self::assertSame($params, $reference->getParams());
     }
 
-    public function testGetSetRoute()
+    public function testGetSetRoute(): void
     {
         $initialRoute = 'foo';
         $newRoute = 'bar';
@@ -32,7 +32,7 @@ class RouteReferenceTest extends TestCase
         self::assertSame($newRoute, $reference->getRoute());
     }
 
-    public function testGetSetParams()
+    public function testGetSetParams(): void
     {
         $reference = new RouteReference('foo');
         self::assertSame([], $reference->getParams());
@@ -53,7 +53,7 @@ class RouteReferenceTest extends TestCase
         self::assertSame($defaultValue, $reference->get('url', $defaultValue));
     }
 
-    public function testRemoveParam()
+    public function testRemoveParam(): void
     {
         $reference = new RouteReference('foo');
         $reference->set('foo', 'bar');

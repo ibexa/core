@@ -17,9 +17,9 @@ use PHPUnit\Framework\TestCase;
 
 abstract class CriterionHandlerTestCase extends TestCase
 {
-    abstract public function testAccept();
+    abstract public function testAccept(): void;
 
-    abstract public function testHandle();
+    abstract public function testHandle(): void;
 
     /**
      * Check if critetion handler accepts specyfied criterion class.

@@ -25,7 +25,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the loadUserGroup() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testLoadUserGroup')]
-    public function testLoadUserGroupThrowsUnauthorizedException()
+    public function testLoadUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -73,7 +73,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the loadSubUserGroups() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testLoadSubUserGroups')]
-    public function testLoadSubUserGroupsThrowsUnauthorizedException()
+    public function testLoadSubUserGroupsThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -98,7 +98,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the createUserGroup() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testCreateUserGroup')]
-    public function testCreateUserGroupThrowsUnauthorizedException()
+    public function testCreateUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -130,7 +130,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the deleteUserGroup() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testDeleteUserGroup')]
-    public function testDeleteUserGroupThrowsUnauthorizedException()
+    public function testDeleteUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -155,7 +155,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the moveUserGroup() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testMoveUserGroup')]
-    public function testMoveUserGroupThrowsUnauthorizedException()
+    public function testMoveUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -187,7 +187,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the updateUserGroup() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testUpdateUserGroup')]
-    public function testUpdateUserGroupThrowsUnauthorizedException()
+    public function testUpdateUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -222,7 +222,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the createUser() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testCreateUserThrowsUnauthorizedException()
+    public function testCreateUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -263,7 +263,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the deleteUser() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testDeleteUser')]
-    public function testDeleteUserThrowsUnauthorizedException()
+    public function testDeleteUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -285,7 +285,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the updateUser() method.
      */
-    public function testUpdateUserThrowsUnauthorizedException()
+    public function testUpdateUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -334,7 +334,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the assignUserToUserGroup() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testAssignUserToUserGroup')]
-    public function testAssignUserToUserGroupThrowsUnauthorizedException()
+    public function testAssignUserToUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -364,7 +364,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the unAssignUssrFromUserGroup() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testUnAssignUserFromUserGroup')]
-    public function testUnAssignUserFromUserGroupThrowsUnauthorizedException()
+    public function testUnAssignUserFromUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -402,7 +402,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the loadUserGroupsOfUser() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testLoadUserGroupsOfUser')]
-    public function testLoadUserGroupsOfUserThrowsUnauthorizedException()
+    public function testLoadUserGroupsOfUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -426,7 +426,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
      * Test for the loadUsersOfUserGroup() method.
      */
     #[DependsExternal(UserServiceTest::class, 'testLoadUsersOfUserGroup')]
-    public function testLoadUsersOfUserGroupThrowsUnauthorizedException()
+    public function testLoadUsersOfUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

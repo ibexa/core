@@ -68,7 +68,7 @@ class RouterURIElementTest extends RouterBaseTestCase
         ];
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $matcher = new URIElementMatcher([]);
         self::assertSame('uri:element', $matcher->getName());
@@ -79,7 +79,7 @@ class RouterURIElementTest extends RouterBaseTestCase
      * @param string $expectedFixedUpURI
      */
     #[DataProvider('analyseProvider')]
-    public function testAnalyseURI($uri, $expectedFixedUpURI)
+    public function testAnalyseURI($uri, $expectedFixedUpURI): void
     {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(
@@ -93,7 +93,7 @@ class RouterURIElementTest extends RouterBaseTestCase
      * @param string $linkUri
      */
     #[DataProvider('analyseProvider')]
-    public function testAnalyseLink($fullUri, $linkUri)
+    public function testAnalyseLink($fullUri, $linkUri): void
     {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(
@@ -102,7 +102,10 @@ class RouterURIElementTest extends RouterBaseTestCase
         self::assertSame($fullUri, $matcher->analyseLink($linkUri));
     }
 
-    public static function analyseProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function analyseProvider(): array
     {
         return [
             ['/my_siteaccess/foo/bar', '/foo/bar'],
@@ -111,7 +114,7 @@ class RouterURIElementTest extends RouterBaseTestCase
     }
 
     #[DataProvider('reverseMatchProvider')]
-    public function testReverseMatch($siteAccessName, $originalPathinfo)
+    public function testReverseMatch($siteAccessName, $originalPathinfo): void
     {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, $originalPathinfo));
@@ -122,7 +125,10 @@ class RouterURIElementTest extends RouterBaseTestCase
         self::assertSame('/foo/bar/baz', $result->analyseURI("/$siteAccessName/foo/bar/baz"));
     }
 
-    public static function reverseMatchProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function reverseMatchProvider(): array
     {
         return [
             ['something', '/foo/bar'],
@@ -133,7 +139,7 @@ class RouterURIElementTest extends RouterBaseTestCase
         ];
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/foo/bar'));

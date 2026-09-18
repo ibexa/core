@@ -25,7 +25,7 @@ class MapperTest extends TestCase
         $this->mapper = new Mapper();
     }
 
-    public function testCreateBookmarkFromCreateStruct()
+    public function testCreateBookmarkFromCreateStruct(): void
     {
         $createStruct = new CreateStruct([
             'locationId' => 54,
@@ -38,7 +38,7 @@ class MapperTest extends TestCase
         ]), $this->mapper->createBookmarkFromCreateStruct($createStruct));
     }
 
-    public function testExtractBookmarksFromRows()
+    public function testExtractBookmarksFromRows(): void
     {
         $rows = [
             [

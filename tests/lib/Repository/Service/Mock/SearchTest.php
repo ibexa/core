@@ -44,7 +44,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the __construct() method.
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
@@ -63,7 +63,10 @@ class SearchTest extends BaseServiceMockTest
         );
     }
 
-    public static function providerForFindContentValidatesLocationCriteriaAndSortClauses()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForFindContentValidatesLocationCriteriaAndSortClauses(): array
     {
         return [
             [
@@ -94,7 +97,7 @@ class SearchTest extends BaseServiceMockTest
     }
 
     #[DataProvider('providerForFindContentValidatesLocationCriteriaAndSortClauses')]
-    public function testFindContentValidatesLocationCriteriaAndSortClauses($query, $exceptionMessage)
+    public function testFindContentValidatesLocationCriteriaAndSortClauses($query, $exceptionMessage): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -122,7 +125,10 @@ class SearchTest extends BaseServiceMockTest
         self::fail('Expected exception was not thrown');
     }
 
-    public static function providerForFindSingleValidatesLocationCriteria()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForFindSingleValidatesLocationCriteria(): array
     {
         return [
             [
@@ -141,7 +147,7 @@ class SearchTest extends BaseServiceMockTest
     }
 
     #[DataProvider('providerForFindSingleValidatesLocationCriteria')]
-    public function testFindSingleValidatesLocationCriteria($criterion, $exceptionMessage)
+    public function testFindSingleValidatesLocationCriteria($criterion, $exceptionMessage): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -171,7 +177,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findContent() method.
      */
-    public function testFindContentThrowsHandlerException()
+    public function testFindContentThrowsHandlerException(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
@@ -208,7 +214,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findContent() method when search is out of sync with persistence.
      */
-    public function testFindContentWhenDomainMapperThrowsException()
+    public function testFindContentWhenDomainMapperThrowsException(): void
     {
         $indexer = $this->createMock(BackgroundIndexer::class);
         $indexer->expects(self::once())
@@ -254,7 +260,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findContent() method.
      */
-    public function testFindContentNoPermissionsFilter()
+    public function testFindContentNoPermissionsFilter(): void
     {
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
@@ -316,7 +322,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findContent() method.
      */
-    public function testFindContentWithPermission()
+    public function testFindContentWithPermission(): void
     {
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
@@ -386,7 +392,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findContent() method.
      */
-    public function testFindContentWithNoPermission()
+    public function testFindContentWithNoPermission(): void
     {
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
@@ -430,7 +436,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findContent() method.
      */
-    public function testFindContentWithDefaultQueryValues()
+    public function testFindContentWithDefaultQueryValues(): void
     {
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
@@ -498,7 +504,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findSingle() method.
      */
-    public function testFindSingleThrowsNotFoundException()
+    public function testFindSingleThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -531,7 +537,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findSingle() method.
      */
-    public function testFindSingleThrowsHandlerException()
+    public function testFindSingleThrowsHandlerException(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
@@ -626,7 +632,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findLocations() method.
      */
-    public function testFindLocationsWithPermission()
+    public function testFindLocationsWithPermission(): void
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
@@ -697,7 +703,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findLocations() method.
      */
-    public function testFindLocationsWithNoPermissionsFilter()
+    public function testFindLocationsWithNoPermissionsFilter(): void
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
@@ -764,7 +770,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findLocations() method when search is out of sync with persistence.
      */
-    public function testFindLocationsBackgroundIndexerWhenDomainMapperThrowsException()
+    public function testFindLocationsBackgroundIndexerWhenDomainMapperThrowsException(): void
     {
         $indexer = $this->createMock(BackgroundIndexer::class);
         $indexer->expects(self::once())
@@ -815,7 +821,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findLocations() method.
      */
-    public function testFindLocationsThrowsHandlerException()
+    public function testFindLocationsThrowsHandlerException(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
@@ -852,7 +858,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findLocations() method.
      */
-    public function testFindLocationsWithDefaultQueryValues()
+    public function testFindLocationsWithDefaultQueryValues(): void
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */

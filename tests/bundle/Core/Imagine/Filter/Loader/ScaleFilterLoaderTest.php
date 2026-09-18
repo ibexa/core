@@ -32,14 +32,17 @@ class ScaleFilterLoaderTest extends TestCase
     }
 
     #[DataProvider('loadInvalidProvider')]
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load(self::createStub(ImageInterface::class), $options);
     }
 
-    public static function loadInvalidProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -48,7 +51,7 @@ class ScaleFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoadHeighten()
+    public function testLoadHeighten(): void
     {
         $width = 900;
         $height = 400;
@@ -71,7 +74,7 @@ class ScaleFilterLoaderTest extends TestCase
         self::assertSame($image, $this->loader->load($image, [$width, $height]));
     }
 
-    public function testLoadWiden()
+    public function testLoadWiden(): void
     {
         $width = 900;
         $height = 600;

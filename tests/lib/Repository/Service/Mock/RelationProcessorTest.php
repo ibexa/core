@@ -27,7 +27,10 @@ use Psr\Log\LoggerInterface;
 #[CoversClass(RelationProcessor::class)]
 class RelationProcessorTest extends BaseServiceMockTest
 {
-    public static function providerForTestAppendRelations()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestAppendRelations(): array
     {
         return [
             [
@@ -163,7 +166,7 @@ class RelationProcessorTest extends BaseServiceMockTest
      * Test for the appendFieldRelations() method.
      */
     #[DataProvider('providerForTestAppendRelations')]
-    public function testAppendFieldRelations(array $fieldRelations, array $expected)
+    public function testAppendFieldRelations(array $fieldRelations, array $expected): void
     {
         $locationHandler = $this->getPersistenceMock()->locationHandler();
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
@@ -228,7 +231,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the appendFieldRelations() method.
      */
-    public function testAppendFieldRelationsLocationMappingWorks()
+    public function testAppendFieldRelationsLocationMappingWorks(): void
     {
         $locationHandler = $this->getPersistenceMock()->locationHandler();
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
@@ -288,7 +291,7 @@ class RelationProcessorTest extends BaseServiceMockTest
         );
     }
 
-    public function testAppendFieldRelationsLogsMissingLocations()
+    public function testAppendFieldRelationsLogsMissingLocations(): void
     {
         $fieldValueMock = $this->getMockForAbstractClass(Value::class);
         $fieldTypeMock = $this->createMock(FieldType::class);
@@ -343,7 +346,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the processFieldRelations() method.
      */
-    public function testProcessFieldRelationsNoChanges()
+    public function testProcessFieldRelationsNoChanges(): void
     {
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
         $contentHandlerMock = $this->getPersistenceMockHandler('Content\\Handler');
@@ -418,7 +421,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the processFieldRelations() method.
      */
-    public function testProcessFieldRelationsAddsRelations()
+    public function testProcessFieldRelationsAddsRelations(): void
     {
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
         $contentHandlerMock = $this->getPersistenceMockHandler('Content\\Handler');
@@ -518,7 +521,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the processFieldRelations() method.
      */
-    public function testProcessFieldRelationsRemovesRelations()
+    public function testProcessFieldRelationsRemovesRelations(): void
     {
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
         $contentHandlerMock = $this->getPersistenceMockHandler('Content\\Handler');
@@ -606,7 +609,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the processFieldRelations() method.
      */
-    public function testProcessFieldRelationsWhenRelationFieldNoLongerExists()
+    public function testProcessFieldRelationsWhenRelationFieldNoLongerExists(): void
     {
         $existingRelations = [
             $this->getStubbedRelation(2, RelationType::FIELD->value, 43, 17),

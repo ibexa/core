@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\Depends;
 #[CoversClass(Handler::class)]
 class UrlWildcardHandlerTest extends TestCase
 {
-    public function testLoad()
+    public function testLoad(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -45,7 +45,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the load() method.
      */
-    public function testLoadThrowsNotFoundException()
+    public function testLoadThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -59,7 +59,7 @@ class UrlWildcardHandlerTest extends TestCase
      * Test for the create() method.
      */
     #[Depends('testLoad')]
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -125,7 +125,7 @@ class UrlWildcardHandlerTest extends TestCase
      * Test for the remove() method.
      */
     #[Depends('testLoad')]
-    public function testRemove()
+    public function testRemove(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -139,7 +139,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -159,7 +159,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAllWithOffset()
+    public function testLoadAllWithOffset(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -177,7 +177,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAllWithOffsetAndLimit()
+    public function testLoadAllWithOffsetAndLimit(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();

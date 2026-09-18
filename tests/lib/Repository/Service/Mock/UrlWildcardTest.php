@@ -46,7 +46,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the create() method.
      */
-    public function testCreateThrowsUnauthorizedException()
+    public function testCreateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -71,7 +71,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the create() method.
      */
-    public function testCreateThrowsInvalidArgumentException()
+    public function testCreateThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -99,7 +99,10 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService->create('/lorem/ipsum', 'opossum', true);
     }
 
-    public static function providerForTestCreateThrowsContentValidationException()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestCreateThrowsContentValidationException(): array
     {
         return [
             ['fruit', 'food/{1}', true],
@@ -112,7 +115,7 @@ class UrlWildcardTest extends BaseServiceMockTest
      * Test for the create() method.
      */
     #[DataProvider('providerForTestCreateThrowsContentValidationException')]
-    public function testCreateThrowsContentValidationException($sourceUrl, $destinationUrl, $forward)
+    public function testCreateThrowsContentValidationException($sourceUrl, $destinationUrl, $forward): void
     {
         $this->expectException(ContentValidationException::class);
 
@@ -140,7 +143,10 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService->create($sourceUrl, $destinationUrl, $forward);
     }
 
-    public static function providerForTestCreate()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestCreate(): array
     {
         return [
             ['fruit', 'food', true],
@@ -157,7 +163,7 @@ class UrlWildcardTest extends BaseServiceMockTest
      * Test for the create() method.
      */
     #[DataProvider('providerForTestCreate')]
-    public function testCreate($sourceUrl, $destinationUrl, $forward)
+    public function testCreate($sourceUrl, $destinationUrl, $forward): void
     {
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
@@ -224,7 +230,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the create() method.
      */
-    public function testCreateWithRollback()
+    public function testCreateWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -275,7 +281,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the remove() method.
      */
-    public function testRemoveThrowsUnauthorizedException()
+    public function testRemoveThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -306,7 +312,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the remove() method.
      */
-    public function testRemove()
+    public function testRemove(): void
     {
         $wildcard = new URLWildcard(['id' => self::EXAMPLE_URL_WILDCARD_ID]);
 
@@ -342,7 +348,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the remove() method.
      */
-    public function testRemoveWithRollback()
+    public function testRemoveWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -384,7 +390,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the load() method.
      */
-    public function testLoadThrowsException()
+    public function testLoadThrowsException(): void
     {
         $this->expectException(\Exception::class);
 
@@ -408,7 +414,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the load() method.
      */
-    public function testLoad()
+    public function testLoad(): void
     {
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
@@ -449,7 +455,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
@@ -470,7 +476,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAllWithLimitAndOffset()
+    public function testLoadAllWithLimitAndOffset(): void
     {
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
@@ -516,7 +522,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * @return array
      */
-    public static function providerForTestTranslateThrowsNotFoundException()
+    public static function providerForTestTranslateThrowsNotFoundException(): array
     {
         return [
             [
@@ -558,7 +564,7 @@ class UrlWildcardTest extends BaseServiceMockTest
      * Test for the translate() method.
      */
     #[DataProvider('providerForTestTranslateThrowsNotFoundException')]
-    public function testTranslateThrowsNotFoundException($createArray, $url)
+    public function testTranslateThrowsNotFoundException($createArray, $url): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -580,7 +586,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * @return array
      */
-    public static function providerForTestTranslate()
+    public static function providerForTestTranslate(): array
     {
         return [
             [
@@ -662,7 +668,7 @@ class UrlWildcardTest extends BaseServiceMockTest
      * Test for the translate() method.
      */
     #[DataProvider('providerForTestTranslate')]
-    public function testTranslate($createArray, $url, $uri)
+    public function testTranslate($createArray, $url, $uri): void
     {
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
@@ -695,7 +701,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     /**
      * Test for the translate() method.
      */
-    public function testTranslateUsesLongestMatchingWildcard()
+    public function testTranslateUsesLongestMatchingWildcard(): void
     {
         $mockedService = $this->getPartlyMockedURLWildcardService();
 

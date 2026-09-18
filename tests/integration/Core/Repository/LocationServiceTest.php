@@ -74,7 +74,7 @@ class LocationServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct $locationCreate
      */
     #[Depends('testNewLocationCreateStruct')]
-    public function testNewLocationCreateStructValues(LocationCreateStruct $locationCreate)
+    public function testNewLocationCreateStructValues(LocationCreateStruct $locationCreate): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -213,7 +213,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the createLocation() method.
      */
     #[Depends('testCreateLocation')]
-    public function testCreateLocationStructValues(array $data)
+    public function testCreateLocationStructValues(array $data): void
     {
         $locationCreate = $data['locationCreate'];
         $createdLocation = $data['createdLocation'];
@@ -242,7 +242,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the createLocation() method.
      */
     #[Depends('testNewLocationCreateStruct')]
-    public function testCreateLocationThrowsInvalidArgumentExceptionContentAlreadyBelowParent()
+    public function testCreateLocationThrowsInvalidArgumentExceptionContentAlreadyBelowParent(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -274,7 +274,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the createLocation() method.
      */
     #[Depends('testNewLocationCreateStruct')]
-    public function testCreateLocationThrowsInvalidArgumentExceptionParentIsSubLocationOfContent()
+    public function testCreateLocationThrowsInvalidArgumentExceptionParentIsSubLocationOfContent(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -306,7 +306,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the createLocation() method.
      */
     #[Depends('testNewLocationCreateStruct')]
-    public function testCreateLocationThrowsInvalidArgumentExceptionRemoteIdExists()
+    public function testCreateLocationThrowsInvalidArgumentExceptionRemoteIdExists(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -339,7 +339,7 @@ class LocationServiceTest extends BaseTestCase
      */
     #[Depends('testNewLocationCreateStruct')]
     #[DataProvider('dataProviderForOutOfRangeLocationPriority')]
-    public function testCreateLocationThrowsInvalidArgumentExceptionPriorityIsOutOfRange($priority)
+    public function testCreateLocationThrowsInvalidArgumentExceptionPriorityIsOutOfRange($priority): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -371,7 +371,10 @@ class LocationServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    public static function dataProviderForOutOfRangeLocationPriority()
+    /**
+     * @return array<mixed>
+     */
+    public static function dataProviderForOutOfRangeLocationPriority(): array
     {
         return [[-2147483649], [2147483648]];
     }
@@ -380,7 +383,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the createLocation() method.
      */
     #[Depends('testCreateLocation')]
-    public function testCreateLocationInTransactionWithRollback()
+    public function testCreateLocationInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -455,7 +458,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocation() method.
      */
     #[Depends('testLoadLocation')]
-    public function testLoadLocationRootStructValues()
+    public function testLoadLocationRootStructValues(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -531,7 +534,7 @@ class LocationServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      */
     #[Depends('testLoadLocation')]
-    public function testLoadLocationStructValues(Location $location)
+    public function testLoadLocationStructValues(Location $location): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -563,7 +566,7 @@ class LocationServiceTest extends BaseTestCase
         self::assertEquals(4, $content->contentInfo->id);
     }
 
-    public function testLoadLocationPrioritizedLanguagesFallback()
+    public function testLoadLocationPrioritizedLanguagesFallback(): void
     {
         $repository = $this->getRepository();
 
@@ -621,7 +624,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocation() method.
      */
     #[Depends('testCreateLocation')]
-    public function testLoadLocationThrowsNotFoundException()
+    public function testLoadLocationThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -697,7 +700,7 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test for the loadLocationList() method.
      */
-    public function testLoadLocationListWithRootLocationId()
+    public function testLoadLocationListWithRootLocationId(): void
     {
         $repository = $this->getRepository();
 
@@ -717,7 +720,7 @@ class LocationServiceTest extends BaseTestCase
      *
      * Ensures the list is returned in the same order as passed IDs array.
      */
-    public function testLoadLocationListInCorrectOrder()
+    public function testLoadLocationListInCorrectOrder(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -738,7 +741,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocationByRemoteId() method.
      */
     #[Depends('testLoadLocation')]
-    public function testLoadLocationByRemoteId()
+    public function testLoadLocationByRemoteId(): void
     {
         $repository = $this->getRepository();
 
@@ -760,7 +763,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocationByRemoteId() method.
      */
     #[Depends('testLoadLocation')]
-    public function testLoadLocationByRemoteIdThrowsNotFoundException()
+    public function testLoadLocationByRemoteIdThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -810,7 +813,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocations() method.
      */
     #[Depends('testLoadLocations')]
-    public function testLoadLocationsContent(array $locations)
+    public function testLoadLocationsContent(array $locations): void
     {
         self::assertCount(1, $locations);
         foreach ($locations as $loadedLocation) {
@@ -886,7 +889,7 @@ class LocationServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location[] $locations
      */
     #[Depends('testLoadLocationsLimitedSubtree')]
-    public function testLoadLocationsLimitedSubtreeContent(array $locations)
+    public function testLoadLocationsLimitedSubtreeContent(array $locations): void
     {
         self::assertCount(1, $locations);
 
@@ -900,7 +903,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocations() method.
      */
     #[Depends('testLoadLocations')]
-    public function testLoadLocationsThrowsBadStateException()
+    public function testLoadLocationsThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -928,7 +931,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocations() method.
      */
     #[Depends('testLoadLocations')]
-    public function testLoadLocationsThrowsBadStateExceptionLimitedSubtree()
+    public function testLoadLocationsThrowsBadStateExceptionLimitedSubtree(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -1029,7 +1032,7 @@ class LocationServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentDraft
      */
     #[Depends('testLoadParentLocationsForDraftContent')]
-    public function testLoadParentLocationsForDraftContentThrowsBadStateException(Content $contentDraft)
+    public function testLoadParentLocationsForDraftContentThrowsBadStateException(Content $contentDraft): void
     {
         $this->expectException(BadStateException::class);
         $this->expectExceptionMessageMatches('/is already published/');
@@ -1046,7 +1049,7 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test for the getLocationChildCount() method.
      */
-    public function testGetLocationChildCount()
+    public function testGetLocationChildCount(): void
     {
         // $locationId is the ID of an existing location
         $locationService = $this->getRepository()->getLocationService();
@@ -1080,7 +1083,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the loadLocationChildren() method.
      */
     #[Depends('testLoadLocationChildren')]
-    public function testLoadLocationChildrenData(LocationList $locations)
+    public function testLoadLocationChildrenData(LocationList $locations): void
     {
         self::assertCount(5, $locations->locations);
         self::assertEquals(5, $locations->getTotalCount());
@@ -1324,7 +1327,7 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test for the newLocationUpdateStruct() method.
      */
-    public function testNewLocationUpdateStruct()
+    public function testNewLocationUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1390,7 +1393,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the updateLocation() method.
      */
     #[Depends('testUpdateLocation')]
-    public function testUpdateLocationStructValues(array $data)
+    public function testUpdateLocationStructValues(array $data): void
     {
         $originalLocation = $data['originalLocation'];
         $updateStruct = $data['updateStruct'];
@@ -1418,7 +1421,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the updateLocation() method.
      */
     #[Depends('testLoadLocation')]
-    public function testUpdateLocationWithSameRemoteId()
+    public function testUpdateLocationWithSameRemoteId(): void
     {
         $repository = $this->getRepository();
 
@@ -1451,7 +1454,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the updateLocation() method.
      */
     #[Depends('testLoadLocation')]
-    public function testUpdateLocationThrowsInvalidArgumentException()
+    public function testUpdateLocationThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1479,7 +1482,7 @@ class LocationServiceTest extends BaseTestCase
      */
     #[Depends('testLoadLocation')]
     #[DataProvider('dataProviderForOutOfRangeLocationPriority')]
-    public function testUpdateLocationThrowsInvalidArgumentExceptionPriorityIsOutOfRange($priority)
+    public function testUpdateLocationThrowsInvalidArgumentExceptionPriorityIsOutOfRange($priority): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1507,7 +1510,7 @@ class LocationServiceTest extends BaseTestCase
      * Ref EZP-23302: Update Location fails if no change is performed with the update.
      */
     #[Depends('testLoadLocation')]
-    public function testUpdateLocationTwice()
+    public function testUpdateLocationTwice(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -1536,7 +1539,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the swapLocation() method.
      */
     #[Depends('testLoadLocation')]
-    public function testSwapLocation()
+    public function testSwapLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -1745,7 +1748,7 @@ class LocationServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     #[Depends('testSwapLocationForMainAndSecondaryLocation')]
-    public function testSwapLocationDoesNotCorruptSearchResults(array $contentItems)
+    public function testSwapLocationDoesNotCorruptSearchResults(array $contentItems): void
     {
         $repository = $this->getRepository(false);
         $searchService = $repository->getSearchService();
@@ -1845,7 +1848,7 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test swapping Main Location of a Content with another one updates Content item Main Location.
      */
-    public function testSwapLocationUpdatesMainLocation()
+    public function testSwapLocationUpdatesMainLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -1881,7 +1884,7 @@ class LocationServiceTest extends BaseTestCase
     /**
      * Test if location swap affects related bookmarks.
      */
-    public function testBookmarksAreSwappedAfterSwapLocation()
+    public function testBookmarksAreSwappedAfterSwapLocation(): void
     {
         $repository = $this->getRepository();
 
@@ -1917,7 +1920,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the hideLocation() method.
      */
     #[Depends('testLoadLocation')]
-    public function testHideLocation()
+    public function testHideLocation(): void
     {
         $repository = $this->getRepository();
 
@@ -1985,7 +1988,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the unhideLocation() method.
      */
     #[Depends('testHideLocation')]
-    public function testUnhideLocation()
+    public function testUnhideLocation(): void
     {
         $repository = $this->getRepository();
 
@@ -2027,7 +2030,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the unhideLocation() method.
      */
     #[Depends('testUnhideLocation')]
-    public function testUnhideLocationNotUnhidesHiddenSubtree()
+    public function testUnhideLocationNotUnhidesHiddenSubtree(): void
     {
         $repository = $this->getRepository();
 
@@ -2090,7 +2093,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the deleteLocation() method.
      */
     #[Depends('testLoadLocation')]
-    public function testDeleteLocation()
+    public function testDeleteLocation(): void
     {
         $repository = $this->getRepository();
 
@@ -2137,7 +2140,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the deleteLocation() method.
      */
     #[Depends('testDeleteLocation')]
-    public function testDeleteLocationDecrementsChildCountOnParent()
+    public function testDeleteLocationDecrementsChildCountOnParent(): void
     {
         $repository = $this->getRepository();
 
@@ -2181,7 +2184,7 @@ class LocationServiceTest extends BaseTestCase
      *
      * Related issue: EZP-21904
      */
-    public function testDeleteContentObjectLastLocation()
+    public function testDeleteContentObjectLastLocation(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -2224,7 +2227,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the deleteLocation() method.
      */
     #[Depends('testDeleteLocation')]
-    public function testDeleteLocationDeletesRelatedBookmarks()
+    public function testDeleteLocationDeletesRelatedBookmarks(): void
     {
         $repository = $this->getRepository();
 
@@ -2340,7 +2343,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the copySubtree() method.
      */
     #[Depends('testLoadLocation')]
-    public function testCopySubtree()
+    public function testCopySubtree(): void
     {
         $repository = $this->getRepository();
 
@@ -2390,7 +2393,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the copySubtree() method.
      */
     #[Depends('testLoadLocation')]
-    public function testCopySubtreeWithAliases()
+    public function testCopySubtreeWithAliases(): void
     {
         $repository = $this->getRepository();
         $urlAliasService = $repository->getURLAliasService();
@@ -2506,7 +2509,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the copySubtree() method.
      */
     #[Depends('testCopySubtree')]
-    public function testCopySubtreeUpdatesSubtreeProperties()
+    public function testCopySubtreeUpdatesSubtreeProperties(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -2570,7 +2573,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the copySubtree() method.
      */
     #[Depends('testCopySubtree')]
-    public function testCopySubtreeIncrementsChildCountOfNewParent()
+    public function testCopySubtreeIncrementsChildCountOfNewParent(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -2653,7 +2656,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the copySubtree() method.
      */
     #[Depends('testCopySubtree')]
-    public function testCopySubtreeThrowsInvalidArgumentException()
+    public function testCopySubtreeThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -2877,7 +2880,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the moveSubtree() method.
      */
     #[Depends('testMoveSubtree')]
-    public function testMoveSubtreeUpdatesSubtreeProperties()
+    public function testMoveSubtreeUpdatesSubtreeProperties(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -2936,7 +2939,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the moveSubtree() method.
      */
     #[Depends('testMoveSubtreeUpdatesSubtreeProperties')]
-    public function testMoveSubtreeUpdatesSubtreePropertiesHidden()
+    public function testMoveSubtreeUpdatesSubtreePropertiesHidden(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -2999,7 +3002,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the moveSubtree() method.
      */
     #[Depends('testMoveSubtree')]
-    public function testMoveSubtreeIncrementsChildCountOfNewParent()
+    public function testMoveSubtreeIncrementsChildCountOfNewParent(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -3055,7 +3058,7 @@ class LocationServiceTest extends BaseTestCase
      * Test for the moveSubtree() method.
      */
     #[Depends('testMoveSubtree')]
-    public function testMoveSubtreeDecrementsChildCountOfOldParent()
+    public function testMoveSubtreeDecrementsChildCountOfOldParent(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -3115,7 +3118,7 @@ class LocationServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testMoveInvisibleSubtree()
+    public function testMoveInvisibleSubtree(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();

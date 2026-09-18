@@ -42,7 +42,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
      */
     protected $mapperMock;
 
-    public function testCreateGroup()
+    public function testCreateGroup(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -66,7 +66,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadGroup()
+    public function testLoadGroup(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -90,7 +90,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadGroupThrowsNotFoundException()
+    public function testLoadGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -105,7 +105,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->loadGroup(APIBaseTest::DB_INT_MAX);
     }
 
-    public function testLoadGroupByIdentifier()
+    public function testLoadGroupByIdentifier(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -129,7 +129,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadGroupByIdentifierThrowsNotFoundException()
+    public function testLoadGroupByIdentifierThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -144,7 +144,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->loadGroupByIdentifier('unknown');
     }
 
-    public function testLoadAllGroups()
+    public function testLoadAllGroups(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -170,7 +170,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         }
     }
 
-    public function testLoadObjectStates()
+    public function testLoadObjectStates(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -196,7 +196,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         }
     }
 
-    public function testUpdateGroup()
+    public function testUpdateGroup(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -229,7 +229,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteGroup()
+    public function testDeleteGroup(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -283,7 +283,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -307,7 +307,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -331,7 +331,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadThrowsNotFoundException()
+    public function testLoadThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -346,7 +346,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->load(APIBaseTest::DB_INT_MAX);
     }
 
-    public function testLoadByIdentifier()
+    public function testLoadByIdentifier(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -370,7 +370,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadByIdentifierThrowsNotFoundException()
+    public function testLoadByIdentifierThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -385,7 +385,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->loadByIdentifier('unknown', 2);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -418,7 +418,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testSetPriority()
+    public function testSetPriority(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -468,7 +468,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->setPriority(2, 0);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -509,7 +509,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->delete(1);
     }
 
-    public function testDeleteThrowsNotFoundException()
+    public function testDeleteThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -524,7 +524,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->delete(APIBaseTest::DB_INT_MAX);
     }
 
-    public function testSetContentState()
+    public function testSetContentState(): void
     {
         $handler = $this->getObjectStateHandler();
         $gatewayMock = $this->getGatewayMock();
@@ -538,7 +538,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         self::assertTrue($result);
     }
 
-    public function testGetContentState()
+    public function testGetContentState(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -562,7 +562,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testGetContentCount()
+    public function testGetContentCount(): void
     {
         $handler = $this->getObjectStateHandler();
         $gatewayMock = $this->getGatewayMock();

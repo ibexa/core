@@ -35,7 +35,7 @@ class ContentTypeGroupTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $contentTypeGroupId, $expectedResult)
+    public function testMatchLocation($matchingConfig, int $contentTypeGroupId, $expectedResult): void
     {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeGroupId($contentTypeGroupId));
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -48,7 +48,10 @@ class ContentTypeGroupTest extends BaseTestCase
         );
     }
 
-    public static function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         $data = [];
 
@@ -104,7 +107,7 @@ class ContentTypeGroupTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $contentTypeGroupId, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, int $contentTypeGroupId, $expectedResult): void
     {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeGroupId($contentTypeGroupId));
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -115,7 +118,10 @@ class ContentTypeGroupTest extends BaseTestCase
         );
     }
 
-    public static function matchContentInfoProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchContentInfoProvider(): array
     {
         $data = [];
 

@@ -104,7 +104,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testCreateSameAliasForDifferentLanguage()
+    public function testCreateSameAliasForDifferentLanguage(): void
     {
         $repository = $this->getRepository();
         $locationId = $this->generateId('location', 5);
@@ -151,7 +151,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @param array $testData
      */
     #[Depends('testCreateUrlAlias')]
-    public function testCreateUrlAliasPropertyValues(array $testData)
+    public function testCreateUrlAliasPropertyValues(array $testData): void
     {
         [$createdUrlAlias, $locationId] = $testData;
 
@@ -205,7 +205,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @param array $testData
      */
     #[Depends('testCreateUrlAliasWithForwarding')]
-    public function testCreateUrlAliasPropertyValuesWithForwarding(array $testData)
+    public function testCreateUrlAliasPropertyValuesWithForwarding(array $testData): void
     {
         [$createdUrlAlias, $locationId] = $testData;
 
@@ -258,7 +258,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @param array $testData
      */
     #[Depends('testCreateUrlAliasWithAlwaysAvailable')]
-    public function testCreateUrlAliasPropertyValuesWithAlwaysAvailable(array $testData)
+    public function testCreateUrlAliasPropertyValuesWithAlwaysAvailable(array $testData): void
     {
         [$createdUrlAlias, $locationId] = $testData;
 
@@ -282,7 +282,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the createUrlAlias() method.
      */
-    public function testCreateUrlAliasThrowsInvalidArgumentException()
+    public function testCreateUrlAliasThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -330,7 +330,7 @@ class URLAliasServiceTest extends BaseTestCase
     }
 
     #[Depends('testCreateGlobalUrlAlias')]
-    public function testCreateGlobalUrlAliasPropertyValues(URLAlias $createdUrlAlias)
+    public function testCreateGlobalUrlAliasPropertyValues(URLAlias $createdUrlAlias): void
     {
         self::assertNotNull($createdUrlAlias->id);
 
@@ -376,7 +376,7 @@ class URLAliasServiceTest extends BaseTestCase
     }
 
     #[Depends('testCreateGlobalUrlAliasWithForward')]
-    public function testCreateGlobalUrlAliasWithForwardPropertyValues(URLAlias $createdUrlAlias)
+    public function testCreateGlobalUrlAliasWithForwardPropertyValues(URLAlias $createdUrlAlias): void
     {
         self::assertNotNull($createdUrlAlias->id);
 
@@ -423,7 +423,7 @@ class URLAliasServiceTest extends BaseTestCase
     }
 
     #[Depends('testCreateGlobalUrlAliasWithAlwaysAvailable')]
-    public function testCreateGlobalUrlAliasWithAlwaysAvailablePropertyValues(URLAlias $createdUrlAlias)
+    public function testCreateGlobalUrlAliasWithAlwaysAvailablePropertyValues(URLAlias $createdUrlAlias): void
     {
         self::assertNotNull($createdUrlAlias->id);
 
@@ -512,7 +512,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
      */
     #[Depends('testCreateGlobalUrlAliasForLocation')]
-    public function testCreateGlobalUrlAliasForLocationPropertyValues($testData)
+    public function testCreateGlobalUrlAliasForLocationPropertyValues($testData): void
     {
         [$createdUrlAlias, $locationId] = $testData;
 
@@ -537,7 +537,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
      */
     #[Depends('testCreateGlobalUrlAliasForLocationVariation')]
-    public function testCreateGlobalUrlAliasForLocationVariationPropertyValues($testData)
+    public function testCreateGlobalUrlAliasForLocationVariationPropertyValues($testData): void
     {
         $this->testCreateGlobalUrlAliasForLocationPropertyValues($testData);
     }
@@ -545,7 +545,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the createGlobalUrlAlias() method.
      */
-    public function testCreateGlobalUrlAliasThrowsInvalidArgumentException()
+    public function testCreateGlobalUrlAliasThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -599,7 +599,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @param array $testData
      */
     #[Depends('testListLocationAliases')]
-    public function testListLocationAliasesLoadsCorrectly(array $testData)
+    public function testListLocationAliasesLoadsCorrectly(array $testData): void
     {
         [$loadedAliases, $location] = $testData;
 
@@ -618,7 +618,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the listLocationAliases() method.
      */
-    public function testListLocationAliasesWithCustomFilter()
+    public function testListLocationAliasesWithCustomFilter(): void
     {
         $repository = $this->getRepository();
 
@@ -645,7 +645,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the listLocationAliases() method.
      */
-    public function testListLocationAliasesWithLanguageCodeFilter()
+    public function testListLocationAliasesWithLanguageCodeFilter(): void
     {
         $repository = $this->getRepository();
 
@@ -671,7 +671,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the listGlobalAliases() method.
      */
-    public function testListGlobalAliases()
+    public function testListGlobalAliases(): void
     {
         $repository = $this->getRepository();
 
@@ -719,7 +719,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the listGlobalAliases() method.
      */
-    public function testListGlobalAliasesWithLanguageFilter()
+    public function testListGlobalAliasesWithLanguageFilter(): void
     {
         $repository = $this->getRepository();
 
@@ -740,7 +740,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the listGlobalAliases() method.
      */
-    public function testListGlobalAliasesWithOffset()
+    public function testListGlobalAliasesWithOffset(): void
     {
         $repository = $this->getRepository();
 
@@ -761,7 +761,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the listGlobalAliases() method.
      */
-    public function testListGlobalAliasesWithLimit()
+    public function testListGlobalAliasesWithLimit(): void
     {
         $repository = $this->getRepository();
 
@@ -782,7 +782,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the removeAliases() method.
      */
-    public function testRemoveAliases()
+    public function testRemoveAliases(): void
     {
         $repository = $this->getRepository();
 
@@ -821,7 +821,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the removeAliases() method.
      */
-    public function testRemoveAliasesThrowsInvalidArgumentExceptionIfAutogeneratedAliasesAreToBeRemoved()
+    public function testRemoveAliasesThrowsInvalidArgumentExceptionIfAutogeneratedAliasesAreToBeRemoved(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -869,7 +869,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the lookUp() method.
      */
-    public function testLookUpWithLanguageFilter()
+    public function testLookUpWithLanguageFilter(): void
     {
         $repository = $this->getRepository();
 
@@ -895,7 +895,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the lookUp() method.
      */
-    public function testLookUpThrowsNotFoundException()
+    public function testLookUpThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -912,7 +912,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the lookUp() method.
      */
-    public function testLookUpThrowsNotFoundExceptionWithLanguageFilter()
+    public function testLookUpThrowsNotFoundExceptionWithLanguageFilter(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -929,7 +929,7 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test for the lookUp() method.
      */
-    public function testLookUpThrowsInvalidArgumentException()
+    public function testLookUpThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -948,7 +948,7 @@ class URLAliasServiceTest extends BaseTestCase
      *
      * @see https://issues.ibexa.co/browse/EZP-28046
      */
-    public function testLookupOnRenamedParent()
+    public function testLookupOnRenamedParent(): void
     {
         $urlAliasService = $this->getRepository()->getURLAliasService();
         $locationService = $this->getRepository()->getLocationService();
@@ -1069,7 +1069,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \ErrorException
      */
-    public function testRefreshSystemUrlAliasesForLocationWithChangedSlugConverterConfiguration()
+    public function testRefreshSystemUrlAliasesForLocationWithChangedSlugConverterConfiguration(): void
     {
         [$topFolderLocation, $nestedFolderLocation] = $this->testLookupOnMultilingualNestedLocations();
 
@@ -1131,7 +1131,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRefreshSystemUrlAliasesForContentsWithUpdatedContentTypes()
+    public function testRefreshSystemUrlAliasesForContentsWithUpdatedContentTypes(): void
     {
         [$topFolderLocation, $nestedFolderLocation] = $this->testLookupOnMultilingualNestedLocations();
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $topFolderLocation */
@@ -1184,7 +1184,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testCreateNonLatinNonEmptyUniqueAliases()
+    public function testCreateNonLatinNonEmptyUniqueAliases(): void
     {
         $repository = $this->getRepository();
         $urlAliasService = $repository->getURLAliasService();
@@ -1235,7 +1235,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Exception
      */
-    public function testRefreshSystemUrlAliasesForMissingUrlWithHistory()
+    public function testRefreshSystemUrlAliasesForMissingUrlWithHistory(): void
     {
         $repository = $this->getRepository();
         $urlAliasService = $repository->getURLAliasService();
@@ -1334,7 +1334,7 @@ class URLAliasServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Exception
      */
-    public function testRefreshSystemUrlAliasesForMovedLocation()
+    public function testRefreshSystemUrlAliasesForMovedLocation(): void
     {
         $repository = $this->getRepository();
         $urlAliasService = $repository->getURLAliasService();
@@ -1556,7 +1556,7 @@ class URLAliasServiceTest extends BaseTestCase
      *
      * @throws \ErrorException
      */
-    public function testDeleteCorruptedUrlAliases()
+    public function testDeleteCorruptedUrlAliases(): void
     {
         $repository = $this->getRepository();
         $urlAliasService = $repository->getURLAliasService();

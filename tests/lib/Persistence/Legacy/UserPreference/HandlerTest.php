@@ -37,7 +37,7 @@ class HandlerTest extends TestCase
         $this->handler = new Handler($this->gateway, $this->mapper);
     }
 
-    public function testSetUserPreference()
+    public function testSetUserPreference(): void
     {
         $setStruct = new UserPreferenceSetStruct([
             'userId' => 5,
@@ -63,7 +63,7 @@ class HandlerTest extends TestCase
         self::assertEquals($userPreference->id, self::USER_PREFERENCE_ID);
     }
 
-    public function testCountUserPreferences()
+    public function testCountUserPreferences(): void
     {
         $ownerId = 10;
         $expectedCount = 12;
@@ -77,7 +77,7 @@ class HandlerTest extends TestCase
         self::assertEquals($expectedCount, $this->handler->countUserPreferences($ownerId));
     }
 
-    public function testLoadUserPreferences()
+    public function testLoadUserPreferences(): void
     {
         $ownerId = 9;
         $limit = 5;

@@ -58,7 +58,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\SectionLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): SectionLimitationType
     {
         return new SectionLimitationType($this->getPersistenceMock());
     }
@@ -66,7 +66,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue(): array
     {
         return [
             [new SectionLimitation()],
@@ -81,7 +81,7 @@ class SectionLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(SectionLimitation $limitation, SectionLimitationType $limitationType)
+    public function testAcceptValue(SectionLimitation $limitation, SectionLimitationType $limitationType): void
     {
         $limitationType->acceptValue($limitation);
     }
@@ -89,7 +89,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException(): array
     {
         return [
             [new ObjectStateLimitation()],
@@ -106,7 +106,7 @@ class SectionLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, SectionLimitationType $limitationType)
+    public function testAcceptValueException(Limitation $limitation, SectionLimitationType $limitationType): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -116,7 +116,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidatePass()
+    public static function providerForTestValidatePass(): array
     {
         return [
             [new SectionLimitation()],
@@ -129,7 +129,7 @@ class SectionLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation $limitation
      */
     #[DataProvider('providerForTestValidatePass')]
-    public function testValidatePass(SectionLimitation $limitation)
+    public function testValidatePass(SectionLimitation $limitation): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -160,7 +160,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidateError()
+    public static function providerForTestValidateError(): array
     {
         return [
             [new SectionLimitation(), 0],
@@ -174,7 +174,7 @@ class SectionLimitationTypeTest extends Base
      * @param int $errorCount
      */
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(SectionLimitation $limitation, $errorCount)
+    public function testValidateError(SectionLimitation $limitation, $errorCount): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -210,7 +210,7 @@ class SectionLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testBuildValue(SectionLimitationType $limitationType)
+    public function testBuildValue(SectionLimitationType $limitationType): void
     {
         $expected = ['test', 'test' => '33'];
         $value = $limitationType->buildValue($expected);
@@ -223,7 +223,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluate()
+    public static function providerForTestEvaluate(): array
     {
         $contentMock = new CoreContent([
             'versionInfo' => new CoreVersionInfo([
@@ -343,7 +343,7 @@ class SectionLimitationTypeTest extends Base
         ValueObject $object,
         $targets,
         $expected
-    ) {
+    ): void {
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
 
@@ -369,7 +369,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument(): array
     {
         return [
             // invalid limitation
@@ -386,7 +386,7 @@ class SectionLimitationTypeTest extends Base
         Limitation $limitation,
         ValueObject $object,
         $targets
-    ) {
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -414,7 +414,7 @@ class SectionLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionInvalidValue(SectionLimitationType $limitationType)
+    public function testGetCriterionInvalidValue(SectionLimitationType $limitationType): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -428,7 +428,7 @@ class SectionLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionSingleValue(SectionLimitationType $limitationType)
+    public function testGetCriterionSingleValue(SectionLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new SectionLimitation(['limitationValues' => ['9']]),
@@ -446,7 +446,7 @@ class SectionLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionMultipleValues(SectionLimitationType $limitationType)
+    public function testGetCriterionMultipleValues(SectionLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new SectionLimitation(['limitationValues' => ['9', '55']]),
@@ -464,7 +464,7 @@ class SectionLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testValueSchema(SectionLimitationType $limitationType)
+    public function testValueSchema(SectionLimitationType $limitationType): void
     {
         $this->expectException(NotImplementedException::class);
 

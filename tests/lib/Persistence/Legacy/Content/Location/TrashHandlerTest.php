@@ -57,7 +57,7 @@ class TrashHandlerTest extends TestCase
         );
     }
 
-    public function testTrashSubtree()
+    public function testTrashSubtree(): void
     {
         $handler = $this->getTrashHandler();
 
@@ -127,7 +127,7 @@ class TrashHandlerTest extends TestCase
         self::assertSame(20, $trashedObject->id);
     }
 
-    public function testTrashSubtreeReturnsNull()
+    public function testTrashSubtreeReturnsNull(): void
     {
         $handler = $this->getTrashHandler();
 
@@ -184,7 +184,7 @@ class TrashHandlerTest extends TestCase
         self::assertNull($returnValue);
     }
 
-    public function testTrashSubtreeUpdatesMainLocation()
+    public function testTrashSubtreeUpdatesMainLocation(): void
     {
         $handler = $this->getTrashHandler();
 
@@ -273,7 +273,7 @@ class TrashHandlerTest extends TestCase
         self::assertSame(20, $trashedObject->id);
     }
 
-    public function testRecover()
+    public function testRecover(): void
     {
         $handler = $this->getTrashHandler();
 
@@ -290,7 +290,7 @@ class TrashHandlerTest extends TestCase
         self::assertSame(70, $handler->recover(69, 23));
     }
 
-    public function testLoadTrashItem()
+    public function testLoadTrashItem(): void
     {
         $handler = $this->getTrashHandler();
 
@@ -471,7 +471,7 @@ class TrashHandlerTest extends TestCase
         self::assertTrue($trashItemDeleteResult->contentRemoved);
     }
 
-    public function testDeleteTrashItemStillHaveLocations()
+    public function testDeleteTrashItemStillHaveLocations(): void
     {
         $handler = $this->getTrashHandler();
 
@@ -529,7 +529,7 @@ class TrashHandlerTest extends TestCase
         self::assertFalse($trashItemDeleteResult->contentRemoved);
     }
 
-    public function testFindTrashItemsWhenEmpty()
+    public function testFindTrashItemsWhenEmpty(): void
     {
         $handler = $this->getTrashHandler();
 
@@ -556,7 +556,7 @@ class TrashHandlerTest extends TestCase
         self::assertCount(0, $trashResult);// Can't assert as empty, however we can count it.
     }
 
-    public function testFindTrashItemsWithLimits()
+    public function testFindTrashItemsWithLimits(): void
     {
         $handler = $this->getTrashHandler();
 

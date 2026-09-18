@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ParameterProviderRegistry::class)]
 class ParameterProviderRegistryTest extends TestCase
 {
-    public function testSetHasParameterProvider()
+    public function testSetHasParameterProvider(): void
     {
         $registry = new ParameterProviderRegistry();
         self::assertFalse($registry->hasParameterProvider('foo'));
@@ -26,7 +26,7 @@ class ParameterProviderRegistryTest extends TestCase
         self::assertTrue($registry->hasParameterProvider('foo'));
     }
 
-    public function testGetParameterProviderFail()
+    public function testGetParameterProviderFail(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -34,7 +34,7 @@ class ParameterProviderRegistryTest extends TestCase
         $registry->getParameterProvider('foo');
     }
 
-    public function testGetParameterProvider()
+    public function testGetParameterProvider(): void
     {
         $provider = self::createStub(ParameterProviderInterface::class);
         $registry = new ParameterProviderRegistry();

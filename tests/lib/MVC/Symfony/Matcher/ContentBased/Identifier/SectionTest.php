@@ -75,7 +75,7 @@ class SectionTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchSectionProvider')]
-    public function testMatchLocation($matchingConfig, string $sectionIdentifier, $expectedResult)
+    public function testMatchLocation($matchingConfig, string $sectionIdentifier, $expectedResult): void
     {
         $this->matcher->setRepository($this->generateRepositoryMockForSectionIdentifier($sectionIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -96,7 +96,10 @@ class SectionTest extends BaseTestCase
         );
     }
 
-    public static function matchSectionProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchSectionProvider(): array
     {
         return [
             [
@@ -127,7 +130,7 @@ class SectionTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchSectionProvider')]
-    public function testMatchContentInfo($matchingConfig, string $sectionIdentifier, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, string $sectionIdentifier, $expectedResult): void
     {
         $this->matcher->setRepository($this->generateRepositoryMockForSectionIdentifier($sectionIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);

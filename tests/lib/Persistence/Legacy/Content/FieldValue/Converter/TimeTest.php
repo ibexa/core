@@ -39,7 +39,7 @@ class TimeTest extends TestCase
         $this->time = 3661;
     }
 
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = $this->time;
@@ -52,7 +52,7 @@ class TimeTest extends TestCase
         self::assertSame('', $storageFieldValue->sortKeyString);
     }
 
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataInt = $this->time;
@@ -66,7 +66,7 @@ class TimeTest extends TestCase
         self::assertSame($storageFieldValue->sortKeyInt, $fieldValue->sortKey);
     }
 
-    public function testToStorageFieldDefinitionDefaultEmpty()
+    public function testToStorageFieldDefinitionDefaultEmpty(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -87,7 +87,7 @@ class TimeTest extends TestCase
         self::assertSame(1, $storageFieldDef->dataInt2);
     }
 
-    public function testToStorageFieldDefinitionDefaultCurrentTime()
+    public function testToStorageFieldDefinitionDefaultCurrentTime(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -108,7 +108,7 @@ class TimeTest extends TestCase
         self::assertSame(0, $storageFieldDef->dataInt2);
     }
 
-    public function testToFieldDefinitionDefaultEmpty()
+    public function testToFieldDefinitionDefaultEmpty(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(
@@ -131,7 +131,7 @@ class TimeTest extends TestCase
         );
     }
 
-    public function testToFieldDefinitionDefaultCurrentTime()
+    public function testToFieldDefinitionDefaultCurrentTime(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(

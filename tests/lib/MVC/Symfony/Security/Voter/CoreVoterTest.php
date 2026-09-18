@@ -29,13 +29,16 @@ class CoreVoterTest extends TestCase
     }
 
     #[DataProvider('supportsAttributeProvider')]
-    public function testSupportsAttribute($attribute, $expectedResult)
+    public function testSupportsAttribute($attribute, $expectedResult): void
     {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
 
-    public static function supportsAttributeProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function supportsAttributeProvider(): array
     {
         return [
             ['foo', false],
@@ -55,13 +58,16 @@ class CoreVoterTest extends TestCase
     }
 
     #[DataProvider('supportsClassProvider')]
-    public function testSupportsClass($class)
+    public function testSupportsClass($class): void
     {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertTrue($voter->supportsClass($class));
     }
 
-    public static function supportsClassProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function supportsClassProvider(): array
     {
         return [
             ['foo'],
@@ -72,7 +78,7 @@ class CoreVoterTest extends TestCase
     }
 
     #[DataProvider('voteInvalidAttributeProvider')]
-    public function testVoteInvalidAttribute(array $attributes)
+    public function testVoteInvalidAttribute(array $attributes): void
     {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertSame(
@@ -85,7 +91,10 @@ class CoreVoterTest extends TestCase
         );
     }
 
-    public static function voteInvalidAttributeProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function voteInvalidAttributeProvider(): array
     {
         return [
             [[]],
@@ -106,7 +115,7 @@ class CoreVoterTest extends TestCase
     }
 
     #[DataProvider('voteProvider')]
-    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult)
+    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult): void
     {
         $voter = new CoreVoter($this->permissionResolver);
         if ($repositoryCanUser !== null) {
@@ -131,7 +140,10 @@ class CoreVoterTest extends TestCase
         );
     }
 
-    public static function voteProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function voteProvider(): array
     {
         return [
             [

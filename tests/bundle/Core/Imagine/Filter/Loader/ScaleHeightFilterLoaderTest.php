@@ -29,14 +29,14 @@ class ScaleHeightFilterLoaderTest extends TestCase
         $this->loader->setInnerLoader($this->innerLoader);
     }
 
-    public function testLoadFail()
+    public function testLoadFail(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load(self::createStub(ImageInterface::class, []));
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $height = 123;
         $image = self::createStub(ImageInterface::class);

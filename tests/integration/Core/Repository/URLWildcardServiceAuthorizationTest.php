@@ -47,7 +47,7 @@ class URLWildcardServiceAuthorizationTest extends BaseTestCase
      * Test for the remove() method.
      */
     #[DependsExternal(URLWildcardServiceTest::class, 'testRemove')]
-    public function testRemoveThrowsUnauthorizedException()
+    public function testRemoveThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

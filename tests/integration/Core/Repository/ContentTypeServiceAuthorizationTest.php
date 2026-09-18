@@ -25,7 +25,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the createContentTypeGroup() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentTypeGroup')]
-    public function testCreateContentTypeGroupThrowsUnauthorizedException()
+    public function testCreateContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -64,7 +64,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the updateContentTypeGroup() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testUpdateContentTypeGroup')]
-    public function testUpdateContentTypeGroupThrowsUnauthorizedException()
+    public function testUpdateContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -112,7 +112,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the deleteContentTypeGroup() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testDeleteContentTypeGroup')]
-    public function testDeleteContentTypeGroupThrowsUnauthorizedException()
+    public function testDeleteContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -147,7 +147,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the createContentType() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
-    public function testCreateContentTypeThrowsUnauthorizedException()
+    public function testCreateContentTypeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -202,7 +202,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the updateContentTypeDraft() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testUpdateContentTypeDraft')]
-    public function testUpdateContentTypeDraftThrowsUnauthorizedException()
+    public function testUpdateContentTypeDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -252,7 +252,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the addFieldDefinition() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testAddFieldDefinition')]
-    public function testAddFieldDefinitionThrowsUnauthorizedException()
+    public function testAddFieldDefinitionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -306,7 +306,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the removeFieldDefinition() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testRemoveFieldDefinition')]
-    public function testRemoveFieldDefinitionThrowsUnauthorizedException()
+    public function testRemoveFieldDefinitionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -337,7 +337,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the updateFieldDefinition() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testUpdateFieldDefinition')]
-    public function testUpdateFieldDefinitionThrowsUnauthorizedException()
+    public function testUpdateFieldDefinitionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -393,7 +393,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the publishContentTypeDraft() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testPublishContentTypeDraft')]
-    public function testPublishContentTypeDraftThrowsUnauthorizedException()
+    public function testPublishContentTypeDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -422,7 +422,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the createContentTypeDraft() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentTypeDraft')]
-    public function testCreateContentTypeDraftThrowsUnauthorizedException()
+    public function testCreateContentTypeDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -452,7 +452,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the deleteContentType() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testDeleteContentType')]
-    public function testDeleteContentTypeThrowsUnauthorizedException()
+    public function testDeleteContentTypeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -482,7 +482,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the copyContentType() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testCopyContentType')]
-    public function testCopyContentTypeThrowsUnauthorizedException()
+    public function testCopyContentTypeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -512,7 +512,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the assignContentTypeGroup() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testAssignContentTypeGroup')]
-    public function testAssignContentTypeGroupThrowsUnauthorizedException()
+    public function testAssignContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -543,7 +543,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
      * Test for the unassignContentTypeGroup() method.
      */
     #[DependsExternal(ContentTypeServiceTest::class, 'testUnassignContentTypeGroup')]
-    public function testUnassignContentTypeGroupThrowsUnauthorizedException()
+    public function testUnassignContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

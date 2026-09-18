@@ -48,7 +48,7 @@ class AuthorTest extends TestCase
         parent::tearDown();
     }
 
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = $this->authors;
@@ -78,7 +78,7 @@ class AuthorTest extends TestCase
         self::assertEmpty($this->authors, 'All authors have not been converted as expected');
     }
 
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = <<<EOT
@@ -116,7 +116,7 @@ EOT;
         self::assertEmpty($aAuthors, 'All authors have not been converted as expected from storage');
     }
 
-    public function testToStorageFieldDefinitionDefaultCurrentUser()
+    public function testToStorageFieldDefinitionDefaultCurrentUser(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -138,7 +138,7 @@ EOT;
         );
     }
 
-    public function testToStorageFieldDefinitionDefaultEmpty()
+    public function testToStorageFieldDefinitionDefaultEmpty(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();

@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class YamlSuggestionFormatterTest extends TestCase
 {
-    public function testFormat()
+    public function testFormat(): void
     {
         $message = <<<EOT
 Database configuration has changed for Ibexa Content repository.
@@ -87,7 +87,7 @@ EOT;
         self::assertSame($expectedMessage, trim($formatter->format($suggestion)));
     }
 
-    public function testFormatNoSuggestion()
+    public function testFormatNoSuggestion(): void
     {
         $message = 'This is a message';
         $suggestion = new ConfigSuggestion($message);

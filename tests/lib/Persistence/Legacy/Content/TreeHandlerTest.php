@@ -23,7 +23,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class TreeHandlerTest extends TestCase
 {
-    public function testLoadContentInfoByRemoteId()
+    public function testLoadContentInfoByRemoteId(): void
     {
         $contentInfoData = [new ContentInfo()];
 
@@ -45,7 +45,7 @@ class TreeHandlerTest extends TestCase
         );
     }
 
-    public function testListVersions()
+    public function testListVersions(): void
     {
         $this->getContentGatewayMock()
             ->expects(self::once())
@@ -73,7 +73,7 @@ class TreeHandlerTest extends TestCase
         );
     }
 
-    public function testRemoveRawContent()
+    public function testRemoveRawContent(): void
     {
         $treeHandler = $this->getPartlyMockedTreeHandler(
             [
@@ -125,7 +125,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->removeRawContent(23);
     }
 
-    public function testRemoveSubtree()
+    public function testRemoveSubtree(): void
     {
         $treeHandler = $this->getPartlyMockedTreeHandler(
             [
@@ -283,7 +283,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->removeSubtree(42);
     }
 
-    public function testSetSectionForSubtree()
+    public function testSetSectionForSubtree(): void
     {
         $treeHandler = $this->getTreeHandler();
 
@@ -309,7 +309,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->setSectionForSubtree(69, 3);
     }
 
-    public function testChangeMainLocation()
+    public function testChangeMainLocation(): void
     {
         $treeHandler = $this->getPartlyMockedTreeHandler(
             [
@@ -374,7 +374,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->changeMainLocation(12, 34);
     }
 
-    public function testChangeMainLocationToLocationWithoutContentInfo()
+    public function testChangeMainLocationToLocationWithoutContentInfo(): void
     {
         $treeHandler = $this->getPartlyMockedTreeHandler(
             [
@@ -434,7 +434,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->changeMainLocation(12, 34);
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $treeHandler = $this->getTreeHandler();
 

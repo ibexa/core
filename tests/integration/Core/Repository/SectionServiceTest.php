@@ -77,7 +77,7 @@ class SectionServiceTest extends BaseTestCase
     /**
      * Test for the newSectionCreateStruct() method.
      */
-    public function testNewSectionCreateStruct()
+    public function testNewSectionCreateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -94,7 +94,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the createSection() method.
      */
     #[Depends('testNewSectionCreateStruct')]
-    public function testCreateSection()
+    public function testCreateSection(): void
     {
         $repository = $this->getRepository();
 
@@ -115,7 +115,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the createSection() method.
      */
     #[Depends('testNewSectionCreateStruct')]
-    public function testCreateSectionForUserWithSectionLimitation()
+    public function testCreateSectionForUserWithSectionLimitation(): void
     {
         $repository = $this->getRepository();
 
@@ -151,7 +151,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the createSection() method.
      */
     #[Depends('testCreateSection')]
-    public function testCreateSectionThrowsInvalidArgumentException()
+    public function testCreateSectionThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -179,7 +179,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the loadSection() method.
      */
     #[Depends('testCreateSection')]
-    public function testLoadSection()
+    public function testLoadSection(): void
     {
         $repository = $this->getRepository();
 
@@ -198,7 +198,7 @@ class SectionServiceTest extends BaseTestCase
     /**
      * Test for the loadSection() method.
      */
-    public function testLoadSectionThrowsNotFoundException()
+    public function testLoadSectionThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -217,7 +217,7 @@ class SectionServiceTest extends BaseTestCase
     /**
      * Test for the newSectionUpdateStruct() method.
      */
-    public function testNewSectionUpdateStruct()
+    public function testNewSectionUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -236,7 +236,7 @@ class SectionServiceTest extends BaseTestCase
     #[Depends('testCreateSection')]
     #[Depends('testLoadSection')]
     #[Depends('testNewSectionUpdateStruct')]
-    public function testUpdateSection()
+    public function testUpdateSection(): void
     {
         $repository = $this->getRepository();
 
@@ -271,7 +271,7 @@ class SectionServiceTest extends BaseTestCase
     #[Depends('testCreateSection')]
     #[Depends('testLoadSection')]
     #[Depends('testNewSectionUpdateStruct')]
-    public function testUpdateSectionForUserWithSectionLimitation()
+    public function testUpdateSectionForUserWithSectionLimitation(): void
     {
         $repository = $this->getRepository();
         $administratorUserId = $this->generateId('user', 14);
@@ -324,7 +324,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the updateSection() method.
      */
     #[Depends('testUpdateSection')]
-    public function testUpdateSectionKeepsSectionIdentifierOnNameUpdate()
+    public function testUpdateSectionKeepsSectionIdentifierOnNameUpdate(): void
     {
         $repository = $this->getRepository();
 
@@ -349,7 +349,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the updateSection() method.
      */
     #[Depends('testUpdateSection')]
-    public function testUpdateSectionWithSectionIdentifierOnNameUpdate()
+    public function testUpdateSectionWithSectionIdentifierOnNameUpdate(): void
     {
         $repository = $this->getRepository();
 
@@ -377,7 +377,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the updateSection() method.
      */
     #[Depends('testUpdateSection')]
-    public function testUpdateSectionKeepsSectionNameOnIdentifierUpdate()
+    public function testUpdateSectionKeepsSectionNameOnIdentifierUpdate(): void
     {
         $repository = $this->getRepository();
 
@@ -403,7 +403,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the updateSection() method.
      */
     #[Depends('testUpdateSection')]
-    public function testUpdateSectionThrowsInvalidArgumentException()
+    public function testUpdateSectionThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -438,7 +438,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the loadSections() method.
      */
     #[Depends('testCreateSection')]
-    public function testLoadSections()
+    public function testLoadSections(): void
     {
         $repository = $this->getRepository();
 
@@ -458,7 +458,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the loadSections() method.
      */
     #[Depends('testCreateSection')]
-    public function testLoadSectionsReturnsDefaultSectionsByDefault()
+    public function testLoadSectionsReturnsDefaultSectionsByDefault(): void
     {
         $repository = $this->getRepository();
 
@@ -517,7 +517,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the loadSectionByIdentifier() method.
      */
     #[Depends('testCreateSection')]
-    public function testLoadSectionByIdentifier()
+    public function testLoadSectionByIdentifier(): void
     {
         $repository = $this->getRepository();
 
@@ -539,7 +539,7 @@ class SectionServiceTest extends BaseTestCase
     /**
      * Test for the loadSectionByIdentifier() method.
      */
-    public function testLoadSectionByIdentifierThrowsNotFoundException()
+    public function testLoadSectionByIdentifierThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -556,7 +556,7 @@ class SectionServiceTest extends BaseTestCase
     /**
      * Test for the countAssignedContents() method.
      */
-    public function testCountAssignedContents()
+    public function testCountAssignedContents(): void
     {
         $repository = $this->getRepository();
 
@@ -583,7 +583,7 @@ class SectionServiceTest extends BaseTestCase
     /**
      * Test for the isSectionUsed() method.
      */
-    public function testIsSectionUsed()
+    public function testIsSectionUsed(): void
     {
         $repository = $this->getRepository();
 
@@ -611,7 +611,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the assignSection() method.
      */
     #[Depends('testCountAssignedContents')]
-    public function testAssignSection()
+    public function testAssignSection(): void
     {
         $repository = $this->getRepository();
         $sectionService = $repository->getSectionService();
@@ -666,7 +666,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the assignSectionToSubtree() method.
      */
     #[Depends('testCreateSection')]
-    public function testAssignSectionToSubtree()
+    public function testAssignSectionToSubtree(): void
     {
         $repository = $this->getRepository();
         $sectionService = $repository->getSectionService();
@@ -716,7 +716,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the countAssignedContents() method.
      */
     #[Depends('testCreateSection')]
-    public function testCountAssignedContentsReturnsZeroByDefault()
+    public function testCountAssignedContentsReturnsZeroByDefault(): void
     {
         $repository = $this->getRepository();
 
@@ -740,7 +740,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the isSectionUsed() method.
      */
     #[Depends('testCreateSection')]
-    public function testIsSectionUsedReturnsZeroByDefault()
+    public function testIsSectionUsedReturnsZeroByDefault(): void
     {
         $repository = $this->getRepository();
 
@@ -764,7 +764,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the deleteSection() method.
      */
     #[Depends('testLoadSections')]
-    public function testDeleteSection()
+    public function testDeleteSection(): void
     {
         $repository = $this->getRepository();
 
@@ -788,7 +788,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the deleteSection() method.
      */
     #[Depends('testDeleteSection')]
-    public function testDeleteSectionThrowsNotFoundException()
+    public function testDeleteSectionThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -815,7 +815,7 @@ class SectionServiceTest extends BaseTestCase
      * Test for the deleteSection() method.
      */
     #[Depends('testAssignSection')]
-    public function testDeleteSectionThrowsBadStateException()
+    public function testDeleteSectionThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -851,7 +851,7 @@ class SectionServiceTest extends BaseTestCase
      */
     #[Depends('testCreateSection')]
     #[Depends('testLoadSectionByIdentifier')]
-    public function testCreateSectionInTransactionWithRollback()
+    public function testCreateSectionInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -894,7 +894,7 @@ class SectionServiceTest extends BaseTestCase
      */
     #[Depends('testCreateSection')]
     #[Depends('testLoadSectionByIdentifier')]
-    public function testCreateSectionInTransactionWithCommit()
+    public function testCreateSectionInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -933,7 +933,7 @@ class SectionServiceTest extends BaseTestCase
      */
     #[Depends('testUpdateSection')]
     #[Depends('testLoadSectionByIdentifier')]
-    public function testUpdateSectionInTransactionWithRollback()
+    public function testUpdateSectionInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -974,7 +974,7 @@ class SectionServiceTest extends BaseTestCase
      */
     #[Depends('testUpdateSection')]
     #[Depends('testLoadSectionByIdentifier')]
-    public function testUpdateSectionInTransactionWithCommit()
+    public function testUpdateSectionInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 

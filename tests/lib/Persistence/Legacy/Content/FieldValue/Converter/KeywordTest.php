@@ -30,7 +30,7 @@ class KeywordTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('keyword')]
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = ['key1', 'key2'];
@@ -47,7 +47,7 @@ class KeywordTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('keyword')]
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $fieldValue = new FieldValue();
@@ -59,14 +59,14 @@ class KeywordTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('keyword')]
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $this->converter->toStorageFieldDefinition(new PersistenceFieldDefinition(), new StorageFieldDefinition());
     }
 
     #[Group('fieldType')]
     #[Group('keyword')]
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $this->converter->toFieldDefinition(new StorageFieldDefinition(), new PersistenceFieldDefinition());
     }

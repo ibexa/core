@@ -21,7 +21,10 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('regression')]
 class PureNegativeQueryTest extends BaseTestCase
 {
-    public static function providerForTestMatchAll()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestMatchAll(): array
     {
         $query = new Query(['filter' => new Criterion\MatchAll()]);
         $result = static::resolveRepository()->getSearchService()->findContent($query);
@@ -219,7 +222,7 @@ class PureNegativeQueryTest extends BaseTestCase
      * @param int $totalCount
      */
     #[DataProvider('providerForTestMatchAll')]
-    public function testMatchAllContentInfoQuery($criterion, $totalCount)
+    public function testMatchAllContentInfoQuery($criterion, $totalCount): void
     {
         $query = new Query(
             [
@@ -237,7 +240,7 @@ class PureNegativeQueryTest extends BaseTestCase
      * @param int $totalCount
      */
     #[DataProvider('providerForTestMatchAll')]
-    public function testMatchAllContentInfoFilter($criterion, $totalCount)
+    public function testMatchAllContentInfoFilter($criterion, $totalCount): void
     {
         $query = new Query(
             [
@@ -255,7 +258,7 @@ class PureNegativeQueryTest extends BaseTestCase
      * @param int $totalCount
      */
     #[DataProvider('providerForTestMatchAll')]
-    public function testMatchAllLocationQuery($criterion, $totalCount)
+    public function testMatchAllLocationQuery($criterion, $totalCount): void
     {
         $query = new LocationQuery(
             [
@@ -273,7 +276,7 @@ class PureNegativeQueryTest extends BaseTestCase
      * @param int $totalCount
      */
     #[DataProvider('providerForTestMatchAll')]
-    public function testMatchAllLocationFilter($criterion, $totalCount)
+    public function testMatchAllLocationFilter($criterion, $totalCount): void
     {
         $query = new LocationQuery(
             [

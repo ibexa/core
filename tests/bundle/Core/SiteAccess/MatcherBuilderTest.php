@@ -27,7 +27,7 @@ class MatcherBuilderTest extends TestCase
         $this->siteAccessMatcherRegistry = $this->createMock(SiteAccessMatcherRegistryInterface::class);
     }
 
-    public function testBuildMatcherNoService()
+    public function testBuildMatcherNoService(): void
     {
         $this->siteAccessMatcherRegistry
             ->expects(self::never())
@@ -38,7 +38,7 @@ class MatcherBuilderTest extends TestCase
         self::assertInstanceOf(get_class($matcher), $builtMatcher);
     }
 
-    public function testBuildMatcherServiceWrongInterface()
+    public function testBuildMatcherServiceWrongInterface(): void
     {
         $this->expectException(\TypeError::class);
 
@@ -52,7 +52,7 @@ class MatcherBuilderTest extends TestCase
         $matcherBuilder->buildMatcher("@$serviceId", [], new SimplifiedRequest());
     }
 
-    public function testBuildMatcherService()
+    public function testBuildMatcherService(): void
     {
         $serviceId = 'foo';
         $matcher = $this->createMock(CoreMatcher::class);

@@ -25,7 +25,7 @@ class MapperTest extends TestCase
         $this->mapper = new Mapper();
     }
 
-    public function testExtractNotificationsFromRows()
+    public function testExtractNotificationsFromRows(): void
     {
         $rows = [
             [
@@ -76,7 +76,7 @@ class MapperTest extends TestCase
         self::assertEquals($objects, $this->mapper->extractNotificationsFromRows($rows));
     }
 
-    public function testExtractNotificationsFromRowsThrowsRuntimeException()
+    public function testExtractNotificationsFromRowsThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -94,7 +94,7 @@ class MapperTest extends TestCase
         $this->mapper->extractNotificationsFromRows($rows);
     }
 
-    public function testCreateNotificationFromUpdateStruct()
+    public function testCreateNotificationFromUpdateStruct(): void
     {
         $updateStruct = new UpdateStruct([
             'isPending' => false,

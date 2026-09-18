@@ -22,7 +22,7 @@ use Ibexa\Core\Event\URLAliasService;
 
 class URLAliasServiceTest extends AbstractServiceTestCase
 {
-    public function testCreateGlobalUrlAliasEvents()
+    public function testCreateGlobalUrlAliasEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateGlobalUrlAliasEvent::class,
@@ -54,7 +54,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateGlobalUrlAliasResultInBeforeEvents()
+    public function testReturnCreateGlobalUrlAliasResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateGlobalUrlAliasEvent::class,
@@ -92,7 +92,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateGlobalUrlAliasStopPropagationInBeforeEvents()
+    public function testCreateGlobalUrlAliasStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateGlobalUrlAliasEvent::class,
@@ -133,7 +133,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testRefreshSystemUrlAliasesForLocationEvents()
+    public function testRefreshSystemUrlAliasesForLocationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRefreshSystemUrlAliasesForLocationEvent::class,
@@ -158,7 +158,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testRefreshSystemUrlAliasesForLocationStopPropagationInBeforeEvents()
+    public function testRefreshSystemUrlAliasesForLocationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRefreshSystemUrlAliasesForLocationEvent::class,
@@ -190,7 +190,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateUrlAliasEvents()
+    public function testCreateUrlAliasEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUrlAliasEvent::class,
@@ -222,7 +222,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateUrlAliasResultInBeforeEvents()
+    public function testReturnCreateUrlAliasResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUrlAliasEvent::class,
@@ -260,7 +260,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateUrlAliasStopPropagationInBeforeEvents()
+    public function testCreateUrlAliasStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUrlAliasEvent::class,
@@ -301,7 +301,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testRemoveAliasesEvents()
+    public function testRemoveAliasesEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveAliasesEvent::class,
@@ -326,7 +326,7 @@ class URLAliasServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testRemoveAliasesStopPropagationInBeforeEvents()
+    public function testRemoveAliasesStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveAliasesEvent::class,

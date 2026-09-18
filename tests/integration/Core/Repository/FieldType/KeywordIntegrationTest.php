@@ -160,7 +160,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public static function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -204,7 +204,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public static function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData(): array
     {
         return self::provideInvalidCreationFieldData();
     }
@@ -250,7 +250,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public static function provideToHashData()
+    public static function provideToHashData(): array
     {
         return [
             [
@@ -267,7 +267,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public static function provideFromHashData()
+    public static function provideFromHashData(): array
     {
         return [
             [
@@ -277,7 +277,10 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public static function providerForTestIsEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new KeywordValue()],
@@ -286,7 +289,10 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public static function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -301,7 +307,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
     /**
      * Test updating multiple contents with ibexa_keyword field preserves proper fields values.
      */
-    public function testUpdateContentKeywords()
+    public function testUpdateContentKeywords(): void
     {
         $contentType = $this->testCreateContentType();
         $contentService = $this->getRepository()->getContentService();
@@ -401,7 +407,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         self::assertEqualsCanonicalizing($contentDraft03->getFieldValue('data'), $value01);
     }
 
-    public function testKeywordsAreCaseSensitive()
+    public function testKeywordsAreCaseSensitive(): void
     {
         $contentType = $this->testCreateContentType();
         $publishedContent01 = $this->createAndPublishContent('Foo', $contentType, md5(uniqid(__METHOD__, true)));
@@ -477,7 +483,10 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public static function providerForTestTruncateField()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestTruncateField(): array
     {
         return [
             [new KeywordValue()],
@@ -497,7 +506,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      * @todo Move this method to BaseIntegrationTest when fixed for all field types.
      */
     #[DataProvider('providerForTestTruncateField')]
-    public function testTruncateField($emptyValue)
+    public function testTruncateField($emptyValue): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -580,7 +589,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
     /**
      * Test for the findContent() method.
      */
-    public function testFindContentFieldCriterion()
+    public function testFindContentFieldCriterion(): void
     {
         $this->createKeywordContent();
         $repository = $this->getRepository();

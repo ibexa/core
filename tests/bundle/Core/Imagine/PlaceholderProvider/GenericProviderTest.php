@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 class GenericProviderTest extends TestCase
 {
     #[DataProvider('getPlaceholderDataProvider')]
-    public function testGetPlaceholder(ImageValue $value, $expectedText, array $options = [])
+    public function testGetPlaceholder(ImageValue $value, $expectedText, array $options = []): void
     {
         $font = $this->createMock(AbstractFont::class);
 
@@ -69,7 +69,10 @@ class GenericProviderTest extends TestCase
         $provider->getPlaceholder($value, $options);
     }
 
-    public static function getPlaceholderDataProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function getPlaceholderDataProvider(): array
     {
         return [
             [

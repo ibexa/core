@@ -27,7 +27,7 @@ class AbstractFilterTest extends TestCase
         return $this->getMockForAbstractClass(AbstractFilter::class);
     }
 
-    public function testGetSetOptions()
+    public function testGetSetOptions(): void
     {
         self::assertSame([], $this->filter->getOptions());
         $options = ['foo' => 'bar', 'some' => ['thing']];
@@ -36,7 +36,7 @@ class AbstractFilterTest extends TestCase
     }
 
     #[DataProvider('getSetOptionNoDefaulValueProvider')]
-    public function testGetSetOptionNoDefaultValue($optionName, $value)
+    public function testGetSetOptionNoDefaultValue($optionName, $value): void
     {
         self::assertFalse($this->filter->hasOption($optionName));
         self::assertNull($this->filter->getOption($optionName));
@@ -45,7 +45,10 @@ class AbstractFilterTest extends TestCase
         self::assertSame($value, $this->filter->getOption($optionName));
     }
 
-    public static function getSetOptionNoDefaulValueProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function getSetOptionNoDefaulValueProvider(): array
     {
         return [
             ['foo', 'bar'],
@@ -58,7 +61,7 @@ class AbstractFilterTest extends TestCase
     }
 
     #[DataProvider('getSetOptionWithDefaulValueProvider')]
-    public function testGetSetOptionWithDefaultValue($optionName, $value, $defaultValue)
+    public function testGetSetOptionWithDefaultValue($optionName, $value, $defaultValue): void
     {
         self::assertFalse($this->filter->hasOption($optionName));
         self::assertSame($defaultValue, $this->filter->getOption($optionName, $defaultValue));
@@ -67,7 +70,10 @@ class AbstractFilterTest extends TestCase
         self::assertSame($value, $this->filter->getOption($optionName));
     }
 
-    public static function getSetOptionWithDefaulValueProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function getSetOptionWithDefaulValueProvider(): array
     {
         return [
             ['foo', 'bar', 'default'],

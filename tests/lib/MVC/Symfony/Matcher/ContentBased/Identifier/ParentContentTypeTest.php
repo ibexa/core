@@ -109,7 +109,7 @@ class ParentContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, string $contentTypeIdentifier, $expectedResult)
+    public function testMatchLocation($matchingConfig, string $contentTypeIdentifier, $expectedResult): void
     {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -121,7 +121,10 @@ class ParentContentTypeTest extends BaseTestCase
         );
     }
 
-    public static function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         return [
             [
@@ -152,7 +155,7 @@ class ParentContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchContentInfo($matchingConfig, string $contentTypeIdentifier, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, string $contentTypeIdentifier, $expectedResult): void
     {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);

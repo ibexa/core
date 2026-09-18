@@ -164,7 +164,7 @@ class HandlerContentSortTest extends AbstractTestCase
             ->getMock();
     }
 
-    public function testNoSorting()
+    public function testNoSorting(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -191,7 +191,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortDateModified()
+    public function testSortDateModified(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -219,7 +219,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortDatePublished()
+    public function testSortDatePublished(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -247,7 +247,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortSectionIdentifier()
+    public function testSortSectionIdentifier(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -292,7 +292,7 @@ class HandlerContentSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortSectionName()
+    public function testSortSectionName(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -345,7 +345,7 @@ class HandlerContentSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortContentName()
+    public function testSortContentName(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -373,7 +373,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortFieldText()
+    public function testSortFieldText(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -442,7 +442,7 @@ class HandlerContentSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortFieldNumeric()
+    public function testSortFieldNumeric(): void
     {
         self::markTestSkipped();
         $locator = $this->getContentSearchHandler();

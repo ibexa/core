@@ -28,7 +28,7 @@ class SearchServiceAuthorizationTest extends BaseTestCase
      * Test for the findContent() method but with anonymous user.
      */
     #[DependsExternal(SearchServiceTest::class, 'testFindContentFiltered')]
-    public function testFindContent()
+    public function testFindContent(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -56,7 +56,7 @@ class SearchServiceAuthorizationTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[DependsExternal(SearchServiceTest::class, 'testFindContentFiltered')]
-    public function testFindContentEmptyResult()
+    public function testFindContentEmptyResult(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -87,7 +87,7 @@ class SearchServiceAuthorizationTest extends BaseTestCase
      * Test for the findSingle() method.
      */
     #[DependsExternal(SearchServiceTest::class, 'testFindSingle')]
-    public function testFindSingleThrowsNotFoundException()
+    public function testFindSingleThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -117,7 +117,7 @@ class SearchServiceAuthorizationTest extends BaseTestCase
      * Test for the findContent() method, verifying disabling permissions.
      */
     #[DependsExternal(self::class, 'testFindContent')]
-    public function testFindContentWithUserPermissionFilter()
+    public function testFindContentWithUserPermissionFilter(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -153,7 +153,7 @@ class SearchServiceAuthorizationTest extends BaseTestCase
      * Test for the findSingle() method disabling permission filtering.
      */
     #[DependsExternal(self::class, 'testFindContent')]
-    public function testFindSingleWithUserPermissionFilter()
+    public function testFindSingleWithUserPermissionFilter(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -182,7 +182,7 @@ class SearchServiceAuthorizationTest extends BaseTestCase
      * Test for the findSingle() method.
      */
     #[DependsExternal(self::class, 'testFindContent')]
-    public function testFindSingleThrowsNotFoundExceptionWithUserPermissionFilter()
+    public function testFindSingleThrowsNotFoundExceptionWithUserPermissionFilter(): void
     {
         $this->expectException(NotFoundException::class);
 

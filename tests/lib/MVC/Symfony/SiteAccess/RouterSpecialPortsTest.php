@@ -75,7 +75,7 @@ class RouterSpecialPortsTest extends RouterBaseTestCase
         ];
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $matcher = new PortMatcher(['port' => '8080', 'scheme' => 'http'], []);
         self::assertSame('port', $matcher->getName());

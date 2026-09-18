@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('cache-spi')]
 class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
 {
-    public function testReverseLookupReturnsHistoryAlias()
+    public function testReverseLookupReturnsHistoryAlias(): void
     {
         $contentService = $this->getRepository()->getContentService();
         $contentTypeService = $this->getRepository()->getContentTypeService();
@@ -88,7 +88,7 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
         self::assertFalse($urlAlias->isHistory);
     }
 
-    public function testLookupHistoryUrlReturnsActiveAlias()
+    public function testLookupHistoryUrlReturnsActiveAlias(): void
     {
         $contentService = $this->getRepository()->getContentService();
         $contentTypeService = $this->getRepository()->getContentTypeService();

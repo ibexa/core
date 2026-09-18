@@ -57,7 +57,7 @@ class AddFieldTest extends TestCase
      */
     protected $addFieldAction;
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $action = new AddField(
             $this->getContentGatewayMock(),
@@ -70,7 +70,7 @@ class AddFieldTest extends TestCase
         self::assertInstanceOf(AddField::class, $action);
     }
 
-    public function testApplySingleVersionSingleTranslation()
+    public function testApplySingleVersionSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1];
@@ -110,7 +110,7 @@ class AddFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplySingleVersionMultipleTranslations()
+    public function testApplySingleVersionMultipleTranslations(): void
     {
         $contentId = 42;
         $versionNumbers = [1];
@@ -160,7 +160,7 @@ class AddFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsSingleTranslation()
+    public function testApplyMultipleVersionsSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];
@@ -217,7 +217,7 @@ class AddFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsMultipleTranslations()
+    public function testApplyMultipleVersionsMultipleTranslations(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];
@@ -285,7 +285,7 @@ class AddFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testInsertNewField()
+    public function testInsertNewField(): void
     {
         $versionInfo = new Content\VersionInfo();
         $content = new Content();
@@ -334,7 +334,7 @@ class AddFieldTest extends TestCase
         self::assertEquals(23, $field->id);
     }
 
-    public function testInsertNewFieldUpdating()
+    public function testInsertNewFieldUpdating(): void
     {
         $versionInfo = new Content\VersionInfo();
         $content = new Content();
@@ -389,7 +389,7 @@ class AddFieldTest extends TestCase
         self::assertEquals(23, $field->id);
     }
 
-    public function testInsertExistingField()
+    public function testInsertExistingField(): void
     {
         $versionInfo = new Content\VersionInfo();
         $content = new Content();
@@ -437,7 +437,7 @@ class AddFieldTest extends TestCase
         self::assertEquals(32, $field->id);
     }
 
-    public function testInsertExistingFieldUpdating()
+    public function testInsertExistingFieldUpdating(): void
     {
         $versionInfo = new Content\VersionInfo();
         $content = new Content();

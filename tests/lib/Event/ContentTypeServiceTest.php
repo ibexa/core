@@ -53,7 +53,7 @@ use Ibexa\Core\Event\ContentTypeService;
 
 class ContentTypeServiceTest extends AbstractServiceTestCase
 {
-    public function testAddFieldDefinitionEvents()
+    public function testAddFieldDefinitionEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAddFieldDefinitionEvent::class,
@@ -79,7 +79,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testAddFieldDefinitionStopPropagationInBeforeEvents()
+    public function testAddFieldDefinitionStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAddFieldDefinitionEvent::class,
@@ -112,7 +112,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteContentTypeGroupEvents()
+    public function testDeleteContentTypeGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteContentTypeGroupEvent::class,
@@ -137,7 +137,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteContentTypeGroupStopPropagationInBeforeEvents()
+    public function testDeleteContentTypeGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteContentTypeGroupEvent::class,
@@ -169,7 +169,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateContentTypeDraftEvents()
+    public function testCreateContentTypeDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateContentTypeDraftEvent::class,
@@ -197,7 +197,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateContentTypeDraftResultInBeforeEvents()
+    public function testReturnCreateContentTypeDraftResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateContentTypeDraftEvent::class,
@@ -231,7 +231,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateContentTypeDraftStopPropagationInBeforeEvents()
+    public function testCreateContentTypeDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateContentTypeDraftEvent::class,
@@ -268,7 +268,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateContentTypeGroupEvents()
+    public function testCreateContentTypeGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateContentTypeGroupEvent::class,
@@ -296,7 +296,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateContentTypeGroupResultInBeforeEvents()
+    public function testReturnCreateContentTypeGroupResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateContentTypeGroupEvent::class,
@@ -330,7 +330,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateContentTypeGroupStopPropagationInBeforeEvents()
+    public function testCreateContentTypeGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateContentTypeGroupEvent::class,
@@ -367,7 +367,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateContentTypeGroupEvents()
+    public function testUpdateContentTypeGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateContentTypeGroupEvent::class,
@@ -393,7 +393,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateContentTypeGroupStopPropagationInBeforeEvents()
+    public function testUpdateContentTypeGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateContentTypeGroupEvent::class,
@@ -426,7 +426,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateContentTypeEvents()
+    public function testCreateContentTypeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateContentTypeEvent::class,
@@ -455,7 +455,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateContentTypeResultInBeforeEvents()
+    public function testReturnCreateContentTypeResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateContentTypeEvent::class,
@@ -490,7 +490,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateContentTypeStopPropagationInBeforeEvents()
+    public function testCreateContentTypeStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateContentTypeEvent::class,
@@ -528,7 +528,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testRemoveContentTypeTranslationEvents()
+    public function testRemoveContentTypeTranslationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveContentTypeTranslationEvent::class,
@@ -557,7 +557,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnRemoveContentTypeTranslationResultInBeforeEvents()
+    public function testReturnRemoveContentTypeTranslationResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveContentTypeTranslationEvent::class,
@@ -592,7 +592,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testRemoveContentTypeTranslationStopPropagationInBeforeEvents()
+    public function testRemoveContentTypeTranslationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveContentTypeTranslationEvent::class,
@@ -630,7 +630,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUnassignContentTypeGroupEvents()
+    public function testUnassignContentTypeGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUnassignContentTypeGroupEvent::class,
@@ -656,7 +656,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUnassignContentTypeGroupStopPropagationInBeforeEvents()
+    public function testUnassignContentTypeGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUnassignContentTypeGroupEvent::class,
@@ -689,7 +689,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testPublishContentTypeDraftEvents()
+    public function testPublishContentTypeDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforePublishContentTypeDraftEvent::class,
@@ -714,7 +714,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testPublishContentTypeDraftStopPropagationInBeforeEvents()
+    public function testPublishContentTypeDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforePublishContentTypeDraftEvent::class,
@@ -746,7 +746,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateFieldDefinitionEvents()
+    public function testUpdateFieldDefinitionEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateFieldDefinitionEvent::class,
@@ -773,7 +773,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateFieldDefinitionStopPropagationInBeforeEvents()
+    public function testUpdateFieldDefinitionStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateFieldDefinitionEvent::class,
@@ -807,7 +807,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testRemoveFieldDefinitionEvents()
+    public function testRemoveFieldDefinitionEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveFieldDefinitionEvent::class,
@@ -833,7 +833,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testRemoveFieldDefinitionStopPropagationInBeforeEvents()
+    public function testRemoveFieldDefinitionStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveFieldDefinitionEvent::class,
@@ -866,7 +866,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testAssignContentTypeGroupEvents()
+    public function testAssignContentTypeGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignContentTypeGroupEvent::class,
@@ -892,7 +892,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testAssignContentTypeGroupStopPropagationInBeforeEvents()
+    public function testAssignContentTypeGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignContentTypeGroupEvent::class,
@@ -925,7 +925,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateContentTypeDraftEvents()
+    public function testUpdateContentTypeDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateContentTypeDraftEvent::class,
@@ -951,7 +951,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateContentTypeDraftStopPropagationInBeforeEvents()
+    public function testUpdateContentTypeDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateContentTypeDraftEvent::class,
@@ -984,7 +984,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteContentTypeEvents()
+    public function testDeleteContentTypeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteContentTypeEvent::class,
@@ -1009,7 +1009,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteContentTypeStopPropagationInBeforeEvents()
+    public function testDeleteContentTypeStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteContentTypeEvent::class,
@@ -1041,7 +1041,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCopyContentTypeEvents()
+    public function testCopyContentTypeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCopyContentTypeEvent::class,
@@ -1070,7 +1070,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCopyContentTypeResultInBeforeEvents()
+    public function testReturnCopyContentTypeResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCopyContentTypeEvent::class,
@@ -1105,7 +1105,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCopyContentTypeStopPropagationInBeforeEvents()
+    public function testCopyContentTypeStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCopyContentTypeEvent::class,

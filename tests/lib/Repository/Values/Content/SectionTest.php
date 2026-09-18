@@ -22,7 +22,7 @@ class SectionTest extends TestCase
     /**
      * Test retrieving missing property.
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -35,7 +35,7 @@ class SectionTest extends TestCase
     /**
      * Test setting read only property.
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -47,7 +47,7 @@ class SectionTest extends TestCase
     /**
      * Test if property exists.
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $section = new Section();
         /** @phpstan-ignore property.notFound */
@@ -61,7 +61,7 @@ class SectionTest extends TestCase
     /**
      * Test unsetting a property.
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

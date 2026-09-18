@@ -26,7 +26,7 @@ class ContentTest extends AbstractParserTestCase
         return Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_minimal.yml'));
     }
 
-    public function testDefaultContentSettings()
+    public function testDefaultContentSettings(): void
     {
         $this->load();
 
@@ -36,7 +36,7 @@ class ContentTest extends AbstractParserTestCase
     }
 
     #[DataProvider('contentSettingsProvider')]
-    public function testContentSettings(array $config, array $expected)
+    public function testContentSettings(array $config, array $expected): void
     {
         $this->load(
             [
@@ -51,7 +51,10 @@ class ContentTest extends AbstractParserTestCase
         }
     }
 
-    public static function contentSettingsProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function contentSettingsProvider(): array
     {
         return [
             [

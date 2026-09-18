@@ -56,7 +56,7 @@ class PoliciesConfigBuilderTest extends TestCase
         ];
     }
 
-    public function testAddResource()
+    public function testAddResource(): void
     {
         $containerBuilder = new ContainerBuilder();
         $configBuilder = new PoliciesConfigBuilder($containerBuilder);

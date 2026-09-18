@@ -56,7 +56,7 @@ class ConsoleCommandListenerTest extends TestCase
         $this->command = self::createStub(Command::class);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -66,7 +66,7 @@ class ConsoleCommandListenerTest extends TestCase
         );
     }
 
-    public function testInvalidSiteAccessDev()
+    public function testInvalidSiteAccessDev(): void
     {
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\. Valid SiteAccesses are/');
@@ -79,7 +79,7 @@ class ConsoleCommandListenerTest extends TestCase
         $this->listener->onConsoleCommand($event);
     }
 
-    public function testInvalidSiteAccessProd()
+    public function testInvalidSiteAccessProd(): void
     {
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\.$/');
@@ -92,7 +92,7 @@ class ConsoleCommandListenerTest extends TestCase
         $this->listener->onConsoleCommand($event);
     }
 
-    public function testValidSiteAccess()
+    public function testValidSiteAccess(): void
     {
         $this->dispatcher->expects(self::once())
             ->method('dispatch');
@@ -102,7 +102,7 @@ class ConsoleCommandListenerTest extends TestCase
         self::assertEquals(new SiteAccess('site1', 'cli'), $this->siteAccess);
     }
 
-    public function testDefaultSiteAccess()
+    public function testDefaultSiteAccess(): void
     {
         $this->dispatcher->expects(self::once())
             ->method('dispatch');

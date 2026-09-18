@@ -69,7 +69,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\ParentContentTypeLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): ParentContentTypeLimitationType
     {
         return new ParentContentTypeLimitationType($this->getPersistenceMock());
     }
@@ -77,7 +77,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue(): array
     {
         return [
             [new ParentContentTypeLimitation()],
@@ -92,7 +92,7 @@ class ParentContentTypeLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(ParentContentTypeLimitation $limitation, ParentContentTypeLimitationType $limitationType)
+    public function testAcceptValue(ParentContentTypeLimitation $limitation, ParentContentTypeLimitationType $limitationType): void
     {
         $limitationType->acceptValue($limitation);
     }
@@ -100,7 +100,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException(): array
     {
         return [
             [new ObjectStateLimitation()],
@@ -115,7 +115,7 @@ class ParentContentTypeLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, ParentContentTypeLimitationType $limitationType)
+    public function testAcceptValueException(Limitation $limitation, ParentContentTypeLimitationType $limitationType): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -125,7 +125,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidatePass()
+    public static function providerForTestValidatePass(): array
     {
         return [
             [new ParentContentTypeLimitation()],
@@ -138,7 +138,7 @@ class ParentContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation $limitation
      */
     #[DataProvider('providerForTestValidatePass')]
-    public function testValidatePass(ParentContentTypeLimitation $limitation)
+    public function testValidatePass(ParentContentTypeLimitation $limitation): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -168,7 +168,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidateError()
+    public static function providerForTestValidateError(): array
     {
         return [
             [new ParentContentTypeLimitation(), 0],
@@ -182,7 +182,7 @@ class ParentContentTypeLimitationTypeTest extends Base
      * @param int $errorCount
      */
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(ParentContentTypeLimitation $limitation, $errorCount)
+    public function testValidateError(ParentContentTypeLimitation $limitation, $errorCount): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -218,7 +218,7 @@ class ParentContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ParentContentTypeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testBuildValue(ParentContentTypeLimitationType $limitationType)
+    public function testBuildValue(ParentContentTypeLimitationType $limitationType): void
     {
         $expected = ['test', 'test' => '1'];
         $value = $limitationType->buildValue($expected);
@@ -255,7 +255,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluate()
+    public static function providerForTestEvaluate(): array
     {
         return [
             // ContentInfo, with API targets, no access
@@ -509,7 +509,7 @@ class ParentContentTypeLimitationTypeTest extends Base
         $targets,
         array $persistence,
         $expected
-    ) {
+    ): void {
         if ($object === 'contentMock') {
             $object = $this->getTestEvaluateContentMock();
         } elseif ($object === 'versionInfoMock') {
@@ -631,7 +631,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument(): array
     {
         return [
             // invalid limitation
@@ -662,7 +662,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     }
 
     #[DataProvider('providerForTestEvaluateInvalidArgument')]
-    public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object, $targets)
+    public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object, $targets): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -691,7 +691,7 @@ class ParentContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ParentContentTypeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionInvalidValue(ParentContentTypeLimitationType $limitationType)
+    public function testGetCriterionInvalidValue(ParentContentTypeLimitationType $limitationType): void
     {
         $this->expectException(NotImplementedException::class);
 
@@ -705,7 +705,7 @@ class ParentContentTypeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ParentContentTypeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testValueSchema(ParentContentTypeLimitationType $limitationType)
+    public function testValueSchema(ParentContentTypeLimitationType $limitationType): void
     {
         self::markTestIncomplete('Method is not implemented yet: ' . __METHOD__);
     }

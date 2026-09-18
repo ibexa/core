@@ -39,7 +39,7 @@ class RepositoryTest extends BaseTestCase
      */
     #[Group('content')]
     #[Group('user')]
-    public function testGetContentService()
+    public function testGetContentService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -52,7 +52,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getContentLanguageService() method.
      */
     #[Group('language')]
-    public function testGetContentLanguageService()
+    public function testGetContentLanguageService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -67,7 +67,7 @@ class RepositoryTest extends BaseTestCase
     #[Group('content-type')]
     #[Group('field-type')]
     #[Group('user')]
-    public function testGetContentTypeService()
+    public function testGetContentTypeService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -80,7 +80,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getLocationService() method.
      */
     #[Group('location')]
-    public function testGetLocationService()
+    public function testGetLocationService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -93,7 +93,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getSectionService() method.
      */
     #[Group('section')]
-    public function testGetSectionService()
+    public function testGetSectionService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -106,7 +106,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getUserService() method.
      */
     #[Group('user')]
-    public function testGetUserService()
+    public function testGetUserService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -119,7 +119,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getNotificationService() method.
      */
     #[Group('user')]
-    public function testGetNotificationService()
+    public function testGetNotificationService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -132,7 +132,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getTrashService() method.
      */
     #[Group('trash')]
-    public function testGetTrashService()
+    public function testGetTrashService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -145,7 +145,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getRoleService() method.
      */
     #[Group('role')]
-    public function testGetRoleService()
+    public function testGetRoleService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -158,7 +158,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getURLAliasService() method.
      */
     #[Group('url-alias')]
-    public function testGetURLAliasService()
+    public function testGetURLAliasService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -171,7 +171,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getUrlWildcardService() method.
      */
     #[Group('url-wildcard')]
-    public function testGetURLWildcardService()
+    public function testGetURLWildcardService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -184,7 +184,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getObjectStateService().
      */
     #[Group('object-state')]
-    public function testGetObjectStateService()
+    public function testGetObjectStateService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -197,7 +197,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getFieldTypeService().
      */
     #[Group('object-state')]
-    public function testGetFieldTypeService()
+    public function testGetFieldTypeService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -210,7 +210,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getSearchService() method.
      */
     #[Group('search')]
-    public function testGetSearchService()
+    public function testGetSearchService(): void
     {
         $repository = $this->getRepository();
 
@@ -224,7 +224,7 @@ class RepositoryTest extends BaseTestCase
      * Test for the getSearchService() method.
      */
     #[Group('permission')]
-    public function testGetPermissionResolver()
+    public function testGetPermissionResolver(): void
     {
         $repository = $this->getRepository();
 
@@ -237,7 +237,7 @@ class RepositoryTest extends BaseTestCase
     /**
      * Test for the commit() method.
      */
-    public function testCommit()
+    public function testCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -254,7 +254,7 @@ class RepositoryTest extends BaseTestCase
     /**
      * Test for the commit() method.
      */
-    public function testCommitThrowsRuntimeException()
+    public function testCommitThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -265,7 +265,7 @@ class RepositoryTest extends BaseTestCase
     /**
      * Test for the rollback() method.
      */
-    public function testRollback()
+    public function testRollback(): void
     {
         $repository = $this->getRepository();
         $repository->beginTransaction();
@@ -275,7 +275,7 @@ class RepositoryTest extends BaseTestCase
     /**
      * Test for the rollback() method.
      */
-    public function testRollbackThrowsRuntimeException()
+    public function testRollbackThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 

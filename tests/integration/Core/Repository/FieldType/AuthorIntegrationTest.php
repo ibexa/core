@@ -188,7 +188,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array[]
      */
-    public static function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             ['Sindelfingen', InvalidArgumentException::class],
@@ -248,7 +248,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         );
     }
 
-    public static function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData(): array
     {
         return self::provideInvalidCreationFieldData();
     }
@@ -307,7 +307,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public static function provideToHashData()
+    public static function provideToHashData(): array
     {
         return [
             [
@@ -340,7 +340,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      *
      * @return array
      */
-    public static function provideFromHashData()
+    public static function provideFromHashData(): array
     {
         return [
             [
@@ -366,7 +366,10 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public static function providerForTestIsEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new AuthorValue()],
@@ -374,7 +377,10 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         ];
     }
 
-    public static function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [

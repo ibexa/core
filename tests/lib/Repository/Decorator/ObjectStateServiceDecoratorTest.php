@@ -33,7 +33,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         return $this->createMock(ObjectStateService::class);
     }
 
-    public function testCreateObjectStateGroupDecorator()
+    public function testCreateObjectStateGroupDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -45,7 +45,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->createObjectStateGroup(...$parameters);
     }
 
-    public function testLoadObjectStateGroupDecorator()
+    public function testLoadObjectStateGroupDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -85,7 +85,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         );
     }
 
-    public function testLoadObjectStateGroupsDecorator()
+    public function testLoadObjectStateGroupsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -101,7 +101,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->loadObjectStateGroups(...$parameters);
     }
 
-    public function testLoadObjectStatesDecorator()
+    public function testLoadObjectStatesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -116,7 +116,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->loadObjectStates(...$parameters);
     }
 
-    public function testUpdateObjectStateGroupDecorator()
+    public function testUpdateObjectStateGroupDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -131,7 +131,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->updateObjectStateGroup(...$parameters);
     }
 
-    public function testDeleteObjectStateGroupDecorator()
+    public function testDeleteObjectStateGroupDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -143,7 +143,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->deleteObjectStateGroup(...$parameters);
     }
 
-    public function testCreateObjectStateDecorator()
+    public function testCreateObjectStateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -158,7 +158,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->createObjectState(...$parameters);
     }
 
-    public function testLoadObjectStateDecorator()
+    public function testLoadObjectStateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -199,7 +199,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         );
     }
 
-    public function testUpdateObjectStateDecorator()
+    public function testUpdateObjectStateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -214,7 +214,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->updateObjectState(...$parameters);
     }
 
-    public function testSetPriorityOfObjectStateDecorator()
+    public function testSetPriorityOfObjectStateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -229,7 +229,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->setPriorityOfObjectState(...$parameters);
     }
 
-    public function testDeleteObjectStateDecorator()
+    public function testDeleteObjectStateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -241,7 +241,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->deleteObjectState(...$parameters);
     }
 
-    public function testSetContentStateDecorator()
+    public function testSetContentStateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -257,7 +257,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->setContentState(...$parameters);
     }
 
-    public function testGetContentStateDecorator()
+    public function testGetContentStateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -272,7 +272,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->getContentState(...$parameters);
     }
 
-    public function testGetContentCountDecorator()
+    public function testGetContentCountDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -284,7 +284,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->getContentCount(...$parameters);
     }
 
-    public function testNewObjectStateGroupCreateStructDecorator()
+    public function testNewObjectStateGroupCreateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -296,7 +296,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->newObjectStateGroupCreateStruct(...$parameters);
     }
 
-    public function testNewObjectStateGroupUpdateStructDecorator()
+    public function testNewObjectStateGroupUpdateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -308,7 +308,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->newObjectStateGroupUpdateStruct(...$parameters);
     }
 
-    public function testNewObjectStateCreateStructDecorator()
+    public function testNewObjectStateCreateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -320,7 +320,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->newObjectStateCreateStruct(...$parameters);
     }
 
-    public function testNewObjectStateUpdateStructDecorator()
+    public function testNewObjectStateUpdateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

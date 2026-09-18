@@ -43,7 +43,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the trash() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testLoadLocationByRemoteId')]
-    public function testTrash()
+    public function testTrash(): void
     {
         /* BEGIN: Use Case */
         $trashItem = $this->createTrashItem();
@@ -59,7 +59,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the trash() method.
      */
     #[Depends('testTrash')]
-    public function testTrashSetsExpectedTrashItemProperties()
+    public function testTrashSetsExpectedTrashItemProperties(): void
     {
         $repository = $this->getRepository();
 
@@ -91,7 +91,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the trash() method.
      */
     #[Depends('testTrash')]
-    public function testTrashRemovesLocationFromMainStorage()
+    public function testTrashRemovesLocationFromMainStorage(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -115,7 +115,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the trash() method.
      */
     #[Depends('testTrash')]
-    public function testTrashRemovesChildLocationsFromMainStorage()
+    public function testTrashRemovesChildLocationsFromMainStorage(): void
     {
         $repository = $this->getRepository();
 
@@ -149,7 +149,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the trash() method.
      */
     #[Depends('testTrash')]
-    public function testTrashDecrementsChildCountOnParentLocation()
+    public function testTrashDecrementsChildCountOnParentLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -173,7 +173,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
     /**
      * Test sending a location to trash updates Content mainLocation.
      */
-    public function testTrashUpdatesMainLocation()
+    public function testTrashUpdatesMainLocation(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -201,7 +201,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
     /**
      * Test sending a location to trash.
      */
-    public function testTrashReturnsNull()
+    public function testTrashReturnsNull(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -223,7 +223,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the loadTrashItem() method.
      */
     #[Depends('testTrash')]
-    public function testLoadTrashItem()
+    public function testLoadTrashItem(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -271,7 +271,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the loadTrashItem() method.
      */
     #[Depends('testLoadTrashItem')]
-    public function testLoadTrashItemThrowsNotFoundException()
+    public function testLoadTrashItemThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -291,7 +291,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the recover() method.
      */
     #[Depends('testTrash')]
-    public function testRecover()
+    public function testRecover(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -332,7 +332,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
     /**
      * Test recovering a non existing trash item results in a NotFoundException.
      */
-    public function testRecoverThrowsNotFoundExceptionForNonExistingTrashItem()
+    public function testRecoverThrowsNotFoundExceptionForNonExistingTrashItem(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -352,7 +352,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the trash() method.
      */
     #[Depends('testTrash')]
-    public function testNotFoundAliasAfterRemoveIt()
+    public function testNotFoundAliasAfterRemoveIt(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -377,7 +377,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the recover() method.
      */
     #[Depends('testTrash')]
-    public function testAliasesForRemovedItems()
+    public function testAliasesForRemovedItems(): void
     {
         $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
 
@@ -418,7 +418,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the recover() method.
      */
     #[Depends('testRecover')]
-    public function testRecoverDoesNotRestoreChildLocations()
+    public function testRecoverDoesNotRestoreChildLocations(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -469,7 +469,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * @todo Fix naming
      */
     #[Depends('testRecover')]
-    public function testRecoverWithLocationCreateStructParameter()
+    public function testRecoverWithLocationCreateStructParameter(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -517,7 +517,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the recover() method.
      */
     #[Depends('testRecover')]
-    public function testRecoverIncrementsChildCountOnOriginalParent()
+    public function testRecoverIncrementsChildCountOnOriginalParent(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -555,7 +555,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the recover() method.
      */
     #[Depends('testRecoverWithLocationCreateStructParameter')]
-    public function testRecoverWithLocationCreateStructParameterIncrementsChildCountOnNewParent()
+    public function testRecoverWithLocationCreateStructParameterIncrementsChildCountOnNewParent(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -598,7 +598,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
     /**
      * Test recovering a location from trash to non existing location.
      */
-    public function testRecoverToNonExistingLocation()
+    public function testRecoverToNonExistingLocation(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -729,7 +729,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the findTrashItems() method for it's result structure.
      */
     #[Depends('testTrash')]
-    public function testFindTrashItemsLimits()
+    public function testFindTrashItemsLimits(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -757,7 +757,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the findTrashItems() method.
      */
     #[DependsExternal(self::class, 'testFindTrashItems')]
-    public function testFindTrashItemsLimitedAccess()
+    public function testFindTrashItemsLimitedAccess(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -801,7 +801,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
     /**
      * Test Section Role Assignment Limitation against user/login.
      */
-    public function testFindTrashItemsSubtreeLimitation()
+    public function testFindTrashItemsSubtreeLimitation(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -857,7 +857,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the emptyTrash() method.
      */
     #[Depends('testFindTrashItems')]
-    public function testEmptyTrash()
+    public function testEmptyTrash(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -887,7 +887,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the emptyTrash() method with user which has subtree limitations.
      */
     #[Depends('testFindTrashItems')]
-    public function testEmptyTrashForUserWithSubtreeLimitation()
+    public function testEmptyTrashForUserWithSubtreeLimitation(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -930,7 +930,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
      * Test for the deleteTrashItem() method.
      */
     #[Depends('testFindTrashItems')]
-    public function testDeleteTrashItem()
+    public function testDeleteTrashItem(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -979,7 +979,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
     /**
      * Test deleting a non existing trash item.
      */
-    public function testDeleteThrowsNotFoundExceptionForNonExistingTrashItem()
+    public function testDeleteThrowsNotFoundExceptionForNonExistingTrashItem(): void
     {
         $this->expectException(NotFoundException::class);
 

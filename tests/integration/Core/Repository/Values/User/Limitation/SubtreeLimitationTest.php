@@ -27,7 +27,7 @@ class SubtreeLimitationTest extends BaseLimitationTestCase
      * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
      * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
      */
-    public function testSubtreeLimitationAllow()
+    public function testSubtreeLimitationAllow(): void
     {
         $repository = $this->getRepository();
 
@@ -67,7 +67,7 @@ class SubtreeLimitationTest extends BaseLimitationTestCase
      * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
      * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
      */
-    public function testSubtreeLimitationForbid()
+    public function testSubtreeLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

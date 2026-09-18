@@ -30,7 +30,7 @@ class BookmarkServiceTest extends BaseTestCase
     public const LOCATION_ID_BOOKMARKED = 5;
     public const LOCATION_ID_NOT_BOOKMARKED = 44;
 
-    public function testIsBookmarked()
+    public function testIsBookmarked(): void
     {
         $repository = $this->getRepository();
 
@@ -42,7 +42,7 @@ class BookmarkServiceTest extends BaseTestCase
         self::assertTrue($isBookmarked);
     }
 
-    public function testIsNotBookmarked()
+    public function testIsNotBookmarked(): void
     {
         $repository = $this->getRepository();
 
@@ -54,7 +54,7 @@ class BookmarkServiceTest extends BaseTestCase
         self::assertFalse($isBookmarked);
     }
 
-    public function testCreateBookmark()
+    public function testCreateBookmark(): void
     {
         $repository = $this->getRepository();
 
@@ -73,7 +73,7 @@ class BookmarkServiceTest extends BaseTestCase
     }
 
     #[Depends('testCreateBookmark')]
-    public function testCreateBookmarkThrowsInvalidArgumentException()
+    public function testCreateBookmarkThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -88,7 +88,7 @@ class BookmarkServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    public function testDeleteBookmark()
+    public function testDeleteBookmark(): void
     {
         $repository = $this->getRepository();
 
@@ -108,7 +108,7 @@ class BookmarkServiceTest extends BaseTestCase
     }
 
     #[Depends('testDeleteBookmark')]
-    public function testDeleteBookmarkThrowsInvalidArgumentException()
+    public function testDeleteBookmarkThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -123,7 +123,7 @@ class BookmarkServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    public function testLoadBookmarks()
+    public function testLoadBookmarks(): void
     {
         $repository = $this->getRepository();
 

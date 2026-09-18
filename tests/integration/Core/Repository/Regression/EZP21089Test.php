@@ -107,7 +107,7 @@ class EZP21089Test extends BaseTestCase
         $this->contentType = $contentTypeService->loadContentType($type->id);
     }
 
-    public function testCreateContent()
+    public function testCreateContent(): void
     {
         $repository = $this->getRepository();
 

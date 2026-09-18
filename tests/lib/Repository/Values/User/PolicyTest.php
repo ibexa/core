@@ -22,7 +22,7 @@ class PolicyTest extends TestCase
     /**
      * Test a new class and default values on properties.
      */
-    public function testNewClass()
+    public function testNewClass(): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -39,7 +39,7 @@ class PolicyTest extends TestCase
     /**
      * Test retrieving missing property.
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -52,7 +52,7 @@ class PolicyTest extends TestCase
     /**
      * Test setting read only property.
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -64,7 +64,7 @@ class PolicyTest extends TestCase
     /**
      * Test if property exists.
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $policy = new Policy();
         /** @phpstan-ignore property.notFound */
@@ -78,7 +78,7 @@ class PolicyTest extends TestCase
     /**
      * Test unsetting a property.
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

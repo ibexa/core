@@ -18,7 +18,7 @@ class LogicalAndTest extends CriterionHandlerTestCase
     /**
      * {@inheritdoc}
      */
-    public function testAccept()
+    public function testAccept(): void
     {
         $handler = new LogicalAndHandler();
 

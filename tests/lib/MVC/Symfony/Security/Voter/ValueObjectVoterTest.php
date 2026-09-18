@@ -29,13 +29,16 @@ class ValueObjectVoterTest extends TestCase
     }
 
     #[DataProvider('supportsAttributeProvider')]
-    public function testSupportsAttribute($attribute, $expectedResult)
+    public function testSupportsAttribute($attribute, $expectedResult): void
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
         self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
 
-    public static function supportsAttributeProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function supportsAttributeProvider(): array
     {
         return [
             ['foo', false],
@@ -55,13 +58,16 @@ class ValueObjectVoterTest extends TestCase
     }
 
     #[DataProvider('supportsClassProvider')]
-    public function testSupportsClass($class)
+    public function testSupportsClass($class): void
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
         self::assertTrue($voter->supportsClass($class));
     }
 
-    public static function supportsClassProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function supportsClassProvider(): array
     {
         return [
             ['foo'],
@@ -72,7 +78,7 @@ class ValueObjectVoterTest extends TestCase
     }
 
     #[DataProvider('voteInvalidAttributeProvider')]
-    public function testVoteInvalidAttribute(array $attributes)
+    public function testVoteInvalidAttribute(array $attributes): void
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
         self::assertSame(
@@ -85,7 +91,10 @@ class ValueObjectVoterTest extends TestCase
         );
     }
 
-    public static function voteInvalidAttributeProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function voteInvalidAttributeProvider(): array
     {
         return [
             [[]],
@@ -97,7 +106,7 @@ class ValueObjectVoterTest extends TestCase
     }
 
     #[DataProvider('voteProvider')]
-    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult)
+    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult): void
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
         $targets = isset($attribute->limitations['targets']) ? $attribute->limitations['targets'] : [];
@@ -117,7 +126,10 @@ class ValueObjectVoterTest extends TestCase
         );
     }
 
-    public static function voteProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function voteProvider(): array
     {
         return [
             [

@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('ezp26551')]
 class EZP26551DeleteContentTypeDraftTest extends BaseTestCase
 {
-    public function testDeleteContentTypeGroup()
+    public function testDeleteContentTypeGroup(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();

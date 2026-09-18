@@ -19,7 +19,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
     /**
      * Test for the findUrls() method.
      */
-    public function testFindUrlsThrowsUnauthorizedException()
+    public function testFindUrlsThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -46,7 +46,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
     /**
      * Test for the updateUrl() method.
      */
-    public function testUpdateUrlThrowsUnauthorizedException()
+    public function testUpdateUrlThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -75,7 +75,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
     /**
      * Test for the loadById() method.
      */
-    public function testLoadByIdThrowsUnauthorizedException()
+    public function testLoadByIdThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -100,7 +100,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
     /**
      * Test for the loadByUrl() method.
      */
-    public function testLoadByUrlThrowsUnauthorizedException()
+    public function testLoadByUrlThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

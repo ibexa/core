@@ -59,7 +59,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testCreateContentDefaultValues')]
-    public function testCreateContentDefaultValuesFields(Content $content)
+    public function testCreateContentDefaultValuesFields(Content $content): void
     {
         self::assertCount(1, $content->versionInfo->languageCodes);
         self::assertContains('eng-US', $content->versionInfo->languageCodes);
@@ -106,7 +106,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testCreateContentEmptyValues')]
-    public function testCreateContentEmptyValuesFields(Content $content)
+    public function testCreateContentEmptyValuesFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -157,7 +157,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testCreateContentEmptyValuesTranslationNotStored')]
-    public function testCreateContentEmptyValuesTranslationNotStoredFields(Content $content)
+    public function testCreateContentEmptyValuesTranslationNotStoredFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -210,7 +210,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testCreateContentTwoLanguagesMainTranslationStored')]
-    public function testCreateContentTwoLanguagesMainTranslationStoredFields(Content $content)
+    public function testCreateContentTwoLanguagesMainTranslationStoredFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -267,7 +267,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testCreateContentTwoLanguagesSecondTranslationNotStored')]
-    public function testCreateContentTwoLanguagesSecondTranslationNotStoredFields(Content $content)
+    public function testCreateContentTwoLanguagesSecondTranslationNotStoredFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -316,7 +316,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testCreateContentDefaultValuesNoStructFields')]
-    public function testCreateContentDefaultValuesNoStructFieldsFields(Content $content)
+    public function testCreateContentDefaultValuesNoStructFieldsFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -364,7 +364,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testCreateContentTwoLanguagesNoValuesForMainLanguage')]
-    public function testCreateContentTwoLanguagesNoValuesForMainLanguageFields(Content $content)
+    public function testCreateContentTwoLanguagesNoValuesForMainLanguageFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -415,7 +415,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content[] $data
      */
     #[Depends('testCreateContentDraft')]
-    public function testCreateContentDraftFields(array $data)
+    public function testCreateContentDraftFields(array $data): void
     {
         $content = $data[1];
 
@@ -447,7 +447,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     #[Depends('testCreateContentDraft')]
     #[Depends('testCreateContentDraftFields')]
-    public function testCreateContentDraftFieldsRetainsIds(array $data)
+    public function testCreateContentDraftFieldsRetainsIds(array $data): void
     {
         $this->assertFieldIds($data[0], $data[1]);
     }
@@ -487,7 +487,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testUpdateContentWithNewLanguage')]
-    public function testUpdateContentWithNewLanguageFields(Content $content)
+    public function testUpdateContentWithNewLanguageFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -554,7 +554,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testUpdateContentWithNewLanguageVariant')]
-    public function testUpdateContentWithNewLanguageVariantFields(Content $content)
+    public function testUpdateContentWithNewLanguageVariantFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -613,7 +613,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testUpdateContentWithNewLanguageNoValues')]
-    public function testUpdateContentWithNewLanguageNoValuesFields(Content $content)
+    public function testUpdateContentWithNewLanguageNoValuesFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -676,7 +676,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopy')]
-    public function testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopyFields(Content $content)
+    public function testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopyFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -732,7 +732,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     #[Depends('testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreated')]
-    public function testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreatedFields(Content $content)
+    public function testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreatedFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 

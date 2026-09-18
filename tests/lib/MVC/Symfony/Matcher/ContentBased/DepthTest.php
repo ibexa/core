@@ -35,13 +35,16 @@ class DepthTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $depth, $expectedResult)
+    public function testMatchLocation($matchingConfig, int $depth, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->getLocationMock(['depth' => $depth])));
     }
 
-    public static function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         return [
             [
@@ -82,7 +85,7 @@ class DepthTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $depth, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, int $depth, $expectedResult): void
     {
         $this->matcher->setRepository($this->generateRepositoryMockForDepth($depth));
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -92,7 +95,10 @@ class DepthTest extends BaseTestCase
         );
     }
 
-    public static function matchContentInfoProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchContentInfoProvider(): array
     {
         return [
             [

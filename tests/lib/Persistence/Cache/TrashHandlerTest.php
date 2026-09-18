@@ -56,7 +56,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function testRecover()
+    public function testRecover(): void
     {
         $originalLocationId = 6;
         $targetLocationId = 2;
@@ -77,7 +77,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $handler->recover($originalLocationId, $targetLocationId);
     }
 
-    public function testTrashSubtree()
+    public function testTrashSubtree(): void
     {
         $locationId = 6;
         $contentId = 42;
@@ -177,7 +177,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         return $innerHandler;
     }
 
-    public function testDeleteTrashItem()
+    public function testDeleteTrashItem(): void
     {
         $trashedId = 6;
         $contentId = 42;
@@ -259,7 +259,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $handler->deleteTrashItem($trashedId);
     }
 
-    public function testEmptyTrash()
+    public function testEmptyTrash(): void
     {
         $trashedId = 6;
         $contentId = 42;

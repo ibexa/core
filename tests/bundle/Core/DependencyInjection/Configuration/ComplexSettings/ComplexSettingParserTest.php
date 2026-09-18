@@ -22,18 +22,21 @@ class ComplexSettingParserTest extends TestCase
     }
 
     #[DataProvider('provideSettings')]
-    public function testContainsDynamicSettings($setting, $expected)
+    public function testContainsDynamicSettings($setting, $expected): void
     {
         self::assertEquals($expected[0], $this->parser->containsDynamicSettings($setting), 'string');
     }
 
     #[DataProvider('provideSettings')]
-    public function testParseComplexSetting($setting, $expected)
+    public function testParseComplexSetting($setting, $expected): void
     {
         self::assertEquals($expected[1], $this->parser->parseComplexSetting($setting), 'string');
     }
 
-    public static function provideSettings()
+    /**
+     * @return array<mixed>
+     */
+    public static function provideSettings(): array
     {
         // array( setting, array( isDynamicSetting, containsDynamicSettings ) )
         return [

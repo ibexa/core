@@ -26,7 +26,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRemoveEvents()
+    public function testRemoveEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveEvent::class,
@@ -54,7 +54,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRemoveStopPropagationInBeforeEvents()
+    public function testRemoveStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveEvent::class,
@@ -159,7 +159,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateEvents()
+    public function testCreateEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateEvent::class,
@@ -189,7 +189,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateResultInBeforeEvents()
+    public function testReturnCreateResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateEvent::class,
@@ -225,7 +225,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateStopPropagationInBeforeEvents()
+    public function testCreateStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateEvent::class,
@@ -264,7 +264,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testTranslateEvents()
+    public function testTranslateEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeTranslateEvent::class,
@@ -292,7 +292,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnTranslateResultInBeforeEvents()
+    public function testReturnTranslateResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeTranslateEvent::class,
@@ -326,7 +326,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testTranslateStopPropagationInBeforeEvents()
+    public function testTranslateStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeTranslateEvent::class,

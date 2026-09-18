@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('limitation')]
 class UserGroupLimitationTest extends BaseLimitationTestCase
 {
-    public function testUserGroupLimitationAllow()
+    public function testUserGroupLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -43,7 +43,7 @@ class UserGroupLimitationTest extends BaseLimitationTestCase
         );
     }
 
-    public function testUserGroupLimitationForbid()
+    public function testUserGroupLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

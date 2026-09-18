@@ -16,7 +16,7 @@ use Ibexa\Core\Event\URLService;
 
 class URLServiceTest extends AbstractServiceTestCase
 {
-    public function testUpdateUrlEvents()
+    public function testUpdateUrlEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUrlEvent::class,
@@ -45,7 +45,7 @@ class URLServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateUrlResultInBeforeEvents()
+    public function testReturnUpdateUrlResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUrlEvent::class,
@@ -80,7 +80,7 @@ class URLServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateUrlStopPropagationInBeforeEvents()
+    public function testUpdateUrlStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUrlEvent::class,

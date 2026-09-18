@@ -17,7 +17,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('limitation')]
 class NewObjectStateLimitationTest extends BaseLimitationTestCase
 {
-    public function testNewObjectStateLimitationAllow()
+    public function testNewObjectStateLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $notLockedState = $this->generateId('objectstate', 2);
@@ -60,7 +60,7 @@ class NewObjectStateLimitationTest extends BaseLimitationTestCase
      *
      * @throws \ErrorException if a mandatory test fixture not exists.
      */
-    public function testNewObjectStateLimitationForbid()
+    public function testNewObjectStateLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

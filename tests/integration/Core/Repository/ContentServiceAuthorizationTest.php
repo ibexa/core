@@ -69,7 +69,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the createContent() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
-    public function testCreateContentThrowsUnauthorizedException()
+    public function testCreateContentThrowsUnauthorizedException(): void
     {
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
 
@@ -93,7 +93,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the createContent() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
-    public function testCreateContentThrowsUnauthorizedExceptionWithSecondParameter()
+    public function testCreateContentThrowsUnauthorizedExceptionWithSecondParameter(): void
     {
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
 
@@ -107,7 +107,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentInfo() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentInfo')]
-    public function testLoadContentInfoThrowsUnauthorizedException()
+    public function testLoadContentInfoThrowsUnauthorizedException(): void
     {
         $contentId = $this->generateId('object', 10);
         $this->setRestrictedEditorUser();
@@ -123,7 +123,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the sudo() method.
      */
     #[Depends('testLoadContentInfoThrowsUnauthorizedException')]
-    public function testSudo()
+    public function testSudo(): void
     {
         $repository = $this->getRepository();
         $contentId = $this->generateId('object', 10);
@@ -143,7 +143,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentInfoList() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentInfoList')]
-    public function testLoadContentInfoListSkipsUnauthorizedItems()
+    public function testLoadContentInfoListSkipsUnauthorizedItems(): void
     {
         $contentId = $this->generateId('object', 10);
         $this->setRestrictedEditorUser();
@@ -155,7 +155,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentInfoByRemoteId() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentInfoByRemoteId')]
-    public function testLoadContentInfoByRemoteIdThrowsUnauthorizedException()
+    public function testLoadContentInfoByRemoteIdThrowsUnauthorizedException(): void
     {
         $anonymousRemoteId = 'faaeb9be3bd98ed09f606fc16d144eca';
 
@@ -171,7 +171,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadVersionInfo() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadVersionInfo')]
-    public function testLoadVersionInfoThrowsUnauthorizedException()
+    public function testLoadVersionInfoThrowsUnauthorizedException(): void
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
 
@@ -187,7 +187,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadVersionInfo() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadVersionInfoWithSecondParameter')]
-    public function testLoadVersionInfoThrowsUnauthorizedExceptionWithSecondParameter()
+    public function testLoadVersionInfoThrowsUnauthorizedExceptionWithSecondParameter(): void
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
 
@@ -203,7 +203,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadVersionInfoById() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadVersionInfoById')]
-    public function testLoadVersionInfoByIdThrowsUnauthorizedException()
+    public function testLoadVersionInfoByIdThrowsUnauthorizedException(): void
     {
         $anonymousUserId = $this->generateId('user', 10);
         $this->setRestrictedEditorUser();
@@ -218,7 +218,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadVersionInfoById() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadVersionInfoByIdWithSecondParameter')]
-    public function testLoadVersionInfoByIdThrowsUnauthorizedExceptionWithSecondParameter()
+    public function testLoadVersionInfoByIdThrowsUnauthorizedExceptionWithSecondParameter(): void
     {
         $anonymousUserId = $this->generateId('user', 10);
         $this->setRestrictedEditorUser();
@@ -233,7 +233,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadVersionInfoById() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadVersionInfoById')]
-    public function testLoadVersionInfoByIdThrowsUnauthorizedExceptionForFirstDraft()
+    public function testLoadVersionInfoByIdThrowsUnauthorizedExceptionForFirstDraft(): void
     {
         $contentDraft = $this->createContentDraftVersion1();
 
@@ -253,7 +253,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentByContentInfo() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentByContentInfo')]
-    public function testLoadContentByContentInfoThrowsUnauthorizedException()
+    public function testLoadContentByContentInfoThrowsUnauthorizedException(): void
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
 
@@ -269,7 +269,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentByContentInfo() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentByContentInfoWithLanguageParameters')]
-    public function testLoadContentByContentInfoThrowsUnauthorizedExceptionWithSecondParameter()
+    public function testLoadContentByContentInfoThrowsUnauthorizedExceptionWithSecondParameter(): void
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
 
@@ -285,7 +285,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentByContentInfo() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentByContentInfoWithVersionNumberParameter')]
-    public function testLoadContentByContentInfoThrowsUnauthorizedExceptionWithThirdParameter()
+    public function testLoadContentByContentInfoThrowsUnauthorizedExceptionWithThirdParameter(): void
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
 
@@ -301,7 +301,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentByVersionInfo() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentByVersionInfo')]
-    public function testLoadContentByVersionInfoThrowsUnauthorizedException()
+    public function testLoadContentByVersionInfoThrowsUnauthorizedException(): void
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
 
@@ -319,7 +319,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentByVersionInfo() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentByVersionInfoWithSecondParameter')]
-    public function testLoadContentByVersionInfoThrowsUnauthorizedExceptionWithSecondParameter()
+    public function testLoadContentByVersionInfoThrowsUnauthorizedExceptionWithSecondParameter(): void
     {
         $contentInfo = $this->getContentInfoForAnonymousUser();
 
@@ -337,7 +337,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContent() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContent')]
-    public function testLoadContentThrowsUnauthorizedException()
+    public function testLoadContentThrowsUnauthorizedException(): void
     {
         $anonymousUserId = $this->generateId('user', 10);
         $this->setRestrictedEditorUser();
@@ -352,7 +352,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContent() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentWithPrioritizedLanguages')]
-    public function testLoadContentThrowsUnauthorizedExceptionWithSecondParameter()
+    public function testLoadContentThrowsUnauthorizedExceptionWithSecondParameter(): void
     {
         $anonymousUserId = $this->generateId('user', 10);
         $this->setRestrictedEditorUser();
@@ -367,7 +367,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContent() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentWithThirdParameter')]
-    public function testLoadContentThrowsUnauthorizedExceptionWithThirdParameter()
+    public function testLoadContentThrowsUnauthorizedExceptionWithThirdParameter(): void
     {
         $anonymousUserId = $this->generateId('user', 10);
         $this->setRestrictedEditorUser();
@@ -382,7 +382,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContent() method on a draft.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContent')]
-    public function testLoadContentThrowsUnauthorizedExceptionOnDrafts()
+    public function testLoadContentThrowsUnauthorizedExceptionOnDrafts(): void
     {
         $editorUser = $this->createUserVersion1();
 
@@ -407,7 +407,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * This test the version permission on loading archived versions
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContent')]
-    public function testLoadContentThrowsUnauthorizedExceptionsOnArchives()
+    public function testLoadContentThrowsUnauthorizedExceptionsOnArchives(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -449,7 +449,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentByRemoteId() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentByRemoteId')]
-    public function testLoadContentByRemoteIdThrowsUnauthorizedException()
+    public function testLoadContentByRemoteIdThrowsUnauthorizedException(): void
     {
         $anonymousRemoteId = 'faaeb9be3bd98ed09f606fc16d144eca';
 
@@ -465,7 +465,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentByRemoteId() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentByRemoteIdWithSecondParameter')]
-    public function testLoadContentByRemoteIdThrowsUnauthorizedExceptionWithSecondParameter()
+    public function testLoadContentByRemoteIdThrowsUnauthorizedExceptionWithSecondParameter(): void
     {
         $anonymousRemoteId = 'faaeb9be3bd98ed09f606fc16d144eca';
 
@@ -481,7 +481,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadContentByRemoteId() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentByRemoteIdWithThirdParameter')]
-    public function testLoadContentByRemoteIdThrowsUnauthorizedExceptionWithThirdParameter()
+    public function testLoadContentByRemoteIdThrowsUnauthorizedExceptionWithThirdParameter(): void
     {
         $anonymousRemoteId = 'faaeb9be3bd98ed09f606fc16d144eca';
 
@@ -497,7 +497,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the updateContentMetadata() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testUpdateContentMetadata')]
-    public function testUpdateContentMetadataThrowsUnauthorizedException()
+    public function testUpdateContentMetadataThrowsUnauthorizedException(): void
     {
         $content = $this->createContentVersion1();
 
@@ -526,7 +526,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the deleteContent() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testDeleteContent')]
-    public function testDeleteContentThrowsUnauthorizedException()
+    public function testDeleteContentThrowsUnauthorizedException(): void
     {
         $contentVersion2 = $this->createContentVersion2();
 
@@ -588,7 +588,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the createContentDraft() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testCreateContentDraft')]
-    public function testCreateContentDraftThrowsUnauthorizedException()
+    public function testCreateContentDraftThrowsUnauthorizedException(): void
     {
         $content = $this->createContentVersion1();
 
@@ -606,7 +606,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the createContentDraft() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testCreateContentDraftWithSecondParameter')]
-    public function testCreateContentDraftThrowsUnauthorizedExceptionWithSecondParameter()
+    public function testCreateContentDraftThrowsUnauthorizedExceptionWithSecondParameter(): void
     {
         $content = $this->createContentVersion1();
 
@@ -624,7 +624,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
     /**
      * Test for the countContentDrafts() method.
      */
-    public function testCountContentDraftsReturnZero()
+    public function testCountContentDraftsReturnZero(): void
     {
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
 
@@ -657,7 +657,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the updateContent() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testUpdateContent')]
-    public function testUpdateContentThrowsUnauthorizedException()
+    public function testUpdateContentThrowsUnauthorizedException(): void
     {
         $draftVersion2 = $this->createContentDraftVersion2();
 
@@ -683,7 +683,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the publishVersion() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testPublishVersion')]
-    public function testPublishVersionThrowsUnauthorizedException()
+    public function testPublishVersionThrowsUnauthorizedException(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -699,7 +699,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the deleteVersion() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testDeleteVersion')]
-    public function testDeleteVersionThrowsUnauthorizedException()
+    public function testDeleteVersionThrowsUnauthorizedException(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -715,7 +715,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadVersions() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadVersions')]
-    public function testLoadVersionsThrowsUnauthorizedException()
+    public function testLoadVersionsThrowsUnauthorizedException(): void
     {
         $contentVersion2 = $this->createContentVersion2();
 
@@ -733,7 +733,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the copyContent() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testCopyContent')]
-    public function testCopyContentThrowsUnauthorizedException()
+    public function testCopyContentThrowsUnauthorizedException(): void
     {
         $parentLocationId = $this->generateId('location', 52);
 
@@ -767,7 +767,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the copyContent() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testCopyContentWithGivenVersion')]
-    public function testCopyContentThrowsUnauthorizedExceptionWithGivenVersion()
+    public function testCopyContentThrowsUnauthorizedExceptionWithGivenVersion(): void
     {
         $parentLocationId = $this->generateId('location', 52);
 
@@ -838,7 +838,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the loadReverseRelations() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadReverseRelations')]
-    public function testLoadReverseRelationsThrowsUnauthorizedException()
+    public function testLoadReverseRelationsThrowsUnauthorizedException(): void
     {
         $mediaEditor = $this->createMediaUserVersion1();
 
@@ -858,7 +858,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the addRelation() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testAddRelation')]
-    public function testAddRelationThrowsUnauthorizedException()
+    public function testAddRelationThrowsUnauthorizedException(): void
     {
         $mediaRemoteId = 'a6e35cbcb7cd6ae4b691f3eee30cd262';
 
@@ -883,7 +883,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Test for the deleteRelation() method.
      */
     #[DependsExternal(ContentServiceTest::class, 'testDeleteRelation')]
-    public function testDeleteRelationThrowsUnauthorizedException()
+    public function testDeleteRelationThrowsUnauthorizedException(): void
     {
         $mediaRemoteId = 'a6e35cbcb7cd6ae4b691f3eee30cd262';
         $demoDesignRemoteId = '8b8b22fe3c6061ed500fbd2b377b885f';
@@ -940,7 +940,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * would instead expose the non-readable related object(s) as unauthorized list items.
      */
     #[DependsExternal(ContentServiceTest::class, 'testAddRelation')]
-    public function testLoadRelationsWithUnauthorizedRelations()
+    public function testLoadRelationsWithUnauthorizedRelations(): void
     {
         $mainLanguage = 'eng-GB';
 
@@ -1116,7 +1116,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
     /**
      * Test copying Content to the authorized Location (limited by policies).
      */
-    public function testCopyContentToAuthorizedLocation()
+    public function testCopyContentToAuthorizedLocation(): void
     {
         $locationService = $this->repository->getLocationService();
         $roleService = $this->repository->getRoleService();
@@ -1160,7 +1160,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
     /**
      * Test copying Content to the authorized Location (limited by policies).
      */
-    public function testCopyContentToAuthorizedLocationWithSubtreeLimitation()
+    public function testCopyContentToAuthorizedLocationWithSubtreeLimitation(): void
     {
         $locationService = $this->repository->getLocationService();
 

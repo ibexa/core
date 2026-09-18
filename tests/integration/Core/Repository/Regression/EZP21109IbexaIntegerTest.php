@@ -74,7 +74,10 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
         $contentService->deleteContent($content->versionInfo->contentInfo);
     }
 
-    public static function validIntegerValues()
+    /**
+     * @return array<mixed>
+     */
+    public static function validIntegerValues(): array
     {
         return [
             [0],

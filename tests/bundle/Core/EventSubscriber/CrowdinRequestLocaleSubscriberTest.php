@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class CrowdinRequestLocaleSubscriberTest extends TestCase
 {
     #[DataProvider('provideSetRequests')]
-    public function testSetLocale(Request $request, $shouldHaveCustomLocale)
+    public function testSetLocale(Request $request, $shouldHaveCustomLocale): void
     {
         $event = new RequestEvent(
             $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
@@ -35,7 +35,10 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
         );
     }
 
-    public static function provideSetRequests()
+    /**
+     * @return array<mixed>
+     */
+    public static function provideSetRequests(): array
     {
         return [
             'with_ez_in_context_translation_cookie' => [

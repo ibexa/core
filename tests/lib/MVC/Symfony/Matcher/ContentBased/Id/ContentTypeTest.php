@@ -33,13 +33,16 @@ class ContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $contentTypeId, $expectedResult)
+    public function testMatchLocation($matchingConfig, int $contentTypeId, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->generateLocationForContentType($contentTypeId)));
     }
 
-    public static function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         $data = [];
 
@@ -109,13 +112,16 @@ class ContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $contentTypeId, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, int $contentTypeId, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchContentInfo($this->generateContentInfoForContentType($contentTypeId)));
     }
 
-    public static function matchContentInfoProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchContentInfoProvider(): array
     {
         $data = [];
 

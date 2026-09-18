@@ -28,7 +28,7 @@ class SwirlFilterLoaderTest extends TestCase
         $this->loader = new SwirlFilterLoader($this->filter);
     }
 
-    public function testLoadNoOption()
+    public function testLoadNoOption(): void
     {
         $image = self::createStub(ImageInterface::class);
         $this->filter
@@ -45,7 +45,7 @@ class SwirlFilterLoaderTest extends TestCase
     }
 
     #[DataProvider('loadWithOptionProvider')]
-    public function testLoadWithOption($degrees)
+    public function testLoadWithOption($degrees): void
     {
         $image = self::createStub(ImageInterface::class);
         $this->filter
@@ -62,7 +62,10 @@ class SwirlFilterLoaderTest extends TestCase
         self::assertSame($image, $this->loader->load($image, [$degrees]));
     }
 
-    public static function loadWithOptionProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function loadWithOptionProvider(): array
     {
         return [
             [10],

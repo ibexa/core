@@ -193,7 +193,7 @@ abstract class FileSearchBaseIntegrationTestCase extends SearchBaseIntegrationTe
     /**
      * Tests that a VersionUpdate can remove the stored file.
      */
-    public function testUpdateWithRemove()
+    public function testUpdateWithRemove(): void
     {
         $type = $this->createContentType(
             $this->getValidFieldSettings(),

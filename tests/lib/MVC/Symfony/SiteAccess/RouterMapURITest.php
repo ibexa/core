@@ -20,7 +20,7 @@ class RouterMapURITest extends TestCase
      * @param string $expectedMapKey
      */
     #[DataProvider('setRequestProvider')]
-    public function testSetGetRequest($config, $pathinfo, $expectedMapKey)
+    public function testSetGetRequest($config, $pathinfo, $expectedMapKey): void
     {
         $request = new SimplifiedRequest('http', '', 80, $pathinfo);
         $matcher = new URIMapMatcher($config);
@@ -34,7 +34,7 @@ class RouterMapURITest extends TestCase
      * @param string $expectedFixedUpURI
      */
     #[DataProvider('fixupURIProvider')]
-    public function testAnalyseURI($uri, $expectedFixedUpURI)
+    public function testAnalyseURI($uri, $expectedFixedUpURI): void
     {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
@@ -51,7 +51,7 @@ class RouterMapURITest extends TestCase
      * @param string $linkUri
      */
     #[DataProvider('fixupURIProvider')]
-    public function testAnalyseLink($fullUri, $linkUri)
+    public function testAnalyseLink($fullUri, $linkUri): void
     {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
@@ -63,7 +63,10 @@ class RouterMapURITest extends TestCase
         self::assertSame($fullUri, $unserializedMatcher->analyseLink($linkUri));
     }
 
-    public static function setRequestProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function setRequestProvider(): array
     {
         return [
             [['foo' => 'bar'], '/bar/baz', 'bar'],
@@ -71,7 +74,10 @@ class RouterMapURITest extends TestCase
         ];
     }
 
-    public static function fixupURIProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function fixupURIProvider(): array
     {
         return [
             ['/foo', '/'],
@@ -84,14 +90,14 @@ class RouterMapURITest extends TestCase
         ];
     }
 
-    public function testReverseMatchFail()
+    public function testReverseMatchFail(): void
     {
         $config = ['foo' => 'bar'];
         $matcher = new URIMapMatcher($config);
         self::assertNull($matcher->reverseMatch('non_existent'));
     }
 
-    public function testReverseMatch()
+    public function testReverseMatch(): void
     {
         $config = [
             'some_uri' => 'some_siteaccess',

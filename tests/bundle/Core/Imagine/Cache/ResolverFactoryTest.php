@@ -38,7 +38,7 @@ class ResolverFactoryTest extends TestCase
         );
     }
 
-    public function testCreateProxyCacheResolver()
+    public function testCreateProxyCacheResolver(): void
     {
         $this->configResolver
             ->expects(self::once())
@@ -59,7 +59,7 @@ class ResolverFactoryTest extends TestCase
         self::assertEquals($expected, $this->factory->createCacheResolver());
     }
 
-    public function testCreateRelativeCacheResolver()
+    public function testCreateRelativeCacheResolver(): void
     {
         $this->configResolver
             ->expects(self::once())

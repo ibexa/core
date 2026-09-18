@@ -192,7 +192,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         self::assertNotNull($field->value->contentId);
     }
 
-    public static function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData(): array
     {
         return [];
     }
@@ -253,7 +253,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         self::assertNotNull($field->value->contentId);
     }
 
-    public static function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData(): array
     {
         return [
             [
@@ -316,7 +316,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
      *
      * @return array
      */
-    public static function provideToHashData()
+    public static function provideToHashData(): array
     {
         return [
             [
@@ -357,7 +357,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
      *
      * @return array
      */
-    public static function provideFromHashData()
+    public static function provideFromHashData(): array
     {
         return [
             [
@@ -406,12 +406,15 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         return $contentService->createContentDraft($user->content->contentInfo, $user->content->versionInfo);
     }
 
-    public function testCreateContentWithEmptyFieldValue()
+    public function testCreateContentWithEmptyFieldValue(): void
     {
         self::markTestSkipped('User field will never be created empty');
     }
 
-    public static function providerForTestIsEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new UserValue()],
@@ -419,7 +422,10 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         ];
     }
 
-    public static function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -433,7 +439,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         ];
     }
 
-    public function testRemoveFieldDefinition()
+    public function testRemoveFieldDefinition(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -474,13 +480,13 @@ class UserIntegrationTest extends BaseIntegrationTestCase
     }
 
     #[Depends('testCopyField')]
-    public function testCopiedFieldType($content)
+    public function testCopiedFieldType($content): void
     {
         self::markTestSkipped('Users cannot be copied, content is not passed to test.');
     }
 
     #[Depends('testCopiedFieldType')]
-    public function testCopiedExternalData(Field $field)
+    public function testCopiedExternalData(Field $field): void
     {
         self::markTestSkipped('Users cannot be copied, field is not passed to test.');
     }
@@ -488,7 +494,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
     /**
      * @see https://issues.ibexa.co/browse/EZP-30966
      */
-    public function testUpdateFieldDefinitionWithIncompleteSettingsSchema()
+    public function testUpdateFieldDefinitionWithIncompleteSettingsSchema(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $contentType = $this->testCreateContentType();

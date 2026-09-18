@@ -50,7 +50,7 @@ class EZP22612URLAliasTranslationsTest extends BaseTestCase
     /**
      * Test that alias is found (ie. NotFoundException is not thrown).
      */
-    public function testURLAliasLoadedInRightLanguage()
+    public function testURLAliasLoadedInRightLanguage(): void
     {
         $aliasService = $this->getRepository()->getURLAliasService();
         $alias = $aliasService->lookup('common/alias');

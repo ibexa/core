@@ -30,7 +30,7 @@ class ProxyResolverTest extends TestCase
         $this->filter = 'medium';
     }
 
-    public function testResolveUsingProxyHostWithTrailingSlash()
+    public function testResolveUsingProxyHostWithTrailingSlash(): void
     {
         $hosts = ['http://ezplatform.com/'];
         $proxyResolver = new ProxyResolver($this->resolver, $hosts);
@@ -48,7 +48,7 @@ class ProxyResolverTest extends TestCase
         self::assertEquals($expected, $proxyResolver->resolve($this->path, $this->filter));
     }
 
-    public function testResolveAndRemovePortUsingProxyHost()
+    public function testResolveAndRemovePortUsingProxyHost(): void
     {
         $hosts = ['http://ibexa.co'];
         $proxyResolver = new ProxyResolver($this->resolver, $hosts);
@@ -66,7 +66,7 @@ class ProxyResolverTest extends TestCase
         self::assertEquals($expected, $proxyResolver->resolve($this->path, $this->filter));
     }
 
-    public function testResolveAndRemovePortUsingProxyHostWithTrailingSlash()
+    public function testResolveAndRemovePortUsingProxyHostWithTrailingSlash(): void
     {
         $hosts = ['http://ibexa.co'];
         $proxyResolver = new ProxyResolver($this->resolver, $hosts);

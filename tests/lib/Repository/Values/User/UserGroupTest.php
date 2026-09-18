@@ -21,7 +21,7 @@ class UserGroupTest extends TestCase
 {
     use ValueObjectTestTrait;
 
-    public function testNewClass()
+    public function testNewClass(): void
     {
         $group = new UserGroup();
         self::assertNull($group->parentId);
@@ -37,7 +37,7 @@ class UserGroupTest extends TestCase
     /**
      * Test getName method.
      */
-    public function testGetName()
+    public function testGetName(): void
     {
         $name = 'Translated name';
         $contentMock = $this->createMock(Content::class);
@@ -59,7 +59,7 @@ class UserGroupTest extends TestCase
     /**
      * Test retrieving missing property.
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -69,7 +69,7 @@ class UserGroupTest extends TestCase
         self::fail('Succeeded getting non existing property');
     }
 
-    public function testObjectProperties()
+    public function testObjectProperties(): void
     {
         $object = new UserGroup();
         $properties = $object->attributes();
@@ -94,7 +94,7 @@ class UserGroupTest extends TestCase
     /**
      * Test setting read only property.
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -106,7 +106,7 @@ class UserGroupTest extends TestCase
     /**
      * Test if property exists.
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $userGroup = new UserGroup();
         /** @phpstan-ignore property.notFound */
@@ -120,7 +120,7 @@ class UserGroupTest extends TestCase
     /**
      * Test unsetting a property.
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

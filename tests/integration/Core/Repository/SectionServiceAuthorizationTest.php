@@ -24,7 +24,7 @@ class SectionServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the createSection() method.
      */
-    public function testCreateSectionThrowsUnauthorizedException()
+    public function testCreateSectionThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -52,7 +52,7 @@ class SectionServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the loadSection() method.
      */
-    public function testLoadSectionThrowsUnauthorizedException()
+    public function testLoadSectionThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -82,7 +82,7 @@ class SectionServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the updateSection() method.
      */
-    public function testUpdateSectionThrowsUnauthorizedException()
+    public function testUpdateSectionThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -116,7 +116,7 @@ class SectionServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the loadSections() method.
      */
-    public function testLoadSectionsLoadsEmptyListForAnonymousUser()
+    public function testLoadSectionsLoadsEmptyListForAnonymousUser(): void
     {
         $repository = $this->getRepository();
 
@@ -151,7 +151,7 @@ class SectionServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the loadSections() method.
      */
-    public function testLoadSectionFiltersSections()
+    public function testLoadSectionFiltersSections(): void
     {
         $repository = $this->getRepository();
 
@@ -194,7 +194,7 @@ class SectionServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the loadSectionByIdentifier() method.
      */
-    public function testLoadSectionByIdentifierThrowsUnauthorizedException()
+    public function testLoadSectionByIdentifierThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -224,7 +224,7 @@ class SectionServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the assignSection() method.
      */
-    public function testAssignSectionThrowsUnauthorizedException()
+    public function testAssignSectionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -264,7 +264,7 @@ class SectionServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the deleteSection() method.
      */
-    public function testDeleteSectionThrowsUnauthorizedException()
+    public function testDeleteSectionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

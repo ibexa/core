@@ -59,7 +59,7 @@ class ContentUpdaterTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
     protected $contentMapperMock;
 
-    public function testDetermineActions()
+    public function testDetermineActions(): void
     {
         $fromType = $this->getFromTypeFixture();
         $toType = $this->getToTypeFixture();
@@ -98,7 +98,7 @@ class ContentUpdaterTest extends TestCase
         );
     }
 
-    public function testApplyUpdates()
+    public function testApplyUpdates(): void
     {
         $updater = $this->getContentUpdater();
 

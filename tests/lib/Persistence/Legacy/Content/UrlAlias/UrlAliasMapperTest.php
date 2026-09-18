@@ -230,7 +230,10 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
         ];
     }
 
-    public static function providerForTestExtractUrlAliasFromData()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestExtractUrlAliasFromData(): array
     {
         return [[0], [1], [2], [3]];
     }
@@ -239,7 +242,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
      * Test for the extractUrlAliasFromData() method.
      */
     #[DataProvider('providerForTestExtractUrlAliasFromData')]
-    public function testExtractUrlAliasFromData($index)
+    public function testExtractUrlAliasFromData($index): void
     {
         $mapper = $this->getMapper();
 
@@ -256,7 +259,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
      * Test for the extractUrlAliasListFromData() method.
      */
     #[Depends('testExtractUrlAliasFromData')]
-    public function testExtractUrlAliasListFromData()
+    public function testExtractUrlAliasListFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -269,7 +272,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
     /**
      * Test for the extractLanguageCodesFromData method.
      */
-    public function testExtractLanguageCodesFromData()
+    public function testExtractLanguageCodesFromData(): void
     {
         $mapper = $this->getMapper();
 

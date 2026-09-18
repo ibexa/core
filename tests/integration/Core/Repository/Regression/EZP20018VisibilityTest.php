@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(Visibility::class)]
 class EZP20018VisibilityTest extends BaseTestCase
 {
-    public function testSearchForHiddenContent()
+    public function testSearchForHiddenContent(): void
     {
         $repository = $this->getRepository();
 
@@ -42,7 +42,7 @@ class EZP20018VisibilityTest extends BaseTestCase
         self::assertCount(1, $results2->searchHits);
     }
 
-    public function testSearchForVisibleContent()
+    public function testSearchForVisibleContent(): void
     {
         $repository = $this->getRepository();
 

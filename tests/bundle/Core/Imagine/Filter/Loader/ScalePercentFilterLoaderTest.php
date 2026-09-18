@@ -32,14 +32,17 @@ class ScalePercentFilterLoaderTest extends TestCase
     }
 
     #[DataProvider('loadInvalidProvider')]
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load(self::createStub(ImageInterface::class), $options);
     }
 
-    public static function loadInvalidProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -48,7 +51,7 @@ class ScalePercentFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $widthPercent = 40;
         $heightPercent = 125;

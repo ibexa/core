@@ -48,7 +48,10 @@ class SearchServiceTest extends BaseTestCase
         self::FIND_LOCATION_METHOD,
     ];
 
-    public static function getFilterContentSearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getFilterContentSearches(): array
     {
         $fixtureDir = static::getFixtureDir();
 
@@ -613,7 +616,10 @@ class SearchServiceTest extends BaseTestCase
         ];
     }
 
-    public static function getContentQuerySearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getContentQuerySearches(): array
     {
         $fixtureDir = static::getFixtureDir();
 
@@ -848,7 +854,10 @@ class SearchServiceTest extends BaseTestCase
         ];
     }
 
-    public static function getLocationQuerySearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getLocationQuerySearches(): array
     {
         $fixtureDir = static::getFixtureDir();
 
@@ -922,7 +931,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[DataProvider('getFilterContentSearches')]
-    public function testFindContentFiltered($queryData, $fixture, $closure = null)
+    public function testFindContentFiltered($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -932,7 +941,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContentInfo() method.
      */
     #[DataProvider('getFilterContentSearches')]
-    public function testFindContentInfoFiltered($queryData, $fixture, $closure = null)
+    public function testFindContentInfoFiltered($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure($closure), true);
@@ -942,7 +951,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[DataProvider('getFilterContentSearches')]
-    public function testFindLocationsContentFiltered($queryData, $fixture, $closure = null)
+    public function testFindLocationsContentFiltered($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -952,7 +961,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[DataProvider('getContentQuerySearches')]
-    public function testQueryContent($queryData, $fixture, $closure = null)
+    public function testQueryContent($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -962,7 +971,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContentInfo() method.
      */
     #[DataProvider('getContentQuerySearches')]
-    public function testQueryContentInfo($queryData, $fixture, $closure = null)
+    public function testQueryContentInfo($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure($closure), true);
@@ -972,7 +981,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[DataProvider('getContentQuerySearches')]
-    public function testQueryContentLocations($queryData, $fixture, $closure = null)
+    public function testQueryContentLocations($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -982,13 +991,16 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[DataProvider('getLocationQuerySearches')]
-    public function testQueryLocations($queryData, $fixture, $closure = null)
+    public function testQueryLocations($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
 
-    public static function getCaseInsensitiveSearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getCaseInsensitiveSearches(): array
     {
         return [
             [
@@ -1028,7 +1040,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[DataProvider('getCaseInsensitiveSearches')]
-    public function testFindContentFieldFiltersCaseSensitivity($queryData)
+    public function testFindContentFieldFiltersCaseSensitivity($queryData): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture(
@@ -1041,7 +1053,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[DataProvider('getCaseInsensitiveSearches')]
-    public function testFindLocationsFieldFiltersCaseSensitivity($queryData)
+    public function testFindLocationsFieldFiltersCaseSensitivity($queryData): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture(
@@ -1050,7 +1062,10 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public static function getRelationFieldFilterSearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getRelationFieldFilterSearches(): array
     {
         $fixtureDir = static::getFixtureDir();
 
@@ -1128,7 +1143,7 @@ class SearchServiceTest extends BaseTestCase
      * Purely for creating relation data needed for testFindRelationFieldContentInfoFiltered()
      * and testFindRelationFieldLocationsFiltered().
      */
-    public function testRelationContentCreation()
+    public function testRelationContentCreation(): void
     {
         $repository = $this->getRepository();
         $galleryType = $repository->getContentTypeService()->loadContentTypeByIdentifier('gallery');
@@ -1157,7 +1172,7 @@ class SearchServiceTest extends BaseTestCase
      */
     #[Depends('testRelationContentCreation')]
     #[DataProvider('getRelationFieldFilterSearches')]
-    public function testFindRelationFieldContentInfoFiltered($queryData, $fixture)
+    public function testFindRelationFieldContentInfoFiltered($queryData, $fixture): void
     {
         $this->getRepository(false); // To make sure repo is setup w/o removing data from getRelationFieldFilterContentSearches
         $query = new Query($queryData);
@@ -1169,14 +1184,14 @@ class SearchServiceTest extends BaseTestCase
      */
     #[Depends('testRelationContentCreation')]
     #[DataProvider('getRelationFieldFilterSearches')]
-    public function testFindRelationFieldLocationsFiltered($queryData, $fixture)
+    public function testFindRelationFieldLocationsFiltered($queryData, $fixture): void
     {
         $this->getRepository(false); // To make sure repo is setup w/o removing data from getRelationFieldFilterContentSearches
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, null, true, false, false);
     }
 
-    public function testFindSingle()
+    public function testFindSingle(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -1193,7 +1208,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testFindNoPerformCount()
+    public function testFindNoPerformCount(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -1218,7 +1233,7 @@ class SearchServiceTest extends BaseTestCase
         }
     }
 
-    public function testFindNoPerformCountException()
+    public function testFindNoPerformCountException(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -1239,7 +1254,7 @@ class SearchServiceTest extends BaseTestCase
         $searchService->findContent($query);
     }
 
-    public function testFindLocationsNoPerformCount()
+    public function testFindLocationsNoPerformCount(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -1264,7 +1279,7 @@ class SearchServiceTest extends BaseTestCase
         }
     }
 
-    public function testFindLocationsNoPerformCountException()
+    public function testFindLocationsNoPerformCountException(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -1444,7 +1459,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      */
-    public function testFieldIsNotEmpty()
+    public function testFieldIsNotEmpty(): void
     {
         $testContents = $this->createMovieContent();
 
@@ -1471,7 +1486,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      */
-    public function testFieldCollectionContains()
+    public function testFieldCollectionContains(): void
     {
         $testContent = $this->createMultipleCountriesContent();
 
@@ -1500,7 +1515,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[Depends('testFieldCollectionContains')]
-    public function testFieldCollectionContainsNoMatch()
+    public function testFieldCollectionContainsNoMatch(): void
     {
         $this->createMultipleCountriesContent();
         $query = new Query(
@@ -1520,7 +1535,7 @@ class SearchServiceTest extends BaseTestCase
         self::assertEquals(0, $result->totalCount);
     }
 
-    public function testInvalidFieldIdentifierRange()
+    public function testInvalidFieldIdentifierRange(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$criterion->target\' is invalid: No searchable Fields found for the provided Criterion target \'some_hopefully_unknown_field\'');
@@ -1542,7 +1557,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testInvalidFieldIdentifierIn()
+    public function testInvalidFieldIdentifierIn(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$criterion->target\' is invalid: No searchable Fields found for the provided Criterion target \'some_hopefully_unknown_field\'');
@@ -1564,7 +1579,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testFindContentWithNonSearchableField()
+    public function testFindContentWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$criterion->target\' is invalid: No searchable Fields found for the provided Criterion target \'tag_cloud_url\'');
@@ -1586,7 +1601,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testSortFieldWithNonSearchableField()
+    public function testSortFieldWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$sortClause->targetData\' is invalid: No searchable Fields found for the provided Sort Clause target \'title\' on \'template_look\'');
@@ -1603,7 +1618,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testSortMapLocationDistanceWithNonSearchableField()
+    public function testSortMapLocationDistanceWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$sortClause->targetData\' is invalid: No searchable Fields found for the provided Sort Clause target \'title\' on \'template_look\'');
@@ -1627,7 +1642,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testFindSingleFailMultiple()
+    public function testFindSingleFailMultiple(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1641,7 +1656,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testFindSingleWithNonSearchableField()
+    public function testFindSingleWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1657,7 +1672,10 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public static function getSortedContentSearches()
+    /**
+     * @return iterable<mixed>
+     */
+    public static function getSortedContentSearches(): iterable
     {
         $fixtureDir = static::getFixtureDir();
 
@@ -1828,7 +1846,10 @@ class SearchServiceTest extends BaseTestCase
         }
     }
 
-    public static function getSortedLocationSearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getSortedLocationSearches(): array
     {
         $fixtureDir = static::getFixtureDir();
 
@@ -1982,7 +2003,10 @@ class SearchServiceTest extends BaseTestCase
         return $content;
     }
 
-    public static function providerForTestMultilingualFieldSort()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestMultilingualFieldSort(): array
     {
         return [
             0 => [
@@ -2305,7 +2329,7 @@ class SearchServiceTest extends BaseTestCase
         $languageSettings,
         array $sortClauses,
         $expected
-    ) {
+    ): void {
         $this->assertMultilingualFieldSort(
             $contentDataList,
             $languageSettings,
@@ -2331,7 +2355,7 @@ class SearchServiceTest extends BaseTestCase
         $languageSettings,
         array $sortClauses,
         $expected
-    ) {
+    ): void {
         $this->assertMultilingualFieldSort(
             $contentDataList,
             $languageSettings,
@@ -2419,7 +2443,10 @@ class SearchServiceTest extends BaseTestCase
         self::assertEquals($expectedIdList, $this->mapResultContentIds($result));
     }
 
-    public static function providerForTestMultilingualFieldFilter()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestMultilingualFieldFilter(): array
     {
         return [
             0 => [
@@ -2595,7 +2622,7 @@ class SearchServiceTest extends BaseTestCase
         $languageSettings,
         Criterion $criterion,
         $expected
-    ) {
+    ): void {
         $this->assertMultilingualFieldFilter(
             $contentDataList,
             $languageSettings,
@@ -2621,7 +2648,7 @@ class SearchServiceTest extends BaseTestCase
         $languageSettings,
         Criterion $criterion,
         $expected
-    ) {
+    ): void {
         $this->assertMultilingualFieldFilter(
             $contentDataList,
             $languageSettings,
@@ -2737,7 +2764,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[DataProvider('getSortedContentSearches')]
-    public function testFindAndSortContent($queryData, $fixture, $closure = null)
+    public function testFindAndSortContent($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -2747,7 +2774,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContentInfo() method.
      */
     #[DataProvider('getSortedContentSearches')]
-    public function testFindAndSortContentInfo($queryData, $fixture, $closure = null)
+    public function testFindAndSortContentInfo($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure($closure), true);
@@ -2757,7 +2784,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[DataProvider('getSortedContentSearches')]
-    public function testFindAndSortContentLocations($queryData, $fixture, $closure = null)
+    public function testFindAndSortContentLocations($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -2767,7 +2794,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[DataProvider('getSortedLocationSearches')]
-    public function testFindAndSortLocations($queryData, $fixture, $closure = null)
+    public function testFindAndSortLocations($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -2776,7 +2803,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      */
-    public function testQueryCustomField()
+    public function testQueryCustomField(): void
     {
         $query = new Query(
             [
@@ -2803,7 +2830,7 @@ class SearchServiceTest extends BaseTestCase
      * the last_name of admin and anonymous. This is done to show the custom
      * copy field working.
      */
-    public function testQueryModifiedField()
+    public function testQueryModifiedField(): void
     {
         // Check using get_class since the others extend SetupFactory\Legacy
         if ($this->getSetupFactory() instanceof Legacy) {
@@ -2842,7 +2869,7 @@ class SearchServiceTest extends BaseTestCase
      * to the index storage name of folder's 'name' field, in order to show the custom
      * sort field working.
      */
-    public function testSortModifiedField()
+    public function testSortModifiedField(): void
     {
         // Check using get_class since the others extend SetupFactory\Legacy
         if ($this->getSetupFactory() instanceof Legacy) {
@@ -2908,7 +2935,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceLessThanOrEqual()
+    public function testMapLocationDistanceLessThanOrEqual(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -2986,7 +3013,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceGreaterThanOrEqual()
+    public function testMapLocationDistanceGreaterThanOrEqual(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3064,7 +3091,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceBetween()
+    public function testMapLocationDistanceBetween(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3166,7 +3193,7 @@ class SearchServiceTest extends BaseTestCase
      * (always very precise) and flat Earth (very imprecise for this use case) models.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceBetweenPolar()
+    public function testMapLocationDistanceBetweenPolar(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3228,7 +3255,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceSortAscending()
+    public function testMapLocationDistanceSortAscending(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3343,7 +3370,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceSortDescending()
+    public function testMapLocationDistanceSortDescending(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3458,7 +3485,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceWithCustomField()
+    public function testMapLocationDistanceWithCustomField(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3539,7 +3566,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceWithCustomFieldSort()
+    public function testMapLocationDistanceWithCustomFieldSort(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3656,7 +3683,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testFindMainLocation()
+    public function testFindMainLocation(): void
     {
         $plainSiteLocationId = 56;
         $designLocationId = 58;
@@ -3699,7 +3726,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testFindNonMainLocation()
+    public function testFindNonMainLocation(): void
     {
         $designLocationId = 58;
         $partnersContentId = 59;
@@ -3741,7 +3768,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testSortMainLocationAscending()
+    public function testSortMainLocationAscending(): void
     {
         $plainSiteLocationId = 56;
         $designLocationId = 58;
@@ -3782,7 +3809,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testSortMainLocationDescending()
+    public function testSortMainLocationDescending(): void
     {
         $plainSiteLocationId = 56;
         $designLocationId = 58;
@@ -3823,7 +3850,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testContentWithMultipleLocations()
+    public function testContentWithMultipleLocations(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -3924,7 +3951,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      */
-    public function testUserMetadataGroupHorizontalFilterContent(?string $queryType = null)
+    public function testUserMetadataGroupHorizontalFilterContent(?string $queryType = null): void
     {
         if ($queryType === null) {
             $queryType = 'filter';
@@ -4001,7 +4028,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      */
-    public function testUserMetadataGroupHorizontalQueryContent()
+    public function testUserMetadataGroupHorizontalQueryContent(): void
     {
         $this->testUserMetadataGroupHorizontalFilterContent('query');
     }
@@ -4009,7 +4036,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testUserMetadataGroupHorizontalFilterLocation($queryType = null)
+    public function testUserMetadataGroupHorizontalFilterLocation($queryType = null): void
     {
         if ($queryType === null) {
             $queryType = 'filter';
@@ -4098,7 +4125,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testUserMetadataGroupHorizontalQueryLocation()
+    public function testUserMetadataGroupHorizontalQueryLocation(): void
     {
         $this->testUserMetadataGroupHorizontalFilterLocation('query');
     }
@@ -4106,7 +4133,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for FullText on the findContent() method.
      */
-    public function testFullTextOnNewContent()
+    public function testFullTextOnNewContent(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -4145,7 +4172,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      */
-    public function testLanguageAnalysisSeparateContent()
+    public function testLanguageAnalysisSeparateContent(): void
     {
         self::markTestSkipped('Language analysis is currently not supported');
 
@@ -4207,7 +4234,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      */
-    public function testLanguageAnalysisSameContent()
+    public function testLanguageAnalysisSameContent(): void
     {
         self::markTestSkipped('Language analysis is currently not supported');
 
@@ -4255,7 +4282,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      */
-    public function testLanguageAnalysisSameContentNotFound()
+    public function testLanguageAnalysisSameContentNotFound(): void
     {
         self::markTestSkipped('Language analysis is currently not supported');
 
@@ -4304,7 +4331,7 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method searching for content filtered by languages.
      */
-    public function testFindContentWithLanguageFilter()
+    public function testFindContentWithLanguageFilter(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -4417,7 +4444,7 @@ class SearchServiceTest extends BaseTestCase
      * @param array $data
      */
     #[Depends('testFulltextComplex')]
-    public function testFulltextContentSearchComplex(array $data)
+    public function testFulltextContentSearchComplex(array $data): void
     {
         // Do not initialize from scratch
         $repository = $this->getRepository(false);
@@ -4462,7 +4489,7 @@ class SearchServiceTest extends BaseTestCase
      * @param array $data
      */
     #[Depends('testFulltextComplex')]
-    public function testFulltextContentTranslationSearch(array $data)
+    public function testFulltextContentTranslationSearch(array $data): void
     {
         $criterion = $data[0];
         $query = new Query(['query' => $criterion]);
@@ -4478,7 +4505,7 @@ class SearchServiceTest extends BaseTestCase
      * @param array $data
      */
     #[Depends('testFulltextComplex')]
-    public function testFulltextLocationSearchComplex(array $data)
+    public function testFulltextLocationSearchComplex(array $data): void
     {
         $setupFactory = $this->getSetupFactory();
         if ($setupFactory instanceof LegacySolrSetupFactory && getenv('SOLR_VERSION') === '4.10.4') {
@@ -4769,7 +4796,7 @@ class SearchServiceTest extends BaseTestCase
      * both searchable and non-searchable Fields.
      * Number of returned results depends on used storage.
      */
-    public function testFieldCriterionForContentsWithIdenticalFieldIdentifiers()
+    public function testFieldCriterionForContentsWithIdenticalFieldIdentifiers(): void
     {
         $this->createContentWithFieldType(
             'url',
@@ -4849,7 +4876,7 @@ class SearchServiceTest extends BaseTestCase
      * we got to same _random_ results, or mt_rand() provides same seed for seed-supported DB implementation.
      */
     #[DataProvider('getSeedsForRandomSortClause')]
-    public function testRandomSortContent(?int $firstSeed, ?int $secondSeed)
+    public function testRandomSortContent(?int $firstSeed, ?int $secondSeed): void
     {
         if ($firstSeed || $secondSeed) {
             $this->skipIfSeedNotImplemented();
@@ -4892,7 +4919,7 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[DataProvider('getSeedsForRandomSortClause')]
-    public function testRandomSortLocation(?int $firstSeed, ?int $secondSeed)
+    public function testRandomSortLocation(?int $firstSeed, ?int $secondSeed): void
     {
         if ($firstSeed || $secondSeed) {
             $this->skipIfSeedNotImplemented();
@@ -4931,7 +4958,10 @@ class SearchServiceTest extends BaseTestCase
         }
     }
 
-    public static function getSeedsForRandomSortClause()
+    /**
+     * @return array<mixed>
+     */
+    public static function getSeedsForRandomSortClause(): array
     {
         $randomSeed = mt_rand();
 

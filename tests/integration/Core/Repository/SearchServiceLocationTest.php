@@ -193,7 +193,7 @@ class SearchServiceLocationTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testFieldIsEmptyInLocation()
+    public function testFieldIsEmptyInLocation(): void
     {
         $testContents = $this->createMovieContent();
 
@@ -224,7 +224,7 @@ class SearchServiceLocationTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testFieldIsNotEmptyInLocation()
+    public function testFieldIsNotEmptyInLocation(): void
     {
         $testContents = $this->createMovieContent();
 
@@ -252,7 +252,7 @@ class SearchServiceLocationTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testFieldCollectionContains()
+    public function testFieldCollectionContains(): void
     {
         $testContent = $this->createMultipleCountriesContent();
 
@@ -281,7 +281,7 @@ class SearchServiceLocationTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[DependsExternal(SearchServiceTest::class, 'testFieldCollectionContains')]
-    public function testFieldCollectionContainsNoMatch()
+    public function testFieldCollectionContainsNoMatch(): void
     {
         $this->createMultipleCountriesContent();
         $query = new LocationQuery(
@@ -364,7 +364,7 @@ class SearchServiceLocationTest extends BaseTestCase
         self::assertEquals(1, $result->totalCount);
     }
 
-    public function testInvalidFieldIdentifierRange()
+    public function testInvalidFieldIdentifierRange(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -385,7 +385,7 @@ class SearchServiceLocationTest extends BaseTestCase
         );
     }
 
-    public function testInvalidFieldIdentifierIn()
+    public function testInvalidFieldIdentifierIn(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -406,7 +406,7 @@ class SearchServiceLocationTest extends BaseTestCase
         );
     }
 
-    public function testFindLocationsWithNonSearchableField()
+    public function testFindLocationsWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -443,7 +443,7 @@ class SearchServiceLocationTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testQueryCustomField()
+    public function testQueryCustomField(): void
     {
         $query = new LocationQuery(
             [
@@ -472,7 +472,7 @@ class SearchServiceLocationTest extends BaseTestCase
      * the last_name of admin and anonymous. This is done to show the custom
      * copy field working.
      */
-    public function testQueryModifiedField()
+    public function testQueryModifiedField(): void
     {
         // Check using get_class since the others extend SetupFactory\Legacy
         if ($this->getSetupFactory() instanceof Legacy) {
@@ -540,7 +540,7 @@ class SearchServiceLocationTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceLessThanOrEqual()
+    public function testMapLocationDistanceLessThanOrEqual(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -619,7 +619,7 @@ class SearchServiceLocationTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceGreaterThanOrEqual()
+    public function testMapLocationDistanceGreaterThanOrEqual(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -698,7 +698,7 @@ class SearchServiceLocationTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceBetween()
+    public function testMapLocationDistanceBetween(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -793,7 +793,7 @@ class SearchServiceLocationTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceSortAscending()
+    public function testMapLocationDistanceSortAscending(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -909,7 +909,7 @@ class SearchServiceLocationTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceSortDescending()
+    public function testMapLocationDistanceSortDescending(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -1025,7 +1025,7 @@ class SearchServiceLocationTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceWithCustomField()
+    public function testMapLocationDistanceWithCustomField(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -1107,7 +1107,7 @@ class SearchServiceLocationTest extends BaseTestCase
      * Test for the findLocations() method.
      */
     #[Group('maplocation')]
-    public function testMapLocationDistanceWithCustomFieldSort()
+    public function testMapLocationDistanceWithCustomFieldSort(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -1225,7 +1225,7 @@ class SearchServiceLocationTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      */
-    public function testVisibilityCriterionWithHiddenContent()
+    public function testVisibilityCriterionWithHiddenContent(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();

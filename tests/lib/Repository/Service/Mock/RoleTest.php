@@ -39,7 +39,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the createRole() method.
      */
-    public function testCreateRoleThrowsLimitationValidationException()
+    public function testCreateRoleThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -104,7 +104,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the addPolicy() method.
      */
-    public function testAddPolicyThrowsLimitationValidationException()
+    public function testAddPolicyThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -168,7 +168,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the updatePolicyByRoleDraft() method.
      */
-    public function testUpdatePolicyThrowsLimitationValidationException()
+    public function testUpdatePolicyThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -241,7 +241,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserThrowsUnauthorizedException()
+    public function testAssignRoleToUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -267,7 +267,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserThrowsLimitationValidationException()
+    public function testAssignRoleToUserThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -314,7 +314,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserThrowsBadStateException()
+    public function testAssignRoleToUserThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -346,7 +346,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUser()
+    public function testAssignRoleToUser(): void
     {
         $limitationMock = $this->createMock(RoleLimitation::class);
         $limitationTypeMock = $this->createMock(SPIType::class);
@@ -429,7 +429,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserWithNullLimitation()
+    public function testAssignRoleToUserWithNullLimitation(): void
     {
         $repository = $this->getRepositoryMock();
         $roleServiceMock = $this->getPartlyMockedRoleService(['checkAssignmentAndFilterLimitationValues']);
@@ -491,7 +491,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserWithRollback()
+    public function testAssignRoleToUserWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -555,7 +555,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroupThrowsUnauthorizedException()
+    public function testAssignRoleToUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -582,7 +582,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroupThrowsLimitationValidationException()
+    public function testAssignRoleToUserGroupThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -630,7 +630,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleGroupToUserThrowsBadStateException()
+    public function testAssignRoleGroupToUserThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -663,7 +663,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroup()
+    public function testAssignRoleToUserGroup(): void
     {
         $limitationMock = $this->createMock(RoleLimitation::class);
         $limitationTypeMock = $this->createMock(SPIType::class);
@@ -750,7 +750,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroupWithNullLimitation()
+    public function testAssignRoleToUserGroupWithNullLimitation(): void
     {
         $repository = $this->getRepositoryMock();
         $roleServiceMock = $this->getPartlyMockedRoleService(['checkAssignmentAndFilterLimitationValues']);
@@ -816,7 +816,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroupWithRollback()
+    public function testAssignRoleToUserGroupWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -881,7 +881,7 @@ class RoleTest extends BaseServiceMockTest
         $roleServiceMock->assignRoleToUserGroup($roleMock, $userGroupMock, null);
     }
 
-    public function testRemovePolicyByRoleDraftThrowsUnauthorizedException()
+    public function testRemovePolicyByRoleDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -920,7 +920,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the removePolicyByRoleDraft() method.
      */
-    public function testRemovePolicyByRoleDraftWithRollback()
+    public function testRemovePolicyByRoleDraftWithRollback(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
@@ -975,7 +975,7 @@ class RoleTest extends BaseServiceMockTest
         $roleServiceMock->removePolicyByRoleDraft($roleDraftMock, $policyDraftMock);
     }
 
-    public function testRemovePolicyByRoleDraft()
+    public function testRemovePolicyByRoleDraft(): void
     {
         $repository = $this->getRepositoryMock();
         $roleDraftMock = $this->createMock(RoleDraft::class);

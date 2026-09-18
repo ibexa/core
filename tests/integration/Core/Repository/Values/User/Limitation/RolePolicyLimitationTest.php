@@ -20,8 +20,10 @@ class RolePolicyLimitationTest extends BaseLimitationTestCase
 {
     /**
      * Data provider for {@see testRolePoliciesWithOverlappingLimitations}.
+     *
+     * @return array<mixed>
      */
-    public static function providerForTestRolePoliciesWithOverlappingLimitations()
+    public static function providerForTestRolePoliciesWithOverlappingLimitations(): array
     {
         // get actual locations count for the given subtree when user is (by default) an admin
         $actualSubtreeLocationsCount = static::getSubtreeLocationsCountForFreshRepository('/1/2/');
@@ -49,7 +51,7 @@ class RolePolicyLimitationTest extends BaseLimitationTestCase
         $expectedSubtreeLocationsCount,
         $widePolicyModule,
         $widePolicyFunction
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
         $permissionResolver = $repository->getPermissionResolver();

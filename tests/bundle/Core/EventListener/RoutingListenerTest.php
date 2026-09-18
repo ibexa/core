@@ -37,7 +37,7 @@ class RoutingListenerTest extends TestCase
         $this->urlAliasGenerator = $this->createMock(UrlAliasGenerator::class);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         $listener = new RoutingListener($this->configResolver, $this->urlAliasRouter, $this->urlAliasGenerator);
         self::assertSame(
@@ -48,7 +48,7 @@ class RoutingListenerTest extends TestCase
         );
     }
 
-    public function testOnSiteAccessMatch()
+    public function testOnSiteAccessMatch(): void
     {
         $rootLocationId = 123;
         $excludedUriPrefixes = ['/foo/bar', '/baz'];

@@ -107,7 +107,7 @@ class FileSizeValidatorTest extends TestCase
      * @param int $size
      */
     #[DataProvider('providerForValidateOK')]
-    public function testValidateCorrectValues($size)
+    public function testValidateCorrectValues($size): void
     {
         self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
@@ -130,7 +130,10 @@ class FileSizeValidatorTest extends TestCase
         return $value;
     }
 
-    public static function providerForValidateOK()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForValidateOK(): array
     {
         return [
             [0],
@@ -143,7 +146,7 @@ class FileSizeValidatorTest extends TestCase
      * Tests validating a wrong value.
      */
     #[DataProvider('providerForValidateKO')]
-    public function testValidateWrongValues($size, $message, $values)
+    public function testValidateWrongValues($size, $message, $values): void
     {
         self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
@@ -173,7 +176,10 @@ class FileSizeValidatorTest extends TestCase
         );
     }
 
-    public static function providerForValidateKO()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForValidateKO(): array
     {
         return [
             [

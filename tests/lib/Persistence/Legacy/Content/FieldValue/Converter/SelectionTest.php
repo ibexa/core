@@ -34,7 +34,7 @@ class SelectionTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('selection')]
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $fieldValue = new FieldValue();
         $fieldValue->data = [1, 3];
@@ -56,7 +56,7 @@ class SelectionTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('selection')]
-    public function testToStorageValueEmpty()
+    public function testToStorageValueEmpty(): void
     {
         $fieldValue = new FieldValue();
         $fieldValue->data = [];
@@ -78,7 +78,7 @@ class SelectionTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('selection')]
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = '1-3';
@@ -100,7 +100,7 @@ class SelectionTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('selection')]
-    public function testToFieldValueEmpty()
+    public function testToFieldValueEmpty(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = '';
@@ -122,7 +122,7 @@ class SelectionTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('selection')]
-    public function testToStorageFieldDefinitionMultiple()
+    public function testToStorageFieldDefinitionMultiple(): void
     {
         $fieldDefinition = new PersistenceFieldDefinition(
             [
@@ -160,7 +160,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('selection')]
-    public function testToStorageFieldDefinitionSingle()
+    public function testToStorageFieldDefinitionSingle(): void
     {
         $fieldDefinition = new PersistenceFieldDefinition(
             [
@@ -196,7 +196,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('selection')]
-    public function testToFieldDefinitionMultiple()
+    public function testToFieldDefinitionMultiple(): void
     {
         $storageFieldDefinition = new StorageFieldDefinition();
         $storageFieldDefinition->dataInt1 = 1;
@@ -263,7 +263,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('selection')]
-    public function testToFieldDefinitionSingleEmpty()
+    public function testToFieldDefinitionSingleEmpty(): void
     {
         $storageFieldDefinition = new StorageFieldDefinition();
         $storageFieldDefinition->dataInt1 = 0;

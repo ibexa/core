@@ -21,7 +21,7 @@ class LegacyPathGeneratorTest extends TestCase
      * @param mixed $expectedPath
      */
     #[DataProvider('provideStoragePathForFieldData')]
-    public function testGetStoragePathForField($data, $expectedPath)
+    public function testGetStoragePathForField($data, $expectedPath): void
     {
         $pathGenerator = new LegacyPathGenerator();
 
@@ -35,7 +35,10 @@ class LegacyPathGeneratorTest extends TestCase
         );
     }
 
-    public static function provideStoragePathForFieldData()
+    /**
+     * @return array<mixed>
+     */
+    public static function provideStoragePathForFieldData(): array
     {
         return [
             [

@@ -30,7 +30,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
      */
     #[DependsExternal(TrashServiceTest::class, 'testLoadTrashItem')]
     #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
-    public function testLoadTrashItemThrowsUnauthorizedException()
+    public function testLoadTrashItemThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -57,7 +57,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
     /**
      * Test for the trash() method without proper permissions.
      */
-    public function testTrashThrowsUnauthorizedException()
+    public function testTrashThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage('The User does not have the \'remove\' \'content\' permission');
@@ -115,7 +115,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
      * Test for the trash() method with proper minimal permission set.
      */
     #[Depends('testTrashThrowsUnauthorizedException')]
-    public function testTrashRequiresContentRemovePolicy()
+    public function testTrashRequiresContentRemovePolicy(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -142,7 +142,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
      */
     #[DependsExternal(TrashServiceTest::class, 'testRecover')]
     #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
-    public function testRecoverThrowsUnauthorizedException()
+    public function testRecoverThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -171,7 +171,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
      */
     #[DependsExternal(TrashServiceTest::class, 'testRecover')]
     #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
-    public function testRecoverThrowsUnauthorizedExceptionWithNewParentLocationParameter()
+    public function testRecoverThrowsUnauthorizedExceptionWithNewParentLocationParameter(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -208,7 +208,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
      */
     #[DependsExternal(TrashServiceTest::class, 'testEmptyTrash')]
     #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
-    public function testEmptyTrashThrowsUnauthorizedException()
+    public function testEmptyTrashThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -237,7 +237,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
      */
     #[DependsExternal(TrashServiceTest::class, 'testDeleteTrashItem')]
     #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
-    public function testDeleteTrashItemThrowsUnauthorizedException()
+    public function testDeleteTrashItemThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -261,7 +261,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
         /* END: Use Case */
     }
 
-    public function testTrashRequiresPremissionsToRemoveAllSubitems()
+    public function testTrashRequiresPremissionsToRemoveAllSubitems(): void
     {
         $this->createRoleWithPolicies('Publisher', [
             ['module' => 'content', 'function' => 'read'],

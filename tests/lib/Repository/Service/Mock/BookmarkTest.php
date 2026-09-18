@@ -52,7 +52,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->willReturn($permissionResolverMock);
     }
 
-    public function testCreateBookmark()
+    public function testCreateBookmark(): void
     {
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -79,7 +79,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    public function testCreateBookmarkThrowsInvalidArgumentException()
+    public function testCreateBookmarkThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -100,7 +100,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    public function testCreateBookmarkWithRollback()
+    public function testCreateBookmarkWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -124,7 +124,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    public function testDeleteBookmarkExisting()
+    public function testDeleteBookmarkExisting(): void
     {
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -148,7 +148,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->deleteBookmark($location);
     }
 
-    public function testDeleteBookmarkWithRollback()
+    public function testDeleteBookmarkWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -172,7 +172,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->deleteBookmark($location);
     }
 
-    public function testDeleteBookmarkNonExisting()
+    public function testDeleteBookmarkNonExisting(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -193,7 +193,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->deleteBookmark($location);
     }
 
-    public function testLoadBookmarks()
+    public function testLoadBookmarks(): void
     {
         $offset = 0;
         $limit = 25;
@@ -227,7 +227,7 @@ class BookmarkTest extends BaseServiceMockTest
         self::assertEquals($expectedItems, $bookmarks->items);
     }
 
-    public function testLocationShouldNotBeBookmarked()
+    public function testLocationShouldNotBeBookmarked(): void
     {
         $this->bookmarkHandler
             ->expects(self::once())
@@ -238,7 +238,7 @@ class BookmarkTest extends BaseServiceMockTest
         self::assertFalse($this->createBookmarkService()->isBookmarked($this->createLocation(self::LOCATION_ID)));
     }
 
-    public function testLocationShouldBeBookmarked()
+    public function testLocationShouldBeBookmarked(): void
     {
         $this->bookmarkHandler
             ->expects(self::once())

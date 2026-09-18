@@ -43,7 +43,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('textBlock')]
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = $this->longText;
@@ -58,7 +58,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('textBlock')]
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = $this->longText;
@@ -72,7 +72,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('textBlock')]
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -97,7 +97,7 @@ EOT;
 
     #[Group('fieldType')]
     #[Group('textBlock')]
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(

@@ -167,7 +167,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public static function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -209,7 +209,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public static function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData(): array
     {
         return self::provideInvalidCreationFieldData();
     }
@@ -274,7 +274,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public static function provideToHashData()
+    public static function provideToHashData(): array
     {
         return [
             [
@@ -294,7 +294,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public static function provideFromHashData()
+    public static function provideFromHashData(): array
     {
         return [
             [
@@ -307,14 +307,20 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public static function providerForTestIsEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new DateAndTimeValue()],
         ];
     }
 
-    public static function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [

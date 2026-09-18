@@ -31,7 +31,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlAliasData() method.
      */
-    public function testLoadUrlaliasDataNonExistent()
+    public function testLoadUrlaliasDataNonExistent(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
         $gateway = $this->getGateway();
@@ -44,7 +44,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlAliasData() method.
      */
-    public function testLoadUrlaliasData()
+    public function testLoadUrlaliasData(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
         $gateway = $this->getGateway();
@@ -85,7 +85,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * Test with fixture containing language mask with multiple languages.
      */
-    public function testLoadUrlaliasDataMultipleLanguages()
+    public function testLoadUrlaliasDataMultipleLanguages(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
         $gateway = $this->getGateway();
@@ -124,7 +124,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public static function providerForTestLoadPathData()
+    public static function providerForTestLoadPathData(): array
     {
         return [
             [
@@ -171,7 +171,7 @@ class DoctrineDatabaseTest extends TestCase
      * Test for the loadPathData() method.
      */
     #[DataProvider('providerForTestLoadPathData')]
-    public function testLoadPathData($id, $pathData)
+    public function testLoadPathData($id, $pathData): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_fallback.php');
         $gateway = $this->getGateway();
@@ -187,7 +187,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public static function providerForTestLoadPathDataMultipleLanguages()
+    public static function providerForTestLoadPathDataMultipleLanguages(): array
     {
         return [
             [
@@ -231,7 +231,7 @@ class DoctrineDatabaseTest extends TestCase
      * Test for the loadPathData() method.
      */
     #[DataProvider('providerForTestLoadPathDataMultipleLanguages')]
-    public function testLoadPathDataMultipleLanguages($id, $pathData)
+    public function testLoadPathDataMultipleLanguages($id, $pathData): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
         $gateway = $this->getGateway();
@@ -247,7 +247,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public static function providerForTestCleanupAfterPublishHistorize()
+    public static function providerForTestCleanupAfterPublishHistorize(): array
     {
         return [
             [
@@ -272,7 +272,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return array
      */
-    public static function providerForTestArchiveUrlAliasesForDeletedTranslations()
+    public static function providerForTestArchiveUrlAliasesForDeletedTranslations(): array
     {
         return [
             [314, [2]],
@@ -287,7 +287,7 @@ class DoctrineDatabaseTest extends TestCase
      * Test for the cleanupAfterPublish() method.
      */
     #[DataProvider('providerForTestCleanupAfterPublishHistorize')]
-    public function testCleanupAfterPublishHistorize($action, $languageId, $parentId, $textMD5)
+    public function testCleanupAfterPublishHistorize($action, $languageId, $parentId, $textMD5): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_downgrade.php');
         $gateway = $this->getGateway();
@@ -307,7 +307,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public static function providerForTestCleanupAfterPublishRemovesLanguage()
+    public static function providerForTestCleanupAfterPublishRemovesLanguage(): array
     {
         return [
             [
@@ -329,7 +329,7 @@ class DoctrineDatabaseTest extends TestCase
      * Test for the cleanupAfterPublish() method.
      */
     #[DataProvider('providerForTestCleanupAfterPublishRemovesLanguage')]
-    public function testCleanupAfterPublishRemovesLanguage($action, $languageId, $parentId, $textMD5)
+    public function testCleanupAfterPublishRemovesLanguage($action, $languageId, $parentId, $textMD5): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_downgrade.php');
         $gateway = $this->getGateway();
@@ -349,7 +349,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @todo document
      */
-    public function testReparent()
+    public function testReparent(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
         $gateway = $this->getGateway();
@@ -377,7 +377,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the remove() method.
      */
-    public function testRemove()
+    public function testRemove(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_remove.php');
         $gateway = $this->getGateway();
@@ -395,7 +395,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the remove() method.
      */
-    public function testRemoveWithId()
+    public function testRemoveWithId(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_remove.php');
         $gateway = $this->getGateway();
@@ -413,7 +413,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the removeCustomAlias() method.
      */
-    public function testRemoveCustomAlias()
+    public function testRemoveCustomAlias(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_remove.php');
         $gateway = $this->getGateway();
@@ -429,7 +429,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the removeByAction() method.
      */
-    public function testRemoveCustomAliasFails()
+    public function testRemoveCustomAliasFails(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_remove.php');
         $gateway = $this->getGateway();
@@ -443,7 +443,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the getNextId() method.
      */
-    public function testGetNextId()
+    public function testGetNextId(): void
     {
         $gateway = $this->getGateway();
 
@@ -456,7 +456,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param int[] $removedLanguageIds
      */
     #[DataProvider('providerForTestArchiveUrlAliasesForDeletedTranslations')]
-    public function testArchiveUrlAliasesForDeletedTranslations($locationId, array $removedLanguageIds)
+    public function testArchiveUrlAliasesForDeletedTranslations($locationId, array $removedLanguageIds): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
         $gateway = $this->getGateway();

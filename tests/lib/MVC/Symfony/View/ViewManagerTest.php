@@ -64,7 +64,7 @@ class ViewManagerTest extends TestCase
         );
     }
 
-    public function testRenderContent()
+    public function testRenderContent(): void
     {
         $content = new Content(
             ['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]
@@ -97,7 +97,7 @@ class ViewManagerTest extends TestCase
         self::assertSame($expectedTemplateResult, $this->viewManager->renderContent($content, 'customViewType', $params));
     }
 
-    public function testRenderContentWithClosure()
+    public function testRenderContentWithClosure(): void
     {
         $content = new Content(
             ['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]
@@ -131,7 +131,7 @@ class ViewManagerTest extends TestCase
         self::assertEqualsCanonicalizing($expectedTemplateResult, $templateResult);
     }
 
-    public function testRenderLocation()
+    public function testRenderLocation(): void
     {
         $content = new Content(['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]);
         $location = new Location(['contentInfo' => new ContentInfo()]);
@@ -180,7 +180,7 @@ class ViewManagerTest extends TestCase
         self::assertSame($expectedTemplateResult, $this->viewManager->renderLocation($location, 'customViewType', $params));
     }
 
-    public function testRenderLocationWithContentPassed()
+    public function testRenderLocationWithContentPassed(): void
     {
         $content = new Content(['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]);
         $location = new Location(['contentInfo' => new ContentInfo()]);
@@ -231,7 +231,7 @@ class ViewManagerTest extends TestCase
         self::assertSame($expectedTemplateResult, $this->viewManager->renderLocation($location, 'customViewType', $params));
     }
 
-    public function testRenderLocationWithClosure()
+    public function testRenderLocationWithClosure(): void
     {
         $content = new Content(['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]);
         $location = new Location(['contentInfo' => new ContentInfo()]);

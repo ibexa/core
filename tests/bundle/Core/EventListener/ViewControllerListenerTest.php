@@ -74,7 +74,7 @@ class ViewControllerListenerTest extends TestCase
         $this->viewBuilderMock = $this->createMock(ViewBuilder::class);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [KernelEvents::CONTROLLER => ['getController', 10]],
@@ -82,7 +82,7 @@ class ViewControllerListenerTest extends TestCase
         );
     }
 
-    public function testGetControllerNoBuilder()
+    public function testGetControllerNoBuilder(): void
     {
         $initialController = 'Foo::bar';
         $this->request->attributes->set('_controller', $initialController);
@@ -96,7 +96,7 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerListener->getController($this->event);
     }
 
-    public function testGetControllerWithClosure()
+    public function testGetControllerWithClosure(): void
     {
         $initialController = static function () {};
         $this->request->attributes->set('_controller', $initialController);
@@ -110,7 +110,7 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerListener->getController($this->event);
     }
 
-    public function testGetControllerMatchedView()
+    public function testGetControllerMatchedView(): void
     {
         $contentId = 12;
         $locationId = 123;

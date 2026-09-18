@@ -17,7 +17,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class MultipleValuedTest extends BaseTestCase
 {
     #[DataProvider('matchingConfigProvider')]
-    public function testSetMatchingConfig($matchingConfig)
+    public function testSetMatchingConfig($matchingConfig): void
     {
         $matcher = $this->getMultipleValuedMatcherMock();
         $matcher->setMatchingConfig($matchingConfig);
@@ -35,7 +35,7 @@ class MultipleValuedTest extends BaseTestCase
      *
      * @return array
      */
-    public static function matchingConfigProvider()
+    public static function matchingConfigProvider(): array
     {
         return [
             [
@@ -47,7 +47,7 @@ class MultipleValuedTest extends BaseTestCase
         ];
     }
 
-    public function testInjectRepository()
+    public function testInjectRepository(): void
     {
         $matcher = $this->getMultipleValuedMatcherMock();
         $matcher->setRepository($this->repositoryMock);

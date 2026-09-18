@@ -174,7 +174,7 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::findUrls() method.
      */
-    public function testFindUrls()
+    public function testFindUrls(): void
     {
         $expectedUrls = [
             'https://www.apache.org/',
@@ -208,7 +208,7 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::findUrls() method.
      */
-    public function testFindUrlsWithoutCounting()
+    public function testFindUrlsWithoutCounting(): void
     {
         $expectedUrls = [
             'https://www.apache.org/',
@@ -244,7 +244,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::findUrls() method.
      */
     #[Depends('testFindUrls')]
-    public function testFindUrlsUsingMatchNone()
+    public function testFindUrlsUsingMatchNone(): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchNone();
@@ -256,7 +256,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::findUrls() method.
      */
     #[Depends('testFindUrls')]
-    public function testFindUrlsUsingPatternCriterion()
+    public function testFindUrlsUsingPatternCriterion(): void
     {
         $expectedUrls = [
             'https://www.google.de/',
@@ -276,7 +276,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::findUrls() method.
      */
     #[Depends('testFindUrls')]
-    public function testFindUrlsUsingValidityCriterionValid()
+    public function testFindUrlsUsingValidityCriterionValid(): void
     {
         $expectedUrls = [
             'https://www.google.com/',
@@ -413,7 +413,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::findUrls() method.
      */
     #[Depends('testFindUrls')]
-    public function testFindUrlsUsingValidityCriterionInvalid()
+    public function testFindUrlsUsingValidityCriterionInvalid(): void
     {
         $expectedUrls = [
             '/content/view/tagcloud/2',
@@ -429,7 +429,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::findUrls() method.
      */
     #[Depends('testFindUrls')]
-    public function testFindUrlsUsingVisibleOnlyCriterion()
+    public function testFindUrlsUsingVisibleOnlyCriterion(): void
     {
         $expectedUrls = [
             'https://vimeo.com/',
@@ -483,7 +483,7 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::findUrls() method.
      */
-    public function testFindUrlsWithInvalidOffsetThrowsInvalidArgumentException()
+    public function testFindUrlsWithInvalidOffsetThrowsInvalidArgumentException(): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchAll();
@@ -502,7 +502,7 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::findUrls() method.
      */
-    public function testFindUrlsWithInvalidLimitThrowsInvalidArgumentException()
+    public function testFindUrlsWithInvalidLimitThrowsInvalidArgumentException(): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchAll();
@@ -522,7 +522,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::findUrls() method.
      */
     #[Depends('testFindUrls')]
-    public function testFindUrlsWithOffset()
+    public function testFindUrlsWithOffset(): void
     {
         $expectedUrls = [
             'https://www.discuz.net/forum.php',
@@ -549,7 +549,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::findUrls() method.
      */
     #[Depends('testFindUrls')]
-    public function testFindUrlsWithOffsetAndLimit()
+    public function testFindUrlsWithOffsetAndLimit(): void
     {
         $expectedUrls = [
             'https://www.discuz.net/forum.php',
@@ -570,7 +570,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::findUrls() method.
      */
     #[Depends('testFindUrls')]
-    public function testFindUrlsWithLimitZero()
+    public function testFindUrlsWithLimitZero(): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchAll();
@@ -584,7 +584,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      */
     #[Depends('testFindUrls')]
     #[DataProvider('dataProviderForFindUrlsWithSorting')]
-    public function testFindUrlsWithSorting(SortClause $sortClause, array $expectedUrls)
+    public function testFindUrlsWithSorting(SortClause $sortClause, array $expectedUrls): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchAll();
@@ -593,7 +593,10 @@ class URLServiceTest extends BaseURLServiceTestCase
         $this->doTestFindUrls($query, $expectedUrls, count($expectedUrls), false);
     }
 
-    public static function dataProviderForFindUrlsWithSorting()
+    /**
+     * @return array<mixed>
+     */
+    public static function dataProviderForFindUrlsWithSorting(): array
     {
         $urlsSortedById = [
             '/content/view/sitemap/2',
@@ -632,7 +635,7 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::updateUrl() method.
      */
-    public function testUpdateUrl()
+    public function testUpdateUrl(): void
     {
         $repository = $this->getRepository();
 
@@ -663,7 +666,7 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::updateUrl() method.
      */
-    public function testUpdateUrlStatus()
+    public function testUpdateUrlStatus(): void
     {
         $repository = $this->getRepository();
 
@@ -698,7 +701,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::updateUrl() method.
      */
     #[Depends('testUpdateUrl')]
-    public function testUpdateUrlWithNonUniqueUrl()
+    public function testUpdateUrlWithNonUniqueUrl(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -721,7 +724,7 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::loadById() method.
      */
-    public function testLoadById()
+    public function testLoadById(): void
     {
         $repository = $this->getRepository();
 
@@ -748,7 +751,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::loadById() method.
      */
     #[Depends('testLoadById')]
-    public function testLoadByIdThrowsNotFoundException()
+    public function testLoadByIdThrowsNotFoundException(): void
     {
         $repository = $this->getRepository();
 
@@ -764,7 +767,7 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::loadByUrl() method.
      */
-    public function testLoadByUrl()
+    public function testLoadByUrl(): void
     {
         $repository = $this->getRepository();
 
@@ -791,7 +794,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::loadByUrl() method.
      */
     #[Depends('testLoadByUrl')]
-    public function testLoadByUrlThrowsNotFoundException()
+    public function testLoadByUrlThrowsNotFoundException(): void
     {
         $repository = $this->getRepository();
 
@@ -830,7 +833,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct $updateStruct
      */
     #[Depends('testCreateUpdateStruct')]
-    public function testCreateUpdateStructValues(URLUpdateStruct $updateStruct)
+    public function testCreateUpdateStructValues(URLUpdateStruct $updateStruct): void
     {
         $this->assertPropertiesCorrect([
             'url' => null,
@@ -844,7 +847,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      */
     #[Depends('testLoadById')]
     #[DataProvider('dataProviderForFindUsages')]
-    public function testFindUsages($urlId, $offset, $limit, array $expectedContentInfos, $expectedTotalCount = null)
+    public function testFindUsages($urlId, $offset, $limit, array $expectedContentInfos, $expectedTotalCount = null): void
     {
         $repository = $this->getRepository();
 
@@ -862,7 +865,10 @@ class URLServiceTest extends BaseURLServiceTestCase
         $this->assertUsagesSearchResultItems($usagesSearchResults, $expectedContentInfos);
     }
 
-    public static function dataProviderForFindUsages()
+    /**
+     * @return array<mixed>
+     */
+    public static function dataProviderForFindUsages(): array
     {
         return [
             // findUsages($url, 0, -1)
@@ -876,7 +882,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::testFindUsages() method.
      */
     #[Depends('testFindUsages')]
-    public function testFindUsagesReturnsEmptySearchResults()
+    public function testFindUsagesReturnsEmptySearchResults(): void
     {
         $repository = $this->getRepository();
 

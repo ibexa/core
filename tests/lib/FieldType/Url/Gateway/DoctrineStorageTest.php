@@ -19,7 +19,7 @@ class DoctrineStorageTest extends TestCase
 {
     private DoctrineStorage $storageGateway;
 
-    public function testGetIdUrlMap()
+    public function testGetIdUrlMap(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
 
@@ -36,7 +36,7 @@ class DoctrineStorageTest extends TestCase
         );
     }
 
-    public function testGetUrlIdMap()
+    public function testGetUrlIdMap(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
 
@@ -57,7 +57,7 @@ class DoctrineStorageTest extends TestCase
         );
     }
 
-    public function testInsertUrl()
+    public function testInsertUrl(): void
     {
         $gateway = $this->getStorageGateway();
 
@@ -100,7 +100,7 @@ class DoctrineStorageTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function testLinkUrl()
+    public function testLinkUrl(): void
     {
         $gateway = $this->getStorageGateway();
 
@@ -134,7 +134,7 @@ class DoctrineStorageTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function testUnlinkUrl()
+    public function testUnlinkUrl(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
 

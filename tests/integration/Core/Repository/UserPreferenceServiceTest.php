@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\Depends;
 #[CoversClass(UserPreferenceService::class)]
 class UserPreferenceServiceTest extends BaseTestCase
 {
-    public function testLoadUserPreferences()
+    public function testLoadUserPreferences(): void
     {
         $repository = $this->getRepository();
 
@@ -37,7 +37,7 @@ class UserPreferenceServiceTest extends BaseTestCase
         self::assertEquals(5, $userPreferenceList->totalCount);
     }
 
-    public function testGetUserPreference()
+    public function testGetUserPreference(): void
     {
         $repository = $this->getRepository();
 
@@ -54,7 +54,7 @@ class UserPreferenceServiceTest extends BaseTestCase
     }
 
     #[Depends('testGetUserPreference')]
-    public function testSetUserPreference()
+    public function testSetUserPreference(): void
     {
         $repository = $this->getRepository();
 
@@ -77,7 +77,7 @@ class UserPreferenceServiceTest extends BaseTestCase
     }
 
     #[Depends('testSetUserPreference')]
-    public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnInvalidValue()
+    public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnInvalidValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -97,7 +97,7 @@ class UserPreferenceServiceTest extends BaseTestCase
     }
 
     #[Depends('testSetUserPreference')]
-    public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnEmptyName()
+    public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnEmptyName(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -115,7 +115,7 @@ class UserPreferenceServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    public function testGetUserPreferenceCount()
+    public function testGetUserPreferenceCount(): void
     {
         $repository = $this->getRepository();
 

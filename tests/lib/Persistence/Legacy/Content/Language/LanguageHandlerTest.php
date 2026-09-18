@@ -40,7 +40,7 @@ class LanguageHandlerTest extends TestCase
      */
     protected $mapperMock;
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getLanguageHandler();
 
@@ -86,7 +86,7 @@ class LanguageHandlerTest extends TestCase
         return new Language\CreateStruct();
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $handler = $this->getLanguageHandler();
 
@@ -108,7 +108,7 @@ class LanguageHandlerTest extends TestCase
         return new Language();
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getLanguageHandler();
         $mapperMock = $this->getMapperMock();
@@ -132,7 +132,7 @@ class LanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadFailure()
+    public function testLoadFailure(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -154,7 +154,7 @@ class LanguageHandlerTest extends TestCase
         $result = $handler->load(2);
     }
 
-    public function testLoadByLanguageCode()
+    public function testLoadByLanguageCode(): void
     {
         $handler = $this->getLanguageHandler();
         $mapperMock = $this->getMapperMock();
@@ -178,7 +178,7 @@ class LanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadByLanguageCodeFailure()
+    public function testLoadByLanguageCodeFailure(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -200,7 +200,7 @@ class LanguageHandlerTest extends TestCase
         $result = $handler->loadByLanguageCode('eng-US');
     }
 
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $handler = $this->getLanguageHandler();
         $mapperMock = $this->getMapperMock();
@@ -222,7 +222,7 @@ class LanguageHandlerTest extends TestCase
         );
     }
 
-    public function testDeleteSuccess()
+    public function testDeleteSuccess(): void
     {
         $handler = $this->getLanguageHandler();
         $gatewayMock = $this->getGatewayMock();
@@ -238,7 +238,7 @@ class LanguageHandlerTest extends TestCase
         $result = $handler->delete(2);
     }
 
-    public function testDeleteFail()
+    public function testDeleteFail(): void
     {
         $this->expectException(\LogicException::class);
 

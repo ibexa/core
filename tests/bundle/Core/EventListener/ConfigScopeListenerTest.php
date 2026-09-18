@@ -38,7 +38,7 @@ class ConfigScopeListenerTest extends TestCase
         ];
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -49,7 +49,7 @@ class ConfigScopeListenerTest extends TestCase
         );
     }
 
-    public function testOnConfigScopeChange()
+    public function testOnConfigScopeChange(): void
     {
         $siteAccess = new SiteAccess('test');
         $event = new ScopeChangeEvent($siteAccess);

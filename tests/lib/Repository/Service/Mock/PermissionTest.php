@@ -30,7 +30,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class PermissionTest extends BaseServiceMockTest
 {
-    public static function providerForTestHasAccessReturnsTrue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestHasAccessReturnsTrue(): array
     {
         return [
             [
@@ -103,7 +106,7 @@ class PermissionTest extends BaseServiceMockTest
      * Test for the hasAccess() method.
      */
     #[DataProvider('providerForTestHasAccessReturnsTrue')]
-    public function testHasAccessReturnsTrue(array $roles, array $roleAssignments)
+    public function testHasAccessReturnsTrue(array $roles, array $roleAssignments): void
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
@@ -122,7 +125,10 @@ class PermissionTest extends BaseServiceMockTest
         self::assertTrue($result);
     }
 
-    public static function providerForTestHasAccessReturnsFalse()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestHasAccessReturnsFalse(): array
     {
         return [
             [[], []],
@@ -167,7 +173,7 @@ class PermissionTest extends BaseServiceMockTest
      * Test for the hasAccess() method.
      */
     #[DataProvider('providerForTestHasAccessReturnsFalse')]
-    public function testHasAccessReturnsFalse(array $roles, array $roleAssignments)
+    public function testHasAccessReturnsFalse(array $roles, array $roleAssignments): void
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
@@ -189,7 +195,7 @@ class PermissionTest extends BaseServiceMockTest
     /**
      * Test for the sudo() & hasAccess() method.
      */
-    public function testHasAccessReturnsFalseButSudoSoTrue()
+    public function testHasAccessReturnsFalseButSudoSoTrue(): void
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
@@ -217,7 +223,7 @@ class PermissionTest extends BaseServiceMockTest
     /**
      * @return array
      */
-    public static function providerForTestHasAccessReturnsPermissionSets()
+    public static function providerForTestHasAccessReturnsPermissionSets(): array
     {
         return [
             [
@@ -272,7 +278,7 @@ class PermissionTest extends BaseServiceMockTest
      * Test for the hasAccess() method.
      */
     #[DataProvider('providerForTestHasAccessReturnsPermissionSets')]
-    public function testHasAccessReturnsPermissionSets(array $roles, array $roleAssignments)
+    public function testHasAccessReturnsPermissionSets(array $roles, array $roleAssignments): void
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
@@ -332,7 +338,7 @@ class PermissionTest extends BaseServiceMockTest
     /**
      * @return array
      */
-    public static function providerForTestHasAccessReturnsLimitationNotFoundException()
+    public static function providerForTestHasAccessReturnsLimitationNotFoundException(): array
     {
         return [
             [
@@ -387,7 +393,7 @@ class PermissionTest extends BaseServiceMockTest
      * Test for the hasAccess() method.
      */
     #[DataProvider('providerForTestHasAccessReturnsLimitationNotFoundException')]
-    public function testHasAccessReturnsLimitationNotFoundException(array $roles, array $roleAssignments)
+    public function testHasAccessReturnsLimitationNotFoundException(array $roles, array $roleAssignments): void
     {
         $this->expectException(LimitationNotFoundException::class);
 
@@ -449,7 +455,7 @@ class PermissionTest extends BaseServiceMockTest
     /**
      * @return array
      */
-    public static function providerForTestHasAccessReturnsInvalidArgumentValueException()
+    public static function providerForTestHasAccessReturnsInvalidArgumentValueException(): array
     {
         return [
             [
@@ -504,7 +510,7 @@ class PermissionTest extends BaseServiceMockTest
      * Test for the hasAccess() method.
      */
     #[DataProvider('providerForTestHasAccessReturnsInvalidArgumentValueException')]
-    public function testHasAccessReturnsInvalidArgumentValueException(array $roles, array $roleAssignments)
+    public function testHasAccessReturnsInvalidArgumentValueException(array $roles, array $roleAssignments): void
     {
         $this->expectException(InvalidArgumentValue::class);
 
@@ -519,7 +525,10 @@ class PermissionTest extends BaseServiceMockTest
         }
     }
 
-    public static function providerForTestHasAccessReturnsPermissionSetsWithRoleLimitation()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestHasAccessReturnsPermissionSetsWithRoleLimitation(): array
     {
         return [
             [
@@ -568,7 +577,7 @@ class PermissionTest extends BaseServiceMockTest
      * Test for the hasAccess() method.
      */
     #[DataProvider('providerForTestHasAccessReturnsPermissionSetsWithRoleLimitation')]
-    public function testHasAccessReturnsPermissionSetsWithRoleLimitation(array $roles, array $roleAssignments)
+    public function testHasAccessReturnsPermissionSetsWithRoleLimitation(array $roles, array $roleAssignments): void
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
@@ -706,7 +715,10 @@ class PermissionTest extends BaseServiceMockTest
         );
     }
 
-    public static function providerForTestCanUserSimple()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestCanUserSimple(): array
     {
         return [
             [true, true],
@@ -721,7 +733,7 @@ class PermissionTest extends BaseServiceMockTest
      * Tests execution paths with permission sets equaling to boolean value or empty array.
      */
     #[DataProvider('providerForTestCanUserSimple')]
-    public function testCanUserSimple($permissionSets, $result)
+    public function testCanUserSimple($permissionSets, $result): void
     {
         $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
 
@@ -745,7 +757,7 @@ class PermissionTest extends BaseServiceMockTest
      *
      * Tests execution path with permission set defining no limitations.
      */
-    public function testCanUserWithoutLimitations()
+    public function testCanUserWithoutLimitations(): void
     {
         $permissionResolverMock = $this->getPermissionResolverMock(
             [
@@ -836,7 +848,7 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @return array
      */
-    public static function providerForTestCanUserComplex()
+    public static function providerForTestCanUserComplex(): array
     {
         return [
             [
@@ -918,7 +930,7 @@ class PermissionTest extends BaseServiceMockTest
      * Tests execution paths with permission sets containing limitations.
      */
     #[DataProvider('providerForTestCanUserComplex')]
-    public function testCanUserComplex(array $roleLimitationEvaluations, array $policyLimitationEvaluations, $userCan)
+    public function testCanUserComplex(array $roleLimitationEvaluations, array $policyLimitationEvaluations, $userCan): void
     {
         /** @var $valueObject \Ibexa\Contracts\Core\Repository\Values\ValueObject */
         $valueObject = self::createStub(ValueObject::class);
@@ -1009,7 +1021,7 @@ class PermissionTest extends BaseServiceMockTest
     /**
      * Test for the setCurrentUserReference() and getCurrentUserReference() methods.
      */
-    public function testSetAndGetCurrentUserReference()
+    public function testSetAndGetCurrentUserReference(): void
     {
         $permissionResolverMock = $this->getPermissionResolverMock(null);
         $userReferenceMock = $this->getUserReferenceMock();
@@ -1030,7 +1042,7 @@ class PermissionTest extends BaseServiceMockTest
     /**
      * Test for the getCurrentUserReference() method.
      */
-    public function testGetCurrentUserReferenceReturnsAnonymousUser()
+    public function testGetCurrentUserReferenceReturnsAnonymousUser(): void
     {
         $permissionResolverMock = $this->getPermissionResolverMock(null);
 

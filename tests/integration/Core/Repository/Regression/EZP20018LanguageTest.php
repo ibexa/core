@@ -60,7 +60,7 @@ class EZP20018LanguageTest extends BaseTestCase
         $this->refreshSearch($repository);
     }
 
-    public function testSearchOnNotExistingLanguageGivesException()
+    public function testSearchOnNotExistingLanguageGivesException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -74,7 +74,7 @@ class EZP20018LanguageTest extends BaseTestCase
         $this->getRepository()->getSearchService()->findContent($query);
     }
 
-    public function testSearchOnUsedLanguageGivesOneResult()
+    public function testSearchOnUsedLanguageGivesOneResult(): void
     {
         $query = new Query();
         $query->filter = new LanguageCode(['por-PT'], false);
@@ -84,7 +84,7 @@ class EZP20018LanguageTest extends BaseTestCase
         self::assertCount(1, $results->searchHits);
     }
 
-    public function testSearchOnStandardLanguageGivesManyResult()
+    public function testSearchOnStandardLanguageGivesManyResult(): void
     {
         $query = new Query();
         $query->filter = new LanguageCode(['eng-US'], false);
@@ -95,7 +95,7 @@ class EZP20018LanguageTest extends BaseTestCase
         self::assertEquals($results->totalCount, count($results->searchHits));
     }
 
-    public function testSearchOnNotUsedInstalledLanguageGivesNoResult()
+    public function testSearchOnNotUsedInstalledLanguageGivesNoResult(): void
     {
         $query = new Query();
         $query->filter = new LanguageCode(['eng-GB'], false);

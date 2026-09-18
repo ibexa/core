@@ -24,7 +24,10 @@ use PHPUnit\Framework\TestCase;
  */
 class PermissionCriterionResolverTest extends TestCase
 {
-    public static function providerForTestGetPermissionsCriterion()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestGetPermissionsCriterion(): array
     {
         $criterionMock = self::createStub(Criterion::class);
         $limitationMock = self::createStub(Limitation::class);
@@ -288,7 +291,7 @@ class PermissionCriterionResolverTest extends TestCase
         $limitationCount,
         $permissionSets,
         $expectedCriterion
-    ) {
+    ): void {
         $this->mockServices($criterionMock, $limitationCount, $permissionSets);
         $criterionResolver = $this->getPermissionCriterionResolverMock(null);
 
@@ -297,7 +300,10 @@ class PermissionCriterionResolverTest extends TestCase
         self::assertEquals($expectedCriterion, $permissionsCriterion);
     }
 
-    public static function providerForTestGetPermissionsCriterionBooleanPermissionSets()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestGetPermissionsCriterionBooleanPermissionSets(): array
     {
         return [
             [true],
@@ -309,7 +315,7 @@ class PermissionCriterionResolverTest extends TestCase
      * Test for the getPermissionsCriterion() method.
      */
     #[DataProvider('providerForTestGetPermissionsCriterionBooleanPermissionSets')]
-    public function testGetPermissionsCriterionBooleanPermissionSets($permissionSets)
+    public function testGetPermissionsCriterionBooleanPermissionSets($permissionSets): void
     {
         $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
         $permissionResolverMock

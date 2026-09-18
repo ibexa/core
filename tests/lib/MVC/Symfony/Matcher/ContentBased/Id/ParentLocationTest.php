@@ -36,13 +36,16 @@ class ParentLocationTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $parentLocationId, $expectedResult)
+    public function testMatchLocation($matchingConfig, int $parentLocationId, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->getLocationMock(['parentLocationId' => $parentLocationId])));
     }
 
-    public static function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         return [
             [
@@ -73,7 +76,7 @@ class ParentLocationTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $parentLocationId, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, int $parentLocationId, $expectedResult): void
     {
         $this->matcher->setRepository($this->generateRepositoryMockForParentLocationId($parentLocationId));
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -83,7 +86,10 @@ class ParentLocationTest extends BaseTestCase
         );
     }
 
-    public static function matchContentInfoProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchContentInfoProvider(): array
     {
         return [
             [

@@ -79,7 +79,7 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase
      * Test for the number of maximum language that can be created.
      */
     #[DependsExternal(LanguageServiceTest::class, 'testNewLanguageCreateStruct')]
-    public function testCreateMaximumLanguageLimit()
+    public function testCreateMaximumLanguageLimit(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Maximum number of languages reached.');

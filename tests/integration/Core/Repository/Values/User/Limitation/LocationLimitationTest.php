@@ -20,7 +20,7 @@ class LocationLimitationTest extends BaseLimitationTestCase
     /**
      * Tests a LocationLimitation.
      */
-    public function testLocationLimitationAllow()
+    public function testLocationLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -53,7 +53,7 @@ class LocationLimitationTest extends BaseLimitationTestCase
         );
     }
 
-    public function testLocationLimitationForbid()
+    public function testLocationLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

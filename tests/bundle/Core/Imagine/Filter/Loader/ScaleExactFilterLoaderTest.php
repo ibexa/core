@@ -31,14 +31,17 @@ class ScaleExactFilterLoaderTest extends TestCase
     }
 
     #[DataProvider('loadInvalidProvider')]
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load(self::createStub(ImageInterface::class), $options);
     }
 
-    public static function loadInvalidProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -47,7 +50,7 @@ class ScaleExactFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $options = [123, 456];
         $image = self::createStub(ImageInterface::class);

@@ -134,7 +134,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             });
     }
 
-    public function testCreateNewFields()
+    public function testCreateNewFields(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -152,7 +152,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateNewFieldsUpdatingStorageHandler()
+    public function testCreateNewFieldsUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $contentGatewayMock = $this->getContentGatewayMock();
@@ -225,7 +225,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             });
     }
 
-    public function testCreateNewFieldsForMainLanguage()
+    public function testCreateNewFieldsForMainLanguage(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -243,7 +243,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateNewFieldsForMainLanguageUpdatingStorageHandler()
+    public function testCreateNewFieldsForMainLanguageUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $contentGatewayMock = $this->getContentGatewayMock();
@@ -317,7 +317,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             });
     }
 
-    public function testCreateExistingFieldsInNewVersion()
+    public function testCreateExistingFieldsInNewVersion(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -332,7 +332,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $fieldHandler->createExistingFieldsInNewVersion($this->getContentFixture());
     }
 
-    public function testCreateExistingFieldsInNewVersionUpdatingStorageHandler()
+    public function testCreateExistingFieldsInNewVersionUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $contentGatewayMock = $this->getContentGatewayMock();
@@ -453,7 +453,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $fieldHandler->createExistingFieldsInNewVersion($content, 'ger-DE');
     }
 
-    public function testLoadExternalFieldData()
+    public function testLoadExternalFieldData(): void
     {
         $fieldHandler = $this->getFieldHandler();
 
@@ -539,7 +539,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             });
     }
 
-    public function testUpdateFieldsWithNewLanguage()
+    public function testUpdateFieldsWithNewLanguage(): void
     {
         $mapperMock = $this->getMapperMock();
         $fieldHandler = $this->getFieldHandler();
@@ -571,7 +571,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateFieldsWithNewLanguageUpdatingStorageHandler()
+    public function testUpdateFieldsWithNewLanguageUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -673,7 +673,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             });
     }
 
-    public function testUpdateFieldsExistingLanguages()
+    public function testUpdateFieldsExistingLanguages(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -700,7 +700,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateFieldsExistingLanguagesUpdatingStorageHandler()
+    public function testUpdateFieldsExistingLanguagesUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -788,7 +788,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             });
     }
 
-    public function testUpdateFieldsForInitialLanguage()
+    public function testUpdateFieldsForInitialLanguage(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -810,7 +810,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateFieldsForInitialLanguageUpdatingStorageHandler()
+    public function testUpdateFieldsForInitialLanguageUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -840,7 +840,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteFields()
+    public function testDeleteFields(): void
     {
         $fieldHandler = $this->getFieldHandler();
 

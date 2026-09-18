@@ -54,7 +54,7 @@ class IndexRequestListenerTest extends TestCase
         );
     }
 
-    public function testSubscribedEvents()
+    public function testSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -67,7 +67,7 @@ class IndexRequestListenerTest extends TestCase
     }
 
     #[DataProvider('indexPageProvider')]
-    public function testOnKernelRequestIndexOnIndexPage($requestPath, $configuredIndexPath, $expectedIndexPath)
+    public function testOnKernelRequestIndexOnIndexPage($requestPath, $configuredIndexPath, $expectedIndexPath): void
     {
         $this->configResolver
             ->expects(self::once())
@@ -80,7 +80,10 @@ class IndexRequestListenerTest extends TestCase
         self::assertTrue($this->request->attributes->get('needsRedirect'));
     }
 
-    public static function indexPageProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function indexPageProvider(): array
     {
         return [
             ['/', '/foo', '/foo'],
@@ -93,7 +96,7 @@ class IndexRequestListenerTest extends TestCase
         ];
     }
 
-    public function testOnKernelRequestIndexNotOnIndexPage()
+    public function testOnKernelRequestIndexNotOnIndexPage(): void
     {
         $this->request->attributes->set('semanticPathinfo', '/anyContent');
         $this->indexRequestEventListener->onKernelRequestIndex($this->event);

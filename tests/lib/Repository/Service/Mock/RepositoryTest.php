@@ -20,7 +20,7 @@ class RepositoryTest extends BaseServiceMockTest
     /**
      * Test for the beginTransaction() method.
      */
-    public function testBeginTransaction()
+    public function testBeginTransaction(): void
     {
         $mockedRepository = $this->getRepository();
         $transactionHandlerMock = $this->getTransactionHandlerMock();
@@ -37,7 +37,7 @@ class RepositoryTest extends BaseServiceMockTest
     /**
      * Test for the commit() method.
      */
-    public function testCommit()
+    public function testCommit(): void
     {
         $mockedRepository = $this->getRepository();
         $transactionHandlerMock = $this->getTransactionHandlerMock();
@@ -54,7 +54,7 @@ class RepositoryTest extends BaseServiceMockTest
     /**
      * Test for the commit() method.
      */
-    public function testCommitThrowsRuntimeException()
+    public function testCommitThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -75,7 +75,7 @@ class RepositoryTest extends BaseServiceMockTest
     /**
      * Test for the rollback() method.
      */
-    public function testRollback()
+    public function testRollback(): void
     {
         $mockedRepository = $this->getRepository();
         $transactionHandlerMock = $this->getTransactionHandlerMock();
@@ -92,7 +92,7 @@ class RepositoryTest extends BaseServiceMockTest
     /**
      * Test for the rollback() method.
      */
-    public function testRollbackThrowsRuntimeException()
+    public function testRollbackThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 

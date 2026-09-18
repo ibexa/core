@@ -199,7 +199,10 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         return $this->createTestContent([2, 12]);
     }
 
-    public static function providerForTestFind()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestFind(): array
     {
         $data = [
             0 => [
@@ -1732,7 +1735,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         array $languageSettings,
         array $contentDataList,
         array $context
-    ) {
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         list($repository, $data) = $context;
 
@@ -1781,7 +1784,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         array $languageSettings,
         array $contentDataList,
         array $context
-    ) {
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         list($repository, $data) = $context;
 
@@ -1835,7 +1838,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         array $languageSettings,
         array $contentDataList,
         array $context
-    ) {
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         list($repository, $data) = $context;
 

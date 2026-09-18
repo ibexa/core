@@ -32,7 +32,7 @@ class RouterTest extends RouterBaseTestCase
     }
 
     #[DataProvider('matchProvider')]
-    public function testMatch(SimplifiedRequest $request, $siteAccess)
+    public function testMatch(SimplifiedRequest $request, $siteAccess): void
     {
         $router = $this->createRouter();
         $sa = $router->match($request);
@@ -43,7 +43,7 @@ class RouterTest extends RouterBaseTestCase
         $router->setSiteAccess();
     }
 
-    public function testMatchWithDevEnvFail()
+    public function testMatchWithDevEnvFail(): void
     {
         $router = $this->createRouter(true);
         putenv('EZPUBLISH_SITEACCESS=' . self::UNDEFINED_SA_NAME);
@@ -56,7 +56,7 @@ class RouterTest extends RouterBaseTestCase
         $router->match(new SimplifiedRequest());
     }
 
-    public function testMatchWithProdEnvFail()
+    public function testMatchWithProdEnvFail(): void
     {
         $router = $this->createRouter();
         putenv('EZPUBLISH_SITEACCESS=' . self::UNDEFINED_SA_NAME);
@@ -69,7 +69,7 @@ class RouterTest extends RouterBaseTestCase
         $router->match(new SimplifiedRequest());
     }
 
-    public function testMatchWithEnv()
+    public function testMatchWithEnv(): void
     {
         $router = $this->createRouter();
         putenv('EZPUBLISH_SITEACCESS=' . self::ENV_SA_NAME);
@@ -162,7 +162,7 @@ class RouterTest extends RouterBaseTestCase
         ];
     }
 
-    public function testMatchByNameInvalidSiteAccess()
+    public function testMatchByNameInvalidSiteAccess(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -177,7 +177,7 @@ class RouterTest extends RouterBaseTestCase
         $router->matchByName('bar');
     }
 
-    public function testMatchByName()
+    public function testMatchByName(): void
     {
         $matcherBuilder = $this->createMock(MatcherBuilderInterface::class);
         $logger = self::createStub(LoggerInterface::class);
@@ -229,7 +229,7 @@ class RouterTest extends RouterBaseTestCase
         self::assertSame($matchedSiteAccess, $siteAccess->name);
     }
 
-    public function testMatchByNameNoVersatileMatcher()
+    public function testMatchByNameNoVersatileMatcher(): void
     {
         $matcherBuilder = $this->createMock(MatcherBuilderInterface::class);
         $logger = $this->createMock(LoggerInterface::class);

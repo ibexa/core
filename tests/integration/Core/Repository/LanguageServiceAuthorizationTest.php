@@ -23,7 +23,7 @@ class LanguageServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the createLanguage() method.
      */
-    public function testCreateLanguageThrowsUnauthorizedException()
+    public function testCreateLanguageThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -53,7 +53,7 @@ class LanguageServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the updateLanguageName() method.
      */
-    public function testUpdateLanguageNameThrowsUnauthorizedException()
+    public function testUpdateLanguageNameThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -87,7 +87,7 @@ class LanguageServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the enableLanguage() method.
      */
-    public function testEnableLanguageThrowsUnauthorizedException()
+    public function testEnableLanguageThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -119,7 +119,7 @@ class LanguageServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the disableLanguage() method.
      */
-    public function testDisableLanguageThrowsUnauthorizedException()
+    public function testDisableLanguageThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -151,7 +151,7 @@ class LanguageServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the deleteLanguage() method.
      */
-    public function testDeleteLanguageThrowsUnauthorizedException()
+    public function testDeleteLanguageThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

@@ -30,7 +30,7 @@ class UrlTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('url')]
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $text = 'Ibexa';
@@ -45,7 +45,7 @@ class UrlTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('url')]
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $text = "A link's text";
         $urlId = 842;
@@ -65,14 +65,14 @@ class UrlTest extends TestCase
 
     #[Group('fieldType')]
     #[Group('url')]
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $this->converter->toStorageFieldDefinition(new PersistenceFieldDefinition(), new StorageFieldDefinition());
     }
 
     #[Group('fieldType')]
     #[Group('url')]
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $this->converter->toFieldDefinition(new StorageFieldDefinition(), new PersistenceFieldDefinition());
     }

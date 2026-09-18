@@ -37,7 +37,10 @@ use PHPUnit\Framework\TestCase;
  */
 class CachedPermissionServiceTest extends TestCase
 {
-    public static function providerForTestPermissionResolverPassTrough()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestPermissionResolverPassTrough(): array
     {
         $valueObject = self::createStub(ValueObject::class);
 
@@ -63,7 +66,7 @@ class CachedPermissionServiceTest extends TestCase
      * @param $expectedReturn
      */
     #[DataProvider('providerForTestPermissionResolverPassTrough')]
-    public function testPermissionResolverPassTrough($method, array $arguments, $expectedReturn)
+    public function testPermissionResolverPassTrough($method, array $arguments, $expectedReturn): void
     {
         if ($expectedReturn !== null) {
             $this->getPermissionResolverMock([$method])
@@ -84,7 +87,7 @@ class CachedPermissionServiceTest extends TestCase
         self::assertSame($expectedReturn, $actualReturn);
     }
 
-    public function testGetPermissionsCriterionPassTrough()
+    public function testGetPermissionsCriterionPassTrough(): void
     {
         $criterionMock = $this
             ->getMockBuilder(Criterion::class)
@@ -103,7 +106,7 @@ class CachedPermissionServiceTest extends TestCase
         self::assertSame($criterionMock, $actualReturn);
     }
 
-    public function testGetPermissionsCriterionCaching()
+    public function testGetPermissionsCriterionCaching(): void
     {
         $criterionMock = $this
             ->getMockBuilder(Criterion::class)

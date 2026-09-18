@@ -22,7 +22,7 @@ class FieldTypeServiceTest extends BaseTestCase
     /**
      * Test for the getFieldTypes() method.
      */
-    public function testGetFieldTypes()
+    public function testGetFieldTypes(): void
     {
         $repository = $this->getRepository();
 
@@ -49,7 +49,7 @@ class FieldTypeServiceTest extends BaseTestCase
      *
      * Expects FieldType "ibexa_url" to be available!
      */
-    public function testGetFieldType()
+    public function testGetFieldType(): void
     {
         $repository = $this->getRepository();
 
@@ -73,7 +73,7 @@ class FieldTypeServiceTest extends BaseTestCase
     /**
      * Test for the getFieldType() method.
      */
-    public function testGetFieldTypeThrowsNotFoundException()
+    public function testGetFieldTypeThrowsNotFoundException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -90,7 +90,7 @@ class FieldTypeServiceTest extends BaseTestCase
     /**
      * Test for the hasFieldType() method.
      */
-    public function testHasFieldTypeReturnsTrue()
+    public function testHasFieldTypeReturnsTrue(): void
     {
         $repository = $this->getRepository();
 
@@ -107,7 +107,7 @@ class FieldTypeServiceTest extends BaseTestCase
     /**
      * Test for the hasFieldType() method.
      */
-    public function testHasFieldTypeReturnsFalse()
+    public function testHasFieldTypeReturnsFalse(): void
     {
         $repository = $this->getRepository();
 

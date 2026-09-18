@@ -73,7 +73,7 @@ class MapperTest extends LanguageAwareTestCase
         return $struct;
     }
 
-    public function testCreateVersionInfoForContent()
+    public function testCreateVersionInfoForContent(): void
     {
         $content = $this->getFullContentFixture();
         $time = time();
@@ -130,7 +130,7 @@ class MapperTest extends LanguageAwareTestCase
         return $content;
     }
 
-    public function testConvertToStorageValue()
+    public function testConvertToStorageValue(): void
     {
         $convMock = $this->createMock(Converter::class);
         $convMock->expects(self::once())
@@ -165,7 +165,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testExtractContentFromRows()
+    public function testExtractContentFromRows(): void
     {
         $rowsFixture = self::getContentExtractFixture();
         $nameRowsFixture = $this->getNamesExtractFixture();
@@ -298,7 +298,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testExtractContentFromRowsMultipleVersions()
+    public function testExtractContentFromRowsMultipleVersions(): void
     {
         $convMock = $this->createMock(Converter::class);
         $convMock->expects(self::any())
@@ -399,7 +399,7 @@ class MapperTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateCreateStructFromContent')]
-    public function testCreateCreateStructFromContentBasicProperties($data)
+    public function testCreateCreateStructFromContentBasicProperties($data): void
     {
         $content = $data['original'];
         $struct = $data['result'];
@@ -417,7 +417,7 @@ class MapperTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateCreateStructFromContent')]
-    public function testCreateCreateStructFromContentParentLocationsEmpty($data)
+    public function testCreateCreateStructFromContentParentLocationsEmpty($data): void
     {
         self::assertEquals(
             [],
@@ -426,7 +426,7 @@ class MapperTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateCreateStructFromContent')]
-    public function testCreateCreateStructFromContentFieldCount($data)
+    public function testCreateCreateStructFromContentFieldCount($data): void
     {
         self::assertEquals(
             count($data['original']->fields),
@@ -435,14 +435,14 @@ class MapperTest extends LanguageAwareTestCase
     }
 
     #[Depends('testCreateCreateStructFromContent')]
-    public function testCreateCreateStructFromContentFieldsNoId($data)
+    public function testCreateCreateStructFromContentFieldsNoId($data): void
     {
         foreach ($data['result']->fields as $field) {
             self::assertNull($field->id);
         }
     }
 
-    public function testExtractRelationsFromRows()
+    public function testExtractRelationsFromRows(): void
     {
         $mapper = $this->getMapper();
 
@@ -456,7 +456,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateCreateStructFromContentWithPreserveOriginalLanguage()
+    public function testCreateCreateStructFromContentWithPreserveOriginalLanguage(): void
     {
         $time = time();
         $mapper = $this->getMapper();
@@ -481,7 +481,7 @@ class MapperTest extends LanguageAwareTestCase
      * @param string $prefix
      */
     #[DataProvider('extractContentInfoFromRowProvider')]
-    public function testExtractContentInfoFromRow(array $fixtures, $prefix)
+    public function testExtractContentInfoFromRow(array $fixtures, $prefix): void
     {
         $contentInfoReference = $this->getContentExtractReference()->versionInfo->contentInfo;
         $mapper = new Mapper(
@@ -499,7 +499,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return array
      */
-    public static function extractContentInfoFromRowProvider()
+    public static function extractContentInfoFromRowProvider(): array
     {
         $fixtures = self::getContentExtractFixture();
         $fixturesNoPrefix = [];
@@ -516,7 +516,7 @@ class MapperTest extends LanguageAwareTestCase
         ];
     }
 
-    public function testCreateRelationFromCreateStruct()
+    public function testCreateRelationFromCreateStruct(): void
     {
         $struct = $this->getRelationCreateStructFixture();
 

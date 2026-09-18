@@ -39,7 +39,7 @@ use Ibexa\Core\Event\UserService;
 
 class UserServiceTest extends AbstractServiceTestCase
 {
-    public function testUpdateUserGroupEvents()
+    public function testUpdateUserGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUserGroupEvent::class,
@@ -68,7 +68,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateUserGroupResultInBeforeEvents()
+    public function testReturnUpdateUserGroupResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUserGroupEvent::class,
@@ -103,7 +103,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateUserGroupStopPropagationInBeforeEvents()
+    public function testUpdateUserGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUserGroupEvent::class,
@@ -141,7 +141,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateUserEvents()
+    public function testUpdateUserEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUserEvent::class,
@@ -170,7 +170,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateUserResultInBeforeEvents()
+    public function testReturnUpdateUserResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUserEvent::class,
@@ -205,7 +205,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateUserStopPropagationInBeforeEvents()
+    public function testUpdateUserStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUserEvent::class,
@@ -243,7 +243,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUnAssignUserFromUserGroupEvents()
+    public function testUnAssignUserFromUserGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUnAssignUserFromUserGroupEvent::class,
@@ -269,7 +269,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUnAssignUserFromUserGroupStopPropagationInBeforeEvents()
+    public function testUnAssignUserFromUserGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUnAssignUserFromUserGroupEvent::class,
@@ -302,7 +302,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteUserGroupEvents()
+    public function testDeleteUserGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteUserGroupEvent::class,
@@ -330,7 +330,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnDeleteUserGroupResultInBeforeEvents()
+    public function testReturnDeleteUserGroupResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteUserGroupEvent::class,
@@ -364,7 +364,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteUserGroupStopPropagationInBeforeEvents()
+    public function testDeleteUserGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteUserGroupEvent::class,
@@ -401,7 +401,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testAssignUserToUserGroupEvents()
+    public function testAssignUserToUserGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignUserToUserGroupEvent::class,
@@ -427,7 +427,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testAssignUserToUserGroupStopPropagationInBeforeEvents()
+    public function testAssignUserToUserGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignUserToUserGroupEvent::class,
@@ -460,7 +460,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteUserEvents()
+    public function testDeleteUserEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteUserEvent::class,
@@ -488,7 +488,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnDeleteUserResultInBeforeEvents()
+    public function testReturnDeleteUserResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteUserEvent::class,
@@ -522,7 +522,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteUserStopPropagationInBeforeEvents()
+    public function testDeleteUserStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteUserEvent::class,
@@ -559,7 +559,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testMoveUserGroupEvents()
+    public function testMoveUserGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeMoveUserGroupEvent::class,
@@ -585,7 +585,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testMoveUserGroupStopPropagationInBeforeEvents()
+    public function testMoveUserGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeMoveUserGroupEvent::class,
@@ -618,7 +618,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateUserEvents()
+    public function testCreateUserEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUserEvent::class,
@@ -647,7 +647,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateUserResultInBeforeEvents()
+    public function testReturnCreateUserResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUserEvent::class,
@@ -682,7 +682,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateUserStopPropagationInBeforeEvents()
+    public function testCreateUserStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUserEvent::class,
@@ -720,7 +720,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateUserGroupEvents()
+    public function testCreateUserGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUserGroupEvent::class,
@@ -749,7 +749,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateUserGroupResultInBeforeEvents()
+    public function testReturnCreateUserGroupResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUserGroupEvent::class,
@@ -784,7 +784,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateUserGroupStopPropagationInBeforeEvents()
+    public function testCreateUserGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUserGroupEvent::class,
@@ -822,7 +822,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateUserTokenEvents()
+    public function testUpdateUserTokenEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUserTokenEvent::class,
@@ -851,7 +851,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateUserTokenResultInBeforeEvents()
+    public function testReturnUpdateUserTokenResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUserTokenEvent::class,
@@ -886,7 +886,7 @@ class UserServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateUserTokenStopPropagationInBeforeEvents()
+    public function testUpdateUserTokenStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUserTokenEvent::class,

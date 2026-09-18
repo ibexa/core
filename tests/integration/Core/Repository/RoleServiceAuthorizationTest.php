@@ -29,7 +29,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testCreateRole')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testCreateRoleThrowsUnauthorizedException()
+    public function testCreateRoleThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -58,7 +58,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testLoadRole')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testLoadRoleThrowsUnauthorizedException()
+    public function testLoadRoleThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -84,7 +84,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testLoadRoleByIdentifier')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testLoadRoleByIdentifierThrowsUnauthorizedException()
+    public function testLoadRoleByIdentifierThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -108,7 +108,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the loadRoles() method.
      */
-    public function testLoadRolesLoadsEmptyListForAnonymousUser()
+    public function testLoadRolesLoadsEmptyListForAnonymousUser(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -129,7 +129,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the loadRoles() method.
      */
-    public function testLoadRolesForUserWithSubtreeLimitation()
+    public function testLoadRolesForUserWithSubtreeLimitation(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -159,7 +159,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testDeleteRole')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testDeleteRoleThrowsUnauthorizedException()
+    public function testDeleteRoleThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -185,7 +185,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testUpdatePolicyByRoleDraft')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testUpdatePolicyByRoleDraftThrowsUnauthorizedException()
+    public function testUpdatePolicyByRoleDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -230,7 +230,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testRemovePolicyByRoleDraft')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testRemovePolicyThrowsUnauthorizedException()
+    public function testRemovePolicyThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -272,7 +272,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testRemovePolicyByRoleDraft')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testDeletePolicyThrowsUnauthorizedException()
+    public function testDeletePolicyThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -303,7 +303,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testAssignRoleToUserGroup')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testAssignRoleToUserGroupThrowsUnauthorizedException()
+    public function testAssignRoleToUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -335,7 +335,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testAssignRoleToUserGroup')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testAssignRoleToUserGroupThrowsUnauthorizedExceptionWithRoleLimitationParameter()
+    public function testAssignRoleToUserGroupThrowsUnauthorizedExceptionWithRoleLimitationParameter(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -374,7 +374,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testRemoveRoleAssignmentFromUserGroup')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testRemoveRoleAssignmentFromUserGroupThrowsUnauthorizedException()
+    public function testRemoveRoleAssignmentFromUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -415,7 +415,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testAssignRoleToUser')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testAssignRoleToUserThrowsUnauthorizedException()
+    public function testAssignRoleToUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -441,7 +441,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testAssignRoleToUser')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testAssignRoleToUserThrowsUnauthorizedExceptionWithRoleLimitationParameter()
+    public function testAssignRoleToUserThrowsUnauthorizedExceptionWithRoleLimitationParameter(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -474,7 +474,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testRemoveRoleAssignment')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testRemoveRoleAssignmentThrowsUnauthorizedException()
+    public function testRemoveRoleAssignmentThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -508,7 +508,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testGetRoleAssignments')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testGetRoleAssignmentsThrowsUnauthorizedException()
+    public function testGetRoleAssignmentsThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -532,7 +532,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the getRoleAssignmentsForUser() method.
      */
-    public function testGetRoleAssignmentsForUserLoadsEmptyListForAnonymousUser()
+    public function testGetRoleAssignmentsForUserLoadsEmptyListForAnonymousUser(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -552,7 +552,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
     /**
      * Test for the getRoleAssignmentsForUser() method.
      */
-    public function testGetRoleAssignmentsForUserWithSubtreeLimitation()
+    public function testGetRoleAssignmentsForUserWithSubtreeLimitation(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -582,7 +582,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
      */
     #[DependsExternal(RoleServiceTest::class, 'testGetRoleAssignmentsForUserGroup')]
     #[DependsExternal(UserServiceTest::class, 'testCreateUser')]
-    public function testGetRoleAssignmentsForUserGroupThrowsUnauthorizedException()
+    public function testGetRoleAssignmentsForUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

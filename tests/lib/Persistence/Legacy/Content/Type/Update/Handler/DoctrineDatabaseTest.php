@@ -31,7 +31,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     protected $contentUpdaterMock;
 
-    public function testUpdateContentObjects()
+    public function testUpdateContentObjects(): void
     {
         $handler = $this->getUpdateHandler();
 
@@ -48,7 +48,7 @@ class DoctrineDatabaseTest extends TestCase
         $handler->updateContentObjects($types['from'], $types['to']);
     }
 
-    public function testDeleteOldType()
+    public function testDeleteOldType(): void
     {
         $handler = $this->getUpdateHandler();
 
@@ -66,7 +66,7 @@ class DoctrineDatabaseTest extends TestCase
         $handler->deleteOldType($types['from'], $types['to']);
     }
 
-    public function testPublishNewType()
+    public function testPublishNewType(): void
     {
         $handler = $this->getUpdateHandler();
 

@@ -17,7 +17,7 @@ use Ibexa\Core\Event\BookmarkService;
 
 class BookmarkServiceTest extends AbstractServiceTestCase
 {
-    public function testCreateBookmarkEvents()
+    public function testCreateBookmarkEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateBookmarkEvent::class,
@@ -42,7 +42,7 @@ class BookmarkServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateBookmarkStopPropagationInBeforeEvents()
+    public function testCreateBookmarkStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateBookmarkEvent::class,
@@ -74,7 +74,7 @@ class BookmarkServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteBookmarkEvents()
+    public function testDeleteBookmarkEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteBookmarkEvent::class,
@@ -99,7 +99,7 @@ class BookmarkServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteBookmarkStopPropagationInBeforeEvents()
+    public function testDeleteBookmarkStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteBookmarkEvent::class,

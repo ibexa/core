@@ -36,7 +36,7 @@ class UrlAliasTest extends BaseTestCase
      * @param string[] $expectedValues
      */
     #[DataProvider('setMatchingConfigProvider')]
-    public function testSetMatchingConfig($matchingConfig, $expectedValues)
+    public function testSetMatchingConfig($matchingConfig, $expectedValues): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
@@ -45,7 +45,10 @@ class UrlAliasTest extends BaseTestCase
         );
     }
 
-    public static function setMatchingConfigProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function setMatchingConfigProvider(): array
     {
         return [
             ['/foo/bar/', ['foo/bar']],
@@ -106,7 +109,7 @@ class UrlAliasTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, string $path, $expectedResult)
+    public function testMatchLocation($matchingConfig, string $path, $expectedResult): void
     {
         $repository = $this->generateRepositoryMockForUrlAlias($path);
         $this->matcher->setRepository($repository);
@@ -117,7 +120,10 @@ class UrlAliasTest extends BaseTestCase
         );
     }
 
-    public static function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         return [
             [
@@ -148,7 +154,7 @@ class UrlAliasTest extends BaseTestCase
         ];
     }
 
-    public function testMatchContentInfo()
+    public function testMatchContentInfo(): void
     {
         $this->expectException(\RuntimeException::class);
 

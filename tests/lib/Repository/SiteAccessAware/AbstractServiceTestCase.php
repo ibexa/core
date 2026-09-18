@@ -92,7 +92,7 @@ abstract class AbstractServiceTestCase extends TestCase
      * @param mixed $return
      */
     #[DataProvider('providerForPassTroughMethods')]
-    final public function testForPassTrough($method, array $arguments, $return = true)
+    final public function testForPassTrough($method, array $arguments, $return = true): void
     {
         if ($return) {
             $this->innerApiServiceMock
@@ -162,7 +162,7 @@ abstract class AbstractServiceTestCase extends TestCase
         int $languageArgumentIndex,
         ?callable $callback = null,
         ?int $alwaysAvailableArgumentIndex = null
-    ) {
+    ): void {
         if ($method === self::NO_DATA_METHOD) {
             self::markTestSkipped($arguments[0] ?? 'No language-lookup methods for this service.');
         }
@@ -233,7 +233,7 @@ abstract class AbstractServiceTestCase extends TestCase
         int $languageArgumentIndex,
         ?callable $callback = null,
         ?int $alwaysAvailableArgumentIndex = null
-    ) {
+    ): void {
         if ($method === self::NO_DATA_METHOD) {
             self::markTestSkipped($arguments[0] ?? 'No language-lookup methods for this service.');
         }

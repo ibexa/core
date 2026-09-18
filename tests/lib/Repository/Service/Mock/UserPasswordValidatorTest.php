@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class UserPasswordValidatorTest extends TestCase
 {
     #[DataProvider('dateProviderForValidate')]
-    public function testValidate(array $constraints, string $password, array $expectedErrors)
+    public function testValidate(array $constraints, string $password, array $expectedErrors): void
     {
         $validator = new UserPasswordValidator($constraints);
 

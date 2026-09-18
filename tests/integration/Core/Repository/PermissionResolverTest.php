@@ -38,7 +38,7 @@ class PermissionResolverTest extends BaseTestCase
     /**
      * Test for the getCurrentUserReference() method.
      */
-    public function testGetCurrentUserReferenceReturnsAnonymousUserReference()
+    public function testGetCurrentUserReferenceReturnsAnonymousUserReference(): void
     {
         $repository = $this->getRepository();
         $anonymousUserId = $this->generateId('user', 10);
@@ -65,7 +65,7 @@ class PermissionResolverTest extends BaseTestCase
      * Test for the setCurrentUserReference() method.
      */
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
-    public function testSetCurrentUserReference()
+    public function testSetCurrentUserReference(): void
     {
         $repository = $this->getRepository();
         $repository->getPermissionResolver()->setCurrentUserReference(
@@ -105,7 +105,7 @@ class PermissionResolverTest extends BaseTestCase
      * Test for the hasAccess() method.
      */
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
-    public function testHasAccessWithAnonymousUserNo()
+    public function testHasAccessWithAnonymousUserNo(): void
     {
         $repository = $this->getRepository();
 
@@ -134,7 +134,7 @@ class PermissionResolverTest extends BaseTestCase
      */
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
     #[Depends('testHasAccessWithAnonymousUserNo')]
-    public function testHasAccessForCurrentUserNo()
+    public function testHasAccessForCurrentUserNo(): void
     {
         $repository = $this->getRepository();
 
@@ -165,7 +165,7 @@ class PermissionResolverTest extends BaseTestCase
      * Test for the hasAccess() method.
      */
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
-    public function testHasAccessWithAdministratorUser()
+    public function testHasAccessWithAdministratorUser(): void
     {
         $repository = $this->getRepository();
 
@@ -193,7 +193,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
     #[Depends('testSetCurrentUserReference')]
     #[Depends('testHasAccessWithAdministratorUser')]
-    public function testHasAccessForCurrentUserYes()
+    public function testHasAccessForCurrentUserYes(): void
     {
         $repository = $this->getRepository();
 
@@ -223,7 +223,7 @@ class PermissionResolverTest extends BaseTestCase
      */
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
     #[Depends('testSetCurrentUserReference')]
-    public function testHasAccessLimited()
+    public function testHasAccessLimited(): void
     {
         $repository = $this->getRepository();
 
@@ -252,7 +252,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
     #[Depends('testHasAccessForCurrentUserNo')]
-    public function testCanUserForAnonymousUserNo()
+    public function testCanUserForAnonymousUserNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -296,7 +296,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
     #[Depends('testHasAccessForCurrentUserYes')]
-    public function testCanUserForAdministratorUser()
+    public function testCanUserForAdministratorUser(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -339,7 +339,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
     #[Depends('testHasAccessLimited')]
-    public function testCanUserWithLimitationYes()
+    public function testCanUserWithLimitationYes(): void
     {
         $repository = $this->getRepository();
 
@@ -373,7 +373,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
     #[Depends('testHasAccessLimited')]
-    public function testCanUserWithLimitationNo()
+    public function testCanUserWithLimitationNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -416,7 +416,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
     #[Depends('testSetCurrentUserReference')]
     #[Depends('testHasAccessLimited')]
-    public function testCanUserThrowsInvalidArgumentException()
+    public function testCanUserThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -453,7 +453,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
     #[Depends('testHasAccessLimited')]
-    public function testCanUserWithTargetYes()
+    public function testCanUserWithTargetYes(): void
     {
         $repository = $this->getRepository();
 
@@ -512,7 +512,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
     #[Depends('testHasAccessLimited')]
-    public function testCanUserWithTargetNo()
+    public function testCanUserWithTargetNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -570,7 +570,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
     #[Depends('testHasAccessLimited')]
-    public function testCanUserWithMultipleTargetsYes()
+    public function testCanUserWithMultipleTargetsYes(): void
     {
         $repository = $this->getRepository();
 
@@ -630,7 +630,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
     #[Depends('testHasAccessLimited')]
-    public function testCanUserWithMultipleTargetsNo()
+    public function testCanUserWithMultipleTargetsNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -691,7 +691,7 @@ class PermissionResolverTest extends BaseTestCase
     #[DependsExternal(RepositoryTest::class, 'testGetURLAliasService')]
     #[Depends('testSetCurrentUserReference')]
     #[Depends('testHasAccessLimited')]
-    public function testCanUserWithTargetThrowsInvalidArgumentException()
+    public function testCanUserWithTargetThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -732,7 +732,7 @@ class PermissionResolverTest extends BaseTestCase
     /**
      * Test for the canUser() method.
      */
-    public function testCanUserThrowsBadStateException()
+    public function testCanUserThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -764,7 +764,7 @@ class PermissionResolverTest extends BaseTestCase
         ValueObject $object,
         array $targets,
         $expectedResult
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $roleService = $repository->getRoleService();
@@ -798,7 +798,7 @@ class PermissionResolverTest extends BaseTestCase
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public static function getDataForTestCanUserWithLimitations()
+    public static function getDataForTestCanUserWithLimitations(): array
     {
         $repository = static::resolveRepository();
         $contentService = $repository->getContentService();

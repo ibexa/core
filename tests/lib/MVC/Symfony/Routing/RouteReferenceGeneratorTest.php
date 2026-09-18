@@ -29,7 +29,7 @@ class RouteReferenceGeneratorTest extends TestCase
         $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
     }
 
-    public function testGenerateNullResource()
+    public function testGenerateNullResource(): void
     {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
@@ -53,7 +53,7 @@ class RouteReferenceGeneratorTest extends TestCase
         self::assertSame($currentRouteParams, $reference->getParams());
     }
 
-    public function testGenerateNullResourceAndPassedParams()
+    public function testGenerateNullResourceAndPassedParams(): void
     {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
@@ -80,7 +80,7 @@ class RouteReferenceGeneratorTest extends TestCase
     }
 
     #[DataProvider('generateGenerator')]
-    public function testGenerate($resource, array $params)
+    public function testGenerate($resource, array $params): void
     {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
@@ -104,7 +104,7 @@ class RouteReferenceGeneratorTest extends TestCase
         self::assertSame($params, $reference->getParams());
     }
 
-    public function testGenerateNullResourceWithoutRoute()
+    public function testGenerateNullResourceWithoutRoute(): void
     {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
@@ -124,7 +124,10 @@ class RouteReferenceGeneratorTest extends TestCase
         self::assertInstanceOf(RouteReference::class, $reference);
     }
 
-    public static function generateGenerator()
+    /**
+     * @return array<mixed>
+     */
+    public static function generateGenerator(): array
     {
         return [
             ['my_route', ['hello' => 'world', 'isIt' => true]],

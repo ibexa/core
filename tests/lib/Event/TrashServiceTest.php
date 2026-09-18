@@ -24,7 +24,7 @@ use Ibexa\Core\Event\TrashService;
 
 class TrashServiceTest extends AbstractServiceTestCase
 {
-    public function testEmptyTrashEvents()
+    public function testEmptyTrashEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeEmptyTrashEvent::class,
@@ -51,7 +51,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnEmptyTrashResultInBeforeEvents()
+    public function testReturnEmptyTrashResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeEmptyTrashEvent::class,
@@ -84,7 +84,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testEmptyTrashStopPropagationInBeforeEvents()
+    public function testEmptyTrashStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeEmptyTrashEvent::class,
@@ -120,7 +120,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testTrashEvents()
+    public function testTrashEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeTrashEvent::class,
@@ -148,7 +148,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnTrashResultInBeforeEvents()
+    public function testReturnTrashResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeTrashEvent::class,
@@ -182,7 +182,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testTrashStopPropagationInBeforeEvents()
+    public function testTrashStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeTrashEvent::class,
@@ -254,7 +254,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testRecoverEvents()
+    public function testRecoverEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRecoverEvent::class,
@@ -283,7 +283,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnRecoverResultInBeforeEvents()
+    public function testReturnRecoverResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRecoverEvent::class,
@@ -318,7 +318,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testRecoverStopPropagationInBeforeEvents()
+    public function testRecoverStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRecoverEvent::class,
@@ -356,7 +356,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteTrashItemEvents()
+    public function testDeleteTrashItemEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteTrashItemEvent::class,
@@ -384,7 +384,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnDeleteTrashItemResultInBeforeEvents()
+    public function testReturnDeleteTrashItemResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteTrashItemEvent::class,
@@ -418,7 +418,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteTrashItemStopPropagationInBeforeEvents()
+    public function testDeleteTrashItemStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteTrashItemEvent::class,

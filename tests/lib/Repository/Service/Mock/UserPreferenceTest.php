@@ -44,7 +44,7 @@ class UserPreferenceTest extends BaseServiceMockTest
             ->willReturn($permissionResolverMock);
     }
 
-    public function testSetUserPreference()
+    public function testSetUserPreference(): void
     {
         $apiUserPreferenceSetStruct = new APIUserPreferenceSetStruct([
             'name' => 'setting',
@@ -67,7 +67,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         $this->createAPIUserPreferenceService()->setUserPreference([$apiUserPreferenceSetStruct]);
     }
 
-    public function testSetUserPreferenceThrowsInvalidArgumentException()
+    public function testSetUserPreferenceThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -82,7 +82,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         $this->createAPIUserPreferenceService()->setUserPreference([$apiUserPreferenceSetStruct]);
     }
 
-    public function testSetUserPreferenceWithRollback()
+    public function testSetUserPreferenceWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -101,7 +101,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         $this->createAPIUserPreferenceService()->setUserPreference([$apiUserPreferenceSetStruct]);
     }
 
-    public function testGetUserPreference()
+    public function testGetUserPreference(): void
     {
         $userPreferenceName = 'setting';
         $userPreferenceValue = 'value';
@@ -124,7 +124,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         self::assertEquals($expected, $APIUserPreference);
     }
 
-    public function testLoadUserPreferences()
+    public function testLoadUserPreferences(): void
     {
         $offset = 0;
         $limit = 25;
@@ -157,7 +157,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         self::assertEquals($expectedItems, $userPreferences->items);
     }
 
-    public function testGetUserPreferenceCount()
+    public function testGetUserPreferenceCount(): void
     {
         $expectedTotalCount = 10;
 

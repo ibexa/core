@@ -28,7 +28,7 @@ class ReduceNoiseFilterLoaderTest extends TestCase
         $this->loader = new ReduceNoiseFilterLoader($this->filter);
     }
 
-    public function testLoadInvalidDriver()
+    public function testLoadInvalidDriver(): void
     {
         $this->expectException(NotSupportedException::class);
 

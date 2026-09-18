@@ -60,7 +60,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\SubtreeLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): SubtreeLimitationType
     {
         return new SubtreeLimitationType($this->getPersistenceMock());
     }
@@ -68,7 +68,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValue()
+    public static function providerForTestAcceptValue(): array
     {
         return [
             [new SubtreeLimitation()],
@@ -83,7 +83,7 @@ class SubtreeLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(SubtreeLimitation $limitation, SubtreeLimitationType $limitationType)
+    public function testAcceptValue(SubtreeLimitation $limitation, SubtreeLimitationType $limitationType): void
     {
         $limitationType->acceptValue($limitation);
     }
@@ -91,7 +91,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestAcceptValueException()
+    public static function providerForTestAcceptValueException(): array
     {
         return [
             [new ObjectStateLimitation()],
@@ -108,7 +108,7 @@ class SubtreeLimitationTypeTest extends Base
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, SubtreeLimitationType $limitationType)
+    public function testAcceptValueException(Limitation $limitation, SubtreeLimitationType $limitationType): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -118,7 +118,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidatePass()
+    public static function providerForTestValidatePass(): array
     {
         return [
             [new SubtreeLimitation()],
@@ -131,7 +131,7 @@ class SubtreeLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation $limitation
      */
     #[DataProvider('providerForTestValidatePass')]
-    public function testValidatePass(SubtreeLimitation $limitation)
+    public function testValidatePass(SubtreeLimitation $limitation): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -168,7 +168,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestValidateError()
+    public static function providerForTestValidateError(): array
     {
         return [
             [new SubtreeLimitation(), 0],
@@ -182,7 +182,7 @@ class SubtreeLimitationTypeTest extends Base
      * @param int $errorCount
      */
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(SubtreeLimitation $limitation, $errorCount)
+    public function testValidateError(SubtreeLimitation $limitation, $errorCount): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -220,7 +220,7 @@ class SubtreeLimitationTypeTest extends Base
         self::assertCount($errorCount, $validationErrors);
     }
 
-    public function testValidateErrorWrongPath()
+    public function testValidateErrorWrongPath(): void
     {
         $limitation = new SubtreeLimitation(['limitationValues' => ['/1/2/42/']]);
 
@@ -258,7 +258,7 @@ class SubtreeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testBuildValue(SubtreeLimitationType $limitationType)
+    public function testBuildValue(SubtreeLimitationType $limitationType): void
     {
         $expected = ['test', 'test' => '/1/999/'];
         $value = $limitationType->buildValue($expected);
@@ -271,7 +271,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluate()
+    public static function providerForTestEvaluate(): array
     {
         // Real Content & VersionInfo objects, avoiding mocks since providers must be static.
         $content = new CoreContent([
@@ -423,7 +423,7 @@ class SubtreeLimitationTypeTest extends Base
         $targets,
         array $persistenceLocations,
         $expected
-    ) {
+    ): void {
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
 
@@ -485,7 +485,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public static function providerForTestEvaluateInvalidArgument()
+    public static function providerForTestEvaluateInvalidArgument(): array
     {
         return [
             // invalid limitation
@@ -511,7 +511,7 @@ class SubtreeLimitationTypeTest extends Base
         ValueObject $object,
         $targets,
         array $persistenceLocations
-    ) {
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -540,7 +540,7 @@ class SubtreeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionInvalidValue(SubtreeLimitationType $limitationType)
+    public function testGetCriterionInvalidValue(SubtreeLimitationType $limitationType): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -554,7 +554,7 @@ class SubtreeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionSingleValue(SubtreeLimitationType $limitationType)
+    public function testGetCriterionSingleValue(SubtreeLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new SubtreeLimitation(['limitationValues' => ['/1/9/']]),
@@ -574,7 +574,7 @@ class SubtreeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionMultipleValues(SubtreeLimitationType $limitationType)
+    public function testGetCriterionMultipleValues(SubtreeLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new SubtreeLimitation(['limitationValues' => ['/1/9/', '/1/55/']]),
@@ -594,7 +594,7 @@ class SubtreeLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testValueSchema(SubtreeLimitationType $limitationType)
+    public function testValueSchema(SubtreeLimitationType $limitationType): void
     {
         self::assertEquals(
             SubtreeLimitationType::VALUE_SCHEMA_LOCATION_PATH,

@@ -82,7 +82,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\ObjectStateLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): ObjectStateLimitationType
     {
         return new ObjectStateLimitationType($this->getPersistenceMock());
     }
@@ -184,7 +184,7 @@ class ObjectStateLimitationTypeTest extends Base
         ObjectStateLimitation $limitation,
         ValueObject $object,
         $expected
-    ) {
+    ): void {
         $getContentStateMap = [
             [
                 1,
@@ -241,7 +241,7 @@ class ObjectStateLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType)
+    public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -255,7 +255,7 @@ class ObjectStateLimitationTypeTest extends Base
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
     #[Depends('testConstruct')]
-    public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType)
+    public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new ObjectStateLimitation(['limitationValues' => [2]]),
@@ -269,7 +269,7 @@ class ObjectStateLimitationTypeTest extends Base
         self::assertEquals([2], $criterion->value);
     }
 
-    public function testGetCriterionMultipleValuesFromSingleGroup()
+    public function testGetCriterionMultipleValuesFromSingleGroup(): void
     {
         $this->getPersistenceMock()
              ->method('objectStateHandler')
@@ -298,7 +298,7 @@ class ObjectStateLimitationTypeTest extends Base
         self::assertEquals([1, 2], $criterion->value);
     }
 
-    public function testGetCriterionMultipleValuesFromMultipleGroups()
+    public function testGetCriterionMultipleValuesFromMultipleGroups(): void
     {
         $this->getPersistenceMock()
              ->method('objectStateHandler')

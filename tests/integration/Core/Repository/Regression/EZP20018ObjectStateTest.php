@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(ObjectStateId::class)]
 class EZP20018ObjectStateTest extends BaseTestCase
 {
-    public function testSearchForNonUsedObjectState()
+    public function testSearchForNonUsedObjectState(): void
     {
         $repository = $this->getRepository();
 
@@ -46,7 +46,7 @@ class EZP20018ObjectStateTest extends BaseTestCase
         self::assertCount($results2->totalCount, $results2->searchHits);
     }
 
-    public function testSearchForUsedObjectState()
+    public function testSearchForUsedObjectState(): void
     {
         $repository = $this->getRepository();
 

@@ -29,7 +29,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the createLocation() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testCreateLocation')]
-    public function testCreateLocationThrowsUnauthorizedException()
+    public function testCreateLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -69,7 +69,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the createLocation() method. Tests a case when user doesn't have content/manage_locations policy for the new location ID.
      */
     #[DependsExternal(LocationServiceTest::class, 'testCreateLocation')]
-    public function testCreateLocationThrowsUnauthorizedExceptionDueToLackOfContentManageLocationsPolicy()
+    public function testCreateLocationThrowsUnauthorizedExceptionDueToLackOfContentManageLocationsPolicy(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -127,7 +127,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the loadLocation() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testLoadLocation')]
-    public function testLoadLocationThrowsUnauthorizedException()
+    public function testLoadLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -172,7 +172,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the loadLocationByRemoteId() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testLoadLocationByRemoteId')]
-    public function testLoadLocationByRemoteIdThrowsUnauthorizedException()
+    public function testLoadLocationByRemoteIdThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -199,7 +199,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the loadLocations() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testLoadLocations')]
-    public function testLoadLocationsNoAccess()
+    public function testLoadLocationsNoAccess(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -226,7 +226,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the updateLocation() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testUpdateLocation')]
-    public function testUpdateLocationThrowsUnauthorizedException()
+    public function testUpdateLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -263,7 +263,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the swapLocation() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testSwapLocation')]
-    public function testSwapLocationThrowsUnauthorizedException()
+    public function testSwapLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -302,7 +302,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the hideLocation() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testHideLocation')]
-    public function testHideLocationThrowsUnauthorizedException()
+    public function testHideLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -330,7 +330,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the unhideLocation() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testUnhideLocation')]
-    public function testUnhideLocationThrowsUnauthorizedException()
+    public function testUnhideLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -361,7 +361,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the deleteLocation() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testDeleteLocation')]
-    public function testDeleteLocationThrowsUnauthorizedException()
+    public function testDeleteLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -419,7 +419,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the deleteLocation() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testDeleteLocation')]
-    public function testDeleteLocationWithSubtreeThrowsUnauthorizedException()
+    public function testDeleteLocationWithSubtreeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage('The User does not have the \'remove\' \'content\' permission');
@@ -515,7 +515,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the copySubtree() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testCopySubtree')]
-    public function testCopySubtreeThrowsUnauthorizedException()
+    public function testCopySubtreeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -557,7 +557,7 @@ class LocationServiceAuthorizationTest extends BaseTestCase
      * Test for the moveSubtree() method.
      */
     #[DependsExternal(LocationServiceTest::class, 'testMoveSubtree')]
-    public function testMoveSubtreeThrowsUnauthorizedException()
+    public function testMoveSubtreeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

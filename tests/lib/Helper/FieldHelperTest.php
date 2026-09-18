@@ -39,7 +39,7 @@ class FieldHelperTest extends TestCase
         $this->fieldHelper = new FieldHelper($this->translationHelper, $this->fieldTypeServiceMock);
     }
 
-    public function testIsFieldEmpty()
+    public function testIsFieldEmpty(): void
     {
         $contentTypeId = 123;
         $contentInfo = new ContentInfo(['contentTypeId' => $contentTypeId]);
@@ -85,7 +85,7 @@ class FieldHelperTest extends TestCase
         self::assertTrue($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
     }
 
-    public function testIsFieldNotEmpty()
+    public function testIsFieldNotEmpty(): void
     {
         $contentTypeId = 123;
         $contentInfo = new ContentInfo(['contentTypeId' => $contentTypeId]);

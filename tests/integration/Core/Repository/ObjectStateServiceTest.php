@@ -65,7 +65,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct $objectStateGroupCreate
      */
     #[Depends('testNewObjectStateGroupCreateStruct')]
-    public function testNewObjectStateGroupCreateStructValues(ObjectStateGroupCreateStruct $objectStateGroupCreate)
+    public function testNewObjectStateGroupCreateStructValues(ObjectStateGroupCreateStruct $objectStateGroupCreate): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -105,7 +105,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct $objectStateGroupUpdate
      */
     #[Depends('testNewObjectStateGroupUpdateStruct')]
-    public function testNewObjectStateGroupUpdateStructValues(ObjectStateGroupUpdateStruct $objectStateGroupUpdate)
+    public function testNewObjectStateGroupUpdateStructValues(ObjectStateGroupUpdateStruct $objectStateGroupUpdate): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -147,7 +147,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct $objectStateCreate
      */
     #[Depends('testNewObjectStateCreateStruct')]
-    public function testNewObjectStateCreateStructValues(ObjectStateCreateStruct $objectStateCreate)
+    public function testNewObjectStateCreateStructValues(ObjectStateCreateStruct $objectStateCreate): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -188,7 +188,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct $objectStateUpdate
      */
     #[Depends('testNewObjectStateUpdateStruct')]
-    public function testNewObjectStateUpdateStructValues(ObjectStateUpdateStruct $objectStateUpdate)
+    public function testNewObjectStateUpdateStructValues(ObjectStateUpdateStruct $objectStateUpdate): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -244,7 +244,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $createdObjectStateGroup
      */
     #[Depends('testCreateObjectStateGroup')]
-    public function testCreateObjectStateGroupStructValues(ObjectStateGroup $createdObjectStateGroup)
+    public function testCreateObjectStateGroupStructValues(ObjectStateGroup $createdObjectStateGroup): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -269,7 +269,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the createObjectStateGroup() method.
      */
     #[Depends('testCreateObjectStateGroup')]
-    public function testCreateObjectStateGroupThrowsInvalidArgumentException()
+    public function testCreateObjectStateGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -300,7 +300,7 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * Test for the loadObjectStateGroup() method.
      */
-    public function testLoadObjectStateGroup()
+    public function testLoadObjectStateGroup(): void
     {
         $repository = $this->getRepository();
 
@@ -337,7 +337,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the loadObjectStateGroup() method.
      */
     #[Depends('testLoadObjectStateGroup')]
-    public function testLoadObjectStateGroupThrowsNotFoundException()
+    public function testLoadObjectStateGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -405,7 +405,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the loadObjectStateGroups() method.
      */
     #[Depends('testLoadObjectStateGroup')]
-    public function testLoadObjectStateGroups()
+    public function testLoadObjectStateGroups(): void
     {
         $repository = $this->getRepository();
 
@@ -503,7 +503,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the loadObjectStateGroups() method.
      */
     #[Depends('testLoadObjectStateGroups')]
-    public function testLoadObjectStateGroupsWithOffset()
+    public function testLoadObjectStateGroupsWithOffset(): void
     {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
@@ -552,7 +552,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the loadObjectStateGroups() method.
      */
     #[Depends('testLoadObjectStateGroupsWithOffset')]
-    public function testLoadObjectStateGroupsWithOffsetAndLimit()
+    public function testLoadObjectStateGroupsWithOffsetAndLimit(): void
     {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
@@ -580,7 +580,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the loadObjectStates() method.
      */
     #[Depends('testLoadObjectStateGroup')]
-    public function testLoadObjectStates()
+    public function testLoadObjectStates(): void
     {
         $repository = $this->getRepository();
 
@@ -666,7 +666,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test service method for partially updating object state group.
      */
     #[Depends('testLoadObjectStateGroup')]
-    public function testUpdateObjectStateGroupChosenFieldsOnly()
+    public function testUpdateObjectStateGroupChosenFieldsOnly(): void
     {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
@@ -704,7 +704,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the updateObjectStateGroup() method.
      */
     #[Depends('testUpdateObjectStateGroup')]
-    public function testUpdateObjectStateGroupThrowsInvalidArgumentException()
+    public function testUpdateObjectStateGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -754,7 +754,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param array $testData
      */
     #[Depends('testUpdateObjectStateGroup')]
-    public function testUpdateObjectStateGroupStructValues(array $testData)
+    public function testUpdateObjectStateGroupStructValues(array $testData): void
     {
         list(
             $loadedObjectStateGroup,
@@ -828,7 +828,7 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * Test service method for creating object state in empty group.
      */
-    public function testCreateObjectStateInEmptyGroup()
+    public function testCreateObjectStateInEmptyGroup(): void
     {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
@@ -884,7 +884,7 @@ class ObjectStateServiceTest extends BaseTestCase
      */
     #[Depends('testLoadObjectStateGroup')]
     #[Depends('testCreateObjectState')]
-    public function testCreateObjectStateThrowsInvalidArgumentException()
+    public function testCreateObjectStateThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -926,7 +926,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param array $testData
      */
     #[Depends('testCreateObjectState')]
-    public function testCreateObjectStateStructValues(array $testData)
+    public function testCreateObjectStateStructValues(array $testData): void
     {
         list(
             $loadedObjectStateGroup,
@@ -1035,7 +1035,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $loadedObjectState
      */
     #[Depends('testLoadObjectState')]
-    public function testLoadObjectStateStructValues(ObjectState $loadedObjectState)
+    public function testLoadObjectStateStructValues(ObjectState $loadedObjectState): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -1065,7 +1065,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the loadObjectState() method.
      */
     #[Depends('testLoadObjectState')]
-    public function testLoadObjectStateThrowsNotFoundException()
+    public function testLoadObjectStateThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1088,7 +1088,7 @@ class ObjectStateServiceTest extends BaseTestCase
      *
      * @return array
      */
-    public static function getPrioritizedLanguagesList()
+    public static function getPrioritizedLanguagesList(): array
     {
         return [
             [[], null],
@@ -1112,7 +1112,7 @@ class ObjectStateServiceTest extends BaseTestCase
     public function testLoadObjectStateGroupsWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         // cleanup before the actual test
         $this->deleteExistingObjectStateGroups();
 
@@ -1153,7 +1153,7 @@ class ObjectStateServiceTest extends BaseTestCase
     public function testLoadObjectStateGroupWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
 
@@ -1189,7 +1189,7 @@ class ObjectStateServiceTest extends BaseTestCase
     public function testLoadObjectStateWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
 
@@ -1222,7 +1222,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param string|null $expectedLanguageCode
      */
     #[DataProvider('getPrioritizedLanguagesList')]
-    public function testLoadObjectStatesWithPrioritizedLanguagesList($languageCodes, $expectedLanguageCode)
+    public function testLoadObjectStatesWithPrioritizedLanguagesList($languageCodes, $expectedLanguageCode): void
     {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
@@ -1326,7 +1326,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test service method for partially updating object state.
      */
     #[Depends('testLoadObjectState')]
-    public function testUpdateObjectStateChosenFieldsOnly()
+    public function testUpdateObjectStateChosenFieldsOnly(): void
     {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
@@ -1370,7 +1370,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the updateObjectState() method.
      */
     #[Depends('testUpdateObjectState')]
-    public function testUpdateObjectStateThrowsInvalidArgumentException()
+    public function testUpdateObjectStateThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1411,7 +1411,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param array $testData
      */
     #[Depends('testUpdateObjectState')]
-    public function testUpdateObjectStateStructValues(array $testData)
+    public function testUpdateObjectStateStructValues(array $testData): void
     {
         list(
             $loadedObjectState,
@@ -1446,7 +1446,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the setPriorityOfObjectState() method.
      */
     #[Depends('testLoadObjectState')]
-    public function testSetPriorityOfObjectState()
+    public function testSetPriorityOfObjectState(): void
     {
         $repository = $this->getRepository();
 
@@ -1483,7 +1483,7 @@ class ObjectStateServiceTest extends BaseTestCase
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentInfo')]
     #[Depends('testLoadObjectState')]
-    public function testGetContentState()
+    public function testGetContentState(): void
     {
         $repository = $this->getRepository();
 
@@ -1519,7 +1519,7 @@ class ObjectStateServiceTest extends BaseTestCase
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentInfo')]
     #[Depends('testLoadObjectState')]
-    public function testGetInitialObjectState()
+    public function testGetInitialObjectState(): void
     {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
@@ -1583,7 +1583,7 @@ class ObjectStateServiceTest extends BaseTestCase
      */
     #[DependsExternal(ContentServiceTest::class, 'testLoadContentInfo')]
     #[Depends('testLoadObjectState')]
-    public function testSetContentState()
+    public function testSetContentState(): void
     {
         $repository = $this->getRepository();
 
@@ -1625,7 +1625,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the setContentState() method.
      */
     #[Depends('testSetContentState')]
-    public function testSetContentStateThrowsInvalidArgumentException()
+    public function testSetContentStateThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1666,7 +1666,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the getContentCount() method.
      */
     #[Depends('testLoadObjectState')]
-    public function testGetContentCount()
+    public function testGetContentCount(): void
     {
         $repository = $this->getRepository();
 
@@ -1687,7 +1687,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the deleteObjectState() method.
      */
     #[Depends('testLoadObjectState')]
-    public function testDeleteObjectState()
+    public function testDeleteObjectState(): void
     {
         $repository = $this->getRepository();
 
@@ -1717,7 +1717,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Test for the deleteObjectStateGroup() method.
      */
     #[Depends('testLoadObjectStateGroup')]
-    public function testDeleteObjectStateGroup()
+    public function testDeleteObjectStateGroup(): void
     {
         $repository = $this->getRepository();
 

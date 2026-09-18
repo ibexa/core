@@ -76,7 +76,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetItem()
+    public function testGetItem(): void
     {
         $item = $this->createCacheItem('first');
 
@@ -92,7 +92,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         self::assertSame($item, $returnedItem);
     }
 
-    public function testGetItems()
+    public function testGetItems(): void
     {
         $items = [
             'first' => $this->createCacheItem('first'),
@@ -114,7 +114,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
     /**
      * Symfony uses generators with getItems() so we need to make sure we handle that.
      */
-    public function testGetItemsWithGenerator()
+    public function testGetItemsWithGenerator(): void
     {
         $items = [
             'first' => $this->createCacheItem('first'),
@@ -133,7 +133,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         self::assertSame($items, $returnedItems);
     }
 
-    public function testHasItem()
+    public function testHasItem(): void
     {
         $this->innerPool
             ->expects(self::once())
@@ -147,7 +147,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
     }
 
     #[DataProvider('providerForDelete')]
-    public function testDelete(string $method, $argument)
+    public function testDelete(string $method, $argument): void
     {
         $this->innerPool
             ->expects(self::once())
@@ -177,7 +177,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
      * Test for clear and invalidateTags as both expects a clear to in-memory as it on purpose does not track tags.
      */
     #[DataProvider('providerForClearAndInvalidation')]
-    public function testClearAndInvalidation(string $method, $argument)
+    public function testClearAndInvalidation(string $method, $argument): void
     {
         if ($argument) {
             $this->innerPool
