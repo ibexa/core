@@ -59,6 +59,24 @@ final class FixtureImporter
     }
 
     /**
+     * Doctrine's own nesting counter is not enough here: dama/doctrine-test-bundle opens the
+     * transaction wrapping each test on the driver connection, underneath DBAL, so
+     * Connection::isTransactionActive() reports false while the session is very much inside one.
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function isInTransaction(): bool
+    {
+        if ($this->connection->isTransactionActive()) {
+            return true;
+        }
+
+        $nativeConnection = $this->connection->getNativeConnection();
+
+        return $nativeConnection instanceof \PDO && $nativeConnection->inTransaction();
+    }
+
+    /**
      * @param string[] $tables a list of table names
      *
      * @throws \Doctrine\DBAL\Exception
@@ -67,7 +85,20 @@ final class FixtureImporter
     {
         $dbPlatform = $this->connection->getDatabasePlatform();
 
+        // TRUNCATE is DDL, and inside a transaction both supported platforms punish it: MySQL and
+        // MariaDB commit implicitly, ending the transaction the test suite wraps each test in and
+        // discarding its savepoints, while PostgreSQL refuses it outright for any table a foreign
+        // key references and aborts the transaction, so not even the DELETE below can run. Nothing
+        // is being saved by it there either - the rows are a fixture, not a real data set.
+        $useTruncate = !$this->isInTransaction();
+
         foreach ($tables as $table) {
+            if (!$useTruncate) {
+                $this->connection->createQueryBuilder()->delete($table)->executeStatement();
+
+                continue;
+            }
+
             try {
                 // Cleanup before inserting (using TRUNCATE for speed, however not possible to rollback)
                 $this->connection->executeStatement(
