@@ -31954,43 +31954,43 @@ parameters:
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslations.php
+			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslationsTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22612URLAliasTranslations\:\:getFolderCreateStruct\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22612URLAliasTranslationsTest\:\:getFolderCreateStruct\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslations.php
+			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslationsTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22612URLAliasTranslations\:\:getFolderCreateStruct\(\) has parameter \$name with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22612URLAliasTranslationsTest\:\:getFolderCreateStruct\(\) has parameter \$name with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslations.php
+			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslationsTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22612URLAliasTranslations\:\:testURLAliasLoadedInRightLanguage\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22612URLAliasTranslationsTest\:\:testURLAliasLoadedInRightLanguage\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslations.php
+			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslationsTest.php
 
 		-
 			message: '#^Parameter \#1 \$parentLocationId of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:newLocationCreateStruct\(\) expects int, int\|null given\.$#'
 			identifier: argument.type
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslations.php
+			path: tests/integration/Core/Repository/Regression/EZP22612URLAliasTranslationsTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22840RoleLimitations\:\:testSectionRoleAssignLimitation\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22840RoleLimitationsTest\:\:testSectionRoleAssignLimitation\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP22840RoleLimitations.php
+			path: tests/integration/Core/Repository/Regression/EZP22840RoleLimitationsTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22840RoleLimitations\:\:testSubtreeRoleAssignLimitation\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22840RoleLimitationsTest\:\:testSubtreeRoleAssignLimitation\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP22840RoleLimitations.php
+			path: tests/integration/Core/Repository/Regression/EZP22840RoleLimitationsTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP22958SearchSubtreePathstringFormatTest\:\:searchContentQueryProvider\(\) has no return type specified\.$#'
