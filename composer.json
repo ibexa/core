@@ -86,7 +86,8 @@
         "doctrine/dbal": "2.7.0",
         "doctrine/orm": "2.20.7",
         "ezsystems/ezpublish-legacy": "*",
-        "phpunit/phpunit": "8.4.0"
+        "phpunit/phpunit": "8.4.0",
+        "twig/twig": ">=3.29"
     },
     "replace": {
         "ezsystems/ezplatform-kernel": "*"
