@@ -23,11 +23,8 @@ use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
  */
 final class SchemaBuilderEventSchemaProvider implements SchemaProvider
 {
-    private SchemaBuilderInterface $schemaBuilder;
-
-    public function __construct(SchemaBuilderInterface $schemaBuilder)
+    public function __construct(private readonly SchemaBuilderInterface $schemaBuilder)
     {
-        $this->schemaBuilder = $schemaBuilder;
     }
 
     public function createSchema(): Schema
