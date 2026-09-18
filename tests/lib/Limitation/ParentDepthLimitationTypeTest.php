@@ -275,6 +275,20 @@ class ParentDepthLimitationTypeTest extends Base
                 ],
                 'expected' => true,
             ],
+            // ContentCreateStruct, with multiple targets, with access
+            [
+                'limitation' => new ParentDepthLimitation(['limitationValues' => [2, 42]]),
+                'object' => new ContentCreateStruct(),
+                'targets' => [
+                    new LocationCreateStruct(['parentLocationId' => 43]),
+                    new LocationCreateStruct(['parentLocationId' => 55]),
+                ],
+                'persistenceLocations' => [
+                    43 => new Location(['depth' => 42]),
+                    55 => new Location(['depth' => 2]),
+                ],
+                'expected' => true,
+            ],
         ];
     }
 
@@ -300,18 +314,25 @@ class ParentDepthLimitationTypeTest extends Base
                 ->expects(self::never())
                 ->method(self::anything());
         } elseif ($object instanceof ContentCreateStruct) {
-            $this->getPersistenceMock()
-                ->expects(self::once())
-                ->method('locationHandler')
-                ->will(self::returnValue($this->locationHandlerMock));
+            $parentLocationIds = array_map(
+                static fn (LocationCreateStruct $target): int => $target->parentLocationId,
+                array_values($targets)
+            );
 
-            foreach ($targets as $target) {
-                $this->locationHandlerMock
-                    ->expects(self::once())
-                    ->method('load')
-                    ->with($target->parentLocationId)
-                    ->will(self::returnValue($persistenceLocations[$target->parentLocationId]));
-            }
+            $this->getPersistenceMock()
+                ->expects(self::exactly(count($parentLocationIds)))
+                ->method('locationHandler')
+                ->willReturn($this->locationHandlerMock);
+
+            $matcher = self::exactly(count($parentLocationIds));
+            $this->locationHandlerMock
+                ->expects($matcher)
+                ->method('load')
+                ->willReturnCallback(static function ($parentLocationId) use ($matcher, $parentLocationIds, $persistenceLocations) {
+                    self::assertSame($parentLocationIds[$matcher->numberOfInvocations() - 1], $parentLocationId);
+
+                    return $persistenceLocations[$parentLocationId];
+                });
         } else {
             $this->getPersistenceMock()
                 ->expects(self::once())
