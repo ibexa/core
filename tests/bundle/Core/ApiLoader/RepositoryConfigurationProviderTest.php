@@ -11,13 +11,14 @@ namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * @covers \Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider
- *
  * @phpstan-import-type TRepositoryListConfiguration from \Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider
  */
+#[CoversClass(RepositoryConfigurationProvider::class)]
 final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurationProviderTestCase
 {
     /**
@@ -61,12 +62,11 @@ final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurat
     }
 
     /**
-     * @dataProvider providerForRepositories
-     *
      * @phpstan-param TRepositoryListConfiguration $repositories
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('providerForRepositories')]
     public function testGetRepositoryConfigUndefinedRepository(array $repositories): void
     {
         $this->expectException(InvalidRepositoryException::class);
@@ -83,12 +83,11 @@ final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurat
     }
 
     /**
-     * @dataProvider providerForRepositories
-     *
      * @phpstan-param TRepositoryListConfiguration $repositories
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('providerForRepositories')]
     public function testGetDefaultRepositoryAlias(array $repositories): void
     {
         $configResolver = $this->getConfigResolverMock();
@@ -100,10 +99,9 @@ final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurat
     }
 
     /**
-     * @dataProvider providerForRepositories
-     *
      * @phpstan-param TRepositoryListConfiguration $repositories
      */
+    #[DataProvider('providerForRepositories')]
     public function testGetCurrentRepositoryAlias(array $repositories): void
     {
         $configResolver = $this->getConfigResolverMock();
@@ -117,7 +115,7 @@ final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurat
     /**
      * @phpstan-return list<list<TRepositoryListConfiguration>> $repositories
      */
-    public function providerForRepositories(): array
+    public static function providerForRepositories(): array
     {
         return [
             [self::REPOSITORIES_CONFIG],

@@ -13,10 +13,10 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**
@@ -50,7 +50,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlWildcardData() method.
      */
-    public function testLoadUrlWildcardData()
+    public function testLoadUrlWildcardData(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -66,7 +66,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlWildcardsData() method.
      */
-    public function testLoadUrlWildcardsData()
+    public function testLoadUrlWildcardsData(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -82,7 +82,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlWildcardsData() method.
      */
-    public function testLoadUrlWildcardsDataWithOffset()
+    public function testLoadUrlWildcardsDataWithOffset(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -101,7 +101,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlWildcardsData() method.
      */
-    public function testLoadUrlWildcardsDataWithOffsetAndLimit()
+    public function testLoadUrlWildcardsDataWithOffsetAndLimit(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -118,10 +118,9 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the insertUrlWildcard() method.
-     *
-     * @depends testLoadUrlWildcardData
      */
-    public function testInsertUrlWildcard()
+    #[Depends('testLoadUrlWildcardData')]
+    public function testInsertUrlWildcard(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -149,10 +148,9 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the deleteUrlWildcard() method.
-     *
-     * @depends testLoadUrlWildcardData
      */
-    public function testDeleteUrlWildcard()
+    #[Depends('testLoadUrlWildcardData')]
+    public function testDeleteUrlWildcard(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();

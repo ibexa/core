@@ -21,20 +21,19 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRa
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\MySqlRandom;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\PgSqlRandom;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\SqlLiteRandom;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\MySqlRandom
- * @covers \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\PgSqlRandom
- * @covers \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\SqlLiteRandom
- */
+#[CoversClass(MySqlRandom::class)]
+#[CoversClass(PgSqlRandom::class)]
+#[CoversClass(SqlLiteRandom::class)]
 final class RandomSortClauseHandlerPlatformSupportTest extends TestCase
 {
     /**
-     * @dataProvider providePlatformSupport
-     *
      * @phpstan-param class-string<\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom> $handlerClass
      */
+    #[DataProvider('providePlatformSupport')]
     public function testSupportsPlatform(
         string $handlerClass,
         AbstractPlatform $platform,
@@ -49,7 +48,7 @@ final class RandomSortClauseHandlerPlatformSupportTest extends TestCase
     /**
      * @return iterable<string, array{class-string<\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom>, AbstractPlatform, bool}>
      */
-    public function providePlatformSupport(): iterable
+    public static function providePlatformSupport(): iterable
     {
         yield 'MySQL' => [MySqlRandom::class, new MySQLPlatform(), true];
         yield 'MySQL 8.0' => [MySqlRandom::class, new MySQL80Platform(), true];
@@ -71,7 +70,7 @@ final class RandomSortClauseHandlerPlatformSupportTest extends TestCase
      */
     private function createHandler(string $handlerClass, AbstractPlatform $platform): AbstractRandom
     {
-        $connection = $this->createStub(Connection::class);
+        $connection = self::createStub(Connection::class);
         $connection
             ->method('getDatabasePlatform')
             ->willReturn($platform);

@@ -14,13 +14,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Role;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Abstract base class for limitation tests.
- *
- * @group integration
- * @group limitation
  */
+#[Group('integration')]
+#[Group('limitation')]
 abstract class BaseLimitationTestCase extends BaseTestCase
 {
     /**

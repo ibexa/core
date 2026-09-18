@@ -12,6 +12,10 @@ use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\EventListener\SiteAccessRestoreListener;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,16 +24,12 @@ use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessRestoreListener
- */
+#[CoversClass(SiteAccessRestoreListener::class)]
 final class SiteAccessRestoreListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\HttpKernel\HttpKernelInterface */
-    private HttpKernelInterface $kernel;
+    private HttpKernelInterface&Stub $kernel;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private EventDispatcherInterface $eventDispatcher;
+    private EventDispatcherInterface&MockObject $eventDispatcher;
 
     private RequestStack $requestStack;
 
@@ -38,7 +38,7 @@ final class SiteAccessRestoreListenerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->kernel = $this->createMock(HttpKernelInterface::class);
+        $this->kernel = self::createStub(HttpKernelInterface::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->requestStack = new RequestStack();
         $this->listener = new SiteAccessRestoreListener(
@@ -84,10 +84,9 @@ final class SiteAccessRestoreListenerTest extends TestCase
     }
 
     /**
-     * @dataProvider provideNoDispatchCases
-     *
      * @param \Symfony\Component\HttpFoundation\Request[] $requests
      */
+    #[DataProvider('provideNoDispatchCases')]
     public function testNoDispatch(array $requests, int $requestType): void
     {
         $finishingRequest = null;

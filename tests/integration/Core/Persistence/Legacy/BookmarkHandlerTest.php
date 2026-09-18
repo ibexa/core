@@ -14,11 +14,11 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as BookmarkHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Persistence\Legacy\Bookmark\Handler as CoveredHandler;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Handler
- */
+#[CoversClass(CoveredHandler::class)]
 final class BookmarkHandlerTest extends RepositoryTestCase
 {
     private Handler $handler;

@@ -30,7 +30,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         $this->translationHelperMock = $this->createMock(TranslationHelper::class);
     }
 
-    public function testIgnoresOtherRoutes()
+    public function testIgnoresOtherRoutes(): void
     {
         $routeReference = new RouteReference('some_route');
         $event = new RouteReferenceGenerationEvent($routeReference, new Request());
@@ -41,7 +41,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         self::assertEquals('some_route', $routeReference->getRoute());
     }
 
-    public function testThrowsExceptionOnBadContentParameter()
+    public function testThrowsExceptionOnBadContentParameter(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -58,7 +58,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         $eventListener->onRouteReferenceGeneration($event);
     }
 
-    public function testThrowsExceptionOnBadFieldIdentifier()
+    public function testThrowsExceptionOnBadFieldIdentifier(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -86,7 +86,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         $eventListener->onRouteReferenceGeneration($event);
     }
 
-    public function testGeneratesCorrectRouteReference()
+    public function testGeneratesCorrectRouteReference(): void
     {
         $content = $this->getCompleteContent();
 
@@ -112,7 +112,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         self::assertEquals('Test-file.pdf', $routeReference->get(ContentDownloadRouteReferenceListener::OPT_DOWNLOAD_NAME));
     }
 
-    public function testDownloadNameOverrideWorks()
+    public function testDownloadNameOverrideWorks(): void
     {
         $content = $this->getCompleteContent();
 

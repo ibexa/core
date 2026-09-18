@@ -12,11 +12,10 @@ use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 use Ibexa\Core\FieldType\Media\Type as MediaType;
 use Ibexa\Core\FieldType\Media\Value as MediaValue;
 use Ibexa\Core\FieldType\ValidationError;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group fieldType
- * @group ibexa_binaryfile
- */
+#[Group('fieldType')]
+#[Group('ibexa_binaryfile')]
 class MediaTest extends BinaryBaseTestCase
 {
     protected function createFieldTypeUnderTest(): MediaType
@@ -42,7 +41,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         yield from parent::provideInvalidInputForAcceptValue();
 
@@ -72,7 +71,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -278,7 +277,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -411,7 +410,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -504,7 +503,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -523,7 +522,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -545,7 +544,7 @@ class MediaTest extends BinaryBaseTestCase
         return 'ibexa_media';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
             [
@@ -563,7 +562,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'valid media file within size limit' => [
             [
@@ -585,7 +584,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'file too large' => [
             [
@@ -635,7 +634,7 @@ class MediaTest extends BinaryBaseTestCase
                 new ValidationError(
                     'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
                     null,
-                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    ['%extensionsBlackList%' => implode(', ', self::BLACK_LISTED_EXTENSIONS)],
                     'fileExtensionBlackList'
                 ),
             ],

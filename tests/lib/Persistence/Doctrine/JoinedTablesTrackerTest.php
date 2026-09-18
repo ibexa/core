@@ -67,6 +67,6 @@ final class JoinedTablesTrackerTest extends TestCase
 
     private function createQueryBuilder(): QueryBuilder
     {
-        return new QueryBuilder($this->createMock(Connection::class));
+        return new QueryBuilder(self::createStub(Connection::class));
     }
 }

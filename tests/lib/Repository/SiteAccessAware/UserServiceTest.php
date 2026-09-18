@@ -34,7 +34,7 @@ class UserServiceTest extends AbstractServiceTestCase
         return UserService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public static function providerForPassTroughMethods(): array
     {
         $userGroupCreateStruct = new UserGroupCreateStruct();
         $userGroupUpdateStruct = new UserGroupUpdateStruct();
@@ -46,7 +46,7 @@ class UserServiceTest extends AbstractServiceTestCase
         $userTokenUpdateStruct = new UserTokenUpdateStruct();
         $user = new User();
         $userId = 14;
-        $contentType = $this->createMock(ContentType::class);
+        $contentType = new ContentType();
 
         $passwordValidationContext = new PasswordValidationContext();
         $passwordExpirationDate = (new DateTime())->add(new DateInterval('P30D'));
@@ -84,7 +84,7 @@ class UserServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public static function providerForLanguagesLookupMethods(): array
     {
         $userGroup = new UserGroup();
         $user = new User();

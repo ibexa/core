@@ -28,9 +28,9 @@ final class LocationFilteringAdapterTest extends TestCase
      */
     public function testFetch(): void
     {
-        $location1 = $this->createMock(Location::class);
-        $location2 = $this->createMock(Location::class);
-        $location3 = $this->createMock(Location::class);
+        $location1 = self::createStub(Location::class);
+        $location2 = self::createStub(Location::class);
+        $location3 = self::createStub(Location::class);
 
         $locationList = new LocationList([
             'locations' => [

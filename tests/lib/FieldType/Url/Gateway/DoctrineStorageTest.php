@@ -12,18 +12,14 @@ use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage
- */
+#[CoversClass(DoctrineStorage::class)]
 class DoctrineStorageTest extends TestCase
 {
     private DoctrineStorage $storageGateway;
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::getIdUrlMap
-     */
-    public function testGetIdUrlMap()
+    public function testGetIdUrlMap(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
 
@@ -40,10 +36,7 @@ class DoctrineStorageTest extends TestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::getUrlIdMap
-     */
-    public function testGetUrlIdMap()
+    public function testGetUrlIdMap(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
 
@@ -64,10 +57,7 @@ class DoctrineStorageTest extends TestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::insertUrl
-     */
-    public function testInsertUrl()
+    public function testInsertUrl(): void
     {
         $gateway = $this->getStorageGateway();
 
@@ -110,10 +100,7 @@ class DoctrineStorageTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::linkUrl
-     */
-    public function testLinkUrl()
+    public function testLinkUrl(): void
     {
         $gateway = $this->getStorageGateway();
 
@@ -147,10 +134,7 @@ class DoctrineStorageTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::unlinkUrl
-     */
-    public function testUnlinkUrl()
+    public function testUnlinkUrl(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
 

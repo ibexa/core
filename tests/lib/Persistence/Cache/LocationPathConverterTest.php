@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Core\Persistence\Cache\LocationPathConverter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,7 +25,7 @@ final class LocationPathConverterTest extends TestCase
         $this->locationPathConverter = new LocationPathConverter();
     }
 
-    public function providerForTestConvertToPathIds(): array
+    public static function providerForTestConvertToPathIds(): array
     {
         return [
             [[''], []],
@@ -34,9 +35,7 @@ final class LocationPathConverterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestConvertToPathIds
-     */
+    #[DataProvider('providerForTestConvertToPathIds')]
     public function testConvertToPathIds(array $arguments, array $resultArray): void
     {
         self::assertEquals(

@@ -22,7 +22,7 @@ class UrlWildcardHandlerTest extends AbstractCacheHandlerTestCase
         return SpiUrlWildcardHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         $wildcard = new UrlWildcard(['id' => 1]);
 
@@ -35,7 +35,7 @@ class UrlWildcardHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $wildcard = new UrlWildcard(['id' => 1]);
 
@@ -46,7 +46,7 @@ class UrlWildcardHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $wildcard = new UrlWildcard(['id' => 1]);
 

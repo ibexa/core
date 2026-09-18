@@ -12,11 +12,15 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\RelationList\Value;
 use Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    public function providerForTestGetViewParameters()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestGetViewParameters(): array
     {
         return [
             [[123, 456, 789], ['available' => [123 => true, 456 => true, 789 => false]]],
@@ -26,10 +30,8 @@ class ParameterProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestGetViewParameters
-     */
-    public function testGetViewParameters(array $desinationContentIds, array $expected)
+    #[DataProvider('providerForTestGetViewParameters')]
+    public function testGetViewParameters(array $desinationContentIds, array $expected): void
     {
         $contentServiceMock = $this->createMock(ContentService::class);
         $contentServiceMock
@@ -60,7 +62,7 @@ class ParameterProviderTest extends TestCase
         TestCase::assertSame($parameters, $expected);
     }
 
-    public function testNotFoundGetViewParameters()
+    public function testNotFoundGetViewParameters(): void
     {
         $contentId = 123;
 
@@ -78,7 +80,7 @@ class ParameterProviderTest extends TestCase
         TestCase::assertSame($parameters, ['available' => [$contentId => false]]);
     }
 
-    public function testUnauthorizedGetViewParameters()
+    public function testUnauthorizedGetViewParameters(): void
     {
         $contentId = 123;
 

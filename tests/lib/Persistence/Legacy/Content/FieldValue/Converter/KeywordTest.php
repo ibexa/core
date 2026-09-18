@@ -12,11 +12,11 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition as Persistence
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter
- */
+#[CoversClass(KeywordConverter::class)]
 class KeywordTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter */
@@ -28,11 +28,9 @@ class KeywordTest extends TestCase
         $this->converter = new KeywordConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group keyword
-     */
-    public function testToStorageValue()
+    #[Group('fieldType')]
+    #[Group('keyword')]
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = ['key1', 'key2'];
@@ -47,11 +45,9 @@ class KeywordTest extends TestCase
         self::assertEquals('', $storageFieldValue->sortKeyString);
     }
 
-    /**
-     * @group fieldType
-     * @group keyword
-     */
-    public function testToFieldValue()
+    #[Group('fieldType')]
+    #[Group('keyword')]
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $fieldValue = new FieldValue();
@@ -61,20 +57,16 @@ class KeywordTest extends TestCase
         self::assertEquals('', $fieldValue->sortKey);
     }
 
-    /**
-     * @group fieldType
-     * @group keyword
-     */
-    public function testToStorageFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('keyword')]
+    public function testToStorageFieldDefinition(): void
     {
         $this->converter->toStorageFieldDefinition(new PersistenceFieldDefinition(), new StorageFieldDefinition());
     }
 
-    /**
-     * @group fieldType
-     * @group keyword
-     */
-    public function testToFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('keyword')]
+    public function testToFieldDefinition(): void
     {
         $this->converter->toFieldDefinition(new StorageFieldDefinition(), new PersistenceFieldDefinition());
     }

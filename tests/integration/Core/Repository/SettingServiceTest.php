@@ -12,15 +12,17 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\SettingService;
 use Ibexa\Contracts\Core\Repository\Values\Setting\Setting;
+use Ibexa\Core\Repository\SettingService as CoveredSettingService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the SettingService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\SettingService
- *
- * @group integration
- * @group setting
  */
+#[CoversClass(CoveredSettingService::class)]
+#[Group('integration')]
+#[Group('setting')]
 final class SettingServiceTest extends BaseTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
@@ -46,11 +48,7 @@ final class SettingServiceTest extends BaseTestCase
         $this->permissionResolver = $repository->getPermissionResolver();
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\SettingService::createSetting()
-     *
-     * @dataProvider dataProviderForCreateSetting
-     */
+    #[DataProvider('dataProviderForCreateSetting')]
     public function testCreateSetting(string $identifier, $value): void
     {
         $settingService = $this->getSettingService();
@@ -69,7 +67,7 @@ final class SettingServiceTest extends BaseTestCase
         ]), $setting);
     }
 
-    public function dataProviderForCreateSetting(): iterable
+    public static function dataProviderForCreateSetting(): iterable
     {
         yield 'null' => [
             'example_null',
@@ -107,9 +105,6 @@ final class SettingServiceTest extends BaseTestCase
         ];
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\SettingService::createSetting()
-     */
     public function testCreateSettingThrowsInvalidArgumentException(): void
     {
         $settingService = $this->getSettingService();
@@ -131,9 +126,6 @@ final class SettingServiceTest extends BaseTestCase
         $settingService->createSetting($settingCreateSecond);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\SettingService::loadSetting()
-     */
     public function testLoadSetting(): void
     {
         $settingService = $this->getSettingService();
@@ -149,9 +141,6 @@ final class SettingServiceTest extends BaseTestCase
         self::assertEquals('test_value', $setting->value);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\SettingService::loadSetting()
-     */
     public function testLoadSettingThrowsNotFoundException(): void
     {
         $settingService = $this->getSettingService();
@@ -161,9 +150,6 @@ final class SettingServiceTest extends BaseTestCase
         $settingService->loadSetting('unknown_group', 'unknown_identifier');
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\SettingService::updateSetting()
-     */
     public function testUpdateSetting(): void
     {
         $settingService = $this->getSettingService();
@@ -184,9 +170,6 @@ final class SettingServiceTest extends BaseTestCase
         self::assertEquals('updated_value', $updatedSetting->value);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\SettingService::deleteSetting()
-     */
     public function testDeleteSetting(): void
     {
         $settingService = $this->getSettingService();
@@ -204,9 +187,6 @@ final class SettingServiceTest extends BaseTestCase
         $settingService->loadSetting('delete_group', 'delete_identifier');
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\SettingService::deleteSetting()
-     */
     public function testDeleteSettingThrowsNotFoundException(): void
     {
         $settingService = $this->getSettingService();

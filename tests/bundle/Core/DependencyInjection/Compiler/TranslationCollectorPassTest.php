@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\TranslationCollectorPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -19,9 +20,7 @@ class TranslationCollectorPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new TranslationCollectorPass());
     }
 
-    /**
-     * @dataProvider translationCollectorProvider
-     */
+    #[DataProvider('translationCollectorProvider')]
     public function testTranslationCollector(
         bool $translationsEnabled,
         array $availableTranslations
@@ -43,7 +42,7 @@ class TranslationCollectorPassTest extends AbstractCompilerPassTestCase
     /**
      * @return iterable<string,array{bool,array{string}}>
      */
-    public function translationCollectorProvider(): iterable
+    public static function translationCollectorProvider(): iterable
     {
         yield 'translations enabled' => [
             true,

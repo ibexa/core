@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Issue EZP-21906.
@@ -61,17 +62,18 @@ class EZP21906SearchOneContentMultipleLocationsTest extends BaseTestCase
         $this->refreshSearch($repository);
     }
 
-    /**
-     * @dataProvider searchContentQueryProvider
-     */
-    public function testSearchContentMultipleLocations(Query $query, $expectedResultCount)
+    #[DataProvider('searchContentQueryProvider')]
+    public function testSearchContentMultipleLocations(Query $query, $expectedResultCount): void
     {
         $result = $this->getRepository()->getSearchService()->findContent($query);
         self::assertSame($expectedResultCount, $result->totalCount);
         self::assertSame($expectedResultCount, count($result->searchHits));
     }
 
-    public function searchContentQueryProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function searchContentQueryProvider(): array
     {
         return [
             [

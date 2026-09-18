@@ -9,21 +9,22 @@ namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence as SPIPersistence;
 use Ibexa\Core\Persistence\Cache;
+use Ibexa\Core\Persistence\Cache\Handler;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Test case for Persistence\Cache\Handler.
- *
- * @covers \Ibexa\Core\Persistence\Cache\Handler
  */
+#[CoversClass(Handler::class)]
 class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
 {
-    public function testHandler()
+    public function testHandler(): void
     {
         self::assertInstanceOf(SPIPersistence\Handler::class, $this->persistenceCacheHandler);
         self::assertInstanceOf(Cache\Handler::class, $this->persistenceCacheHandler);
     }
 
-    public function testContentHandler()
+    public function testContentHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->contentHandler();
@@ -31,7 +32,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\ContentHandler::class, $handler);
     }
 
-    public function testLanguageHandler()
+    public function testLanguageHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->contentLanguageHandler();
@@ -39,7 +40,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\ContentLanguageHandler::class, $handler);
     }
 
-    public function testContentTypeHandler()
+    public function testContentTypeHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->contentTypeHandler();
@@ -47,7 +48,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\ContentTypeHandler::class, $handler);
     }
 
-    public function testContentLocationHandler()
+    public function testContentLocationHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->locationHandler();
@@ -55,7 +56,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\LocationHandler::class, $handler);
     }
 
-    public function testTrashHandler()
+    public function testTrashHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->trashHandler();
@@ -63,7 +64,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\TrashHandler::class, $handler);
     }
 
-    public function testObjectStateHandler()
+    public function testObjectStateHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->objectStateHandler();
@@ -71,7 +72,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\ObjectStateHandler::class, $handler);
     }
 
-    public function testSectionHandler()
+    public function testSectionHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->sectionHandler();
@@ -79,7 +80,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\SectionHandler::class, $handler);
     }
 
-    public function testUserHandler()
+    public function testUserHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->userHandler();
@@ -87,7 +88,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\UserHandler::class, $handler);
     }
 
-    public function testUrlAliasHandler()
+    public function testUrlAliasHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->urlAliasHandler();
@@ -95,7 +96,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\UrlAliasHandler::class, $handler);
     }
 
-    public function testUrlWildcardHandler()
+    public function testUrlWildcardHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->urlWildcardHandler();
@@ -103,7 +104,7 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
         self::assertInstanceOf(Cache\UrlWildcardHandler::class, $handler);
     }
 
-    public function testTransactionHandler()
+    public function testTransactionHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());
         $handler = $this->persistenceCacheHandler->transactionHandler();

@@ -26,6 +26,8 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,19 +42,14 @@ use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
- */
+#[CoversClass(SiteAccessMatchListener::class)]
 final class SiteAccessMatchListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\MVC\Symfony\SiteAccess\Router */
-    private Router $saRouter;
+    private Router&MockObject $saRouter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private EventDispatcherInterface $eventDispatcher;
+    private EventDispatcherInterface&MockObject $eventDispatcher;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface */
-    private SiteAccessMatcherRegistryInterface $registry;
+    private SiteAccessMatcherRegistryInterface&MockObject $registry;
 
     private SiteAccessMatchListener $listener;
 
@@ -248,7 +245,7 @@ final class SiteAccessMatchListenerTest extends TestCase
     ): void {
         $originalRequest ??= $request;
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            self::createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );
@@ -288,7 +285,7 @@ final class SiteAccessMatchListenerTest extends TestCase
     private function dispatchRequestEvent(Request $request, SiteAccess $siteAccess): void
     {
         $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            self::createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );

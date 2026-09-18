@@ -9,16 +9,15 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(SectionLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class SectionLimitationTest extends BaseLimitationTestCase
 {
-    public function testSectionLimitationAllow()
+    public function testSectionLimitationAllow(): void
     {
         $repository = $this->getRepository();
 
@@ -76,7 +75,7 @@ class SectionLimitationTest extends BaseLimitationTestCase
         );
     }
 
-    public function testSectionLimitationForbid()
+    public function testSectionLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

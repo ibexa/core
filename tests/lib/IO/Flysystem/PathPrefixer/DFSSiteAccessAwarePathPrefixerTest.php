@@ -11,15 +11,14 @@ namespace Ibexa\Tests\Core\IO\Flysystem\PathPrefixer;
 use Ibexa\Contracts\Core\SiteAccess\ConfigProcessor;
 use Ibexa\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixer;
 use Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixer
- */
+#[CoversClass(DFSSiteAccessAwarePathPrefixer::class)]
 final class DFSSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPrefixerTestCase
 {
-    public function getDataForTestPrefixPath(): iterable
+    public static function getDataForTestPrefixPath(): iterable
     {
-        $dfsRootDir = $this->getDFSRootDir();
+        $dfsRootDir = self::getDFSRootDir();
 
         yield 'dynamic path to relative file name' => [$dfsRootDir . '/var/storage/foo', 'foo'];
         yield 'dynamic path to relative file path name' => [
@@ -29,9 +28,9 @@ final class DFSSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPr
         yield 'dynamic path to absolute file name' => [$dfsRootDir . '/var/storage/foo', '/foo'];
     }
 
-    public function getDataForTestPrefixDirectoryPath(): iterable
+    public static function getDataForTestPrefixDirectoryPath(): iterable
     {
-        $dfsRootDir = $this->getDFSRootDir();
+        $dfsRootDir = self::getDFSRootDir();
 
         yield 'dynamic path to relative directory' => [
             $dfsRootDir . '/var/storage/foo/',
@@ -51,9 +50,9 @@ final class DFSSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPr
         ];
     }
 
-    public function getDataForTestStripPrefixPath(): iterable
+    public static function getDataForTestStripPrefixPath(): iterable
     {
-        $dfsRootDir = $this->getDFSRootDir();
+        $dfsRootDir = self::getDFSRootDir();
 
         yield 'relative single file name' => ['/foo', $dfsRootDir . '/var/storage/foo'];
         yield 'relative file path' => ['/foo/bar', $dfsRootDir . '/var/storage/foo/bar'];
@@ -75,7 +74,7 @@ final class DFSSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPr
         );
     }
 
-    private function getDFSRootDir(): string
+    private static function getDFSRootDir(): string
     {
         return sys_get_temp_dir() . '/dfs';
     }

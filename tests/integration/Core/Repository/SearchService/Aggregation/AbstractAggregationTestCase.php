@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchAll;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 abstract class AbstractAggregationTestCase extends BaseTestCase
 {
@@ -33,9 +34,7 @@ abstract class AbstractAggregationTestCase extends BaseTestCase
         }
     }
 
-    /**
-     * @dataProvider dataProviderForTestFindContentWithAggregation
-     */
+    #[DataProvider('dataProviderForTestFindContentWithAggregation')]
     public function testFindContentWithAggregation(
         Aggregation $aggregation,
         AggregationResult $expectedResult
@@ -52,9 +51,7 @@ abstract class AbstractAggregationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @dataProvider dataProviderForTestFindLocationWithAggregation
-     */
+    #[DataProvider('dataProviderForTestFindLocationWithAggregation')]
     public function testFindLocationWithAggregation(
         Aggregation $aggregation,
         AggregationResult $expectedResult
@@ -71,16 +68,16 @@ abstract class AbstractAggregationTestCase extends BaseTestCase
         );
     }
 
-    abstract public function dataProviderForTestFindContentWithAggregation(): iterable;
+    abstract public static function dataProviderForTestFindContentWithAggregation(): iterable;
 
     /**
      * Overwrite if results for location query are different then content query.
      *
      * @return iterable
      */
-    public function dataProviderForTestFindLocationWithAggregation(): iterable
+    public static function dataProviderForTestFindLocationWithAggregation(): iterable
     {
-        yield from $this->dataProviderForTestFindContentWithAggregation();
+        yield from static::dataProviderForTestFindContentWithAggregation();
     }
 
     protected function createFixturesForAggregation(Aggregation $aggregation): void

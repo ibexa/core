@@ -33,7 +33,7 @@ abstract class AbstractSearchAdapterTestCase extends TestCase
 
     final public function testFetch(): void
     {
-        $expectedIterator = $this->createMock(Iterator::class);
+        $expectedIterator = self::createStub(Iterator::class);
 
         $searchResults = $this->createMock(SearchResult::class);
         $searchResults->method('getIterator')->willReturn($expectedIterator);

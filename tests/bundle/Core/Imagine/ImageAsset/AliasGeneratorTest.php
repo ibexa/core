@@ -46,7 +46,7 @@ class AliasGeneratorTest extends TestCase
         );
     }
 
-    public function testGetVariationOfImageAsset()
+    public function testGetVariationOfImageAsset(): void
     {
         $assetField = new Field([
             'value' => new ImageAsset\Value(486),
@@ -96,7 +96,7 @@ class AliasGeneratorTest extends TestCase
         self::assertEquals($expectedVariation, $actualVariation);
     }
 
-    public function testGetVariationOfNonImageAsset()
+    public function testGetVariationOfNonImageAsset(): void
     {
         $imageField = new Field([
             'value' => new Image\Value([
@@ -134,7 +134,7 @@ class AliasGeneratorTest extends TestCase
         self::assertEquals($expectedVariation, $actualVariation);
     }
 
-    public function testSupport()
+    public function testSupport(): void
     {
         self::assertTrue($this->aliasGenerator->supportsValue(new ImageAsset\Value()));
         self::assertFalse($this->aliasGenerator->supportsValue(new Image\Value()));

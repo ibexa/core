@@ -14,6 +14,7 @@ use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\PhpUnit\ClockMock;
 
@@ -39,9 +40,7 @@ final class ImageConverterTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider fieldValueToXmlProvider
-     */
+    #[DataProvider('fieldValueToXmlProvider')]
     public function testToStorageValue(FieldValue $fieldValue, string $expectedXml): void
     {
         ClockMock::register(ImageConverter::class);
@@ -68,7 +67,7 @@ final class ImageConverterTest extends TestCase
         ClockMock::withClockMock(false);
     }
 
-    public function fieldValueToXmlProvider(): array
+    public static function fieldValueToXmlProvider(): array
     {
         $pathToImg = __DIR__ . '/../_fixtures/ibexa_fav.png';
         $dir = __DIR__ . '/../_fixtures';
@@ -132,9 +131,7 @@ final class ImageConverterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider xmlToFieldValueProvider
-     */
+    #[DataProvider('xmlToFieldValueProvider')]
     public function testToFieldValue(string $xml, FieldValue $expectedFieldValue): void
     {
         ClockMock::register(ImageConverter::class);
@@ -162,7 +159,7 @@ final class ImageConverterTest extends TestCase
         ClockMock::withClockMock(false);
     }
 
-    public function xmlToFieldValueProvider(): array
+    public static function xmlToFieldValueProvider(): array
     {
         $pathToImg = __DIR__ . '/../_fixtures/ibexa_fav.png';
         $dir = __DIR__ . '/../_fixtures';

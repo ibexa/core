@@ -13,10 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as Criterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IsBookmarkedQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IsBookmarkedQueryBuilder
- */
+#[CoversClass(IsBookmarkedQueryBuilder::class)]
 final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
     private const CURRENT_USER_ID = 14;
@@ -29,7 +28,7 @@ final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilde
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      */
-    public function getFilteringCriteriaQueryData(): iterable
+    public static function getFilteringCriteriaQueryData(): iterable
     {
         yield 'IsBookmarked(true)' => [
             new Criterion\Location\IsBookmarked(true),

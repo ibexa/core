@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Core\FieldType\Integer\Value;
 use Ibexa\Core\Persistence\Legacy\Exception\TypeNotFound as TypeNotFoundException;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Regression tests for the issue EZP-21109.
@@ -44,9 +45,8 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
 
     /**
      * Assert that it is possible to store any integer value in an integer field with default settings.
-     *
-     * @dataProvider validIntegerValues
      */
+    #[DataProvider('validIntegerValues')]
     public function testIbexaIntegerWithDefaultValues(int $integerValue): void
     {
         $repository = $this->getRepository();
@@ -74,7 +74,10 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
         $contentService->deleteContent($content->versionInfo->contentInfo);
     }
 
-    public function validIntegerValues()
+    /**
+     * @return array<mixed>
+     */
+    public static function validIntegerValues(): array
     {
         return [
             [0],

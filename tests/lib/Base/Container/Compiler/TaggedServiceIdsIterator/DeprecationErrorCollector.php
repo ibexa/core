@@ -18,17 +18,14 @@ final class DeprecationErrorCollector
     /** @var array */
     private $errors = [];
 
-    /** @var callable|null */
-    private $previousErrorHandler;
-
     public function register(): void
     {
-        $this->previousErrorHandler = set_error_handler($this, E_USER_DEPRECATED);
+        set_error_handler($this, E_USER_DEPRECATED);
     }
 
     public function unregister(): void
     {
-        set_error_handler($this->previousErrorHandler);
+        restore_error_handler();
     }
 
     public function getErrors(): array

@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 abstract class RouterBaseTestCase extends TestCase
@@ -40,10 +41,8 @@ abstract class RouterBaseTestCase extends TestCase
         return $this->createRouter();
     }
 
-    /**
-     * @dataProvider matchProvider
-     */
-    public function testMatch(SimplifiedRequest $request, string $siteAccess)
+    #[DataProvider('matchProvider')]
+    public function testMatch(SimplifiedRequest $request, string $siteAccess): void
     {
         $router = $this->createRouter();
         $sa = $router->match($request);
@@ -54,7 +53,7 @@ abstract class RouterBaseTestCase extends TestCase
         $router->setSiteAccess();
     }
 
-    abstract public function matchProvider(): array;
+    abstract public static function matchProvider(): array;
 
     abstract protected function createRouter(): Router;
 

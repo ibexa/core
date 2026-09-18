@@ -14,11 +14,10 @@ use Ibexa\Contracts\Core\Search\FieldType\BooleanField;
 use Ibexa\Contracts\Core\Search\FieldType\FloatField;
 use Ibexa\Core\Search\Common\FieldValueMapper\Aggregate;
 use Ibexa\Core\Search\Common\FieldValueMapper\BooleanMapper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Search\Common\FieldValueMapper\Aggregate
- */
+#[CoversClass(Aggregate::class)]
 final class AggregateTest extends TestCase
 {
     private const MAPPED_VALUE = true;
@@ -71,7 +70,7 @@ final class AggregateTest extends TestCase
         $booleanMapperMock = $this->createMock(BooleanMapper::class);
         $this->aggregateMapper->addMapper($booleanMapperMock);
 
-        $floatFieldMock = $this->createMock(FloatField::class);
+        $floatFieldMock = self::createStub(FloatField::class);
         $searchFieldMock = $this->createMock(Field::class);
         $searchFieldMock
             ->method('getType')

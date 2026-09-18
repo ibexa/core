@@ -28,9 +28,9 @@ final class ContentFilteringAdapterTest extends TestCase
      */
     public function testFetch(): void
     {
-        $content1 = $this->createMock(Content::class);
-        $content2 = $this->createMock(Content::class);
-        $content3 = $this->createMock(Content::class);
+        $content1 = self::createStub(Content::class);
+        $content2 = self::createStub(Content::class);
+        $content3 = self::createStub(Content::class);
 
         $contentList = new ContentList(3, [
             $content1,

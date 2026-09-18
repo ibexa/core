@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\EventListener\ConsoleCommandListener;
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\TestOutput;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;
@@ -40,8 +41,7 @@ class ConsoleCommandListenerTest extends TestCase
     /** @var \Symfony\Component\Console\Output\Output */
     private $testOutput;
 
-    /** @var \Symfony\Component\Console\Command\Command|\PHPUnit\Framework\MockObject\MockObject */
-    private $command;
+    private Command&Stub $command;
 
     protected function setUp(): void
     {
@@ -53,10 +53,10 @@ class ConsoleCommandListenerTest extends TestCase
         $this->dispatcher->addSubscriber($this->listener);
         $this->inputDefinition = new InputDefinition([new InputOption('siteaccess', null, InputOption::VALUE_OPTIONAL)]);
         $this->testOutput = new TestOutput(Output::VERBOSITY_QUIET, true);
-        $this->command = $this->createMock(Command::class);
+        $this->command = self::createStub(Command::class);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -66,7 +66,7 @@ class ConsoleCommandListenerTest extends TestCase
         );
     }
 
-    public function testInvalidSiteAccessDev()
+    public function testInvalidSiteAccessDev(): void
     {
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\. Valid SiteAccesses are/');
@@ -79,7 +79,7 @@ class ConsoleCommandListenerTest extends TestCase
         $this->listener->onConsoleCommand($event);
     }
 
-    public function testInvalidSiteAccessProd()
+    public function testInvalidSiteAccessProd(): void
     {
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\.$/');
@@ -92,7 +92,7 @@ class ConsoleCommandListenerTest extends TestCase
         $this->listener->onConsoleCommand($event);
     }
 
-    public function testValidSiteAccess()
+    public function testValidSiteAccess(): void
     {
         $this->dispatcher->expects(self::once())
             ->method('dispatch');
@@ -102,7 +102,7 @@ class ConsoleCommandListenerTest extends TestCase
         self::assertEquals(new SiteAccess('site1', 'cli'), $this->siteAccess);
     }
 
-    public function testDefaultSiteAccess()
+    public function testDefaultSiteAccess(): void
     {
         $this->dispatcher->expects(self::once())
             ->method('dispatch');

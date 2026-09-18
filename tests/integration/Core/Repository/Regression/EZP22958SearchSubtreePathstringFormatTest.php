@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Issue EZP-21906.
@@ -23,10 +24,9 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTestCase
 
     /**
      * Tests that invalid path string provided for subtree criterion result in exception.
-     *
-     * @dataProvider searchContentQueryWithInvalidDataProvider
      */
-    public function testSearchContentSubtreeShouldThrowException($pathString)
+    #[DataProvider('searchContentQueryWithInvalidDataProvider')]
+    public function testSearchContentSubtreeShouldThrowException($pathString): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -41,10 +41,9 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTestCase
 
     /**
      * Tests that path string provided for subtree criterion is valid.
-     *
-     * @dataProvider searchContentQueryProvider
      */
-    public function testSearchContentSubtree($pathString)
+    #[DataProvider('searchContentQueryProvider')]
+    public function testSearchContentSubtree($pathString): void
     {
         $query = new Query(
             [
@@ -55,7 +54,10 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTestCase
         $result = $this->getRepository()->getSearchService()->findContent($query);
     }
 
-    public function searchContentQueryProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function searchContentQueryProvider(): array
     {
         return [
             [
@@ -70,7 +72,10 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTestCase
         ];
     }
 
-    public function searchContentQueryWithInvalidDataProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function searchContentQueryWithInvalidDataProvider(): array
     {
         return [
             [

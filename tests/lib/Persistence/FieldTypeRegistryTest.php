@@ -12,10 +12,9 @@ use Ibexa\Contracts\Core\Persistence\FieldType as SPIPersistenceFieldType;
 use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 use Ibexa\Core\Persistence\FieldTypeRegistry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\FieldTypeRegistry
- */
+#[CoversClass(FieldTypeRegistry::class)]
 class FieldTypeRegistryTest extends TestCase
 {
     private const FIELD_TYPE_IDENTIFIER = 'some-type';
@@ -31,7 +30,7 @@ class FieldTypeRegistryTest extends TestCase
         );
     }
 
-    public function testGetFieldTypeInstance()
+    public function testGetFieldTypeInstance(): void
     {
         $instance = $this->getFieldTypeMock();
         $registry = new FieldTypeRegistry([self::FIELD_TYPE_IDENTIFIER => $instance]);
@@ -44,7 +43,7 @@ class FieldTypeRegistryTest extends TestCase
     /**
      * @since 5.3.2
      */
-    public function testGetNotFound()
+    public function testGetNotFound(): void
     {
         $this->expectException(FieldTypeNotFoundException::class);
 
@@ -55,7 +54,7 @@ class FieldTypeRegistryTest extends TestCase
     /**
      * BC with 5.0-5.3.2.
      */
-    public function testGetNotFoundBCException()
+    public function testGetNotFoundBCException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -63,7 +62,7 @@ class FieldTypeRegistryTest extends TestCase
         $registry->getFieldType('not-found');
     }
 
-    public function testGetNotInstance()
+    public function testGetNotInstance(): void
     {
         $this->expectException(\TypeError::class);
 
@@ -71,7 +70,7 @@ class FieldTypeRegistryTest extends TestCase
         $registry->getFieldType(self::FIELD_TYPE_IDENTIFIER);
     }
 
-    public function testRegister()
+    public function testRegister(): void
     {
         $fieldType = $this->getFieldTypeMock();
         $registry = new FieldTypeRegistry([]);

@@ -22,10 +22,9 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     /**
@@ -38,7 +37,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @todo Fix not available fields
      */
-    public function testInsertContentObject()
+    public function testInsertContentObject(): void
     {
         $struct = $this->getCreateStructFixture();
 
@@ -162,7 +161,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $version;
     }
 
-    public function testInsertVersion()
+    public function testInsertVersion(): void
     {
         $version = $this->getVersionFixture();
 
@@ -201,7 +200,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testSetStatus()
+    public function testSetStatus(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -236,7 +235,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testSetStatusPublished()
+    public function testSetStatusPublished(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -271,7 +270,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testSetStatusUnknownVersion()
+    public function testSetStatusUnknownVersion(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -280,7 +279,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateContent()
+    public function testUpdateContent(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -350,7 +349,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $struct;
     }
 
-    public function testUpdateVersion()
+    public function testUpdateVersion(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -386,7 +385,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testInsertNewField()
+    public function testInsertNewField(): void
     {
         $content = $this->getContentFixture();
         $content->versionInfo->contentInfo->id = 2342;
@@ -431,7 +430,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testInsertNewAlwaysAvailableField()
+    public function testInsertNewAlwaysAvailableField(): void
     {
         $content = $this->getContentFixture();
         $content->versionInfo->contentInfo->id = 2342;
@@ -478,7 +477,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateField()
+    public function testUpdateField(): void
     {
         $content = $this->getContentFixture();
         $content->versionInfo->contentInfo->id = 2342;
@@ -523,7 +522,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateNonTranslatableField()
+    public function testUpdateNonTranslatableField(): void
     {
         $content = $this->getContentFixture();
         $content->versionInfo->contentInfo->id = 2342;
@@ -611,7 +610,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testListVersionNumbers()
+    public function testListVersionNumbers(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -623,7 +622,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals([1, 2], $res);
     }
 
-    public function testListVersionsForUser()
+    public function testListVersionsForUser(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -662,7 +661,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadWithAllTranslations()
+    public function testLoadWithAllTranslations(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -684,7 +683,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateFixtureForMapperExtractContentFromRowsMultipleVersions()
+    public function testCreateFixtureForMapperExtractContentFromRowsMultipleVersions(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -707,7 +706,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows_multiple_versions.php) and tests needs to be adapted.');
     }
 
-    public function testCreateFixtureForMapperExtractContentFromRows()
+    public function testCreateFixtureForMapperExtractContentFromRows(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -727,7 +726,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows.php) and tests needs to be adapted.');
     }
 
-    public function testLoadWithSingleTranslation()
+    public function testLoadWithSingleTranslation(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -752,7 +751,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadNonExistentTranslation()
+    public function testLoadNonExistentTranslation(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -795,7 +794,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testGetAllLocationIds()
+    public function testGetAllLocationIds(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -809,7 +808,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testGetFieldIdsByType()
+    public function testGetFieldIdsByType(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -827,7 +826,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testGetFieldIdsByTypeWithSecondArgument()
+    public function testGetFieldIdsByTypeWithSecondArgument(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -843,7 +842,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteRelationsTo()
+    public function testDeleteRelationsTo(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -873,7 +872,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteRelationsFrom()
+    public function testDeleteRelationsFrom(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -902,7 +901,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteRelationsWithSecondArgument()
+    public function testDeleteRelationsWithSecondArgument(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -959,7 +958,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteFields()
+    public function testDeleteFields(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -985,7 +984,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteFieldsWithSecondArgument()
+    public function testDeleteFieldsWithSecondArgument(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -1011,7 +1010,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteVersions()
+    public function testDeleteVersions(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -1037,7 +1036,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteVersionsWithSecondArgument()
+    public function testDeleteVersionsWithSecondArgument(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -1066,7 +1065,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @throws \Exception
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -1098,7 +1097,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteNames()
+    public function testDeleteNames(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -1124,7 +1123,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteNamesWithSecondArgument()
+    public function testDeleteNamesWithSecondArgument(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -1150,7 +1149,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteContent()
+    public function testDeleteContent(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -1230,7 +1229,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadRelationsByType()
+    public function testLoadRelationsByType(): void
     {
         $this->insertRelationFixture();
 
@@ -1253,7 +1252,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadRelationsByVersion()
+    public function testLoadRelationsByVersion(): void
     {
         $this->insertRelationFixture();
 
@@ -1270,7 +1269,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadRelationsNoResult()
+    public function testLoadRelationsNoResult(): void
     {
         $this->insertRelationFixture();
 
@@ -1281,7 +1280,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(0, $relations, 'Expecting no relation to be loaded');
     }
 
-    public function testLoadReverseRelations()
+    public function testLoadReverseRelations(): void
     {
         $this->insertRelationFixture();
 
@@ -1298,7 +1297,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadReverseRelationsWithType()
+    public function testLoadReverseRelationsWithType(): void
     {
         $this->insertRelationFixture();
 
@@ -1331,7 +1330,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testGetLastVersionNumber()
+    public function testGetLastVersionNumber(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/contentobjects.php'
@@ -1345,7 +1344,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testInsertRelation()
+    public function testInsertRelation(): void
     {
         $struct = $this->getRelationCreateStructFixture();
         $gateway = $this->getDatabaseGateway();
@@ -1377,7 +1376,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteRelation()
+    public function testDeleteRelation(): void
     {
         $this->insertRelationFixture();
 

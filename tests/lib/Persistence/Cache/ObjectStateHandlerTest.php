@@ -27,7 +27,7 @@ class ObjectStateHandlerTest extends AbstractCacheHandlerTestCase
         return SPIObjectStateHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
         return [
@@ -42,7 +42,7 @@ class ObjectStateHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $group = new SPIObjectStateGroup(['id' => 5]);
         $state = new SPIObjectState(['id' => 7]);
@@ -95,7 +95,7 @@ class ObjectStateHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $group = new SPIObjectStateGroup(['id' => 5]);
         $state = new SPIObjectState([

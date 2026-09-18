@@ -98,11 +98,11 @@ class AbstractTestCase extends LanguageAwareTestCase
                 new ContentTypeMapper(
                     $this->getConverterRegistry(),
                     $this->getLanguageMaskGenerator(),
-                    $this->createMock(StorageDispatcherInterface::class),
+                    self::createStub(StorageDispatcherInterface::class),
                     $this->getFieldTypeAliasResolver(),
                 ),
-                $this->createMock(ContentTypeUpdateHandler::class),
-                $this->createMock(StorageDispatcherInterface::class),
+                self::createStub(ContentTypeUpdateHandler::class),
+                self::createStub(StorageDispatcherInterface::class),
                 $this->getFieldTypeAliasResolver(),
             );
         }
@@ -137,8 +137,8 @@ class AbstractTestCase extends LanguageAwareTestCase
         $eventDispatcher->addSubscriber(
             new ResolveVirtualFieldSubscriber(
                 $this->getConverterRegistry(),
-                $this->createMock(StorageRegistry::class),
-                $this->createMock(Gateway::class)
+                self::createStub(StorageRegistry::class),
+                self::createStub(Gateway::class)
             )
         );
 

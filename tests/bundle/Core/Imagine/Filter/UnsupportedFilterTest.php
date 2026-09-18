@@ -13,11 +13,11 @@ use Imagine\Image\ImageInterface;
 
 class UnsupportedFilterTest extends AbstractFilterTest
 {
-    public function testLoad()
+    public function testLoad(): void
     {
         $this->expectException(NotSupportedException::class);
 
         $filter = new UnsupportedFilter();
-        $filter->apply($this->createMock(ImageInterface::class));
+        $filter->apply(self::createStub(ImageInterface::class));
     }
 }

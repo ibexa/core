@@ -10,8 +10,15 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\MVC\RepositoryAware;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth as DepthMatcher;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversClass(DepthMatcher::class)]
+#[CoversClass(MultipleValued::class)]
+#[CoversClass(RepositoryAware::class)]
 class DepthTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth */
@@ -24,71 +31,63 @@ class DepthTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchLocationProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
+    #[DataProvider('matchLocationProvider')]
+    public function testMatchLocation($matchingConfig, int $depth, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        self::assertSame($expectedResult, $this->matcher->matchLocation($location));
+        self::assertSame($expectedResult, $this->matcher->matchLocation($this->getLocationMock(['depth' => $depth])));
     }
 
-    public function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         return [
             [
                 1,
-                $this->getLocationMock(['depth' => 1]),
+                1,
                 true,
             ],
             [
                 1,
-                $this->getLocationMock(['depth' => 2]),
+                2,
                 false,
             ],
             [
                 [1, 3],
-                $this->getLocationMock(['depth' => 2]),
+                2,
                 false,
             ],
             [
                 [1, 3],
-                $this->getLocationMock(['depth' => 3]),
+                3,
                 true,
             ],
             [
                 [1, 3],
-                $this->getLocationMock(['depth' => 0]),
+                0,
                 false,
             ],
             [
                 [0, 1],
-                $this->getLocationMock(['depth' => 0]),
+                0,
                 true,
             ],
         ];
     }
 
     /**
-     * @dataProvider matchContentInfoProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth::matchContentInfo
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
+    #[DataProvider('matchContentInfoProvider')]
+    public function testMatchContentInfo($matchingConfig, int $depth, $expectedResult): void
     {
-        $this->matcher->setRepository($repository);
+        $this->matcher->setRepository($this->generateRepositoryMockForDepth($depth));
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
             $expectedResult,
@@ -96,27 +95,30 @@ class DepthTest extends BaseTestCase
         );
     }
 
-    public function matchContentInfoProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchContentInfoProvider(): array
     {
         return [
             [
                 1,
-                $this->generateRepositoryMockForDepth(1),
+                1,
                 true,
             ],
             [
                 1,
-                $this->generateRepositoryMockForDepth(2),
+                2,
                 false,
             ],
             [
                 [1, 3],
-                $this->generateRepositoryMockForDepth(2),
+                2,
                 false,
             ],
             [
                 [1, 3],
-                $this->generateRepositoryMockForDepth(3),
+                3,
                 true,
             ],
         ];

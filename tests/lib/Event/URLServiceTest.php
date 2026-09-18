@@ -16,7 +16,7 @@ use Ibexa\Core\Event\URLService;
 
 class URLServiceTest extends AbstractServiceTestCase
 {
-    public function testUpdateUrlEvents()
+    public function testUpdateUrlEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUrlEvent::class,
@@ -24,11 +24,11 @@ class URLServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(URL::class),
-            $this->createMock(URLUpdateStruct::class),
+            self::createStub(URL::class),
+            self::createStub(URLUpdateStruct::class),
         ];
 
-        $updatedUrl = $this->createMock(URL::class);
+        $updatedUrl = self::createStub(URL::class);
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 
@@ -45,7 +45,7 @@ class URLServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateUrlResultInBeforeEvents()
+    public function testReturnUpdateUrlResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUrlEvent::class,
@@ -53,12 +53,12 @@ class URLServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(URL::class),
-            $this->createMock(URLUpdateStruct::class),
+            self::createStub(URL::class),
+            self::createStub(URLUpdateStruct::class),
         ];
 
-        $updatedUrl = $this->createMock(URL::class);
-        $eventUpdatedUrl = $this->createMock(URL::class);
+        $updatedUrl = self::createStub(URL::class);
+        $eventUpdatedUrl = self::createStub(URL::class);
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 
@@ -80,7 +80,7 @@ class URLServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateUrlStopPropagationInBeforeEvents()
+    public function testUpdateUrlStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUrlEvent::class,
@@ -88,12 +88,12 @@ class URLServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(URL::class),
-            $this->createMock(URLUpdateStruct::class),
+            self::createStub(URL::class),
+            self::createStub(URLUpdateStruct::class),
         ];
 
-        $updatedUrl = $this->createMock(URL::class);
-        $eventUpdatedUrl = $this->createMock(URL::class);
+        $updatedUrl = self::createStub(URL::class);
+        $eventUpdatedUrl = self::createStub(URL::class);
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 

@@ -43,7 +43,7 @@ class URLCheckerTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
     }
 
-    public function testCheck()
+    public function testCheck(): void
     {
         $query = new URLQuery();
         $groups = $this->createGroupedUrls(['http', 'https']);
@@ -74,7 +74,7 @@ class URLCheckerTest extends TestCase
         $urlChecker->check($query);
     }
 
-    public function testCheckUnsupported()
+    public function testCheckUnsupported(): void
     {
         $query = new URLQuery();
         $groups = $this->createGroupedUrls(['http', 'https'], 10);

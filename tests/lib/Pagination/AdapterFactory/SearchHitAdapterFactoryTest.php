@@ -17,6 +17,7 @@ use Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactory;
 use Ibexa\Core\Pagination\Pagerfanta\ContentSearchHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\FixedSearchResultHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\LocationSearchHitAdapter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class SearchHitAdapterFactoryTest extends TestCase
@@ -65,9 +66,7 @@ final class SearchHitAdapterFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider dataProviderForCreateFixedAdapter
-     */
+    #[DataProvider('dataProviderForCreateFixedAdapter')]
     public function testCreateFixedAdapter(Query $query, string $expectedSearchMethod): void
     {
         $hits = [
@@ -93,7 +92,7 @@ final class SearchHitAdapterFactoryTest extends TestCase
         );
     }
 
-    public function dataProviderForCreateFixedAdapter(): iterable
+    public static function dataProviderForCreateFixedAdapter(): iterable
     {
         yield 'content query' => [
             new Query(),

@@ -15,14 +15,14 @@ use Ibexa\Contracts\Core\Repository\Values\Translation\Plural;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\StringLengthValidator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\FieldType\Validator\StringLengthValidator
- *
- * @group fieldType
- * @group validator
- */
+#[CoversClass(StringLengthValidator::class)]
+#[Group('fieldType')]
+#[Group('validator')]
 final class StringLengthValidatorTest extends TestCase
 {
     private const string STRING_TOO_SHORT_VALIDATION_MESSAGE = 'The string cannot be shorter than 5 characters.';
@@ -32,12 +32,12 @@ final class StringLengthValidatorTest extends TestCase
     private const string MAX_STR_LEN_INT_TYPE_VALIDATION_MESSAGE = "Validator parameter 'maxStringLength' value must be of integer type";
     private const string WRONG_MAX_STR_LEN_VALUE = 'ten billion characters';
 
-    protected function getMinStringLength(): int
+    protected static function getMinStringLength(): int
     {
         return 5;
     }
 
-    protected function getMaxStringLength(): int
+    protected static function getMaxStringLength(): int
     {
         return 10;
     }
@@ -127,9 +127,7 @@ final class StringLengthValidatorTest extends TestCase
         $validator->unexisting;
     }
 
-    /**
-     * @dataProvider providerForValidateOK
-     */
+    #[DataProvider('providerForValidateOK')]
     public function testValidateCorrectValues(string $value): void
     {
         $validator = new StringLengthValidator();
@@ -142,7 +140,7 @@ final class StringLengthValidatorTest extends TestCase
     /**
      * @return list<array{string}>
      */
-    public function providerForValidateOK(): array
+    public static function providerForValidateOK(): array
     {
         return [
             ['hello'],
@@ -152,9 +150,7 @@ final class StringLengthValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForValidateKO
-     */
+    #[DataProvider('providerForValidateKO')]
     public function testValidateWrongValues(
         string $value,
         string $expectedMessage,
@@ -184,41 +180,41 @@ final class StringLengthValidatorTest extends TestCase
     /**
      * @return iterable<string, array{string, string, int, int}>
      */
-    public function providerForValidateKO(): iterable
+    public static function providerForValidateKO(): iterable
     {
         yield 'empty string' => [
             '',
             self::STRING_TOO_SHORT_VALIDATION_MESSAGE,
-            $this->getMinStringLength(),
-            $this->getMaxStringLength(),
+            self::getMinStringLength(),
+            self::getMaxStringLength(),
         ];
 
         yield 'too short string' => [
             'Hi!',
             self::STRING_TOO_SHORT_VALIDATION_MESSAGE,
-            $this->getMinStringLength(),
-            $this->getMaxStringLength(),
+            self::getMinStringLength(),
+            self::getMaxStringLength(),
         ];
 
         yield 'too long string' => [
             '0123456789!',
             self::STRING_TOO_LONG_VALIDATION_MESSAGE,
-            $this->getMinStringLength(),
-            $this->getMaxStringLength(),
+            self::getMinStringLength(),
+            self::getMaxStringLength(),
         ];
 
         yield 'too short string with special characters' => [
             'ABC♔',
             self::STRING_TOO_SHORT_VALIDATION_MESSAGE,
-            $this->getMinStringLength(),
-            $this->getMaxStringLength(),
+            self::getMinStringLength(),
+            self::getMaxStringLength(),
         ];
 
         yield 'too short string, singular form validation message' => [
             '',
             'The string cannot be shorter than 1 character.',
             1,
-            $this->getMaxStringLength(),
+            self::getMaxStringLength(),
         ];
 
         yield 'too long string, singular form validation message' => [
@@ -231,9 +227,8 @@ final class StringLengthValidatorTest extends TestCase
 
     /**
      * @param array<string, mixed> $constraints
-     *
-     * @dataProvider providerForValidateConstraintsOK
      */
+    #[DataProvider('providerForValidateConstraintsOK')]
     public function testValidateConstraintsCorrectValues(array $constraints): void
     {
         $validator = new StringLengthValidator();
@@ -246,7 +241,7 @@ final class StringLengthValidatorTest extends TestCase
     /**
      * @return list<list<array<string, mixed>>>
      */
-    public function providerForValidateConstraintsOK(): array
+    public static function providerForValidateConstraintsOK(): array
     {
         return [
             [
@@ -278,11 +273,10 @@ final class StringLengthValidatorTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForValidateConstraintsKO
-     *
      * @param array<string, mixed> $constraints
      * @param string[] $expectedMessages
      */
+    #[DataProvider('providerForValidateConstraintsKO')]
     public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages): void
     {
         $validator = new StringLengthValidator();
@@ -303,7 +297,7 @@ final class StringLengthValidatorTest extends TestCase
     /**
      * @return list<array{array<string, mixed>, string[]}>
      */
-    public function providerForValidateConstraintsKO(): array
+    public static function providerForValidateConstraintsKO(): array
     {
         return [
             [

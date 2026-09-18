@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Ibexa\Contracts\Core\Repository\ContentService as APIService;
-use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentDraftList;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
@@ -16,12 +15,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\Repository\SiteAccessAware\ContentService;
+use Ibexa\Core\Repository\Values\Content\Content as CoreContent;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
+use Ibexa\Core\Repository\Values\Content\Relation as CoreRelation;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\User\User;
@@ -41,12 +41,12 @@ class ContentServiceTest extends AbstractServiceTestCase
         return ContentService::class;
     }
 
-    public function providerForPassTroughMethods(): array
+    public static function providerForPassTroughMethods(): array
     {
         $contentInfo = new ContentInfo();
         $versionInfo = new VersionInfo();
-        $content = $this->createMock(Content::class);
-        $relation = $this->createMock(Relation::class);
+        $content = new CoreContent();
+        $relation = new CoreRelation();
         $relationList = new RelationList();
         $contentCreateStruct = new ContentCreateStruct();
         $contentUpdateStruct = new ContentUpdateStruct();
@@ -131,9 +131,9 @@ class ContentServiceTest extends AbstractServiceTestCase
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    public function providerForLanguagesLookupMethods(): array
+    public static function providerForLanguagesLookupMethods(): array
     {
-        $content = $this->createMock(Content::class);
+        $content = new CoreContent();
         $contentInfo = new ContentInfo();
         $versionInfo = new VersionInfo();
 

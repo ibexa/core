@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Bundle\Core\Fragment\FragmentListenerFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +18,8 @@ use Symfony\Component\HttpKernel\EventListener\FragmentListener;
 
 class FragmentListenerFactoryTest extends TestCase
 {
-    /**
-     * @dataProvider buildFragmentListenerProvider
-     */
-    public function testBuildFragmentListener($requestUri, $isFragmentCandidate)
+    #[DataProvider('buildFragmentListenerProvider')]
+    public function testBuildFragmentListener($requestUri, $isFragmentCandidate): void
     {
         $listenerClass = FragmentListener::class;
         $uriSigner = new UriSigner('my_precious_secret');
@@ -43,7 +42,10 @@ class FragmentListenerFactoryTest extends TestCase
         }
     }
 
-    public function buildFragmentListenerProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function buildFragmentListenerProvider(): array
     {
         return [
             ['/foo/bar', false],
@@ -55,7 +57,7 @@ class FragmentListenerFactoryTest extends TestCase
         ];
     }
 
-    public function testBuildFragmentListenerNoRequest()
+    public function testBuildFragmentListenerNoRequest(): void
     {
         $factory = new FragmentListenerFactory();
         $factory->setRequestStack(new RequestStack());

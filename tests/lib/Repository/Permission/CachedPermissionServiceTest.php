@@ -29,6 +29,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Repository\Permission\CachedPermissionService;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -36,22 +37,16 @@ use PHPUnit\Framework\TestCase;
  */
 class CachedPermissionServiceTest extends TestCase
 {
-    public function providerForTestPermissionResolverPassTrough()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestPermissionResolverPassTrough(): array
     {
-        $valueObject = $this
-            ->getMockBuilder(ValueObject::class)
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $valueObject = self::createStub(ValueObject::class);
 
-        $userRef = $this
-            ->getMockBuilder(UserReference::class)
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $userRef = self::createStub(UserReference::class);
 
-        $repository = $this
-            ->getMockBuilder(Repository::class)
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $repository = self::createStub(Repository::class);
 
         return [
             ['getCurrentUserReference', [], $userRef],
@@ -65,13 +60,13 @@ class CachedPermissionServiceTest extends TestCase
     /**
      * Test for all PermissionResolver methods when they just pass true to underlying service.
      *
-     * @dataProvider providerForTestPermissionResolverPassTrough
      *
      * @param $method
      * @param array $arguments
      * @param $expectedReturn
      */
-    public function testPermissionResolverPassTrough($method, array $arguments, $expectedReturn)
+    #[DataProvider('providerForTestPermissionResolverPassTrough')]
+    public function testPermissionResolverPassTrough($method, array $arguments, $expectedReturn): void
     {
         if ($expectedReturn !== null) {
             $this->getPermissionResolverMock([$method])
@@ -92,7 +87,7 @@ class CachedPermissionServiceTest extends TestCase
         self::assertSame($expectedReturn, $actualReturn);
     }
 
-    public function testGetPermissionsCriterionPassTrough()
+    public function testGetPermissionsCriterionPassTrough(): void
     {
         $criterionMock = $this
             ->getMockBuilder(Criterion::class)
@@ -111,7 +106,7 @@ class CachedPermissionServiceTest extends TestCase
         self::assertSame($criterionMock, $actualReturn);
     }
 
-    public function testGetPermissionsCriterionCaching()
+    public function testGetPermissionsCriterionCaching(): void
     {
         $criterionMock = $this
             ->getMockBuilder(Criterion::class)
@@ -189,8 +184,10 @@ class CachedPermissionServiceTest extends TestCase
 
         return $this->permissionResolverMock = $this
             ->getMockBuilder(PermissionResolver::class)
-            ->setMethods($methods)
             ->disableOriginalConstructor()
+            // sudo() is not part of the PermissionResolver interface but is called on the
+            // concrete implementation at runtime; addMethods() lets it be stubbed here too.
+            ->addMethods(['sudo'])
             ->getMockForAbstractClass();
     }
 
@@ -205,7 +202,6 @@ class CachedPermissionServiceTest extends TestCase
 
         return $this->permissionCriterionResolverMock = $this
             ->getMockBuilder(PermissionCriterionResolver::class)
-            ->setMethods($methods)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
     }

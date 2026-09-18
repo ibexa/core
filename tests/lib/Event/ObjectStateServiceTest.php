@@ -35,7 +35,7 @@ use Ibexa\Core\Event\ObjectStateService;
 
 class ObjectStateServiceTest extends AbstractServiceTestCase
 {
-    public function testSetContentStateEvents()
+    public function testSetContentStateEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeSetContentStateEvent::class,
@@ -43,12 +43,12 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(ObjectStateGroup::class),
-            $this->createMock(ObjectState::class),
+            self::createStub(ContentInfo::class),
+            self::createStub(ObjectStateGroup::class),
+            self::createStub(ObjectState::class),
         ];
 
-        $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
+        $innerServiceMock = self::createStub(ObjectStateServiceInterface::class);
 
         $service = new ObjectStateService($innerServiceMock, $traceableEventDispatcher);
         $service->setContentState(...$parameters);
@@ -62,7 +62,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testSetContentStateStopPropagationInBeforeEvents()
+    public function testSetContentStateStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeSetContentStateEvent::class,
@@ -70,12 +70,12 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ContentInfo::class),
-            $this->createMock(ObjectStateGroup::class),
-            $this->createMock(ObjectState::class),
+            self::createStub(ContentInfo::class),
+            self::createStub(ObjectStateGroup::class),
+            self::createStub(ObjectState::class),
         ];
 
-        $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
+        $innerServiceMock = self::createStub(ObjectStateServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeSetContentStateEvent::class, static function (BeforeSetContentStateEvent $event) {
             $event->stopPropagation();
@@ -96,7 +96,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateObjectStateGroupEvents()
+    public function testCreateObjectStateGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateObjectStateGroupEvent::class,
@@ -104,10 +104,10 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroupCreateStruct::class),
+            self::createStub(ObjectStateGroupCreateStruct::class),
         ];
 
-        $objectStateGroup = $this->createMock(ObjectStateGroup::class);
+        $objectStateGroup = self::createStub(ObjectStateGroup::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('createObjectStateGroup')->willReturn($objectStateGroup);
 
@@ -124,7 +124,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateObjectStateGroupResultInBeforeEvents()
+    public function testReturnCreateObjectStateGroupResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateObjectStateGroupEvent::class,
@@ -132,11 +132,11 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroupCreateStruct::class),
+            self::createStub(ObjectStateGroupCreateStruct::class),
         ];
 
-        $objectStateGroup = $this->createMock(ObjectStateGroup::class);
-        $eventObjectStateGroup = $this->createMock(ObjectStateGroup::class);
+        $objectStateGroup = self::createStub(ObjectStateGroup::class);
+        $eventObjectStateGroup = self::createStub(ObjectStateGroup::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('createObjectStateGroup')->willReturn($objectStateGroup);
 
@@ -158,7 +158,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateObjectStateGroupStopPropagationInBeforeEvents()
+    public function testCreateObjectStateGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateObjectStateGroupEvent::class,
@@ -166,11 +166,11 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroupCreateStruct::class),
+            self::createStub(ObjectStateGroupCreateStruct::class),
         ];
 
-        $objectStateGroup = $this->createMock(ObjectStateGroup::class);
-        $eventObjectStateGroup = $this->createMock(ObjectStateGroup::class);
+        $objectStateGroup = self::createStub(ObjectStateGroup::class);
+        $eventObjectStateGroup = self::createStub(ObjectStateGroup::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('createObjectStateGroup')->willReturn($objectStateGroup);
 
@@ -195,7 +195,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateObjectStateEvents()
+    public function testUpdateObjectStateEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateObjectStateEvent::class,
@@ -203,11 +203,11 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectState::class),
-            $this->createMock(ObjectStateUpdateStruct::class),
+            self::createStub(ObjectState::class),
+            self::createStub(ObjectStateUpdateStruct::class),
         ];
 
-        $updatedObjectState = $this->createMock(ObjectState::class);
+        $updatedObjectState = self::createStub(ObjectState::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('updateObjectState')->willReturn($updatedObjectState);
 
@@ -224,7 +224,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateObjectStateResultInBeforeEvents()
+    public function testReturnUpdateObjectStateResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateObjectStateEvent::class,
@@ -232,12 +232,12 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectState::class),
-            $this->createMock(ObjectStateUpdateStruct::class),
+            self::createStub(ObjectState::class),
+            self::createStub(ObjectStateUpdateStruct::class),
         ];
 
-        $updatedObjectState = $this->createMock(ObjectState::class);
-        $eventUpdatedObjectState = $this->createMock(ObjectState::class);
+        $updatedObjectState = self::createStub(ObjectState::class);
+        $eventUpdatedObjectState = self::createStub(ObjectState::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('updateObjectState')->willReturn($updatedObjectState);
 
@@ -259,7 +259,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateObjectStateStopPropagationInBeforeEvents()
+    public function testUpdateObjectStateStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateObjectStateEvent::class,
@@ -267,12 +267,12 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectState::class),
-            $this->createMock(ObjectStateUpdateStruct::class),
+            self::createStub(ObjectState::class),
+            self::createStub(ObjectStateUpdateStruct::class),
         ];
 
-        $updatedObjectState = $this->createMock(ObjectState::class);
-        $eventUpdatedObjectState = $this->createMock(ObjectState::class);
+        $updatedObjectState = self::createStub(ObjectState::class);
+        $eventUpdatedObjectState = self::createStub(ObjectState::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('updateObjectState')->willReturn($updatedObjectState);
 
@@ -297,7 +297,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateObjectStateEvents()
+    public function testCreateObjectStateEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateObjectStateEvent::class,
@@ -305,11 +305,11 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroup::class),
-            $this->createMock(ObjectStateCreateStruct::class),
+            self::createStub(ObjectStateGroup::class),
+            self::createStub(ObjectStateCreateStruct::class),
         ];
 
-        $objectState = $this->createMock(ObjectState::class);
+        $objectState = self::createStub(ObjectState::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('createObjectState')->willReturn($objectState);
 
@@ -326,7 +326,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateObjectStateResultInBeforeEvents()
+    public function testReturnCreateObjectStateResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateObjectStateEvent::class,
@@ -334,12 +334,12 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroup::class),
-            $this->createMock(ObjectStateCreateStruct::class),
+            self::createStub(ObjectStateGroup::class),
+            self::createStub(ObjectStateCreateStruct::class),
         ];
 
-        $objectState = $this->createMock(ObjectState::class);
-        $eventObjectState = $this->createMock(ObjectState::class);
+        $objectState = self::createStub(ObjectState::class);
+        $eventObjectState = self::createStub(ObjectState::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('createObjectState')->willReturn($objectState);
 
@@ -361,7 +361,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateObjectStateStopPropagationInBeforeEvents()
+    public function testCreateObjectStateStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateObjectStateEvent::class,
@@ -369,12 +369,12 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroup::class),
-            $this->createMock(ObjectStateCreateStruct::class),
+            self::createStub(ObjectStateGroup::class),
+            self::createStub(ObjectStateCreateStruct::class),
         ];
 
-        $objectState = $this->createMock(ObjectState::class);
-        $eventObjectState = $this->createMock(ObjectState::class);
+        $objectState = self::createStub(ObjectState::class);
+        $eventObjectState = self::createStub(ObjectState::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('createObjectState')->willReturn($objectState);
 
@@ -399,7 +399,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateObjectStateGroupEvents()
+    public function testUpdateObjectStateGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateObjectStateGroupEvent::class,
@@ -407,11 +407,11 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroup::class),
-            $this->createMock(ObjectStateGroupUpdateStruct::class),
+            self::createStub(ObjectStateGroup::class),
+            self::createStub(ObjectStateGroupUpdateStruct::class),
         ];
 
-        $updatedObjectStateGroup = $this->createMock(ObjectStateGroup::class);
+        $updatedObjectStateGroup = self::createStub(ObjectStateGroup::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('updateObjectStateGroup')->willReturn($updatedObjectStateGroup);
 
@@ -428,7 +428,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateObjectStateGroupResultInBeforeEvents()
+    public function testReturnUpdateObjectStateGroupResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateObjectStateGroupEvent::class,
@@ -436,12 +436,12 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroup::class),
-            $this->createMock(ObjectStateGroupUpdateStruct::class),
+            self::createStub(ObjectStateGroup::class),
+            self::createStub(ObjectStateGroupUpdateStruct::class),
         ];
 
-        $updatedObjectStateGroup = $this->createMock(ObjectStateGroup::class);
-        $eventUpdatedObjectStateGroup = $this->createMock(ObjectStateGroup::class);
+        $updatedObjectStateGroup = self::createStub(ObjectStateGroup::class);
+        $eventUpdatedObjectStateGroup = self::createStub(ObjectStateGroup::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('updateObjectStateGroup')->willReturn($updatedObjectStateGroup);
 
@@ -463,7 +463,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateObjectStateGroupStopPropagationInBeforeEvents()
+    public function testUpdateObjectStateGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateObjectStateGroupEvent::class,
@@ -471,12 +471,12 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroup::class),
-            $this->createMock(ObjectStateGroupUpdateStruct::class),
+            self::createStub(ObjectStateGroup::class),
+            self::createStub(ObjectStateGroupUpdateStruct::class),
         ];
 
-        $updatedObjectStateGroup = $this->createMock(ObjectStateGroup::class);
-        $eventUpdatedObjectStateGroup = $this->createMock(ObjectStateGroup::class);
+        $updatedObjectStateGroup = self::createStub(ObjectStateGroup::class);
+        $eventUpdatedObjectStateGroup = self::createStub(ObjectStateGroup::class);
         $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
         $innerServiceMock->method('updateObjectStateGroup')->willReturn($updatedObjectStateGroup);
 
@@ -501,7 +501,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testSetPriorityOfObjectStateEvents()
+    public function testSetPriorityOfObjectStateEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeSetPriorityOfObjectStateEvent::class,
@@ -509,11 +509,11 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectState::class),
+            self::createStub(ObjectState::class),
             100,
         ];
 
-        $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
+        $innerServiceMock = self::createStub(ObjectStateServiceInterface::class);
 
         $service = new ObjectStateService($innerServiceMock, $traceableEventDispatcher);
         $service->setPriorityOfObjectState(...$parameters);
@@ -527,7 +527,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testSetPriorityOfObjectStateStopPropagationInBeforeEvents()
+    public function testSetPriorityOfObjectStateStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeSetPriorityOfObjectStateEvent::class,
@@ -535,11 +535,11 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectState::class),
+            self::createStub(ObjectState::class),
             100,
         ];
 
-        $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
+        $innerServiceMock = self::createStub(ObjectStateServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeSetPriorityOfObjectStateEvent::class, static function (BeforeSetPriorityOfObjectStateEvent $event) {
             $event->stopPropagation();
@@ -560,7 +560,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteObjectStateGroupEvents()
+    public function testDeleteObjectStateGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteObjectStateGroupEvent::class,
@@ -568,10 +568,10 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroup::class),
+            self::createStub(ObjectStateGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
+        $innerServiceMock = self::createStub(ObjectStateServiceInterface::class);
 
         $service = new ObjectStateService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteObjectStateGroup(...$parameters);
@@ -585,7 +585,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteObjectStateGroupStopPropagationInBeforeEvents()
+    public function testDeleteObjectStateGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteObjectStateGroupEvent::class,
@@ -593,10 +593,10 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectStateGroup::class),
+            self::createStub(ObjectStateGroup::class),
         ];
 
-        $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
+        $innerServiceMock = self::createStub(ObjectStateServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteObjectStateGroupEvent::class, static function (BeforeDeleteObjectStateGroupEvent $event) {
             $event->stopPropagation();
@@ -617,7 +617,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteObjectStateEvents()
+    public function testDeleteObjectStateEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteObjectStateEvent::class,
@@ -625,10 +625,10 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectState::class),
+            self::createStub(ObjectState::class),
         ];
 
-        $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
+        $innerServiceMock = self::createStub(ObjectStateServiceInterface::class);
 
         $service = new ObjectStateService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteObjectState(...$parameters);
@@ -642,7 +642,7 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteObjectStateStopPropagationInBeforeEvents()
+    public function testDeleteObjectStateStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteObjectStateEvent::class,
@@ -650,10 +650,10 @@ class ObjectStateServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(ObjectState::class),
+            self::createStub(ObjectState::class),
         ];
 
-        $innerServiceMock = $this->createMock(ObjectStateServiceInterface::class);
+        $innerServiceMock = self::createStub(ObjectStateServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteObjectStateEvent::class, static function (BeforeDeleteObjectStateEvent $event) {
             $event->stopPropagation();

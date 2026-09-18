@@ -32,19 +32,23 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 use Ibexa\Core\FieldType\User\Type;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Persistence\Legacy\User\Gateway;
+use Ibexa\Core\Repository\UserService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\User\UserGroup;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bridge\PhpUnit\ClockMock;
 
 /**
  * Test case for operations in the UserService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\UserService
- *
- * @group integration
- * @group user
  */
+#[CoversClass(UserService::class)]
+#[Group('integration')]
+#[Group('user')]
 class UserServiceTest extends BaseTestCase
 {
     // Example password matching default rules
@@ -55,10 +59,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup()
      */
-    public function testLoadUserGroup()
+    public function testLoadUserGroup(): void
     {
         $repository = $this->getRepository();
 
@@ -81,8 +83,6 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUserGroupByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroupByRemoteId()
      */
     public function testLoadUserGroupByRemoteId(): void
     {
@@ -101,10 +101,8 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the loadUserGroup() method to ensure that DomainUserGroupObject is created properly even if a user
      * has no access to parent of UserGroup.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup()
      */
-    public function testLoadUserGroupWithNoAccessToParent()
+    public function testLoadUserGroupWithNoAccessToParent(): void
     {
         $repository = $this->getRepository();
 
@@ -136,12 +134,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup()
-     *
-     * @depends testLoadUserGroup
      */
-    public function testLoadUserGroupThrowsNotFoundException()
+    #[Depends('testLoadUserGroup')]
+    public function testLoadUserGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -158,11 +153,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUserGroupByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroupByRemoteId()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUserGroupByRemoteId
      */
+    #[DependsExternal(self::class, 'testLoadUserGroupByRemoteId')]
     public function testLoadUserGroupByRemoteIdThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
@@ -175,12 +167,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadSubUserGroups() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadSubUserGroups()
-     *
-     * @depends testLoadUserGroup
      */
-    public function testLoadSubUserGroups()
+    #[Depends('testLoadUserGroup')]
+    public function testLoadSubUserGroups(): void
     {
         $repository = $this->getRepository();
 
@@ -202,10 +191,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test loading sub groups throwing NotFoundException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadSubUserGroups
      */
-    public function testLoadSubUserGroupsThrowsNotFoundException()
+    public function testLoadSubUserGroupsThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -235,8 +222,6 @@ class UserServiceTest extends BaseTestCase
      * Test for the newUserGroupCreateStruct() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserGroupCreateStruct()
      */
     public function testNewUserGroupCreateStruct()
     {
@@ -260,12 +245,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the newUserGroupCreateStruct() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct $groupCreate
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserGroupCreateStruct()
-     *
-     * @depends testNewUserGroupCreateStruct
      */
-    public function testNewUserGroupCreateStructSetsMainLanguageCode($groupCreate)
+    #[Depends('testNewUserGroupCreateStruct')]
+    public function testNewUserGroupCreateStructSetsMainLanguageCode($groupCreate): void
     {
         self::assertEquals('eng-US', $groupCreate->mainLanguageCode);
     }
@@ -274,12 +256,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the newUserGroupCreateStruct() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct $groupCreate
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserGroupCreateStruct()
-     *
-     * @depends testNewUserGroupCreateStruct
      */
-    public function testNewUserGroupCreateStructSetsContentType($groupCreate)
+    #[Depends('testNewUserGroupCreateStruct')]
+    public function testNewUserGroupCreateStructSetsContentType($groupCreate): void
     {
         self::assertInstanceOf(
             ContentType::class,
@@ -289,12 +268,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the newUserGroupCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserGroupCreateStruct($mainLanguageCode, $contentType)
-     *
-     * @depends testNewUserGroupCreateStruct
      */
-    public function testNewUserGroupCreateStructWithSecondParameter()
+    #[Depends('testNewUserGroupCreateStruct')]
+    public function testNewUserGroupCreateStructWithSecondParameter(): void
     {
         $repository = $this->getRepository();
 
@@ -319,12 +295,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the createUserGroup() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUserGroup()
-     *
-     * @depends testNewUserGroupCreateStruct
-     * @depends testLoadUserGroup
      */
+    #[Depends('testNewUserGroupCreateStruct')]
+    #[Depends('testLoadUserGroup')]
     public function testCreateUserGroup()
     {
         /* BEGIN: Use Case */
@@ -348,12 +321,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the createUserGroup() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUserGroup()
-     *
-     * @depends testCreateUserGroup
      */
-    public function testCreateUserGroupSetsExpectedProperties($userGroup)
+    #[Depends('testCreateUserGroup')]
+    public function testCreateUserGroupSetsExpectedProperties($userGroup): void
     {
         self::assertEquals(
             [
@@ -367,12 +337,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUserGroup()
-     *
-     * @depends testCreateUserGroup
      */
-    public function testCreateUserGroupThrowsInvalidArgumentException()
+    #[Depends('testCreateUserGroup')]
+    public function testCreateUserGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -403,12 +370,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUserGroup()
-     *
-     * @depends testCreateUserGroup
      */
-    public function testCreateUserGroupThrowsInvalidArgumentExceptionFieldTypeNotAccept()
+    #[Depends('testCreateUserGroup')]
+    public function testCreateUserGroupThrowsInvalidArgumentExceptionFieldTypeNotAccept(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -438,12 +402,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUserGroup()
-     *
-     * @depends testCreateUserGroup
      */
-    public function testCreateUserGroupWhenMissingField()
+    #[Depends('testCreateUserGroup')]
+    public function testCreateUserGroupWhenMissingField(): void
     {
         $this->expectException(ContentFieldValidationException::class);
 
@@ -469,12 +430,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUserGroup
-     *
-     * @depends testNewUserGroupCreateStruct
-     * @depends testLoadUserGroup
      */
+    #[Depends('testNewUserGroupCreateStruct')]
+    #[Depends('testLoadUserGroup')]
     public function testCreateUserGroupInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
@@ -521,12 +479,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::deleteUserGroup()
-     *
-     * @depends testCreateUserGroup
      */
-    public function testDeleteUserGroup()
+    #[Depends('testCreateUserGroup')]
+    public function testDeleteUserGroup(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -546,10 +501,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test deleting user group throwing NotFoundException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::deleteUserGroup
      */
-    public function testDeleteUserGroupThrowsNotFoundException()
+    public function testDeleteUserGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -573,13 +526,10 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the moveUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::moveUserGroup()
-     *
-     * @depends testCreateUserGroup
-     * @depends testLoadSubUserGroups
      */
-    public function testMoveUserGroup()
+    #[Depends('testCreateUserGroup')]
+    #[Depends('testLoadSubUserGroups')]
+    public function testMoveUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -621,10 +571,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test moving a user group below another group throws NotFoundException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::moveUserGroup
      */
-    public function testMoveUserGroupThrowsNotFoundException()
+    public function testMoveUserGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -660,10 +608,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the newUserGroupUpdateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserGroupUpdateStruct
      */
-    public function testNewUserGroupUpdateStruct()
+    public function testNewUserGroupUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -684,13 +630,10 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the updateUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserGroup()
-     *
-     * @depends testCreateUserGroup
-     * @depends testNewUserGroupUpdateStruct
      */
-    public function testUpdateUserGroup()
+    #[Depends('testCreateUserGroup')]
+    #[Depends('testNewUserGroupUpdateStruct')]
+    public function testUpdateUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -718,12 +661,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the updateUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserGroup()
-     *
-     * @depends testUpdateUserGroup
      */
-    public function testUpdateUserGroupWithSubContentUpdateStruct()
+    #[Depends('testUpdateUserGroup')]
+    public function testUpdateUserGroupWithSubContentUpdateStruct(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -759,12 +699,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the updateUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserGroup()
-     *
-     * @depends testUpdateUserGroup
      */
-    public function testUpdateUserGroupWithSubContentMetadataUpdateStruct()
+    #[Depends('testUpdateUserGroup')]
+    public function testUpdateUserGroupWithSubContentMetadataUpdateStruct(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -803,12 +740,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the updateUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserGroup()
-     *
-     * @depends testUpdateUserGroup
      */
-    public function testUpdateUserGroupThrowsInvalidArgumentExceptionOnFieldTypeNotAccept()
+    #[Depends('testUpdateUserGroup')]
+    public function testUpdateUserGroupThrowsInvalidArgumentExceptionOnFieldTypeNotAccept(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -838,8 +772,6 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the newUserCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserCreateStruct()
      */
     public function testNewUserCreateStruct()
     {
@@ -866,10 +798,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test updating a user group throws ContentFieldValidationException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserGroup
      */
-    public function testUpdateUserGroupThrowsContentFieldValidationExceptionOnRequiredFieldEmpty()
+    public function testUpdateUserGroupThrowsContentFieldValidationExceptionOnRequiredFieldEmpty(): void
     {
         $this->expectException(ContentFieldValidationException::class);
 
@@ -889,12 +819,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the newUserCreateStruct() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct $userCreate
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserCreateStruct()
-     *
-     * @depends testNewUserCreateStruct
      */
-    public function testNewUserCreateStructSetsExpectedProperties($userCreate)
+    #[Depends('testNewUserCreateStruct')]
+    public function testNewUserCreateStructSetsExpectedProperties($userCreate): void
     {
         self::assertEquals(
             [
@@ -914,12 +841,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the newUserCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserCreateStruct($login, $email, $password, $mainLanguageCode, $contentType)
-     *
-     * @depends testNewUserCreateStruct
      */
-    public function testNewUserCreateStructWithFifthParameter()
+    #[Depends('testNewUserCreateStruct')]
+    public function testNewUserCreateStructWithFifthParameter(): void
     {
         $repository = $this->getRepository();
 
@@ -958,12 +882,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the createUser() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser()
-     *
-     * @depends testLoadUserGroup
-     * @depends testNewUserCreateStruct
      */
+    #[Depends('testLoadUserGroup')]
+    #[Depends('testNewUserCreateStruct')]
     public function testCreateUser()
     {
         /* BEGIN: Use Case */
@@ -982,12 +903,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the createUser() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser()
-     *
-     * @depends testCreateUser
      */
-    public function testCreateUserSetsExpectedProperties(User $user)
+    #[Depends('testCreateUser')]
+    public function testCreateUserSetsExpectedProperties(User $user): void
     {
         self::assertEquals(
             [
@@ -1005,12 +923,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser()
-     *
-     * @depends testCreateUser
      */
-    public function testCreateUserWhenMissingField()
+    #[Depends('testCreateUser')]
+    public function testCreateUserWhenMissingField(): void
     {
         $this->expectException(ContentFieldValidationException::class);
 
@@ -1046,12 +961,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser()
-     *
-     * @depends testCreateUser
      */
-    public function testCreateUserThrowsInvalidArgumentExceptionOnFieldTypeNotAccept()
+    #[Depends('testCreateUser')]
+    public function testCreateUserThrowsInvalidArgumentExceptionOnFieldTypeNotAccept(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1087,12 +999,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
-     *
-     * @depends testCreateUser
      */
-    public function testCreateUserThrowsInvalidArgumentException()
+    #[Depends('testCreateUser')]
+    public function testCreateUserThrowsInvalidArgumentException(): void
     {
         $repository = $this->getRepository();
 
@@ -1136,11 +1045,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
-     *
-     * @depends testCreateUser
      */
+    #[Depends('testCreateUser')]
     public function testCreateUserWithEmailAlreadyTaken(): void
     {
         $repository = $this->getRepository();
@@ -1194,11 +1100,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
-     *
-     * @depends testCreateUser
      */
+    #[Depends('testCreateUser')]
     public function testCreateInvalidFormatUsername(): void
     {
         $repository = $this->getRepository();
@@ -1246,12 +1149,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
-     *
-     * @depends testLoadUserGroup
-     * @depends testNewUserCreateStruct
      */
+    #[Depends('testLoadUserGroup')]
+    #[Depends('testNewUserCreateStruct')]
     public function testCreateUserInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
@@ -1283,10 +1183,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test creating a user throwing NotFoundException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
      */
-    public function testCreateUserThrowsNotFoundException()
+    public function testCreateUserThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1316,10 +1214,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test creating a user throwing UserPasswordValidationException when password doesn't follow specific rules.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
      */
-    public function testCreateUserWithWeakPasswordThrowsUserPasswordValidationException()
+    public function testCreateUserWithWeakPasswordThrowsUserPasswordValidationException(): void
     {
         $userContentType = $this->createUserContentTypeWithStrongPassword();
 
@@ -1347,10 +1243,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Opposite test case for testCreateUserWithWeakPasswordThrowsUserPasswordValidationException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
      */
-    public function testCreateUserWithStrongPassword()
+    public function testCreateUserWithStrongPassword(): void
     {
         $userContentType = $this->createUserContentTypeWithStrongPassword();
 
@@ -1362,12 +1256,9 @@ class UserServiceTest extends BaseTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUser()
-     *
-     * @depends testCreateUser
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
+    #[Depends('testCreateUser')]
     public function testLoadUser(): void
     {
         $repository = $this->getRepository();
@@ -1390,12 +1281,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUser()
-     *
-     * @depends testLoadUser
      */
-    public function testLoadUserThrowsNotFoundException()
+    #[Depends('testLoadUser')]
+    public function testLoadUserThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1411,11 +1299,7 @@ class UserServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::checkUserCredentials()
-     *
-     * @depends testCreateUser
-     */
+    #[Depends('testCreateUser')]
     public function testCheckUserCredentialsValid(): void
     {
         $repository = $this->getRepository();
@@ -1432,11 +1316,7 @@ class UserServiceTest extends BaseTestCase
         self::assertTrue($credentialsValid);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::checkUserCredentials()
-     *
-     * @depends testCreateUser
-     */
+    #[Depends('testCreateUser')]
     public function testCheckUserCredentialsInvalid(): void
     {
         $repository = $this->getRepository();
@@ -1455,12 +1335,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUserByLogin() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserByLogin()
-     *
-     * @depends testCreateUser
      */
-    public function testLoadUserByLogin()
+    #[Depends('testCreateUser')]
+    public function testLoadUserByLogin(): void
     {
         $repository = $this->getRepository();
 
@@ -1492,12 +1369,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUserByLogin() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserByLogin()
-     *
-     * @depends testLoadUserByLogin
      */
-    public function testLoadUserByLoginThrowsNotFoundExceptionForUnknownLogin()
+    #[Depends('testLoadUserByLogin')]
+    public function testLoadUserByLoginThrowsNotFoundExceptionForUnknownLogin(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1516,12 +1390,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUserByLogin() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserByLogin()
-     *
-     * @depends testLoadUserByLogin
      */
-    public function testLoadUserByLoginWorksForLoginWithWrongCase()
+    #[Depends('testLoadUserByLogin')]
+    public function testLoadUserByLoginWorksForLoginWithWrongCase(): void
     {
         $repository = $this->getRepository();
 
@@ -1555,12 +1426,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the loadUserByLogin() method.
      *
      * In some cases people use email as login name, make sure system works as exepcted when asking for user by email.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserByLogin()
-     *
-     * @depends testLoadUserByLogin
      */
-    public function testLoadUserByLoginThrowsNotFoundExceptionForUnknownLoginByEmail()
+    #[Depends('testLoadUserByLogin')]
+    public function testLoadUserByLoginThrowsNotFoundExceptionForUnknownLoginByEmail(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1576,11 +1444,7 @@ class UserServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUsersByEmail()
-     *
-     * @depends testCreateUser
-     */
+    #[Depends('testCreateUser')]
     public function testLoadUserByEmail(): void
     {
         $repository = $this->getRepository();
@@ -1598,12 +1462,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUsersByEmail() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUsersByEmail()
-     *
-     * @depends testLoadUserByEmail
      */
-    public function testLoadUserByEmailReturnsEmptyInUnknownEmail()
+    #[Depends('testLoadUserByEmail')]
+    public function testLoadUserByEmailReturnsEmptyInUnknownEmail(): void
     {
         $repository = $this->getRepository();
 
@@ -1622,13 +1483,10 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::deleteUser()
-     *
-     * @depends testCreateUser
-     * @depends testLoadUser
      */
-    public function testDeleteUser()
+    #[Depends('testCreateUser')]
+    #[Depends('testLoadUser')]
+    public function testDeleteUser(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1649,13 +1507,10 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::deleteUser()
-     *
-     * @depends testCreateUser
-     * @depends testLoadUser
      */
-    public function testDeleteUserDeletesRelatedBookmarks()
+    #[Depends('testCreateUser')]
+    #[Depends('testLoadUser')]
+    public function testDeleteUserDeletesRelatedBookmarks(): void
     {
         $repository = $this->getRepository();
 
@@ -1685,10 +1540,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the newUserUpdateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserUpdateStruct()
      */
-    public function testNewUserUpdateStruct()
+    public function testNewUserUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1722,12 +1575,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the updateUser() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
-     *
-     * @depends testCreateUser
-     * @depends testNewUserUpdateStruct
      */
+    #[Depends('testCreateUser')]
+    #[Depends('testNewUserUpdateStruct')]
     public function testUpdateUser()
     {
         // As \Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testUpdateUserUpdatesExpectedProperties belongs on this test,
@@ -1785,12 +1635,8 @@ class UserServiceTest extends BaseTestCase
         self::assertInstanceOf(User::class, $users[0]);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser
-     *
-     * @depends testCreateUser
-     * @depends testNewUserUpdateStruct
-     */
+    #[Depends('testCreateUser')]
+    #[Depends('testNewUserUpdateStruct')]
     public function testUpdateUserNoPassword(): void
     {
         $repository = $this->getRepository();
@@ -1836,12 +1682,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the updateUser() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
-     *
-     * @depends testUpdateUser
      */
-    public function testUpdateUserUpdatesExpectedProperties(User $user)
+    #[Depends('testUpdateUser')]
+    public function testUpdateUserUpdatesExpectedProperties(User $user): void
     {
         self::assertEquals(
             [
@@ -1871,12 +1714,9 @@ class UserServiceTest extends BaseTestCase
      * Test for the updateUser() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
-     *
-     * @depends testUpdateUser
      */
-    public function testUpdateUserReturnsPublishedVersion(User $user)
+    #[Depends('testUpdateUser')]
+    public function testUpdateUserReturnsPublishedVersion(User $user): void
     {
         self::assertEquals(
             APIVersionInfo::STATUS_PUBLISHED,
@@ -1886,12 +1726,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the updateUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
-     *
-     * @depends testUpdateUser
      */
-    public function testUpdateUserWithContentMetadataUpdateStruct()
+    #[Depends('testUpdateUser')]
+    public function testUpdateUserWithContentMetadataUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1925,12 +1762,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the updateUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
-     *
-     * @depends testUpdateUser
      */
-    public function testUpdateUserWithContentUpdateStruct()
+    #[Depends('testUpdateUser')]
+    public function testUpdateUserWithContentUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1968,12 +1802,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the updateUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
-     *
-     * @depends testUpdateUser
      */
-    public function testUpdateUserWhenMissingField()
+    #[Depends('testUpdateUser')]
+    public function testUpdateUserWhenMissingField(): void
     {
         $this->expectException(ContentFieldValidationException::class);
 
@@ -2006,12 +1837,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the updateUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
-     *
-     * @depends testUpdateUser
      */
-    public function testUpdateUserThrowsInvalidArgumentExceptionOnFieldTypeNotAccept()
+    #[Depends('testUpdateUser')]
+    public function testUpdateUserThrowsInvalidArgumentExceptionOnFieldTypeNotAccept(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -2044,10 +1872,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test updating a user throwing UserPasswordValidationException when password doesn't follow specified rules.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser
      */
-    public function testUpdateUserWithWeakPasswordThrowsUserPasswordValidationException()
+    public function testUpdateUserWithWeakPasswordThrowsUserPasswordValidationException(): void
     {
         $userService = $this->getRepository()->getUserService();
 
@@ -2079,10 +1905,8 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Opposite test case for testUpdateUserWithWeakPasswordThrowsUserPasswordValidationException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser
      */
-    public function testUpdateUserWithStrongPassword()
+    public function testUpdateUserWithStrongPassword(): void
     {
         $userService = $this->getRepository()->getUserService();
 
@@ -2099,9 +1923,6 @@ class UserServiceTest extends BaseTestCase
         self::assertInstanceOf(User::class, $user);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser
-     */
     public function testUpdateUserByUserWithLimitations(): void
     {
         $repository = $this->getRepository();
@@ -2131,9 +1952,6 @@ class UserServiceTest extends BaseTestCase
         self::assertInstanceOf(User::class, $user);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserPassword
-     */
     public function testUpdateUserPasswordWorksWithUserPasswordRole(): void
     {
         $repository = $this->getRepository();
@@ -2186,12 +2004,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUserGroupsOfUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroupsOfUser
-     *
-     * @depends testCreateUser
      */
-    public function testLoadUserGroupsOfUser()
+    #[Depends('testCreateUser')]
+    public function testLoadUserGroupsOfUser(): void
     {
         $repository = $this->getRepository();
 
@@ -2213,12 +2028,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the loadUsersOfUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUsersOfUserGroup
-     *
-     * @depends testCreateUser
      */
-    public function testLoadUsersOfUserGroup()
+    #[Depends('testCreateUser')]
+    public function testLoadUsersOfUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -2242,12 +2054,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the assignUserToUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::assignUserToUserGroup()
-     *
-     * @depends testLoadUserGroupsOfUser
      */
-    public function testAssignUserToUserGroup()
+    #[Depends('testLoadUserGroupsOfUser')]
+    public function testAssignUserToUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -2285,12 +2094,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the assignUserToUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::assignUserToUserGroup
-     *
-     * @depends testAssignUserToUserGroup
      */
-    public function testAssignUserToUserGroupThrowsInvalidArgumentException()
+    #[Depends('testAssignUserToUserGroup')]
+    public function testAssignUserToUserGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'user\' is invalid: User is already in the given User Group');
@@ -2313,9 +2119,6 @@ class UserServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::assignUserToUserGroup
-     */
     public function testAssignUserToGroupWithLocationsValidation(): void
     {
         $repository = $this->getRepository();
@@ -2348,12 +2151,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the unAssignUssrFromUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::unAssignUssrFromUserGroup()
-     *
-     * @depends testLoadUserGroupsOfUser
      */
-    public function testUnAssignUserFromUserGroup()
+    #[Depends('testLoadUserGroupsOfUser')]
+    public function testUnAssignUserFromUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -2391,12 +2191,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the unAssignUserFromUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::unAssignUserFromUserGroup()
-     *
-     * @depends testUnAssignUserFromUserGroup
      */
-    public function testUnAssignUserFromUserGroupThrowsInvalidArgumentException()
+    #[Depends('testUnAssignUserFromUserGroup')]
+    public function testUnAssignUserFromUserGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -2420,12 +2217,9 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the unAssignUserFromUserGroup() method removing user from the last group.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::unAssignUserFromUserGroup
-     *
-     * @depends testUnAssignUserFromUserGroup
      */
-    public function testUnAssignUserFromUserGroupThrowsBadStateArgumentException()
+    #[Depends('testUnAssignUserFromUserGroup')]
+    public function testUnAssignUserFromUserGroupThrowsBadStateArgumentException(): void
     {
         $this->expectException(BadStateException::class);
         $this->expectExceptionMessage('Argument \'user\' has a bad state: User only has one User Group, cannot unassign from last group');
@@ -2446,9 +2240,6 @@ class UserServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::unAssignUserFromUserGroup
-     */
     public function testUnAssignUserToGroupWithLocationValidation(): void
     {
         $repository = $this->getRepository();
@@ -2491,17 +2282,16 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test that multi-language logic for the loadUserGroup method respects prioritized language list.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode language code of expected translation
      */
+    #[DataProvider('getPrioritizedLanguageList')]
     public function testLoadUserGroupWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
@@ -2525,17 +2315,16 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test that multi-language logic works correctly after updating user group main language.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode language code of expected translation
      */
+    #[DataProvider('getPrioritizedLanguageList')]
     public function testLoadUserGroupWithPrioritizedLanguagesListAfterMainLanguageUpdate(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $contentService = $repository->getContentService();
@@ -2566,17 +2355,16 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test that multi-language logic for the loadSubUserGroups method respects prioritized language list.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadSubUserGroups
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode language code of expected translation
      */
+    #[DataProvider('getPrioritizedLanguageList')]
     public function testLoadSubUserGroupsWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
@@ -2608,17 +2396,16 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test that multi-language logic for the loadUser method respects prioritized language list.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUser
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode language code of expected translation
      */
+    #[DataProvider('getPrioritizedLanguageList')]
     public function testLoadUserWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
@@ -2646,17 +2433,16 @@ class UserServiceTest extends BaseTestCase
      * Test that multi-language logic for the loadUser method works correctly after updating
      * user content main language.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode language code of expected translation
      */
+    #[DataProvider('getPrioritizedLanguageList')]
     public function testLoadUserWithPrioritizedLanguagesListAfterMainLanguageUpdate(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $contentService = $repository->getContentService();
@@ -2691,17 +2477,16 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test that multi-language logic for the loadUserByLogin method respects prioritized language list.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserByLogin
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode language code of expected translation
      */
+    #[DataProvider('getPrioritizedLanguageList')]
     public function testLoadUserByLoginWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $user = $this->createMultiLanguageUser();
@@ -2729,17 +2514,16 @@ class UserServiceTest extends BaseTestCase
      * Test that multi-language logic for the loadUsersByEmail method respects
      * prioritized language list.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUsersByEmail
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode language code of expected translation
      */
+    #[DataProvider('getPrioritizedLanguageList')]
     public function testLoadUsersByEmailWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $user = $this->createMultiLanguageUser();
@@ -2769,17 +2553,16 @@ class UserServiceTest extends BaseTestCase
      * Test that multi-language logic for the loadUserGroupsOfUser method respects
      * prioritized language list.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroupsOfUser
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode language code of expected translation
      */
+    #[DataProvider('getPrioritizedLanguageList')]
     public function testLoadUserGroupsOfUserWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $userGroup = $this->createMultiLanguageUserGroup();
@@ -2802,17 +2585,16 @@ class UserServiceTest extends BaseTestCase
      * Test that multi-language logic for the loadUsersOfUserGroup method respects
      * prioritized language list.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUsersOfUserGroup
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[] $prioritizedLanguages
      * @param string|null $expectedLanguageCode language code of expected translation
      */
+    #[DataProvider('getPrioritizedLanguageList')]
     public function testLoadUsersOfUserGroupWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
@@ -2853,7 +2635,7 @@ class UserServiceTest extends BaseTestCase
      *
      * @return array
      */
-    public function getPrioritizedLanguageList()
+    public static function getPrioritizedLanguageList(): array
     {
         return [
             [[], null],
@@ -2962,8 +2744,6 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test for the createUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser()
      */
     public function testCreateUserWithDefaultPasswordHashTypeWhenHashTypeIsUnsupported(): void
     {
@@ -3008,9 +2788,6 @@ class UserServiceTest extends BaseTestCase
         self::assertEquals(User::DEFAULT_PASSWORD_HASH, $createdUser->hashAlgorithm);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserByToken
-     */
     public function testLoadUserByToken(): string
     {
         $repository = $this->getRepository();
@@ -3033,13 +2810,12 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test updating User Token.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserToken()
      *
-     * @depends testLoadUserByToken
      *
      * @param string $originalUserToken
      */
-    public function testUpdateUserToken($originalUserToken)
+    #[Depends('testLoadUserByToken')]
+    public function testUpdateUserToken($originalUserToken): void
     {
         $repository = $this->getRepository(false);
         $userService = $repository->getUserService();
@@ -3059,13 +2835,12 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test invalidating (expiring) User Token.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::expireUserToken()
      *
-     * @depends testLoadUserByToken
      *
      * @param string $userToken
      */
-    public function testExpireUserToken($userToken)
+    #[Depends('testLoadUserByToken')]
+    public function testExpireUserToken($userToken): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -3083,8 +2858,6 @@ class UserServiceTest extends BaseTestCase
 
     /**
      * Test trying to load User by invalid Token.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserByToken
      */
     public function testLoadUserByTokenThrowsNotFoundException(): void
     {
@@ -3095,10 +2868,7 @@ class UserServiceTest extends BaseTestCase
         $userService->loadUserByToken('not_existing_token');
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::validatePassword()
-     */
-    public function testValidatePasswordWithDefaultContext()
+    public function testValidatePasswordWithDefaultContext(): void
     {
         $userService = $this->getRepository()->getUserService();
 
@@ -3109,12 +2879,8 @@ class UserServiceTest extends BaseTestCase
         self::assertEmpty($errors);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::validatePassword()
-     *
-     * @dataProvider dataProviderForValidatePassword
-     */
-    public function testValidatePassword(string $password, array $expectedErrors)
+    #[DataProvider('dataProviderForValidatePassword')]
+    public function testValidatePassword(string $password, array $expectedErrors): void
     {
         $userService = $this->getRepository()->getUserService();
         $contentType = $this->createUserContentTypeWithStrongPassword();
@@ -3153,7 +2919,7 @@ class UserServiceTest extends BaseTestCase
         );
     }
 
-    public function getDataForTestPasswordUpdateRespectsAllValidationSettings(): iterable
+    public static function getDataForTestPasswordUpdateRespectsAllValidationSettings(): iterable
     {
         $oldPassword = 'P@blish123!';
 
@@ -3195,11 +2961,10 @@ class UserServiceTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider getDataForTestPasswordUpdateRespectsAllValidationSettings
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      * @throws \Exception
      */
+    #[DataProvider('getDataForTestPasswordUpdateRespectsAllValidationSettings')]
     public function testUpdateUserPasswordPerformsValidation(
         string $oldPassword,
         string $newPassword,
@@ -3229,7 +2994,7 @@ class UserServiceTest extends BaseTestCase
      *
      * @return array
      */
-    public function dataProviderForValidatePassword(): array
+    public static function dataProviderForValidatePassword(): array
     {
         return [
             [

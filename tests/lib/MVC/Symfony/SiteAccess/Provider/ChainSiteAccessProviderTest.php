@@ -14,6 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class ChainSiteAccessProviderTest extends TestCase
@@ -45,7 +46,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         ];
     }
 
-    public function siteAccessNamesProvider(): array
+    public static function siteAccessNamesProvider(): array
     {
         return [
             'existing_sa' => [self::EXISTING_SA_NAME],
@@ -53,9 +54,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider siteAccessNamesProvider
-     */
+    #[DataProvider('siteAccessNamesProvider')]
     public function testIsDefined(string $siteAccessName): void
     {
         $chainSiteAccessProvider = $this->getChainSiteAccessProvider();
@@ -104,7 +103,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         );
     }
 
-    public function getExistingSiteProvider(): array
+    public static function getExistingSiteProvider(): array
     {
         return [
             'existing_sa' => [self::EXISTING_SA_NAME, [self::SA_GROUP]],
@@ -113,12 +112,11 @@ final class ChainSiteAccessProviderTest extends TestCase
     }
 
     /**
-     * @dataProvider getExistingSiteProvider
-     *
      * @param string[] $expectedGroups
      *
      * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
      */
+    #[DataProvider('getExistingSiteProvider')]
     public function testGetExistingSiteAccess(string $siteAccessName, array $expectedGroups): void
     {
         $chainSiteAccessProvider = $this->getChainSiteAccessProvider();

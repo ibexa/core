@@ -8,10 +8,10 @@
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
+use Ibexa\Core\Persistence\Cache\TransactionHandler as CoveredTransactionHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Cache\TransactionHandler
- */
+#[CoversClass(CoveredTransactionHandler::class)]
 class TransactionHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
@@ -24,7 +24,7 @@ class TransactionHandlerTest extends AbstractCacheHandlerTestCase
         return TransactionHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         // string $method, array $arguments, array $arguments, array? $cacheTagGeneratingArguments, array? $cacheKeyGeneratingArguments, array? $tags, string? $key
         return [
@@ -33,21 +33,23 @@ class TransactionHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         // string $method, array $arguments, array? $cacheIdentifierGeneratorArguments, array? $cacheIdentifierGeneratorResults, string $key, mixed? $data
         return [
+            [self::NO_DATA_METHOD, [], ''],
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         // string $method, array $arguments, array? $cacheIdentifierGeneratorArguments, array? $cacheIdentifierGeneratorResults, string $key, mixed? $data
         return [
+            [self::NO_DATA_METHOD, [], ''],
         ];
     }
 
-    public function testRollback()
+    public function testRollback(): void
     {
         $this->loggerMock
             ->expects(self::once())
@@ -75,7 +77,7 @@ class TransactionHandlerTest extends AbstractCacheHandlerTestCase
         $handler->rollback();
     }
 
-    public function testCommitStopsCacheTransaction()
+    public function testCommitStopsCacheTransaction(): void
     {
         $this->loggerMock
             ->expects(self::once())
@@ -99,7 +101,7 @@ class TransactionHandlerTest extends AbstractCacheHandlerTestCase
         $handler->commit();
     }
 
-    public function testBeginTransactionStartsCacheTransaction()
+    public function testBeginTransactionStartsCacheTransaction(): void
     {
         $this->loggerMock
             ->expects(self::once())

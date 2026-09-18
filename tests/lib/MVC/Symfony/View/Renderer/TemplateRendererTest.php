@@ -37,7 +37,7 @@ class TemplateRendererTest extends TestCase
         );
     }
 
-    public function testRender()
+    public function testRender(): void
     {
         $view = $this->createView();
         $view->setTemplateIdentifier('path/to/template.html.twig');
@@ -61,7 +61,7 @@ class TemplateRendererTest extends TestCase
         $this->renderer->render($view);
     }
 
-    public function testRenderNoViewTemplate()
+    public function testRenderNoViewTemplate(): void
     {
         $this->expectException(NoViewTemplateException::class);
 

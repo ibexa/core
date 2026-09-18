@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
@@ -47,7 +48,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -59,30 +60,32 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         );
     }
 
-    public function indexingProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function indexingProvider(): array
     {
         $info = new ContentInfo(['id' => 33]);
         $location = new Location(['id' => 44, 'contentId' => 33]);
 
         return [
             [[$location]],
-            [[$location], $this->createMock(LoggerInterface::class)],
+            [[$location], self::createStub(LoggerInterface::class)],
             [[$info]],
-            [[$info], $this->createMock(LoggerInterface::class)],
+            [[$info], self::createStub(LoggerInterface::class)],
             [null],
-            [null, $this->createMock(LoggerInterface::class)],
+            [null, self::createStub(LoggerInterface::class)],
             [[$location, $info]],
-            [[$info, $location], $this->createMock(LoggerInterface::class)],
+            [[$info, $location], self::createStub(LoggerInterface::class)],
         ];
     }
 
     /**
-     * @dataProvider indexingProvider
-     *
      * @param array|null $value
      * @param \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject|null $logger
      */
-    public function testIndexing(?array $values = null, $logger = null)
+    #[DataProvider('indexingProvider')]
+    public function testIndexing(?array $values = null, $logger = null): void
     {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
@@ -130,7 +133,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
             if ($values) {
                 $logger->expects(self::once())
                     ->method('warning')
-                    ->with(self::isType('string'));
+                    ->with(self::isString());
             } else {
                 $logger->expects(self::never())
                     ->method('warning');
@@ -140,14 +143,17 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         $this->listener->reindex();
     }
 
-    public function indexDeleteProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function indexDeleteProvider(): array
     {
         $location = new Location(['id' => 44, 'contentId' => 33]);
         $info = new ContentInfo(['id' => 33, 'currentVersionNo' => 2, 'status' => ContentInfo::STATUS_PUBLISHED]);
 
-        $infoReturn = self::returnValue($info);
-        $infoReturnUnPublished = self::returnValue(new ContentInfo(['id' => 33, 'currentVersionNo' => 2]));
-        $returnThrow = self::throwException(new NotFoundException('content', '33'));
+        $infoReturn = $info;
+        $infoReturnUnPublished = new ContentInfo(['id' => 33, 'currentVersionNo' => 2]);
+        $returnThrow = new NotFoundException('content', '33');
 
         return [
             [$location, $infoReturn, $returnThrow],
@@ -160,14 +166,8 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider indexDeleteProvider
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo|\Ibexa\Contracts\Core\Persistence\Content\Location $value
-     * @param \PHPUnit\Framework\MockObject\Stub $infoReturn
-     * @param \PHPUnit\Framework\MockObject\Stub|null $contentReturn
-     */
-    public function testIndexDelete($value, $infoReturn, $contentReturn = null)
+    #[DataProvider('indexDeleteProvider')]
+    public function testIndexDelete(ContentInfo|Location $value, ContentInfo|\Throwable $infoReturn, Content|\Throwable|null $contentReturn = null): void
     {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
@@ -175,18 +175,26 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
             ->method('contentHandler')
             ->willReturn($contentHandlerMock);
 
-        $contentHandlerMock
+        $loadContentInfoExpectation = $contentHandlerMock
             ->expects(self::once())
             ->method('loadContentInfo')
-            ->with(33)
-            ->will($infoReturn);
+            ->with(33);
+        if ($infoReturn instanceof \Throwable) {
+            $loadContentInfoExpectation->willThrowException($infoReturn);
+        } else {
+            $loadContentInfoExpectation->willReturn($infoReturn);
+        }
 
         if ($contentReturn) {
-            $contentHandlerMock
+            $loadExpectation = $contentHandlerMock
                 ->expects(self::once())
                 ->method('load')
-                ->with(33, 2)
-                ->will($contentReturn);
+                ->with(33, 2);
+            if ($contentReturn instanceof \Throwable) {
+                $loadExpectation->willThrowException($contentReturn);
+            } else {
+                $loadExpectation->willReturn($contentReturn);
+            }
         } else {
             $contentHandlerMock
                 ->expects(self::never())

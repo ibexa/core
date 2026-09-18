@@ -42,7 +42,7 @@ final class StorageDispatcherTest extends TestCase
     public function testStoreFieldConstraintsData(): void
     {
         $status = ContentType::STATUS_DEFINED;
-        $constraints = $this->createMock(FieldTypeConstraints::class);
+        $constraints = self::createStub(FieldTypeConstraints::class);
 
         $storage = $this->createMock(FieldConstraintsStorage::class);
         $storage
@@ -77,7 +77,7 @@ final class StorageDispatcherTest extends TestCase
 
     public function testLoadFieldConstraintsData(): void
     {
-        $constraints = $this->createMock(FieldTypeConstraints::class);
+        $constraints = self::createStub(FieldTypeConstraints::class);
 
         $storage = $this->createMock(FieldConstraintsStorage::class);
         $storage
@@ -103,7 +103,7 @@ final class StorageDispatcherTest extends TestCase
 
     public function testLoadFieldConstraintsDataForNonSupportedFieldType(): void
     {
-        $constraints = $this->createMock(FieldTypeConstraints::class);
+        $constraints = self::createStub(FieldTypeConstraints::class);
 
         $fieldDefinition = new FieldDefinition();
         $fieldDefinition->id = self::EXAMPLE_FIELD_DEFINITION_ID;

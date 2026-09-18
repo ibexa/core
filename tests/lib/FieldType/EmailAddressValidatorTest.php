@@ -10,16 +10,16 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\EmailAddressValidator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @todo add more tests, like on validateConstraints method
- *
- * @group fieldType
- * @group validator
- *
- * @covers \Ibexa\Core\FieldType\Validator\EmailAddressValidator
  */
+#[CoversClass(EmailAddressValidator::class)]
+#[Group('fieldType')]
+#[Group('validator')]
 class EmailAddressValidatorTest extends TestCase
 {
     public function testConstructor(): void

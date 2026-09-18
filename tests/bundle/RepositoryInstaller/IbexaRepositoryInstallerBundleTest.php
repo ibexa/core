@@ -11,14 +11,13 @@ namespace Ibexa\Tests\Bundle\RepositoryInstaller;
 use Ibexa\Bundle\DoctrineSchema\DependencyInjection\DoctrineSchemaExtension;
 use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass;
 use Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 
-/**
- * @covers \Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle
- */
+#[CoversClass(IbexaRepositoryInstallerBundle::class)]
 class IbexaRepositoryInstallerBundleTest extends TestCase
 {
     private IbexaRepositoryInstallerBundle $bundle;

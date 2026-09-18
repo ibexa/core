@@ -17,11 +17,10 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use Ibexa\Core\Persistence\Legacy\Notification\Handler;
 use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Notification\Handler
- */
+#[CoversClass(Handler::class)]
 class HandlerTest extends TestCase
 {
     public const NOTIFICATION_ID = 1;
@@ -42,7 +41,7 @@ class HandlerTest extends TestCase
         $this->handler = new Handler($this->gateway, $this->mapper);
     }
 
-    public function testCreateNotification()
+    public function testCreateNotification(): void
     {
         $createStruct = new CreateStruct([
             'ownerId' => 5,
@@ -70,7 +69,7 @@ class HandlerTest extends TestCase
         self::assertEquals($notification->id, self::NOTIFICATION_ID);
     }
 
-    public function testCountPendingNotifications()
+    public function testCountPendingNotifications(): void
     {
         $ownerId = 10;
         $expectedCount = 12;
@@ -84,7 +83,7 @@ class HandlerTest extends TestCase
         self::assertEquals($expectedCount, $this->handler->countPendingNotifications($ownerId));
     }
 
-    public function testGetNotificationById()
+    public function testGetNotificationById(): void
     {
         $rows = [
             [
@@ -134,7 +133,7 @@ class HandlerTest extends TestCase
         self::assertEquals([1, 2, 3], $result);
     }
 
-    public function testUpdateNotification()
+    public function testUpdateNotification(): void
     {
         $updateStruct = new UpdateStruct([
             'isPending' => false,
@@ -173,7 +172,7 @@ class HandlerTest extends TestCase
         $this->handler->updateNotification($apiNotification, $updateStruct);
     }
 
-    public function testCountNotifications()
+    public function testCountNotifications(): void
     {
         $ownerId = 10;
         $expectedCount = 12;
@@ -262,7 +261,7 @@ class HandlerTest extends TestCase
         self::assertEquals($objects, $this->handler->findUserNotifications($ownerId, $query));
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $notification = new APINotification([
             'id' => self::NOTIFICATION_ID, /* ... */

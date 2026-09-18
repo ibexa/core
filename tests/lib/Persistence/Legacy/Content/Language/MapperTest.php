@@ -11,13 +11,12 @@ use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\Mapper
- */
+#[CoversClass(Mapper::class)]
 class MapperTest extends TestCase
 {
-    public function testCreateLanguageFromCreateStruct()
+    public function testCreateLanguageFromCreateStruct(): void
     {
         $mapper = new Mapper();
 
@@ -32,7 +31,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testExtractLanguagesFromRows()
+    public function testExtractLanguagesFromRows(): void
     {
         $mapper = new Mapper();
 

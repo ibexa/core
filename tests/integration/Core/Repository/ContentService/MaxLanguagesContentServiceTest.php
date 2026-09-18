@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[CoversClass(ContentService::class)]
 final class MaxLanguagesContentServiceTest extends RepositoryTestCase
 {
     /** @var list<array{languageCode: string, name: string }> */

@@ -48,7 +48,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTestCase
             'inline'
         );
 
-        $locationMock = $this->createMock(Location::class);
+        $locationMock = self::createStub(Location::class);
         self::assertTrue($renderLocationStrategy->supports($locationMock));
 
         self::assertSame(
@@ -64,7 +64,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTestCase
             [],
         );
 
-        $locationMock = $this->createMock(Location::class);
+        $locationMock = self::createStub(Location::class);
         self::assertTrue($renderLocationStrategy->supports($locationMock));
 
         $this->expectException(InvalidArgumentException::class);
@@ -82,7 +82,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTestCase
             ],
         );
 
-        $locationMock = $this->createMock(Location::class);
+        $locationMock = self::createStub(Location::class);
         self::assertTrue($renderLocationStrategy->supports($locationMock));
 
         self::assertSame(

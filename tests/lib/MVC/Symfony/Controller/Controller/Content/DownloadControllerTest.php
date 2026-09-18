@@ -10,14 +10,16 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Controller\Controller\Content;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
+use Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController
- */
+#[CoversClass(DownloadController::class)]
 final class DownloadControllerTest extends TestCase
 {
     use DownloadControllerTestTrait;
@@ -123,9 +125,7 @@ final class DownloadControllerTest extends TestCase
         self::assertStringContainsString(self::FILENAME, (string) $response->headers->get('Content-Disposition'));
     }
 
-    /**
-     * @dataProvider provideNotFoundCases
-     */
+    #[DataProvider('provideNotFoundCases')]
     public function testDownloadBinaryFileByIdActionReturnsNotFound(int $fieldId, string $filename): void
     {
         $content = $this->createContent(self::FILENAME);
@@ -154,9 +154,7 @@ final class DownloadControllerTest extends TestCase
         yield 'field id does not exist in content' => [123, self::FILENAME];
     }
 
-    /**
-     * @group legacy
-     */
+    #[Group('legacy')]
     public function testDownloadBinaryFileByIdActionTriggersDeprecationWithoutFilename(): void
     {
         $content = $this->createContent(self::FILENAME);

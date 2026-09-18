@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractQueryTypeTestCase extends TestCase
@@ -65,9 +66,7 @@ abstract class AbstractQueryTypeTestCase extends TestCase
         );
     }
 
-    /**
-     * @dataProvider dataProviderForGetQuery
-     */
+    #[DataProvider('dataProviderForGetQuery')]
     final public function testGetQuery(array $parameters, Query $expectedQuery): void
     {
         self::assertEquals($expectedQuery, $this->queryType->getQuery($parameters));
@@ -89,7 +88,7 @@ abstract class AbstractQueryTypeTestCase extends TestCase
         );
     }
 
-    abstract public function dataProviderForGetQuery(): iterable;
+    abstract public static function dataProviderForGetQuery(): iterable;
 
     abstract protected function createQueryType(
         Repository $repository,

@@ -7,17 +7,17 @@
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
+use Ibexa\Core\MVC\RepositoryAware;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversClass(MultipleValued::class)]
+#[CoversClass(RepositoryAware::class)]
 class MultipleValuedTest extends BaseTestCase
 {
-    /**
-     * @dataProvider matchingConfigProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::getValues
-     */
-    public function testSetMatchingConfig($matchingConfig)
+    #[DataProvider('matchingConfigProvider')]
+    public function testSetMatchingConfig($matchingConfig): void
     {
         $matcher = $this->getMultipleValuedMatcherMock();
         $matcher->setMatchingConfig($matchingConfig);
@@ -35,7 +35,7 @@ class MultipleValuedTest extends BaseTestCase
      *
      * @return array
      */
-    public function matchingConfigProvider()
+    public static function matchingConfigProvider(): array
     {
         return [
             [
@@ -47,11 +47,7 @@ class MultipleValuedTest extends BaseTestCase
         ];
     }
 
-    /**
-     * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::getRepository
-     */
-    public function testInjectRepository()
+    public function testInjectRepository(): void
     {
         $matcher = $this->getMultipleValuedMatcherMock();
         $matcher->setRepository($this->repositoryMock);

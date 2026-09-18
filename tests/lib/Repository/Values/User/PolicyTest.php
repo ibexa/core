@@ -11,18 +11,18 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
 use Ibexa\Core\Repository\Values\User\Policy;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(Policy::class)]
 class PolicyTest extends TestCase
 {
     use ValueObjectTestTrait;
 
     /**
      * Test a new class and default values on properties.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__construct
      */
-    public function testNewClass()
+    public function testNewClass(): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -38,10 +38,8 @@ class PolicyTest extends TestCase
 
     /**
      * Test retrieving missing property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__get
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -53,10 +51,8 @@ class PolicyTest extends TestCase
 
     /**
      * Test setting read only property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__set
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -67,10 +63,8 @@ class PolicyTest extends TestCase
 
     /**
      * Test if property exists.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__isset
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $policy = new Policy();
         /** @phpstan-ignore property.notFound */
@@ -83,10 +77,8 @@ class PolicyTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\User\Policy::__unset
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

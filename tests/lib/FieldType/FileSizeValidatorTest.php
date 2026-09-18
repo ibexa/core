@@ -11,17 +11,18 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\FileSizeValidator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group fieldType
- * @group validator
- *
- * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator
- */
+#[CoversClass(FileSizeValidator::class)]
+#[CoversClass(Validator::class)]
+#[Group('fieldType')]
+#[Group('validator')]
 class FileSizeValidatorTest extends TestCase
 {
-    protected function getMaxFileSize(): int
+    protected static function getMaxFileSize(): int
     {
         return 4096;
     }
@@ -104,13 +105,9 @@ class FileSizeValidatorTest extends TestCase
      * Tests validating a correct value.
      *
      * @param int $size
-     *
-     * @dataProvider providerForValidateOK
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validate
-     * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
-    public function testValidateCorrectValues($size)
+    #[DataProvider('providerForValidateOK')]
+    public function testValidateCorrectValues($size): void
     {
         self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
@@ -133,7 +130,10 @@ class FileSizeValidatorTest extends TestCase
         return $value;
     }
 
-    public function providerForValidateOK()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForValidateOK(): array
     {
         return [
             [0],
@@ -144,12 +144,9 @@ class FileSizeValidatorTest extends TestCase
 
     /**
      * Tests validating a wrong value.
-     *
-     * @dataProvider providerForValidateKO
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validate
      */
-    public function testValidateWrongValues($size, $message, $values)
+    #[DataProvider('providerForValidateKO')]
+    public function testValidateWrongValues($size, $message, $values): void
     {
         self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
@@ -179,7 +176,10 @@ class FileSizeValidatorTest extends TestCase
         );
     }
 
-    public function providerForValidateKO()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForValidateKO(): array
     {
         return [
             [
@@ -188,7 +188,7 @@ class FileSizeValidatorTest extends TestCase
                     'The file size cannot exceed %size% byte.',
                     'The file size cannot exceed %size% bytes.',
                 ],
-                ['%size%' => $this->getMaxFileSize()],
+                ['%size%' => self::getMaxFileSize()],
             ],
         ];
     }
@@ -196,10 +196,10 @@ class FileSizeValidatorTest extends TestCase
     /**
      * Tests validation of constraints.
      *
-     * @dataProvider providerForValidateConstraintsOK
      *
      * @param array<string, mixed> $constraints
      */
+    #[DataProvider('providerForValidateConstraintsOK')]
     public function testValidateConstraintsCorrectValues(array $constraints): void
     {
         $validator = new FileSizeValidator();
@@ -212,7 +212,7 @@ class FileSizeValidatorTest extends TestCase
     /**
      * @return array<array{array{maxFileSize: int|false}|array{}}>
      */
-    public function providerForValidateConstraintsOK(): array
+    public static function providerForValidateConstraintsOK(): array
     {
         return [
             [
@@ -226,12 +226,11 @@ class FileSizeValidatorTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForValidateConstraintsKO
-     *
      * @param array<string, mixed> $constraints
      * @param string[] $expectedMessages
      * @param array<string, scalar> $values
      */
+    #[DataProvider('providerForValidateConstraintsKO')]
     public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages, array $values): void
     {
         $validator = new FileSizeValidator();
@@ -254,7 +253,7 @@ class FileSizeValidatorTest extends TestCase
     /**
      * @return array<array{array<string, mixed>, string[], array<string, scalar>}>
      */
-    public function providerForValidateConstraintsKO(): array
+    public static function providerForValidateConstraintsKO(): array
     {
         return [
             [

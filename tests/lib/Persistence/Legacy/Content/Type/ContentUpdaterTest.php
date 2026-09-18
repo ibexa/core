@@ -15,11 +15,10 @@ use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
- */
+#[CoversClass(ContentUpdater::class)]
 class ContentUpdaterTest extends TestCase
 {
     /**
@@ -60,7 +59,7 @@ class ContentUpdaterTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
     protected $contentMapperMock;
 
-    public function testDetermineActions()
+    public function testDetermineActions(): void
     {
         $fromType = $this->getFromTypeFixture();
         $toType = $this->getToTypeFixture();
@@ -99,7 +98,7 @@ class ContentUpdaterTest extends TestCase
         );
     }
 
-    public function testApplyUpdates()
+    public function testApplyUpdates(): void
     {
         $updater = $this->getContentUpdater();
 
@@ -109,24 +108,24 @@ class ContentUpdaterTest extends TestCase
             '',
             false
         );
-        $actionA->expects(self::at(0))
+        $actionAMatcher = self::exactly(2);
+        $actionA->expects($actionAMatcher)
             ->method('apply')
-            ->with(11);
-        $actionA->expects(self::at(1))
-            ->method('apply')
-            ->with(22);
+            ->willReturnCallback(function (...$parameters) use ($actionAMatcher) {
+                $this->assertSame([$actionAMatcher->numberOfInvocations() === 1 ? 11 : 22], $parameters);
+            });
         $actionB = $this->getMockForAbstractClass(
             Action::class,
             [],
             '',
             false
         );
-        $actionB->expects(self::at(0))
+        $actionBMatcher = self::exactly(2);
+        $actionB->expects($actionBMatcher)
             ->method('apply')
-            ->with(11);
-        $actionB->expects(self::at(1))
-            ->method('apply')
-            ->with(22);
+            ->willReturnCallback(function (...$parameters) use ($actionBMatcher) {
+                $this->assertSame([$actionBMatcher->numberOfInvocations() === 1 ? 11 : 22], $parameters);
+            });
 
         $actions = [$actionA, $actionB];
 

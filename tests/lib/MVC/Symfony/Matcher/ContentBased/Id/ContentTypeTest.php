@@ -10,8 +10,13 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType as ContentTypeIdMatcher;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversClass(ContentTypeIdMatcher::class)]
+#[CoversClass(MultipleValued::class)]
 class ContentTypeTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType */
@@ -24,46 +29,44 @@ class ContentTypeTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchLocationProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
+    #[DataProvider('matchLocationProvider')]
+    public function testMatchLocation($matchingConfig, int $contentTypeId, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        self::assertSame($expectedResult, $this->matcher->matchLocation($location));
+        self::assertSame($expectedResult, $this->matcher->matchLocation($this->generateLocationForContentType($contentTypeId)));
     }
 
-    public function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         $data = [];
 
         $data[] = [
             123,
-            $this->generateLocationForContentType(123),
+            123,
             true,
         ];
 
         $data[] = [
             123,
-            $this->generateLocationForContentType(456),
+            456,
             false,
         ];
 
         $data[] = [
             [123, 789],
-            $this->generateLocationForContentType(456),
+            456,
             false,
         ];
 
         $data[] = [
             [123, 789],
-            $this->generateLocationForContentType(789),
+            789,
             true,
         ];
 
@@ -105,46 +108,44 @@ class ContentTypeTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchContentInfoProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType::matchContentInfo
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, ContentInfo $contentInfo, $expectedResult)
+    #[DataProvider('matchContentInfoProvider')]
+    public function testMatchContentInfo($matchingConfig, int $contentTypeId, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        self::assertSame($expectedResult, $this->matcher->matchContentInfo($contentInfo));
+        self::assertSame($expectedResult, $this->matcher->matchContentInfo($this->generateContentInfoForContentType($contentTypeId)));
     }
 
-    public function matchContentInfoProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchContentInfoProvider(): array
     {
         $data = [];
 
         $data[] = [
             123,
-            $this->generateContentInfoForContentType(123),
+            123,
             true,
         ];
 
         $data[] = [
             123,
-            $this->generateContentInfoForContentType(456),
+            456,
             false,
         ];
 
         $data[] = [
             [123, 789],
-            $this->generateContentInfoForContentType(456),
+            456,
             false,
         ];
 
         $data[] = [
             [123, 789],
-            $this->generateContentInfoForContentType(789),
+            789,
             true,
         ];
 

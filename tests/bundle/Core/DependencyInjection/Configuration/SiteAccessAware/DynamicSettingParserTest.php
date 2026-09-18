@@ -8,20 +8,22 @@
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParser;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class DynamicSettingParserTest extends TestCase
 {
-    /**
-     * @dataProvider isDynamicSettingProvider
-     */
-    public function testIsDynamicSetting($setting, $expected)
+    #[DataProvider('isDynamicSettingProvider')]
+    public function testIsDynamicSetting($setting, $expected): void
     {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->isDynamicSetting($setting));
     }
 
-    public function isDynamicSettingProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function isDynamicSettingProvider(): array
     {
         return [
             ['foo', false],
@@ -40,7 +42,7 @@ class DynamicSettingParserTest extends TestCase
         ];
     }
 
-    public function testParseDynamicSettingFail()
+    public function testParseDynamicSettingFail(): void
     {
         $this->expectException(\OutOfBoundsException::class);
 
@@ -48,16 +50,17 @@ class DynamicSettingParserTest extends TestCase
         $parser->parseDynamicSetting('$foo;bar;baz;biz$');
     }
 
-    /**
-     * @dataProvider parseDynamicSettingProvider
-     */
-    public function testParseDynamicSetting($setting, array $expected)
+    #[DataProvider('parseDynamicSettingProvider')]
+    public function testParseDynamicSetting($setting, array $expected): void
     {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->parseDynamicSetting($setting));
     }
 
-    public function parseDynamicSettingProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function parseDynamicSettingProvider(): array
     {
         return [
             [

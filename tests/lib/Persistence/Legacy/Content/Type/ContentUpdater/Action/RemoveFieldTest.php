@@ -12,11 +12,10 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField
- */
+#[CoversClass(RemoveField::class)]
 class RemoveFieldTest extends TestCase
 {
     /**
@@ -43,7 +42,7 @@ class RemoveFieldTest extends TestCase
      */
     protected $removeFieldAction;
 
-    public function testApplySingleVersionSingleTranslation()
+    public function testApplySingleVersionSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1];
@@ -64,7 +63,7 @@ class RemoveFieldTest extends TestCase
             ->will(self::returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects(self::at(2))
+            ->expects(self::once())
             ->method('load')
             ->with($contentId, 1)
             ->will(self::returnValue([]));
@@ -91,7 +90,7 @@ class RemoveFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsSingleTranslation()
+    public function testApplyMultipleVersionsSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];
@@ -112,57 +111,46 @@ class RemoveFieldTest extends TestCase
             ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
             ->will(self::returnValue([]));
 
+        $loadMatcher = self::exactly(2);
         $this->getContentGatewayMock()
-            ->expects(self::at(2))
+            ->expects($loadMatcher)
             ->method('load')
-            ->with($contentId, 1)
-            ->will(self::returnValue([]));
+            ->willReturnCallback(function (...$parameters) use ($loadMatcher, $contentId) {
+                $this->assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
+                return [];
+            });
+
+        $extractMatcher = self::exactly(2);
         $this->getContentMapperMock()
-            ->expects(self::at(0))
+            ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will(self::returnValue([$content1]));
+            ->willReturnCallback(function (...$parameters) use ($extractMatcher, $content1, $content2) {
+                $this->assertSame([[], [], 'content_', null], $parameters);
 
-        $this->getContentGatewayMock()
-            ->expects(self::at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will(self::returnValue([]));
-
-        $this->getContentMapperMock()
-            ->expects(self::at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will(self::returnValue([$content2]));
+                return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
+            });
 
         $this->getContentGatewayMock()
             ->expects(self::once())
             ->method('deleteField')
             ->with(self::equalTo($fieldId));
 
+        $deleteFieldDataMatcher = self::exactly(2);
         $this->getContentStorageHandlerMock()
-            ->expects(self::at(0))
+            ->expects($deleteFieldDataMatcher)
             ->method('deleteFieldData')
-            ->with(
-                self::equalTo('ibexa_string'),
-                $content1->versionInfo,
-                self::equalTo([$fieldId])
-            );
-
-        $this->getContentStorageHandlerMock()
-            ->expects(self::at(1))
-            ->method('deleteFieldData')
-            ->with(
-                self::equalTo('ibexa_string'),
-                $content2->versionInfo,
-                self::equalTo([$fieldId])
-            );
+            ->willReturnCallback(function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId) {
+                $expectedVersionInfo = $deleteFieldDataMatcher->numberOfInvocations() === 1
+                    ? $content1->versionInfo
+                    : $content2->versionInfo;
+                $this->assertSame(['ibexa_string', $expectedVersionInfo, [$fieldId]], $parameters);
+            });
 
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsMultipleTranslations()
+    public function testApplyMultipleVersionsMultipleTranslations(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];
@@ -184,60 +172,48 @@ class RemoveFieldTest extends TestCase
             ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
             ->will(self::returnValue([]));
 
+        $loadMatcher = self::exactly(2);
         $this->getContentGatewayMock()
-            ->expects(self::at(2))
+            ->expects($loadMatcher)
             ->method('load')
-            ->with($contentId, 1)
-            ->will(self::returnValue([]));
+            ->willReturnCallback(function (...$parameters) use ($loadMatcher, $contentId) {
+                $this->assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
+                return [];
+            });
+
+        $extractMatcher = self::exactly(2);
         $this->getContentMapperMock()
-            ->expects(self::at(0))
+            ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will(self::returnValue([$content1]));
+            ->willReturnCallback(function (...$parameters) use ($extractMatcher, $content1, $content2) {
+                $this->assertSame([[], [], 'content_', null], $parameters);
 
+                return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
+            });
+
+        $deleteFieldMatcher = self::exactly(2);
         $this->getContentGatewayMock()
-            ->expects(self::at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will(self::returnValue([]));
-
-        $this->getContentMapperMock()
-            ->expects(self::at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will(self::returnValue([$content2]));
-
-        $this->getContentGatewayMock()
-            ->expects(self::at(5))
+            ->expects($deleteFieldMatcher)
             ->method('deleteField')
-            ->with(self::equalTo($fieldId1));
+            ->willReturnCallback(function (...$parameters) use ($deleteFieldMatcher, $fieldId1, $fieldId2) {
+                $expected = $deleteFieldMatcher->numberOfInvocations() === 1 ? $fieldId1 : $fieldId2;
+                $this->assertSame([$expected], $parameters);
+            });
+
+        $deleteFieldDataMatcher = self::exactly(2);
+        $this->getContentStorageHandlerMock()
+            ->expects($deleteFieldDataMatcher)
+            ->method('deleteFieldData')
+            ->willReturnCallback(function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId1, $fieldId2) {
+                $expectedVersionInfo = $deleteFieldDataMatcher->numberOfInvocations() === 1
+                    ? $content1->versionInfo
+                    : $content2->versionInfo;
+                $this->assertSame(['ibexa_string', $expectedVersionInfo, [$fieldId1, $fieldId2]], $parameters);
+            });
 
         $this->getContentGatewayMock()
-            ->expects(self::at(6))
-            ->method('deleteField')
-            ->with(self::equalTo($fieldId2));
-
-        $this->getContentStorageHandlerMock()
-            ->expects(self::at(0))
-            ->method('deleteFieldData')
-            ->with(
-                self::equalTo('ibexa_string'),
-                $content1->versionInfo,
-                self::equalTo([$fieldId1, $fieldId2])
-            );
-
-        $this->getContentStorageHandlerMock()
-            ->expects(self::at(1))
-            ->method('deleteFieldData')
-            ->with(
-                self::equalTo('ibexa_string'),
-                $content2->versionInfo,
-                self::equalTo([$fieldId1, $fieldId2])
-            );
-
-        $this->getContentGatewayMock()
-            ->expects(self::at(4))
+            ->expects(self::once())
             ->method('removeRelationsByFieldDefinitionId')
             ->with(self::equalTo(42));
 

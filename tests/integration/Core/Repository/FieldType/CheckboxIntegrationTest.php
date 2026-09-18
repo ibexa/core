@@ -16,13 +16,17 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
+use Ibexa\Core\Repository\SearchService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[CoversClass(SearchService::class)]
+#[Group('integration')]
+#[Group('field-type')]
 class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
 {
     private const IS_ACTIVE_FIELD_DEF_IDENTIFIER = 'is_active';
@@ -145,7 +149,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -188,9 +192,9 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData(): array
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -237,7 +241,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData(): array
     {
         return [
             [
@@ -254,7 +258,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData(): array
     {
         return [
             [
@@ -264,15 +268,22 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsEmptyValue(): array
     {
-        return [];
+        // Checkbox has no "empty" value: it is always either true or false.
+        return [[self::NO_EMPTY_VALUE_DATA]];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
-            [$this->getValidCreationFieldData()],
+            [new CheckboxValue(true)],
             [new CheckboxValue(true)],
             [new CheckboxValue()],
             [new CheckboxValue(null)],
@@ -280,31 +291,31 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    protected function getValidSearchValueOne(): bool
+    protected static function getValidSearchValueOne(): bool
     {
         return false;
     }
 
-    protected function getValidSearchValueTwo(): bool
+    protected static function getValidSearchValueTwo(): bool
     {
         return true;
     }
 
-    protected function getSearchTargetValueOne()
+    protected static function getSearchTargetValueOne()
     {
         // Handling Legacy Search Engine, which stores Checkbox value as integer
-        if ($this->getSetupFactory() instanceof Legacy) {
-            return (int)$this->getValidSearchValueOne();
+        if (static::resolveSetupFactory() instanceof Legacy) {
+            return (int)static::getValidSearchValueOne();
         }
 
         return parent::getSearchTargetValueOne();
     }
 
-    protected function getSearchTargetValueTwo()
+    protected static function getSearchTargetValueTwo()
     {
         // Handling Legacy Search Engine, which stores Checkbox value as integer
-        if ($this->getSetupFactory() instanceof Legacy) {
-            return (int)$this->getValidSearchValueTwo();
+        if (static::resolveSetupFactory() instanceof Legacy) {
+            return (int)static::getValidSearchValueTwo();
         }
 
         return parent::getSearchTargetValueTwo();
@@ -313,7 +324,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
     /**
      * Data corresponds to Content items created by {@see createCheckboxContentItems}.
      */
-    public function getDataForTestFindContentFieldCriterion(): iterable
+    public static function getDataForTestFindContentFieldCriterion(): iterable
     {
         // there are 2 Content items created, one with is_active = true, the other one with is_active = false
         yield 'active' => [true];
@@ -321,14 +332,11 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
     }
 
     /**
-     * @dataProvider getDataForTestFindContentFieldCriterion
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[DataProvider('getDataForTestFindContentFieldCriterion')]
     public function testFindContentFieldCriterion(bool $isActive): void
     {
         $repository = $this->getRepository();

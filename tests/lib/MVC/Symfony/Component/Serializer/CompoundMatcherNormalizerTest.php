@@ -13,15 +13,17 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound;
 use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\CompoundStub;
 use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\MatcherStub;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer
- *
  * @phpstan-type TNormalizedData array{type?: class-string, subMatchers: array<mixed>, config: array<mixed>, matchersMap: array<mixed>}
  */
+#[CoversClass(CompoundMatcherNormalizer::class)]
 final class CompoundMatcherNormalizerTest extends TestCase
 {
     /** @phpstan-var TNormalizedData */
@@ -79,8 +81,8 @@ final class CompoundMatcherNormalizerTest extends TestCase
     {
         $normalizer = new CompoundMatcherNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(Compound::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization(self::createStub(Compound::class)));
+        self::assertFalse($normalizer->supportsNormalization(self::createStub(Matcher::class)));
     }
 
     /**
@@ -98,11 +100,10 @@ final class CompoundMatcherNormalizerTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataForSupportsNormalization
-     *
      * @phpstan-param TNormalizedData $data
      * @phpstan-param class-string $type
      */
+    #[DataProvider('getDataForSupportsNormalization')]
     public function testSupportsDenormalization(array $data, string $type, bool $supports): void
     {
         $normalizer = new CompoundMatcherNormalizer();
@@ -111,12 +112,11 @@ final class CompoundMatcherNormalizerTest extends TestCase
     }
 
     /**
-     * @depends testNormalization
-     *
      * @phpstan-param array{type: class-string, subMatchers: array<mixed>, config: array{}, matchersMap: array{}} $data
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[Depends('testNormalization')]
     public function testDenormalization(array $data): void
     {
         $expectedCompoundMatcher = new CompoundStub($this->getSubMatchers());

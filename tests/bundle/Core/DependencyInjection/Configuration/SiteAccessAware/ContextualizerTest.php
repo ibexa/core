@@ -10,12 +10,15 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\SiteAccessAw
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextualizer;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContextualizerTest extends TestCase
 {
+    private const string SA_NODE_NAME = 'heyho';
+
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $container;
 
@@ -23,7 +26,7 @@ class ContextualizerTest extends TestCase
     private $namespace = 'ibexa_test';
 
     /** @var string */
-    private $saNodeName = 'heyho';
+    private $saNodeName = self::SA_NODE_NAME;
 
     /** @var array */
     private $availableSAs = ['sa1', 'sa2', 'sa3'];
@@ -58,10 +61,8 @@ class ContextualizerTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider setContextualParameterProvider
-     */
-    public function testSetContextualParameter($parameterName, $scope, $value)
+    #[DataProvider('setContextualParameterProvider')]
+    public function testSetContextualParameter($parameterName, $scope, $value): void
     {
         $this->container
             ->expects(self::once())
@@ -71,7 +72,10 @@ class ContextualizerTest extends TestCase
         $this->contextualizer->setContextualParameter($parameterName, $scope, $value);
     }
 
-    public function setContextualParameterProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function setContextualParameterProvider(): array
     {
         return [
             ['my_parameter', 'sa1', 'foobar'],
@@ -83,7 +87,7 @@ class ContextualizerTest extends TestCase
         ];
     }
 
-    public function testMapSetting()
+    public function testMapSetting(): void
     {
         $fooSa1 = 'bar';
         $planetsSa1 = ['Earth'];
@@ -131,7 +135,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($boolSa2, $container->getParameter("$this->namespace.sa2.a_bool"));
     }
 
-    public function testMapConfigArray()
+    public function testMapConfigArray(): void
     {
         $containerBuilder = new ContainerBuilder();
         $this->contextualizer->setContainer($containerBuilder);
@@ -233,7 +237,7 @@ class ContextualizerTest extends TestCase
         );
     }
 
-    public function testMapConfigArraySecondLevel()
+    public function testMapConfigArraySecondLevel(): void
     {
         $containerBuilder = new ContainerBuilder();
         $this->contextualizer->setContainer($containerBuilder);
@@ -343,7 +347,7 @@ class ContextualizerTest extends TestCase
         );
     }
 
-    public function testMapConfigArrayUnique()
+    public function testMapConfigArrayUnique(): void
     {
         $containerBuilder = new ContainerBuilder();
         $this->contextualizer->setContainer($containerBuilder);
@@ -396,7 +400,7 @@ class ContextualizerTest extends TestCase
         );
     }
 
-    public function testGetSetContainer()
+    public function testGetSetContainer(): void
     {
         self::assertSame($this->container, $this->contextualizer->getContainer());
         $containerBuilder = new ContainerBuilder();
@@ -404,7 +408,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($containerBuilder, $this->contextualizer->getContainer());
     }
 
-    public function testGetSetSANodeName()
+    public function testGetSetSANodeName(): void
     {
         $nodeName = 'foobarbaz';
         self::assertSame($this->saNodeName, $this->contextualizer->getSiteAccessNodeName());
@@ -412,7 +416,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($nodeName, $this->contextualizer->getSiteAccessNodeName());
     }
 
-    public function testGetSetNamespace()
+    public function testGetSetNamespace(): void
     {
         $ns = 'ibexa';
         self::assertSame($this->namespace, $this->contextualizer->getNamespace());
@@ -420,7 +424,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($ns, $this->contextualizer->getNamespace());
     }
 
-    public function testGetSetAvailableSiteAccesses()
+    public function testGetSetAvailableSiteAccesses(): void
     {
         self::assertSame($this->availableSAs, $this->contextualizer->getAvailableSiteAccesses());
         $sa = ['foo', 'bar', 'baz'];
@@ -428,7 +432,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($sa, $this->contextualizer->getAvailableSiteAccesses());
     }
 
-    public function testGetSetGroupsBySA()
+    public function testGetSetGroupsBySA(): void
     {
         self::assertSame($this->groupsBySA, $this->contextualizer->getGroupsBySiteAccess());
         $groups = ['foo' => ['bar', 'baz'], 'group2' => ['some', 'thing']];
@@ -439,9 +443,8 @@ class ContextualizerTest extends TestCase
     /**
      * Test that settings array a properly merged when defined in several
      * scopes.
-     *
-     * @dataProvider fullMapConfigArrayProvider
      */
+    #[DataProvider('fullMapConfigArrayProvider')]
     public function testFullMapConfigArray(
         $testId,
         $siteaccess,
@@ -452,7 +455,7 @@ class ContextualizerTest extends TestCase
         $options,
         array $expected,
         $customSANodeKey = null
-    ) {
+    ): void {
         $this->contextualizer->setAvailableSiteAccesses($config['siteaccess']['list']);
         $this->contextualizer->setGroupsBySiteAccess([$siteaccess => $groups]);
 
@@ -502,7 +505,10 @@ class ContextualizerTest extends TestCase
         $this->contextualizer->mapConfigArray($testId, $config, $options);
     }
 
-    public function fullMapConfigArrayProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function fullMapConfigArrayProvider(): array
     {
         $testId = 'wizards';
         $siteaccess = 'krondor';
@@ -638,7 +644,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [],
+                    self::SA_NODE_NAME => [],
                 ],
                 0,
                 $all,
@@ -652,7 +658,7 @@ class ContextualizerTest extends TestCase
                 $all,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [],
+                    self::SA_NODE_NAME => [],
                 ],
                 0,
                 $all,
@@ -666,7 +672,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group2 => [$testId => $all],
                     ],
                 ],
@@ -682,7 +688,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $siteaccess => [$testId => $all],
                     ],
                 ],
@@ -698,7 +704,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Pug', 'Rogen', 'William']],
                     ],
                 ],
@@ -714,7 +720,7 @@ class ContextualizerTest extends TestCase
                 ['Pug', 'Rogen', 'William'],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Kulgan', 'Macros the Black']],
                     ],
                 ],
@@ -730,7 +736,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Pug', 'Rogen']],
                         $group2 => [$testId => ['William']],
                     ],
@@ -747,7 +753,7 @@ class ContextualizerTest extends TestCase
                 ['Kulgan', 'Macros the Black'],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Pug', 'Rogen']],
                         $group2 => [$testId => ['William']],
                     ],
@@ -764,7 +770,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Pug']],
                         $group2 => [$testId => ['Rogen']],
                         $siteaccess => [$testId => ['William']],
@@ -782,7 +788,7 @@ class ContextualizerTest extends TestCase
                 ['Kulgan', 'Macros the Black'],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Pug']],
                         $group2 => [$testId => ['Rogen']],
                         $siteaccess => [$testId => ['William']],
@@ -800,7 +806,7 @@ class ContextualizerTest extends TestCase
                 ['William'],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Pug']],
                         $group2 => [$testId => ['Rogen']],
                     ],
@@ -817,7 +823,7 @@ class ContextualizerTest extends TestCase
                 ['William'],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Macros the Black']],
                         $group2 => [$testId => ['Pug']],
                         $siteaccess => [$testId => ['Rogen']],
@@ -837,7 +843,7 @@ class ContextualizerTest extends TestCase
                 ['William'],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Macros the Black']],
                         $group2 => [$testId => ['Pug']],
                         $siteaccess => [$testId => ['Rogen', 'Pug']],
@@ -854,7 +860,7 @@ class ContextualizerTest extends TestCase
                 ['William', 'Kulgan', 'Pug'],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testId => ['Macros the Black']],
                         $group2 => [$testId => ['Pug', 'William', 'Kulgan']],
                         $siteaccess => [$testId => ['Rogen', 'Pug', 'Rogen', 'Macros the Black']],
@@ -875,7 +881,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [],
+                    self::SA_NODE_NAME => [],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
                 $locationView1,
@@ -889,7 +895,7 @@ class ContextualizerTest extends TestCase
                 $locationView1,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [],
+                    self::SA_NODE_NAME => [],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
                 $locationView1,
@@ -903,7 +909,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView1],
                     ],
                 ],
@@ -919,7 +925,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $siteaccess => [$testIdHash => $locationView1],
                     ],
                 ],
@@ -936,7 +942,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                     ],
                 ],
@@ -952,7 +958,7 @@ class ContextualizerTest extends TestCase
                 $locationView1,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                     ],
                 ],
@@ -968,7 +974,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                         $group2 => [$testIdHash => $locationView3],
                     ],
@@ -985,7 +991,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                         $group2 => [$testIdHash => $locationView3],
                         $siteaccess => [$testIdHash => $locationView4],
@@ -1003,7 +1009,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView1],
                         $group2 => [$testIdHash => $locationView2],
                     ],
@@ -1020,7 +1026,7 @@ class ContextualizerTest extends TestCase
                 $locationView3,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView1],
                         $group2 => [$testIdHash => $locationView2],
                     ],
@@ -1037,7 +1043,7 @@ class ContextualizerTest extends TestCase
                 $locationView4,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView1],
                         $group2 => [$testIdHash => $locationView2],
                         $siteaccess => [$testIdHash => $locationView3],
@@ -1056,7 +1062,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $siteaccess => [$testIdHash => $locationView3],
                         $group1 => [$testIdHash => $locationView1],
                         $group2 => [$testIdHash => $locationView2],
@@ -1074,7 +1080,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                         $siteaccess => [$testIdHash => $locationView3],
                     ],
@@ -1091,7 +1097,7 @@ class ContextualizerTest extends TestCase
                 $locationView4,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                         $siteaccess => [$testIdHash => $locationView3],
                     ],
@@ -1108,7 +1114,7 @@ class ContextualizerTest extends TestCase
                 $locationView3,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group2 => [$testIdHash => $locationView1],
                         $siteaccess => [$testIdHash => $locationView2],
                     ],
@@ -1125,7 +1131,7 @@ class ContextualizerTest extends TestCase
                 $locationView3,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group2 => [$testIdHash => $locationView2],
                     ],
                 ],
@@ -1145,7 +1151,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [],
+                    self::SA_NODE_NAME => [],
                 ],
                 0,
                 $locationView1,
@@ -1159,7 +1165,7 @@ class ContextualizerTest extends TestCase
                 $locationView1,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [],
+                    self::SA_NODE_NAME => [],
                 ],
                 0,
                 $locationView1,
@@ -1173,7 +1179,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView1],
                     ],
                 ],
@@ -1189,7 +1195,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $siteaccess => [$testIdHash => $locationView1],
                     ],
                 ],
@@ -1205,7 +1211,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                     ],
                 ],
@@ -1221,7 +1227,7 @@ class ContextualizerTest extends TestCase
                 $locationView1,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                     ],
                 ],
@@ -1237,7 +1243,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                         $group2 => [$testIdHash => $locationView3],
                     ],
@@ -1254,7 +1260,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                         $group2 => [$testIdHash => $locationView3],
                         $siteaccess => [$testIdHash => $locationView4],
@@ -1272,7 +1278,7 @@ class ContextualizerTest extends TestCase
                 $locationView4,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                         $group2 => [$testIdHash => $locationView3],
                     ],
@@ -1289,7 +1295,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView1],
                         $group2 => [$testIdHash => $locationView2],
                     ],
@@ -1306,7 +1312,7 @@ class ContextualizerTest extends TestCase
                 $locationView3,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView1],
                         $group2 => [$testIdHash => $locationView2],
                     ],
@@ -1323,7 +1329,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $siteaccess => [$testIdHash => $locationView3],
                         $group1 => [$testIdHash => $locationView1],
                         $group2 => [$testIdHash => $locationView2],
@@ -1341,7 +1347,7 @@ class ContextualizerTest extends TestCase
                 $locationView4,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $siteaccess => [$testIdHash => $locationView3],
                         $group1 => [$testIdHash => $locationView1],
                         $group2 => [$testIdHash => $locationView2],
@@ -1359,7 +1365,7 @@ class ContextualizerTest extends TestCase
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group1 => [$testIdHash => $locationView2],
                         $siteaccess => [$testIdHash => $locationView3],
                     ],
@@ -1376,7 +1382,7 @@ class ContextualizerTest extends TestCase
                 $locationView3,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group2 => [$testIdHash => $locationView1],
                         $siteaccess => [$testIdHash => $locationView2],
                     ],
@@ -1393,7 +1399,7 @@ class ContextualizerTest extends TestCase
                 $locationView3,
                 [
                     'siteaccess' => $siteaccessConfig,
-                    $this->saNodeName => [
+                    self::SA_NODE_NAME => [
                         $group2 => [$testIdHash => $locationView2],
                     ],
                 ],
@@ -1404,9 +1410,9 @@ class ContextualizerTest extends TestCase
 
         foreach ($cases as $k => $newcase) {
             // run the same tests with another baseKey than the default one
-            if (isset($newcase[5][$this->saNodeName])) {
-                $newcase[5]['customBaseKey'] = $newcase[5][$this->saNodeName];
-                unset($newcase[5][$this->saNodeName]);
+            if (isset($newcase[5][self::SA_NODE_NAME])) {
+                $newcase[5]['customBaseKey'] = $newcase[5][self::SA_NODE_NAME];
+                unset($newcase[5][self::SA_NODE_NAME]);
                 $newcase[] = 'customBaseKey';
                 $cases[] = $newcase;
             }

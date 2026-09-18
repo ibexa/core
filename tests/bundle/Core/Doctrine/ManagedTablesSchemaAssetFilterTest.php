@@ -25,8 +25,8 @@ final class ManagedTablesSchemaAssetFilterTest extends TestCase
     private function createFilter(array $entityTableNames): ManagedTablesSchemaAssetFilter
     {
         $classMetadataList = array_map(
-            function (string $tableName): ClassMetadata {
-                $classMetadata = $this->createStub(ClassMetadata::class);
+            static function (string $tableName): ClassMetadata {
+                $classMetadata = self::createStub(ClassMetadata::class);
                 $classMetadata->method('getTableName')->willReturn($tableName);
 
                 return $classMetadata;
@@ -34,15 +34,15 @@ final class ManagedTablesSchemaAssetFilterTest extends TestCase
             $entityTableNames
         );
 
-        $metadataFactory = $this->createStub(ClassMetadataFactory::class);
+        $metadataFactory = self::createStub(ClassMetadataFactory::class);
         $metadataFactory->method('getAllMetadata')->willReturn($classMetadataList);
 
-        $entityManager = $this->createStub(EntityManagerInterface::class);
+        $entityManager = self::createStub(EntityManagerInterface::class);
         $entityManager->method('getMetadataFactory')->willReturn($metadataFactory);
 
-        $nonEntityManager = $this->createStub(ObjectManager::class);
+        $nonEntityManager = self::createStub(ObjectManager::class);
 
-        $managerRegistry = $this->createStub(ManagerRegistry::class);
+        $managerRegistry = self::createStub(ManagerRegistry::class);
         $managerRegistry->method('getManagers')->willReturn([$entityManager, $nonEntityManager]);
 
         return new ManagedTablesSchemaAssetFilter($managerRegistry);

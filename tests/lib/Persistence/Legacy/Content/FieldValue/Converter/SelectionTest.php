@@ -15,11 +15,11 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverte
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter
- */
+#[CoversClass(SelectionConverter::class)]
 class SelectionTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter */
@@ -32,11 +32,9 @@ class SelectionTest extends TestCase
         $this->converter = new SelectionConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
-    public function testToStorageValue()
+    #[Group('fieldType')]
+    #[Group('selection')]
+    public function testToStorageValue(): void
     {
         $fieldValue = new FieldValue();
         $fieldValue->data = [1, 3];
@@ -56,11 +54,9 @@ class SelectionTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
-    public function testToStorageValueEmpty()
+    #[Group('fieldType')]
+    #[Group('selection')]
+    public function testToStorageValueEmpty(): void
     {
         $fieldValue = new FieldValue();
         $fieldValue->data = [];
@@ -80,11 +76,9 @@ class SelectionTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
-    public function testToFieldValue()
+    #[Group('fieldType')]
+    #[Group('selection')]
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = '1-3';
@@ -104,11 +98,9 @@ class SelectionTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
-    public function testToFieldValueEmpty()
+    #[Group('fieldType')]
+    #[Group('selection')]
+    public function testToFieldValueEmpty(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = '';
@@ -128,11 +120,9 @@ class SelectionTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
-    public function testToStorageFieldDefinitionMultiple()
+    #[Group('fieldType')]
+    #[Group('selection')]
+    public function testToStorageFieldDefinitionMultiple(): void
     {
         $fieldDefinition = new PersistenceFieldDefinition(
             [
@@ -168,11 +158,9 @@ EOT;
         self::assertEquals($expectedStorageFieldDefinition, $actualStorageFieldDefinition);
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
-    public function testToStorageFieldDefinitionSingle()
+    #[Group('fieldType')]
+    #[Group('selection')]
+    public function testToStorageFieldDefinitionSingle(): void
     {
         $fieldDefinition = new PersistenceFieldDefinition(
             [
@@ -206,11 +194,9 @@ EOT;
         self::assertEquals($expectedStorageFieldDefinition, $actualStorageFieldDefinition);
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
-    public function testToFieldDefinitionMultiple()
+    #[Group('fieldType')]
+    #[Group('selection')]
+    public function testToFieldDefinitionMultiple(): void
     {
         $storageFieldDefinition = new StorageFieldDefinition();
         $storageFieldDefinition->dataInt1 = 1;
@@ -275,11 +261,9 @@ EOT;
         self::assertEquals($expectedFieldDefinition, $actualFieldDefinition);
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
-    public function testToFieldDefinitionSingleEmpty()
+    #[Group('fieldType')]
+    #[Group('selection')]
+    public function testToFieldDefinitionSingleEmpty(): void
     {
         $storageFieldDefinition = new StorageFieldDefinition();
         $storageFieldDefinition->dataInt1 = 0;

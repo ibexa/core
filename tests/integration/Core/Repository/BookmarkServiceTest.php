@@ -17,18 +17,20 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
+use Ibexa\Core\Repository\BookmarkService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Test case for the BookmarkService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\BookmarkService
  */
+#[CoversClass(BookmarkService::class)]
 class BookmarkServiceTest extends BaseTestCase
 {
     public const LOCATION_ID_BOOKMARKED = 5;
     public const LOCATION_ID_NOT_BOOKMARKED = 44;
 
-    public function testIsBookmarked()
+    public function testIsBookmarked(): void
     {
         $repository = $this->getRepository();
 
@@ -40,7 +42,7 @@ class BookmarkServiceTest extends BaseTestCase
         self::assertTrue($isBookmarked);
     }
 
-    public function testIsNotBookmarked()
+    public function testIsNotBookmarked(): void
     {
         $repository = $this->getRepository();
 
@@ -52,7 +54,7 @@ class BookmarkServiceTest extends BaseTestCase
         self::assertFalse($isBookmarked);
     }
 
-    public function testCreateBookmark()
+    public function testCreateBookmark(): void
     {
         $repository = $this->getRepository();
 
@@ -70,10 +72,8 @@ class BookmarkServiceTest extends BaseTestCase
         self::assertTrue($afterCreateBookmark);
     }
 
-    /**
-     * @depends testCreateBookmark
-     */
-    public function testCreateBookmarkThrowsInvalidArgumentException()
+    #[Depends('testCreateBookmark')]
+    public function testCreateBookmarkThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -88,7 +88,7 @@ class BookmarkServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    public function testDeleteBookmark()
+    public function testDeleteBookmark(): void
     {
         $repository = $this->getRepository();
 
@@ -107,10 +107,8 @@ class BookmarkServiceTest extends BaseTestCase
         self::assertFalse($afterDeleteBookmark);
     }
 
-    /**
-     * @depends testDeleteBookmark
-     */
-    public function testDeleteBookmarkThrowsInvalidArgumentException()
+    #[Depends('testDeleteBookmark')]
+    public function testDeleteBookmarkThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -125,7 +123,7 @@ class BookmarkServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    public function testLoadBookmarks()
+    public function testLoadBookmarks(): void
     {
         $repository = $this->getRepository();
 

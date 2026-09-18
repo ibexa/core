@@ -14,11 +14,11 @@ use Ibexa\Core\FieldType\RelationList\Type;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter
- */
+#[CoversClass(RelationListConverter::class)]
 class RelationListTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter */
@@ -30,15 +30,13 @@ class RelationListTest extends TestCase
         $this->converter = $this
             ->getMockBuilder(RelationListConverter::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getRelationXmlHashFromDB'])
+            ->onlyMethods(['getRelationXmlHashFromDB'])
             ->getMock();
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
-    public function testToStorageValue()
+    #[Group('fieldType')]
+    #[Group('relationlist')]
+    public function testToStorageValue(): void
     {
         $destinationContentIds = [3, 2, 1];
         $fieldValue = new FieldValue();
@@ -103,11 +101,9 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
-    public function testToStorageValueEmpty()
+    #[Group('fieldType')]
+    #[Group('relationlist')]
+    public function testToStorageValueEmpty(): void
     {
         $destinationContentIds = [];
         $fieldValue = new FieldValue();
@@ -137,11 +133,9 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
-    public function testToFieldValue()
+    #[Group('fieldType')]
+    #[Group('relationlist')]
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->sortKeyString = '';
@@ -164,11 +158,9 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
-    public function testToFieldValueEmpty()
+    #[Group('fieldType')]
+    #[Group('relationlist')]
+    public function testToFieldValueEmpty(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->sortKeyString = '';
@@ -191,11 +183,9 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
-    public function testToStorageFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('relationlist')]
+    public function testToStorageFieldDefinition(): void
     {
         $fieldDefinition = new PersistenceFieldDefinition(
             [
@@ -234,11 +224,9 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group relationlist
-     */
-    public function testToFieldDefinitionMultiple()
+    #[Group('fieldType')]
+    #[Group('relationlist')]
+    public function testToFieldDefinitionMultiple(): void
     {
         $storageFieldDefinition = new StorageFieldDefinition();
         $storageFieldDefinition->dataText5 = <<<EOT

@@ -12,10 +12,9 @@ use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**

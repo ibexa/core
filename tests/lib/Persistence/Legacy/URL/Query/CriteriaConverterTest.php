@@ -12,11 +12,11 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
+use Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class CriteriaConverterTest extends TestCase
 {
     /**
@@ -32,9 +32,9 @@ class CriteriaConverterTest extends TestCase
             $barCriterionHandler,
         ]);
 
-        $barCriterion = $this->createMock(Criterion::class);
+        $barCriterion = self::createStub(Criterion::class);
 
-        $selectQuery = $this->createMock(QueryBuilder::class);
+        $selectQuery = self::createStub(QueryBuilder::class);
 
         $fooCriterionHandler
             ->expects(self::once())
@@ -77,8 +77,8 @@ class CriteriaConverterTest extends TestCase
 
         $criteriaConverter = new CriteriaConverter();
         $criteriaConverter->convertCriteria(
-            $this->createMock(QueryBuilder::class),
-            $this->createMock(Criterion::class)
+            self::createStub(QueryBuilder::class),
+            self::createStub(Criterion::class)
         );
     }
 }

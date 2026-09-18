@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Base\Container\Compiler\Search\Legacy;
 use Ibexa\Core\Base\Container\Compiler\Search\Legacy\CriteriaConverterPass;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -27,9 +28,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new CriteriaConverterPass());
     }
 
-    /**
-     * @dataProvider provideDescribedServiceToTagName
-     */
+    #[DataProvider('provideDescribedServiceToTagName')]
     public function testAddHandlers(string $serviceId, string $tag): void
     {
         $this->setDefinition(
@@ -50,9 +49,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider provideDescribedServiceToTagName
-     */
+    #[DataProvider('provideDescribedServiceToTagName')]
     public function testAddContentHandlersWithPriority(string $serviceId, string $tag): void
     {
         $this->setDefinition(

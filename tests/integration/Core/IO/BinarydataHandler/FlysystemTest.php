@@ -11,14 +11,14 @@ namespace Ibexa\Tests\Integration\Core\IO\BinarydataHandler;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Core\IO\IOBinarydataHandler;
+use Ibexa\Core\IO\IOBinarydataHandler\Flysystem;
 use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapterInterface;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\Visibility;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @covers \Ibexa\Core\IO\IOBinarydataHandler\Flysystem
- */
+#[CoversClass(Flysystem::class)]
 final class FlysystemTest extends IbexaKernelTestCase
 {
     private IOBinarydataHandler $binaryDataHandler;

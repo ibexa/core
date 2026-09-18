@@ -8,22 +8,20 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Core\Repository\URLWildcardService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the URLWildcardService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService
- *
- * @group integration
- * @group authorization
  */
+#[CoversClass(URLWildcardService::class)]
+#[Group('integration')]
+#[Group('authorization')]
 class URLWildcardServiceAuthorizationTest extends BaseTestCase
 {
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLWildcardServiceTest::testCreate
-     */
+    #[DependsExternal(URLWildcardServiceTest::class, 'testCreate')]
     public function testCreateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
@@ -47,12 +45,9 @@ class URLWildcardServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the remove() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::remove()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\URLWildcardServiceTest::testRemove
      */
-    public function testRemoveThrowsUnauthorizedException()
+    #[DependsExternal(URLWildcardServiceTest::class, 'testRemove')]
+    public function testRemoveThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

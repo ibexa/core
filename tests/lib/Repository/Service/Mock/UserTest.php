@@ -22,10 +22,10 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\UserService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * @covers \Ibexa\Core\Repository\UserService
- */
+#[CoversClass(UserService::class)]
 class UserTest extends BaseServiceMockTest
 {
     private const MOCKED_USER_ID = 42;
@@ -60,7 +60,7 @@ class UserTest extends BaseServiceMockTest
         $repository = $this->getRepositoryMock();
         $userService = $this->getPartlyMockedUserService(['loadUser']);
         $contentService = $this->createMock(APIContentService::class);
-        /* @var \Ibexa\Contracts\Core\Persistence\User\Handler&\PHPUnit\Framework\MockObject\MockObject $userHandler */
+        /* @var PersistenceUserHandler&MockObject $userHandler */
         $userHandler = $this->getPersistenceMock()->userHandler();
 
         $user = $this->createMock(APIUser::class);
@@ -91,36 +91,28 @@ class UserTest extends BaseServiceMockTest
     protected function getPartlyMockedUserService(?array $methods = null): APIUserService
     {
         return $this->getMockBuilder(UserService::class)
-            ->onlyMethods($methods)
+            ->onlyMethods(array_values($methods))
             ->setConstructorArgs(
                 [
                     $this->getRepositoryMock(),
                     $this->getPermissionResolverMock(),
                     $this->getPersistenceMock()->userHandler(),
                     $this->getPersistenceMock()->locationHandler(),
-                    $this->createMock(PasswordHashService::class),
-                    $this->createMock(PasswordValidatorInterface::class),
-                    $this->createMock(ConfigResolverInterface::class),
+                    self::createStub(PasswordHashService::class),
+                    self::createStub(PasswordValidatorInterface::class),
+                    self::createStub(ConfigResolverInterface::class),
                 ]
             )
             ->getMock();
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository&\PHPUnit\Framework\MockObject\MockObject $repository
-     * @param \Ibexa\Contracts\Core\Repository\UserService&\PHPUnit\Framework\MockObject\MockObject $userService
-     * @param \Ibexa\Contracts\Core\Repository\ContentService&\PHPUnit\Framework\MockObject\MockObject $contentService
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User&\PHPUnit\Framework\MockObject\MockObject $user
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo&\PHPUnit\Framework\MockObject\MockObject $contentInfo
-     * @param \Ibexa\Contracts\Core\Persistence\User\Handler&\PHPUnit\Framework\MockObject\MockObject $userHandler
-     */
     private function mockDeleteUserFlow(
-        Repository $repository,
-        APIUserService $userService,
-        APIContentService $contentService,
-        User $user,
-        APIContentInfo $contentInfo,
-        PersistenceUserHandler $userHandler
+        Repository&MockObject $repository,
+        APIUserService&MockObject $userService,
+        APIContentService&MockObject $contentService,
+        User&MockObject $user,
+        APIContentInfo&MockObject $contentInfo,
+        PersistenceUserHandler&MockObject $userHandler
     ): void {
         $loadedUser = $this->createMock(APIUser::class);
         $versionInfo = $this->createMock(APIVersionInfo::class);

@@ -22,7 +22,7 @@ class EZP21771IbexaStringTest extends BaseTestCase
      * It shouldn't throw a fatal error when inserting 11 consecutive digits
      * into an IbexaString field
      */
-    public function test11NumbersOnIbexaString()
+    public function test11NumbersOnIbexaString(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();

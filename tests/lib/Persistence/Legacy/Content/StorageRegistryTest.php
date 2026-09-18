@@ -11,10 +11,9 @@ use Ibexa\Contracts\Core\FieldType\FieldStorage;
 use Ibexa\Core\FieldType\NullStorage;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry
- */
+#[CoversClass(StorageRegistry::class)]
 class StorageRegistryTest extends TestCase
 {
     private const TYPE_NAME = 'some-type';
@@ -27,7 +26,7 @@ class StorageRegistryTest extends TestCase
         self::assertSame($storage, $registry->getStorage(self::TYPE_NAME));
     }
 
-    public function testGetStorage()
+    public function testGetStorage(): void
     {
         $storage = $this->getStorageMock();
         $registry = new StorageRegistry([self::TYPE_NAME => $storage]);
@@ -40,7 +39,7 @@ class StorageRegistryTest extends TestCase
         );
     }
 
-    public function testGetNotFound()
+    public function testGetNotFound(): void
     {
         $registry = new StorageRegistry([]);
         self::assertInstanceOf(

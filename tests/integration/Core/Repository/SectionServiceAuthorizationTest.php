@@ -9,23 +9,22 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Core\Repository\SectionService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the SectionService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\SectionService
- *
- * @group integration
- * @group authorization
  */
+#[CoversClass(SectionService::class)]
+#[Group('integration')]
+#[Group('authorization')]
 class SectionServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
      */
-    public function testCreateSectionThrowsUnauthorizedException()
+    public function testCreateSectionThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -52,10 +51,8 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSection()
      */
-    public function testLoadSectionThrowsUnauthorizedException()
+    public function testLoadSectionThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -84,10 +81,8 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the updateSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
      */
-    public function testUpdateSectionThrowsUnauthorizedException()
+    public function testUpdateSectionThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -120,10 +115,8 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadSections() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
      */
-    public function testLoadSectionsLoadsEmptyListForAnonymousUser()
+    public function testLoadSectionsLoadsEmptyListForAnonymousUser(): void
     {
         $repository = $this->getRepository();
 
@@ -157,10 +150,8 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadSections() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
      */
-    public function testLoadSectionFiltersSections()
+    public function testLoadSectionFiltersSections(): void
     {
         $repository = $this->getRepository();
 
@@ -202,10 +193,8 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the loadSectionByIdentifier() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSectionByIdentifier()
      */
-    public function testLoadSectionByIdentifierThrowsUnauthorizedException()
+    public function testLoadSectionByIdentifierThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -234,10 +223,8 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the assignSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::assignSection()
      */
-    public function testAssignSectionThrowsUnauthorizedException()
+    public function testAssignSectionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -276,10 +263,8 @@ class SectionServiceAuthorizationTest extends BaseTestCase
 
     /**
      * Test for the deleteSection() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
      */
-    public function testDeleteSectionThrowsUnauthorizedException()
+    public function testDeleteSectionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

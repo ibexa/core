@@ -14,18 +14,21 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\FieldType\TextLine;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(ContentService::class)]
 final class ContentMapperTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler&\PHPUnit\Framework\MockObject\MockObject */
-    private Handler $contentLanguageHandler;
+    private Handler&Stub $contentLanguageHandler;
 
     /** @var \Ibexa\Core\FieldType\FieldTypeRegistry&\PHPUnit\Framework\MockObject\MockObject */
     private FieldTypeRegistry $fieldTypeRegistry;
@@ -34,7 +37,7 @@ final class ContentMapperTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->contentLanguageHandler = $this->createMock(Handler::class);
+        $this->contentLanguageHandler = self::createStub(Handler::class);
         $this->fieldTypeRegistry = $this->createMock(FieldTypeRegistry::class);
 
         $this->contentMapper = new ContentMapper(
@@ -44,8 +47,6 @@ final class ContentMapperTest extends TestCase
     }
 
     /**
-     * @covers \Ibexa\Core\Repository\ContentService::updateContent
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
     public function testUpdateContentGetsProperFieldsToUpdate(): void

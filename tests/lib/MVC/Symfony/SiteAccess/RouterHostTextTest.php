@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 
 class RouterHostTextTest extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'default_sa'],
@@ -73,13 +73,13 @@ class RouterHostTextTest extends RouterBaseTestCase
         ];
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $matcher = new HostTextMatcher(['host' => 'foo'], []);
         self::assertSame('host:text', $matcher->getName());
     }
 
-    public function testReverseMatch()
+    public function testReverseMatch(): void
     {
         $matcher = new HostTextMatcher(
             [
@@ -101,7 +101,7 @@ class RouterHostTextTest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            self::createStub(LoggerInterface::class),
             'default_sa',
             [
                 'HostText' => [

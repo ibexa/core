@@ -24,7 +24,7 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
         return SpiURLHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
         return [
@@ -34,7 +34,7 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $url = new URL(['id' => 1]);
 
@@ -44,7 +44,7 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $url = new URL(['id' => 1]);
 
@@ -91,38 +91,60 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
             ->method('updateUrl')
             ->with($urlId, $updateStruct)
             ->willReturn(true);
+        $matcher = self::exactly(4);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(4))
-            ->method('generateTag')
-            ->withConsecutive(
-                ['url', [1], false],
-                ['content', [2], false],
-                ['content', [3], false],
-                ['content', [5], false]
-            )
-            ->willReturnOnConsecutiveCalls(
-                'url-1',
-                'c-2',
-                'c-3',
-                'c-5'
-            );
+            ->expects($matcher)
+            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('url', $parameters[0]);
+                    $this->assertSame([1], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
 
-        $this->cacheMock
-            ->expects(self::at(0))
-            ->method('invalidateTags')
-            ->with(['url-1']);
+                    return 'url-1';
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame([2], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
 
+                    return 'c-2';
+                }
+                if ($matcher->numberOfInvocations() === 3) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame([3], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'c-3';
+                }
+                if ($matcher->numberOfInvocations() === 4) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame([5], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'c-5';
+                }
+            });
+
+        $invalidateTagsMatcher = self::exactly(2);
         $this->cacheMock
-            ->expects(self::at(1))
+            ->expects($invalidateTagsMatcher)
             ->method('invalidateTags')
-            ->with(['c-2', 'c-3', 'c-5']);
+            ->willReturnCallback(static function (array $tags) use ($invalidateTagsMatcher): bool {
+                if ($invalidateTagsMatcher->numberOfInvocations() === 1) {
+                    self::assertSame(['url-1'], $tags);
+                } else {
+                    self::assertSame(['c-2', 'c-3', 'c-5'], $tags);
+                }
+
+                return true;
+            });
 
         $handler = $this->persistenceCacheHandler->urlHandler();
         $handler->updateUrl($urlId, $updateStruct);
     }
 
-    public function testUpdateUrlStatusIsUpdated()
+    public function testUpdateUrlStatusIsUpdated(): void
     {
         $urlId = 1;
         $updateStruct = new URLUpdateStruct();
@@ -147,7 +169,7 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
             ->willReturn('url-1');
 
         $this->cacheMock
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with(['url-1']);
 

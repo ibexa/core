@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 
 class RouterURITextTest extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'default_sa'],
@@ -73,13 +73,13 @@ class RouterURITextTest extends RouterBaseTestCase
         ];
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $matcher = new URITextMatcher([], []);
         self::assertSame('uri:text', $matcher->getName());
     }
 
-    public function testAnalyseURI()
+    public function testAnalyseURI(): void
     {
         $siteAccessURI = '/footestbar';
         $semanticURI = '/something/hoho';
@@ -94,7 +94,7 @@ class RouterURITextTest extends RouterBaseTestCase
         self::assertSame($semanticURI, $matcher->analyseURI($siteAccessURI . $semanticURI));
     }
 
-    public function testAnalyseLink()
+    public function testAnalyseLink(): void
     {
         $siteAccessURI = '/footestbar';
         $semanticURI = '/something/hoho';
@@ -109,7 +109,7 @@ class RouterURITextTest extends RouterBaseTestCase
         self::assertSame($siteAccessURI . $semanticURI, $matcher->analyseLink($semanticURI));
     }
 
-    public function testReverseMatch()
+    public function testReverseMatch(): void
     {
         $semanticURI = '/hihi/hoho';
         $matcher = new URITextMatcher(
@@ -131,7 +131,7 @@ class RouterURITextTest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            self::createStub(LoggerInterface::class),
             'default_sa',
             [
                 'URIText' => [

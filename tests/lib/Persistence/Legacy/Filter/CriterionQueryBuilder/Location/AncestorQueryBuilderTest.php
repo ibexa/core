@@ -19,7 +19,7 @@ class AncestorQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
         return [new AncestorQueryBuilder()];
     }
 
-    public function getFilteringCriteriaQueryData(): iterable
+    public static function getFilteringCriteriaQueryData(): iterable
     {
         yield 'Ancestor=/1/2/' => [
             new Ancestor('/1/2/'),

@@ -19,7 +19,7 @@ class FieldTypeRegistryTest extends TestCase
 {
     private const FIELD_TYPE_ID = 'one';
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $fieldType = $this->getFieldTypeMock();
         $fieldTypes = [self::FIELD_TYPE_ID => $fieldType];
@@ -33,7 +33,7 @@ class FieldTypeRegistryTest extends TestCase
         return $this->createMock(FieldType::class);
     }
 
-    public function testGetFieldType()
+    public function testGetFieldType(): void
     {
         $fieldTypes = [
             self::FIELD_TYPE_ID => $this->getFieldTypeMock(),
@@ -49,7 +49,7 @@ class FieldTypeRegistryTest extends TestCase
         );
     }
 
-    public function testGetFieldTypeThrowsNotFoundException()
+    public function testGetFieldTypeThrowsNotFoundException(): void
     {
         $this->expectException(FieldTypeNotFoundException::class);
 
@@ -58,7 +58,7 @@ class FieldTypeRegistryTest extends TestCase
         $registry->getFieldType('none');
     }
 
-    public function testGetFieldTypeThrowsRuntimeExceptionIncorrectType()
+    public function testGetFieldTypeThrowsRuntimeExceptionIncorrectType(): void
     {
         $this->expectException(\TypeError::class);
 
@@ -71,7 +71,7 @@ class FieldTypeRegistryTest extends TestCase
         $registry->getFieldType('none');
     }
 
-    public function testGetFieldTypes()
+    public function testGetFieldTypes(): void
     {
         $fieldTypes = [
             self::FIELD_TYPE_ID => $this->getFieldTypeMock(),

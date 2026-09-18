@@ -12,10 +12,10 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway
- */
+#[CoversClass(Gateway::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     public const EXISTING_BOOKMARK_ID = 1;
@@ -33,7 +33,7 @@ class DoctrineDatabaseTest extends TestCase
         $this->insertDatabaseFixture(__DIR__ . '/../_fixtures/bookmarks.php');
     }
 
-    public function testInsertBookmark()
+    public function testInsertBookmark(): void
     {
         $id = $this->getGateway()->insertBookmark(new Bookmark([
             'userId' => 14,
@@ -50,14 +50,14 @@ class DoctrineDatabaseTest extends TestCase
         ], $data);
     }
 
-    public function testDeleteBookmark()
+    public function testDeleteBookmark(): void
     {
         $this->getGateway()->deleteBookmark(self::EXISTING_BOOKMARK_ID);
 
         self::assertEmpty($this->loadBookmark(self::EXISTING_BOOKMARK_ID));
     }
 
-    public function testLoadBookmarkDataById()
+    public function testLoadBookmarkDataById(): void
     {
         self::assertEquals(
             [self::EXISTING_BOOKMARK_DATA],
@@ -65,7 +65,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadBookmarkDataByUserIdAndLocationId()
+    public function testLoadBookmarkDataByUserIdAndLocationId(): void
     {
         $data = $this->getGateway()->loadBookmarkDataByUserIdAndLocationId(
             (int) self::EXISTING_BOOKMARK_DATA['user_id'],
@@ -75,23 +75,19 @@ class DoctrineDatabaseTest extends TestCase
         self::assertEquals([self::EXISTING_BOOKMARK_DATA], $data);
     }
 
-    /**
-     * @dataProvider dataProviderForLoadUserBookmarks
-     */
-    public function testLoadUserBookmarks(int $userId, int $offset, int $limit, array $expected)
+    #[DataProvider('dataProviderForLoadUserBookmarks')]
+    public function testLoadUserBookmarks(int $userId, int $offset, int $limit, array $expected): void
     {
         self::assertEquals($expected, $this->getGateway()->loadUserBookmarks($userId, $offset, $limit));
     }
 
-    /**
-     * @dataProvider dataProviderForLoadUserBookmarks
-     */
-    public function testCountUserBookmarks(int $userId, int $offset, int $limit, array $expected)
+    #[DataProvider('dataProviderForLoadUserBookmarks')]
+    public function testCountUserBookmarks(int $userId, int $offset, int $limit, array $expected): void
     {
         self::assertEquals(count($expected), $this->getGateway()->countUserBookmarks($userId));
     }
 
-    public function dataProviderForLoadUserBookmarks(): array
+    public static function dataProviderForLoadUserBookmarks(): array
     {
         $fixtures = (require __DIR__ . '/../_fixtures/bookmarks.php')[DoctrineDatabase::TABLE_BOOKMARKS];
 
@@ -116,7 +112,7 @@ class DoctrineDatabaseTest extends TestCase
         ];
     }
 
-    public function testLocationSwapped()
+    public function testLocationSwapped(): void
     {
         $bookmark1Id = 3;
         $bookmark2Id = 4;

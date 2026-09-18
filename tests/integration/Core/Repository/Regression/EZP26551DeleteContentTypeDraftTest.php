@@ -9,16 +9,16 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @issue https://issues.ibexa.co/browse/EZP-26551
- *
- * @group regression
- * @group ezp26551
  */
+#[Group('regression')]
+#[Group('ezp26551')]
 class EZP26551DeleteContentTypeDraftTest extends BaseTestCase
 {
-    public function testDeleteContentTypeGroup()
+    public function testDeleteContentTypeGroup(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();

@@ -61,7 +61,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $this->router->setConfigResolver($this->configResolver);
     }
 
-    public function testMatchRequestDeactivatedUrlAlias()
+    public function testMatchRequestDeactivatedUrlAlias(): void
     {
         $this->expectException(ResourceNotFoundException::class);
 
@@ -79,7 +79,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $this->router->matchRequest($this->getRequestByPathInfo('/foo'));
     }
 
-    public function testMatchRequestWithRootLocation()
+    public function testMatchRequestWithRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -135,7 +135,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestLocationCaseRedirectWithRootLocation()
+    public function testMatchRequestLocationCaseRedirectWithRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -193,7 +193,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestLocationCaseRedirectWithRootRootLocation()
+    public function testMatchRequestLocationCaseRedirectWithRootRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -251,7 +251,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestResourceCaseRedirectWithRootLocation()
+    public function testMatchRequestResourceCaseRedirectWithRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -299,7 +299,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestVirtualCaseRedirectWithRootLocation()
+    public function testMatchRequestVirtualCaseRedirectWithRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -345,7 +345,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestWithRootLocationAndExclusion()
+    public function testMatchRequestWithRootLocationAndExclusion(): void
     {
         $this->resetConfigResolver();
         $this->configResolver

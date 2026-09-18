@@ -11,12 +11,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 use DateTime;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[CoversClass(ContentService::class)]
 final class CopyNonTranslatableFieldsFromPublishedVersionTest extends RepositoryTestCase
 {
     private const GER_DE = 'ger-DE';

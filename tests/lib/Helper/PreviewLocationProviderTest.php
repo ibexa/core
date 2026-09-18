@@ -37,7 +37,7 @@ class PreviewLocationProviderTest extends TestCase
         $this->provider = new PreviewLocationProvider($this->locationService, $this->locationHandler);
     }
 
-    public function testGetPreviewLocationDraft()
+    public function testGetPreviewLocationDraft(): void
     {
         $contentId = 123;
         $parentLocationId = 456;
@@ -65,7 +65,7 @@ class PreviewLocationProviderTest extends TestCase
         self::assertTrue($location->isDraft());
     }
 
-    public function testGetPreviewLocation()
+    public function testGetPreviewLocation(): void
     {
         $contentId = 123;
         $locationId = 456;
@@ -89,7 +89,7 @@ class PreviewLocationProviderTest extends TestCase
         self::assertSame($content, $location->getContent());
     }
 
-    public function testGetPreviewLocationNoLocation()
+    public function testGetPreviewLocationNoLocation(): void
     {
         $contentId = 123;
         $content = $this->getContentMock($contentId);

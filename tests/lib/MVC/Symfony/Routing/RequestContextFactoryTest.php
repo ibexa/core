@@ -10,17 +10,15 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\Routing\RequestContextFactory;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\RequestContext;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Routing\RequestContextFactory
- */
+#[CoversClass(RequestContextFactory::class)]
 final class RequestContextFactoryTest extends TestCase
 {
-    /**
-     * @dataProvider getDataForTestGetContextBySimplifiedRequest
-     */
+    #[DataProvider('getDataForTestGetContextBySimplifiedRequest')]
     public function testGetContextBySimplifiedRequest(
         RequestContext $requestContext,
         SimplifiedRequest $simplifiedRequest,

@@ -10,13 +10,13 @@ namespace Ibexa\Tests\Integration\Core;
 
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Test\Core\IbexaKernelTestCase;
+use PHPUnit\Framework\Attributes\CoversNothing;
 
 /**
  * Schema and fixtures are imported once, before the suite runs, by tests/integration/bootstrap.php —
  * this test only needs to boot the kernel.
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class BasicKernelTest extends IbexaKernelTestCase
 {
     public function testBasicKernelCompiles(): void

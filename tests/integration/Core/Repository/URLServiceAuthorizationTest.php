@@ -10,15 +10,16 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
+use Ibexa\Core\Repository\URLService;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(URLService::class)]
 class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 {
     /**
      * Test for the findUrls() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls
      */
-    public function testFindUrlsThrowsUnauthorizedException()
+    public function testFindUrlsThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -44,10 +45,8 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 
     /**
      * Test for the updateUrl() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::updateUrl
      */
-    public function testUpdateUrlThrowsUnauthorizedException()
+    public function testUpdateUrlThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -75,10 +74,8 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 
     /**
      * Test for the loadById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::loadById
      */
-    public function testLoadByIdThrowsUnauthorizedException()
+    public function testLoadByIdThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -102,10 +99,8 @@ class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 
     /**
      * Test for the loadByUrl() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLService::loadById
      */
-    public function testLoadByUrlThrowsUnauthorizedException()
+    public function testLoadByUrlThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

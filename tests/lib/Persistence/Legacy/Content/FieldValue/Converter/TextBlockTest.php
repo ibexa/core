@@ -15,11 +15,11 @@ use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter
- */
+#[CoversClass(TextBlockConverter::class)]
 class TextBlockTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter */
@@ -41,11 +41,9 @@ They called me Mr Glass.
 EOT;
     }
 
-    /**
-     * @group fieldType
-     * @group textBlock
-     */
-    public function testToStorageValue()
+    #[Group('fieldType')]
+    #[Group('textBlock')]
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = $this->longText;
@@ -58,11 +56,9 @@ EOT;
         self::assertSame(0, $storageFieldValue->sortKeyInt);
     }
 
-    /**
-     * @group fieldType
-     * @group textBlock
-     */
-    public function testToFieldValue()
+    #[Group('fieldType')]
+    #[Group('textBlock')]
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = $this->longText;
@@ -74,11 +70,9 @@ EOT;
         self::assertSame($storageFieldValue->sortKeyString, $fieldValue->sortKey);
     }
 
-    /**
-     * @group fieldType
-     * @group textBlock
-     */
-    public function testToStorageFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('textBlock')]
+    public function testToStorageFieldDefinition(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -101,11 +95,9 @@ EOT;
         );
     }
 
-    /**
-     * @group fieldType
-     * @group textBlock
-     */
-    public function testToFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('textBlock')]
+    public function testToFieldDefinition(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(

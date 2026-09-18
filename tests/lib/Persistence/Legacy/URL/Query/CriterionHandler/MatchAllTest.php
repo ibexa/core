@@ -18,7 +18,7 @@ class MatchAllTest extends CriterionHandlerTestCase
     /**
      * {@inheritdoc}
      */
-    public function testAccept()
+    public function testAccept(): void
     {
         $handler = new MatchAllHandler();
 
@@ -29,13 +29,13 @@ class MatchAllTest extends CriterionHandlerTestCase
     /**
      * {@inheritdoc}
      */
-    public function testHandle()
+    public function testHandle(): void
     {
         $criterion = new MatchAll();
         $expected = '1 = 1';
 
-        $queryBuilder = $this->createMock(QueryBuilder::class);
-        $converter = $this->createMock(CriteriaConverter::class);
+        $queryBuilder = self::createStub(QueryBuilder::class);
+        $converter = self::createStub(CriteriaConverter::class);
 
         $handler = new MatchAllHandler();
         $actual = $handler->handle($converter, $queryBuilder, $criterion);

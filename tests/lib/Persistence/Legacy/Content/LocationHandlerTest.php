@@ -23,10 +23,10 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler as ObjectStateHandler;
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Location\Handler
- */
+#[CoversClass(Handler::class)]
 class LocationHandlerTest extends TestCase
 {
     /**
@@ -80,12 +80,12 @@ class LocationHandlerTest extends TestCase
             $this->locationGateway,
             $this->locationMapper,
             $this->contentHandler,
-            $this->createMock(ObjectStateHandler::class),
+            self::createStub(ObjectStateHandler::class),
             $this->treeHandler
         );
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -100,7 +100,7 @@ class LocationHandlerTest extends TestCase
         self::assertInstanceOf(Location::class, $location);
     }
 
-    public function testLoadLocationSubtree()
+    public function testLoadLocationSubtree(): void
     {
         $this->locationGateway
             ->expects(self::once())
@@ -116,7 +116,7 @@ class LocationHandlerTest extends TestCase
         self::assertCount(2, $this->getLocationHandler()->loadSubtreeIds(77));
     }
 
-    public function testLoadLocationByRemoteId()
+    public function testLoadLocationByRemoteId(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -141,7 +141,7 @@ class LocationHandlerTest extends TestCase
         self::assertInstanceOf(Location::class, $location);
     }
 
-    public function testLoadLocationsByContent()
+    public function testLoadLocationsByContent(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -191,7 +191,7 @@ class LocationHandlerTest extends TestCase
         self::assertIsArray($locations);
     }
 
-    public function testMoveSubtree()
+    public function testMoveSubtree(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -201,22 +201,24 @@ class LocationHandlerTest extends TestCase
             'parent_node_id' => 2,
             'contentobject_id' => 67,
         ];
-        $this->locationGateway
-            ->expects(self::at(0))
-            ->method('getBasicNodeData')
-            ->with(69)
-            ->will(self::returnValue($sourceData));
-
         $destinationData = [
             'node_id' => 77,
             'path_string' => '/1/2/77/',
             'contentobject_id' => 68,
         ];
+
+        $getBasicNodeDataMatcher = self::exactly(2);
         $this->locationGateway
-            ->expects(self::at(1))
+            ->expects($getBasicNodeDataMatcher)
             ->method('getBasicNodeData')
-            ->with(77)
-            ->will(self::returnValue($destinationData));
+            ->willReturnCallback(static function (int $nodeId) use ($getBasicNodeDataMatcher, $sourceData, $destinationData) {
+                $expectedArgs = [$sourceData['node_id'], $destinationData['node_id']];
+                $returnValues = [$sourceData, $destinationData];
+                $index = $getBasicNodeDataMatcher->numberOfInvocations() - 1;
+                self::assertSame($expectedArgs[$index], $nodeId);
+
+                return $returnValues[$index];
+            });
 
         $this->locationGateway
             ->expects(self::once())
@@ -228,36 +230,40 @@ class LocationHandlerTest extends TestCase
             ->method('updateNodeAssignment')
             ->with(67, 2, 77, 5);
 
+        $loadLocationMatcher = self::exactly(2);
         $this->treeHandler
-            ->expects(self::at(0))
+            ->expects($loadLocationMatcher)
             ->method('loadLocation')
-            ->with($sourceData['node_id'])
-            ->will(self::returnValue(
-                new Location(
-                    [
+            ->willReturnCallback(static function (int $nodeId) use ($loadLocationMatcher, $sourceData, $destinationData) {
+                $expectedArgs = [$sourceData['node_id'], $destinationData['node_id']];
+                $returnValues = [
+                    new Location([
                         'id' => $sourceData['node_id'],
                         'contentId' => $sourceData['contentobject_id'],
-                    ]
-                )
-            ));
+                    ]),
+                    new Location(['contentId' => $destinationData['contentobject_id']]),
+                ];
+                $index = $loadLocationMatcher->numberOfInvocations() - 1;
+                self::assertSame($expectedArgs[$index], $nodeId);
 
-        $this->treeHandler
-            ->expects(self::at(1))
-            ->method('loadLocation')
-            ->with($destinationData['node_id'])
-            ->will(self::returnValue(new Location(['contentId' => $destinationData['contentobject_id']])));
+                return $returnValues[$index];
+            });
 
+        $loadContentInfoMatcher = self::exactly(2);
         $this->contentHandler
-            ->expects(self::at(0))
+            ->expects($loadContentInfoMatcher)
             ->method('loadContentInfo')
-            ->with($destinationData['contentobject_id'])
-            ->will(self::returnValue(new ContentInfo(['sectionId' => 12345])));
+            ->willReturnCallback(static function (int $contentId) use ($loadContentInfoMatcher, $sourceData, $destinationData) {
+                $expectedArgs = [$destinationData['contentobject_id'], $sourceData['contentobject_id']];
+                $returnValues = [
+                    new ContentInfo(['sectionId' => 12345]),
+                    new ContentInfo(['mainLocationId' => 69]),
+                ];
+                $index = $loadContentInfoMatcher->numberOfInvocations() - 1;
+                self::assertSame($expectedArgs[$index], $contentId);
 
-        $this->contentHandler
-            ->expects(self::at(1))
-            ->method('loadContentInfo')
-            ->with($sourceData['contentobject_id'])
-            ->will(self::returnValue(new ContentInfo(['mainLocationId' => 69])));
+                return $returnValues[$index];
+            });
 
         $this->treeHandler
             ->expects(self::once())
@@ -267,12 +273,12 @@ class LocationHandlerTest extends TestCase
         $handler->move(69, 77);
     }
 
-    public function testHideUpdateHidden()
+    public function testHideUpdateHidden(): void
     {
         $handler = $this->getLocationHandler();
 
         $this->locationGateway
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('getBasicNodeData')
             ->with(69)
             ->will(
@@ -293,15 +299,13 @@ class LocationHandlerTest extends TestCase
         $handler->hide(69);
     }
 
-    /**
-     * @depends testHideUpdateHidden
-     */
-    public function testHideUnhideUpdateHidden()
+    #[Depends('testHideUpdateHidden')]
+    public function testHideUnhideUpdateHidden(): void
     {
         $handler = $this->getLocationHandler();
 
         $this->locationGateway
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('getBasicNodeData')
             ->with(69)
             ->will(
@@ -322,7 +326,7 @@ class LocationHandlerTest extends TestCase
         $handler->unhide(69);
     }
 
-    public function testSwapLocations()
+    public function testSwapLocations(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -334,7 +338,7 @@ class LocationHandlerTest extends TestCase
         $handler->swap(70, 78);
     }
 
-    public function testCreateLocation()
+    public function testCreateLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -372,7 +376,7 @@ class LocationHandlerTest extends TestCase
         $handler->create($createStruct);
     }
 
-    public function testUpdateLocation()
+    public function testUpdateLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -387,7 +391,7 @@ class LocationHandlerTest extends TestCase
         $handler->update($updateStruct, 23);
     }
 
-    public function testSetSectionForSubtree()
+    public function testSetSectionForSubtree(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -399,7 +403,7 @@ class LocationHandlerTest extends TestCase
         $handler->setSectionForSubtree(69, 3);
     }
 
-    public function testChangeMainLocation()
+    public function testChangeMainLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -414,7 +418,7 @@ class LocationHandlerTest extends TestCase
     /**
      * Test for the removeSubtree() method.
      */
-    public function testRemoveSubtree()
+    public function testRemoveSubtree(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -441,7 +445,7 @@ class LocationHandlerTest extends TestCase
     /**
      * Test for the copySubtree() method.
      */
-    public function testCopySubtree()
+    public function testCopySubtree(): void
     {
         $handler = $this->getPartlyMockedHandler(
             [
@@ -476,39 +480,6 @@ class LocationHandlerTest extends TestCase
             ->with($destinationData['node_id'])
             ->will(self::returnValue($destinationData));
 
-        $objectStateHandlerCall = 0;
-        $this->objectStateHandler->expects(self::at($objectStateHandlerCall++))
-            ->method('loadAllGroups')
-            ->will(
-                self::returnValue(
-                    [
-                        new ObjectStateGroup(['id' => 10]),
-                        new ObjectStateGroup(['id' => 20]),
-                    ]
-                )
-            );
-        $this->objectStateHandler->expects(self::at($objectStateHandlerCall++))
-            ->method('loadObjectStates')
-            ->with(self::equalTo(10))
-            ->will(
-                self::returnValue(
-                    [
-                        new ObjectState(['id' => 11, 'groupId' => 10]),
-                        new ObjectState(['id' => 12, 'groupId' => 10]),
-                    ]
-                )
-            );
-        $this->objectStateHandler->expects(self::at($objectStateHandlerCall++))
-            ->method('loadObjectStates')
-            ->with(self::equalTo(20))
-            ->will(
-                self::returnValue(
-                    [
-                        new ObjectState(['id' => 21, 'groupId' => 20]),
-                        new ObjectState(['id' => 22, 'groupId' => 20]),
-                    ]
-                )
-            );
         $defaultObjectStates = [
             new ObjectState(['id' => 11, 'groupId' => 10]),
             new ObjectState(['id' => 21, 'groupId' => 20]),
@@ -519,99 +490,179 @@ class LocationHandlerTest extends TestCase
                 array_column($subtreeContentRows, 'contentobject_id')
             )
         );
-        foreach ($contentIds as $index => $contentId) {
-            $this->contentHandler
-                ->expects(self::at($index * 2))
-                ->method('copy')
-                ->with($contentId, 1)
-                ->will(
-                    self::returnValue(
-                        new Content(
-                            [
-                                'versionInfo' => new VersionInfo(
-                                    [
-                                        'contentInfo' => new ContentInfo(
-                                            [
-                                                'id' => $contentId + $offset,
-                                                'currentVersionNo' => 1,
-                                            ]
-                                        ),
-                                    ]
-                                ),
-                            ]
-                        )
-                    )
-                );
 
+        // loadAllGroups(), loadObjectStates() and setContentState() are all called on the same
+        // mock in a single global order: loadAllGroups() once, loadObjectStates() twice (once per
+        // object state group), then setContentState() once per content id per default object state.
+        $objectStateHandlerInvocationOrder = 0;
+
+        $setContentStateExpectedArgs = [];
+        foreach ($contentIds as $contentId) {
             foreach ($defaultObjectStates as $objectState) {
-                $this->objectStateHandler->expects(self::at($objectStateHandlerCall++))
-                    ->method('setContentState')
-                    ->with(
-                        $contentId + $offset,
-                        $objectState->groupId,
-                        $objectState->id
-                    );
+                $setContentStateExpectedArgs[] = [$contentId + $offset, $objectState->groupId, $objectState->id];
             }
-
-            $this->contentHandler
-                ->expects(self::at($index * 2 + 1))
-                ->method('publish')
-                ->with(
-                    $contentId + $offset,
-                    1,
-                    self::isInstanceOf(Content\MetadataUpdateStruct::class)
-                )
-                ->will(
-                    self::returnValue(
-                        new Content(
-                            [
-                                'versionInfo' => new VersionInfo(
-                                    [
-                                        'contentInfo' => new ContentInfo(
-                                            [
-                                                'id' => ($contentId + $offset),
-                                            ]
-                                        ),
-                                    ]
-                                ),
-                            ]
-                        )
-                    )
-                );
         }
-        $lastContentHandlerIndex = $index * 2 + 1;
 
+        $this->objectStateHandler
+            ->expects(self::once())
+            ->method('loadAllGroups')
+            ->willReturnCallback(static function () use (&$objectStateHandlerInvocationOrder) {
+                self::assertSame(0, $objectStateHandlerInvocationOrder++);
+
+                return [
+                    new ObjectStateGroup(['id' => 10]),
+                    new ObjectStateGroup(['id' => 20]),
+                ];
+            });
+
+        $this->objectStateHandler
+            ->expects(self::exactly(2))
+            ->method('loadObjectStates')
+            ->willReturnCallback(static function (int $groupId) use (&$objectStateHandlerInvocationOrder) {
+                $order = $objectStateHandlerInvocationOrder++;
+                switch ($order) {
+                    case 1:
+                        self::assertSame(10, $groupId);
+
+                        return [
+                            new ObjectState(['id' => 11, 'groupId' => 10]),
+                            new ObjectState(['id' => 12, 'groupId' => 10]),
+                        ];
+                    case 2:
+                        self::assertSame(20, $groupId);
+
+                        return [
+                            new ObjectState(['id' => 21, 'groupId' => 20]),
+                            new ObjectState(['id' => 22, 'groupId' => 20]),
+                        ];
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for loadObjectStates()', $order));
+                }
+            });
+
+        $this->objectStateHandler
+            ->expects(self::exactly(count($setContentStateExpectedArgs)))
+            ->method('setContentState')
+            ->willReturnCallback(static function (int $contentId, int $groupId, int $stateId) use (&$objectStateHandlerInvocationOrder, $setContentStateExpectedArgs) {
+                $order = $objectStateHandlerInvocationOrder++;
+                $index = $order - 3;
+                self::assertArrayHasKey($index, $setContentStateExpectedArgs);
+                self::assertSame($setContentStateExpectedArgs[$index], [$contentId, $groupId, $stateId]);
+
+                return true;
+            });
+
+        // copy(), publish() and (later) loadContentInfo() are all called on the content handler
+        // mock in a single global order: copy()/publish() alternate per content id, then
+        // loadContentInfo() is called twice at the end.
+        $contentHandlerInvocationOrder = 0;
+
+        $copyExpectedArgs = [];
+        $copyReturnValues = [];
+        $publishExpectedArgs = [];
+        $publishReturnValues = [];
+        foreach ($contentIds as $contentId) {
+            $copyExpectedArgs[] = [$contentId, 1];
+            $copyReturnValues[] = new Content(
+                [
+                    'versionInfo' => new VersionInfo(
+                        [
+                            'contentInfo' => new ContentInfo(
+                                [
+                                    'id' => $contentId + $offset,
+                                    'currentVersionNo' => 1,
+                                ]
+                            ),
+                        ]
+                    ),
+                ]
+            );
+            $publishExpectedArgs[] = [$contentId + $offset, 1];
+            $publishReturnValues[] = new Content(
+                [
+                    'versionInfo' => new VersionInfo(
+                        [
+                            'contentInfo' => new ContentInfo(
+                                [
+                                    'id' => $contentId + $offset,
+                                ]
+                            ),
+                        ]
+                    ),
+                ]
+            );
+        }
+
+        $this->contentHandler
+            ->expects(self::exactly(count($contentIds)))
+            ->method('copy')
+            ->willReturnCallback(static function (int $contentId, int $versionNo) use (&$contentHandlerInvocationOrder, $copyExpectedArgs, $copyReturnValues) {
+                $order = $contentHandlerInvocationOrder++;
+                self::assertSame(0, $order % 2, sprintf('Expected copy() at an even invocation order, got %d', $order));
+                $index = intdiv($order, 2);
+                self::assertSame($copyExpectedArgs[$index], [$contentId, $versionNo]);
+
+                return $copyReturnValues[$index];
+            });
+
+        $this->contentHandler
+            ->expects(self::exactly(count($contentIds)))
+            ->method('publish')
+            ->willReturnCallback(static function (int $contentId, int $versionNo, Content\MetadataUpdateStruct $metadataUpdateStruct) use (&$contentHandlerInvocationOrder, $publishExpectedArgs, $publishReturnValues) {
+                $order = $contentHandlerInvocationOrder++;
+                self::assertSame(1, $order % 2, sprintf('Expected publish() at an odd invocation order, got %d', $order));
+                $index = intdiv($order, 2);
+                self::assertSame($publishExpectedArgs[$index], [$contentId, $versionNo]);
+
+                return $publishReturnValues[$index];
+            });
+
+        $locationCreateStructReturnValues = [];
+        $expectedCreateStructArgs = [];
+        $createReturnValues = [];
         foreach ($subtreeContentRows as $index => $row) {
             $mapper = new Mapper();
             $createStruct = $mapper->getLocationCreateStruct($row);
-            $this->locationMapper
-                ->expects(self::at($index))
-                ->method('getLocationCreateStruct')
-                ->with($row)
-                ->will(self::returnValue($createStruct));
+            $locationCreateStructReturnValues[$index] = $createStruct;
 
-            $createStruct = clone $createStruct;
-            $createStruct->contentId = $createStruct->contentId + $offset;
-            $createStruct->parentId = $index === 0 ? $destinationData['node_id'] : $createStruct->parentId + $offset;
-            $createStruct->invisible = true;
-            $createStruct->mainLocationId = $mainLocationsMap[$index];
-            $handler
-                ->expects(self::at($index))
-                ->method('create')
-                ->with($createStruct)
-                ->will(
-                    self::returnValue(
-                        new Location(
-                            [
-                                'id' => $row['node_id'] + $offset,
-                                'contentId' => $row['contentobject_id'],
-                                'hidden' => false,
-                                'invisible' => true,
-                            ]
-                        )
-                    )
-                );
+            $expectedCreateStruct = clone $createStruct;
+            $expectedCreateStruct->contentId = $expectedCreateStruct->contentId + $offset;
+            $expectedCreateStruct->parentId = $index === 0 ? $destinationData['node_id'] : $expectedCreateStruct->parentId + $offset;
+            $expectedCreateStruct->invisible = true;
+            $expectedCreateStruct->mainLocationId = $mainLocationsMap[$index];
+            $expectedCreateStructArgs[$index] = $expectedCreateStruct;
+
+            $createReturnValues[$index] = new Location(
+                [
+                    'id' => $row['node_id'] + $offset,
+                    'contentId' => $row['contentobject_id'],
+                    'hidden' => false,
+                    'invisible' => true,
+                ]
+            );
         }
+
+        $getLocationCreateStructMatcher = self::exactly(count($subtreeContentRows));
+        $this->locationMapper
+            ->expects($getLocationCreateStructMatcher)
+            ->method('getLocationCreateStruct')
+            ->willReturnCallback(static function (array $row) use ($getLocationCreateStructMatcher, $subtreeContentRows, $locationCreateStructReturnValues) {
+                $index = $getLocationCreateStructMatcher->numberOfInvocations() - 1;
+                self::assertSame($subtreeContentRows[$index], $row);
+
+                return $locationCreateStructReturnValues[$index];
+            });
+
+        $createMatcher = self::exactly(count($subtreeContentRows));
+        $handler
+            ->expects($createMatcher)
+            ->method('create')
+            ->willReturnCallback(static function (CreateStruct $createStruct) use ($createMatcher, $expectedCreateStructArgs, $createReturnValues) {
+                $index = $createMatcher->numberOfInvocations() - 1;
+                self::assertEquals($expectedCreateStructArgs[$index], $createStruct);
+
+                return $createReturnValues[$index];
+            });
 
         foreach ($updateMainLocationsMap as $contentId => $locationId) {
             $handler
@@ -627,16 +678,23 @@ class LocationHandlerTest extends TestCase
             ->will(self::returnValue(new Location(['contentId' => $destinationData['contentobject_id']])));
 
         $this->contentHandler
-            ->expects(self::at($lastContentHandlerIndex + 1))
+            ->expects(self::exactly(2))
             ->method('loadContentInfo')
-            ->with($destinationData['contentobject_id'])
-            ->will(self::returnValue(new ContentInfo(['sectionId' => 12345])));
+            ->willReturnCallback(static function (int $contentId) use (&$contentHandlerInvocationOrder, $contentIds, $destinationData) {
+                $order = $contentHandlerInvocationOrder++;
+                switch ($order) {
+                    case count($contentIds) * 2:
+                        self::assertSame($destinationData['contentobject_id'], $contentId);
 
-        $this->contentHandler
-            ->expects(self::at($lastContentHandlerIndex + 2))
-            ->method('loadContentInfo')
-            ->with(21)
-            ->will(self::returnValue(new ContentInfo(['mainLocationId' => 1010])));
+                        return new ContentInfo(['sectionId' => 12345]);
+                    case count($contentIds) * 2 + 1:
+                        self::assertSame(21, $contentId);
+
+                        return new ContentInfo(['mainLocationId' => 1010]);
+                    default:
+                        self::fail(sprintf('Unexpected invocation order %d for loadContentInfo()', $order));
+                }
+            });
 
         $handler
             ->expects(self::once())
@@ -649,9 +707,6 @@ class LocationHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Persistence\Content\Location\Handler::countLocationsByContent
-     */
     public function testCountLocationsByContent(): void
     {
         $handler = $this->getLocationHandler();
@@ -676,7 +731,6 @@ class LocationHandlerTest extends TestCase
     protected function getPartlyMockedHandler(array $methods)
     {
         return $this->getMockBuilder(LocationHandler::class)
-            ->setMethods($methods)
             ->setConstructorArgs(
                 [
                     $this->locationGateway = $this->createMock(Gateway::class),
@@ -686,6 +740,7 @@ class LocationHandlerTest extends TestCase
                     $this->treeHandler = $this->createMock(TreeHandler::class),
                 ]
             )
+            ->onlyMethods(array_values($methods))
             ->getMock();
     }
 }

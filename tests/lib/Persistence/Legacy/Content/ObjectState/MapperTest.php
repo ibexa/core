@@ -12,13 +12,12 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
- */
+#[CoversClass(Mapper::class)]
 class MapperTest extends LanguageAwareTestCase
 {
-    public function testCreateObjectStateFromData()
+    public function testCreateObjectStateFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -33,7 +32,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateListFromData()
+    public function testCreateObjectStateListFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -48,7 +47,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateGroupFromData()
+    public function testCreateObjectStateGroupFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -63,7 +62,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateGroupListFromData()
+    public function testCreateObjectStateGroupListFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -78,7 +77,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateFromInputStruct()
+    public function testCreateObjectStateFromInputStruct(): void
     {
         $mapper = $this->getMapper();
 
@@ -93,7 +92,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateGroupFromInputStruct()
+    public function testCreateObjectStateGroupFromInputStruct(): void
     {
         $mapper = $this->getMapper();
 

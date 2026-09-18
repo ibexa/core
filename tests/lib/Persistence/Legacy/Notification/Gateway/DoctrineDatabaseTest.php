@@ -18,10 +18,9 @@ use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\StatusCr
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\TypeCriterionHandler;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase::insert
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     public const EXISTING_NOTIFICATION_ID = 1;
@@ -43,7 +42,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testInsert()
+    public function testInsert(): void
     {
         $id = $this->getGateway()->insert(new CreateStruct([
             'ownerId' => 14,
@@ -65,7 +64,7 @@ class DoctrineDatabaseTest extends TestCase
         ], $data);
     }
 
-    public function testGetNotificationById()
+    public function testGetNotificationById(): void
     {
         $data = $this->getGateway()->getNotificationById(self::EXISTING_NOTIFICATION_ID);
 
@@ -74,7 +73,7 @@ class DoctrineDatabaseTest extends TestCase
         ], $data);
     }
 
-    public function testUpdateNotification()
+    public function testUpdateNotification(): void
     {
         $notification = new Notification([
             'id' => self::EXISTING_NOTIFICATION_ID,
@@ -97,7 +96,7 @@ class DoctrineDatabaseTest extends TestCase
         ], $this->loadNotification(self::EXISTING_NOTIFICATION_ID));
     }
 
-    public function testCountUserNotifications()
+    public function testCountUserNotifications(): void
     {
         self::assertEquals(
             5,
@@ -107,7 +106,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testCountUserPendingNotifications()
+    public function testCountUserPendingNotifications(): void
     {
         self::assertEquals(
             3,
@@ -218,7 +217,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertEquals([], $resultsWithNoResults);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->getGateway()->delete(self::EXISTING_NOTIFICATION_ID);
 

@@ -12,13 +12,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Bundle\Core\Entity\EntityManagerFactory;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
-/**
- * @covers \Ibexa\Bundle\Core\Entity\EntityManagerFactory
- */
+#[CoversClass(EntityManagerFactory::class)]
 final class EntityManagerFactoryTest extends TestCase
 {
     private const string DEFAULT_ENTITY_MANAGER = 'doctrine.orm.ibexa_default_entity_manager';

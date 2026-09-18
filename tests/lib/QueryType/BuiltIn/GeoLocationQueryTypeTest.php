@@ -29,7 +29,7 @@ final class GeoLocationQueryTypeTest extends AbstractQueryTypeTestCase
     private const EXAMPLE_LATITUDE = 50.06314;
     private const EXAMPLE_LONGITUDE = 19.929843;
 
-    public function dataProviderForGetQuery(): iterable
+    public static function dataProviderForGetQuery(): iterable
     {
         $parameters = [
             'field' => self::EXAMPLE_FIELD,

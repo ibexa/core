@@ -12,13 +12,14 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -166,7 +167,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -208,9 +209,9 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData(): array
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -218,9 +219,8 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @param mixed $failingValue
      * @param string $expectedException
-     *
-     * @dataProvider provideInvalidUpdateFieldData
      */
+    #[DataProvider('provideInvalidUpdateFieldData')]
     public function testUpdateContentFails($failingValue, $expectedException)
     {
         return [
@@ -274,7 +274,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData(): array
     {
         return [
             [
@@ -294,7 +294,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData(): array
     {
         return [
             [
@@ -307,37 +307,43 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new DateAndTimeValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                DateAndTimeValue::fromTimestamp(123456),
             ],
         ];
     }
 
-    protected function getValidSearchValueOne(): string
+    protected static function getValidSearchValueOne(): string
     {
         return '2012-04-15T15:43:56Z';
     }
 
-    protected function getValidSearchValueTwo(): string
+    protected static function getValidSearchValueTwo(): string
     {
         return '2015-04-15T15:43:56Z';
     }
 
-    protected function getSearchTargetValueOne()
+    protected static function getSearchTargetValueOne()
     {
         // Handling Legacy Search Engine, which stores DateAndTime value as integer timestamp
-        if ($this->getSetupFactory() instanceof Legacy) {
-            $dateTime = new DateTime($this->getValidSearchValueOne());
+        if (static::resolveSetupFactory() instanceof Legacy) {
+            $dateTime = new DateTime(static::getValidSearchValueOne());
 
             return $dateTime->getTimestamp();
         }
@@ -345,11 +351,11 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         return parent::getSearchTargetValueOne();
     }
 
-    protected function getSearchTargetValueTwo()
+    protected static function getSearchTargetValueTwo()
     {
         // Handling Legacy Search Engine, which stores DateAndTime value as integer timestamp
-        if ($this->getSetupFactory() instanceof Legacy) {
-            $dateTime = new DateTime($this->getValidSearchValueTwo());
+        if (static::resolveSetupFactory() instanceof Legacy) {
+            $dateTime = new DateTime(static::getValidSearchValueTwo());
 
             return $dateTime->getTimestamp();
         }

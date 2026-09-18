@@ -11,18 +11,14 @@ namespace Ibexa\Tests\Bundle\RepositoryInstaller\DependencyInjection\Compiler;
 use Ibexa\Bundle\RepositoryInstaller\Command\InstallPlatformCommand;
 use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass
- */
+#[CoversClass(InstallerTagPass::class)]
 class InstallerTagPassTest extends AbstractCompilerPassTestCase
 {
-    /**
-     * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass::process
-     */
     public function testProcessInjectsInstallersIntoCommand(): void
     {
         $this->setDefinition(

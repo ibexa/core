@@ -32,7 +32,7 @@ class TemplatesTest extends AbstractParserTestCase
         return $this->config = Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_templates.yml'));
     }
 
-    public function testFieldTemplates()
+    public function testFieldTemplates(): void
     {
         $this->load();
         $fixedUpConfig = $this->getExpectedConfigFieldTemplates($this->config);
@@ -106,7 +106,7 @@ class TemplatesTest extends AbstractParserTestCase
         return $config;
     }
 
-    public function testFieldDefinitionSettingsTemplates()
+    public function testFieldDefinitionSettingsTemplates(): void
     {
         $this->load();
         $fixedUpConfig = $this->getExpectedConfigFieldDefinitionSettingsTemplates($this->config);

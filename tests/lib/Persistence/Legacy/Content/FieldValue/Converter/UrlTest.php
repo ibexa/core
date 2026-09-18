@@ -12,11 +12,11 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition as Persistence
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter
- */
+#[CoversClass(UrlConverter::class)]
 class UrlTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter */
@@ -28,11 +28,9 @@ class UrlTest extends TestCase
         $this->converter = new UrlConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group url
-     */
-    public function testToStorageValue()
+    #[Group('fieldType')]
+    #[Group('url')]
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $text = 'Ibexa';
@@ -45,11 +43,9 @@ class UrlTest extends TestCase
         self::assertSame($text, $storageFieldValue->dataText);
     }
 
-    /**
-     * @group fieldType
-     * @group url
-     */
-    public function testToFieldValue()
+    #[Group('fieldType')]
+    #[Group('url')]
+    public function testToFieldValue(): void
     {
         $text = "A link's text";
         $urlId = 842;
@@ -67,20 +63,16 @@ class UrlTest extends TestCase
         self::assertEquals($urlId, $fieldValue->data['urlId']);
     }
 
-    /**
-     * @group fieldType
-     * @group url
-     */
-    public function testToStorageFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('url')]
+    public function testToStorageFieldDefinition(): void
     {
         $this->converter->toStorageFieldDefinition(new PersistenceFieldDefinition(), new StorageFieldDefinition());
     }
 
-    /**
-     * @group fieldType
-     * @group url
-     */
-    public function testToFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('url')]
+    public function testToFieldDefinition(): void
     {
         $this->converter->toFieldDefinition(new StorageFieldDefinition(), new PersistenceFieldDefinition());
     }

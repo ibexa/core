@@ -14,15 +14,14 @@ use Ibexa\Bundle\IO\EventListener\StreamFileListener;
 use Ibexa\Core\IO\IOConfigProvider;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-/**
- * @covers \Ibexa\Bundle\IO\EventListener\StreamFileListener
- */
+#[CoversClass(StreamFileListener::class)]
 final class StreamFileListenerTest extends TestCase
 {
     private StreamFileListener $eventListener;
@@ -119,7 +118,7 @@ final class StreamFileListenerTest extends TestCase
     protected function createEvent(Request $request): RequestEvent
     {
         return new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
+            self::createStub(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST
         );

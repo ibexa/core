@@ -17,9 +17,9 @@ use PHPUnit\Framework\TestCase;
 
 abstract class CriterionHandlerTestCase extends TestCase
 {
-    abstract public function testAccept();
+    abstract public function testAccept(): void;
 
-    abstract public function testHandle();
+    abstract public function testHandle(): void;
 
     /**
      * Check if critetion handler accepts specyfied criterion class.
@@ -29,7 +29,7 @@ abstract class CriterionHandlerTestCase extends TestCase
      */
     protected function assertHandlerAcceptsCriterion(CriterionHandler $handler, $criterionClass)
     {
-        self::assertTrue($handler->accept($this->createMock($criterionClass)));
+        self::assertTrue($handler->accept(self::createStub($criterionClass)));
     }
 
     /**
@@ -40,7 +40,7 @@ abstract class CriterionHandlerTestCase extends TestCase
      */
     protected function assertHandlerRejectsCriterion(CriterionHandler $handler, $criterionClass)
     {
-        self::assertFalse($handler->accept($this->createMock($criterionClass)));
+        self::assertFalse($handler->accept(self::createStub($criterionClass)));
     }
 
     /**
@@ -72,16 +72,21 @@ abstract class CriterionHandlerTestCase extends TestCase
             ->willReturn($expressionBuilder);
 
         $converter = $this->createMock(CriteriaConverter::class);
+        $matcher = self::exactly(2);
         $converter
-            ->expects(self::at(0))
+            ->expects($matcher)
             ->method('convertCriteria')
-            ->with($queryBuilder, $foo)
-            ->willReturn($fooExpr);
-        $converter
-            ->expects(self::at(1))
-            ->method('convertCriteria')
-            ->with($queryBuilder, $bar)
-            ->willReturn($barExpr);
+            ->willReturnCallback(static function (QueryBuilder $actualQueryBuilder, Criterion $actualCriterion) use ($matcher, $queryBuilder, $foo, $bar, $fooExpr, $barExpr): string {
+                if ($matcher->numberOfInvocations() === 1) {
+                    self::assertSame([$queryBuilder, $foo], [$actualQueryBuilder, $actualCriterion]);
+
+                    return $fooExpr;
+                }
+
+                self::assertSame([$queryBuilder, $bar], [$actualQueryBuilder, $actualCriterion]);
+
+                return $barExpr;
+            });
 
         return $converter;
     }

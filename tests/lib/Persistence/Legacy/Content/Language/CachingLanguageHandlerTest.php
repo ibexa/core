@@ -16,10 +16,9 @@ use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
- */
+#[CoversClass(CachingHandler::class)]
 class CachingLanguageHandlerTest extends TestCase
 {
     /**
@@ -46,7 +45,7 @@ class CachingLanguageHandlerTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
     protected $cacheIdentifierGeneratorMock;
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getLanguageHandler();
         $innerHandlerMock = $this->getInnerLanguageHandlerMock();
@@ -100,7 +99,7 @@ class CachingLanguageHandlerTest extends TestCase
         return $language;
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $handler = $this->getLanguageHandler();
 
@@ -119,7 +118,7 @@ class CachingLanguageHandlerTest extends TestCase
         $handler->update($languageFixture);
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -143,7 +142,7 @@ class CachingLanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadFailure()
+    public function testLoadFailure(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -173,7 +172,7 @@ class CachingLanguageHandlerTest extends TestCase
         $handler->load(2);
     }
 
-    public function testLoadByLanguageCode()
+    public function testLoadByLanguageCode(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -197,7 +196,7 @@ class CachingLanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadByLanguageCodeFailure()
+    public function testLoadByLanguageCodeFailure(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -227,7 +226,7 @@ class CachingLanguageHandlerTest extends TestCase
         $handler->loadByLanguageCode('eng-US');
     }
 
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -248,23 +247,31 @@ class CachingLanguageHandlerTest extends TestCase
         self::assertIsArray($result);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
         $innerHandlerMock = $this->getInnerLanguageHandlerMock();
         $cacheIdentifierGeneratorMock = $this->getCacheIdentifierGeneratorMock();
+        $matcher = self::exactly(2);
 
-        $cacheIdentifierGeneratorMock->expects(self::exactly(2))
-            ->method('generateKey')
-            ->withConsecutive(
-                ['language', [2], true],
-                ['language_list', [], true]
-            )
-            ->willReturnOnConsecutiveCalls(
-                'ibx-la-2',
-                'ibx-lal'
-            );
+        $cacheIdentifierGeneratorMock->expects($matcher)
+            ->method('generateKey')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('language', $parameters[0]);
+                    $this->assertSame([2], $parameters[1]);
+                    $this->assertTrue($parameters[2]);
+
+                    return 'ibx-la-2';
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('language_list', $parameters[0]);
+                    $this->assertSame([], $parameters[1]);
+                    $this->assertTrue($parameters[2]);
+
+                    return 'ibx-lal';
+                }
+            });
 
         $innerHandlerMock->expects(self::once())
             ->method('delete')

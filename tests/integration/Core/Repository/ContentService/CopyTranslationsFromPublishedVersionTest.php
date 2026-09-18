@@ -12,12 +12,12 @@ use DateTime;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Core\FieldType\TextLine;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[CoversClass(ContentService::class)]
 final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
 {
     private const ENG_LANGUAGE_CODE = 'eng-GB';

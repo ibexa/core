@@ -100,12 +100,12 @@ class EZP22409RelationListTypeStateTest extends BaseTestCase
         $contentTypeService->publishContentTypeDraft($type);
     }
 
-    public function testCreateObjectWithRelationToContentType()
+    public function testCreateObjectWithRelationToContentType(): void
     {
         $this->createContentWithRelationList();
     }
 
-    public function testCreateObjectWithRelationToContentTypeWithExistingDraft()
+    public function testCreateObjectWithRelationToContentTypeWithExistingDraft(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();

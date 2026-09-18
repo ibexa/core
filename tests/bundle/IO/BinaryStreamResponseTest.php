@@ -11,13 +11,12 @@ namespace Ibexa\Tests\Bundle\IO;
 use Ibexa\Bundle\IO\BinaryStreamResponse;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @covers \Ibexa\Bundle\IO\BinaryStreamResponse
- */
+#[CoversClass(BinaryStreamResponse::class)]
 final class BinaryStreamResponseTest extends TestCase
 {
     /**

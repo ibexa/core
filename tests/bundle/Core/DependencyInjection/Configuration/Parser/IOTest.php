@@ -36,7 +36,7 @@ class IOTest extends AbstractParserTestCase
         return $this->minimalConfig = Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_minimal.yml'));
     }
 
-    public function testHandlersConfig()
+    public function testHandlersConfig(): void
     {
         $config = [
             'system' => [

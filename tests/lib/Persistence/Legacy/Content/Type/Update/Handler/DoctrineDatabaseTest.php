@@ -11,11 +11,10 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**
@@ -32,7 +31,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     protected $contentUpdaterMock;
 
-    public function testUpdateContentObjects()
+    public function testUpdateContentObjects(): void
     {
         $handler = $this->getUpdateHandler();
 
@@ -49,7 +48,7 @@ class DoctrineDatabaseTest extends TestCase
         $handler->updateContentObjects($types['from'], $types['to']);
     }
 
-    public function testDeleteOldType()
+    public function testDeleteOldType(): void
     {
         $handler = $this->getUpdateHandler();
 
@@ -67,7 +66,7 @@ class DoctrineDatabaseTest extends TestCase
         $handler->deleteOldType($types['from'], $types['to']);
     }
 
-    public function testPublishNewType()
+    public function testPublishNewType(): void
     {
         $handler = $this->getUpdateHandler();
 

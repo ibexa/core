@@ -15,13 +15,14 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Relation\Value as RelationValue;
 use Ibexa\Core\Repository\Values\Content\Relation;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
+#[Group('relation')]
 class RelationIntegrationTest extends SearchBaseIntegrationTestCase
 {
     use RelationSearchBaseIntegrationTestTrait;
@@ -98,9 +99,6 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    /**
-     * @covers \Ibexa\Tests\Integration\Core\Repository\FieldType\BaseIntegrationTestCase::getValidatorSchema()
-     */
     public function getValidatorSchema()
     {
         return [];
@@ -208,7 +206,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -244,9 +242,9 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData(): array
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -294,7 +292,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData(): array
     {
         return [
             [
@@ -313,7 +311,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData(): array
     {
         return [
             [
@@ -323,40 +321,46 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new RelationValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new RelationValue(4),
             ],
         ];
     }
 
-    protected function getValidSearchValueOne(): int
+    protected static function getValidSearchValueOne(): int
     {
         // Using different values for Legacy Search Engine, in order to demonstrate that sort will
         // depend on how search engine stores field type's value. Legacy stores it as integer, while
         // other engines store it as string.
-        if ($this->getSetupFactory() instanceof Legacy) {
+        if (static::resolveSetupFactory() instanceof Legacy) {
             return 4;
         }
 
         return 10;
     }
 
-    protected function getValidSearchValueTwo(): int
+    protected static function getValidSearchValueTwo(): int
     {
         // Using different values for Legacy Search Engine, in order to demonstrate that sort will
         // depend on how search engine stores field type's value. Legacy stores it as integer, while
         // other engines store it as string.
-        if ($this->getSetupFactory() instanceof Legacy) {
+        if (static::resolveSetupFactory() instanceof Legacy) {
             return 49;
         }
 

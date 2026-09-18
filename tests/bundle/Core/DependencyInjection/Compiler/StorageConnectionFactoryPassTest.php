@@ -11,13 +11,12 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 use Ibexa\Bundle\Core\ApiLoader\StorageConnectionFactory;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\StorageConnectionFactoryPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\StorageConnectionFactoryPass
- */
+#[CoversClass(StorageConnectionFactoryPass::class)]
 final class StorageConnectionFactoryPassTest extends AbstractCompilerPassTestCase
 {
     protected function setUp(): void

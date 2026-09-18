@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Cache\Identifier;
 
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,7 +25,7 @@ final class CacheIdentifierSanitizerTest extends TestCase
         $this->cacheIdentifierSanitizer = new CacheIdentifierSanitizer();
     }
 
-    public function providerForTestEscapeCacheKey(): array
+    public static function providerForTestEscapeCacheKey(): array
     {
         return [
             [['key'], 'key'],
@@ -33,9 +34,7 @@ final class CacheIdentifierSanitizerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEscapeCacheKey
-     */
+    #[DataProvider('providerForTestEscapeCacheKey')]
     public function testEscapeCacheKey(array $arguments, string $resultKey): void
     {
         self::assertEquals(

@@ -7,11 +7,15 @@
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Content as ContentIdMatcher;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversClass(ContentIdMatcher::class)]
+#[CoversClass(MultipleValued::class)]
 class ContentTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Content */
@@ -24,42 +28,40 @@ class ContentTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchLocationProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Content::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
+    #[DataProvider('matchLocationProvider')]
+    public function testMatchLocation($matchingConfig, int $contentId, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        self::assertSame($expectedResult, $this->matcher->matchLocation($location));
+        self::assertSame($expectedResult, $this->matcher->matchLocation($this->generateLocationForContentId($contentId)));
     }
 
-    public function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         return [
             [
                 123,
-                $this->generateLocationForContentId(123),
+                123,
                 true,
             ],
             [
                 123,
-                $this->generateLocationForContentId(456),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->generateLocationForContentId(456),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->generateLocationForContentId(789),
+                789,
                 true,
             ],
         ];
@@ -88,42 +90,40 @@ class ContentTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchContentInfoProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Content::matchContentInfo
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, ContentInfo $contentInfo, $expectedResult)
+    #[DataProvider('matchContentInfoProvider')]
+    public function testMatchContentInfo($matchingConfig, int $contentId, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        self::assertSame($expectedResult, $this->matcher->matchContentInfo($contentInfo));
+        self::assertSame($expectedResult, $this->matcher->matchContentInfo($this->getContentInfoMock(['id' => $contentId])));
     }
 
-    public function matchContentInfoProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchContentInfoProvider(): array
     {
         return [
             [
                 123,
-                $this->getContentInfoMock(['id' => 123]),
+                123,
                 true,
             ],
             [
                 123,
-                $this->getContentInfoMock(['id' => 456]),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->getContentInfoMock(['id' => 456]),
+                456,
                 false,
             ],
             [
                 [123, 789],
-                $this->getContentInfoMock(['id' => 789]),
+                789,
                 true,
             ],
         ];

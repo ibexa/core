@@ -12,12 +12,11 @@ use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader;
 use Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOConfigProvider;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList
- */
+#[CoversClass(LegacyStorageImageFileList::class)]
 final class LegacyStorageImageFileListTest extends TestCase
 {
     protected ImageFileRowReader&MockObject $rowReaderMock;

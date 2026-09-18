@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigSuggestionTest extends TestCase
 {
-    public function testEmptyConstructor()
+    public function testEmptyConstructor(): void
     {
         $suggestion = new ConfigSuggestion();
         self::assertNull($suggestion->getMessage());
@@ -20,7 +20,7 @@ class ConfigSuggestionTest extends TestCase
         self::assertFalse($suggestion->isMandatory());
     }
 
-    public function testConfigSuggestion()
+    public function testConfigSuggestion(): void
     {
         $message = 'some message';
         $configArray = ['foo' => 'bar'];

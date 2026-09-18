@@ -24,12 +24,14 @@ use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition as CoreFieldDefinition;
 use Ibexa\Core\Repository\Values\User\User as RepositoryUser;
 use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProvider;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 
-/**
- * @group fieldType
- * @group ibexa_url
- */
+#[CoversClass(Type::class)]
+#[Group('fieldType')]
+#[Group('ibexa_url')]
 class UserTest extends FieldTypeTestCase
 {
     private const int UNSUPPORTED_HASH_TYPE = 0xDEADBEEF;
@@ -37,9 +39,9 @@ class UserTest extends FieldTypeTestCase
     protected function createFieldTypeUnderTest(): UserType
     {
         $fieldType = new UserType(
-            $this->createMock(UserHandler::class),
-            $this->createMock(PasswordHashService::class),
-            $this->createMock(PasswordValidatorInterface::class)
+            self::createStub(UserHandler::class),
+            self::createStub(PasswordHashService::class),
+            self::createStub(PasswordValidatorInterface::class)
         );
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
 
@@ -79,7 +81,7 @@ class UserTest extends FieldTypeTestCase
         return new UserValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         yield [
             23,
@@ -87,7 +89,7 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -135,7 +137,7 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         $passwordUpdatedAt = new DateTimeImmutable();
 
@@ -166,7 +168,7 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         yield [
             null,
@@ -191,27 +193,31 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
-        yield from [];
+        yield 'no valid data sets defined' => [
+            ['__no_data__' => 'No valid data sets for validate() defined for this FieldType.'],
+            new UserValue(),
+        ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
-        yield from [];
+        yield 'no invalid data sets defined' => [
+            ['__no_data__' => 'No invalid data sets for validate() defined for this FieldType.'],
+            new UserValue(),
+            [],
+        ];
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\User\Type::validate
-     *
-     * @dataProvider providerForTestValidate
-     *
      * @param \Ibexa\Core\FieldType\User\Value $userValue
      * @param array $expectedValidationErrors
      * @param callable|null $loadByLoginBehaviorCallback
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('providerForTestValidate')]
     public function testValidate(
         UserValue $userValue,
         array $expectedValidationErrors,
@@ -230,8 +236,8 @@ class UserTest extends FieldTypeTestCase
 
         $userType = new UserType(
             $userHandlerMock,
-            $this->createMock(PasswordHashService::class),
-            $this->createMock(PasswordValidatorInterface::class)
+            self::createStub(PasswordHashService::class),
+            self::createStub(PasswordValidatorInterface::class)
         );
 
         $fieldSettings = [
@@ -329,8 +335,8 @@ class UserTest extends FieldTypeTestCase
 
         $userType = new UserType(
             $userHandlerMock,
-            $this->createMock(PasswordHashService::class),
-            $this->createMock(PasswordValidatorInterface::class)
+            self::createStub(PasswordHashService::class),
+            self::createStub(PasswordValidatorInterface::class)
         );
 
         $fieldSettings = [
@@ -354,19 +360,15 @@ class UserTest extends FieldTypeTestCase
         ], $validationErrors);
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\User\Type::toPersistenceValue
-     *
-     * @dataProvider providerForTestCreatePersistenceValue
-     */
+    #[DataProvider('providerForTestCreatePersistenceValue')]
     public function testCreatePersistenceValue(array $userValueDate, array $expectedFieldValueExternalData): void
     {
         $passwordHashServiceMock = $this->createMock(PasswordHashService::class);
         $passwordHashServiceMock->method('getDefaultHashType')->willReturn(RepositoryUser::DEFAULT_PASSWORD_HASH);
         $userType = new UserType(
-            $this->createMock(UserHandler::class),
+            self::createStub(UserHandler::class),
             $passwordHashServiceMock,
-            $this->createMock(PasswordValidatorInterface::class)
+            self::createStub(PasswordValidatorInterface::class)
         );
 
         $value = new UserValue($userValueDate);
@@ -382,7 +384,7 @@ class UserTest extends FieldTypeTestCase
         self::assertEquals($expected, $fieldValue);
     }
 
-    public function providerForTestCreatePersistenceValue(): iterable
+    public static function providerForTestCreatePersistenceValue(): iterable
     {
         $passwordUpdatedAt = new DateTimeImmutable();
         $userData = [
@@ -456,8 +458,8 @@ class UserTest extends FieldTypeTestCase
 
         $userType = new UserType(
             $userHandlerMock,
-            $this->createMock(PasswordHashService::class),
-            $this->createMock(PasswordValidatorInterface::class)
+            self::createStub(PasswordHashService::class),
+            self::createStub(PasswordValidatorInterface::class)
         );
 
         $fieldSettings = [
@@ -479,7 +481,7 @@ class UserTest extends FieldTypeTestCase
      *
      * @return array data sets for testValidate method (<code>$userValue, $expectedValidationErrors, $loadByLoginBehaviorCallback</code>)
      */
-    public function providerForTestValidate(): array
+    public static function providerForTestValidate(): array
     {
         return [
             [
@@ -534,9 +536,9 @@ class UserTest extends FieldTypeTestCase
                         'username'
                     ),
                 ],
-                function (InvocationMocker $loadByLoginInvocationMocker) {
+                static function (InvocationMocker $loadByLoginInvocationMocker) {
                     $loadByLoginInvocationMocker->willReturn(
-                        $this->createMock(UserValue::class)
+                        self::createStub(UserValue::class)
                     );
                 },
             ],
@@ -557,7 +559,7 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -585,7 +587,7 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -613,10 +615,10 @@ class UserTest extends FieldTypeTestCase
         return 'ibexa_user';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new UserValue(), '', [], 'en_GB'],
             [new UserValue(['login' => 'johndoe']), 'johndoe', [], 'en_GB'],
         ];
     }
@@ -638,8 +640,8 @@ class UserTest extends FieldTypeTestCase
 
         $userType = new UserType(
             $userHandlerMock,
-            $this->createMock(PasswordHashService::class),
-            $this->createMock(PasswordValidatorInterface::class)
+            self::createStub(PasswordHashService::class),
+            self::createStub(PasswordValidatorInterface::class)
         );
 
         $fieldSettings = [

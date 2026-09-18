@@ -9,14 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core;
 
 use Ibexa\Bundle\Core\IbexaCoreBundle;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 
-/**
- * @covers \Ibexa\Bundle\Core\IbexaCoreBundle
- */
+#[CoversClass(IbexaCoreBundle::class)]
 final class IbexaCoreBundleTest extends TestCase
 {
     private IbexaCoreBundle $bundle;

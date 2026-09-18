@@ -11,13 +11,12 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(SubtreeLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class SubtreeLimitationTest extends BaseLimitationTestCase
 {
     /**
@@ -28,7 +27,7 @@ class SubtreeLimitationTest extends BaseLimitationTestCase
      * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
      * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
      */
-    public function testSubtreeLimitationAllow()
+    public function testSubtreeLimitationAllow(): void
     {
         $repository = $this->getRepository();
 
@@ -68,7 +67,7 @@ class SubtreeLimitationTest extends BaseLimitationTestCase
      * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
      * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
      */
-    public function testSubtreeLimitationForbid()
+    public function testSubtreeLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

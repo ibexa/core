@@ -11,10 +11,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     /**
@@ -36,7 +35,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testInsertLanguage()
+    public function testInsertLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -74,7 +73,7 @@ class DoctrineDatabaseTest extends TestCase
         return $language;
     }
 
-    public function testUpdateLanguage()
+    public function testUpdateLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -99,7 +98,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadLanguageListData()
+    public function testLoadLanguageListData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -118,7 +117,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadAllLanguagesData()
+    public function testLoadAllLanguagesData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -143,7 +142,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testDeleteLanguage()
+    public function testDeleteLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
 

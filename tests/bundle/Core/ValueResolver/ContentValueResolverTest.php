@@ -34,7 +34,7 @@ final class ContentValueResolverTest extends TestCase
         $argumentMetadata = $this->createMock(ArgumentMetadata::class);
         $argumentMetadata->method('getType')->willReturn(Content::class);
 
-        $mockContent = $this->createMock(Content::class);
+        $mockContent = self::createStub(Content::class);
 
         $this->contentServiceMock
             ->expects(self::once())

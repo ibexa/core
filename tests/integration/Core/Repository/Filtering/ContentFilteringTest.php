@@ -26,6 +26,7 @@ use Ibexa\Core\FieldType\Keyword;
 use Ibexa\Tests\Core\Repository\Filtering\TestContentProvider;
 use function iterator_to_array;
 use IteratorAggregate;
+use PHPUnit\Framework\Attributes\DataProvider;
 use function sprintf;
 
 /**
@@ -38,16 +39,14 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
     /**
      * @return iterable<string, array{bool, int, int, int}>
      */
-    public function isBookmarkedProvider(): iterable
+    public static function isBookmarkedProvider(): iterable
     {
         // [isBookmarkedCriterion, initialCount, afterCreateCount, afterDeleteCount]
         yield 'bookmarked=true' => [true, 0, 1, 0];
         yield 'bookmarked=false' => [false, 1, 0, 1];
     }
 
-    /**
-     * @dataProvider isBookmarkedProvider
-     */
+    #[DataProvider('isBookmarkedProvider')]
     public function testIsBookmarkedTrueAndFalse(
         bool $isBookmarked,
         int $initialCount,
@@ -337,7 +336,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         return new SortClause\ContentId();
     }
 
-    public function getFilterFactories(): iterable
+    public static function getFilterFactories(): iterable
     {
         yield from parent::getFilterFactories();
 
@@ -444,14 +443,13 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
     }
 
     /**
-     * @dataProvider getDataForTestFindContentWithLocationCriterion
-     *
      * @param string[] $expectedContentRemoteIds
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[DataProvider('getDataForTestFindContentWithLocationCriterion')]
     public function testFindContentUsingLocationCriterion(
         callable $filterFactory,
         array $expectedContentRemoteIds
@@ -464,7 +462,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         );
     }
 
-    public function getDataForTestFindContentWithLocationCriterion(): iterable
+    public static function getDataForTestFindContentWithLocationCriterion(): iterable
     {
         yield 'Content items with secondary Location ignored in content filtering, sorted by Content ID' => [
             static function (Content $parentFolder): Filter {
@@ -522,10 +520,9 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
     }
 
     /**
-     * @dataProvider getListOfSupportedSortClauses
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
+    #[DataProvider('getListOfSupportedSortClauses')]
     public function testFindWithSortClauses(string $sortClauseFQCN): void
     {
         $this->performAndAssertSimpleSortClauseQuery(new $sortClauseFQCN(Query::SORT_ASC));
@@ -618,7 +615,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         }
     }
 
-    public function getListOfSupportedSortClauses(): iterable
+    public static function getListOfSupportedSortClauses(): iterable
     {
         yield 'Content\\Id' => [SortClause\ContentId::class];
         yield 'ContentName' => [SortClause\ContentName::class];

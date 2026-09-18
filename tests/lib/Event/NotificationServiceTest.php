@@ -30,10 +30,10 @@ class NotificationServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(CreateStruct::class),
+            self::createStub(CreateStruct::class),
         ];
 
-        $notification = $this->createMock(Notification::class);
+        $notification = self::createStub(Notification::class);
         $innerServiceMock = $this->createMock(NotificationServiceInterface::class);
         $innerServiceMock->method('createNotification')->willReturn($notification);
 
@@ -58,11 +58,11 @@ class NotificationServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(CreateStruct::class),
+            self::createStub(CreateStruct::class),
         ];
 
-        $notification = $this->createMock(Notification::class);
-        $eventNotification = $this->createMock(Notification::class);
+        $notification = self::createStub(Notification::class);
+        $eventNotification = self::createStub(Notification::class);
         $innerServiceMock = $this->createMock(NotificationServiceInterface::class);
         $innerServiceMock->method('createNotification')->willReturn($notification);
 
@@ -96,11 +96,11 @@ class NotificationServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(CreateStruct::class),
+            self::createStub(CreateStruct::class),
         ];
 
-        $notification = $this->createMock(Notification::class);
-        $eventNotification = $this->createMock(Notification::class);
+        $notification = self::createStub(Notification::class);
+        $eventNotification = self::createStub(Notification::class);
         $innerServiceMock = $this->createMock(NotificationServiceInterface::class);
         $innerServiceMock->method('createNotification')->willReturn($notification);
 
@@ -137,10 +137,10 @@ class NotificationServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Notification::class),
+            self::createStub(Notification::class),
         ];
 
-        $innerServiceMock = $this->createMock(NotificationServiceInterface::class);
+        $innerServiceMock = self::createStub(NotificationServiceInterface::class);
 
         $service = new NotificationService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteNotification(...$parameters);
@@ -162,10 +162,10 @@ class NotificationServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Notification::class),
+            self::createStub(Notification::class),
         ];
 
-        $innerServiceMock = $this->createMock(NotificationServiceInterface::class);
+        $innerServiceMock = self::createStub(NotificationServiceInterface::class);
 
         $traceableEventDispatcher->addListener(
             BeforeDeleteNotificationEvent::class,
@@ -198,10 +198,10 @@ class NotificationServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Notification::class),
+            self::createStub(Notification::class),
         ];
 
-        $innerServiceMock = $this->createMock(NotificationServiceInterface::class);
+        $innerServiceMock = self::createStub(NotificationServiceInterface::class);
 
         $service = new NotificationService($innerServiceMock, $traceableEventDispatcher);
         $service->markNotificationAsRead(...$parameters);
@@ -223,10 +223,10 @@ class NotificationServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Notification::class),
+            self::createStub(Notification::class),
         ];
 
-        $innerServiceMock = $this->createMock(NotificationServiceInterface::class);
+        $innerServiceMock = self::createStub(NotificationServiceInterface::class);
 
         $service = new NotificationService($innerServiceMock, $traceableEventDispatcher);
         $service->markNotificationAsUnread(...$parameters);
@@ -248,10 +248,10 @@ class NotificationServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Notification::class),
+            self::createStub(Notification::class),
         ];
 
-        $innerServiceMock = $this->createMock(NotificationServiceInterface::class);
+        $innerServiceMock = self::createStub(NotificationServiceInterface::class);
 
         $traceableEventDispatcher->addListener(
             BeforeMarkNotificationAsReadEvent::class,
@@ -284,10 +284,10 @@ class NotificationServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Notification::class),
+            self::createStub(Notification::class),
         ];
 
-        $innerServiceMock = $this->createMock(NotificationServiceInterface::class);
+        $innerServiceMock = self::createStub(NotificationServiceInterface::class);
 
         $traceableEventDispatcher->addListener(
             BeforeMarkNotificationAsUnreadEvent::class,

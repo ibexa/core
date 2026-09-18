@@ -10,13 +10,12 @@ namespace Ibexa\Tests\Core\QueryType\BuiltIn\SortSpec;
 
 use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecLexer;
 use Ibexa\Core\QueryType\BuiltIn\SortSpec\Token;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class SortSpecLexerTest extends TestCase
 {
-    /**
-     * @dataProvider dataProviderForTokenize
-     */
+    #[DataProvider('dataProviderForTokenize')]
     public function testTokenize(string $input, iterable $expectedTokens): void
     {
         $lexer = new SortSpecLexer();
@@ -25,7 +24,7 @@ final class SortSpecLexerTest extends TestCase
         self::assertEquals($expectedTokens, $lexer->getAll());
     }
 
-    public function dataProviderForTokenize(): iterable
+    public static function dataProviderForTokenize(): iterable
     {
         yield 'keyword: asc' => [
             'asc',

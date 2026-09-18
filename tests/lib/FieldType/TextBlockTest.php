@@ -10,11 +10,10 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\TextBlock\Type as TextBlockType;
 use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group fieldType
- * @group ibexa_text
- */
+#[Group('fieldType')]
+#[Group('ibexa_text')]
 final class TextBlockTest extends FieldTypeTestCase
 {
     private const string SAMPLE_TEXT_LINE_VALUE = ' sindelfingen ';
@@ -47,7 +46,7 @@ final class TextBlockTest extends FieldTypeTestCase
         return new TextBlockValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         yield [
             23,
@@ -55,7 +54,7 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -88,7 +87,7 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         yield 'empty value' => [
             new TextBlockValue(),
@@ -101,7 +100,7 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         yield 'empty string' => [
             '',
@@ -114,7 +113,7 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         yield 'empty settings' => [
             [],
@@ -127,7 +126,7 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -149,10 +148,10 @@ final class TextBlockTest extends FieldTypeTestCase
         return 'ibexa_text';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new TextBlockValue(), '', [], 'en_GB'],
             [new TextBlockValue('This is a piece of text'), 'This is a piece of text', [], 'en_GB'],
         ];
     }

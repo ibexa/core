@@ -11,11 +11,10 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Mapper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper
- */
+#[CoversClass(Mapper::class)]
 class MapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper */
@@ -26,7 +25,7 @@ class MapperTest extends TestCase
         $this->mapper = new Mapper();
     }
 
-    public function testCreateBookmarkFromCreateStruct()
+    public function testCreateBookmarkFromCreateStruct(): void
     {
         $createStruct = new CreateStruct([
             'locationId' => 54,
@@ -39,7 +38,7 @@ class MapperTest extends TestCase
         ]), $this->mapper->createBookmarkFromCreateStruct($createStruct));
     }
 
-    public function testExtractBookmarksFromRows()
+    public function testExtractBookmarksFromRows(): void
     {
         $rows = [
             [

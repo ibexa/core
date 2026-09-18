@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map\URI as URIMapMatcher;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class RouterMapURITest extends TestCase
@@ -17,10 +18,9 @@ class RouterMapURITest extends TestCase
      * @param array  $config
      * @param string $pathinfo
      * @param string $expectedMapKey
-     *
-     * @dataProvider setRequestProvider
      */
-    public function testSetGetRequest($config, $pathinfo, $expectedMapKey)
+    #[DataProvider('setRequestProvider')]
+    public function testSetGetRequest($config, $pathinfo, $expectedMapKey): void
     {
         $request = new SimplifiedRequest('http', '', 80, $pathinfo);
         $matcher = new URIMapMatcher($config);
@@ -32,10 +32,9 @@ class RouterMapURITest extends TestCase
     /**
      * @param string $uri
      * @param string $expectedFixedUpURI
-     *
-     * @dataProvider fixupURIProvider
      */
-    public function testAnalyseURI($uri, $expectedFixedUpURI)
+    #[DataProvider('fixupURIProvider')]
+    public function testAnalyseURI($uri, $expectedFixedUpURI): void
     {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
@@ -50,10 +49,9 @@ class RouterMapURITest extends TestCase
     /**
      * @param string $fullUri
      * @param string $linkUri
-     *
-     * @dataProvider fixupURIProvider
      */
-    public function testAnalyseLink($fullUri, $linkUri)
+    #[DataProvider('fixupURIProvider')]
+    public function testAnalyseLink($fullUri, $linkUri): void
     {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
@@ -65,7 +63,10 @@ class RouterMapURITest extends TestCase
         self::assertSame($fullUri, $unserializedMatcher->analyseLink($linkUri));
     }
 
-    public function setRequestProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function setRequestProvider(): array
     {
         return [
             [['foo' => 'bar'], '/bar/baz', 'bar'],
@@ -73,7 +74,10 @@ class RouterMapURITest extends TestCase
         ];
     }
 
-    public function fixupURIProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function fixupURIProvider(): array
     {
         return [
             ['/foo', '/'],
@@ -86,14 +90,14 @@ class RouterMapURITest extends TestCase
         ];
     }
 
-    public function testReverseMatchFail()
+    public function testReverseMatchFail(): void
     {
         $config = ['foo' => 'bar'];
         $matcher = new URIMapMatcher($config);
         self::assertNull($matcher->reverseMatch('non_existent'));
     }
 
-    public function testReverseMatch()
+    public function testReverseMatch(): void
     {
         $config = [
             'some_uri' => 'some_siteaccess',

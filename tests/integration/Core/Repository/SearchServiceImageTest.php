@@ -16,6 +16,7 @@ use Ibexa\Core\FieldType\Image\Orientation;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\TextLine\Value as TextValue;
 use Ibexa\Tests\Integration\Core\RepositorySearchTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SearchServiceImageTest extends RepositorySearchTestCase
 {
@@ -38,10 +39,8 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         $this->refreshSearch();
     }
 
-    /**
-     * @dataProvider provideDataForTestCriterion
-     * @dataProvider provideInvalidDataForTestCriterion
-     */
+    #[DataProvider('provideDataForTestCriterion')]
+    #[DataProvider('provideInvalidDataForTestCriterion')]
     public function testCriterion(
         int $expectedCount,
         Query\Criterion $imageCriterion
@@ -72,11 +71,11 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
      *     \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
      * }>
      */
-    public function provideDataForTestCriterion(): iterable
+    public static function provideDataForTestCriterion(): iterable
     {
         yield 'Dimensions' => [
             3,
-            $this->createDimensionsCriterion(
+            static::createDimensionsCriterion(
                 0,
                 100,
                 0,
@@ -86,57 +85,57 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
 
         yield 'FileSize - with numeric values from 0 to 1' => [
             3,
-            $this->createFileSizeCriterion(0, 1),
+            static::createFileSizeCriterion(0, 1),
         ];
 
         yield 'FileSize - with numeric string values from 0.0 to 2.5' => [
             3,
-            $this->createFileSizeCriterion('0.0', '2.5'),
+            static::createFileSizeCriterion('0.0', '2.5'),
         ];
 
         yield 'FileSize - with numeric values from 0.0 to 2.5' => [
             3,
-            $this->createFileSizeCriterion(0.0, 2.5),
+            static::createFileSizeCriterion(0.0, 2.5),
         ];
 
         yield 'FileSize - with numeric values 0.0001 to 0.004' => [
             2,
-            $this->createFileSizeCriterion(0.001, 0.004),
+            static::createFileSizeCriterion(0.001, 0.004),
         ];
 
         yield 'FileSize - with values numeric string 0.0003 and numeric 0.3' => [
             1,
-            $this->createFileSizeCriterion('0.003', 0.3),
+            static::createFileSizeCriterion('0.003', 0.3),
         ];
 
         yield 'FileSize - min value' => [
             2,
-            $this->createFileSizeCriterion('0.0002'),
+            static::createFileSizeCriterion('0.0002'),
         ];
 
         yield 'FileSize - max value' => [
             1,
-            $this->createFileSizeCriterion(null, '0.0003'),
+            static::createFileSizeCriterion(null, '0.0003'),
         ];
 
         yield 'Width' => [
             3,
-            $this->createWidthCriterion(0, 100),
+            static::createWidthCriterion(0, 100),
         ];
 
         yield 'Height' => [
             3,
-            $this->createHeightCriterion(0, 100),
+            static::createHeightCriterion(0, 100),
         ];
 
         yield 'MimeType - single' => [
             2,
-            $this->createMimeTypeCriterion('image/jpeg'),
+            static::createMimeTypeCriterion('image/jpeg'),
         ];
 
         yield 'MimeType - multiple' => [
             3,
-            $this->createMimeTypeCriterion(
+            static::createMimeTypeCriterion(
                 [
                     'image/jpeg',
                     'image/png',
@@ -146,22 +145,22 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
 
         yield 'Orientation - landscape' => [
             1,
-            $this->createOrientationCriterion(Orientation::LANDSCAPE),
+            static::createOrientationCriterion(Orientation::LANDSCAPE),
         ];
 
         yield 'Orientation - portrait' => [
             1,
-            $this->createOrientationCriterion(Orientation::PORTRAIT),
+            static::createOrientationCriterion(Orientation::PORTRAIT),
         ];
 
         yield 'Orientation - square' => [
             1,
-            $this->createOrientationCriterion(Orientation::SQUARE),
+            static::createOrientationCriterion(Orientation::SQUARE),
         ];
 
         yield 'Orientation - multiple' => [
             3,
-            $this->createOrientationCriterion(
+            static::createOrientationCriterion(
                 [
                     Orientation::LANDSCAPE,
                     Orientation::PORTRAIT,
@@ -206,11 +205,11 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
      *     \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
      * }>
      */
-    public function provideInvalidDataForTestCriterion(): iterable
+    public static function provideInvalidDataForTestCriterion(): iterable
     {
         yield 'Dimensions - width and height values too large' => [
             0,
-            $this->createDimensionsCriterion(
+            static::createDimensionsCriterion(
                 101,
                 200,
                 101,
@@ -220,7 +219,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
 
         yield 'FileSize - size value too large' => [
             0,
-            $this->createFileSizeCriterion(
+            static::createFileSizeCriterion(
                 1,
                 2
             ),
@@ -228,22 +227,22 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
 
         yield 'Width - width value to large' => [
             0,
-            $this->createWidthCriterion(101, 200),
+            static::createWidthCriterion(101, 200),
         ];
 
         yield 'Height - height value to large' => [
             0,
-            $this->createHeightCriterion(101, 300),
+            static::createHeightCriterion(101, 300),
         ];
 
         yield 'MimeType - invalid single mime type' => [
             0,
-            $this->createMimeTypeCriterion('image/invalid'),
+            static::createMimeTypeCriterion('image/invalid'),
         ];
 
         yield 'MimeType - invalid multiple mime types' => [
             0,
-            $this->createMimeTypeCriterion(
+            static::createMimeTypeCriterion(
                 [
                     'image/invalid',
                     'image/gif',
@@ -255,7 +254,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     /**
      * @param string|array<string> $value
      */
-    private function createMimeTypeCriterion($value): Query\Criterion\Image\MimeType
+    private static function createMimeTypeCriterion($value): Query\Criterion\Image\MimeType
     {
         return new Query\Criterion\Image\MimeType(
             self::IMAGE_FIELD_DEF_IDENTIFIER,
@@ -267,7 +266,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
      * @param numeric|null $min
      * @param numeric|null $max
      */
-    private function createFileSizeCriterion(
+    private static function createFileSizeCriterion(
         $min = 0,
         $max = null
     ): Query\Criterion\Image\FileSize {
@@ -278,7 +277,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         );
     }
 
-    private function createWidthCriterion(
+    private static function createWidthCriterion(
         int $min = 0,
         ?int $max = null
     ): Query\Criterion\Image\Width {
@@ -289,7 +288,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         );
     }
 
-    private function createHeightCriterion(
+    private static function createHeightCriterion(
         int $min = 0,
         ?int $max = null
     ): Query\Criterion\Image\Height {
@@ -300,7 +299,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         );
     }
 
-    private function createDimensionsCriterion(
+    private static function createDimensionsCriterion(
         int $minWidth,
         int $maxWidth,
         int $minHeight,
@@ -324,7 +323,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     /**
      * @param string|array<string> $value
      */
-    private function createOrientationCriterion($value): Query\Criterion\Image\Orientation
+    private static function createOrientationCriterion($value): Query\Criterion\Image\Orientation
     {
         return new Query\Criterion\Image\Orientation(
             self::IMAGE_FIELD_DEF_IDENTIFIER,

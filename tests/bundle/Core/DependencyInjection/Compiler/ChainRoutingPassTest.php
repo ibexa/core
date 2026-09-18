@@ -10,13 +10,13 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainRoutingPass;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainRoutingPass
- */
+#[CoversClass(ChainRoutingPass::class)]
 class ChainRoutingPassTest extends AbstractCompilerPassTestCase
 {
     protected function setUp(): void
@@ -39,10 +39,9 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
     /**
      * @param int|null $declaredPriority
      * @param int $expectedPriority
-     *
-     * @dataProvider addRouterProvider
      */
-    public function testAddRouter($declaredPriority, $expectedPriority)
+    #[DataProvider('addRouterProvider')]
+    public function testAddRouter($declaredPriority, $expectedPriority): void
     {
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
@@ -65,10 +64,9 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
     /**
      * @param int|null $declaredPriority
      * @param int $expectedPriority
-     *
-     * @dataProvider addRouterProvider
      */
-    public function testAddRouterWithDefaultRouter($declaredPriority, $expectedPriority)
+    #[DataProvider('addRouterProvider')]
+    public function testAddRouterWithDefaultRouter($declaredPriority, $expectedPriority): void
     {
         $defaultRouter = new Definition();
         $this->setDefinition('router.default', $defaultRouter);
@@ -100,7 +98,10 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function addRouterProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function addRouterProvider(): array
     {
         return [
             [null, 0],

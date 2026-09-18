@@ -28,7 +28,7 @@ class SettingServiceTest extends AbstractServiceTestCase
             BeforeUpdateSettingEvent::class,
             UpdateSettingEvent::class
         );
-        $updatedSetting = $this->createMock(Setting::class);
+        $updatedSetting = self::createStub(Setting::class);
 
         $result = $this->updateSetting($updatedSetting, $traceableEventDispatcher);
 
@@ -53,7 +53,7 @@ class SettingServiceTest extends AbstractServiceTestCase
             BeforeUpdateSettingEvent::class,
             UpdateSettingEvent::class
         );
-        $eventUpdatedSetting = $this->createMock(Setting::class);
+        $eventUpdatedSetting = self::createStub(Setting::class);
 
         $traceableEventDispatcher->addListener(
             BeforeUpdateSettingEvent::class,
@@ -62,7 +62,7 @@ class SettingServiceTest extends AbstractServiceTestCase
             },
             10
         );
-        $updatedSetting = $this->createMock(Setting::class);
+        $updatedSetting = self::createStub(Setting::class);
 
         $result = $this->updateSetting($updatedSetting, $traceableEventDispatcher);
 
@@ -88,7 +88,7 @@ class SettingServiceTest extends AbstractServiceTestCase
             BeforeUpdateSettingEvent::class,
             UpdateSettingEvent::class
         );
-        $eventUpdatedSetting = $this->createMock(Setting::class);
+        $eventUpdatedSetting = self::createStub(Setting::class);
         $traceableEventDispatcher->addListener(
             BeforeUpdateSettingEvent::class,
             static function (BeforeUpdateSettingEvent $event) use ($eventUpdatedSetting) {
@@ -97,7 +97,7 @@ class SettingServiceTest extends AbstractServiceTestCase
             },
             10
         );
-        $updatedSetting = $this->createMock(Setting::class);
+        $updatedSetting = self::createStub(Setting::class);
 
         $result = $this->updateSetting($updatedSetting, $traceableEventDispatcher);
 
@@ -132,10 +132,10 @@ class SettingServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Setting::class),
+            self::createStub(Setting::class),
         ];
 
-        $innerServiceMock = $this->createMock(SettingServiceInterface::class);
+        $innerServiceMock = self::createStub(SettingServiceInterface::class);
 
         $service = new SettingService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteSetting(...$parameters);
@@ -162,10 +162,10 @@ class SettingServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Setting::class),
+            self::createStub(Setting::class),
         ];
 
-        $innerServiceMock = $this->createMock(SettingServiceInterface::class);
+        $innerServiceMock = self::createStub(SettingServiceInterface::class);
 
         $traceableEventDispatcher->addListener(
             BeforeDeleteSettingEvent::class,
@@ -206,7 +206,7 @@ class SettingServiceTest extends AbstractServiceTestCase
             BeforeCreateSettingEvent::class,
             CreateSettingEvent::class
         );
-        $setting = $this->createMock(Setting::class);
+        $setting = self::createStub(Setting::class);
 
         $result = $this->createSetting($setting, $traceableEventDispatcher);
 
@@ -231,8 +231,8 @@ class SettingServiceTest extends AbstractServiceTestCase
             BeforeCreateSettingEvent::class,
             CreateSettingEvent::class
         );
-        $eventSetting = $this->createMock(Setting::class);
-        $setting = $this->createMock(Setting::class);
+        $eventSetting = self::createStub(Setting::class);
+        $setting = self::createStub(Setting::class);
         $traceableEventDispatcher->addListener(
             BeforeCreateSettingEvent::class,
             static function (BeforeCreateSettingEvent $event) use ($eventSetting) {
@@ -265,8 +265,8 @@ class SettingServiceTest extends AbstractServiceTestCase
             BeforeCreateSettingEvent::class,
             CreateSettingEvent::class
         );
-        $eventSetting = $this->createMock(Setting::class);
-        $setting = $this->createMock(Setting::class);
+        $eventSetting = self::createStub(Setting::class);
+        $setting = self::createStub(Setting::class);
         $traceableEventDispatcher->addListener(
             BeforeCreateSettingEvent::class,
             static function (BeforeCreateSettingEvent $event) use ($eventSetting) {
@@ -306,7 +306,7 @@ class SettingServiceTest extends AbstractServiceTestCase
         TraceableEventDispatcher $traceableEventDispatcher
     ): Setting {
         $parameters = [
-            $this->createMock(SettingCreateStruct::class),
+            self::createStub(SettingCreateStruct::class),
         ];
         $innerServiceMock = $this->createMock(SettingServiceInterface::class);
         $innerServiceMock->method('createSetting')->willReturn($setting);
@@ -320,8 +320,8 @@ class SettingServiceTest extends AbstractServiceTestCase
         TraceableEventDispatcher $traceableEventDispatcher
     ): Setting {
         $parameters = [
-            $this->createMock(Setting::class),
-            $this->createMock(SettingUpdateStruct::class),
+            self::createStub(Setting::class),
+            self::createStub(SettingUpdateStruct::class),
         ];
         $innerServiceMock = $this->createMock(SettingServiceInterface::class);
         $innerServiceMock->method('updateSetting')->willReturn($updatedSetting);

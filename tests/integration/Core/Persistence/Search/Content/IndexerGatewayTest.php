@@ -11,12 +11,13 @@ namespace Ibexa\Tests\Integration\Core\Persistence\Search\Content;
 use DateTimeImmutable;
 use Ibexa\Core\Search\Legacy\Content\IndexerGateway;
 use Ibexa\Tests\Integration\Core\BaseGatewayTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
- *
- * @covers \Ibexa\Core\Search\Legacy\Content\IndexerGateway
  */
+#[CoversClass(IndexerGateway::class)]
 final class IndexerGatewayTest extends BaseGatewayTestCase
 {
     /** @var \Ibexa\Core\Search\Legacy\Content\IndexerGateway */
@@ -32,7 +33,7 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
         $this->gateway = new IndexerGateway($this->getRawDatabaseConnection());
     }
 
-    public function getDataForContentSince(): iterable
+    public static function getDataForContentSince(): iterable
     {
         yield '1999-01-01' => [
             new DateTimeImmutable('1999-01-01'),
@@ -47,7 +48,7 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
         ];
     }
 
-    public function getDataForContentInSubtree(): iterable
+    public static function getDataForContentInSubtree(): iterable
     {
         yield '/1/5/' => [
             '/1/5/',
@@ -63,10 +64,9 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
     }
 
     /**
-     * @dataProvider getDataForContentSince
-     *
      * @throws \Doctrine\DBAL\Exception
      */
+    #[DataProvider('getDataForContentSince')]
     public function testGetContentSince(
         DateTimeImmutable $since,
         int $expectedCount,
@@ -76,10 +76,9 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
     }
 
     /**
-     * @dataProvider getDataForContentSince
-     *
      * @throws \Doctrine\DBAL\Exception
      */
+    #[DataProvider('getDataForContentSince')]
     public function testCountContentSince(
         DateTimeImmutable $since,
         int $expectedCount,
@@ -92,10 +91,9 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
     }
 
     /**
-     * @dataProvider getDataForContentInSubtree
-     *
      * @throws \Doctrine\DBAL\Exception
      */
+    #[DataProvider('getDataForContentInSubtree')]
     public function testGetContentInSubtree(
         string $subtreePath,
         int $expectedCount,
@@ -108,10 +106,9 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
     }
 
     /**
-     * @dataProvider getDataForContentInSubtree
-     *
      * @throws \Doctrine\DBAL\Exception
      */
+    #[DataProvider('getDataForContentInSubtree')]
     public function testCountContentInSubtree(
         string $subtreePath,
         int $expectedCount,

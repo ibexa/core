@@ -24,7 +24,7 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
         'c' => 'C',
     ];
 
-    public function testConfigure()
+    public function testConfigure(): void
     {
         $configResolver = $this->createMock(ConfigResolverInterface::class);
         $configResolver
@@ -33,7 +33,7 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
             ->with('io.binarydata_handler')
             ->willReturn(self::BINARY_HANDLER_NAME);
 
-        $provider = $this->createMock(PlaceholderProvider::class);
+        $provider = self::createStub(PlaceholderProvider::class);
 
         $providerRegistry = $this->createMock(PlaceholderProviderRegistry::class);
         $providerRegistry

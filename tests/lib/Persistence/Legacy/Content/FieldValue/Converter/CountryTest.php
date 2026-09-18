@@ -14,11 +14,12 @@ use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter
- */
+#[CoversClass(CountryConverter::class)]
 class CountryTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter */
@@ -30,7 +31,10 @@ class CountryTest extends TestCase
         $this->converter = new CountryConverter();
     }
 
-    public function providerForTestToStorageValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestToStorageValue(): array
     {
         return [
             [['BE', 'FR'], 'belgium,france', 'BE,FR', 'belgium,france'],
@@ -38,13 +42,10 @@ class CountryTest extends TestCase
         ];
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     *
-     * @dataProvider providerForTestToStorageValue
-     */
-    public function testToStorageValue($data, $sortKey, $dataText, $sortKeyString)
+    #[Group('fieldType')]
+    #[Group('country')]
+    #[DataProvider('providerForTestToStorageValue')]
+    public function testToStorageValue($data, $sortKey, $dataText, $sortKeyString): void
     {
         $value = new FieldValue();
         $value->data = $data;
@@ -56,7 +57,10 @@ class CountryTest extends TestCase
         self::assertSame($sortKeyString, $storageFieldValue->sortKeyString);
     }
 
-    public function providerForTestToFieldValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestToFieldValue(): array
     {
         return [
             ['BE,FR', 'belgium,france', ['BE', 'FR']],
@@ -64,13 +68,10 @@ class CountryTest extends TestCase
         ];
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     *
-     * @dataProvider providerForTestToFieldValue
-     */
-    public function testToFieldValue($dataText, $sortKeyString, $data)
+    #[Group('fieldType')]
+    #[Group('country')]
+    #[DataProvider('providerForTestToFieldValue')]
+    public function testToFieldValue($dataText, $sortKeyString, $data): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = $dataText;
@@ -81,11 +82,9 @@ class CountryTest extends TestCase
         self::assertSame($data, $fieldValue->data);
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     */
-    public function testToStorageFieldDefinitionMultiple()
+    #[Group('fieldType')]
+    #[Group('country')]
+    public function testToStorageFieldDefinitionMultiple(): void
     {
         $defaultValue = new FieldValue();
         $defaultValue->data = ['BE', 'FR'];
@@ -116,11 +115,9 @@ class CountryTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     */
-    public function testToStorageFieldDefinitionSingle()
+    #[Group('fieldType')]
+    #[Group('country')]
+    public function testToStorageFieldDefinitionSingle(): void
     {
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
@@ -147,11 +144,9 @@ class CountryTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     */
-    public function testToFieldDefinitionMultiple()
+    #[Group('fieldType')]
+    #[Group('country')]
+    public function testToFieldDefinitionMultiple(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
 
@@ -174,11 +169,9 @@ class CountryTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group country
-     */
-    public function testToFieldDefinitionSingle()
+    #[Group('fieldType')]
+    #[Group('country')]
+    public function testToFieldDefinitionSingle(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
 

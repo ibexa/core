@@ -29,7 +29,7 @@ class TrashServiceDecoratorTest extends TestCase
         return $this->createMock(TrashService::class);
     }
 
-    public function testLoadTrashItemDecorator()
+    public function testLoadTrashItemDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -41,26 +41,26 @@ class TrashServiceDecoratorTest extends TestCase
         $decoratedService->loadTrashItem(...$parameters);
     }
 
-    public function testTrashDecorator()
+    public function testTrashDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Location::class)];
+        $parameters = [self::createStub(Location::class)];
 
         $serviceMock->expects(self::once())->method('trash')->with(...$parameters);
 
         $decoratedService->trash(...$parameters);
     }
 
-    public function testRecoverDecorator()
+    public function testRecoverDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(TrashItem::class),
-            $this->createMock(Location::class),
+            self::createStub(TrashItem::class),
+            self::createStub(Location::class),
         ];
 
         $serviceMock->expects(self::once())->method('recover')->with(...$parameters);
@@ -68,7 +68,7 @@ class TrashServiceDecoratorTest extends TestCase
         $decoratedService->recover(...$parameters);
     }
 
-    public function testEmptyTrashDecorator()
+    public function testEmptyTrashDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -80,24 +80,24 @@ class TrashServiceDecoratorTest extends TestCase
         $decoratedService->emptyTrash(...$parameters);
     }
 
-    public function testDeleteTrashItemDecorator()
+    public function testDeleteTrashItemDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(TrashItem::class)];
+        $parameters = [self::createStub(TrashItem::class)];
 
         $serviceMock->expects(self::once())->method('deleteTrashItem')->with(...$parameters);
 
         $decoratedService->deleteTrashItem(...$parameters);
     }
 
-    public function testFindTrashItemsDecorator()
+    public function testFindTrashItemsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Query::class)];
+        $parameters = [self::createStub(Query::class)];
 
         $serviceMock->expects(self::once())->method('findTrashItems')->with(...$parameters);
 

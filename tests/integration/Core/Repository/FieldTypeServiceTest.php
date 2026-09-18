@@ -8,22 +8,21 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\FieldType;
+use Ibexa\Core\Repository\FieldTypeService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the FieldTypeService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService
- *
- * @group field-type
  */
+#[CoversClass(FieldTypeService::class)]
+#[Group('field-type')]
 class FieldTypeServiceTest extends BaseTestCase
 {
     /**
      * Test for the getFieldTypes() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldTypes()
      */
-    public function testGetFieldTypes()
+    public function testGetFieldTypes(): void
     {
         $repository = $this->getRepository();
 
@@ -49,10 +48,8 @@ class FieldTypeServiceTest extends BaseTestCase
      * Test for the getFieldType() method.
      *
      * Expects FieldType "ibexa_url" to be available!
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldType()
      */
-    public function testGetFieldType()
+    public function testGetFieldType(): void
     {
         $repository = $this->getRepository();
 
@@ -75,10 +72,8 @@ class FieldTypeServiceTest extends BaseTestCase
 
     /**
      * Test for the getFieldType() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldType()
      */
-    public function testGetFieldTypeThrowsNotFoundException()
+    public function testGetFieldTypeThrowsNotFoundException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -94,10 +89,8 @@ class FieldTypeServiceTest extends BaseTestCase
 
     /**
      * Test for the hasFieldType() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::hasFieldType()
      */
-    public function testHasFieldTypeReturnsTrue()
+    public function testHasFieldTypeReturnsTrue(): void
     {
         $repository = $this->getRepository();
 
@@ -113,10 +106,8 @@ class FieldTypeServiceTest extends BaseTestCase
 
     /**
      * Test for the hasFieldType() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::hasFieldType()
      */
-    public function testHasFieldTypeReturnsFalse()
+    public function testHasFieldTypeReturnsFalse(): void
     {
         $repository = $this->getRepository();
 

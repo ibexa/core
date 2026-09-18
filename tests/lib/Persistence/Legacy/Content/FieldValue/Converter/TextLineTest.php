@@ -14,11 +14,11 @@ use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter
- */
+#[CoversClass(TextLineConverter::class)]
 class TextLineTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter */
@@ -30,11 +30,9 @@ class TextLineTest extends TestCase
         $this->converter = new TextLineConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
-    public function testToStorageValue()
+    #[Group('fieldType')]
+    #[Group('textLine')]
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = "He's holding a thermal detonator!";
@@ -47,11 +45,9 @@ class TextLineTest extends TestCase
         self::assertSame(0, $storageFieldValue->sortKeyInt);
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
-    public function testToFieldValue()
+    #[Group('fieldType')]
+    #[Group('textLine')]
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = 'When 900 years old, you reach... Look as good, you will not.';
@@ -64,11 +60,9 @@ class TextLineTest extends TestCase
         self::assertSame($storageFieldValue->sortKeyString, $fieldValue->sortKey);
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
-    public function testToStorageFieldDefinitionWithValidator()
+    #[Group('fieldType')]
+    #[Group('textLine')]
+    public function testToStorageFieldDefinitionWithValidator(): void
     {
         $defaultText = 'This is a default text';
         $storageFieldDef = new StorageFieldDefinition();
@@ -101,11 +95,9 @@ class TextLineTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
-    public function testToStorageFieldDefinitionNoValidator()
+    #[Group('fieldType')]
+    #[Group('textLine')]
+    public function testToStorageFieldDefinitionNoValidator(): void
     {
         $defaultText = 'This is a default text';
         $storageFieldDef = new StorageFieldDefinition();
@@ -130,11 +122,9 @@ class TextLineTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group textLine
-     */
-    public function testToFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('textLine')]
+    public function testToFieldDefinition(): void
     {
         $defaultText = 'This is a default value';
         $fieldDef = new PersistenceFieldDefinition();

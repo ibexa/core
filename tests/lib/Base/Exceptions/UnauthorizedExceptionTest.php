@@ -9,17 +9,15 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Base\Exceptions;
 
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 
-/**
- * @covers \Ibexa\Core\Base\Exceptions\UnauthorizedException
- */
+#[CoversClass(UnauthorizedException::class)]
 final class UnauthorizedExceptionTest extends TestCase
 {
-    /**
-     * @dataProvider getDataForTestConstructor
-     */
+    #[DataProvider('getDataForTestConstructor')]
     public function testConstructor(UnauthorizedException $exception, string $expectedMessage): void
     {
         self::assertSame($expectedMessage, $exception->getMessage());

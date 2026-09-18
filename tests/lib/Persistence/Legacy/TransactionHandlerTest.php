@@ -12,11 +12,10 @@ use Exception;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler;
 use Ibexa\Core\Persistence\Legacy\TransactionHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\TransactionHandler
- */
+#[CoversClass(TransactionHandler::class)]
 class TransactionHandlerTest extends TestCase
 {
     /**
@@ -35,7 +34,7 @@ class TransactionHandlerTest extends TestCase
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler|\PHPUnit\Framework\MockObject\MockObject */
     protected $languageHandlerMock;
 
-    public function testBeginTransaction()
+    public function testBeginTransaction(): void
     {
         $handler = $this->getTransactionHandler();
         $this->getConnectionMock()
@@ -51,7 +50,7 @@ class TransactionHandlerTest extends TestCase
         $handler->beginTransaction();
     }
 
-    public function testCommit()
+    public function testCommit(): void
     {
         $handler = $this->getTransactionHandler();
         $this->getConnectionMock()
@@ -67,7 +66,7 @@ class TransactionHandlerTest extends TestCase
         $handler->commit();
     }
 
-    public function testCommitException()
+    public function testCommitException(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('test');
@@ -87,7 +86,7 @@ class TransactionHandlerTest extends TestCase
         $handler->commit();
     }
 
-    public function testRollback()
+    public function testRollback(): void
     {
         $handler = $this->getTransactionHandler();
         $this->getConnectionMock()
@@ -103,7 +102,7 @@ class TransactionHandlerTest extends TestCase
         $handler->rollback();
     }
 
-    public function testRollbackException()
+    public function testRollbackException(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('test');

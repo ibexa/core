@@ -33,12 +33,12 @@ class ConfigScopeListenerTest extends TestCase
         $this->configResolver = $this->createMock(VersatileScopeInterface::class);
         $this->viewManager = $this->createMock(ViewManager::class);
         $this->viewProviders = [
-            $this->createMock(ViewProvider::class),
-            $this->createMock(ViewProvider::class),
+            self::createStub(ViewProvider::class),
+            self::createStub(ViewProvider::class),
         ];
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -49,7 +49,7 @@ class ConfigScopeListenerTest extends TestCase
         );
     }
 
-    public function testOnConfigScopeChange()
+    public function testOnConfigScopeChange(): void
     {
         $siteAccess = new SiteAccess('test');
         $event = new ScopeChangeEvent($siteAccess);

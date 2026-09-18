@@ -18,13 +18,13 @@ use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Twig\Environment;
 
-/**
- * @group mvc
- */
+#[Group('mvc')]
 class ViewManagerTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\View\Manager */
@@ -33,8 +33,7 @@ class ViewManagerTest extends TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Twig\Environment */
     private $templateEngineMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private $eventDispatcherMock;
+    private EventDispatcherInterface&Stub $eventDispatcherMock;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\Repository */
     private $repositoryMock;
@@ -51,7 +50,7 @@ class ViewManagerTest extends TestCase
     {
         parent::setUp();
         $this->templateEngineMock = $this->createMock(Environment::class);
-        $this->eventDispatcherMock = $this->createMock(EventDispatcherInterface::class);
+        $this->eventDispatcherMock = self::createStub(EventDispatcherInterface::class);
         $this->repositoryMock = $this->createMock(Repository::class);
         $this->configResolverMock = $this->createMock(ConfigResolverInterface::class);
         $this->viewConfigurator = $this->createMock(Configurator::class);
@@ -65,7 +64,7 @@ class ViewManagerTest extends TestCase
         );
     }
 
-    public function testRenderContent()
+    public function testRenderContent(): void
     {
         $content = new Content(
             ['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]
@@ -98,7 +97,7 @@ class ViewManagerTest extends TestCase
         self::assertSame($expectedTemplateResult, $this->viewManager->renderContent($content, 'customViewType', $params));
     }
 
-    public function testRenderContentWithClosure()
+    public function testRenderContentWithClosure(): void
     {
         $content = new Content(
             ['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]
@@ -132,7 +131,7 @@ class ViewManagerTest extends TestCase
         self::assertEqualsCanonicalizing($expectedTemplateResult, $templateResult);
     }
 
-    public function testRenderLocation()
+    public function testRenderLocation(): void
     {
         $content = new Content(['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]);
         $location = new Location(['contentInfo' => new ContentInfo()]);
@@ -181,7 +180,7 @@ class ViewManagerTest extends TestCase
         self::assertSame($expectedTemplateResult, $this->viewManager->renderLocation($location, 'customViewType', $params));
     }
 
-    public function testRenderLocationWithContentPassed()
+    public function testRenderLocationWithContentPassed(): void
     {
         $content = new Content(['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]);
         $location = new Location(['contentInfo' => new ContentInfo()]);
@@ -232,7 +231,7 @@ class ViewManagerTest extends TestCase
         self::assertSame($expectedTemplateResult, $this->viewManager->renderLocation($location, 'customViewType', $params));
     }
 
-    public function testRenderLocationWithClosure()
+    public function testRenderLocationWithClosure(): void
     {
         $content = new Content(['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]);
         $location = new Location(['contentInfo' => new ContentInfo()]);
