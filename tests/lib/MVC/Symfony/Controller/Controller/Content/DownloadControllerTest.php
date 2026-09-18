@@ -15,7 +15,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -23,7 +22,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 final class DownloadControllerTest extends TestCase
 {
     use DownloadControllerTestTrait;
-    use ExpectDeprecationTrait;
 
     private const string FILENAME = 'Test-file.pdf';
 
@@ -171,7 +169,7 @@ final class DownloadControllerTest extends TestCase
             ->method('loadBinaryFile')
             ->willReturn($this->createBinaryFile());
 
-        $this->expectDeprecation(
+        $this->expectUserDeprecationMessage(
             'Since ibexa/core 5.0: The "ibexa.content.download.field_id" route (/content/download/{contentId}/{fieldId})'
             . ' is deprecated and will be removed in 6.0.'
             . ' Use the "ibexa.content.download.field_id.filename" route'
