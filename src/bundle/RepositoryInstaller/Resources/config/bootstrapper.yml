@@ -1,0 +1,14 @@
+# Integration-test bootstrap hooks (see ibexa/test-core's Bootstrapper). Loaded only in the "test"
+# environment, and only when ibexa/test-core is actually installed - see
+# IbexaRepositoryInstallerExtension::shouldRegisterBootstrapperHook().
+services:
+    Ibexa\Bundle\RepositoryInstaller\Bootstrapper\DoctrineMigrationsSchemaHook:
+        public: false
+        arguments:
+            # Mandatory: both this definition and TaggedMigrationsRunner's own are removed by
+            # RemoveTaggedMigrationsRunnerPass when "ibexa/doctrine-migrations" isn't
+            # installed/enabled, so compilation never attempts to resolve this reference then.
+            $taggedMigrationsRunner: '@Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner'
+        tags:
+            - name: !php/const Ibexa\Contracts\Test\Core\Bootstrapper\HookInterface::TAG
+              priority: !php/const Ibexa\Bundle\RepositoryInstaller\Bootstrapper\DoctrineMigrationsSchemaHook::PRIORITY
