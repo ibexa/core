@@ -1,6 +1,6 @@
 ARG SOLR_VERSION=10.0.0
 
-FROM alpine:3.22 as builder
+FROM alpine:3.22 AS builder
 ARG SOLR_VERSION
 ARG SOLR_BUNDLE_BRANCH=6.0
 RUN apk add --no-cache --upgrade bash git curl
