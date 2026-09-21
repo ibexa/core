@@ -41,6 +41,16 @@
    <issue><![CDATA[The Liip\ImagineBundle\Templating\FilterExtension class is deprecated since version 2.7 and will be removed in 3.0; configure "liip_imagine.twig.mode" to "lazy" instead.]]></issue>
   </line>
  </file>
+ <file path="vendor/symfony/dependency-injection/Loader/XmlFileLoader.php">
+  <line number="796" hash="0bb2113360e76ce53ab5ee0b994e958fc8d0a804">
+   <issue><![CDATA[Function libxml_disable_entity_loader() is deprecated since 8.0, as external entity loading is disabled by default]]></issue>
+   <issue><![CDATA[Function libxml_disable_entity_loader() is deprecated since 8.0, as external entity loading is disabled by default]]></issue>
+  </line>
+  <line number="798" hash="ed0c8542bdf10ae8e270b38ebed5a2f6ed2da540">
+   <issue><![CDATA[Function libxml_disable_entity_loader() is deprecated since 8.0, as external entity loading is disabled by default]]></issue>
+   <issue><![CDATA[Function libxml_disable_entity_loader() is deprecated since 8.0, as external entity loading is disabled by default]]></issue>
+  </line>
+ </file>
  <file path="vendor/liip/imagine-bundle/Templating/FilterTrait.php">
   <line number="14" hash="d658344ee2c4e3c959185f70989e24f2e6e37cb6">
    <issue><![CDATA[The Liip\ImagineBundle\Templating\FilterTrait trait is deprecated since version 2.7 and will be removed in 3.0; use Twig instead.]]></issue>
