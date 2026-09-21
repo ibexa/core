@@ -1,5 +1,16 @@
 <?xml version="1.0"?>
-<phpunit backupGlobals="false" bootstrap="bootstrap.php" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" failOnWarning="true" failOnNotice="true" cacheDirectory=".phpunit.cache" backupStaticProperties="false" displayDetailsOnTestsThatTriggerDeprecations="true" failOnDeprecation="true">
+<phpunit
+    backupGlobals="false"
+    bootstrap="bootstrap.php"
+    beStrictAboutTestsThatDoNotTestAnything="false"
+    colors="true"
+    failOnWarning="true"
+    failOnNotice="true"
+    cacheDirectory=".phpunit.cache"
+    backupStaticProperties="false"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    failOnDeprecation="true"
+>
   <php>
     <ini name="error_reporting" value="-1"/>
   </php>

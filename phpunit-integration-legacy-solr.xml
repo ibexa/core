@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" bootstrap="bootstrap.php" processIsolation="false" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" failOnWarning="true" failOnNotice="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    backupGlobals="false"
+    bootstrap="bootstrap.php"
+    processIsolation="false"
+    beStrictAboutTestsThatDoNotTestAnything="false"
+    colors="true"
+    failOnWarning="true"
+    failOnNotice="true"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
+    cacheDirectory=".phpunit.cache"
+    backupStaticProperties="false"
+>
   <php>
     <env name="setupFactory" value="Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory"/>
     <env name="backendVersion" value="5"/>
