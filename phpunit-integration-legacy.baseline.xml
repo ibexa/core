@@ -1,11 +1,19 @@
 <?xml version="1.0"?>
 <files version="1">
+ <file path="vendor/league/flysystem-memory/InMemoryFilesystemAdapter.php">
+  <line number="39" hash="e01d94d4fe594d9dca588d9fe70212b4c6809588">
+   <issue><![CDATA[League\Flysystem\InMemory\InMemoryFilesystemAdapter::__construct(): Implicitly marking parameter $mimeTypeDetector as nullable is deprecated, the explicit nullable type must be used instead]]></issue>
+  </line>
+ </file>
  <file path="vendor/symfony/deprecation-contracts/function.php">
   <line number="25" hash="c6af5d66288d0667e424978000f29571e4954b81">
    <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
    <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
    <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
    <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/var-exporter 7.3: Using ProxyHelper::generateLazyGhost() is deprecated, use native lazy objects instead.]]></issue>
+   <issue><![CDATA[Since symfony/var-exporter 7.3: The "Symfony\Component\VarExporter\LazyGhostTrait" trait is deprecated, use native lazy objects instead.]]></issue>
+   <issue><![CDATA[Since symfony/var-exporter 7.3: Using ProxyHelper::generateLazyGhost() is deprecated, use native lazy objects instead.]]></issue>
    <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
    <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
    <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
