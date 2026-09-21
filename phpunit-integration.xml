@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit backupGlobals="false" bootstrap="tests/integration/bootstrap.php" processIsolation="false" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" failOnWarning="true" failOnNotice="true" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+<phpunit backupGlobals="false" bootstrap="tests/integration/bootstrap.php" processIsolation="false" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" failOnWarning="true" failOnNotice="true" failOnDeprecation="true" displayDetailsOnTestsThatTriggerDeprecations="true" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
   <php>
     <ini name="error_reporting" value="-1"/>
     <env name="DATABASE_URL" value="sqlite://i@i/var/test-bootstrapper.db"/>
@@ -29,6 +29,11 @@
       <file>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</file>
     </testsuite>
   </testsuites>
+  <source baseline="phpunit-integration.baseline.xml" ignoreIndirectDeprecations="false" ignoreSuppressionOfDeprecations="true">
+    <include>
+      <directory>src</directory>
+    </include>
+  </source>
   <extensions>
     <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension"/>
     <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" bootstrap="bootstrap.php" processIsolation="false" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" failOnWarning="true" failOnNotice="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" bootstrap="bootstrap.php" processIsolation="false" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" failOnWarning="true" failOnNotice="true" failOnDeprecation="true" displayDetailsOnTestsThatTriggerDeprecations="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
   <php>
     <env name="setupFactory" value="\Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy"/>
     <env name="backendVersion" value="5"/>
@@ -46,7 +46,7 @@
       <directory>tests/integration/RepositoryInstaller</directory>
     </testsuite>
   </testsuites>
-  <source>
+  <source baseline="phpunit-integration-legacy.baseline.xml" ignoreIndirectDeprecations="false" ignoreSuppressionOfDeprecations="true">
     <include>
       <directory suffix=".php">tests/integration</directory>
     </include>

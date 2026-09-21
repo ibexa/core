@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<files version="1">
+ <file path="vendor/symfony/deprecation-contracts/function.php">
+  <line number="25" hash="c6af5d66288d0667e424978000f29571e4954b81">
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+  </line>
+ </file>
+ <file path="src/bundle/Core/DependencyInjection/Compiler/SlugConverterConfigurationPass.php">
+  <line number="62" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
+   <issue><![CDATA[Relying on default url_alias.slug_converter.transformation setting ("urlalias") is deprecated and might change in the next major. Set it explicitly to one of the following: urlalias, urlalias_iri, urlalias_compat, urlalias_lowercase]]></issue>
+   <issue><![CDATA[Relying on default url_alias.slug_converter.transformation setting ("urlalias") is deprecated and might change in the next major. Set it explicitly to one of the following: urlalias, urlalias_iri, urlalias_compat, urlalias_lowercase]]></issue>
+   <issue><![CDATA[Relying on default url_alias.slug_converter.transformation setting ("urlalias") is deprecated and might change in the next major. Set it explicitly to one of the following: urlalias, urlalias_iri, urlalias_compat, urlalias_lowercase]]></issue>
+   <issue><![CDATA[Relying on default url_alias.slug_converter.transformation setting ("urlalias") is deprecated and might change in the next major. Set it explicitly to one of the following: urlalias, urlalias_iri, urlalias_compat, urlalias_lowercase]]></issue>
+  </line>
+ </file>
+ <file path="vendor/liip/imagine-bundle/Templating/FilterExtension.php">
+  <line number="14" hash="f4f0cf6b5f73efa05c9bcbf20e3c58dfcfbf2bc7">
+   <issue><![CDATA[The Liip\ImagineBundle\Templating\FilterExtension class is deprecated since version 2.7 and will be removed in 3.0; configure "liip_imagine.twig.mode" to "lazy" instead.]]></issue>
+  </line>
+ </file>
+ <file path="vendor/liip/imagine-bundle/Templating/FilterTrait.php">
+  <line number="14" hash="d658344ee2c4e3c959185f70989e24f2e6e37cb6">
+   <issue><![CDATA[The Liip\ImagineBundle\Templating\FilterTrait trait is deprecated since version 2.7 and will be removed in 3.0; use Twig instead.]]></issue>
+  </line>
+ </file>
+ <file path="src/lib/Repository/Values/User/User.php">
+  <line number="146" hash="18671e9722365609a0d9f39f1e98e669502bf100">
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
+  </line>
+ </file>
+ <file path="src/lib/Repository/Values/ObjectState/ObjectStateGroup.php">
+  <line number="43" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+  </line>
+ </file>
+ <file path="src/lib/Repository/Values/ObjectState/ObjectState.php">
+  <line number="59" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectState::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectState::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectState::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectState::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectState::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
+  </line>
+ </file>
+</files>

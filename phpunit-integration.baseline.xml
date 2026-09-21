@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<files version="1">
+ <file path="vendor/symfony/deprecation-contracts/function.php">
+  <line number="25" hash="c6af5d66288d0667e424978000f29571e4954b81">
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/dependency-injection 7.4: XML configuration format is deprecated, use YAML or PHP instead.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+   <issue><![CDATA[Since symfony/framework-bundle 7.3: Not setting the "property_info.with_constructor_extractor" option explicitly is deprecated because its default value will change in version 8.0.]]></issue>
+  </line>
+ </file>
+ <file path="src/bundle/Core/DependencyInjection/Compiler/SlugConverterConfigurationPass.php">
+  <line number="62" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
+   <issue><![CDATA[Relying on default url_alias.slug_converter.transformation setting ("urlalias") is deprecated and might change in the next major. Set it explicitly to one of the following: urlalias, urlalias_iri, urlalias_compat, urlalias_lowercase]]></issue>
+   <issue><![CDATA[Relying on default url_alias.slug_converter.transformation setting ("urlalias") is deprecated and might change in the next major. Set it explicitly to one of the following: urlalias, urlalias_iri, urlalias_compat, urlalias_lowercase]]></issue>
+  </line>
+ </file>
+</files>
