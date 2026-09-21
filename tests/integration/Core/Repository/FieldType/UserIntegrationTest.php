@@ -16,7 +16,6 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\User\Type;
 use Ibexa\Core\FieldType\User\Value as UserValue;
-use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\User\Gateway as UserGateway;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProvider;
@@ -530,6 +529,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         );
 
         $this->downgradeFieldTypeIdentifierToLegacyAlias(
+            'ezuser',
             $contentInfo->getId(),
             $contentInfo->currentVersionNo,
             $userFieldDefinition->id
@@ -538,28 +538,6 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         $contentService->deleteContent($contentInfo);
 
         self::assertFalse($this->userAccountExists($contentInfo->getId()));
-    }
-
-    private function downgradeFieldTypeIdentifierToLegacyAlias(
-        int $contentId,
-        int $versionNo,
-        int $fieldDefinitionId
-    ): void {
-        $connection = $this->getRawDatabaseConnection();
-
-        $query = $connection->createQueryBuilder();
-        $query
-            ->update(Gateway::CONTENT_FIELD_TABLE)
-            ->set('data_type_string', ':data_type_string')
-            ->setParameter('data_type_string', 'ezuser', ParameterType::STRING)
-            ->andWhere('content_type_field_definition_id = :content_type_field_definition_id')
-            ->andWhere('version = :version')
-            ->andWhere('contentobject_id = :contentobject_id')
-            ->setParameter('content_type_field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
-            ->setParameter('version', $versionNo, ParameterType::INTEGER)
-            ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
-
-        $query->executeStatement();
     }
 
     private function userAccountExists(int $contentId): bool
