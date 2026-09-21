@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
@@ -20,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
@@ -978,6 +980,29 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     ) {
         $this->expectException($expectedException);
         $this->updateContent($failingValue);
+    }
+
+    protected function downgradeFieldTypeIdentifierToLegacyAlias(
+        string $legacyAlias,
+        int $contentId,
+        int $versionNo,
+        int $fieldDefinitionId
+    ): void {
+        $connection = $this->getRawDatabaseConnection();
+
+        $query = $connection->createQueryBuilder();
+        $query
+            ->update(Gateway::CONTENT_FIELD_TABLE)
+            ->set('data_type_string', ':data_type_string')
+            ->setParameter('data_type_string', $legacyAlias, ParameterType::STRING)
+            ->andWhere('content_type_field_definition_id = :content_type_field_definition_id')
+            ->andWhere('version = :version')
+            ->andWhere('contentobject_id = :contentobject_id')
+            ->setParameter('content_type_field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
+            ->setParameter('version', $versionNo, ParameterType::INTEGER)
+            ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
+
+        $query->executeStatement();
     }
 
     protected function removeFieldDefinition()
