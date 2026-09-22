@@ -1045,7 +1045,7 @@ class SearchServiceTest extends BaseTestCase
         $query = new Query($queryData);
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . 'Field.php'
+            self::getFixtureDir() . 'Field.php'
         );
     }
 
@@ -1058,7 +1058,7 @@ class SearchServiceTest extends BaseTestCase
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . 'Field.php'
+            self::getFixtureDir() . 'Field.php'
         );
     }
 
@@ -2819,7 +2819,7 @@ class SearchServiceTest extends BaseTestCase
         );
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . '/QueryCustomField.php'
+            self::getFixtureDir() . '/QueryCustomField.php'
         );
     }
 
@@ -2857,7 +2857,7 @@ class SearchServiceTest extends BaseTestCase
 
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . '/QueryModifiedField.php'
+            self::getFixtureDir() . '/QueryModifiedField.php'
         );
     }
 
@@ -2896,7 +2896,7 @@ class SearchServiceTest extends BaseTestCase
 
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . '/SortFolderName.php'
+            self::getFixtureDir() . '/SortFolderName.php'
         );
     }
 
@@ -4017,7 +4017,7 @@ class SearchServiceTest extends BaseTestCase
 
             $this->simplifySearchResult($result);
             self::assertEqualsWithDelta(
-                include $this->getFixtureDir() . '/UserMetadata.php',
+                include self::getFixtureDir() . '/UserMetadata.php',
                 $result,
                 .1, // Be quite generous regarding delay -- most important for scores
                 'Search results do not match.',
@@ -4114,7 +4114,7 @@ class SearchServiceTest extends BaseTestCase
 
             $this->simplifySearchResult($result);
             self::assertEqualsWithDelta(
-                include $this->getFixtureDir() . '/UserMetadataLocation.php',
+                include self::getFixtureDir() . '/UserMetadataLocation.php',
                 $result,
                 .1, // Be quite generous regarding delay -- most important for scores
                 'Search results do not match.',

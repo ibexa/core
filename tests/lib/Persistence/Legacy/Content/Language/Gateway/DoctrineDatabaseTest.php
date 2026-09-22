@@ -41,7 +41,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $gateway->insertLanguage($this->getLanguageFixture());
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '8',
@@ -82,7 +82,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $gateway->updateLanguage($language);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '2',
@@ -148,7 +148,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $result = $gateway->deleteLanguage(2);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '1',
@@ -159,7 +159,7 @@ class DoctrineDatabaseTest extends TestCase
                 ->from(Gateway::CONTENT_LANGUAGE_TABLE)
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '0',

@@ -43,7 +43,7 @@ class DoctrineDatabaseTest extends TestCase
         $gateway->removeRoleAssignmentById(38);
         $query = $this->getDatabaseConnection()->createQueryBuilder();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'contentobject_id' => '11',

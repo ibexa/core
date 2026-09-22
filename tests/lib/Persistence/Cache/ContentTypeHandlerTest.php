@@ -429,25 +429,25 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('type', $parameters[0]);
-                    $this->assertSame([5], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('type', $parameters[0]);
+                    self::assertSame([5], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return 't-5';
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('type_map', $parameters[0]);
-                    $this->assertSame([], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('type_map', $parameters[0]);
+                    self::assertSame([], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return 'tm';
                 }
                 if ($matcher->numberOfInvocations() === 3) {
-                    $this->assertSame('content_fields_type', $parameters[0]);
-                    $this->assertSame([5], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('content_fields_type', $parameters[0]);
+                    self::assertSame([5], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return 'cft-5';
                 }
@@ -456,25 +456,25 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateKey')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('generateKey')->willReturnCallback(static function (...$parameters) use ($matcher) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('content_type', $parameters[0]);
-                    $this->assertSame([], $parameters[1]);
-                    $this->assertTrue($parameters[2]);
+                    self::assertSame('content_type', $parameters[0]);
+                    self::assertSame([], $parameters[1]);
+                    self::assertTrue($parameters[2]);
 
                     return 'ibx-ct';
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('content_type_list_by_group', $parameters[0]);
-                    $this->assertSame([3], $parameters[1]);
-                    $this->assertTrue($parameters[2]);
+                    self::assertSame('content_type_list_by_group', $parameters[0]);
+                    self::assertSame([3], $parameters[1]);
+                    self::assertTrue($parameters[2]);
 
                     return 'ibx-ctlbg-3';
                 }
                 if ($matcher->numberOfInvocations() === 3) {
-                    $this->assertSame('content_type_list_by_group', $parameters[0]);
-                    $this->assertSame([4], $parameters[1]);
-                    $this->assertTrue($parameters[2]);
+                    self::assertSame('content_type_list_by_group', $parameters[0]);
+                    self::assertSame([4], $parameters[1]);
+                    self::assertTrue($parameters[2]);
 
                     return 'ibx-ctlbg-4';
                 }

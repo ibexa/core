@@ -32,13 +32,13 @@ final class DirectFragmentRendererTest extends TestCase
         $controllerResolver
             ->expects(self::any())
             ->method('getController')
-            ->with(self::callback(function (Request $request): bool {
-                $this->assertEquals('/_fragment', $request->getPathInfo());
-                $this->assertEquals('some::controller', $request->attributes->get('_controller'));
-                $this->assertEquals('attribute_value', $request->attributes->get('some'));
-                $this->assertEquals('else', $request->attributes->get('something'));
-                $this->assertInstanceOf(SiteAccess::class, $request->attributes->get('siteaccess'));
-                $this->assertEquals('test', $request->attributes->get('siteaccess')->name);
+            ->with(self::callback(static function (Request $request): bool {
+                self::assertEquals('/_fragment', $request->getPathInfo());
+                self::assertEquals('some::controller', $request->attributes->get('_controller'));
+                self::assertEquals('attribute_value', $request->attributes->get('some'));
+                self::assertEquals('else', $request->attributes->get('something'));
+                self::assertInstanceOf(SiteAccess::class, $request->attributes->get('siteaccess'));
+                self::assertEquals('test', $request->attributes->get('siteaccess')->name);
 
                 return true;
             }))

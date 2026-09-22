@@ -53,7 +53,7 @@ class DoctrineDatabaseTest extends TestCase
         $gateway->createRole($spiRole);
         $query = $this->getDatabaseConnection()->createQueryBuilder();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '6',

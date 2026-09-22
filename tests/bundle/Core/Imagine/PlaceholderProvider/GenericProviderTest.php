@@ -30,8 +30,8 @@ class GenericProviderTest extends TestCase
             ->expects(self::atLeastOnce())
             ->method('font')
             ->willReturnCallback(function ($fontpath, $fontsize, ColorInterface $foreground) use ($options, $font) {
-                $this->assertEquals($options['fontpath'], $fontpath);
-                $this->assertEquals($options['fontsize'], $fontsize);
+                self::assertEquals($options['fontpath'], $fontpath);
+                self::assertEquals($options['fontsize'], $fontsize);
                 $this->assertColorEquals($options['foreground'], $foreground);
 
                 return $font;

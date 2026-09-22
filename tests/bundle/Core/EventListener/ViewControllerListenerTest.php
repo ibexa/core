@@ -174,14 +174,14 @@ class ViewControllerListenerTest extends TestCase
 
         $this->eventDispatcher
             ->expects($matcher)
-            ->method('dispatch')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('dispatch')->willReturnCallback(static function (...$parameters) use ($matcher) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertInstanceOf(FilterViewBuilderParametersEvent::class, $parameters[0]);
-                    $this->assertSame(ViewEvents::FILTER_BUILDER_PARAMETERS, $parameters[1]);
+                    self::assertInstanceOf(FilterViewBuilderParametersEvent::class, $parameters[0]);
+                    self::assertSame(ViewEvents::FILTER_BUILDER_PARAMETERS, $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertInstanceOf(PostBuildViewEvent::class, $parameters[0]);
-                    $this->assertNull($parameters[1]);
+                    self::assertInstanceOf(PostBuildViewEvent::class, $parameters[0]);
+                    self::assertNull($parameters[1]);
                 }
 
                 return $parameters[0];

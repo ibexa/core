@@ -40,7 +40,7 @@ trait RelationSearchBaseIntegrationTestTrait
     {
         $content = $this->createContent($this->getValidCreationFieldData());
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->normalizeRelations(
                 $this->getCreateExpectedRelations($content)
             ),
@@ -59,7 +59,7 @@ trait RelationSearchBaseIntegrationTestTrait
     {
         $content = $this->updateContent($this->getValidUpdateFieldData());
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->normalizeRelations(
                 $this->getUpdateExpectedRelations($content)
             ),
@@ -118,7 +118,7 @@ trait RelationSearchBaseIntegrationTestTrait
         );
 
         $copy = $contentService->loadContent($copy->id, null, 2);
-        $this->assertEquals(
+        self::assertEquals(
             $this->normalizeRelations(
                 $this->getUpdateExpectedRelations($copy)
             ),
@@ -130,7 +130,7 @@ trait RelationSearchBaseIntegrationTestTrait
         );
 
         $firstVersion = $contentService->loadContent($copy->id, null, 1);
-        $this->assertEquals(
+        self::assertEquals(
             $this->normalizeRelations(
                 $this->getCreateExpectedRelations($firstVersion)
             ),
@@ -160,7 +160,7 @@ trait RelationSearchBaseIntegrationTestTrait
 
         $copy = $contentService->loadContent($copiedLocation->getContentInfo()->id);
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->normalizeRelations(
                 $this->getCreateExpectedRelations($copy)
             ),

@@ -41,7 +41,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->trashLocation(71);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0],
                 [2, 0],
@@ -62,7 +62,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->trashLocation(71);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [71, '/1/2/69/70/71/'],
             ],
@@ -105,7 +105,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->untrashLocation(71);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$value]],
             $query
                 ->select($property)
@@ -123,7 +123,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->untrashLocation(71, 1);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['228', '1', '/1/228/']],
             $query
                 ->select('node_id', 'parent_node_id', 'path_string')
@@ -379,7 +379,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->cleanupTrash();
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [],
             $query
                 ->select('*')
@@ -395,7 +395,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->removeElementFromTrash(71);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [],
             $query
                 ->select('*')

@@ -161,12 +161,12 @@ class UrlTest extends BaseServiceMockTest
         $this->urlHandler
             ->expects(self::once())
             ->method('updateUrl')
-            ->willReturnCallback(function ($id, $struct) use ($apiUrl, $apiStruct) {
-                $this->assertEquals($apiUrl->id, $id);
+            ->willReturnCallback(static function ($id, $struct) use ($apiUrl, $apiStruct) {
+                self::assertEquals($apiUrl->id, $id);
 
-                $this->assertEquals($apiStruct->url, $struct->url);
-                $this->assertEquals(0, $struct->lastChecked);
-                $this->assertTrue($struct->isValid);
+                self::assertEquals($apiStruct->url, $struct->url);
+                self::assertEquals(0, $struct->lastChecked);
+                self::assertTrue($struct->isValid);
             });
 
         $this->urlHandler
@@ -221,12 +221,12 @@ class UrlTest extends BaseServiceMockTest
         $this->urlHandler
             ->expects(self::once())
             ->method('updateUrl')
-            ->willReturnCallback(function ($id, $struct) use ($apiUrl, $apiStruct) {
-                $this->assertEquals($apiUrl->id, $id);
+            ->willReturnCallback(static function ($id, $struct) use ($apiUrl, $apiStruct) {
+                self::assertEquals($apiUrl->id, $id);
 
-                $this->assertEquals($apiUrl->url, $struct->url);
-                $this->assertEquals($apiStruct->lastChecked->getTimestamp(), $struct->lastChecked);
-                $this->assertTrue($apiStruct->isValid, $struct->isValid);
+                self::assertEquals($apiUrl->url, $struct->url);
+                self::assertEquals($apiStruct->lastChecked->getTimestamp(), $struct->lastChecked);
+                self::assertTrue($apiStruct->isValid, $struct->isValid);
             });
 
         $this->urlHandler
@@ -351,8 +351,8 @@ class UrlTest extends BaseServiceMockTest
             $searchService
                 ->expects(self::once())
                 ->method('findContentInfo')
-                ->willReturnCallback(function ($query) use ($expectedQuery, $usages) {
-                    $this->assertEquals($expectedQuery, $query);
+                ->willReturnCallback(static function ($query) use ($expectedQuery, $usages) {
+                    self::assertEquals($expectedQuery, $query);
 
                     return new ContentSearchResults([
                         'searchHits' => array_map(static function ($id) {
@@ -467,8 +467,8 @@ class UrlTest extends BaseServiceMockTest
         $this->permissionResolver
             ->expects($matcher)
             ->method('canUser')
-            ->willReturnCallback(function (...$parameters) use ($matcher, $permissions) {
-                $this->assertEquals($permissions[$matcher->numberOfInvocations() - 1], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($matcher, $permissions) {
+                self::assertEquals($permissions[$matcher->numberOfInvocations() - 1], $parameters);
 
                 return true;
             });

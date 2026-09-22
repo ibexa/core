@@ -256,18 +256,18 @@ class CachingLanguageHandlerTest extends TestCase
         $matcher = self::exactly(2);
 
         $cacheIdentifierGeneratorMock->expects($matcher)
-            ->method('generateKey')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('generateKey')->willReturnCallback(static function (...$parameters) use ($matcher) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('language', $parameters[0]);
-                    $this->assertSame([2], $parameters[1]);
-                    $this->assertTrue($parameters[2]);
+                    self::assertSame('language', $parameters[0]);
+                    self::assertSame([2], $parameters[1]);
+                    self::assertTrue($parameters[2]);
 
                     return 'ibx-la-2';
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('language_list', $parameters[0]);
-                    $this->assertSame([], $parameters[1]);
-                    $this->assertTrue($parameters[2]);
+                    self::assertSame('language_list', $parameters[0]);
+                    self::assertSame([], $parameters[1]);
+                    self::assertTrue($parameters[2]);
 
                     return 'ibx-lal';
                 }

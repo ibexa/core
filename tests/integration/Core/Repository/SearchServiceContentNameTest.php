@@ -71,7 +71,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
     public function testCriterionFindAllContentItems(): void
     {
         $query = $this->createQuery(
-            $this->createContentNameCriterion('*')
+            self::createContentNameCriterion('*')
         );
 
         self::assertSame(

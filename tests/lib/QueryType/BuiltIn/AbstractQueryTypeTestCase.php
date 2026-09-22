@@ -76,7 +76,7 @@ abstract class AbstractQueryTypeTestCase extends TestCase
     {
         self::assertEquals(
             $this->getExpectedName(),
-            $this->queryType->getName()
+            $this->queryType::getName()
         );
     }
 

@@ -1071,7 +1071,7 @@ class LocationServiceTest extends BaseTestCase
         // $locationId is the ID of an existing location
         $locationService = $this->getRepository()->getLocationService();
         $location = $locationService->loadLocation($this->generateId('location', 5));
-        $this->assertSame(
+        self::assertSame(
             2,
             $locationService->getLocationChildCount(
                 $location,

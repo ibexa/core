@@ -55,10 +55,10 @@ class UserPreferenceTest extends BaseServiceMockTest
             $this->userSPIPreferenceHandler
                 ->expects($this->once())
                 ->method('setUserPreference')
-                ->willReturnCallback(function (UserPreferenceSetStruct $setStruct) {
-                    $this->assertEquals(self::USER_PREFERENCE_NAME, $setStruct->name);
-                    $this->assertEquals(self::USER_PREFERENCE_VALUE, $setStruct->value);
-                    $this->assertEquals(self::CURRENT_USER_ID, $setStruct->userId);
+                ->willReturnCallback(static function (UserPreferenceSetStruct $setStruct) {
+                    self::assertEquals(self::USER_PREFERENCE_NAME, $setStruct->name);
+                    self::assertEquals(self::USER_PREFERENCE_VALUE, $setStruct->value);
+                    self::assertEquals(self::CURRENT_USER_ID, $setStruct->userId);
 
                     return new UserPreference();
                 });

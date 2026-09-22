@@ -1039,14 +1039,14 @@ class ContentTypeHandlerTest extends TestCase
         $matcher = self::exactly(2);
         $handler->expects($matcher)
             ->method('load')
-            ->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->willReturnCallback(static function (...$parameters) use ($matcher) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame([23, 1], $parameters);
+                    self::assertSame([23, 1], $parameters);
 
                     return new Type();
                 }
 
-                $this->assertSame([23, 0], $parameters);
+                self::assertSame([23, 0], $parameters);
 
                 throw new Exception\TypeNotFound((string)23, 0);
             });

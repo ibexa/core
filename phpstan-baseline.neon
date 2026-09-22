@@ -15019,12 +15019,6 @@ parameters:
 			path: src/lib/Persistence/TransformationProcessor/PcreCompiler.php
 
 		-
-			message: '#^Parameter \#1 \$charCode of method Ibexa\\Core\\Persistence\\Utf8Converter\:\:toUTF8Character\(\) expects int, float\|int given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/lib/Persistence/TransformationProcessor/PcreCompiler.php
-
-		-
 			message: '#^Parameter \#1 \$codepoint of function chr expects int, float\|int given\.$#'
 			identifier: argument.type
 			count: 1
@@ -25777,12 +25771,6 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/UserIntegrationTest.php
 
 		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\FieldType'' and Ibexa\\Contracts\\Core\\Repository\\FieldType will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
-			count: 1
-			path: tests/integration/Core/Repository/FieldTypeServiceTest.php
-
-		-
 			message: '#^Cannot access property \$pathString on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\|null\.$#'
 			identifier: property.nonObject
 			count: 1
@@ -31527,12 +31515,6 @@ parameters:
 		-
 			message: '#^Anonymous function has an unused use \$siteAccess\.$#'
 			identifier: closure.unusedUse
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/RenderLocationStrategyTest.php
-
-		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Symfony\\\\Component\\\\HttpKernel\\\\Controller\\\\ControllerReference'' and Symfony\\Component\\HttpKernel\\Controller\\ControllerReference will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/RenderLocationStrategyTest.php
 

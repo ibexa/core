@@ -68,9 +68,9 @@ class BookmarkTest extends BaseServiceMockTest
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('create')
-                ->willReturnCallback(function (CreateStruct $createStruct) {
-                    $this->assertEquals(self::LOCATION_ID, $createStruct->locationId);
-                    $this->assertEquals(self::CURRENT_USER_ID, $createStruct->userId);
+                ->willReturnCallback(static function (CreateStruct $createStruct) {
+                    self::assertEquals(self::LOCATION_ID, $createStruct->locationId);
+                    self::assertEquals(self::CURRENT_USER_ID, $createStruct->userId);
 
                     return new Bookmark();
                 });

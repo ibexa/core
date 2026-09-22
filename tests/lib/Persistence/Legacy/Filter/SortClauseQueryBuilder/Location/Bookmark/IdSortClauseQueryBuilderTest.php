@@ -36,7 +36,7 @@ final class IdSortClauseQueryBuilderTest extends TestCase
      */
     public function testBuildQueryInLocationFilteringContext(): void
     {
-        $queryBuilder = $this->createLocationFilteringQueryBuilder();
+        $queryBuilder = self::createLocationFilteringQueryBuilder();
 
         $builder = $this->createBuilder();
         $sortClause = new Id(Query::SORT_DESC);
@@ -77,7 +77,7 @@ final class IdSortClauseQueryBuilderTest extends TestCase
      */
     public function testBuildQueryInContentFilteringContext(): void
     {
-        $queryBuilder = $this->createContentFilteringQueryBuilder();
+        $queryBuilder = self::createContentFilteringQueryBuilder();
 
         $this->createBuilder()->buildQuery($queryBuilder, new Id(Query::SORT_DESC));
 

@@ -151,8 +151,8 @@ class SubtreeLimitationTypeTest extends Base
             $this->locationHandlerMock
                 ->expects($matcher)
                 ->method('load')
-                ->willReturnCallback(function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues) {
-                    $this->assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues) {
+                    self::assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
 
                     return $loadReturnValues[$matcher->numberOfInvocations() - 1];
                 });
@@ -202,8 +202,8 @@ class SubtreeLimitationTypeTest extends Base
             $this->locationHandlerMock
                 ->expects($matcher)
                 ->method('load')
-                ->willReturnCallback(function (...$parameters) use ($matcher, $loadArguments, $loadExceptions) {
-                    $this->assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadExceptions) {
+                    self::assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
 
                     throw $loadExceptions[$matcher->numberOfInvocations() - 1];
                 });
@@ -241,8 +241,8 @@ class SubtreeLimitationTypeTest extends Base
         $this->locationHandlerMock
             ->expects($matcher)
             ->method('load')
-            ->willReturnCallback(function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues) {
-                $this->assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
+            ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues) {
+                self::assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
 
                 return $loadReturnValues[$matcher->numberOfInvocations() - 1];
             });
@@ -454,8 +454,8 @@ class SubtreeLimitationTypeTest extends Base
             $this->locationHandlerMock
                 ->expects($matcher)
                 ->method('load')
-                ->willReturnCallback(function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues) {
-                    $this->assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues) {
+                    self::assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
 
                     return $loadReturnValues[$matcher->numberOfInvocations() - 1];
                 });

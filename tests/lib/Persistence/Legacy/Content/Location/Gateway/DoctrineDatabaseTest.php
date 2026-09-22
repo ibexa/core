@@ -168,7 +168,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [65, '/1/2/', '', 1, 1, 0, 0],
                 [67, '/1/2/77/69/', 'solutions/products', 77, 3, 0, 0],
@@ -214,7 +214,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [65, '/1/2/', '', 1, 1, 0, 0],
                 [67, '/1/2/77/69/', 'solutions/products', 77, 3, 0, 1],
@@ -260,7 +260,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [65, '/1/2/', '', 1, 1, 0, 0],
                 [67, '/1/2/77/69/', 'solutions/products', 77, 3, 1, 1],
@@ -307,7 +307,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [65, '/1/2/', '', 1, 1, 0, 0],
                 [67, '/1/2/77/69/', 'solutions/products', 77, 3, 0, 0],
@@ -342,7 +342,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateNodeAssignment(67, 2, 77, 5);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [67, 1, 0, 53, 1, 5, 77, '9cec85d730eec7578190ee95ce5a36f5', 0, 2, 1, 0, 0],
             ],
@@ -374,7 +374,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->hideSubtree('/1/2/69/');
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0, 0],
                 [2, 0, 0],
@@ -398,7 +398,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->unhideSubtree('/1/2/69/');
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0, 0],
                 [2, 0, 0],
@@ -423,7 +423,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->unhideSubtree('/1/2/69/');
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0, 0],
                 [2, 0, 0],
@@ -450,7 +450,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->unhideSubtree('/1/2/69/70/');
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0, 0],
                 [2, 0, 0],
@@ -474,7 +474,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->swap(70, 78);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [70, 76],
                 [78, 68],
@@ -506,7 +506,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [70, '/1/2/69/70/'],
                 [77, '/1/2/77/'],
@@ -615,7 +615,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$value]],
             $query
                 ->select($field)
@@ -708,7 +708,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$value]],
             $query
                 ->select($field)
@@ -822,7 +822,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [$expectedResult],
             $this->buildNodeAssignmentSelectContentWithParentQuery(68, 77, [$field])
         );
@@ -849,7 +849,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1]],
             $this->buildNodeAssignmentSelectContentWithParentQuery(68, 77, ['is_main'])
         );
@@ -878,7 +878,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateLocationsContentVersionNo(4096, 2);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [2],
             ],
@@ -903,7 +903,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->deleteNodeAssignment(11);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[0]],
             $query
                 ->select('count(*)')
@@ -932,7 +932,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->deleteNodeAssignment(11, 1);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$nodeAssignmentsCount - 1]],
             $query
                 ->select('count(*)')
@@ -1019,7 +1019,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $result = $statement->fetchAssociative();
             self::assertGreaterThanOrEqual($value, $result);
         } else {
-            $this->assertQueryResult(
+            self::assertQueryResult(
                 [[$value]],
                 $query
             );
@@ -1054,7 +1054,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[228]],
             $this->buildContentTreeSelectContentWithParentQuery(68, 77, ['main_node_id'])
         );
@@ -1088,7 +1088,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[0, 1]],
             $this->buildContentTreeSelectContentWithParentQuery(
                 68,
@@ -1126,7 +1126,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[0, 1]],
             $this->buildContentTreeSelectContentWithParentQuery(
                 68,
@@ -1160,7 +1160,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE_NOP]],
             $this->buildNodeAssignmentSelectContentWithParentQuery(68, 77, ['op_code'])
         );
@@ -1177,7 +1177,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[68], [69]],
             $query
                 ->select('id')
@@ -1263,7 +1263,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[228], [228]],
             $query
                 ->select('main_node_id')
@@ -1277,7 +1277,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1]],
             $query
                 ->select('is_main')
@@ -1301,7 +1301,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[0]],
             $query
                 ->select('is_main')
@@ -1434,7 +1434,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updatePathIdentificationString($locationId, $parentLocationId, $text);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$expected]],
             $query->select(
                 'path_identification_string'
@@ -1465,7 +1465,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[68, 77, 0, 0]],
             $this->buildContentTreeSelectContentWithParentQuery(
                 68,
@@ -1494,7 +1494,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE_NOP]],
             $this->buildNodeAssignmentSelectContentWithParentQuery(
                 68,
@@ -1523,7 +1523,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->createLocationsFromNodeAssignments(75, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[75, 69]],
             $this->buildContentTreeSelectContentWithParentQuery(
                 75,
@@ -1559,7 +1559,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[0, 1]],
             $this->buildContentTreeSelectContentWithParentQuery(
                 68,

@@ -160,12 +160,12 @@ abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegr
         $context = [
             $repository,
             $this->createTestSearchContent(
-                $this->getValidMultivaluedSearchValuesOne(),
+                static::getValidMultivaluedSearchValuesOne(),
                 $repository,
                 $contentType
             )->id,
             $this->createTestSearchContent(
-                $this->getValidMultivaluedSearchValuesTwo(),
+                static::getValidMultivaluedSearchValuesTwo(),
                 $repository,
                 $contentType
             )->id,

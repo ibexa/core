@@ -76,8 +76,8 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
                 $this->cacheIdentifierGeneratorMock
                     ->expects($matcher)
                     ->method('generateTag')
-                    ->willReturnCallback(function (...$parameters) use ($matcher, $tagGeneratingArguments, $tags) {
-                        $this->assertEquals($tagGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+                    ->willReturnCallback(static function (...$parameters) use ($matcher, $tagGeneratingArguments, $tags) {
+                        self::assertEquals($tagGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
 
                         return $tags[$matcher->numberOfInvocations() - 1];
                     });
@@ -91,8 +91,8 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
                     $this->cacheIdentifierGeneratorMock
                         ->expects($matcher)
                         ->method('generateKey')
-                        ->willReturnCallback(function (...$parameters) use ($matcher, $keyGeneratingArguments, $key) {
-                            $this->assertEquals($keyGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+                        ->willReturnCallback(static function (...$parameters) use ($matcher, $keyGeneratingArguments, $key) {
+                            self::assertEquals($keyGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
 
                             return $key[$matcher->numberOfInvocations() - 1];
                         });
@@ -168,8 +168,8 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
             $this->cacheIdentifierGeneratorMock
                 ->expects($matcher)
                 ->method('generateTag')
-                ->willReturnCallback(function (...$parameters) use ($matcher, $tagGeneratingArguments, $tagGeneratingResults) {
-                    $this->assertEquals($tagGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $tagGeneratingArguments, $tagGeneratingResults) {
+                    self::assertEquals($tagGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
 
                     return $tagGeneratingResults[$matcher->numberOfInvocations() - 1];
                 });
@@ -180,8 +180,8 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
             $this->cacheIdentifierGeneratorMock
                 ->expects($matcher)
                 ->method('generateKey')
-                ->willReturnCallback(function (...$parameters) use ($matcher, $keyGeneratingArguments, $keyGeneratingResults) {
-                    $this->assertEquals($keyGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $keyGeneratingArguments, $keyGeneratingResults) {
+                    self::assertEquals($keyGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
 
                     return $keyGeneratingResults[$matcher->numberOfInvocations() - 1];
                 });
@@ -262,8 +262,8 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
             $this->cacheIdentifierGeneratorMock
                 ->expects($matcher)
                 ->method('generateTag')
-                ->willReturnCallback(function (...$parameters) use ($matcher, $tagGeneratingArguments, $tagGeneratingResults) {
-                    $this->assertEquals($tagGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $tagGeneratingArguments, $tagGeneratingResults) {
+                    self::assertEquals($tagGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
 
                     return $tagGeneratingResults[$matcher->numberOfInvocations() - 1];
                 });
@@ -274,8 +274,8 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
             $this->cacheIdentifierGeneratorMock
                 ->expects($matcher)
                 ->method('generateKey')
-                ->willReturnCallback(function (...$parameters) use ($matcher, $keyGeneratingArguments, $keyGeneratingResults) {
-                    $this->assertEquals($keyGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $keyGeneratingArguments, $keyGeneratingResults) {
+                    self::assertEquals($keyGeneratingArguments[$matcher->numberOfInvocations() - 1], $parameters);
 
                     return $keyGeneratingResults[$matcher->numberOfInvocations() - 1];
                 });

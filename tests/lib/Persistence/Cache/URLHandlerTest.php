@@ -95,32 +95,32 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('url', $parameters[0]);
-                    $this->assertSame([1], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('url', $parameters[0]);
+                    self::assertSame([1], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return 'url-1';
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('content', $parameters[0]);
-                    $this->assertSame([2], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('content', $parameters[0]);
+                    self::assertSame([2], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return 'c-2';
                 }
                 if ($matcher->numberOfInvocations() === 3) {
-                    $this->assertSame('content', $parameters[0]);
-                    $this->assertSame([3], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('content', $parameters[0]);
+                    self::assertSame([3], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return 'c-3';
                 }
                 if ($matcher->numberOfInvocations() === 4) {
-                    $this->assertSame('content', $parameters[0]);
-                    $this->assertSame([5], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('content', $parameters[0]);
+                    self::assertSame([5], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return 'c-5';
                 }

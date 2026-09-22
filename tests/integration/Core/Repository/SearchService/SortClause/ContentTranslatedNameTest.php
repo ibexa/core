@@ -21,7 +21,7 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
     {
         parent::setUp();
 
-        if ($this->isLegacySearchEngineSetup()) {
+        if (self::isLegacySearchEngineSetup()) {
             self::markTestSkipped("Legacy search engine doesn't support ContentTranslatedName");
         }
     }

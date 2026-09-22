@@ -33,27 +33,27 @@ final class IOVariationPurgerTest extends TestCase
         $matcher = self::exactly(2);
         $ioService
             ->expects($matcher)
-            ->method('deleteDirectory')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('deleteDirectory')->willReturnCallback(static function (...$parameters) use ($matcher) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('_aliases/medium', $parameters[0]);
+                    self::assertSame('_aliases/medium', $parameters[0]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('_aliases/large', $parameters[0]);
+                    self::assertSame('_aliases/large', $parameters[0]);
                 }
             });
         $matcher = self::exactly(2);
         $cacheIdentifierGenerator
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('image_variation_name', $parameters[0]);
-                    $this->assertSame(['medium'], $parameters[1]);
+                    self::assertSame('image_variation_name', $parameters[0]);
+                    self::assertSame(['medium'], $parameters[1]);
 
                     return 'ign-medium';
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('image_variation_name', $parameters[0]);
-                    $this->assertSame(['large'], $parameters[1]);
+                    self::assertSame('image_variation_name', $parameters[0]);
+                    self::assertSame(['large'], $parameters[1]);
 
                     return 'ign-large';
                 }
@@ -61,12 +61,12 @@ final class IOVariationPurgerTest extends TestCase
         $matcher = self::exactly(2);
         $tagAwareAdapter
             ->expects($matcher)
-            ->method('invalidateTags')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('invalidateTags')->willReturnCallback(static function (...$parameters) use ($matcher) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame(['ign-medium'], $parameters[0]);
+                    self::assertSame(['ign-medium'], $parameters[0]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame(['ign-large'], $parameters[0]);
+                    self::assertSame(['ign-large'], $parameters[0]);
                 }
 
                 return false;

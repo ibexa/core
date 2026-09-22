@@ -574,24 +574,24 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher, $tags) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $tags) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('role_assignment_group_list', $parameters[0]);
-                    $this->assertSame([14], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('role_assignment_group_list', $parameters[0]);
+                    self::assertSame([14], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return $tags[0];
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('role_assignment_role_list', $parameters[0]);
-                    $this->assertSame([9], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('role_assignment_role_list', $parameters[0]);
+                    self::assertSame([9], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return $tags[1];
                 }
-                $this->assertSame('location_path', $parameters[0]);
-                $this->assertEquals([43], $parameters[1]);
-                $this->assertFalse($parameters[2]);
+                self::assertSame('location_path', $parameters[0]);
+                self::assertEquals([43], $parameters[1]);
+                self::assertFalse($parameters[2]);
 
                 return $tags[2];
             });
@@ -643,18 +643,18 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         $matcher = self::exactly(count($tags));
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher, $tags) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $tags) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('role_assignment', $parameters[0]);
+                    self::assertSame('role_assignment', $parameters[0]);
 
                     return $tags[0];
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('role_assignment_group_list', $parameters[0]);
+                    self::assertSame('role_assignment_group_list', $parameters[0]);
 
                     return $tags[1];
                 }
-                $this->assertSame('role_assignment_role_list', $parameters[0]);
+                self::assertSame('role_assignment_role_list', $parameters[0]);
 
                 return $tags[2];
             });

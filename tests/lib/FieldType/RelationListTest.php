@@ -425,12 +425,12 @@ class RelationListTest extends FieldTypeTestCase
             ->expects($matcher)
             ->method('validate')->willReturnCallback(function (...$parameters) use ($matcher, $invalidDestinationContentId, $invalidDestinationContentId2) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame($invalidDestinationContentId, $parameters[0]);
+                    self::assertSame($invalidDestinationContentId, $parameters[0]);
 
                     return $this->generateValidationError($invalidDestinationContentId);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame($invalidDestinationContentId2, $parameters[0]);
+                    self::assertSame($invalidDestinationContentId2, $parameters[0]);
 
                     return $this->generateValidationError($invalidDestinationContentId2);
                 }
@@ -447,19 +447,19 @@ class RelationListTest extends FieldTypeTestCase
         $destinationContentId = 12;
         $destinationContentId2 = 13;
         $allowedContentTypes = ['article', 'folder'];
-        $matcher = $this->exactly(2);
+        $matcher = self::exactly(2);
 
         $this->targetContentValidator->expects($matcher)
             ->method('validate')->willReturnCallback(function (...$parameters) use ($matcher, $destinationContentId, $allowedContentTypes, $destinationContentId2) {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame($destinationContentId, $parameters[0]);
-                    $this->assertSame($allowedContentTypes, $parameters[1]);
+                    self::assertSame($destinationContentId, $parameters[0]);
+                    self::assertSame($allowedContentTypes, $parameters[1]);
 
                     return $this->generateContentTypeValidationError('test');
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame($destinationContentId2, $parameters[0]);
-                    $this->assertSame($allowedContentTypes, $parameters[1]);
+                    self::assertSame($destinationContentId2, $parameters[0]);
+                    self::assertSame($allowedContentTypes, $parameters[1]);
 
                     return $this->generateContentTypeValidationError('test');
                 }
