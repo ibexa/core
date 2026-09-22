@@ -11,6 +11,7 @@ namespace Ibexa\Contracts\Core\Test\Persistence\Fixture;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Schema\Column;
+use Ibexa\Contracts\Core\Test\Persistence\AppendOnlyFixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
 /**
@@ -38,8 +39,10 @@ final class FixtureImporter
         $data = $fixture->load();
 
         $tablesList = array_keys($data);
-        // truncate all tables, even the ones initially empty (some tests are affected by this)
-        $this->truncateTables(array_reverse($tablesList));
+        if (!$fixture instanceof AppendOnlyFixture) {
+            // truncate all tables, even the ones initially empty (some tests are affected by this)
+            $this->truncateTables(array_reverse($tablesList));
+        }
 
         $nonEmptyTablesData = array_filter(
             $data,
