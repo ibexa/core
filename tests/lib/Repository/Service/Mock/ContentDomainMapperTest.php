@@ -31,13 +31,10 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 
 #[CoversClass(ContentDomainMapper::class)]
 final class ContentDomainMapperTest extends BaseServiceMockTest
 {
-    use ExpectDeprecationTrait;
-
     private const EXAMPLE_CONTENT_INFO_ID = 1;
     private const EXAMPLE_CONTENT_TYPE_ID = 1;
     private const EXAMPLE_NAME = 'Example';
@@ -162,7 +159,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
             ->with($persistenceContentType, [])->willReturn($apiContentTypeMock)
         ;
 
-        $this->expectDeprecation(
+        $this->expectUserDeprecationMessage(
             'Since ibexa/core 4.6: Passing Ibexa\Contracts\Core\Persistence\Content\Type instead of ' .
             'Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as 2nd argument of ' .
             'Ibexa\Core\Repository\Mapper\ContentDomainMapper::buildDomainFields() method is deprecated and will cause ' .

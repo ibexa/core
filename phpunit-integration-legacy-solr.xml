@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" bootstrap="bootstrap.php" processIsolation="false" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    backupGlobals="false"
+    bootstrap="bootstrap.php"
+    processIsolation="false"
+    beStrictAboutTestsThatDoNotTestAnything="false"
+    colors="true"
+    failOnWarning="true"
+    failOnNotice="true"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
+    cacheDirectory=".phpunit.cache"
+    backupStaticProperties="false"
+>
   <php>
     <env name="setupFactory" value="Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory"/>
     <env name="backendVersion" value="5"/>
     <env name="fixtureDir" value="Solr"/>
     <env name="solrServer" value="http://localhost:8983/"/>
     <env name="CORES_SETUP" value="dedicated"/>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     <ini name="error_reporting" value="-1"/>
     <env name="KERNEL_CLASS" value="Ibexa\Contracts\Solr\Test\IbexaSolrTestKernel"/>
     <env name="SEARCH_ENGINE" value="solr"/>
     <env name="DATABASE_URL" value="sqlite://:memory:"/>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
   </php>
   <testsuites>
     <!-- Search service is used all over the place, so we must run entire integration test suite -->
