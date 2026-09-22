@@ -81,7 +81,7 @@ class AddField extends Action
 
         $nameRows = $this->contentGateway->loadVersionedNameData(
             array_map(
-                static function ($versionNo) use ($contentId) {
+                static function ($versionNo) use ($contentId): array {
                     return ['id' => $contentId, 'version' => $versionNo];
                 },
                 $versionNumbers

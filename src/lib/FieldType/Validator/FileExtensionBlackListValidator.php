@@ -26,14 +26,11 @@ class FileExtensionBlackListValidator extends Validator
         ],
     ];
 
-    /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
-     */
+    private ConfigResolverInterface $configResolver;
+
     public function __construct(ConfigResolverInterface $configResolver)
     {
-        $this->constraints['extensionsBlackList'] = $configResolver->getParameter(
-            'io.file_storage.file_type_blacklist'
-        );
+        $this->configResolver = $configResolver;
     }
 
     /**
@@ -58,6 +55,10 @@ class FileExtensionBlackListValidator extends Validator
 
     public function validateFileExtension(string $fileName): void
     {
+        $this->constraints['extensionsBlackList'] = $this->configResolver->getParameter(
+            'io.file_storage.file_type_blacklist'
+        );
+
         if (
             pathinfo($fileName, PATHINFO_BASENAME) !== $fileName
             || in_array(

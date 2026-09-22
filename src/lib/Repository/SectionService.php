@@ -210,11 +210,11 @@ class SectionService implements SectionServiceInterface
      */
     public function loadSections(): iterable
     {
-        $sections = array_map(function ($spiSection) {
+        $sections = array_map(function ($spiSection): \Ibexa\Contracts\Core\Repository\Values\Content\Section {
             return $this->buildDomainSectionObject($spiSection);
         }, $this->sectionHandler->loadAll());
 
-        return array_values(array_filter($sections, function ($section) {
+        return array_values(array_filter($sections, function ($section): bool {
             return $this->permissionResolver->canUser('section', 'view', $section);
         }));
     }

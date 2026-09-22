@@ -148,7 +148,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
 
         $storage->expects(self::once())
             ->method('getFieldData')
-            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field) {
+            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field): void {
                 $field->value->externalData = [
                     'some_default' => 'external_data',
                 ];
@@ -212,7 +212,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
         $storage = $this->createMock(FieldStorage::class);
         $storage->expects(self::once())
             ->method('storeFieldData')
-            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field) {
+            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field): void {
                 $field->value->externalData = $field->value->data;
             });
 

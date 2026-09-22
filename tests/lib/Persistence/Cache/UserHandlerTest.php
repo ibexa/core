@@ -574,7 +574,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $tags) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $tags): string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('role_assignment_group_list', $parameters[0]);
                     self::assertSame([14], $parameters[1]);
@@ -643,7 +643,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         $matcher = self::exactly(count($tags));
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $tags) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $tags): string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('role_assignment', $parameters[0]);
 

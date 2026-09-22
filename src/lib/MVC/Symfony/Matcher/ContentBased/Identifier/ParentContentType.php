@@ -27,7 +27,7 @@ class ParentContentType extends MultipleValued
     public function matchLocation(APILocation $location): bool
     {
         $parentContentType = $this->repository->sudo(
-            static function (Repository $repository) use ($location) {
+            static function (Repository $repository) use ($location): \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType {
                 $parent = $repository->getLocationService()->loadLocation($location->parentLocationId);
 
                 return $repository
@@ -49,7 +49,7 @@ class ParentContentType extends MultipleValued
     public function matchContentInfo(ContentInfo $contentInfo)
     {
         $location = $this->repository->sudo(
-            static function (Repository $repository) use ($contentInfo) {
+            static function (Repository $repository) use ($contentInfo): \Ibexa\Contracts\Core\Repository\Values\Content\Location {
                 return $repository->getLocationService()->loadLocation($contentInfo->mainLocationId);
             }
         );

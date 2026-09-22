@@ -256,7 +256,7 @@ class CachingLanguageHandlerTest extends TestCase
         $matcher = self::exactly(2);
 
         $cacheIdentifierGeneratorMock->expects($matcher)
-            ->method('generateKey')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('generateKey')->willReturnCallback(static function (...$parameters) use ($matcher): ?string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('language', $parameters[0]);
                     self::assertSame([2], $parameters[1]);
@@ -271,6 +271,8 @@ class CachingLanguageHandlerTest extends TestCase
 
                     return 'ibx-lal';
                 }
+
+                return null;
             });
 
         $innerHandlerMock->expects(self::once())

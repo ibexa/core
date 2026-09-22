@@ -138,7 +138,7 @@ class Type extends FieldType implements TranslationContainerInterface
     {
         return new Value(
             array_map(
-                static function ($author) {
+                static function ($author): \Ibexa\Core\FieldType\Author\Author {
                     return new Author($author);
                 },
                 $hash
@@ -156,7 +156,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public function toHash(SPIValue $value): array
     {
         return array_map(
-            static function ($author) {
+            static function ($author): array {
                 return (array)$author;
             },
             $value->authors->getArrayCopy()

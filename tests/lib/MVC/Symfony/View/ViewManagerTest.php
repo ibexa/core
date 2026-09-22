@@ -77,7 +77,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($templateIdentifier) {
+                    static function (View $view) use ($templateIdentifier): void {
                         $view->setTemplateIdentifier($templateIdentifier);
                     }
                 )
@@ -113,7 +113,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($closure) {
+                    static function (View $view) use ($closure): void {
                         $view->setTemplateIdentifier($closure);
                     }
                 )
@@ -144,7 +144,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($templateIdentifier) {
+                    static function (View $view) use ($templateIdentifier): void {
                         $view->setTemplateIdentifier($templateIdentifier);
                     }
                 )
@@ -193,7 +193,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($templateIdentifier) {
+                    static function (View $view) use ($templateIdentifier): void {
                         $view->setTemplateIdentifier($templateIdentifier);
                     }
                 )
@@ -246,7 +246,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($closure) {
+                    static function (View $view) use ($closure): void {
                         $view->setTemplateIdentifier($closure);
                     }
                 )

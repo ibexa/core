@@ -151,7 +151,7 @@ class ParentContentTypeLimitationTypeTest extends Base
             $this->contentTypeHandlerMock
                 ->expects($matcher)
                 ->method('load')
-                ->willReturnCallback(static function ($actualValue) use ($matcher, $limitationValues) {
+                ->willReturnCallback(static function ($actualValue) use ($matcher, $limitationValues): int {
                     self::assertSame($limitationValues[$matcher->numberOfInvocations() - 1], $actualValue);
 
                     return 42;
@@ -495,7 +495,7 @@ class ParentContentTypeLimitationTypeTest extends Base
         $this->contentHandlerMock
             ->expects($matcher)
             ->method('loadContentInfo')
-            ->willReturnCallback(static function ($contentId) use ($matcher, $contentIds, $contentInfos) {
+            ->willReturnCallback(static function ($contentId) use ($matcher, $contentIds, $contentInfos): SPIContentInfo {
                 self::assertSame($contentIds[$matcher->numberOfInvocations() - 1], $contentId);
 
                 return $contentInfos[$matcher->numberOfInvocations() - 1];
@@ -564,7 +564,7 @@ class ParentContentTypeLimitationTypeTest extends Base
                 $this->locationHandlerMock
                     ->expects($locationMatcher)
                     ->method('load')
-                    ->willReturnCallback(static function ($parentLocationId) use ($locationMatcher, $locationLoadArguments, $locationLoadReturnValues) {
+                    ->willReturnCallback(static function ($parentLocationId) use ($locationMatcher, $locationLoadArguments, $locationLoadReturnValues): SPILocation {
                         self::assertSame($locationLoadArguments[$locationMatcher->numberOfInvocations() - 1], $parentLocationId);
 
                         return $locationLoadReturnValues[$locationMatcher->numberOfInvocations() - 1];

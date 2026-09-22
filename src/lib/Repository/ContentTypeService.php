@@ -637,7 +637,7 @@ class ContentTypeService implements ContentTypeServiceInterface
         }
 
         $groupIds = array_map(
-            static function (APIContentTypeGroup $contentTypeGroup) {
+            static function (APIContentTypeGroup $contentTypeGroup): int {
                 return $contentTypeGroup->id;
             },
             $contentTypeGroups

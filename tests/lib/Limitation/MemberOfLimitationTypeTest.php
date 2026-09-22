@@ -121,7 +121,7 @@ final class MemberOfLimitationTypeTest extends Base
         if ($limitation->limitationValues !== null) {
             $matcher = self::exactly(2);
             $contentHandlerMock->expects($matcher)
-                ->method('loadContentInfo')->willReturnCallback(static function (...$parameters) use ($matcher) {
+                ->method('loadContentInfo')->willReturnCallback(static function (...$parameters) use ($matcher): ?ContentInfo {
                     if ($matcher->numberOfInvocations() === 1) {
                         self::assertSame(14, $parameters[0]);
 
@@ -132,6 +132,8 @@ final class MemberOfLimitationTypeTest extends Base
 
                         return new ContentInfo();
                     }
+
+                    return null;
                 });
 
             $this->getPersistenceMock()
@@ -174,7 +176,7 @@ final class MemberOfLimitationTypeTest extends Base
             $matcher = self::exactly(2);
 
             $locationHandlerMock->expects($matcher)
-                ->method('load')->willReturnCallback(static function (...$parameters) use ($matcher) {
+                ->method('load')->willReturnCallback(static function (...$parameters) use ($matcher): ?Location {
                     if ($matcher->numberOfInvocations() === 1) {
                         self::assertSame(13, $parameters[0]);
 
@@ -185,6 +187,8 @@ final class MemberOfLimitationTypeTest extends Base
 
                         return new Location(['contentId' => 25]);
                     }
+
+                    return null;
                 });
 
             $this->getPersistenceMock()
@@ -368,7 +372,7 @@ final class MemberOfLimitationTypeTest extends Base
         }
         $matcher = self::exactly(2);
         $locationHandlerMock->expects($matcher)
-            ->method('loadLocationsByContent')->willReturnCallback(function (...$parameters) use ($matcher, $object, $currentUserLocation) {
+            ->method('loadLocationsByContent')->willReturnCallback(function (...$parameters) use ($matcher, $object, $currentUserLocation): ?array {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame($object instanceof User ? $object->getUserId() : $object->getUser()->getUserId(), $parameters[0]);
 
@@ -382,11 +386,13 @@ final class MemberOfLimitationTypeTest extends Base
 
                     return $currentUserLocation;
                 }
+
+                return null;
             });
         $matcher = self::exactly(2 + count($currentUserGroupLocations));
 
         $locationHandlerMock->expects($matcher)
-            ->method('load')->willReturnCallback(static function (...$parameters) use ($matcher, $currentUserGroupLocations) {
+            ->method('load')->willReturnCallback(static function (...$parameters) use ($matcher, $currentUserGroupLocations): Location {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame(13, $parameters[0]);
 

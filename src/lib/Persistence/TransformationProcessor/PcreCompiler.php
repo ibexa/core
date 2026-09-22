@@ -223,7 +223,7 @@ class PcreCompiler
                 };
 
             case $char === 'keep':
-                return static function ($matches) {
+                return static function ($matches): string {
                     return $matches[0];
                 };
 
@@ -234,14 +234,14 @@ class PcreCompiler
                     substr($char, 1, -1)
                 );
 
-                return static function ($matches) use ($string) {
+                return static function ($matches) use ($string): string {
                     return $string;
                 };
 
             default:
                 $char = $this->compileCharacter($char);
 
-                return static function ($matches) use ($char) {
+                return static function ($matches) use ($char): string {
                     return $char;
                 };
         }

@@ -87,7 +87,7 @@ class DecoratedLocationServiceTest extends TestCase
 
         $this->mapper
             ->expects($matcher)
-            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame(1, $parameters[0]);
                     self::assertSame(2, $parameters[1]);
@@ -139,7 +139,7 @@ class DecoratedLocationServiceTest extends TestCase
 
         $this->mapper
             ->expects($matcher)
-            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame(1, $parameters[0]);
                     self::assertSame(2, $parameters[1]);
@@ -193,7 +193,7 @@ class DecoratedLocationServiceTest extends TestCase
 
         $this->mapper
             ->expects($matcher)
-            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame(1, $parameters[0]);
                     self::assertSame(2, $parameters[1]);
@@ -241,7 +241,7 @@ class DecoratedLocationServiceTest extends TestCase
 
         $this->mapper
             ->expects($matcher)
-            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame(1, $parameters[0]);
                     self::assertSame(2, $parameters[1]);

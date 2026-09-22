@@ -68,13 +68,13 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
      */
     public function init(): void
     {
-        $this->getUserTags = function (User $user) {
+        $this->getUserTags = function (User $user): array {
             return [
                 $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$user->id]),
                 $this->cacheIdentifierGenerator->generateTag(self::USER_IDENTIFIER, [$user->id]),
             ];
         };
-        $this->getUserKeys = function (User $user) {
+        $this->getUserKeys = function (User $user): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [$user->id], true),
                 $this->cacheIdentifierGenerator->generateKey(
@@ -89,12 +89,12 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
                 ),
             ];
         };
-        $this->getRoleTags = function (Role $role) {
+        $this->getRoleTags = function (Role $role): array {
             return [
                 $this->cacheIdentifierGenerator->generateTag(self::ROLE_IDENTIFIER, [$role->id]),
             ];
         };
-        $this->getRoleKeys = function (Role $role) {
+        $this->getRoleKeys = function (Role $role): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::ROLE_IDENTIFIER, [$role->id], true),
                 $this->cacheIdentifierGenerator->generateKey(
@@ -104,14 +104,14 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
                 ),
             ];
         };
-        $this->getRoleAssignmentTags = function (RoleAssignment $roleAssignment) {
+        $this->getRoleAssignmentTags = function (RoleAssignment $roleAssignment): array {
             return [
                 $this->cacheIdentifierGenerator->generateTag(self::ROLE_ASSIGNMENT_IDENTIFIER, [$roleAssignment->id]),
                 $this->cacheIdentifierGenerator->generateTag(self::ROLE_ASSIGNMENT_GROUP_LIST_IDENTIFIER, [$roleAssignment->contentId]),
                 $this->cacheIdentifierGenerator->generateTag(self::ROLE_ASSIGNMENT_ROLE_LIST_IDENTIFIER, [$roleAssignment->roleId]),
             ];
         };
-        $this->getRoleAssignmentKeys = function (RoleAssignment $roleAssignment) {
+        $this->getRoleAssignmentKeys = function (RoleAssignment $roleAssignment): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::ROLE_ASSIGNMENT_IDENTIFIER, [$roleAssignment->id], true),
             ];
@@ -160,7 +160,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $userId,
             $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [], true) . '-',
-            function ($userId) {
+            function ($userId): \Ibexa\Contracts\Core\Persistence\User {
                 return $this->persistenceHandler->userHandler()->load($userId);
             },
             $this->getUserTags,
@@ -176,7 +176,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($login),
             $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [], true) . '-',
-            function () use ($login) {
+            function () use ($login): \Ibexa\Contracts\Core\Persistence\User {
                 return $this->persistenceHandler->userHandler()->loadByLogin($login);
             },
             $this->getUserTags,
@@ -194,7 +194,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         $cachedValue = $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($email),
             $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [], true) . '-',
-            function () use ($email) {
+            function () use ($email): \Ibexa\Contracts\Core\Persistence\User {
                 return $this->persistenceHandler->userHandler()->loadByEmail($email);
             },
             $this->getUserTags,
@@ -217,7 +217,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
                 [$this->cacheIdentifierSanitizer->escapeForCacheKey($email)],
                 true
             ),
-            function () use ($email) {
+            function () use ($email): array {
                 return $this->persistenceHandler->userHandler()->loadUsersByEmail($email);
             },
             $this->getUserTags,
@@ -236,17 +236,17 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $hash,
             $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [], true) . '-',
-            function ($hash) {
+            function ($hash): \Ibexa\Contracts\Core\Persistence\User {
                 return $this->persistenceHandler->userHandler()->loadUserByToken($hash);
             },
-            function (User $user) use ($getUserTagsFn) {
+            function (User $user) use ($getUserTagsFn): array {
                 $tags = $getUserTagsFn($user);
                 // See updateUserToken()
                 $tags[] = $this->cacheIdentifierGenerator->generateTag(self::USER_WITH_ACCOUNT_KEY_SUFFIX_IDENTIFIER, [$user->id]);
 
                 return $tags;
             },
-            function (User $user) use ($hash, $getUserKeysFn) {
+            function (User $user) use ($hash, $getUserKeysFn): array {
                 $keys = $getUserKeysFn($user);
                 $keys[] = $this->cacheIdentifierGenerator->generateKey(self::USER_WITH_BY_ACCOUNT_KEY_SUFFIX_IDENTIFIER, [$hash], true);
 
@@ -407,7 +407,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $roleId,
             $this->cacheIdentifierGenerator->generateKey(self::ROLE_IDENTIFIER, [], true) . '-',
-            function ($roleId) {
+            function ($roleId): \Ibexa\Contracts\Core\Persistence\User\Role {
                 return $this->persistenceHandler->userHandler()->loadRole($roleId);
             },
             $this->getRoleTags,
@@ -429,7 +429,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($identifier),
             $this->cacheIdentifierGenerator->generateKey(self::ROLE_IDENTIFIER, [], true) . '-',
-            function () use ($identifier) {
+            function () use ($identifier): \Ibexa\Contracts\Core\Persistence\User\Role {
                 return $this->persistenceHandler->userHandler()->loadRoleByIdentifier($identifier);
             },
             $this->getRoleTags,
@@ -466,7 +466,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $roleAssignmentId,
             $this->cacheIdentifierGenerator->generateKey(self::ROLE_ASSIGNMENT_IDENTIFIER, [], true) . '-',
-            function ($roleAssignmentId) {
+            function ($roleAssignmentId): \Ibexa\Contracts\Core\Persistence\User\RoleAssignment {
                 return $this->persistenceHandler->userHandler()->loadRoleAssignment($roleAssignmentId);
             },
             $this->getRoleAssignmentTags,
@@ -481,13 +481,13 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     {
         return $this->getListCacheValue(
             $this->cacheIdentifierGenerator->generateKey(self::ROLE_ASSIGNMENT_WITH_BY_ROLE_SUFFIX_IDENTIFIER, [$roleId], true),
-            function () use ($roleId) {
+            function () use ($roleId): array {
                 return $this->persistenceHandler->userHandler()->loadRoleAssignmentsByRoleId($roleId);
             },
             $this->getRoleAssignmentTags,
             $this->getRoleAssignmentKeys,
             /* Role update (policies) changes role assignment id, also need list tag in case of empty result */
-            function () use ($roleId) {
+            function () use ($roleId): array {
                 return [
                     $this->cacheIdentifierGenerator->generateTag(self::ROLE_ASSIGNMENT_ROLE_LIST_IDENTIFIER, [$roleId]),
                     $this->cacheIdentifierGenerator->generateTag(self::ROLE_IDENTIFIER, [$roleId]),
@@ -556,12 +556,12 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
 
         return $this->getListCacheValue(
             $key,
-            function () use ($groupId, $inherit) {
+            function () use ($groupId, $inherit): array {
                 return $this->persistenceHandler->userHandler()->loadRoleAssignmentsByGroupId($groupId, $inherit);
             },
             $this->getRoleAssignmentTags,
             $this->getRoleAssignmentKeys,
-            function () use ($groupId, $innerHandler) {
+            function () use ($groupId, $innerHandler): array {
                 // Tag needed for empty results, if not empty will alse be added by getRoleAssignmentTags().
                 $cacheTags = [
                     $this->cacheIdentifierGenerator->generateTag(self::ROLE_ASSIGNMENT_GROUP_LIST_IDENTIFIER, [$groupId]),

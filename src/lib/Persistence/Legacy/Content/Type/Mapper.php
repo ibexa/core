@@ -168,7 +168,7 @@ class Mapper
 
     public function extractMultilingualData(array $fieldDefinitionRows): array
     {
-        return array_map(static function (array $fieldData) {
+        return array_map(static function (array $fieldData): array {
             return [
                 'content_type_field_definition_multilingual_name' => $fieldData['content_type_field_definition_multilingual_name'] ?? null,
                 'content_type_field_definition_multilingual_description' => $fieldData['content_type_field_definition_multilingual_description'] ?? null,

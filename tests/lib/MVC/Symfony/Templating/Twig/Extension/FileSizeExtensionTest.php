@@ -120,7 +120,7 @@ class FileSizeExtensionTest extends IntegrationTestCase
         $this->translatorMock
             ->expects(self::any())->method('trans')->will(
                 self::returnCallback(
-                    static function ($suffixes) use ($that) {
+                    static function ($suffixes) use ($that): ?string {
                         foreach ($that->getLocale() as $value) {
                             if ($value === 'fre-FR') {
                                 return $suffixes . ' French version';
@@ -130,6 +130,8 @@ class FileSizeExtensionTest extends IntegrationTestCase
                                 return $suffixes . ' wrong local so we take the default one which is en-GB here';
                             }
                         }
+
+                        return null;
                     }
                 )
             );

@@ -1034,7 +1034,7 @@ class HandlerContentTest extends AbstractTestCase
         self::assertCount(
             10,
             array_map(
-                static function ($hit) {
+                static function ($hit): mixed {
                     return $hit->valueObject->id;
                 },
                 $result->searchHits

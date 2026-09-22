@@ -2460,7 +2460,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
             self::assertNotContains(
                 $contentTypeDraft->id,
                 array_map(
-                    static function (ContentType $contentType) {
+                    static function (ContentType $contentType): int {
                         return $contentType->id;
                     },
                     $contentTypes
@@ -2481,7 +2481,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
             self::assertContains(
                 $contentTypeDraft->id,
                 array_map(
-                    static function (ContentType $contentType) {
+                    static function (ContentType $contentType): int {
                         return $contentType->id;
                     },
                     $contentTypes
@@ -2743,7 +2743,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
                     implode(
                         ',',
                         array_map(
-                            static function ($fieldDefinition) {
+                            static function ($fieldDefinition): string {
                                 return $fieldDefinition->identifier;
                             },
                             $fieldDefinitions
@@ -3150,7 +3150,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $copiedType = $contentTypeService->copyContentType($commentType);
 
         $contentTypes = $contentTypeService->loadContentTypes($contentTypeGroup);
-        $contentTypeIdentifiers = array_map(static function (ContentType $contentType) {
+        $contentTypeIdentifiers = array_map(static function (ContentType $contentType): string {
             return $contentType->identifier;
         }, $contentTypes);
         /* END: Use Case */

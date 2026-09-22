@@ -508,7 +508,7 @@ class UserTest extends FieldTypeTestCase
                         'email'
                     ),
                 ],
-                static function (InvocationMocker $loadByLoginInvocationMocker) {
+                static function (InvocationMocker $loadByLoginInvocationMocker): void {
                     $loadByLoginInvocationMocker->willThrowException(
                         new NotFoundException('user', 'user')
                     );
@@ -536,7 +536,7 @@ class UserTest extends FieldTypeTestCase
                         'username'
                     ),
                 ],
-                static function (InvocationMocker $loadByLoginInvocationMocker) {
+                static function (InvocationMocker $loadByLoginInvocationMocker): void {
                     $loadByLoginInvocationMocker->willReturn(
                         self::createStub(UserValue::class)
                     );

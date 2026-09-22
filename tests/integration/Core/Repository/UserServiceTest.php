@@ -559,7 +559,7 @@ class UserServiceTest extends BaseTestCase
         /* END: Use Case */
 
         $subUserGroupIds = array_map(
-            static function ($content) {
+            static function ($content): int {
                 return $content->id;
             },
             $subUserGroups

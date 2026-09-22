@@ -43,7 +43,7 @@ class SearchServiceTest extends AbstractServiceTestCase
         $content = new Content();
         $searchResults = new SearchResult();
 
-        $callback = function ($languageLookup) {
+        $callback = function ($languageLookup): void {
             $this->languageResolverMock
                 ->expects($this->once())
                 ->method('getUseAlwaysAvailable')

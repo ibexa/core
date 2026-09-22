@@ -136,7 +136,7 @@ class TreeHandler
         }
 
         $idVersionPairs = array_map(
-            static function ($row) use ($contentId) {
+            static function ($row) use ($contentId): array {
                 return [
                     'id' => $contentId,
                     'version' => $row['content_version_version'],

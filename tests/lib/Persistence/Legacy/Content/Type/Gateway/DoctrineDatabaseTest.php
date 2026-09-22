@@ -480,7 +480,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         self::assertQueryResult(
             array_map(
-                static function ($value) {
+                static function ($value): array {
                     return [$value];
                 },
                 $expectation

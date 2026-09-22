@@ -151,7 +151,7 @@ class SubtreeLimitationTypeTest extends Base
             $this->locationHandlerMock
                 ->expects($matcher)
                 ->method('load')
-                ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues) {
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues): SPILocation {
                     self::assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
 
                     return $loadReturnValues[$matcher->numberOfInvocations() - 1];
@@ -202,7 +202,7 @@ class SubtreeLimitationTypeTest extends Base
             $this->locationHandlerMock
                 ->expects($matcher)
                 ->method('load')
-                ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadExceptions) {
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadExceptions): void {
                     self::assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
 
                     throw $loadExceptions[$matcher->numberOfInvocations() - 1];
@@ -241,7 +241,7 @@ class SubtreeLimitationTypeTest extends Base
         $this->locationHandlerMock
             ->expects($matcher)
             ->method('load')
-            ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues) {
+            ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues): SPILocation {
                 self::assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
 
                 return $loadReturnValues[$matcher->numberOfInvocations() - 1];
@@ -454,7 +454,7 @@ class SubtreeLimitationTypeTest extends Base
             $this->locationHandlerMock
                 ->expects($matcher)
                 ->method('load')
-                ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues) {
+                ->willReturnCallback(static function (...$parameters) use ($matcher, $loadArguments, $loadReturnValues): Location {
                     self::assertSame($loadArguments[$matcher->numberOfInvocations() - 1], $parameters[0]);
 
                     return $loadReturnValues[$matcher->numberOfInvocations() - 1];

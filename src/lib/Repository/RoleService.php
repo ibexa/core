@@ -642,7 +642,7 @@ class RoleService implements RoleServiceInterface
     public function loadRoles(): iterable
     {
         $roles = array_map(
-            function ($spiRole) {
+            function ($spiRole): \Ibexa\Contracts\Core\Repository\Values\User\Role {
                 return $this->roleDomainMapper->buildDomainRoleObject($spiRole);
             },
             $this->userHandler->loadRoles()
@@ -651,7 +651,7 @@ class RoleService implements RoleServiceInterface
         return array_values(
             array_filter(
                 $roles,
-                function ($role) {
+                function ($role): bool {
                     return $this->permissionResolver->canUser('role', 'read', $role);
                 }
             )

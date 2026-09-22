@@ -45,7 +45,7 @@ final class ImageFileVariationPurgerTest extends TestCase
 
         $this->pathGeneratorMock
             ->expects($matcher)
-            ->method('getVariationPath')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('getVariationPath')->willReturnCallback(static function (...$parameters) use ($matcher): string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('path/to/1st/image.jpg', $parameters[0]);
                     self::assertSame('large', $parameters[1]);

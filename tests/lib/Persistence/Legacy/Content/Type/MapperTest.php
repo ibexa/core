@@ -471,7 +471,7 @@ class MapperTest extends TestCase
                 )
             )->will(
                 self::returnCallback(
-                    static function () {
+                    static function (): \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition {
                         return new FieldDefinition();
                     }
                 )

@@ -88,7 +88,7 @@ class TrashHandlerTest extends TestCase
         $this->locationGateway
             ->expects($countLocationsByContentIdMatcher)
             ->method('countLocationsByContentId')
-            ->willReturnCallback(static function ($contentId) use ($countLocationsByContentIdMatcher) {
+            ->willReturnCallback(static function ($contentId) use ($countLocationsByContentIdMatcher): int {
                 if ($countLocationsByContentIdMatcher->numberOfInvocations() === 1) {
                     self::assertSame(10, $contentId);
 
@@ -158,7 +158,7 @@ class TrashHandlerTest extends TestCase
         $this->locationGateway
             ->expects($countLocationsByContentIdMatcher)
             ->method('countLocationsByContentId')
-            ->willReturnCallback(static function ($contentId) use ($countLocationsByContentIdMatcher) {
+            ->willReturnCallback(static function ($contentId) use ($countLocationsByContentIdMatcher): int {
                 if ($countLocationsByContentIdMatcher->numberOfInvocations() === 1) {
                     self::assertSame(10, $contentId);
 
@@ -215,7 +215,7 @@ class TrashHandlerTest extends TestCase
         $this->locationGateway
             ->expects($countLocationsByContentIdMatcher)
             ->method('countLocationsByContentId')
-            ->willReturnCallback(static function ($contentId) use ($countLocationsByContentIdMatcher) {
+            ->willReturnCallback(static function ($contentId) use ($countLocationsByContentIdMatcher): int {
                 if ($countLocationsByContentIdMatcher->numberOfInvocations() === 1) {
                     self::assertSame(10, $contentId);
 
@@ -375,7 +375,7 @@ class TrashHandlerTest extends TestCase
         $this->locationGateway
             ->expects($countLocationsByContentIdMatcher)
             ->method('countLocationsByContentId')
-            ->willReturnCallback(static function ($contentId) use ($countLocationsByContentIdMatcher, $expectedTrashed) {
+            ->willReturnCallback(static function ($contentId) use ($countLocationsByContentIdMatcher, $expectedTrashed): int {
                 $trashedElement = $expectedTrashed[$countLocationsByContentIdMatcher->numberOfInvocations() - 1];
                 self::assertSame($trashedElement['contentobject_id'], $contentId);
 

@@ -180,7 +180,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
 
         $ids = array_map(
-            static function ($hit) {
+            static function ($hit): mixed {
                 return $hit->valueObject->id;
             },
             $result->searchHits
@@ -211,7 +211,7 @@ class HandlerContentSortTest extends AbstractTestCase
         self::assertEquals(
             [4, 12, 13, 42, 10, 14, 11, 226],
             array_map(
-                static function ($hit) {
+                static function ($hit): mixed {
                     return $hit->valueObject->id;
                 },
                 $result->searchHits
@@ -239,7 +239,7 @@ class HandlerContentSortTest extends AbstractTestCase
         self::assertEquals(
             [4, 10, 11, 12, 13, 14, 226, 42],
             array_map(
-                static function ($hit) {
+                static function ($hit): mixed {
                     return $hit->valueObject->id;
                 },
                 $result->searchHits
@@ -275,7 +275,7 @@ class HandlerContentSortTest extends AbstractTestCase
             6 => [154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164],
         ];
         $contentIds = array_map(
-            static function ($hit) {
+            static function ($hit): mixed {
                 return $hit->valueObject->id;
             },
             $result->searchHits
@@ -321,7 +321,7 @@ class HandlerContentSortTest extends AbstractTestCase
             'users' => [4, 10, 11, 12, 13, 14, 42, 226],
         ];
         $contentIds = array_map(
-            static function ($hit) {
+            static function ($hit): mixed {
                 return $hit->valueObject->id;
             },
             $result->searchHits
@@ -365,7 +365,7 @@ class HandlerContentSortTest extends AbstractTestCase
         self::assertEquals(
             [226, 14, 12, 10, 42, 57, 13, 50, 49, 41, 11, 51, 62, 4, 58, 59, 61, 60, 64, 63, 200, 66, 201],
             array_map(
-                static function ($hit) {
+                static function ($hit): mixed {
                     return $hit->valueObject->id;
                 },
                 $result->searchHits
@@ -425,7 +425,7 @@ class HandlerContentSortTest extends AbstractTestCase
             'tutorials for' => [106],
         ];
         $contentIds = array_map(
-            static function ($hit) {
+            static function ($hit): mixed {
                 return $hit->valueObject->id;
             },
             $result->searchHits
@@ -468,7 +468,7 @@ class HandlerContentSortTest extends AbstractTestCase
         self::assertEquals(
             [73, 71, 72, 69],
             array_map(
-                static function ($hit) {
+                static function ($hit): mixed {
                     return $hit->valueObject->id;
                 },
                 $result->searchHits

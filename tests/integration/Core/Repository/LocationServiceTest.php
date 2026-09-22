@@ -831,7 +831,7 @@ class LocationServiceTest extends BaseTestCase
         self::assertEquals(
             [$this->generateId('location', 5)],
             array_map(
-                static function (Location $location) {
+                static function (Location $location): int {
                     return $location->id;
                 },
                 $locations
@@ -1105,7 +1105,7 @@ class LocationServiceTest extends BaseTestCase
                 $this->generateId('location', 61),
             ],
             array_map(
-                static function (Location $location) {
+                static function (Location $location): int {
                     return $location->id;
                 },
                 $locations->locations
@@ -1316,7 +1316,7 @@ class LocationServiceTest extends BaseTestCase
         );
 
         $childrenNames = array_map(
-            static function (Location $location) {
+            static function (Location $location): string {
                 return $location->getContentInfo()->name;
             },
             iterator_to_array($locationService->loadLocationChildren($location))
@@ -1723,7 +1723,7 @@ class LocationServiceTest extends BaseTestCase
         );
 
         $actualLocationsIds = array_map(
-            static function (Location $location) {
+            static function (Location $location): int {
                 return $location->id;
             },
             $locationService->loadLocations($content->contentInfo)
@@ -1757,7 +1757,7 @@ class LocationServiceTest extends BaseTestCase
         $this->refreshSearch($repository);
 
         $contentIds = array_map(
-            static function (Content $content) {
+            static function (Content $content): int {
                 return $content->id;
             },
             $contentItems
@@ -1775,7 +1775,7 @@ class LocationServiceTest extends BaseTestCase
             'Total count of search result hits does not match the actual number of found results'
         );
         $foundContentIds = array_map(
-            static function (SearchHit $searchHit) {
+            static function (SearchHit $searchHit): mixed {
                 return $searchHit->valueObject->id;
             },
             $searchResult->searchHits

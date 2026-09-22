@@ -324,7 +324,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
                 '/1/2/69/',
             ],
             array_map(
-                static function ($trashItem) {
+                static function ($trashItem): mixed {
                     return $trashItem['path_string'];
                 },
                 $trashList = $handler->listTrashed(
@@ -356,7 +356,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
                 '/1/2/69/70/71/',
             ],
             array_map(
-                static function ($trashItem) {
+                static function ($trashItem): mixed {
                     return $trashItem['path_string'];
                 },
                 $trashList = $handler->listTrashed(

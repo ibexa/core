@@ -86,7 +86,7 @@ class LocationEventSubscriber extends AbstractSearchEventSubscriber implements E
             $event->getLocation2(),
         ];
 
-        array_walk($locations, function (Location $location) {
+        array_walk($locations, function (Location $location): void {
             $contentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo($location->contentId);
 
             $this->searchHandler->indexContent(

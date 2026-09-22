@@ -163,7 +163,7 @@ class LegacyDFSClusterTest extends TestCase
 
         $this->qbMock
             ->expects($matcher)
-            ->method('setParameter')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('setParameter')->willReturnCallback(function (...$parameters) use ($matcher): QueryBuilder&MockObject {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('esc', $parameters[0]);
                     self::assertSame('\\', $parameters[1]);

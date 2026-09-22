@@ -62,7 +62,7 @@ class URLServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateUrlEvent::class, static function (BeforeUpdateUrlEvent $event) use ($eventUpdatedUrl) {
+        $traceableEventDispatcher->addListener(BeforeUpdateUrlEvent::class, static function (BeforeUpdateUrlEvent $event) use ($eventUpdatedUrl): void {
             $event->setUpdatedUrl($eventUpdatedUrl);
         }, 10);
 
@@ -97,7 +97,7 @@ class URLServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateUrlEvent::class, static function (BeforeUpdateUrlEvent $event) use ($eventUpdatedUrl) {
+        $traceableEventDispatcher->addListener(BeforeUpdateUrlEvent::class, static function (BeforeUpdateUrlEvent $event) use ($eventUpdatedUrl): void {
             $event->setUpdatedUrl($eventUpdatedUrl);
             $event->stopPropagation();
         }, 10);

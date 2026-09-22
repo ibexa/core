@@ -1121,7 +1121,7 @@ class Handler implements UrlAliasHandlerInterface
 
         // map languageCodes to their IDs
         $languageIds = array_map(
-            function ($languageCode) {
+            function ($languageCode): int {
                 return $this->languageHandler->loadByLanguageCode($languageCode)->id;
             },
             $removedLanguages

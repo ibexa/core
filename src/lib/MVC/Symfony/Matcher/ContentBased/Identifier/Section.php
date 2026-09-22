@@ -26,7 +26,7 @@ class Section extends MultipleValued
     public function matchLocation(Location $location): bool
     {
         $section = $this->repository->sudo(
-            static function (Repository $repository) use ($location) {
+            static function (Repository $repository) use ($location): \Ibexa\Contracts\Core\Repository\Values\Content\Section {
                 return $repository->getSectionService()->loadSection(
                     $location->getContentInfo()->getSectionId()
                 );
@@ -46,7 +46,7 @@ class Section extends MultipleValued
     public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         $section = $this->repository->sudo(
-            static function (Repository $repository) use ($contentInfo) {
+            static function (Repository $repository) use ($contentInfo): \Ibexa\Contracts\Core\Repository\Values\Content\Section {
                 return $repository->getSectionService()->loadSection(
                     $contentInfo->getSectionId()
                 );
@@ -64,7 +64,7 @@ class Section extends MultipleValued
 
         $contentInfo = $view->getContent()->contentInfo;
         $section = $this->repository->sudo(
-            static function (Repository $repository) use ($contentInfo) {
+            static function (Repository $repository) use ($contentInfo): \Ibexa\Contracts\Core\Repository\Values\Content\Section {
                 return $repository->getSectionService()->loadSection(
                     $contentInfo->getSectionId()
                 );

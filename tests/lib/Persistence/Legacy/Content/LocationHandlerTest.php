@@ -211,7 +211,7 @@ class LocationHandlerTest extends TestCase
         $this->locationGateway
             ->expects($getBasicNodeDataMatcher)
             ->method('getBasicNodeData')
-            ->willReturnCallback(static function (int $nodeId) use ($getBasicNodeDataMatcher, $sourceData, $destinationData) {
+            ->willReturnCallback(static function (int $nodeId) use ($getBasicNodeDataMatcher, $sourceData, $destinationData): array {
                 $expectedArgs = [$sourceData['node_id'], $destinationData['node_id']];
                 $returnValues = [$sourceData, $destinationData];
                 $index = $getBasicNodeDataMatcher->numberOfInvocations() - 1;
@@ -234,7 +234,7 @@ class LocationHandlerTest extends TestCase
         $this->treeHandler
             ->expects($loadLocationMatcher)
             ->method('loadLocation')
-            ->willReturnCallback(static function (int $nodeId) use ($loadLocationMatcher, $sourceData, $destinationData) {
+            ->willReturnCallback(static function (int $nodeId) use ($loadLocationMatcher, $sourceData, $destinationData): \Ibexa\Contracts\Core\Persistence\Content\Location {
                 $expectedArgs = [$sourceData['node_id'], $destinationData['node_id']];
                 $returnValues = [
                     new Location([
@@ -253,7 +253,7 @@ class LocationHandlerTest extends TestCase
         $this->contentHandler
             ->expects($loadContentInfoMatcher)
             ->method('loadContentInfo')
-            ->willReturnCallback(static function (int $contentId) use ($loadContentInfoMatcher, $sourceData, $destinationData) {
+            ->willReturnCallback(static function (int $contentId) use ($loadContentInfoMatcher, $sourceData, $destinationData): \Ibexa\Contracts\Core\Persistence\Content\ContentInfo {
                 $expectedArgs = [$destinationData['contentobject_id'], $sourceData['contentobject_id']];
                 $returnValues = [
                     new ContentInfo(['sectionId' => 12345]),
@@ -506,7 +506,7 @@ class LocationHandlerTest extends TestCase
         $this->objectStateHandler
             ->expects(self::once())
             ->method('loadAllGroups')
-            ->willReturnCallback(static function () use (&$objectStateHandlerInvocationOrder) {
+            ->willReturnCallback(static function () use (&$objectStateHandlerInvocationOrder): array {
                 self::assertSame(0, $objectStateHandlerInvocationOrder++);
 
                 return [
@@ -518,7 +518,7 @@ class LocationHandlerTest extends TestCase
         $this->objectStateHandler
             ->expects(self::exactly(2))
             ->method('loadObjectStates')
-            ->willReturnCallback(static function (int $groupId) use (&$objectStateHandlerInvocationOrder) {
+            ->willReturnCallback(static function (int $groupId) use (&$objectStateHandlerInvocationOrder): array {
                 $order = $objectStateHandlerInvocationOrder++;
                 switch ($order) {
                     case 1:
@@ -543,7 +543,7 @@ class LocationHandlerTest extends TestCase
         $this->objectStateHandler
             ->expects(self::exactly(count($setContentStateExpectedArgs)))
             ->method('setContentState')
-            ->willReturnCallback(static function (int $contentId, int $groupId, int $stateId) use (&$objectStateHandlerInvocationOrder, $setContentStateExpectedArgs) {
+            ->willReturnCallback(static function (int $contentId, int $groupId, int $stateId) use (&$objectStateHandlerInvocationOrder, $setContentStateExpectedArgs): bool {
                 $order = $objectStateHandlerInvocationOrder++;
                 $index = $order - 3;
                 self::assertArrayHasKey($index, $setContentStateExpectedArgs);
@@ -596,7 +596,7 @@ class LocationHandlerTest extends TestCase
         $this->contentHandler
             ->expects(self::exactly(count($contentIds)))
             ->method('copy')
-            ->willReturnCallback(static function (int $contentId, int $versionNo) use (&$contentHandlerInvocationOrder, $copyExpectedArgs, $copyReturnValues) {
+            ->willReturnCallback(static function (int $contentId, int $versionNo) use (&$contentHandlerInvocationOrder, $copyExpectedArgs, $copyReturnValues): Content {
                 $order = $contentHandlerInvocationOrder++;
                 self::assertSame(0, $order % 2, sprintf('Expected copy() at an even invocation order, got %d', $order));
                 $index = intdiv($order, 2);
@@ -608,7 +608,7 @@ class LocationHandlerTest extends TestCase
         $this->contentHandler
             ->expects(self::exactly(count($contentIds)))
             ->method('publish')
-            ->willReturnCallback(static function (int $contentId, int $versionNo, Content\MetadataUpdateStruct $metadataUpdateStruct) use (&$contentHandlerInvocationOrder, $publishExpectedArgs, $publishReturnValues) {
+            ->willReturnCallback(static function (int $contentId, int $versionNo, Content\MetadataUpdateStruct $metadataUpdateStruct) use (&$contentHandlerInvocationOrder, $publishExpectedArgs, $publishReturnValues): Content {
                 $order = $contentHandlerInvocationOrder++;
                 self::assertSame(1, $order % 2, sprintf('Expected publish() at an odd invocation order, got %d', $order));
                 $index = intdiv($order, 2);
@@ -646,7 +646,7 @@ class LocationHandlerTest extends TestCase
         $this->locationMapper
             ->expects($getLocationCreateStructMatcher)
             ->method('getLocationCreateStruct')
-            ->willReturnCallback(static function (array $row) use ($getLocationCreateStructMatcher, $subtreeContentRows, $locationCreateStructReturnValues) {
+            ->willReturnCallback(static function (array $row) use ($getLocationCreateStructMatcher, $subtreeContentRows, $locationCreateStructReturnValues): CreateStruct {
                 $index = $getLocationCreateStructMatcher->numberOfInvocations() - 1;
                 self::assertSame($subtreeContentRows[$index], $row);
 
@@ -657,7 +657,7 @@ class LocationHandlerTest extends TestCase
         $handler
             ->expects($createMatcher)
             ->method('create')
-            ->willReturnCallback(static function (CreateStruct $createStruct) use ($createMatcher, $expectedCreateStructArgs, $createReturnValues) {
+            ->willReturnCallback(static function (CreateStruct $createStruct) use ($createMatcher, $expectedCreateStructArgs, $createReturnValues): Location {
                 $index = $createMatcher->numberOfInvocations() - 1;
                 self::assertEquals($expectedCreateStructArgs[$index], $createStruct);
 
@@ -680,7 +680,7 @@ class LocationHandlerTest extends TestCase
         $this->contentHandler
             ->expects(self::exactly(2))
             ->method('loadContentInfo')
-            ->willReturnCallback(static function (int $contentId) use (&$contentHandlerInvocationOrder, $contentIds, $destinationData) {
+            ->willReturnCallback(static function (int $contentId) use (&$contentHandlerInvocationOrder, $contentIds, $destinationData): ContentInfo {
                 $order = $contentHandlerInvocationOrder++;
                 switch ($order) {
                     case count($contentIds) * 2:

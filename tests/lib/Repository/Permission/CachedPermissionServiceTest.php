@@ -53,7 +53,7 @@ class CachedPermissionServiceTest extends TestCase
             ['setCurrentUserReference', [$userRef], null],
             ['hasAccess', ['content', 'remove', $userRef], false],
             ['canUser', ['content', 'remove', $valueObject, [new \stdClass()]], true],
-            ['sudo', [static function () {}, $repository], null],
+            ['sudo', [static function (): void {}, $repository], null],
         ];
     }
 

@@ -31,7 +31,7 @@ class HandlerLocationSortTest extends AbstractTestCase
     protected function getIds($searchResult)
     {
         $ids = array_map(
-            static function ($hit) {
+            static function ($hit): mixed {
                 return $hit->valueObject->id;
             },
             $searchResult->searchHits
@@ -485,7 +485,7 @@ class HandlerLocationSortTest extends AbstractTestCase
             'users' => [5, 12, 13, 14, 15, 44, 45, 228],
         ];
         $locationIds = array_map(
-            static function ($hit) {
+            static function ($hit): mixed {
                 return $hit->valueObject->id;
             },
             $result->searchHits
@@ -561,7 +561,7 @@ class HandlerLocationSortTest extends AbstractTestCase
             'tutorials for' => [108],
         ];
         $locationIds = array_map(
-            static function ($hit) {
+            static function ($hit): mixed {
                 return $hit->valueObject->id;
             },
             $result->searchHits
@@ -604,7 +604,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         self::assertEquals(
             [75, 73, 74, 71],
             array_map(
-                static function ($hit) {
+                static function ($hit): mixed {
                     return $hit->valueObject->id;
                 },
                 $result->searchHits

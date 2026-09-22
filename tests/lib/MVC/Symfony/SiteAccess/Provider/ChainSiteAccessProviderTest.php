@@ -161,7 +161,7 @@ final class ChainSiteAccessProviderTest extends TestCase
             StaticSiteAccessProvider::class
         );
         $undefinedSiteAccess->groups = array_map(
-            static function (string $groupName) {
+            static function (string $groupName): \Ibexa\Core\MVC\Symfony\SiteAccessGroup {
                 return new SiteAccessGroup($groupName);
             },
             $groupNames

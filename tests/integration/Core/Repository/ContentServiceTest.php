@@ -5550,7 +5550,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $allLocationsCount = $this->locationService->getAllLocationsCount();
         $contentInfoList = array_map(
-            static function (Location $location) {
+            static function (Location $location): ContentInfo {
                 return $location->contentInfo;
             },
             $this->locationService->loadAllLocations(0, $allLocationsCount)
@@ -5876,7 +5876,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
         $locationCreateStructs = array_map(
-            function (Location $parentLocation) {
+            function (Location $parentLocation): \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct {
                 return $this->locationService->newLocationCreateStruct($parentLocation->id);
             },
             $this->createParentLocationsForHideReveal(2)
@@ -5916,7 +5916,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
         $locationCreateStructs = array_map(
-            function (Location $parentLocation) {
+            function (Location $parentLocation): \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct {
                 return $this->locationService->newLocationCreateStruct($parentLocation->id);
             },
             $this->createParentLocationsForHideReveal(2)
@@ -6515,7 +6515,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         return array_values(
             array_filter(
                 $locations,
-                static function (Location $location) {
+                static function (Location $location): bool {
                     return $location->hidden;
                 }
             )

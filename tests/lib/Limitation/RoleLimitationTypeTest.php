@@ -105,7 +105,7 @@ final class RoleLimitationTypeTest extends Base
         if ($limitation->limitationValues !== null) {
             $matcher = self::any();
             $userHandlerMock->expects($matcher)
-                ->method('loadRole')->willReturnCallback(static function (...$parameters) use ($matcher) {
+                ->method('loadRole')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                     if ($matcher->numberOfInvocations() === 1) {
                         self::assertSame(4, $parameters[0]);
                         self::assertSame(Role::STATUS_DEFINED, $parameters[1]);
@@ -124,7 +124,7 @@ final class RoleLimitationTypeTest extends Base
         if ($limitation->limitationValues !== null) {
             $matcher = self::any();
             $contentHandlerMock->expects($matcher)
-                ->method('loadContentInfo')->willReturnCallback(static function (...$parameters) use ($matcher) {
+                ->method('loadContentInfo')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                     if ($matcher->numberOfInvocations() === 1) {
                         self::assertSame(14, $parameters[0]);
                     }
@@ -151,7 +151,7 @@ final class RoleLimitationTypeTest extends Base
         if ($limitation->limitationValues !== null) {
             $matcher = self::exactly(2);
             $userHandlerMock->expects($matcher)
-                ->method('loadRole')->willReturnCallback(static function (...$parameters) use ($matcher) {
+                ->method('loadRole')->willReturnCallback(static function (...$parameters) use ($matcher): ?Role {
                     if ($matcher->numberOfInvocations() === 1) {
                         self::assertSame(4, $parameters[0]);
                         self::assertSame(Role::STATUS_DEFINED, $parameters[1]);
@@ -164,6 +164,8 @@ final class RoleLimitationTypeTest extends Base
 
                         return new Role();
                     }
+
+                    return null;
                 });
 
             $this->getPersistenceMock()

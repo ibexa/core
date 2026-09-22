@@ -94,14 +94,14 @@ class ContentDownloadRouteReferenceListener implements EventSubscriberInterface
 
         $resolver->setDefault(
             self::OPT_CONTENT_ID,
-            static function (Options $options) {
+            static function (Options $options): int {
                 return $options[self::OPT_CONTENT]->id;
             }
         );
 
         $resolver->setDefault(
             self::OPT_DOWNLOAD_NAME,
-            function (Options $options) {
+            function (Options $options): mixed {
                 $field = $this->translationHelper->getTranslatedField(
                     $options[self::OPT_CONTENT],
                     $options[self::OPT_FIELD_IDENTIFIER],

@@ -32,7 +32,7 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
 
     protected function init(): void
     {
-        $this->getLocationTags = function (Location $location) {
+        $this->getLocationTags = function (Location $location): array {
             $tags = [
                 $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$location->contentId]),
                 $this->cacheIdentifierGenerator->generateTag(self::LOCATION_IDENTIFIER, [$location->id]),
@@ -46,7 +46,7 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
             return $tags;
         };
 
-        $this->getLocationKeys = function (Location $location, $keySuffix = '-1') {
+        $this->getLocationKeys = function (Location $location, $keySuffix = '-1'): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::LOCATION_IDENTIFIER, [$location->id], true) . $keySuffix,
                 $this->cacheIdentifierGenerator->generateKey(
@@ -69,11 +69,11 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $this->getCacheValue(
             (int) $locationId,
             $this->cacheIdentifierGenerator->generateKey(self::LOCATION_IDENTIFIER, [], true) . '-',
-            function ($id) use ($translations, $useAlwaysAvailable) {
+            function ($id) use ($translations, $useAlwaysAvailable): \Ibexa\Contracts\Core\Persistence\Content\Location {
                 return $this->persistenceHandler->locationHandler()->load($id, $translations, $useAlwaysAvailable);
             },
             $this->getLocationTags,
-            static function (Location $location) use ($keySuffix, $getLocationKeysFn) {
+            static function (Location $location) use ($keySuffix, $getLocationKeysFn): array {
                 return $getLocationKeysFn($location, $keySuffix);
             },
             $keySuffix,
@@ -89,11 +89,11 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $this->getMultipleCacheValues(
             $locationIds,
             $this->cacheIdentifierGenerator->generateKey(self::LOCATION_IDENTIFIER, [], true) . '-',
-            function (array $ids) use ($translations, $useAlwaysAvailable) {
+            function (array $ids) use ($translations, $useAlwaysAvailable): iterable {
                 return $this->persistenceHandler->locationHandler()->loadList($ids, $translations, $useAlwaysAvailable);
             },
             $this->getLocationTags,
-            static function (Location $location) use ($keySuffix, $getLocationKeysFn) {
+            static function (Location $location) use ($keySuffix, $getLocationKeysFn): array {
                 return $getLocationKeysFn($location, $keySuffix);
             },
             $keySuffix,
@@ -231,11 +231,11 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($remoteId),
             $this->cacheIdentifierGenerator->generateKey(self::LOCATION_REMOTE_ID_IDENTIFIER, [], true) . '-',
-            function () use ($remoteId, $translations, $useAlwaysAvailable) {
+            function () use ($remoteId, $translations, $useAlwaysAvailable): \Ibexa\Contracts\Core\Persistence\Content\Location {
                 return $this->persistenceHandler->locationHandler()->loadByRemoteId($remoteId, $translations, $useAlwaysAvailable);
             },
             $this->getLocationTags,
-            static function (Location $location) use ($keySuffix, $getLocationKeysFn) {
+            static function (Location $location) use ($keySuffix, $getLocationKeysFn): array {
                 return $getLocationKeysFn($location, $keySuffix);
             },
             $keySuffix,

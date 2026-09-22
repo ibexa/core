@@ -161,7 +161,7 @@ class UrlTest extends BaseServiceMockTest
         $this->urlHandler
             ->expects(self::once())
             ->method('updateUrl')
-            ->willReturnCallback(static function ($id, $struct) use ($apiUrl, $apiStruct) {
+            ->willReturnCallback(static function ($id, $struct) use ($apiUrl, $apiStruct): void {
                 self::assertEquals($apiUrl->id, $id);
 
                 self::assertEquals($apiStruct->url, $struct->url);
@@ -221,7 +221,7 @@ class UrlTest extends BaseServiceMockTest
         $this->urlHandler
             ->expects(self::once())
             ->method('updateUrl')
-            ->willReturnCallback(static function ($id, $struct) use ($apiUrl, $apiStruct) {
+            ->willReturnCallback(static function ($id, $struct) use ($apiUrl, $apiStruct): void {
                 self::assertEquals($apiUrl->id, $id);
 
                 self::assertEquals($apiUrl->url, $struct->url);
@@ -351,11 +351,11 @@ class UrlTest extends BaseServiceMockTest
             $searchService
                 ->expects(self::once())
                 ->method('findContentInfo')
-                ->willReturnCallback(static function ($query) use ($expectedQuery, $usages) {
+                ->willReturnCallback(static function ($query) use ($expectedQuery, $usages): \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult {
                     self::assertEquals($expectedQuery, $query);
 
                     return new ContentSearchResults([
-                        'searchHits' => array_map(static function ($id) {
+                        'searchHits' => array_map(static function ($id): \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit {
                             return new SearchHit([
                                 'valueObject' => new ContentInfo([
                                     'id' => $id,
@@ -467,7 +467,7 @@ class UrlTest extends BaseServiceMockTest
         $this->permissionResolver
             ->expects($matcher)
             ->method('canUser')
-            ->willReturnCallback(static function (...$parameters) use ($matcher, $permissions) {
+            ->willReturnCallback(static function (...$parameters) use ($matcher, $permissions): bool {
                 self::assertEquals($permissions[$matcher->numberOfInvocations() - 1], $parameters);
 
                 return true;

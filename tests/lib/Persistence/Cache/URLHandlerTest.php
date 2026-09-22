@@ -95,7 +95,7 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher): ?string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('url', $parameters[0]);
                     self::assertSame([1], $parameters[1]);
@@ -124,6 +124,8 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
 
                     return 'c-5';
                 }
+
+                return null;
             });
 
         $invalidateTagsMatcher = self::exactly(2);

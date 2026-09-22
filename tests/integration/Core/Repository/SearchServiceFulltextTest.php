@@ -246,7 +246,7 @@ class SearchServiceFulltextTest extends BaseTestCase
         self::assertEquals(
             array_reduce(
                 $expectedKeys,
-                static function ($carry, $item) {
+                static function ($carry, $item): int {
                     $carry += count((array)$item);
 
                     return $carry;
@@ -320,7 +320,7 @@ class SearchServiceFulltextTest extends BaseTestCase
         }
 
         return array_map(
-            static function (array $idGroup) {
+            static function (array $idGroup): array|int {
                 if (count($idGroup) === 1) {
                     return reset($idGroup);
                 }

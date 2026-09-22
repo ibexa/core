@@ -145,7 +145,7 @@ class AddFieldTest extends TestCase
         $action
             ->expects($matcher)
             ->method('insertField')
-            ->willReturnCallback(function (...$parameters) use ($matcher, $content) {
+            ->willReturnCallback(function (...$parameters) use ($matcher, $content): string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertEquals([$content, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
 
@@ -184,7 +184,7 @@ class AddFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
-            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId) {
+            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId): array {
                 self::assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
                 return [];
@@ -194,7 +194,7 @@ class AddFieldTest extends TestCase
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2) {
+            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
                 self::assertSame([[], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
@@ -204,7 +204,7 @@ class AddFieldTest extends TestCase
         $action
             ->expects($insertMatcher)
             ->method('insertField')
-            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2) {
+            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2): string {
                 if ($insertMatcher->numberOfInvocations() === 1) {
                     self::assertEquals([$content1, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
                 } else {
@@ -241,7 +241,7 @@ class AddFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
-            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId) {
+            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId): array {
                 self::assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
                 return [];
@@ -251,7 +251,7 @@ class AddFieldTest extends TestCase
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2) {
+            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
                 self::assertSame([[], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
@@ -261,7 +261,7 @@ class AddFieldTest extends TestCase
         $action
             ->expects($insertMatcher)
             ->method('insertField')
-            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2) {
+            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2): string {
                 switch ($insertMatcher->numberOfInvocations()) {
                     case 1:
                         self::assertEquals([$content1, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);

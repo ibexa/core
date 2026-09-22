@@ -1896,7 +1896,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function ($languageCode) {
+                    static function ($languageCode): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
                         if ($languageCode === 'Klingon') {
                             throw new NotFoundException('Language', 'Klingon');
                         }
@@ -1963,7 +1963,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($valueString) {
+                    static function ($valueString): \Ibexa\Tests\Core\Repository\Service\Mock\ValueStub {
                         return new ValueStub($valueString);
                     }
                 )
@@ -2152,7 +2152,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function () {
+                    static function (): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
                         return new Language(['id' => 4242]);
                     }
                 )
@@ -2393,7 +2393,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($value) {
+                    static function ($value): SPIValue {
                         return $value instanceof SPIValue
                             ? $value
                             : new ValueStub($value);
@@ -2472,7 +2472,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($valueString) {
+                    static function ($valueString): \Ibexa\Tests\Core\Repository\Service\Mock\ValueStub {
                         return new ValueStub($valueString);
                     }
                 )
@@ -2483,7 +2483,7 @@ class ContentTest extends BaseServiceMockTest
     {
         $fieldTypeMock
             ->method('toHash')
-            ->willReturnCallback(static function (SPIValue $value) {
+            ->willReturnCallback(static function (SPIValue $value): array {
                 return ['value' => $value->value];
             });
     }
@@ -2599,7 +2599,7 @@ class ContentTest extends BaseServiceMockTest
         $buildSPILocationCreateStructMatcher = self::exactly(2);
         $domainMapperMock->expects($buildSPILocationCreateStructMatcher)
             ->method('buildSPILocationCreateStruct')
-            ->willReturnCallback(static function ($locationCreateStruct, $parentLocationArg, $mainLocation, $contentId, $contentVersionNo, bool $isContentHidden) use ($buildSPILocationCreateStructMatcher, $locationCreateStruct1, $locationCreateStruct2, $parentLocation, $spiLocationCreateStruct) {
+            ->willReturnCallback(static function ($locationCreateStruct, $parentLocationArg, $mainLocation, $contentId, $contentVersionNo, bool $isContentHidden) use ($buildSPILocationCreateStructMatcher, $locationCreateStruct1, $locationCreateStruct2, $parentLocation, $spiLocationCreateStruct): SPILocation\CreateStruct {
                 self::assertSame($parentLocation, $parentLocationArg);
                 self::assertNull($contentId);
                 self::assertNull($contentVersionNo);
@@ -2725,7 +2725,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function () {
+                    static function (): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
                         return new Language(['id' => 4242]);
                     }
                 )
@@ -2736,7 +2736,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($valueString) {
+                    static function ($valueString): \Ibexa\Tests\Core\Repository\Service\Mock\ValueStub {
                         return new ValueStub($valueString);
                     }
                 )
@@ -2809,7 +2809,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($valueString) {
+                    static function ($valueString): \Ibexa\Tests\Core\Repository\Service\Mock\ValueStub {
                         return new ValueStub($valueString);
                     }
                 )
@@ -3250,7 +3250,7 @@ class ContentTest extends BaseServiceMockTest
         $nameSchemaServiceMock = $this->getNameSchemaServiceMock();
         $fieldTypeMock = $this->createMock(SPIFieldType::class);
         $existingLanguageCodes = array_map(
-            static function (Field $field) {
+            static function (Field $field): string {
                 return $field->languageCode;
             },
             $existingFields
@@ -3292,7 +3292,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function () {
+                    static function (): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
                         return new Language(['id' => 4242]);
                     }
                 )
@@ -3327,7 +3327,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($value) {
+                    static function ($value): SPIValue {
                         return $value instanceof SPIValue
                             ? $value
                             : new ValueStub($value);
@@ -4820,7 +4820,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function ($languageCode) {
+                    static function ($languageCode): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
                         if ($languageCode === 'Klingon') {
                             throw new NotFoundException('Language', 'Klingon');
                         }
@@ -4905,7 +4905,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($value) {
+                    static function ($value): SPIValue {
                         return $value instanceof SPIValue
                             ? $value
                             : new ValueStub($value);
@@ -4923,7 +4923,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function ($languageCode) {
+                    static function ($languageCode): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
                         if ($languageCode === 'Klingon') {
                             throw new NotFoundException('Language', 'Klingon');
                         }
@@ -5110,7 +5110,7 @@ class ContentTest extends BaseServiceMockTest
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $fieldTypeMock = $this->createMock(SPIFieldType::class);
         $existingLanguageCodes = array_map(
-            static function (Field $field) {
+            static function (Field $field): string {
                 return $field->languageCode;
             },
             $existingFields
@@ -5264,7 +5264,7 @@ class ContentTest extends BaseServiceMockTest
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $fieldTypeMock = $this->createMock(SPIFieldType::class);
         $existingLanguageCodes = array_map(
-            static function (Field $field) {
+            static function (Field $field): string {
                 return $field->languageCode;
             },
             $existingFields
@@ -5301,7 +5301,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($value) {
+                    static function ($value): SPIValue {
                         return $value instanceof SPIValue
                             ? $value
                             : new ValueStub($value);
@@ -5324,7 +5324,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('validate')
             ->will(
                 self::returnCallback(
-                    static function (FieldDefinition $fieldDefinition) use ($allFieldErrors, $structFields) {
+                    static function (FieldDefinition $fieldDefinition) use ($allFieldErrors, $structFields): ?ValidationError {
                         foreach ($structFields as $structField) {
                             if ($structField->fieldDefIdentifier !== $fieldDefinition->identifier) {
                                 continue;
@@ -5635,7 +5635,7 @@ class ContentTest extends BaseServiceMockTest
         $destinationLocationTarget = (new DestinationLocation($locationCreateStruct->parentLocationId, $contentInfoMock));
         $matcher = self::exactly(2);
         $permissionResolverMock->expects($matcher)
-            ->method('canUser')->willReturnCallback(static function (...$parameters) use ($matcher, $contentInfoMock, $location, $destinationLocationTarget) {
+            ->method('canUser')->willReturnCallback(static function (...$parameters) use ($matcher, $contentInfoMock, $location, $destinationLocationTarget): ?bool {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('content', $parameters[0]);
                     self::assertSame('create', $parameters[1]);
@@ -5652,6 +5652,8 @@ class ContentTest extends BaseServiceMockTest
 
                     return true;
                 }
+
+                return null;
             });
 
         $spiContentInfo = new SPIContentInfo(['id' => 42]);
@@ -5776,7 +5778,7 @@ class ContentTest extends BaseServiceMockTest
         $destinationLocationTarget = (new DestinationLocation($locationCreateStruct->parentLocationId, $contentInfoMock));
         $matcher = self::exactly(2);
         $permissionResolverMock->expects($matcher)
-            ->method('canUser')->willReturnCallback(static function (...$parameters) use ($matcher, $contentInfoMock, $location, $destinationLocationTarget) {
+            ->method('canUser')->willReturnCallback(static function (...$parameters) use ($matcher, $contentInfoMock, $location, $destinationLocationTarget): ?bool {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('content', $parameters[0]);
                     self::assertSame('create', $parameters[1]);
@@ -5793,6 +5795,8 @@ class ContentTest extends BaseServiceMockTest
 
                     return true;
                 }
+
+                return null;
             });
 
         $spiContentInfo = new SPIContentInfo(['id' => 42]);
@@ -5891,7 +5895,7 @@ class ContentTest extends BaseServiceMockTest
         $destinationLocationTarget = (new DestinationLocation($locationCreateStruct->parentLocationId, $contentInfoMock));
         $matcher = self::exactly(2);
         $permissionResolverMock->expects($matcher)
-            ->method('canUser')->willReturnCallback(static function (...$parameters) use ($matcher, $contentInfoMock, $location, $destinationLocationTarget) {
+            ->method('canUser')->willReturnCallback(static function (...$parameters) use ($matcher, $contentInfoMock, $location, $destinationLocationTarget): ?bool {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('content', $parameters[0]);
                     self::assertSame('create', $parameters[1]);
@@ -5908,6 +5912,8 @@ class ContentTest extends BaseServiceMockTest
 
                     return true;
                 }
+
+                return null;
             });
 
         $contentHandlerMock->expects(self::once())
@@ -6121,7 +6127,7 @@ class ContentTest extends BaseServiceMockTest
         $locationGetMatcher = self::exactly(4);
         $location->expects($locationGetMatcher)
             ->method('__get')
-            ->willReturnCallback(static function ($property) use ($locationGetMatcher) {
+            ->willReturnCallback(static function ($property) use ($locationGetMatcher): int {
                 $invocation = $locationGetMatcher->numberOfInvocations();
                 if ($invocation === 1 || $invocation === 3) {
                     self::assertSame('id', $property);

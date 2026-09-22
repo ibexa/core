@@ -53,7 +53,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
 
     protected function init(): void
     {
-        $this->getContentInfoTags = function (ContentInfo $info, array $tags = []) {
+        $this->getContentInfoTags = function (ContentInfo $info, array $tags = []): array {
             $tags[] = $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$info->id]);
 
             if ($info->mainLocationId) {
@@ -69,7 +69,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
 
             return $tags;
         };
-        $this->getContentInfoKeys = function (ContentInfo $info) {
+        $this->getContentInfoKeys = function (ContentInfo $info): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::CONTENT_INFO_IDENTIFIER, [$info->id], true),
                 $this->cacheIdentifierGenerator->generateKey(
@@ -80,7 +80,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
             ];
         };
 
-        $this->getContentTags = function (Content $content) {
+        $this->getContentTags = function (Content $content): array {
             $versionInfo = $content->versionInfo;
             $tags = [
                 $this->cacheIdentifierGenerator->generateTag(
@@ -154,11 +154,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $this->getCacheValue(
             (int) $contentId,
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_IDENTIFIER, [], true) . '-',
-            function ($id) use ($versionNo, $translations) {
+            function ($id) use ($versionNo, $translations): \Ibexa\Contracts\Core\Persistence\Content {
                 return $this->persistenceHandler->contentHandler()->load($id, $versionNo, $translations);
             },
             $this->getContentTags,
-            function (Content $content) use ($keySuffix) {
+            function (Content $content) use ($keySuffix): array {
                 // Version number & translations is part of keySuffix here and depends on what user asked for
                 return [
                     $this->cacheIdentifierGenerator->generateKey(
@@ -180,11 +180,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $this->getMultipleCacheValues(
             $contentIds,
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_IDENTIFIER, [], true) . '-',
-            function (array $cacheMissIds) use ($translations) {
+            function (array $cacheMissIds) use ($translations): iterable {
                 return $this->persistenceHandler->contentHandler()->loadContentList($cacheMissIds, $translations);
             },
             $this->getContentTags,
-            function (Content $content) use ($keySuffix) {
+            function (Content $content) use ($keySuffix): array {
                 // Translations is part of keySuffix here and depends on what user asked for
                 return [
                     $this->cacheIdentifierGenerator->generateKey(
@@ -207,7 +207,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $this->getCacheValue(
             $contentId,
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_INFO_IDENTIFIER, [], true) . '-',
-            function ($contentId) {
+            function ($contentId): \Ibexa\Contracts\Core\Persistence\Content\ContentInfo {
                 return $this->persistenceHandler->contentHandler()->loadContentInfo($contentId);
             },
             $this->getContentInfoTags,
@@ -222,7 +222,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $this->getMultipleCacheValues(
             $contentIds,
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_INFO_IDENTIFIER, [], true) . '-',
-            function (array $cacheMissIds) {
+            function (array $cacheMissIds): array {
                 return $this->persistenceHandler->contentHandler()->loadContentInfoList($cacheMissIds);
             },
             $this->getContentInfoTags,
@@ -240,7 +240,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($remoteId),
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_INFO_BY_REMOTE_ID_IDENTIFIER, [], true) . '-',
-            function () use ($remoteId) {
+            function () use ($remoteId): \Ibexa\Contracts\Core\Persistence\Content\ContentInfo {
                 return $this->persistenceHandler->contentHandler()->loadContentInfoByRemoteId($remoteId);
             },
             $this->getContentInfoTags,
@@ -383,7 +383,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
 
         if (!empty($reverseRelations)) {
             $tags = \array_map(
-                function ($relation) {
+                function ($relation): string {
                     // only the full content object *with* fields is affected by this
                     return $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$relation->sourceContentId]);
                 },
@@ -776,7 +776,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
             function (VersionInfo $versionInfo): array {
                 return $this->getCacheTagsForVersion($versionInfo);
             },
-            function (VersionInfo $versionInfo) {
+            function (VersionInfo $versionInfo): array {
                 return [
                     $this->cacheIdentifierGenerator->generateKey(
                         self::CONTENT_VERSION_INFO_IDENTIFIER,

@@ -145,7 +145,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $roleId, $contentId, $locationId) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $roleId, $contentId, $locationId): ?string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('role_assignment_role_list', $parameters[0]);
                     self::assertSame([$roleId], $parameters[1]);
@@ -167,6 +167,8 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
 
                     return 'lp-' . $locationId;
                 }
+
+                return null;
             });
 
         $this->cacheMock
@@ -225,7 +227,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $relationSourceContentId, $contentId, $trashedId) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $relationSourceContentId, $contentId, $trashedId): ?string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('content', $parameters[0]);
                     self::assertSame([$relationSourceContentId], $parameters[1]);
@@ -247,6 +249,8 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
 
                     return 'lp-' . $trashedId;
                 }
+
+                return null;
             });
 
         $this->cacheMock
@@ -311,7 +315,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
             ->method('generateTag')
-            ->willReturnCallback(static function (...$parameters) use ($matcher, $cacheIdentifierGeneratorArguments, $tags) {
+            ->willReturnCallback(static function (...$parameters) use ($matcher, $cacheIdentifierGeneratorArguments, $tags): string {
                 self::assertSame(array_merge($cacheIdentifierGeneratorArguments, $cacheIdentifierGeneratorArguments)[$matcher->numberOfInvocations() - 1], $parameters);
 
                 return array_merge($tags, $tags)[$matcher->numberOfInvocations() - 1];

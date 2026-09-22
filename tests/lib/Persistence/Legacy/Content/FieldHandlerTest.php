@@ -111,7 +111,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $invocationOrder = 0;
         $storageHandlerMock->expects(self::exactly(5))
             ->method('storeFieldData')
-            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields): bool {
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($expectedStoreFields[$invocationOrder], $parameters[1]);
                 ++$invocationOrder;
@@ -123,7 +123,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         /* @var $originalField */
         $storageHandlerMock->expects(self::once())
             ->method('copyFieldData')
-            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $copyField, $originalField, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $copyField, $originalField, $storageHandlerUpdatesFields): bool {
                 self::assertSame(5, $invocationOrder);
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($copyField, $parameters[1]);
@@ -217,7 +217,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $matcher = self::exactly(3);
         $storageHandlerMock->expects($matcher)
             ->method('storeFieldData')
-            ->willReturnCallback(static function (...$parameters) use ($matcher, $expectedFields, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use ($matcher, $expectedFields, $storageHandlerUpdatesFields): bool {
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($expectedFields[$matcher->numberOfInvocations() - 1], $parameters[1]);
 
@@ -307,7 +307,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $matcher = self::exactly(6);
         $storageHandlerMock->expects($matcher)
             ->method('copyFieldData')
-            ->willReturnCallback(static function (...$parameters) use ($matcher, $expectedCopyCalls, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use ($matcher, $expectedCopyCalls, $storageHandlerUpdatesFields): bool {
                 $index = $matcher->numberOfInvocations() - 1;
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($expectedCopyCalls[$index]['field'], $parameters[1]);
@@ -516,7 +516,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $invocationOrder = 0;
         $storageHandlerMock->expects(self::exactly(2))
             ->method('storeFieldData')
-            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields): bool {
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($expectedStoreFields[$invocationOrder], $parameters[1]);
                 ++$invocationOrder;
@@ -528,7 +528,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         /* @var $originalField */
         $storageHandlerMock->expects(self::once())
             ->method('copyFieldData')
-            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $copyField, $originalField, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $copyField, $originalField, $storageHandlerUpdatesFields): bool {
                 self::assertSame(2, $invocationOrder);
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($copyField, $parameters[1]);
@@ -652,7 +652,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $storeCount = count($expectedStoreFields);
         $storageHandlerMock->expects(self::exactly($storeCount))
             ->method('storeFieldData')
-            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields): bool {
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($expectedStoreFields[$invocationOrder], $parameters[1]);
                 ++$invocationOrder;
@@ -662,7 +662,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $storageHandlerMock->expects(self::exactly(count($fieldsToCopy)))
             ->method('copyFieldData')
-            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $fieldsToCopy, $storeCount, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $fieldsToCopy, $storeCount, $storageHandlerUpdatesFields): bool {
                 $index = $invocationOrder - $storeCount;
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($fieldsToCopy[$index]['copy'], $parameters[1]);
@@ -767,7 +767,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $storeCount = count($expectedStoreFields);
         $storageHandlerMock->expects(self::exactly($storeCount))
             ->method('storeFieldData')
-            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields): bool {
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($expectedStoreFields[$invocationOrder], $parameters[1]);
                 ++$invocationOrder;
@@ -777,7 +777,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $storageHandlerMock->expects(self::exactly(count($fieldsToCopy)))
             ->method('copyFieldData')
-            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $fieldsToCopy, $storeCount, $storageHandlerUpdatesFields) {
+            ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $fieldsToCopy, $storeCount, $storageHandlerUpdatesFields): bool {
                 $index = $invocationOrder - $storeCount;
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
                 self::assertEquals($fieldsToCopy[$index]['copy'], $parameters[1]);

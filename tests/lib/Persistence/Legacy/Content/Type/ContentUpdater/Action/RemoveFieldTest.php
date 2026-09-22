@@ -115,7 +115,7 @@ class RemoveFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
-            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId) {
+            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId): array {
                 self::assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
                 return [];
@@ -125,7 +125,7 @@ class RemoveFieldTest extends TestCase
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2) {
+            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
                 self::assertSame([[], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
@@ -140,7 +140,7 @@ class RemoveFieldTest extends TestCase
         $this->getContentStorageHandlerMock()
             ->expects($deleteFieldDataMatcher)
             ->method('deleteFieldData')
-            ->willReturnCallback(static function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId) {
+            ->willReturnCallback(static function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId): void {
                 $expectedVersionInfo = $deleteFieldDataMatcher->numberOfInvocations() === 1
                     ? $content1->versionInfo
                     : $content2->versionInfo;
@@ -176,7 +176,7 @@ class RemoveFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
-            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId) {
+            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId): array {
                 self::assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
                 return [];
@@ -186,7 +186,7 @@ class RemoveFieldTest extends TestCase
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2) {
+            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
                 self::assertSame([[], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
@@ -196,7 +196,7 @@ class RemoveFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($deleteFieldMatcher)
             ->method('deleteField')
-            ->willReturnCallback(static function (...$parameters) use ($deleteFieldMatcher, $fieldId1, $fieldId2) {
+            ->willReturnCallback(static function (...$parameters) use ($deleteFieldMatcher, $fieldId1, $fieldId2): void {
                 $expected = $deleteFieldMatcher->numberOfInvocations() === 1 ? $fieldId1 : $fieldId2;
                 self::assertSame([$expected], $parameters);
             });
@@ -205,7 +205,7 @@ class RemoveFieldTest extends TestCase
         $this->getContentStorageHandlerMock()
             ->expects($deleteFieldDataMatcher)
             ->method('deleteFieldData')
-            ->willReturnCallback(static function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId1, $fieldId2) {
+            ->willReturnCallback(static function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId1, $fieldId2): void {
                 $expectedVersionInfo = $deleteFieldDataMatcher->numberOfInvocations() === 1
                     ? $content1->versionInfo
                     : $content2->versionInfo;

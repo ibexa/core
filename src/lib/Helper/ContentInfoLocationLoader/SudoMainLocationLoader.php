@@ -34,7 +34,7 @@ class SudoMainLocationLoader implements ContentInfoLocationLoader
 
         try {
             return $this->repository->sudo(
-                static function (Repository $repository) use ($contentInfo) {
+                static function (Repository $repository) use ($contentInfo): \Ibexa\Contracts\Core\Repository\Values\Content\Location {
                     return $repository->getLocationService()->loadLocation($contentInfo->mainLocationId);
                 }
             );

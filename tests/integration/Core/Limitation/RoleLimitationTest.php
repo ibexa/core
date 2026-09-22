@@ -57,7 +57,7 @@ final class RoleLimitationTest extends BaseLimitationIntegrationTestCase
             'assign',
             $limitations,
             $repository->sudo(
-                static function (Repository $repository) {
+                static function (Repository $repository): \Ibexa\Contracts\Core\Repository\Values\User\UserGroup {
                     return $repository->getUserService()->loadUserGroup(self::USERS_GROUP_ID);
                 },
                 $repository

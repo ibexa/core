@@ -71,7 +71,7 @@ class AbstractTestCase extends LanguageAwareTestCase
     protected function getIds($searchResult)
     {
         $ids = array_map(
-            static function ($hit) {
+            static function ($hit): mixed {
                 return $hit->valueObject->id;
             },
             $searchResult->searchHits

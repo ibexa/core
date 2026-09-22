@@ -423,7 +423,7 @@ class RelationListTest extends FieldTypeTestCase
 
         $this->targetContentValidator
             ->expects($matcher)
-            ->method('validate')->willReturnCallback(function (...$parameters) use ($matcher, $invalidDestinationContentId, $invalidDestinationContentId2) {
+            ->method('validate')->willReturnCallback(function (...$parameters) use ($matcher, $invalidDestinationContentId, $invalidDestinationContentId2): ?ValidationError {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame($invalidDestinationContentId, $parameters[0]);
 
@@ -434,6 +434,8 @@ class RelationListTest extends FieldTypeTestCase
 
                     return $this->generateValidationError($invalidDestinationContentId2);
                 }
+
+                return null;
             });
 
         $validationErrors = $this->doValidate([], new Value([$invalidDestinationContentId, $invalidDestinationContentId2]));
@@ -450,7 +452,7 @@ class RelationListTest extends FieldTypeTestCase
         $matcher = self::exactly(2);
 
         $this->targetContentValidator->expects($matcher)
-            ->method('validate')->willReturnCallback(function (...$parameters) use ($matcher, $destinationContentId, $allowedContentTypes, $destinationContentId2) {
+            ->method('validate')->willReturnCallback(function (...$parameters) use ($matcher, $destinationContentId, $allowedContentTypes, $destinationContentId2): ?ValidationError {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame($destinationContentId, $parameters[0]);
                     self::assertSame($allowedContentTypes, $parameters[1]);
@@ -463,6 +465,8 @@ class RelationListTest extends FieldTypeTestCase
 
                     return $this->generateContentTypeValidationError('test');
                 }
+
+                return null;
             });
 
         $validationErrors = $this->doValidate(

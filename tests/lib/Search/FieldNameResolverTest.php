@@ -95,7 +95,7 @@ class FieldNameResolverTest extends TestCase
         $mockedFieldNameResolver
             ->expects($getIndexFieldNameMatcher)
             ->method('getIndexFieldName')
-            ->willReturnCallback(static function ($criterion, $contentTypeIdentifier, $fieldDefinitionIdentifier, $fieldTypeIdentifier, $fieldName) use ($getIndexFieldNameMatcher) {
+            ->willReturnCallback(static function ($criterion, $contentTypeIdentifier, $fieldDefinitionIdentifier, $fieldTypeIdentifier, $fieldName) use ($getIndexFieldNameMatcher): array {
                 self::assertInstanceOf(APICriterion::class, $criterion);
                 self::assertSame('field_definition_identifier_1', $fieldDefinitionIdentifier);
                 self::assertNull($fieldName);
@@ -163,7 +163,7 @@ class FieldNameResolverTest extends TestCase
         $mockedFieldNameResolver
             ->expects($getIndexFieldNameMatcher)
             ->method('getIndexFieldName')
-            ->willReturnCallback(static function ($criterion, $contentTypeIdentifier, $fieldDefinitionIdentifier, $fieldTypeIdentifier, $fieldName) use ($getIndexFieldNameMatcher) {
+            ->willReturnCallback(static function ($criterion, $contentTypeIdentifier, $fieldDefinitionIdentifier, $fieldTypeIdentifier, $fieldName) use ($getIndexFieldNameMatcher): array {
                 self::assertInstanceOf(APICriterion::class, $criterion);
                 self::assertSame('field_definition_identifier_1', $fieldDefinitionIdentifier);
                 self::assertSame('field_name', $fieldName);

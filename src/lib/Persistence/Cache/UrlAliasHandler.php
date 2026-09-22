@@ -156,10 +156,10 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
             ($custom) ?
                 $this->cacheIdentifierGenerator->generateKey(self::URL_ALIAS_LOCATION_LIST_CUSTOM_IDENTIFIER, [$locationId], true) :
                 $this->cacheIdentifierGenerator->generateKey(self::URL_ALIAS_LOCATION_LIST_IDENTIFIER, [$locationId], true),
-            function () use ($locationId, $custom) {
+            function () use ($locationId, $custom): array {
                 return $this->persistenceHandler->urlAliasHandler()->listURLAliasesForLocation($locationId, $custom);
             },
-            function (UrlAlias $alias) {
+            function (UrlAlias $alias): array {
                 $tags = [
                     $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_IDENTIFIER, [$alias->id]),
                 ];
@@ -176,8 +176,8 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
 
                 return $tags;
             },
-            static function () { return []; },
-            function () use ($locationId) {
+            static function (): array { return []; },
+            function () use ($locationId): array {
                 return [
                     $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_LOCATION_IDENTIFIER, [$locationId]),
                 ];

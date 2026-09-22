@@ -80,7 +80,7 @@ class Image extends AbstractParser
                                         }
                                     )
                                     ->then(
-                                        static function ($v) {
+                                        static function ($v): mixed {
                                             // If we have the "params" key, just use the value.
                                             return $v['params'];
                                         }

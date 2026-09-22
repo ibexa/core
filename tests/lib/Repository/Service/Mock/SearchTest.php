@@ -242,7 +242,7 @@ class SearchTest extends BaseServiceMockTest
         $mapper->expects(self::once())
             ->method('buildContentDomainObjectsOnSearchResult')
             ->with(self::equalTo($result), self::equalTo([]))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($info) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($info): array {
                 unset($spiResult->searchHits[0]);
                 if ($spiResult->totalCount !== null) {
                     --$spiResult->totalCount;
@@ -300,7 +300,7 @@ class SearchTest extends BaseServiceMockTest
         $mapper->expects(self::once())
             ->method('buildContentDomainObjectsOnSearchResult')
             ->with(self::isInstanceOf(SearchResult::class), self::equalTo([]))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock): array {
                 $spiResult->searchHits[0]->valueObject = $contentMock;
 
                 return [];
@@ -370,7 +370,7 @@ class SearchTest extends BaseServiceMockTest
             ->expects(self::once())
             ->method('buildContentDomainObjectsOnSearchResult')
             ->with(self::isInstanceOf(SearchResult::class), self::equalTo([]))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock): array {
                 $spiResult->searchHits[0]->valueObject = $contentMock;
 
                 return [];
@@ -482,7 +482,7 @@ class SearchTest extends BaseServiceMockTest
             ->expects(self::once())
             ->method('buildContentDomainObjectsOnSearchResult')
             ->with(self::isInstanceOf(SearchResult::class), self::equalTo([]))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock): array {
                 $spiResult->searchHits[0]->valueObject = $contentMock;
 
                 return [];
@@ -686,7 +686,7 @@ class SearchTest extends BaseServiceMockTest
         $domainMapperMock->expects(self::once())
             ->method('buildLocationDomainObjectsOnSearchResult')
             ->with(self::equalTo($spiResult))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult): array {
                 $spiResult->searchHits[0] = $endResult->searchHits[0];
 
                 return [];
@@ -753,7 +753,7 @@ class SearchTest extends BaseServiceMockTest
         $domainMapperMock->expects(self::once())
             ->method('buildLocationDomainObjectsOnSearchResult')
             ->with(self::equalTo($spiResult))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult): array {
                 $spiResult->searchHits[0] = $endResult->searchHits[0];
 
                 return [];
@@ -803,7 +803,7 @@ class SearchTest extends BaseServiceMockTest
         $mapper->expects(self::once())
             ->method('buildLocationDomainObjectsOnSearchResult')
             ->with(self::equalTo($result))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($location) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($location): array {
                 unset($spiResult->searchHits[0]);
                 if ($spiResult->totalCount !== null) {
                     --$spiResult->totalCount;
@@ -909,7 +909,7 @@ class SearchTest extends BaseServiceMockTest
         $domainMapperMock->expects(self::once())
             ->method('buildLocationDomainObjectsOnSearchResult')
             ->with(self::equalTo($spiResult))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult): array {
                 $spiResult->searchHits[0] = $endResult->searchHits[0];
 
                 return [];

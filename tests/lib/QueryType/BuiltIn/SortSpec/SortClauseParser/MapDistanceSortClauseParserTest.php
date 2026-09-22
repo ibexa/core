@@ -35,7 +35,7 @@ final class MapDistanceSortClauseParserTest extends TestCase
         $parser = $this->createMock(SortSpecParserInterface::class);
         $matcher = self::exactly(5);
         $parser->expects($matcher)
-            ->method('match')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('match')->willReturnCallback(static function (...$parameters) use ($matcher): ?Token {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame(Token::TYPE_ID, $parameters[0]);
 
@@ -61,6 +61,8 @@ final class MapDistanceSortClauseParserTest extends TestCase
 
                     return new Token(Token::TYPE_FLOAT, (string)self::EXAMPLE_LON);
                 }
+
+                return null;
             });
 
         $parser->method('parseSortDirection')->willReturn(Query::SORT_ASC);

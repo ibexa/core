@@ -211,7 +211,7 @@ class PermissionTest extends BaseServiceMockTest
             ->method(self::anything());
 
         $result = $service->sudo(
-            static function (Repository $repo) {
+            static function (Repository $repo): array|bool {
                 return $repo->getPermissionResolver()->hasAccess('dummy-module', 'dummy-function');
             },
             $repositoryMock
@@ -320,7 +320,7 @@ class PermissionTest extends BaseServiceMockTest
             $roleDomainMapper
                 ->expects($buildDomainPolicyObjectMatcher)
                 ->method('buildDomainPolicyObject')
-                ->willReturnCallback(static function ($policy) use ($buildDomainPolicyObjectMatcher, $expectedBuildDomainPolicyObjectCalls) {
+                ->willReturnCallback(static function ($policy) use ($buildDomainPolicyObjectMatcher, $expectedBuildDomainPolicyObjectCalls): string {
                     [$expectedPolicy, $policyName] = $expectedBuildDomainPolicyObjectCalls[$buildDomainPolicyObjectMatcher->numberOfInvocations() - 1];
                     self::assertSame($expectedPolicy, $policy);
 
@@ -438,7 +438,7 @@ class PermissionTest extends BaseServiceMockTest
         $roleDomainMapper
             ->expects($buildDomainPolicyObjectMatcher)
             ->method('buildDomainPolicyObject')
-            ->willReturnCallback(static function ($policy) use ($buildDomainPolicyObjectMatcher, $expectedBuildDomainPolicyObjectCalls) {
+            ->willReturnCallback(static function ($policy) use ($buildDomainPolicyObjectMatcher, $expectedBuildDomainPolicyObjectCalls): string {
                 [$expectedPolicy, $policyName] = $expectedBuildDomainPolicyObjectCalls[$buildDomainPolicyObjectMatcher->numberOfInvocations() - 1];
                 self::assertSame($expectedPolicy, $policy);
 
@@ -630,7 +630,7 @@ class PermissionTest extends BaseServiceMockTest
             $roleDomainMapper
                 ->expects($buildDomainPolicyObjectMatcher)
                 ->method('buildDomainPolicyObject')
-                ->willReturnCallback(static function ($policy) use ($buildDomainPolicyObjectMatcher, $expectedBuildDomainPolicyObjectCalls) {
+                ->willReturnCallback(static function ($policy) use ($buildDomainPolicyObjectMatcher, $expectedBuildDomainPolicyObjectCalls): string {
                     [$expectedPolicy, $policyName] = $expectedBuildDomainPolicyObjectCalls[$buildDomainPolicyObjectMatcher->numberOfInvocations() - 1];
                     self::assertSame($expectedPolicy, $policy);
 
@@ -643,7 +643,7 @@ class PermissionTest extends BaseServiceMockTest
             $limitationTypeMock
                 ->expects($buildValueMatcher)
                 ->method('buildValue')
-                ->willReturnCallback(static function ($values) use ($buildValueMatcher, $expectedBuildValueCalls) {
+                ->willReturnCallback(static function ($values) use ($buildValueMatcher, $expectedBuildValueCalls): Limitation {
                     [$expectedValues, $limitation] = $expectedBuildValueCalls[$buildValueMatcher->numberOfInvocations() - 1];
                     self::assertSame($expectedValues, $values);
 
@@ -678,7 +678,7 @@ class PermissionTest extends BaseServiceMockTest
         $userHandlerMock
             ->expects($matcher)
             ->method('loadRole')
-            ->willReturnCallback(static function ($roleId, $status = Role::STATUS_DEFINED) use ($matcher, $roleAssignmentList, $roles) {
+            ->willReturnCallback(static function ($roleId, $status = Role::STATUS_DEFINED) use ($matcher, $roleAssignmentList, $roles): Role {
                 $roleAssignment = $roleAssignmentList[$matcher->numberOfInvocations() - 1];
                 self::assertSame($roleAssignment->roleId, $roleId);
 
@@ -1000,7 +1000,7 @@ class PermissionTest extends BaseServiceMockTest
         $limitationServiceMock
             ->expects($getLimitationTypeMatcher)
             ->method('getLimitationType')
-            ->willReturnCallback(static function ($identifier) use ($getLimitationTypeMatcher, $expectedGetLimitationTypeCalls) {
+            ->willReturnCallback(static function ($identifier) use ($getLimitationTypeMatcher, $expectedGetLimitationTypeCalls): Type {
                 [$expectedIdentifier, $limitation] = $expectedGetLimitationTypeCalls[$getLimitationTypeMatcher->numberOfInvocations() - 1];
                 self::assertSame($expectedIdentifier, $identifier);
 

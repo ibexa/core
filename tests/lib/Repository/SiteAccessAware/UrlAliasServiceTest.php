@@ -47,7 +47,7 @@ class UrlAliasServiceTest extends AbstractServiceTestCase
         $location = new Location();
         $urlAlias = new URLAlias();
 
-        $callback = function ($languageLookup) {
+        $callback = function ($languageLookup): void {
             $this->languageResolverMock
                 ->expects($this->once())
                 ->method('getShowAllTranslations')

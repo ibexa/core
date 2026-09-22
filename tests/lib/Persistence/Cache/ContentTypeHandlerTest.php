@@ -429,7 +429,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher): ?string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('type', $parameters[0]);
                     self::assertSame([5], $parameters[1]);
@@ -451,12 +451,14 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
                     return 'cft-5';
                 }
+
+                return null;
             });
         $matcher = self::exactly(3);
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateKey')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('generateKey')->willReturnCallback(static function (...$parameters) use ($matcher): ?string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('content_type', $parameters[0]);
                     self::assertSame([], $parameters[1]);
@@ -478,6 +480,8 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
                     return 'ibx-ctlbg-4';
                 }
+
+                return null;
             });
 
         $this->cacheMock

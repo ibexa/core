@@ -33,7 +33,7 @@ final class IOVariationPurgerTest extends TestCase
         $matcher = self::exactly(2);
         $ioService
             ->expects($matcher)
-            ->method('deleteDirectory')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('deleteDirectory')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('_aliases/medium', $parameters[0]);
                 }
@@ -44,7 +44,7 @@ final class IOVariationPurgerTest extends TestCase
         $matcher = self::exactly(2);
         $cacheIdentifierGenerator
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher): ?string {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('image_variation_name', $parameters[0]);
                     self::assertSame(['medium'], $parameters[1]);
@@ -57,11 +57,13 @@ final class IOVariationPurgerTest extends TestCase
 
                     return 'ign-large';
                 }
+
+                return null;
             });
         $matcher = self::exactly(2);
         $tagAwareAdapter
             ->expects($matcher)
-            ->method('invalidateTags')->willReturnCallback(static function (...$parameters) use ($matcher) {
+            ->method('invalidateTags')->willReturnCallback(static function (...$parameters) use ($matcher): bool {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame(['ign-medium'], $parameters[0]);
                 }

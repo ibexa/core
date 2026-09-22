@@ -2398,7 +2398,7 @@ class ContentService implements ContentServiceInterface
                 $languageCode
             );
             $locationIds = array_map(
-                static function (Location $location) {
+                static function (Location $location): int {
                     return $location->id;
                 },
                 $this->repository->getLocationService()->loadLocations($contentInfo)
