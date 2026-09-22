@@ -9,7 +9,7 @@ namespace Ibexa\Contracts\Core\Repository\Values;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
-use Symfony\Component\Serializer\Annotation\Ignore as SerializerIgnore;
+use Symfony\Component\Serializer\Attribute\Ignore as SerializerIgnore;
 
 /**
  * The base class for all value objects and structs.

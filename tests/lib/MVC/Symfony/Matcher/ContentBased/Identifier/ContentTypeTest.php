@@ -11,8 +11,13 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType as ContentTypeIdentifierMatcher;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversClass(ContentTypeIdentifierMatcher::class)]
+#[CoversClass(MultipleValued::class)]
 class ContentTypeTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType */
@@ -25,18 +30,13 @@ class ContentTypeTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchLocationProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
+    #[DataProvider('matchLocationProvider')]
+    public function testMatchLocation($matchingConfig, string $contentTypeIdentifier, $expectedResult): void
     {
-        $this->matcher->setRepository($repository);
+        $this->matcher->setRepository($this->generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
 
         self::assertSame(
@@ -45,31 +45,34 @@ class ContentTypeTest extends BaseTestCase
         );
     }
 
-    public function matchLocationProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchLocationProvider(): array
     {
         $data = [];
 
         $data[] = [
             'foo',
-            $this->generateRepositoryMockForContentTypeIdentifier('foo'),
+            'foo',
             true,
         ];
 
         $data[] = [
             'foo',
-            $this->generateRepositoryMockForContentTypeIdentifier('bar'),
+            'bar',
             false,
         ];
 
         $data[] = [
             ['foo', 'baz'],
-            $this->generateRepositoryMockForContentTypeIdentifier('bar'),
+            'bar',
             false,
         ];
 
         $data[] = [
             ['foo', 'baz'],
-            $this->generateRepositoryMockForContentTypeIdentifier('baz'),
+            'baz',
             true,
         ];
 
@@ -97,18 +100,13 @@ class ContentTypeTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider matchContentInfoProvider
-     *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
+    #[DataProvider('matchContentInfoProvider')]
+    public function testMatchContentInfo($matchingConfig, string $contentTypeIdentifier, $expectedResult): void
     {
-        $this->matcher->setRepository($repository);
+        $this->matcher->setRepository($this->generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
 
         self::assertSame(
@@ -119,31 +117,34 @@ class ContentTypeTest extends BaseTestCase
         );
     }
 
-    public function matchContentInfoProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function matchContentInfoProvider(): array
     {
         $data = [];
 
         $data[] = [
             'foo',
-            $this->generateRepositoryMockForContentTypeIdentifier('foo'),
+            'foo',
             true,
         ];
 
         $data[] = [
             'foo',
-            $this->generateRepositoryMockForContentTypeIdentifier('bar'),
+            'bar',
             false,
         ];
 
         $data[] = [
             ['foo', 'baz'],
-            $this->generateRepositoryMockForContentTypeIdentifier('bar'),
+            'bar',
             false,
         ];
 
         $data[] = [
             ['foo', 'baz'],
-            $this->generateRepositoryMockForContentTypeIdentifier('baz'),
+            'baz',
             true,
         ];
 

@@ -10,17 +10,15 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Test case for Visibility issues in EZP-20018.
- *
- * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility
- *
- * Issue EZP-20018
  */
+#[CoversClass(Visibility::class)]
 class EZP20018VisibilityTest extends BaseTestCase
 {
-    public function testSearchForHiddenContent()
+    public function testSearchForHiddenContent(): void
     {
         $repository = $this->getRepository();
 
@@ -44,7 +42,7 @@ class EZP20018VisibilityTest extends BaseTestCase
         self::assertCount(1, $results2->searchHits);
     }
 
-    public function testSearchForVisibleContent()
+    public function testSearchForVisibleContent(): void
     {
         $repository = $this->getRepository();
 

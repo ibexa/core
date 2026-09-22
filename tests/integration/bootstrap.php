@@ -6,11 +6,8 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Core\Persistence\Doctrine;
+use Ibexa\Contracts\Test\Core\Bootstrapper\Bootstrapper;
 
-enum DatabasePlatformName: string
-{
-    case Mysql = 'mysql';
-    case Postgresql = 'postgresql';
-    case Sqlite = 'sqlite';
-}
+require_once dirname(__DIR__, 2) . '/bootstrap.php';
+
+(new Bootstrapper())->bootstrap();

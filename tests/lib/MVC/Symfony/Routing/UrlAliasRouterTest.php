@@ -21,6 +21,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,11 +61,11 @@ class UrlAliasRouterTest extends TestCase
         $this->repository = $repository = $this
             ->getMockBuilder($repositoryClass)
             ->disableOriginalConstructor()
-            ->setMethods(
-                array_diff(
+            ->onlyMethods(
+                array_values(array_diff(
                     get_class_methods($repositoryClass),
                     ['sudo']
-                )
+                ))
             )
             ->getMock();
         $this->urlAliasService = $this->createMock(URLAliasService::class);
@@ -75,8 +76,8 @@ class UrlAliasRouterTest extends TestCase
             ->setConstructorArgs(
                 [
                     $repository,
-                    $this->createMock(RouterInterface::class),
-                    $this->createMock(ConfigResolverInterface::class),
+                    self::createStub(RouterInterface::class),
+                    self::createStub(ConfigResolverInterface::class),
                 ]
             )
             ->getMock();
@@ -99,7 +100,7 @@ class UrlAliasRouterTest extends TestCase
         return new UrlAliasRouter($locationService, $urlAliasService, $contentService, $urlAliasGenerator, $requestContext);
     }
 
-    public function testRequestContext()
+    public function testRequestContext(): void
     {
         self::assertSame($this->requestContext, $this->router->getContext());
         $newContext = new RequestContext();
@@ -111,22 +112,23 @@ class UrlAliasRouterTest extends TestCase
         self::assertSame($newContext, $this->router->getContext());
     }
 
-    public function testMatch()
+    public function testMatch(): void
     {
         $this->expectException(\RuntimeException::class);
 
         $this->router->match('/foo');
     }
 
-    /**
-     * @dataProvider providerTestSupports
-     */
-    public function testSupports($routeReference, $isSupported)
+    #[DataProvider('providerTestSupports')]
+    public function testSupports($routeReference, $isSupported): void
     {
         self::assertSame($isSupported, $this->router->supports($routeReference));
     }
 
-    public function providerTestSupports()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerTestSupports(): array
     {
         return [
             [new Location(), true],
@@ -136,7 +138,7 @@ class UrlAliasRouterTest extends TestCase
         ];
     }
 
-    public function testGetRouteCollection()
+    public function testGetRouteCollection(): void
     {
         self::assertInstanceOf(RouteCollection::class, $this->router->getRouteCollection());
     }
@@ -155,14 +157,14 @@ class UrlAliasRouterTest extends TestCase
             new SiteAccess(
                 'test',
                 'fake',
-                $this->createMock(Matcher::class)
+                self::createStub(Matcher::class)
             )
         );
 
         return $request;
     }
 
-    public function testMatchRequestLocation()
+    public function testMatchRequestLocation(): void
     {
         $pathInfo = '/foo/bar';
         $destinationId = 123;
@@ -196,7 +198,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestLocationWithCaseRedirect()
+    public function testMatchRequestLocationWithCaseRedirect(): void
     {
         $pathInfo = '/Foo/bAR';
         $urlAliasPath = '/foo/bar';
@@ -238,7 +240,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestLocationWrongCaseUriPrefixExcluded()
+    public function testMatchRequestLocationWrongCaseUriPrefixExcluded(): void
     {
         $pathInfo = '/Foo/bAR';
         $urlAliasPath = '/foo/bar';
@@ -280,7 +282,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestLocationCorrectCaseUriPrefixExcluded()
+    public function testMatchRequestLocationCorrectCaseUriPrefixExcluded(): void
     {
         $pathInfo = $urlAliasPath = '/foo/bar';
         $destinationId = 123;
@@ -321,7 +323,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertSame($pathInfo, $request->attributes->get('semanticPathinfo'));
     }
 
-    public function testMatchRequestLocationHistory()
+    public function testMatchRequestLocationHistory(): void
     {
         $pathInfo = '/foo/bar';
         $newPathInfo = '/foo/bar-new';
@@ -368,7 +370,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestLocationCustom()
+    public function testMatchRequestLocationCustom(): void
     {
         $pathInfo = '/foo/bar';
         $destinationId = 123;
@@ -404,7 +406,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestLocationCustomForward()
+    public function testMatchRequestLocationCustomForward(): void
     {
         $pathInfo = '/foo/bar';
         $newPathInfo = '/foo/bar-new';
@@ -460,7 +462,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestFail()
+    public function testMatchRequestFail(): void
     {
         $this->expectException(ResourceNotFoundException::class);
 
@@ -474,7 +476,7 @@ class UrlAliasRouterTest extends TestCase
         $this->router->matchRequest($request);
     }
 
-    public function testMatchRequestResource()
+    public function testMatchRequestResource(): void
     {
         $pathInfo = '/hello_content/hello_search';
         $destination = '/content/search';
@@ -500,7 +502,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestResourceWithRedirect()
+    public function testMatchRequestResourceWithRedirect(): void
     {
         $pathInfo = '/hello_content/hello_search';
         $destination = '/content/search';
@@ -527,7 +529,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestResourceWithCaseRedirect()
+    public function testMatchRequestResourceWithCaseRedirect(): void
     {
         $pathInfo = '/heLLo_contEnt/hEllo_SEarch';
         $urlAliasPath = '/hello_content/hello_search';
@@ -564,7 +566,7 @@ class UrlAliasRouterTest extends TestCase
      * Tests that forwarding custom alias will redirect to the resource destination rather than
      * to the case-corrected alias.
      */
-    public function testMatchRequestResourceCaseIncorrectWithForwardRedirect()
+    public function testMatchRequestResourceCaseIncorrectWithForwardRedirect(): void
     {
         $pathInfo = '/heLLo_contEnt/hEllo_SEarch';
         $urlAliasPath = '/hello_content/hello_search';
@@ -592,7 +594,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestVirtual()
+    public function testMatchRequestVirtual(): void
     {
         $pathInfo = '/foo/bar';
         $urlAlias = new URLAlias(
@@ -616,7 +618,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestVirtualWithCaseRedirect()
+    public function testMatchRequestVirtualWithCaseRedirect(): void
     {
         $pathInfo = '/Foo/bAR';
         $urlAliasPath = '/foo/bar';
@@ -646,7 +648,7 @@ class UrlAliasRouterTest extends TestCase
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testGenerateFail()
+    public function testGenerateFail(): void
     {
         $this->expectException(RouteNotFoundException::class);
 
@@ -681,21 +683,21 @@ class UrlAliasRouterTest extends TestCase
         );
     }
 
-    public function testGenerateNoLocation()
+    public function testGenerateNoLocation(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
         $this->router->generate(UrlAliasRouter::URL_ALIAS_ROUTE_NAME, ['foo' => 'bar']);
     }
 
-    public function testGenerateInvalidLocation()
+    public function testGenerateInvalidLocation(): void
     {
         $this->expectException(\LogicException::class);
 
         $this->router->generate(UrlAliasRouter::URL_ALIAS_ROUTE_NAME, ['location' => new \stdClass()]);
     }
 
-    public function testGenerateWithLocationId()
+    public function testGenerateWithLocationId(): void
     {
         $locationId = 123;
         $location = new Location(['id' => $locationId]);
@@ -722,7 +724,7 @@ class UrlAliasRouterTest extends TestCase
         );
     }
 
-    public function testGenerateWithLocationAsParameter()
+    public function testGenerateWithLocationAsParameter(): void
     {
         $locationId = 123;
         $location = new Location(['id' => $locationId]);
@@ -744,7 +746,7 @@ class UrlAliasRouterTest extends TestCase
         );
     }
 
-    public function testGenerateWithContentId()
+    public function testGenerateWithContentId(): void
     {
         $locationId = 123;
         $contentId = 456;
@@ -778,7 +780,7 @@ class UrlAliasRouterTest extends TestCase
         );
     }
 
-    public function testGenerateWithContentIdWithMissingMainLocation()
+    public function testGenerateWithContentIdWithMissingMainLocation(): void
     {
         $this->expectException(\LogicException::class);
 

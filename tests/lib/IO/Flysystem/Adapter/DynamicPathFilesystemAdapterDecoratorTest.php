@@ -14,17 +14,18 @@ use League\Flysystem\Config;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\Visibility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Ibexa\Core\IO\Flysystem\Adapter\DynamicPathFilesystemAdapterDecorator
- *
  * Note: SiteAccess-aware dynamic settings resolving aspect has been tested via PathPrefixer
  * and Visibility converter test cases:
  * {@see \Ibexa\Tests\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverterTestCase}
- * {@see \Ibexa\Tests\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixerTest}
+ * {@see \Ibexa\Tests\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixerTest}.
  */
+#[CoversClass(DynamicPathFilesystemAdapterDecorator::class)]
 final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 {
     private const FLYSYSTEM_TEST_DIR = __DIR__;
@@ -257,10 +258,9 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @depends testWrite
-     *
      * @throws \League\Flysystem\FilesystemException
      */
+    #[Depends('testWrite')]
     public function testReadStream(): void
     {
         $fileHandle = tmpfile();

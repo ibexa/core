@@ -24,7 +24,7 @@ use Ibexa\Core\Event\LanguageService;
 
 class LanguageServiceTest extends AbstractServiceTestCase
 {
-    public function testDeleteLanguageEvents()
+    public function testDeleteLanguageEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteLanguageEvent::class,
@@ -32,10 +32,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
+        $innerServiceMock = self::createStub(LanguageServiceInterface::class);
 
         $service = new LanguageService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteLanguage(...$parameters);
@@ -49,7 +49,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteLanguageStopPropagationInBeforeEvents()
+    public function testDeleteLanguageStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteLanguageEvent::class,
@@ -57,10 +57,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
+        $innerServiceMock = self::createStub(LanguageServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteLanguageEvent::class, static function (BeforeDeleteLanguageEvent $event) {
             $event->stopPropagation();
@@ -81,7 +81,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateLanguageEvents()
+    public function testCreateLanguageEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateLanguageEvent::class,
@@ -89,10 +89,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(LanguageCreateStruct::class),
+            self::createStub(LanguageCreateStruct::class),
         ];
 
-        $language = $this->createMock(Language::class);
+        $language = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('createLanguage')->willReturn($language);
 
@@ -109,7 +109,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateLanguageResultInBeforeEvents()
+    public function testReturnCreateLanguageResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateLanguageEvent::class,
@@ -117,11 +117,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(LanguageCreateStruct::class),
+            self::createStub(LanguageCreateStruct::class),
         ];
 
-        $language = $this->createMock(Language::class);
-        $eventLanguage = $this->createMock(Language::class);
+        $language = self::createStub(Language::class);
+        $eventLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('createLanguage')->willReturn($language);
 
@@ -143,7 +143,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateLanguageStopPropagationInBeforeEvents()
+    public function testCreateLanguageStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateLanguageEvent::class,
@@ -151,11 +151,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(LanguageCreateStruct::class),
+            self::createStub(LanguageCreateStruct::class),
         ];
 
-        $language = $this->createMock(Language::class);
-        $eventLanguage = $this->createMock(Language::class);
+        $language = self::createStub(Language::class);
+        $eventLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('createLanguage')->willReturn($language);
 
@@ -180,7 +180,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateLanguageNameEvents()
+    public function testUpdateLanguageNameEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateLanguageNameEvent::class,
@@ -188,11 +188,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
             'random_value_5cff79c3161276.87987683',
         ];
 
-        $updatedLanguage = $this->createMock(Language::class);
+        $updatedLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('updateLanguageName')->willReturn($updatedLanguage);
 
@@ -209,7 +209,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateLanguageNameResultInBeforeEvents()
+    public function testReturnUpdateLanguageNameResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateLanguageNameEvent::class,
@@ -217,12 +217,12 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
             'random_value_5cff79c3161312.94068030',
         ];
 
-        $updatedLanguage = $this->createMock(Language::class);
-        $eventUpdatedLanguage = $this->createMock(Language::class);
+        $updatedLanguage = self::createStub(Language::class);
+        $eventUpdatedLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('updateLanguageName')->willReturn($updatedLanguage);
 
@@ -244,7 +244,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateLanguageNameStopPropagationInBeforeEvents()
+    public function testUpdateLanguageNameStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateLanguageNameEvent::class,
@@ -252,12 +252,12 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
             'random_value_5cff79c3161386.01414999',
         ];
 
-        $updatedLanguage = $this->createMock(Language::class);
-        $eventUpdatedLanguage = $this->createMock(Language::class);
+        $updatedLanguage = self::createStub(Language::class);
+        $eventUpdatedLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('updateLanguageName')->willReturn($updatedLanguage);
 
@@ -282,7 +282,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDisableLanguageEvents()
+    public function testDisableLanguageEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDisableLanguageEvent::class,
@@ -290,10 +290,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $disabledLanguage = $this->createMock(Language::class);
+        $disabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('disableLanguage')->willReturn($disabledLanguage);
 
@@ -310,7 +310,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnDisableLanguageResultInBeforeEvents()
+    public function testReturnDisableLanguageResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDisableLanguageEvent::class,
@@ -318,11 +318,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $disabledLanguage = $this->createMock(Language::class);
-        $eventDisabledLanguage = $this->createMock(Language::class);
+        $disabledLanguage = self::createStub(Language::class);
+        $eventDisabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('disableLanguage')->willReturn($disabledLanguage);
 
@@ -344,7 +344,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDisableLanguageStopPropagationInBeforeEvents()
+    public function testDisableLanguageStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDisableLanguageEvent::class,
@@ -352,11 +352,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $disabledLanguage = $this->createMock(Language::class);
-        $eventDisabledLanguage = $this->createMock(Language::class);
+        $disabledLanguage = self::createStub(Language::class);
+        $eventDisabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('disableLanguage')->willReturn($disabledLanguage);
 
@@ -381,7 +381,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testEnableLanguageEvents()
+    public function testEnableLanguageEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeEnableLanguageEvent::class,
@@ -389,10 +389,10 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $enabledLanguage = $this->createMock(Language::class);
+        $enabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('enableLanguage')->willReturn($enabledLanguage);
 
@@ -409,7 +409,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnEnableLanguageResultInBeforeEvents()
+    public function testReturnEnableLanguageResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeEnableLanguageEvent::class,
@@ -417,11 +417,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $enabledLanguage = $this->createMock(Language::class);
-        $eventEnabledLanguage = $this->createMock(Language::class);
+        $enabledLanguage = self::createStub(Language::class);
+        $eventEnabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('enableLanguage')->willReturn($enabledLanguage);
 
@@ -443,7 +443,7 @@ class LanguageServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testEnableLanguageStopPropagationInBeforeEvents()
+    public function testEnableLanguageStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeEnableLanguageEvent::class,
@@ -451,11 +451,11 @@ class LanguageServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Language::class),
+            self::createStub(Language::class),
         ];
 
-        $enabledLanguage = $this->createMock(Language::class);
-        $eventEnabledLanguage = $this->createMock(Language::class);
+        $enabledLanguage = self::createStub(Language::class);
+        $eventEnabledLanguage = self::createStub(Language::class);
         $innerServiceMock = $this->createMock(LanguageServiceInterface::class);
         $innerServiceMock->method('enableLanguage')->willReturn($enabledLanguage);
 

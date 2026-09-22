@@ -35,11 +35,10 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
     public function getExtensions(): array
     {
         $configResolver = $this->getConfigResolverMock();
-        $twig = $this->createMock(Environment::class);
         $resourceProvider = $this->getResourceProviderMock();
 
         $fieldBlockRenderer = new FieldBlockRenderer(
-            $twig,
+            self::createStub(Environment::class),
             $resourceProvider,
             $this->getTemplatePath('base.html.twig')
         );
@@ -47,12 +46,12 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         return [
             new FieldRenderingExtension(
                 $fieldBlockRenderer,
-                $this->createMock(ParameterProviderRegistryInterface::class),
+                self::createStub(ParameterProviderRegistryInterface::class),
                 new TranslationHelper(
                     $configResolver,
-                    $this->createMock(ContentService::class),
+                    self::createStub(ContentService::class),
                     [],
-                    $this->createMock(LoggerInterface::class)
+                    self::createStub(LoggerInterface::class)
                 )
             ),
         ];

@@ -11,11 +11,10 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Exception;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group integration
- * @group search
- */
+#[Group('integration')]
+#[Group('search')]
 final class SearchServiceManyLanguagesTest extends BaseTestCase
 {
     public function testFindContentWithManyLanguages(): void

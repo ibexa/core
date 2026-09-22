@@ -15,17 +15,17 @@ use Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInter
 use Ibexa\Core\Pagination\Pagerfanta\Pagerfanta;
 use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
 use Ibexa\Core\Query\QueryFactoryInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @covers \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
- *
  * @phpstan-import-type TOptionsArray from \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
  *
  * @template TSearchHitValueObject of \Ibexa\Contracts\Core\Repository\Values\ValueObject
  */
+#[CoversClass(QueryRenderController::class)]
 final class QueryRenderControllerTest extends TestCase
 {
     private const int EXAMPLE_CURRENT_PAGE = 3;
@@ -108,6 +108,25 @@ final class QueryRenderControllerTest extends TestCase
             ]),
             self::ALL_OPTIONS,
             new Request(['p' => self::EXAMPLE_CURRENT_PAGE])
+        );
+    }
+
+    public function testPaginationReadsPageFromQueryStringOnly(): void
+    {
+        $adapter = $this->configureMocks(self::ALL_OPTIONS);
+
+        $items = new Pagerfanta($adapter);
+        $items->setAllowOutOfRangePages(true);
+        $items->setCurrentPage(2);
+        $items->setMaxPerPage(self::EXAMPLE_MAX_PER_PAGE);
+
+        // request body and attributes carrying the same parameter must not influence pagination
+        $this->assertRenderQueryResult(
+            new QueryView('example.html.twig', [
+                'results' => $items,
+            ]),
+            self::ALL_OPTIONS,
+            new Request(['p' => 2], ['p' => 3], ['p' => 4])
         );
     }
 

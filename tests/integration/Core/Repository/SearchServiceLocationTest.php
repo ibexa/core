@@ -16,17 +16,19 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Core\Repository\SearchService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for Location operations in the SearchService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\SearchService
- *
- * @group integration
- * @group search
  */
+#[CoversClass(SearchService::class)]
+#[Group('integration')]
+#[Group('search')]
 class SearchServiceLocationTest extends BaseTestCase
 {
     public const QUERY_CLASS = LocationQuery::class;
@@ -190,10 +192,8 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFieldIsEmptyInLocation()
+    public function testFieldIsEmptyInLocation(): void
     {
         $testContents = $this->createMovieContent();
 
@@ -223,10 +223,8 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFieldIsNotEmptyInLocation()
+    public function testFieldIsNotEmptyInLocation(): void
     {
         $testContents = $this->createMovieContent();
 
@@ -253,10 +251,8 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFieldCollectionContains()
+    public function testFieldCollectionContains(): void
     {
         $testContent = $this->createMultipleCountriesContent();
 
@@ -283,12 +279,9 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::testFieldCollectionContains
      */
-    public function testFieldCollectionContainsNoMatch()
+    #[DependsExternal(SearchServiceTest::class, 'testFieldCollectionContains')]
+    public function testFieldCollectionContainsNoMatch(): void
     {
         $this->createMultipleCountriesContent();
         $query = new LocationQuery(
@@ -309,8 +302,6 @@ class SearchServiceLocationTest extends BaseTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
@@ -340,8 +331,6 @@ class SearchServiceLocationTest extends BaseTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations
-     *
      * @throws \ErrorException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -375,7 +364,7 @@ class SearchServiceLocationTest extends BaseTestCase
         self::assertEquals(1, $result->totalCount);
     }
 
-    public function testInvalidFieldIdentifierRange()
+    public function testInvalidFieldIdentifierRange(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -396,7 +385,7 @@ class SearchServiceLocationTest extends BaseTestCase
         );
     }
 
-    public function testInvalidFieldIdentifierIn()
+    public function testInvalidFieldIdentifierIn(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -417,7 +406,7 @@ class SearchServiceLocationTest extends BaseTestCase
         );
     }
 
-    public function testFindLocationsWithNonSearchableField()
+    public function testFindLocationsWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -453,10 +442,8 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testQueryCustomField()
+    public function testQueryCustomField(): void
     {
         $query = new LocationQuery(
             [
@@ -484,10 +471,8 @@ class SearchServiceLocationTest extends BaseTestCase
      * This tests explicitly queries the first_name while user is contained in
      * the last_name of admin and anonymous. This is done to show the custom
      * copy field working.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testQueryModifiedField()
+    public function testQueryModifiedField(): void
     {
         // Check using get_class since the others extend SetupFactory\Legacy
         if ($this->getSetupFactory() instanceof Legacy) {
@@ -553,12 +538,9 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceLessThanOrEqual()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceLessThanOrEqual(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -635,12 +617,9 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceGreaterThanOrEqual()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceGreaterThanOrEqual(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -717,12 +696,9 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceBetween()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceBetween(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -815,12 +791,9 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceSortAscending()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceSortAscending(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -934,12 +907,9 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceSortDescending()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceSortDescending(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -1053,12 +1023,9 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceWithCustomField()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceWithCustomField(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -1138,12 +1105,9 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceWithCustomFieldSort()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceWithCustomFieldSort(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -1260,10 +1224,8 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testVisibilityCriterionWithHiddenContent()
+    public function testVisibilityCriterionWithHiddenContent(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();

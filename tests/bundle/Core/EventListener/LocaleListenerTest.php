@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 use Ibexa\Bundle\Core\EventListener\LocaleListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,9 +43,7 @@ class LocaleListenerTest extends TestCase
         $this->requestStack = new RequestStack([$requestMock]);
     }
 
-    /**
-     * @dataProvider onKernelRequestProvider
-     */
+    #[DataProvider('onKernelRequestProvider')]
     public function testOnKernelRequest(array $configuredLanguages, array $convertedLocalesValueMap, $expectedLocale): void
     {
         $this->configResolver
@@ -67,7 +66,7 @@ class LocaleListenerTest extends TestCase
         $request = new Request();
         $localeListener->onKernelRequest(
             new RequestEvent(
-                $this->createMock(HttpKernelInterface::class),
+                self::createStub(HttpKernelInterface::class),
                 $request,
                 HttpKernelInterface::MAIN_REQUEST
             )
@@ -75,7 +74,7 @@ class LocaleListenerTest extends TestCase
         self::assertSame($expectedLocale, $request->attributes->get('_locale'));
     }
 
-    public function onKernelRequestProvider(): array
+    public static function onKernelRequestProvider(): array
     {
         return [
             [

@@ -315,13 +315,14 @@ tables:
     ibexa_content_version:
         indexes:
             ibexa_content_version_status: { fields: [status] }
-            ibexa_content_version_idx_ver: { fields: [contentobject_id, version] }
             ibexa_content_version_idx_status: { fields: [contentobject_id, status] }
             ibexa_content_version_creator_id: { fields: [creator_id] }
+        uniqueConstraints:
+            ibexa_content_version_coid_version_unique: { fields: [contentobject_id, version] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
-            contentobject_id: { type: integer, nullable: true }
+            contentobject_id: { type: integer, nullable: false }
             created: { type: integer, nullable: false, options: { default: '0' } }
             creator_id: { type: integer, nullable: false, options: { default: '0' } }
             initial_language_id: { type: bigint, nullable: false, options: { default: '0' } }

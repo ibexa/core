@@ -6,5 +6,7 @@ var/
 composer.lock
 .php-cs-fixer.cache
 .phpunit.result.cache
+.phpunit.cache/
+/.deptrac.cache
 phpstan.neon
 .rules/

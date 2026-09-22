@@ -18,6 +18,8 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\ObjectStateLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Test Case for LimitationType.
@@ -80,7 +82,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\ObjectStateLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): ObjectStateLimitationType
     {
         return new ObjectStateLimitationType($this->getPersistenceMock());
     }
@@ -88,7 +90,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate(): array
+    public static function providerForTestEvaluate(): array
     {
         return [
             'ContentInfo, published, no Limitations, no access' => [
@@ -177,14 +179,12 @@ class ObjectStateLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluate
-     */
+    #[DataProvider('providerForTestEvaluate')]
     public function testEvaluate(
         ObjectStateLimitation $limitation,
         ValueObject $object,
         $expected
-    ) {
+    ): void {
         $getContentStateMap = [
             [
                 1,
@@ -238,11 +238,10 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
-    public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType)
+    #[Depends('testConstruct')]
+    public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -253,11 +252,10 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @depends testConstruct
-     *
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
-    public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType)
+    #[Depends('testConstruct')]
+    public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new ObjectStateLimitation(['limitationValues' => [2]]),
@@ -271,7 +269,7 @@ class ObjectStateLimitationTypeTest extends Base
         self::assertEquals([2], $criterion->value);
     }
 
-    public function testGetCriterionMultipleValuesFromSingleGroup()
+    public function testGetCriterionMultipleValuesFromSingleGroup(): void
     {
         $this->getPersistenceMock()
              ->method('objectStateHandler')
@@ -300,7 +298,7 @@ class ObjectStateLimitationTypeTest extends Base
         self::assertEquals([1, 2], $criterion->value);
     }
 
-    public function testGetCriterionMultipleValuesFromMultipleGroups()
+    public function testGetCriterionMultipleValuesFromMultipleGroups(): void
     {
         $this->getPersistenceMock()
              ->method('objectStateHandler')

@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class GrayscaleFilterLoaderTest extends TestCase
 {
-    public function testLoad()
+    public function testLoad(): void
     {
         $image = $this->createMock(ImageInterface::class);
         $effects = $this->createMock(EffectsInterface::class);

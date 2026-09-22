@@ -10,13 +10,13 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\MapLocation\Value as MapLocationValue;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 class MapLocationIntegrationTest extends BaseIntegrationTestCase
 {
     /**
@@ -135,7 +135,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -208,9 +208,9 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData(): array
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -249,7 +249,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData(): array
     {
         return [
             [
@@ -276,7 +276,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData(): array
     {
         return [
             [
@@ -296,7 +296,10 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new MapLocationValue()],
@@ -311,11 +314,20 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                new MapLocationValue(
+                    [
+                        'latitude' => 51.559997,
+                        'longitude' => 6.767921,
+                        'address' => 'Bielefeld',
+                    ]
+                ),
             ],
             [
                 new MapLocationValue(

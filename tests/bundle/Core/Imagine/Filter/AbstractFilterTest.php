@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter;
 
 use Ibexa\Bundle\Core\Imagine\Filter\AbstractFilter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class AbstractFilterTest extends TestCase
@@ -26,7 +27,7 @@ class AbstractFilterTest extends TestCase
         return $this->getMockForAbstractClass(AbstractFilter::class);
     }
 
-    public function testGetSetOptions()
+    public function testGetSetOptions(): void
     {
         self::assertSame([], $this->filter->getOptions());
         $options = ['foo' => 'bar', 'some' => ['thing']];
@@ -34,10 +35,8 @@ class AbstractFilterTest extends TestCase
         self::assertSame($options, $this->filter->getOptions());
     }
 
-    /**
-     * @dataProvider getSetOptionNoDefaulValueProvider
-     */
-    public function testGetSetOptionNoDefaultValue($optionName, $value)
+    #[DataProvider('getSetOptionNoDefaulValueProvider')]
+    public function testGetSetOptionNoDefaultValue($optionName, $value): void
     {
         self::assertFalse($this->filter->hasOption($optionName));
         self::assertNull($this->filter->getOption($optionName));
@@ -46,7 +45,10 @@ class AbstractFilterTest extends TestCase
         self::assertSame($value, $this->filter->getOption($optionName));
     }
 
-    public function getSetOptionNoDefaulValueProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function getSetOptionNoDefaulValueProvider(): array
     {
         return [
             ['foo', 'bar'],
@@ -58,10 +60,8 @@ class AbstractFilterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getSetOptionWithDefaulValueProvider
-     */
-    public function testGetSetOptionWithDefaultValue($optionName, $value, $defaultValue)
+    #[DataProvider('getSetOptionWithDefaulValueProvider')]
+    public function testGetSetOptionWithDefaultValue($optionName, $value, $defaultValue): void
     {
         self::assertFalse($this->filter->hasOption($optionName));
         self::assertSame($defaultValue, $this->filter->getOption($optionName, $defaultValue));
@@ -70,7 +70,10 @@ class AbstractFilterTest extends TestCase
         self::assertSame($value, $this->filter->getOption($optionName));
     }
 
-    public function getSetOptionWithDefaulValueProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function getSetOptionWithDefaulValueProvider(): array
     {
         return [
             ['foo', 'bar', 'default'],

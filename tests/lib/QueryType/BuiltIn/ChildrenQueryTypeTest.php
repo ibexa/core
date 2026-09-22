@@ -27,7 +27,7 @@ final class ChildrenQueryTypeTest extends AbstractQueryTypeTestCase
 {
     private const EXAMPLE_LOCATION_ID = 54;
 
-    public function dataProviderForGetQuery(): iterable
+    public static function dataProviderForGetQuery(): iterable
     {
         $location = new Location([
             'id' => self::EXAMPLE_LOCATION_ID,

@@ -30,7 +30,7 @@ class LocationServiceTest extends AbstractServiceTestCase
         return LocationService::class;
     }
 
-    public function providerForPassTroughMethods(): array
+    public static function providerForPassTroughMethods(): array
     {
         $location = new Location();
         $contentInfo = new ContentInfo();
@@ -68,7 +68,7 @@ class LocationServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    public function providerForLanguagesLookupMethods(): array
+    public static function providerForLanguagesLookupMethods(): array
     {
         $location = new Location();
         $locationList = new LocationList();

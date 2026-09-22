@@ -21,6 +21,8 @@ use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -45,8 +47,7 @@ class UrlAliasGeneratorTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator */
     private $urlAliasGenerator;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $siteAccessRouter;
+    private SiteAccessRouterInterface&Stub $siteAccessRouter;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $configResolver;
@@ -56,17 +57,17 @@ class UrlAliasGeneratorTest extends TestCase
         parent::setUp();
         $this->router = $this->createMock(RouterInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->siteAccessRouter = $this->createMock(SiteAccessRouterInterface::class);
+        $this->siteAccessRouter = self::createStub(SiteAccessRouterInterface::class);
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $repositoryClass = Repository::class;
         $this->repository = $repository = $this
             ->getMockBuilder($repositoryClass)
             ->disableOriginalConstructor()
-            ->setMethods(
-                array_diff(
+            ->onlyMethods(
+                array_values(array_diff(
                     get_class_methods($repositoryClass),
                     ['sudo']
-                )
+                ))
             )
             ->getMock();
         $this->urlAliasService = $this->createMock(URLAliasService::class);
@@ -100,7 +101,7 @@ class UrlAliasGeneratorTest extends TestCase
         $this->urlAliasGenerator->setSiteAccessRouter($this->siteAccessRouter);
     }
 
-    public function testGetPathPrefixByRootLocationId()
+    public function testGetPathPrefixByRootLocationId(): void
     {
         $rootLocationId = 123;
         $rootLocation = new Location(['id' => $rootLocationId]);
@@ -120,10 +121,8 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($pathPrefix, $this->urlAliasGenerator->getPathPrefixByRootLocationId($rootLocationId));
     }
 
-    /**
-     * @dataProvider providerTestIsPrefixExcluded
-     */
-    public function testIsPrefixExcluded($uri, $expectedIsExcluded)
+    #[DataProvider('providerTestIsPrefixExcluded')]
+    public function testIsPrefixExcluded($uri, $expectedIsExcluded): void
     {
         $this->urlAliasGenerator->setExcludedUriPrefixes(
             [
@@ -135,7 +134,10 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expectedIsExcluded, $this->urlAliasGenerator->isUriPrefixExcluded($uri));
     }
 
-    public function providerTestIsPrefixExcluded()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerTestIsPrefixExcluded(): array
     {
         return [
             ['/foo/bar', false],
@@ -152,7 +154,7 @@ class UrlAliasGeneratorTest extends TestCase
         ];
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $locationId = 123;
         $location = new Location(['id' => $locationId]);
@@ -164,10 +166,8 @@ class UrlAliasGeneratorTest extends TestCase
         $this->urlAliasGenerator->loadLocation($locationId);
     }
 
-    /**
-     * @dataProvider providerTestDoGenerate
-     */
-    public function testDoGenerate(URLAlias $urlAlias, array $parameters, $expected)
+    #[DataProvider('providerTestDoGenerate')]
+    public function testDoGenerate(URLAlias $urlAlias, array $parameters, $expected): void
     {
         $location = new Location(['id' => 123]);
         $this->urlAliasService
@@ -176,12 +176,15 @@ class UrlAliasGeneratorTest extends TestCase
             ->with($location, false)
             ->will(self::returnValue([$urlAlias]));
 
-        $this->urlAliasGenerator->setSiteAccess(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class)));
+        $this->urlAliasGenerator->setSiteAccess(new SiteAccess('test', 'fake', self::createStub(SiteAccess\URILexer::class)));
 
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
 
-    public function providerTestDoGenerate()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerTestDoGenerate(): array
     {
         return [
             'without_parameters' => [
@@ -208,11 +211,10 @@ class UrlAliasGeneratorTest extends TestCase
     }
 
     /**
-     * @dataProvider providerTestDoGenerateWithSiteaccess
-     *
      * @param array $parameters
      */
-    public function testDoGenerateWithSiteAccessParam(URLAlias $urlAlias, array $parameters, string $expected)
+    #[DataProvider('providerTestDoGenerateWithSiteaccess')]
+    public function testDoGenerateWithSiteAccessParam(URLAlias $urlAlias, array $parameters, string $expected): void
     {
         $siteaccessName = 'foo';
         $parameters += ['siteaccess' => $siteaccessName];
@@ -274,12 +276,15 @@ class UrlAliasGeneratorTest extends TestCase
                 )
             );
 
-        $this->urlAliasGenerator->setSiteAccess(new SiteAccess('test', 'fake', $this->createMock(SiteAccess\URILexer::class)));
+        $this->urlAliasGenerator->setSiteAccess(new SiteAccess('test', 'fake', self::createStub(SiteAccess\URILexer::class)));
 
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
 
-    public function providerTestDoGenerateWithSiteaccess()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerTestDoGenerateWithSiteaccess(): array
     {
         return [
             [
@@ -398,7 +403,7 @@ class UrlAliasGeneratorTest extends TestCase
         );
     }
 
-    public function testDoGenerateNoUrlAlias()
+    public function testDoGenerateNoUrlAlias(): void
     {
         $location = new Location(['id' => 123, 'contentInfo' => new ContentInfo(['id' => 456])]);
         $uri = "/content/location/$location->id";
@@ -419,10 +424,8 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($uri, $this->urlAliasGenerator->doGenerate($location, []));
     }
 
-    /**
-     * @dataProvider providerTestDoGenerateRootLocation
-     */
-    public function testDoGenerateRootLocation(URLAlias $urlAlias, $isOutsideAndNotExcluded, $expected, $pathPrefix)
+    #[DataProvider('providerTestDoGenerateRootLocation')]
+    public function testDoGenerateRootLocation(URLAlias $urlAlias, $isOutsideAndNotExcluded, $expected, $pathPrefix): void
     {
         $excludedPrefixes = ['/products', '/shared'];
         $rootLocationId = 456;
@@ -458,7 +461,10 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, []));
     }
 
-    public function providerTestDoGenerateRootLocation()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerTestDoGenerateRootLocation(): array
     {
         return [
             [
@@ -534,12 +540,12 @@ class UrlAliasGeneratorTest extends TestCase
 
         return $this
             ->getMockBuilder(PermissionResolver::class)
-            ->setMethods(null)
+            ->onlyMethods([])
             ->setConstructorArgs(
                 [
-                    $this->createMock(RoleDomainMapper::class),
-                    $this->createMock(LimitationService::class),
-                    $this->createMock(SPIUserHandler::class),
+                    self::createStub(RoleDomainMapper::class),
+                    self::createStub(LimitationService::class),
+                    self::createStub(SPIUserHandler::class),
                     $configResolverMock,
                     [],
                 ]

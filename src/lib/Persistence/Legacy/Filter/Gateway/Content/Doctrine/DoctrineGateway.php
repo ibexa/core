@@ -126,7 +126,7 @@ final class DoctrineGateway implements Gateway
 
         $expressionBuilder = $queryBuilder->expr();
         $queryBuilder
-            ->select($columns)
+            ->select(...$columns)
             ->distinct()
             ->from(ContentGateway::CONTENT_ITEM_TABLE, 'content')
             ->joinPublishedVersion()
@@ -134,7 +134,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_location',
-                $expressionBuilder->and(
+                (string) $expressionBuilder->and(
                     'content.id = main_location.contentobject_id',
                     'main_location.main_node_id = main_location.node_id'
                 )

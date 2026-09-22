@@ -8,7 +8,6 @@
 namespace Ibexa\Bundle\RepositoryInstaller;
 
 use Ibexa\Bundle\DoctrineSchema\DoctrineSchemaBundle;
-use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass;
 use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RegisterSchemaBuilderEventSchemaProviderPass;
 use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RemoveTaggedMigrationsRunnerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -32,7 +31,6 @@ class IbexaRepositoryInstallerBundle extends Bundle
         }
 
         parent::build($container);
-        $container->addCompilerPass(new InstallerTagPass());
         $container->addCompilerPass(new RegisterSchemaBuilderEventSchemaProviderPass());
         $container->addCompilerPass(new RemoveTaggedMigrationsRunnerPass());
     }

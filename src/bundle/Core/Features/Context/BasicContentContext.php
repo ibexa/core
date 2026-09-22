@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -52,7 +53,7 @@ class BasicContentContext implements Context
      *
      * @param string $contentType
      * @param array $fields
-     * @param mixed $parentLocationId
+     * @param int $parentLocationId
      *
      * @return mixed The content's main location id
      */
@@ -101,8 +102,8 @@ class BasicContentContext implements Context
      * Non-existing path items are created as folders named after the path element.
      *
      * @param string $path The content path
-     * @param array $fields
-     * @param mixed $contentType The content type identifier
+     * @param array $fields The content fields
+     * @param string $contentType The content type identifier
      *
      * @return mixed location id of the created content
      */
@@ -110,7 +111,7 @@ class BasicContentContext implements Context
     {
         $contentsName = explode('/', $path);
         $currentPath = '';
-        $location = '2';
+        $location = 2;
         foreach ($contentsName as $name) {
             if ($name != end($contentsName)) {
                 $location = $this->createContent('folder', ['name' => $name], $location);
@@ -143,33 +144,27 @@ class BasicContentContext implements Context
         $this->contentPaths[end($contentNames)] = $path;
     }
 
-    /**
-     * @Given a/an :path folder exists
-     */
-    public function createBasicFolder($path)
+    #[Given('a/an :path folder exists')]
+    public function createBasicFolder(string $path): void
     {
         $fields = ['name' => $this->getTitleFromPath($path)];
 
-        return $this->createContentwithPath($path, $fields, 'folder');
+        $this->createContentwithPath($path, $fields, 'folder');
     }
 
-    /**
-     * @Given a/an :path article exists
-     */
-    public function createBasicArticle($path)
+    #[Given('a/an :path article exists')]
+    public function createBasicArticle(string $path): void
     {
         $fields = [
             'title' => $this->getTitleFromPath($path),
             'intro' => $this->getDummyXmlText(),
         ];
 
-        return $this->createContentwithPath($path, $fields, 'article');
+        $this->createContentwithPath($path, $fields, 'article');
     }
 
-    /**
-     * @Given a/an :path article draft exists
-     */
-    public function createArticleDraft($path)
+    #[Given('a/an :path article draft exists')]
+    public function createArticleDraft(string $path): Content
     {
         $fields = [
             'title' => $this->getTitleFromPath($path),

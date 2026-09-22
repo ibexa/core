@@ -14,15 +14,14 @@ use Ibexa\Bundle\Core\ApiLoader\StorageConnectionFactory;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
 final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTestCase
 {
-    /**
-     * @dataProvider getConnectionProvider
-     */
+    #[DataProvider('getConnectionProvider')]
     public function testGetConnection(string $repositoryAlias, string $doctrineConnection): void
     {
         $repositories = [
@@ -143,7 +142,7 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
         ;
         $serviceLocatorMock->method('getProvidedServices')->willReturn($doctrineConnections);
         if (isset($doctrineConnections[$connectionName])) {
-            $serviceLocatorMock->method('get')->with($connectionName)->willReturn($this->createMock(Connection::class));
+            $serviceLocatorMock->method('get')->with($connectionName)->willReturn(self::createStub(Connection::class));
         } else {
             $serviceLocatorMock->expects(self::never())->method('get');
         }

@@ -18,12 +18,12 @@ class LogicalAndTest extends CriterionHandlerTestCase
     /**
      * {@inheritdoc}
      */
-    public function testAccept()
+    public function testAccept(): void
     {
         $handler = new LogicalAndHandler();
 
-        self::assertTrue($handler->accept($this->createMock(LogicalAnd::class)));
-        self::assertFalse($handler->accept($this->createMock(Criterion::class)));
+        self::assertTrue($handler->accept(self::createStub(LogicalAnd::class)));
+        self::assertFalse($handler->accept(self::createStub(Criterion::class)));
     }
 
     /**
@@ -33,15 +33,15 @@ class LogicalAndTest extends CriterionHandlerTestCase
      */
     public function testHandle(): void
     {
-        $foo = $this->createMock(Criterion::class);
-        $bar = $this->createMock(Criterion::class);
+        $foo = self::createStub(Criterion::class);
+        $bar = self::createStub(Criterion::class);
 
         $fooExpr = 'FOO';
         $barExpr = 'BAR';
 
         $expected = '(FOO) AND (BAR)';
 
-        $queryBuilder = $this->createMock(QueryBuilder::class);
+        $queryBuilder = self::createStub(QueryBuilder::class);
         $converter = $this->mockConverterForLogicalOperator(
             CompositeExpression::TYPE_AND,
             $queryBuilder,

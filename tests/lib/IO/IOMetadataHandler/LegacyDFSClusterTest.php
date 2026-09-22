@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster;
 use Ibexa\Core\IO\UrlDecorator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -52,7 +53,7 @@ class LegacyDFSClusterTest extends TestCase
     /**
      * @return iterable<array{string, string, int, \DateTime, \DateTime}>
      */
-    public function providerCreate(): iterable
+    public static function providerCreate(): iterable
     {
         return [
             ['prefix/my/file.png', 'image/png', 123, new DateTime('@1307155200'), new DateTime('@1307155200')],
@@ -61,9 +62,7 @@ class LegacyDFSClusterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerCreate
-     */
+    #[DataProvider('providerCreate')]
     public function testCreate(string $id, string $mimeType, int $size, \DateTime $mtime, \DateTime $mtimeExpected): void
     {
         $this->dbalMock
@@ -160,15 +159,22 @@ class LegacyDFSClusterTest extends TestCase
             ->method('where')
             ->with('name LIKE :spiPath ESCAPE :esc')
             ->willReturnSelf();
+        $matcher = self::exactly(2);
 
         $this->qbMock
-            ->expects(self::exactly(2))
-            ->method('setParameter')
-            ->withConsecutive(
-                ['esc', '\\'],
-                ['spiPath', 'prefix/images/\_alias/subfolder/%'],
-            )
-            ->willReturnSelf();
+            ->expects($matcher)
+            ->method('setParameter')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('esc', $parameters[0]);
+                    $this->assertSame('\\', $parameters[1]);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('spiPath', $parameters[0]);
+                    $this->assertSame('prefix/images/\_alias/subfolder/%', $parameters[1]);
+                }
+
+                return $this->qbMock;
+            });
 
         $this->qbMock
             ->expects(self::once())

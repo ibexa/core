@@ -55,7 +55,7 @@ final class DefaultSortClauseParserTest extends TestCase
         ));
 
         $this->defaultSortClauseParser->parse(
-            $this->createMock(SortSpecParserInterface::class),
+            self::createStub(SortSpecParserInterface::class),
             'unsupported'
         );
     }

@@ -9,16 +9,15 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HttpUtilsTest extends TestCase
 {
-    /**
-     * @dataProvider generateUriStandardProvider
-     */
-    public function testGenerateUriStandard($uri, $isUriRouteName, $expected)
+    #[DataProvider('generateUriStandardProvider')]
+    public function testGenerateUriStandard($uri, $isUriRouteName, $expected): void
     {
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $httpUtils = new HttpUtils($urlGenerator);
@@ -39,7 +38,10 @@ class HttpUtilsTest extends TestCase
         self::assertSame($expected, $httpUtils->generateUri($request, $uri));
     }
 
-    public function generateUriStandardProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function generateUriStandardProvider(): array
     {
         return [
             ['http://localhost/foo/bar', false, 'http://localhost/foo/bar'],
@@ -50,10 +52,8 @@ class HttpUtilsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider generateUriProvider
-     */
-    public function testGenerateUri($uri, $isUriRouteName, $siteAccessUri, $expected)
+    #[DataProvider('generateUriProvider')]
+    public function testGenerateUri($uri, $isUriRouteName, $siteAccessUri, $expected): void
     {
         $siteAccess = new SiteAccess('test', 'test');
         if ($uri[0] === '/') {
@@ -86,7 +86,10 @@ class HttpUtilsTest extends TestCase
         self::assertSame($expected, $res);
     }
 
-    public function generateUriProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function generateUriProvider(): array
     {
         return [
             ['http://localhost/foo/bar', false, null, 'http://localhost/foo/bar'],
@@ -97,7 +100,7 @@ class HttpUtilsTest extends TestCase
         ];
     }
 
-    public function testCheckRequestPathStandard()
+    public function testCheckRequestPathStandard(): void
     {
         $httpUtils = new HttpUtils();
         $httpUtils->setSiteAccess(new SiteAccess('test'));
@@ -105,10 +108,8 @@ class HttpUtilsTest extends TestCase
         self::assertTrue($httpUtils->checkRequestPath($request, '/foo/bar'));
     }
 
-    /**
-     * @dataProvider checkRequestPathProvider
-     */
-    public function testCheckRequestPath($path, $siteAccessUri, $requestUri, $expected)
+    #[DataProvider('checkRequestPathProvider')]
+    public function testCheckRequestPath($path, $siteAccessUri, $requestUri, $expected): void
     {
         $siteAccess = new SiteAccess('test', 'test');
         if ($siteAccessUri !== null) {
@@ -127,7 +128,10 @@ class HttpUtilsTest extends TestCase
         self::assertSame($expected, $httpUtils->checkRequestPath($request, $path));
     }
 
-    public function checkRequestPathProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function checkRequestPathProvider(): array
     {
         return [
             ['/foo/bar', null, 'http://localhost/foo/bar', true],

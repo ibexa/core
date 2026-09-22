@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\EventSubscriber;
 
 use Ibexa\Bundle\Core\EventSubscriber\TrustedHeaderClientIpEventSubscriber;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,24 +20,15 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
 {
-    private ?string $originalRemoteAddr;
+    private ?string $originalRemoteAddr = null;
 
     private const string PROXY_IP = '127.100.100.1';
 
     private const string REAL_CLIENT_IP = '98.76.123.234';
 
-    /**
-     * @param array<mixed> $data
-     */
-    public function __construct(?string $name = null, array $data = [], string $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-
-        $this->originalRemoteAddr = $_SERVER['REMOTE_ADDR'] ?? null;
-    }
-
     protected function setUp(): void
     {
+        $this->originalRemoteAddr = $_SERVER['REMOTE_ADDR'] ?? null;
         $_SERVER['REMOTE_ADDR'] = null;
         Request::setTrustedProxies([], -1);
     }
@@ -46,7 +38,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = $this->originalRemoteAddr;
     }
 
-    public function getTrustedHeaderEventSubscriberTestData(): array
+    public static function getTrustedHeaderEventSubscriberTestData(): array
     {
         return [
             'default behaviour' => [
@@ -99,9 +91,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
         self::assertEquals(self::PROXY_IP, $request->getClientIp());
     }
 
-    /**
-     * @dataProvider getTrustedHeaderEventSubscriberTestData
-     */
+    #[DataProvider('getTrustedHeaderEventSubscriberTestData')]
     public function testTrustedHeaderEventSubscriberWithTrustedProxy(
         string $expectedIp,
         string $remoteAddrIp,

@@ -45,9 +45,9 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
                 $this->getRepositoryMock(),
                 new TranslationHelper(
                     $configResolver,
-                    $this->createMock(ContentService::class),
+                    self::createStub(ContentService::class),
                     [],
-                    $this->createMock(LoggerInterface::class)
+                    self::createStub(LoggerInterface::class)
                 ),
                 $this->fieldHelperMock,
                 $this->getFieldsGroupsListMock()

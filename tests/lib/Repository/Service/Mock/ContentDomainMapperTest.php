@@ -27,16 +27,14 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 
-/**
- * @covers \Ibexa\Core\Repository\Mapper\ContentDomainMapper
- */
+#[CoversClass(ContentDomainMapper::class)]
 final class ContentDomainMapperTest extends BaseServiceMockTest
 {
-    use ExpectDeprecationTrait;
-
     private const EXAMPLE_CONTENT_INFO_ID = 1;
     private const EXAMPLE_CONTENT_TYPE_ID = 1;
     private const EXAMPLE_NAME = 'Example';
@@ -48,10 +46,8 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     private const EXAMPLE_CREATOR_ID = 23;
     private const int EXAMPLE_VERSION_INFO_ID = 12;
 
-    /**
-     * @dataProvider providerForBuildVersionInfo
-     */
-    public function testBuildVersionInfo(SPIVersionInfo $spiVersionInfo)
+    #[DataProvider('providerForBuildVersionInfo')]
+    public function testBuildVersionInfo(SPIVersionInfo $spiVersionInfo): void
     {
         $languageHandlerMock = $this->getLanguageHandlerMock();
         $languageHandlerMock->expects(self::never())->method('load');
@@ -61,7 +57,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         self::assertInstanceOf(APIVersionInfo::class, $versionInfo);
     }
 
-    public function testBuildLocationWithContentForRootLocation()
+    public function testBuildLocationWithContentForRootLocation(): void
     {
         $spiRootLocation = new Location([
             'id' => 1,
@@ -116,7 +112,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         self::assertEquals($expectedContent, $apiRootLocation->getContent());
     }
 
-    public function testBuildLocationWithContentThrowsInvalidArgumentException()
+    public function testBuildLocationWithContentThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$content\' is invalid: Location 2 has missing Content');
@@ -126,7 +122,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         $this->getContentDomainMapper()->buildLocationWithContent($nonRootLocation, null);
     }
 
-    public function testBuildLocationWithContentIsAlignedWithBuildLocation()
+    public function testBuildLocationWithContentIsAlignedWithBuildLocation(): void
     {
         $spiRootLocation = new Location([
             'id' => 1,
@@ -149,13 +145,12 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
-     *
-     * @group legacy
      */
+    #[Group('legacy')]
     public function testBuildDomainFieldsDeprecatedBehavior(): void
     {
         $persistenceFields = [new PersistenceContentField()];
-        $persistenceContentType = $this->createMock(PersistenceContentType::class);
+        $persistenceContentType = self::createStub(PersistenceContentType::class);
         $apiContentTypeMock = $this->createMock(ContentType::class);
         $apiContentTypeMock->method('getFieldDefinitions')->willReturn(new FieldDefinitionCollection());
         $this
@@ -164,7 +159,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
             ->with($persistenceContentType, [])->willReturn($apiContentTypeMock)
         ;
 
-        $this->expectDeprecation(
+        $this->expectUserDeprecationMessage(
             'Since ibexa/core 4.6: Passing Ibexa\Contracts\Core\Persistence\Content\Type instead of ' .
             'Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as 2nd argument of ' .
             'Ibexa\Core\Repository\Mapper\ContentDomainMapper::buildDomainFields() method is deprecated and will cause ' .
@@ -175,7 +170,10 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         $this->getContentDomainMapper()->buildDomainFields($persistenceFields, $persistenceContentType);
     }
 
-    public function providerForBuildVersionInfo()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForBuildVersionInfo(): array
     {
         $properties = [
             'id' => self::EXAMPLE_VERSION_INFO_ID,
@@ -238,7 +236,10 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         ];
     }
 
-    public function providerForBuildLocationDomainObjectsOnSearchResult()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForBuildLocationDomainObjectsOnSearchResult(): array
     {
         $properties = [
             'name' => self::EXAMPLE_NAME,
@@ -314,21 +315,20 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     }
 
     /**
-     * @dataProvider providerForBuildLocationDomainObjectsOnSearchResult
-     *
      * @param array $locationHits
      * @param array $contentIds
      * @param array $languageFilter
      * @param array $contentInfoList
      * @param int $missing
      */
+    #[DataProvider('providerForBuildLocationDomainObjectsOnSearchResult')]
     public function testBuildLocationDomainObjectsOnSearchResult(
         array $locationHits,
         array $contentIds,
         array $languageFilter,
         array $contentInfoList,
         int $missing
-    ) {
+    ): void {
         $contentHandlerMock = $this->getContentHandlerMock();
         $contentHandlerMock
             ->expects(self::once())

@@ -12,11 +12,10 @@ use DateTimeZone;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Date\Type as Date;
 use Ibexa\Core\FieldType\Date\Value as DateValue;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group fieldType
- * @group ibexa_date
- */
+#[Group('fieldType')]
+#[Group('ibexa_date')]
 class DateTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): Date
@@ -47,7 +46,7 @@ class DateTest extends FieldTypeTestCase
         return new DateValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -57,7 +56,7 @@ class DateTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -87,7 +86,7 @@ class DateTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -104,7 +103,7 @@ class DateTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         $dateTime = new DateTime();
 
@@ -134,7 +133,7 @@ class DateTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -153,7 +152,7 @@ class DateTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -176,10 +175,10 @@ class DateTest extends FieldTypeTestCase
         return 'ibexa_date';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new DateValue(), '', [], 'en_GB'],
             [new DateValue(new DateTime('11/24/1983')), 'Thursday 24 November 1983', [], 'en_GB'],
         ];
     }

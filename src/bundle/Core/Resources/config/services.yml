@@ -130,6 +130,10 @@ services:
 
     Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController
+        deprecated:
+            package: 'ibexa/core'
+            version: '5.0'
+            message: 'Since ibexa/core 5.0: The "%service_id%" service is deprecated and will be removed in 6.0. No route references it, use Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController::downloadBinaryFileByIdAction instead'
         arguments:
             $contentService: '@ibexa.api.service.content'
             $router: "@router"

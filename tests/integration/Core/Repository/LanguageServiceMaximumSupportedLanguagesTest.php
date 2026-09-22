@@ -8,15 +8,19 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
+use Ibexa\Core\Repository\LanguageService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for maximum number of languages supported in the LanguageService.
  *
  * @see \Ibexa\Contracts\Core\Repository\LanguageService
- *
- * @group integration
- * @group language
  */
+#[CoversClass(LanguageService::class)]
+#[Group('integration')]
+#[Group('language')]
 class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
@@ -73,12 +77,9 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase
 
     /**
      * Test for the number of maximum language that can be created.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\LanguageServiceTest::testNewLanguageCreateStruct
      */
-    public function testCreateMaximumLanguageLimit()
+    #[DependsExternal(LanguageServiceTest::class, 'testNewLanguageCreateStruct')]
+    public function testCreateMaximumLanguageLimit(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Maximum number of languages reached.');

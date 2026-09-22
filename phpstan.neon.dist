@@ -20,3 +20,4 @@ parameters:
         analyse:
             - tests/integration/Core/Repository/var?
             - */_fixtures/*.php
+            - src/bundle/Core/behat_suites.php

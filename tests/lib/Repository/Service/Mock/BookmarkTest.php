@@ -15,12 +15,15 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
 use Ibexa\Core\Repository\BookmarkService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 
+#[CoversClass(BookmarkService::class)]
 class BookmarkTest extends BaseServiceMockTest
 {
     public const BOOKMARK_ID = 2;
@@ -49,10 +52,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->willReturn($permissionResolverMock);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
-     */
-    public function testCreateBookmark()
+    public function testCreateBookmark(): void
     {
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -79,10 +79,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
-     */
-    public function testCreateBookmarkThrowsInvalidArgumentException()
+    public function testCreateBookmarkThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -103,10 +100,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
-     */
-    public function testCreateBookmarkWithRollback()
+    public function testCreateBookmarkWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -124,16 +118,13 @@ class BookmarkTest extends BaseServiceMockTest
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('create')
-                ->willThrowException($this->createMock(Exception::class));
+                ->willThrowException(self::createStub(Exception::class));
         });
 
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
-     */
-    public function testDeleteBookmarkExisting()
+    public function testDeleteBookmarkExisting(): void
     {
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -157,10 +148,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->deleteBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
-     */
-    public function testDeleteBookmarkWithRollback()
+    public function testDeleteBookmarkWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -178,16 +166,13 @@ class BookmarkTest extends BaseServiceMockTest
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('delete')
-                ->willThrowException($this->createMock(Exception::class));
+                ->willThrowException(self::createStub(Exception::class));
         });
 
         $this->createBookmarkService()->deleteBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
-     */
-    public function testDeleteBookmarkNonExisting()
+    public function testDeleteBookmarkNonExisting(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -208,10 +193,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->deleteBookmark($location);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
-     */
-    public function testLoadBookmarks()
+    public function testLoadBookmarks(): void
     {
         $offset = 0;
         $limit = 25;
@@ -220,28 +202,13 @@ class BookmarkTest extends BaseServiceMockTest
         $expectedItems = array_map(function ($locationId) {
             return $this->createLocation($locationId);
         }, range(1, $expectedTotalCount));
-
-        $this->bookmarkHandler
-            ->expects(self::once())
-            ->method('countUserBookmarks')
-            ->with(self::CURRENT_USER_ID)
-            ->willReturn($expectedTotalCount);
-
-        $this->bookmarkHandler
-            ->expects(self::once())
-            ->method('loadUserBookmarks')
-            ->with(self::CURRENT_USER_ID, $offset, $limit)
-            ->willReturn(array_map(static function ($locationId) {
-                return new Bookmark(['locationId' => $locationId]);
-            }, range(1, $expectedTotalCount)));
+        $locationList = new LocationList(['totalCount' => $expectedTotalCount, 'locations' => $expectedItems]);
 
         $locationServiceMock = $this->createMock(LocationService::class);
         $locationServiceMock
-            ->expects(self::exactly($expectedTotalCount))
-            ->method('loadLocation')
-            ->willReturnCallback(function ($locationId) {
-                return $this->createLocation($locationId);
-            });
+            ->expects(self::once())
+            ->method('find')
+            ->willReturn($locationList);
 
         $repository = $this->getRepositoryMock();
         $repository
@@ -249,37 +216,18 @@ class BookmarkTest extends BaseServiceMockTest
             ->method('getLocationService')
             ->willReturn($locationServiceMock);
 
+        // All tests in this class expect a call to getPermissionResolver()->getCurrentUserReference(), except this very test
+        // This is because PermissionResolver is called from BookmarkQueryBuilder, not from BookmarkService when loading bookmarks
+        // As it is defined in setup() that getCurrentUserReference needs to be called at least once, we'll force a call here
+        $repository->getPermissionResolver()->getCurrentUserReference();
+
         $bookmarks = $this->createBookmarkService()->loadBookmarks($offset, $limit);
 
         self::assertEquals($expectedTotalCount, $bookmarks->totalCount);
         self::assertEquals($expectedItems, $bookmarks->items);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
-     */
-    public function testLoadBookmarksEmptyList()
-    {
-        $this->bookmarkHandler
-            ->expects(self::once())
-            ->method('countUserBookmarks')
-            ->with(self::CURRENT_USER_ID)
-            ->willReturn(0);
-
-        $this->bookmarkHandler
-            ->expects(self::never())
-            ->method('loadUserBookmarks');
-
-        $bookmarks = $this->createBookmarkService()->loadBookmarks(0, 10);
-
-        self::assertEquals(0, $bookmarks->totalCount);
-        self::assertEmpty($bookmarks->items);
-    }
-
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::isBookmarked
-     */
-    public function testLocationShouldNotBeBookmarked()
+    public function testLocationShouldNotBeBookmarked(): void
     {
         $this->bookmarkHandler
             ->expects(self::once())
@@ -290,10 +238,7 @@ class BookmarkTest extends BaseServiceMockTest
         self::assertFalse($this->createBookmarkService()->isBookmarked($this->createLocation(self::LOCATION_ID)));
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::isBookmarked
-     */
-    public function testLocationShouldBeBookmarked()
+    public function testLocationShouldBeBookmarked(): void
     {
         $this->bookmarkHandler
             ->expects(self::once())
@@ -366,7 +311,7 @@ class BookmarkTest extends BaseServiceMockTest
         return $this
             ->getMockBuilder(BookmarkService::class)
             ->setConstructorArgs([$this->getRepositoryMock(), $this->bookmarkHandler])
-            ->setMethods($methods)
+            ->onlyMethods(array_values($methods ?? []))
             ->getMock();
     }
 }

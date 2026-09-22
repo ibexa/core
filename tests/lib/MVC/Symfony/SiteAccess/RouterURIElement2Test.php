@@ -12,11 +12,12 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement as URIElementMatcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LoggerInterface;
 
 class RouterURIElement2Test extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'default_sa'],
@@ -71,10 +72,9 @@ class RouterURIElement2Test extends RouterBaseTestCase
      * @param int $level
      * @param string $uri
      * @param string $expectedFixedUpURI
-     *
-     * @dataProvider analyseProvider
      */
-    public function testAnalyseURI($level, $uri, $expectedFixedUpURI)
+    #[DataProvider('analyseProvider')]
+    public function testAnalyseURI($level, $uri, $expectedFixedUpURI): void
     {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
@@ -87,10 +87,9 @@ class RouterURIElement2Test extends RouterBaseTestCase
      * @param int $level
      * @param string $uri
      * @param string $expectedFixedUpURI
-     *
-     * @dataProvider analyseProvider
      */
-    public function testAnalyseURILevelAsInt($level, $uri, $expectedFixedUpURI)
+    #[DataProvider('analyseProvider')]
+    public function testAnalyseURILevelAsInt($level, $uri, $expectedFixedUpURI): void
     {
         $matcher = new URIElementMatcher($level);
         $matcher->setRequest(
@@ -103,10 +102,9 @@ class RouterURIElement2Test extends RouterBaseTestCase
      * @param int $level
      * @param string $fullUri
      * @param string $linkUri
-     *
-     * @dataProvider analyseProvider
      */
-    public function testAnalyseLink($level, $fullUri, $linkUri)
+    #[DataProvider('analyseProvider')]
+    public function testAnalyseLink($level, $fullUri, $linkUri): void
     {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
@@ -115,7 +113,10 @@ class RouterURIElement2Test extends RouterBaseTestCase
         self::assertSame($fullUri, $matcher->analyseLink($linkUri));
     }
 
-    public function analyseProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function analyseProvider(): array
     {
         return [
             [2, '/my/siteaccess/foo/bar', '/foo/bar'],
@@ -133,10 +134,8 @@ class RouterURIElement2Test extends RouterBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider reverseMatchProvider
-     */
-    public function testReverseMatch($siteAccessName, $originalPathinfo)
+    #[DataProvider('reverseMatchProvider')]
+    public function testReverseMatch($siteAccessName, $originalPathinfo): void
     {
         $expectedSiteAccessPath = str_replace('_', '/', $siteAccessName);
         $matcher = new URIElementMatcher([2]);
@@ -149,7 +148,10 @@ class RouterURIElement2Test extends RouterBaseTestCase
         self::assertSame('/foo/bar/baz', $result->analyseURI("/$expectedSiteAccessPath/foo/bar/baz"));
     }
 
-    public function reverseMatchProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function reverseMatchProvider(): array
     {
         return [
             ['some_thing', '/foo/bar'],
@@ -157,14 +159,14 @@ class RouterURIElement2Test extends RouterBaseTestCase
         ];
     }
 
-    public function testReverseMatchFail()
+    public function testReverseMatchFail(): void
     {
         $matcher = new URIElementMatcher([2]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/my/siteaccess/foo/bar'));
         self::assertNull($matcher->reverseMatch('another_siteaccess_again_dont_tell_me'));
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $matcher = new URIElementMatcher([2]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/foo/bar'));
@@ -181,7 +183,7 @@ class RouterURIElement2Test extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            self::createStub(LoggerInterface::class),
             'default_sa',
             [
                 'URIElement' => [

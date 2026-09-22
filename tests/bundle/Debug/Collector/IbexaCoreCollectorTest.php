@@ -25,7 +25,7 @@ class IbexaCoreCollectorTest extends TestCase
         $this->mainCollector = new IbexaCoreCollector();
     }
 
-    public function testAddGetCollector()
+    public function testAddGetCollector(): void
     {
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
@@ -38,7 +38,7 @@ class IbexaCoreCollectorTest extends TestCase
         self::assertSame($collector, $this->mainCollector->getCollector($name));
     }
 
-    public function testGetInvalidCollector()
+    public function testGetInvalidCollector(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -47,7 +47,7 @@ class IbexaCoreCollectorTest extends TestCase
         self::assertSame($collector, $this->mainCollector->getCollector('foo'));
     }
 
-    public function testGetAllCollectors()
+    public function testGetAllCollectors(): void
     {
         $collector1 = $this->getDataCollectorMock();
         $nameCollector1 = 'collector1';
@@ -74,7 +74,7 @@ class IbexaCoreCollectorTest extends TestCase
         self::assertSame($allCollectors, $this->mainCollector->getAllCollectors());
     }
 
-    public function testGetToolbarTemplateNothing()
+    public function testGetToolbarTemplateNothing(): void
     {
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
@@ -86,7 +86,7 @@ class IbexaCoreCollectorTest extends TestCase
         self::assertNull($this->mainCollector->getToolbarTemplate($name));
     }
 
-    public function testGetToolbarTemplate()
+    public function testGetToolbarTemplate(): void
     {
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
@@ -100,7 +100,7 @@ class IbexaCoreCollectorTest extends TestCase
         self::assertSame($toolbarTemplate, $this->mainCollector->getToolbarTemplate($name));
     }
 
-    public function testGetPanelTemplateNothing()
+    public function testGetPanelTemplateNothing(): void
     {
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
@@ -112,7 +112,7 @@ class IbexaCoreCollectorTest extends TestCase
         self::assertNull($this->mainCollector->getPanelTemplate($name));
     }
 
-    public function testGetPanelTemplate()
+    public function testGetPanelTemplate(): void
     {
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
@@ -126,7 +126,7 @@ class IbexaCoreCollectorTest extends TestCase
         self::assertSame($panelTemplate, $this->mainCollector->getPanelTemplate($name));
     }
 
-    public function testCollect()
+    public function testCollect(): void
     {
         $collector1 = $this->getDataCollectorMock();
         $nameCollector1 = 'collector1';

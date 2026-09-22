@@ -27,7 +27,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new URLHandlerPass());
     }
 
-    public function testRegisterURLHandler()
+    public function testRegisterURLHandler(): void
     {
         $serviceId = 'service_id';
         $scheme = 'http';
@@ -44,7 +44,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testRegisterURLHandlerNoScheme()
+    public function testRegisterURLHandlerNoScheme(): void
     {
         $this->expectException(\LogicException::class);
 

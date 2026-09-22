@@ -13,7 +13,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBui
 
 final class SectionTermAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         $aggregation = new SectionTermAggregation('section');
 
@@ -27,7 +27,7 @@ final class SectionTermAggregationTest extends AbstractAggregationTestCase
         ]);
 
         $builder->setEntryMapper([
-            $this->getRepository()->getSectionService(),
+            static::resolveRepository()->getSectionService(),
             'loadSectionByIdentifier',
         ]);
 

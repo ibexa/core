@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 use Ibexa\Bundle\Core\Imagine\Filter\FilterInterface;
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\SwirlFilterLoader;
 use Imagine\Image\ImageInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class SwirlFilterLoaderTest extends TestCase
@@ -27,9 +28,9 @@ class SwirlFilterLoaderTest extends TestCase
         $this->loader = new SwirlFilterLoader($this->filter);
     }
 
-    public function testLoadNoOption()
+    public function testLoadNoOption(): void
     {
-        $image = $this->createMock(ImageInterface::class);
+        $image = self::createStub(ImageInterface::class);
         $this->filter
             ->expects(self::never())
             ->method('setOption');
@@ -43,12 +44,10 @@ class SwirlFilterLoaderTest extends TestCase
         self::assertSame($image, $this->loader->load($image));
     }
 
-    /**
-     * @dataProvider loadWithOptionProvider
-     */
-    public function testLoadWithOption($degrees)
+    #[DataProvider('loadWithOptionProvider')]
+    public function testLoadWithOption($degrees): void
     {
-        $image = $this->createMock(ImageInterface::class);
+        $image = self::createStub(ImageInterface::class);
         $this->filter
             ->expects(self::once())
             ->method('setOption')
@@ -63,7 +62,10 @@ class SwirlFilterLoaderTest extends TestCase
         self::assertSame($image, $this->loader->load($image, [$degrees]));
     }
 
-    public function loadWithOptionProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function loadWithOptionProvider(): array
     {
         return [
             [10],

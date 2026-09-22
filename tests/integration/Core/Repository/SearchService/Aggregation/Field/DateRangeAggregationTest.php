@@ -20,7 +20,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\FixtureGen
 
 final class DateRangeAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         $timezone = new DateTimeZone('+0000');
 

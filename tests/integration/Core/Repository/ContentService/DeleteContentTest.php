@@ -8,13 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[CoversClass(ContentService::class)]
 final class DeleteContentTest extends RepositoryTestCase
 {
     /**
@@ -22,7 +23,7 @@ final class DeleteContentTest extends RepositoryTestCase
      */
     public function testDeleteContentDeletesChildrenDrafts(): void
     {
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         [$folder, $draft1, $draft2, $draft3, $draftSecondDepth] = $this->prepareContentStructure();
 
@@ -43,15 +44,15 @@ final class DeleteContentTest extends RepositoryTestCase
      */
     public function testTrashLocationDeletesChildrenDrafts(): void
     {
-        $trashService = self::getTrashService();
-        $contentService = self::getContentService();
+        $trashService = $this->getIbexaTestCore()->getServiceByClassName(TrashService::class);
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         [$folder, $draft1, $draft2, $draft3, $draftSecondDepth] = $this->prepareContentStructure();
 
         $folderMainLocationId = $folder->getVersionInfo()->getContentInfo()->getMainLocationId();
         Assert::assertIsNumeric($folderMainLocationId);
 
-        $locationToTrash = self::getLocationService()->loadLocation($folderMainLocationId);
+        $locationToTrash = $this->getIbexaTestCore()->getLocationService()->loadLocation($folderMainLocationId);
 
         $trashService->trash($locationToTrash);
 

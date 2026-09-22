@@ -16,12 +16,12 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Tests\Integration\Core\Repository\Filtering\Fixtures\LegacyLocationSortClause;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use function iterator_to_array;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration BC check for legacy location sort clauses wired through the container.
- *
- * @group repository
  */
+#[Group('repository')]
 final class LegacyContentFilteringTest extends RepositoryTestCase
 {
     public function testLegacyLocationSortClause(): void
@@ -47,7 +47,7 @@ final class LegacyContentFilteringTest extends RepositoryTestCase
             )
             ->withSortClause(new LegacyLocationSortClause(Query::SORT_ASC));
 
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
         $list = $contentService->find($filter, []);
 
         self::assertCount(2, $list);
@@ -74,9 +74,9 @@ final class LegacyContentFilteringTest extends RepositoryTestCase
         string $name,
         int $parentLocationId = self::CONTENT_TREE_ROOT_ID
     ): Content {
-        $contentService = self::getContentService();
-        $contentTypeService = self::getContentTypeService();
-        $locationService = self::getLocationService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
+        $locationService = $this->getIbexaTestCore()->getLocationService();
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $folderType */
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');

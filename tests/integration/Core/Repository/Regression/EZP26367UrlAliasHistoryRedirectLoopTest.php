@@ -8,19 +8,19 @@
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Issue https://issues.ibexa.co/browse/EZP-26367.
- *
- * @group regression
- * @group ezp26367
- * @group cache
- * @group cache-invalidation
- * @group cache-spi
  */
+#[Group('regression')]
+#[Group('ezp26367')]
+#[Group('cache')]
+#[Group('cache-invalidation')]
+#[Group('cache-spi')]
 class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
 {
-    public function testReverseLookupReturnsHistoryAlias()
+    public function testReverseLookupReturnsHistoryAlias(): void
     {
         $contentService = $this->getRepository()->getContentService();
         $contentTypeService = $this->getRepository()->getContentTypeService();
@@ -88,7 +88,7 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
         self::assertFalse($urlAlias->isHistory);
     }
 
-    public function testLookupHistoryUrlReturnsActiveAlias()
+    public function testLookupHistoryUrlReturnsActiveAlias(): void
     {
         $contentService = $this->getRepository()->getContentService();
         $contentTypeService = $this->getRepository()->getContentTypeService();

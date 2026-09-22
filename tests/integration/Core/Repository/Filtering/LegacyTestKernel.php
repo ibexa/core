@@ -8,11 +8,19 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
+use DAMA\DoctrineTestBundle\DAMADoctrineTestBundle;
 use Ibexa\Contracts\Core\Test\IbexaTestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
 final class LegacyTestKernel extends IbexaTestKernel
 {
+    public function registerBundles(): iterable
+    {
+        yield from parent::registerBundles();
+
+        yield new DAMADoctrineTestBundle();
+    }
+
     protected function loadServices(LoaderInterface $loader): void
     {
         parent::loadServices($loader);

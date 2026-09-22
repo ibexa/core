@@ -11,12 +11,12 @@ use DateInterval;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\DateAndTime\Type as DateAndTime;
 use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 
-/**
- * @group fieldType
- * @group ibexa_datetime
- */
+#[Group('fieldType')]
+#[Group('ibexa_datetime')]
 class DateAndTimeTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): DateAndTime
@@ -55,7 +55,7 @@ class DateAndTimeTest extends FieldTypeTestCase
         return new DateAndTimeValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -65,7 +65,7 @@ class DateAndTimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -88,7 +88,7 @@ class DateAndTimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -106,10 +106,9 @@ class DateAndTimeTest extends FieldTypeTestCase
     }
 
     /**
-     * @dataProvider provideInputForFromHash
-     *
      * @param \Ibexa\Core\FieldType\DateAndTime\Value $expectedResult
      */
+    #[DataProvider('provideInputForFromHash')]
     public function testFromHash(mixed $inputHash, mixed $expectedResult): void
     {
         $this->assertIsValidHashValue($inputHash);
@@ -134,7 +133,7 @@ class DateAndTimeTest extends FieldTypeTestCase
         }
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         $date = new \DateTime('Tue, 28 Aug 2012 12:20:00 +0200');
 
@@ -160,10 +159,9 @@ class DateAndTimeTest extends FieldTypeTestCase
     }
 
     /**
-     * @dataProvider provideInputForTimeStringFromHash
-     *
      * @throws \DateMalformedIntervalStringException
      */
+    #[DataProvider('provideInputForTimeStringFromHash')]
     public function testTimeStringFromHash(mixed $inputHash, string $intervalSpec): void
     {
         $this->assertIsValidHashValue($inputHash);
@@ -203,7 +201,7 @@ class DateAndTimeTest extends FieldTypeTestCase
      *
      * @phpstan-return array<array{mixed, string}>
      */
-    public function provideInputForTimeStringFromHash(): array
+    public static function provideInputForTimeStringFromHash(): array
     {
         return [
             [
@@ -227,7 +225,7 @@ class DateAndTimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): iterable
+    public static function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -255,7 +253,7 @@ class DateAndTimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInValidFieldSettings(): array
+    public static function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -292,10 +290,10 @@ class DateAndTimeTest extends FieldTypeTestCase
         return 'ibexa_datetime';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new DateAndTimeValue(), '', [], 'en_GB'],
             [DateAndTimeValue::fromTimestamp(438512400), 'Thu 1983-24-11 09:00:00', [], 'en_GB'],
         ];
     }

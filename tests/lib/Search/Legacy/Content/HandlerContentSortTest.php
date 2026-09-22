@@ -77,7 +77,7 @@ class HandlerContentSortTest extends AbstractTestCase
                 ),
                 $this->getLanguageHandler()
             ),
-            $this->createMock(LocationGateway::class),
+            self::createStub(LocationGateway::class),
             new Content\WordIndexer\Gateway\DoctrineDatabase(
                 $this->getDatabaseConnection(),
                 $this->getContentTypeHandler(),
@@ -87,7 +87,7 @@ class HandlerContentSortTest extends AbstractTestCase
                 $this->getFullTextSearchConfiguration()
             ),
             $this->getContentMapperMock(),
-            $this->createMock(LocationMapper::class),
+            self::createStub(LocationMapper::class),
             $this->getLanguageHandler(),
             $this->getFullTextMapper($this->getContentTypeHandler())
         );
@@ -110,11 +110,11 @@ class HandlerContentSortTest extends AbstractTestCase
                     $this->getFieldTypeAliasResolver(),
                 ]
             )
-            ->setMethods(['extractContentInfoFromRows'])
+            ->onlyMethods(['extractContentInfoFromRows'])
             ->getMock();
         $mapperMock->expects(self::any())
             ->method('extractContentInfoFromRows')
-            ->with(self::isType('array'))
+            ->with(self::isArray())
             ->will(
                 self::returnCallback(
                     static function ($rows): array {
@@ -145,7 +145,6 @@ class HandlerContentSortTest extends AbstractTestCase
         if (!isset($this->fieldRegistry)) {
             $this->fieldRegistry = $this->getMockBuilder(ConverterRegistry::class)
                 ->setConstructorArgs([])
-                ->setMethods([])
                 ->getMock();
         }
 
@@ -161,11 +160,11 @@ class HandlerContentSortTest extends AbstractTestCase
     {
         return $this->getMockBuilder(FieldHandler::class)
             ->disableOriginalConstructor()
-            ->setMethods(['loadExternalFieldData'])
+            ->onlyMethods(['loadExternalFieldData'])
             ->getMock();
     }
 
-    public function testNoSorting()
+    public function testNoSorting(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -192,7 +191,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortDateModified()
+    public function testSortDateModified(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -220,7 +219,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortDatePublished()
+    public function testSortDatePublished(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -248,7 +247,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortSectionIdentifier()
+    public function testSortSectionIdentifier(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -293,7 +292,7 @@ class HandlerContentSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortSectionName()
+    public function testSortSectionName(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -346,7 +345,7 @@ class HandlerContentSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortContentName()
+    public function testSortContentName(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -374,7 +373,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortFieldText()
+    public function testSortFieldText(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -443,7 +442,7 @@ class HandlerContentSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortFieldNumeric()
+    public function testSortFieldNumeric(): void
     {
         self::markTestSkipped();
         $locator = $this->getContentSearchHandler();

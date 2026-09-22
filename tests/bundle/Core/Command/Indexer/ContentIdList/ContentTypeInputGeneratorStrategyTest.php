@@ -13,21 +13,20 @@ use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
-use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\Values\Content\VersionInfo as CoreVersionInfo;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputInterface;
 
-/**
- * @covers \Ibexa\Bundle\Core\Command\Indexer\ContentIdList\ContentTypeInputGeneratorStrategy
- */
+#[CoversClass(ContentTypeInputGeneratorStrategy::class)]
 final class ContentTypeInputGeneratorStrategyTest extends TestCase
 {
     /**
-     * @dataProvider getDataForTestGetGenerator
-     *
      * @param array<int, int[]> $expectedBatches
      */
+    #[DataProvider('getDataForTestGetGenerator')]
     public function testGetGenerator(ContentList $contentList, int $batchSize, array $expectedBatches): void
     {
         $contentServiceMock = $this->createMock(ContentService::class);
@@ -57,10 +56,10 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
     /**
      * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Content\ContentList, int, array<int, int[]>}>
      */
-    public function getDataForTestGetGenerator(): iterable
+    public static function getDataForTestGetGenerator(): iterable
     {
         yield 'iteration count = 3, items = 10' => [
-            $this->generateContentList(10),
+            self::generateContentList(10),
             3,
             [
                 [1, 2, 3],
@@ -71,7 +70,7 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
         ];
 
         yield 'iteration count = 6, items = 6' => [
-            $this->generateContentList(6),
+            self::generateContentList(6),
             6,
             [
                 [1, 2, 3, 4, 5, 6],
@@ -79,7 +78,7 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
         ];
 
         yield 'iteration count = 2, items = 4' => [
-            $this->generateContentList(4),
+            self::generateContentList(4),
             2,
             [
                 [1, 2],
@@ -88,7 +87,7 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
         ];
 
         yield 'iteration count = 10, items = 5' => [
-            $this->generateContentList(5),
+            self::generateContentList(5),
             10,
             [
                 [1, 2, 3, 4, 5],
@@ -96,31 +95,28 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
         ];
 
         yield 'iteration count = 5, items = 0' => [
-            $this->generateContentList(0),
+            self::generateContentList(0),
             5,
             [],
         ];
     }
 
-    private function generateContentList(int $totalCount): ContentList
+    private static function generateContentList(int $totalCount): ContentList
     {
         $contentItems = [];
         for ($i = 0; $i < $totalCount; ++$i) {
-            $contentItems[] = $this->createContentItemWithIdMock($i + 1);
+            $contentItems[] = self::createContentItemWithId($i + 1);
         }
 
         return new ContentList($totalCount, $contentItems);
     }
 
-    private function createContentItemWithIdMock(int $id): Content
+    private static function createContentItemWithId(int $id): Content
     {
-        $contentItem = $this->createMock(Content::class);
-        $contentInfoMock = $this->createMock(ContentInfo::class);
-        $contentInfoMock->method('getId')->willReturn($id);
-        $versionInfoMock = $this->createMock(VersionInfo::class);
-        $versionInfoMock->method('getContentInfo')->willReturn($contentInfoMock);
-        $contentItem->method('getVersionInfo')->willReturn($versionInfoMock);
-
-        return $contentItem;
+        return new Content([
+            'versionInfo' => new CoreVersionInfo([
+                'contentInfo' => new ContentInfo(['id' => $id]),
+            ]),
+        ]);
     }
 }

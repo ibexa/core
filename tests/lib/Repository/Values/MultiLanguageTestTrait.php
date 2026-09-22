@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Repository\Values;
 
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription;
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageName;
+use PHPUnit\Framework\Attributes\Depends;
 use ReflectionClass;
 
 /**
@@ -19,11 +20,10 @@ use ReflectionClass;
 trait MultiLanguageTestTrait
 {
     /**
-     * @depends testNewClassWithMultiLanguageProperties
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
      */
-    public function testGetMultiLanguagePrioritizedName($object)
+    #[Depends('testNewClassWithMultiLanguageProperties')]
+    public function testGetMultiLanguagePrioritizedName($object): void
     {
         if (!$object instanceof MultiLanguageName) {
             self::markTestSkipped(
@@ -38,11 +38,10 @@ trait MultiLanguageTestTrait
     }
 
     /**
-     * @depends testNewClassWithMultiLanguageProperties
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
      */
-    public function testGetMultiLanguageDefaultName($object)
+    #[Depends('testNewClassWithMultiLanguageProperties')]
+    public function testGetMultiLanguageDefaultName($object): void
     {
         if (!$object instanceof MultiLanguageName) {
             self::markTestSkipped(
@@ -68,11 +67,10 @@ trait MultiLanguageTestTrait
     }
 
     /**
-     * @depends testNewClassWithMultiLanguageProperties
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
      */
-    public function testGetMultiLanguagePrioritizedDescription($object)
+    #[Depends('testNewClassWithMultiLanguageProperties')]
+    public function testGetMultiLanguagePrioritizedDescription($object): void
     {
         if (!$object instanceof MultiLanguageDescription) {
             self::markTestSkipped(
@@ -87,11 +85,10 @@ trait MultiLanguageTestTrait
     }
 
     /**
-     * @depends testNewClassWithMultiLanguageProperties
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
      */
-    public function testGetMultiLanguageDefaultDescription($object)
+    #[Depends('testNewClassWithMultiLanguageProperties')]
+    public function testGetMultiLanguageDefaultDescription($object): void
     {
         if (!$object instanceof MultiLanguageDescription) {
             self::markTestSkipped(

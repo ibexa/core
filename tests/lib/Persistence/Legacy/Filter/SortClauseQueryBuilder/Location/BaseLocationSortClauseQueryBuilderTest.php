@@ -20,7 +20,7 @@ final class BaseLocationSortClauseQueryBuilderTest extends TestCase
 {
     public function testLegacyImplementationIsSupported(): void
     {
-        $connection = DriverManager::getConnection(['url' => 'sqlite:///:memory:']);
+        $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
         $queryBuilder = new FilteringQueryBuilder($connection);
 
         $sortClause = new class() implements FilteringSortClause {
@@ -39,24 +39,18 @@ final class BaseLocationSortClauseQueryBuilderTest extends TestCase
             }
         };
 
+        $queryBuilder->select('content.id')->from('ibexa_content', 'content');
+
         $builder->buildQuery($queryBuilder, $sortClause);
 
         self::assertSame(
-            ['ibexa_sort_location.depth AS ibexa_filter_sort_ibexa_sort_location_depth'],
-            $queryBuilder->getQueryPart('select')
+            'SELECT content.id, ibexa_sort_location.depth AS ibexa_filter_sort_ibexa_sort_location_depth'
+            . ' FROM ibexa_content content'
+            . ' INNER JOIN ' . LocationGateway::CONTENT_TREE_TABLE . ' ibexa_sort_location'
+            . ' ON (content.id = ibexa_sort_location.contentobject_id)'
+            . ' AND (ibexa_sort_location.node_id = ibexa_sort_location.main_node_id)'
+            . ' ORDER BY ibexa_filter_sort_ibexa_sort_location_depth ASC',
+            $queryBuilder->getSQL()
         );
-
-        $joins = $queryBuilder->getQueryPart('join');
-        self::assertArrayHasKey('content', $joins);
-        self::assertCount(1, $joins['content']);
-        self::assertSame(LocationGateway::CONTENT_TREE_TABLE, $joins['content'][0]['joinTable']);
-        self::assertSame('ibexa_sort_location', $joins['content'][0]['joinAlias']);
-        self::assertSame(
-            '(content.id = ibexa_sort_location.contentobject_id) AND (ibexa_sort_location.node_id = ibexa_sort_location.main_node_id)',
-            (string)$joins['content'][0]['joinCondition']
-        );
-
-        $orderBy = $queryBuilder->getQueryPart('orderBy');
-        self::assertSame(['ibexa_filter_sort_ibexa_sort_location_depth ASC'], $orderBy);
     }
 }

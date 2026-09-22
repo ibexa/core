@@ -13,22 +13,27 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Core\Repository\SearchService;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 
 /**
  * Test case for field filtering operations in the SearchService.
  *
- * @covers \Ibexa\Contracts\Core\Repository\SearchService
  *
- * @group integration
- * @group search
- * @group language_fallback
  *
  * @template TSearchHitValueObject
  *
  * @phpstan-type TIndexMap array{dedicated: string, shared: string, single: string, cloud: string}
  */
+#[CoversClass(SearchService::class)]
+#[Group('integration')]
+#[Group('search')]
+#[Group('language_fallback')]
 class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
 {
     public const SETUP_DEDICATED = 'dedicated';
@@ -194,7 +199,10 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         return $this->createTestContent([2, 12]);
     }
 
-    public function providerForTestFind()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestFind(): array
     {
         $data = [
             0 => [
@@ -1474,7 +1482,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             ],
         ];
 
-        $setupFactory = $this->getSetupFactory();
+        $setupFactory = static::resolveSetupFactory();
 
         if ($setupFactory instanceof LegacySolrSetupFactory) {
             $data = array_merge(
@@ -1717,19 +1725,17 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestFind
-     *
-     * @depends      testCreateTestContent
-     *
      * @param array $languageSettings
      * @param array $contentDataList
      * @param array $context
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('providerForTestFind')]
     public function testFindContent(
         array $languageSettings,
         array $contentDataList,
         array $context
-    ) {
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         list($repository, $data) = $context;
 
@@ -1768,19 +1774,17 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestFind
-     *
-     * @depends      testCreateTestContent
-     *
      * @param array $languageSettings
      * @param array $contentDataList
      * @param array $context
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('providerForTestFind')]
     public function testFindLocationsSingle(
         array $languageSettings,
         array $contentDataList,
         array $context
-    ) {
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         list($repository, $data) = $context;
 
@@ -1824,19 +1828,17 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestFind
-     *
-     * @depends      testCreateTestContent
-     *
      * @param array $languageSettings
      * @param array $contentDataList
      * @param array $context
      */
+    #[Depends('testCreateTestContent')]
+    #[DataProvider('providerForTestFind')]
     public function testFindLocationsMultiple(
         array $languageSettings,
         array $contentDataList,
         array $context
-    ) {
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         list($repository, $data) = $context;
 
@@ -1910,7 +1912,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         if ($indexName === null) {
             self::assertNull($searchHit->index);
         } else {
-            self::assertRegExp('~^' . $indexName . '$~', (string)$searchHit->index);
+            self::assertMatchesRegularExpression('~^' . $indexName . '$~', (string)$searchHit->index);
         }
     }
 

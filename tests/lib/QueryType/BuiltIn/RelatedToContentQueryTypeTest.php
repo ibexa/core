@@ -27,7 +27,7 @@ final class RelatedToContentQueryTypeTest extends AbstractQueryTypeTestCase
     private const EXAMPLE_CONTENT_ID = 52;
     private const EXAMPLE_FIELD = 'related';
 
-    public function dataProviderForGetQuery(): iterable
+    public static function dataProviderForGetQuery(): iterable
     {
         yield 'basic' => [
             [

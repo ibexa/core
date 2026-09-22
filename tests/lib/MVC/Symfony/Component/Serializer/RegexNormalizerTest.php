@@ -35,7 +35,7 @@ final class RegexNormalizerTest extends TestCase
     {
         $normalizer = new RegexNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(RegexMatcher::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization(self::createStub(RegexMatcher::class)));
+        self::assertFalse($normalizer->supportsNormalization(self::createStub(Matcher::class)));
     }
 }

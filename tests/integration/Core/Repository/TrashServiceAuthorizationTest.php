@@ -11,27 +11,26 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
-use Ibexa\Core\Repository\TrashService;
+use Ibexa\Core\Repository\TrashService as CoveredTrashService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the TrashService using in memory storage.
- *
- * @covers \Ibexa\Contracts\Core\Repository\TrashService
- *
- * @group integration
- * @group authorization
  */
+#[CoversClass(CoveredTrashService::class)]
+#[Group('integration')]
+#[Group('authorization')]
 class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
 {
     /**
      * Test for the loadTrashItem() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\TrashService::loadTrashItem()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testLoadTrashItem
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
-    public function testLoadTrashItemThrowsUnauthorizedException()
+    #[DependsExternal(TrashServiceTest::class, 'testLoadTrashItem')]
+    #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
+    public function testLoadTrashItemThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -57,10 +56,8 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
 
     /**
      * Test for the trash() method without proper permissions.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\TrashService::trash
      */
-    public function testTrashThrowsUnauthorizedException()
+    public function testTrashThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage('The User does not have the \'remove\' \'content\' permission');
@@ -83,8 +80,6 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
 
     /**
      * Test for the trash() method without proper permissions.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\TrashService::trash
      */
     public function testTrashThrowsUnauthorizedExceptionWithLanguageLimitation(): void
     {
@@ -118,12 +113,9 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
 
     /**
      * Test for the trash() method with proper minimal permission set.
-     *
-     * @depends testTrashThrowsUnauthorizedException
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\TrashService::trash
      */
-    public function testTrashRequiresContentRemovePolicy()
+    #[Depends('testTrashThrowsUnauthorizedException')]
+    public function testTrashRequiresContentRemovePolicy(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -147,13 +139,10 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
 
     /**
      * Test for the recover() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\TrashService::recover()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testRecover
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
-    public function testRecoverThrowsUnauthorizedException()
+    #[DependsExternal(TrashServiceTest::class, 'testRecover')]
+    #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
+    public function testRecoverThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -179,13 +168,10 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
 
     /**
      * Test for the recover() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\TrashService::recover($trashItem, $newParentLocation)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testRecover
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
-    public function testRecoverThrowsUnauthorizedExceptionWithNewParentLocationParameter()
+    #[DependsExternal(TrashServiceTest::class, 'testRecover')]
+    #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
+    public function testRecoverThrowsUnauthorizedExceptionWithNewParentLocationParameter(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -219,13 +205,10 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
 
     /**
      * Test for the emptyTrash() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\TrashService::emptyTrash()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testEmptyTrash
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
-    public function testEmptyTrashThrowsUnauthorizedException()
+    #[DependsExternal(TrashServiceTest::class, 'testEmptyTrash')]
+    #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
+    public function testEmptyTrashThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -251,13 +234,10 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
 
     /**
      * Test for the deleteTrashItem() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\TrashService::deleteTrashItem()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testDeleteTrashItem
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
-    public function testDeleteTrashItemThrowsUnauthorizedException()
+    #[DependsExternal(TrashServiceTest::class, 'testDeleteTrashItem')]
+    #[DependsExternal(UserServiceTest::class, 'testLoadUser')]
+    public function testDeleteTrashItemThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -281,7 +261,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
         /* END: Use Case */
     }
 
-    public function testTrashRequiresPremissionsToRemoveAllSubitems()
+    public function testTrashRequiresPremissionsToRemoveAllSubitems(): void
     {
         $this->createRoleWithPolicies('Publisher', [
             ['module' => 'content', 'function' => 'read'],

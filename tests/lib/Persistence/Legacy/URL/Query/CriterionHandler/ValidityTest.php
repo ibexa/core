@@ -20,7 +20,7 @@ class ValidityTest extends CriterionHandlerTestCase
     /**
      * {@inheritdoc}
      */
-    public function testAccept()
+    public function testAccept(): void
     {
         $handler = new ValidityHandler();
 
@@ -31,7 +31,7 @@ class ValidityTest extends CriterionHandlerTestCase
     /**
      * {@inheritdoc}
      */
-    public function testHandle()
+    public function testHandle(): void
     {
         $criterion = new Validity(true);
         $expected = 'is_valid = :is_valid';
@@ -54,7 +54,7 @@ class ValidityTest extends CriterionHandlerTestCase
             ->with((int)$criterion->isValid, ParameterType::INTEGER, ':is_valid')
             ->willReturn(':is_valid');
 
-        $converter = $this->createMock(CriteriaConverter::class);
+        $converter = self::createStub(CriteriaConverter::class);
 
         $handler = new ValidityHandler();
         $actual = $handler->handle($converter, $queryBuilder, $criterion);

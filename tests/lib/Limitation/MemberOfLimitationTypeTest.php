@@ -24,6 +24,7 @@ use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupRoleAssignment;
 use Ibexa\Core\Repository\Values\User\UserRoleAssignment;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class MemberOfLimitationTypeTest extends Base
 {
@@ -38,16 +39,14 @@ final class MemberOfLimitationTypeTest extends Base
         );
     }
 
-    /**
-     * @dataProvider providerForTestAcceptValue
-     */
+    #[DataProvider('providerForTestAcceptValue')]
     public function testAcceptValue(MemberOfLimitation $limitation): void
     {
         $this->expectNotToPerformAssertions();
         $this->limitationType->acceptValue($limitation);
     }
 
-    public function providerForTestAcceptValue(): array
+    public static function providerForTestAcceptValue(): array
     {
         return [
             [
@@ -63,16 +62,14 @@ final class MemberOfLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestAcceptValueException
-     */
+    #[DataProvider('providerForTestAcceptValueException')]
     public function testAcceptValueException(MemberOfLimitation $limitation): void
     {
         $this->expectException(InvalidArgumentType::class);
         $this->limitationType->acceptValue($limitation);
     }
 
-    public function providerForTestAcceptValueException(): array
+    public static function providerForTestAcceptValueException(): array
     {
         return [
             [
@@ -98,9 +95,7 @@ final class MemberOfLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestAcceptValue
-     */
+    #[DataProvider('providerForTestAcceptValue')]
     public function testValidatePass(MemberOfLimitation $limitation): void
     {
         $contentHandlerMock = $this->createMock(ContentHandlerInterface::class);
@@ -118,21 +113,26 @@ final class MemberOfLimitationTypeTest extends Base
         self::assertEmpty($validationErrors);
     }
 
-    /**
-     * @dataProvider providerForTestValidateError
-     */
+    #[DataProvider('providerForTestValidateError')]
     public function testValidateError(MemberOfLimitation $limitation, int $errorCount): void
     {
         $contentHandlerMock = $this->createMock(ContentHandlerInterface::class);
 
         if ($limitation->limitationValues !== null) {
-            $contentHandlerMock
-                ->method('loadContentInfo')
-                ->withConsecutive([14], [18])
-                ->willReturnOnConsecutiveCalls(
-                    self::throwException(new NotFoundException('UserGroup', 18)),
-                    new ContentInfo()
-                );
+            $matcher = $this->exactly(2);
+            $contentHandlerMock->expects($matcher)
+                ->method('loadContentInfo')->willReturnCallback(function (...$parameters) use ($matcher) {
+                    if ($matcher->numberOfInvocations() === 1) {
+                        $this->assertSame(14, $parameters[0]);
+
+                        throw new NotFoundException('UserGroup', 18);
+                    }
+                    if ($matcher->numberOfInvocations() === 2) {
+                        $this->assertSame(18, $parameters[0]);
+
+                        return new ContentInfo();
+                    }
+                });
 
             $this->getPersistenceMock()
                 ->method('contentHandler')
@@ -143,7 +143,7 @@ final class MemberOfLimitationTypeTest extends Base
         self::assertCount($errorCount, $validationErrors);
     }
 
-    public function providerForTestValidateError(): array
+    public static function providerForTestValidateError(): array
     {
         return [
             [
@@ -155,9 +155,7 @@ final class MemberOfLimitationTypeTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider providerForTestEvaluate
-     */
+    #[DataProvider('providerForTestEvaluate')]
     public function testEvaluate(
         MemberOfLimitation $limitation,
         ValueObject $object,
@@ -173,17 +171,21 @@ final class MemberOfLimitationTypeTest extends Base
                     new Location(['parentId' => 13]),
                     new Location(['parentId' => 14]),
                 ]);
+            $matcher = $this->exactly(2);
 
-            $locationHandlerMock
-                ->method('load')
-                ->withConsecutive(
-                    [13],
-                    [14]
-                )
-                ->willReturnOnConsecutiveCalls(
-                    new Location(['contentId' => 14]),
-                    new Location(['contentId' => 25])
-                );
+            $locationHandlerMock->expects($matcher)
+                ->method('load')->willReturnCallback(function (...$parameters) use ($matcher) {
+                    if ($matcher->numberOfInvocations() === 1) {
+                        $this->assertSame(13, $parameters[0]);
+
+                        return new Location(['contentId' => 14]);
+                    }
+                    if ($matcher->numberOfInvocations() === 2) {
+                        $this->assertSame(14, $parameters[0]);
+
+                        return new Location(['contentId' => 25]);
+                    }
+                });
 
             $this->getPersistenceMock()
                 ->method('locationHandler')
@@ -199,7 +201,7 @@ final class MemberOfLimitationTypeTest extends Base
         self::assertEquals($expected, $value);
     }
 
-    public function providerForTestEvaluate(): array
+    public static function providerForTestEvaluate(): array
     {
         return [
             'valid_group_limitation' => [
@@ -349,9 +351,8 @@ final class MemberOfLimitationTypeTest extends Base
 
     /**
      * @param \Ibexa\Core\Repository\Values\User\User|\Ibexa\Core\Repository\Values\User\UserRoleAssignment $object
-     *
-     * @dataProvider providerForTestEvaluateSelfGroup
      */
+    #[DataProvider('providerForTestEvaluateSelfGroup')]
     public function testEvaluateSelfGroup(
         MemberOfLimitation $limitation,
         ValueObject $object,
@@ -365,31 +366,40 @@ final class MemberOfLimitationTypeTest extends Base
         foreach ($currentUserGroupLocations as $groupLocation) {
             $currentUserLocation[] = new Location(['parentId' => $groupLocation->contentId - 1]);
         }
-        $locationHandlerMock
-            ->method('loadLocationsByContent')
-            ->withConsecutive(
-                [$object instanceof User ? $object->getUserId() : $object->getUser()->getUserId()],
-                [$this->getUserMock()->getUserId()]
-            )
-            ->willReturnOnConsecutiveCalls(
-                [
-                    new Location(['parentId' => 13]),
-                    new Location(['parentId' => 43]),
-                ],
-                $currentUserLocation
-            );
+        $matcher = $this->exactly(2);
+        $locationHandlerMock->expects($matcher)
+            ->method('loadLocationsByContent')->willReturnCallback(function (...$parameters) use ($matcher, $object, $currentUserLocation) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame($object instanceof User ? $object->getUserId() : $object->getUser()->getUserId(), $parameters[0]);
 
-        $locationHandlerMock
-            ->method('load')
-            ->withConsecutive(
-                [13],
-                [43]
-            )
-            ->willReturnOnConsecutiveCalls(
-                new Location(['contentId' => 14]),
-                new Location(['contentId' => 44]),
-                ...$currentUserGroupLocations
-            );
+                    return [
+                        new Location(['parentId' => 13]),
+                        new Location(['parentId' => 43]),
+                    ];
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame($this->getUserMock()->getUserId(), $parameters[0]);
+
+                    return $currentUserLocation;
+                }
+            });
+        $matcher = $this->exactly(2 + count($currentUserGroupLocations));
+
+        $locationHandlerMock->expects($matcher)
+            ->method('load')->willReturnCallback(function (...$parameters) use ($matcher, $currentUserGroupLocations) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame(13, $parameters[0]);
+
+                    return new Location(['contentId' => 14]);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame(43, $parameters[0]);
+
+                    return new Location(['contentId' => 44]);
+                }
+
+                return $currentUserGroupLocations[$matcher->numberOfInvocations() - 3];
+            });
 
         $this->getPersistenceMock()
             ->method('locationHandler')
@@ -408,7 +418,7 @@ final class MemberOfLimitationTypeTest extends Base
         self::assertEquals($expected, $value);
     }
 
-    public function providerForTestEvaluateSelfGroup(): array
+    public static function providerForTestEvaluateSelfGroup(): array
     {
         return [
             'role_assign_to_user_in_same_group' => [

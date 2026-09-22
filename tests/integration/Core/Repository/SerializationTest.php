@@ -18,7 +18,7 @@ final class SerializationTest extends RepositoryTestCase
     {
         $serializer = $this->getContainer()->get(SerializerInterface::class);
         self::assertInstanceOf(SerializerInterface::class, $serializer);
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         $user = $contentService->loadContent(14);
         $field = $user->getField('user_account');

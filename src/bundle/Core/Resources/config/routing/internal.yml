@@ -33,15 +33,24 @@ ibexa.content.preview.default:
 ibexa.user_hash:
     path: /_fos_user_context_hash
 
+# Must be defined before ibexa.content.download, so that numeric {fieldId} takes precedence over {fieldIdentifier}
+ibexa.content.download.field_id.filename:
+    path: /content/download/{contentId}/{fieldId}/{filename}
+    defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController::downloadBinaryFileByIdAction }
+    requirements:
+        contentId: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
+        fieldId: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
+
 ibexa.content.download:
     path: /content/download/{contentId}/{fieldIdentifier}/{filename}
     defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController::downloadBinaryFileAction }
     requirements:
-        contentId: '\d+'
+        contentId: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
 
+# Deprecated since 5.0, will be removed in 6.0. Use ibexa.content.download.field_id.filename instead.
 ibexa.content.download.field_id:
     path: /content/download/{contentId}/{fieldId}
     defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController::downloadBinaryFileByIdAction }
     requirements:
-        contentId: '\d+'
-        fieldId: '\d+'
+        contentId: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
+        fieldId: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS

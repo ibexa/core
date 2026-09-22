@@ -15,10 +15,9 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly as VisibleOnlyHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly
- */
+#[CoversClass(VisibleOnlyHandler::class)]
 class VisibleOnlyTest extends CriterionHandlerTestCase
 {
     /**
@@ -43,7 +42,7 @@ class VisibleOnlyTest extends CriterionHandlerTestCase
 
         $criterion = new Criterion\VisibleOnly();
         $handler = new VisibleOnlyHandler(new JoinedTablesTracker());
-        $converter = $this->createMock(CriteriaConverter::class);
+        $converter = self::createStub(CriteriaConverter::class);
         $queryBuilder = $this->createDoctrineQueryBuilder();
 
         $actual = $handler->handle($converter, $queryBuilder, $criterion);
@@ -64,7 +63,7 @@ class VisibleOnlyTest extends CriterionHandlerTestCase
         $expressionBuilder = new ExpressionBuilder($connection);
         $connection
             ->expects(self::any())
-            ->method('getExpressionBuilder')
+            ->method('createExpressionBuilder')
             ->willReturn($expressionBuilder);
 
         return new QueryBuilder($connection);

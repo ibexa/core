@@ -12,10 +12,11 @@ use Ibexa\Contracts\Core\Repository\TokenService;
 use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Core\Base\Exceptions\TokenLengthException;
+use Ibexa\Core\Repository\TokenService as CoveredTokenService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * @covers \Ibexa\Core\Repository\TokenService
- */
+#[CoversClass(CoveredTokenService::class)]
 final class TokenServiceTest extends IbexaKernelTestCase
 {
     private const TOKEN_TYPE = 'foo';
@@ -35,10 +36,9 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @dataProvider provideTokenData
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('provideTokenData')]
     public function testGenerateToken(
         string $type,
         int $tll,
@@ -72,10 +72,9 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @dataProvider provideDataForTestCheckToken
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('provideDataForTestCheckToken')]
     public function testCheckExistingToken(
         string $type,
         int $tll,
@@ -104,10 +103,9 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @dataProvider provideTokenData
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('provideTokenData')]
     public function testGetToken(
         string $type,
         int $tll,
@@ -225,7 +223,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
      *     ?int
      * }>
      */
-    public function provideTokenData(): iterable
+    public static function provideTokenData(): iterable
     {
         yield 'Token with default length 64 and custom identifier' => [
             self::TOKEN_TYPE,
@@ -255,7 +253,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
      *     ?string
      * }>
      */
-    public function provideDataForTestCheckToken(): iterable
+    public static function provideDataForTestCheckToken(): iterable
     {
         yield 'Token with identifier' => [
             self::TOKEN_TYPE,

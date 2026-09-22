@@ -33,7 +33,7 @@ class BinaryLoaderTest extends TestCase
         $this->binaryLoader = new BinaryLoader($this->ioService, new MimeTypes());
     }
 
-    public function testFindNotFound()
+    public function testFindNotFound(): void
     {
         $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
 
@@ -47,7 +47,7 @@ class BinaryLoaderTest extends TestCase
         $this->binaryLoader->find($path);
     }
 
-    public function testFindMissing()
+    public function testFindMissing(): void
     {
         $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
 
@@ -61,7 +61,7 @@ class BinaryLoaderTest extends TestCase
         $this->binaryLoader->find($path);
     }
 
-    public function testFindBadPathRoot()
+    public function testFindBadPathRoot(): void
     {
         $path = 'var/site/storage/images/1/2/3/123-name/name.png';
         $this->ioService

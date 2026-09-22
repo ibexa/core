@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
@@ -25,15 +26,14 @@ class ParameterProviderTest extends TestCase
     /** @var \Ibexa\Contracts\Core\Repository\UserService|\PHPUnit\Framework\MockObject\MockObject */
     private $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject */
-    private $user;
+    private User&Stub $user;
 
     /** @var \Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider */
     private $parameterProvider;
 
     protected function setUp(): void
     {
-        $this->user = $this->createMock(User::class);
+        $this->user = self::createStub(User::class);
 
         $this->userService = $this->createMock(UserService::class);
         $this->userService

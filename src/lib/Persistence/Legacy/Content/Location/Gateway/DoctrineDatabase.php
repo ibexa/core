@@ -152,7 +152,7 @@ final class DoctrineDatabase extends Gateway
                 't',
                 self::NODE_ASSIGNMENT_TABLE,
                 'a',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq(
                         't.node_id',
                         'a.parent_node'
@@ -174,7 +174,7 @@ final class DoctrineDatabase extends Gateway
                 'a',
                 ContentGateway::CONTENT_ITEM_TABLE,
                 'c',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq(
                         'a.contentobject_id',
                         'c.id'
@@ -982,7 +982,7 @@ final class DoctrineDatabase extends Gateway
         )->where(
             $query->expr()->eq(
                 'contentobject_id',
-                $contentId
+                (string) $contentId
             )
         );
         $query->executeStatement();
@@ -1046,7 +1046,7 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     'node_id',
-                    $locationId
+                    (string) $locationId
                 )
             );
         $query->executeStatement();
@@ -1420,7 +1420,7 @@ final class DoctrineDatabase extends Gateway
     ): QueryBuilder {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
-            ->select($columns)
+            ->select(...$columns)
             ->from(self::CONTENT_TREE_TABLE, 't')
         ;
 
@@ -1456,8 +1456,8 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder->andWhere(
             $expr->or(
                 $expr->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression('c.language_mask', $mask),
-                    0
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression('c.language_mask', (string)$mask),
+                    '0'
                 ),
                 // Root location doesn't have language mask
                 $expr->eq(

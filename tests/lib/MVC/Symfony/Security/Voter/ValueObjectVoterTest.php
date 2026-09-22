@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Controller\Content\ViewController;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Voter\ValueObjectVoter;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -27,16 +28,17 @@ class ValueObjectVoterTest extends TestCase
         $this->permissionResolver = $this->createMock(PermissionResolver::class);
     }
 
-    /**
-     * @dataProvider supportsAttributeProvider
-     */
-    public function testSupportsAttribute($attribute, $expectedResult)
+    #[DataProvider('supportsAttributeProvider')]
+    public function testSupportsAttribute($attribute, $expectedResult): void
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
         self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
 
-    public function supportsAttributeProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function supportsAttributeProvider(): array
     {
         return [
             ['foo', false],
@@ -48,23 +50,24 @@ class ValueObjectVoterTest extends TestCase
                 new Attribute(
                     'foo',
                     'bar',
-                    ['valueObject' => $this->getMockForAbstractClass(ValueObject::class)]
+                    ['valueObject' => self::createStub(ValueObject::class)]
                 ),
                 true,
             ],
         ];
     }
 
-    /**
-     * @dataProvider supportsClassProvider
-     */
-    public function testSupportsClass($class)
+    #[DataProvider('supportsClassProvider')]
+    public function testSupportsClass($class): void
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
         self::assertTrue($voter->supportsClass($class));
     }
 
-    public function supportsClassProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function supportsClassProvider(): array
     {
         return [
             ['foo'],
@@ -74,23 +77,24 @@ class ValueObjectVoterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider voteInvalidAttributeProvider
-     */
-    public function testVoteInvalidAttribute(array $attributes)
+    #[DataProvider('voteInvalidAttributeProvider')]
+    public function testVoteInvalidAttribute(array $attributes): void
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
         self::assertSame(
             VoterInterface::ACCESS_ABSTAIN,
             $voter->vote(
-                $this->createMock(TokenInterface::class),
+                self::createStub(TokenInterface::class),
                 new \stdClass(),
                 $attributes
             )
         );
     }
 
-    public function voteInvalidAttributeProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function voteInvalidAttributeProvider(): array
     {
         return [
             [[]],
@@ -101,10 +105,8 @@ class ValueObjectVoterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider voteProvider
-     */
-    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult)
+    #[DataProvider('voteProvider')]
+    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult): void
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
         $targets = isset($attribute->limitations['targets']) ? $attribute->limitations['targets'] : [];
@@ -117,30 +119,29 @@ class ValueObjectVoterTest extends TestCase
         self::assertSame(
             $expectedResult,
             $voter->vote(
-                $this->createMock(TokenInterface::class),
+                self::createStub(TokenInterface::class),
                 new \stdClass(),
                 [$attribute]
             )
         );
     }
 
-    public function voteProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function voteProvider(): array
     {
         return [
             [
                 new Attribute('content', 'read', [
-                    'valueObject' => $this->getMockForAbstractClass(
-                        ValueObject::class
-                    ),
+                    'valueObject' => self::createStub(ValueObject::class),
                 ]),
                 true,
                 VoterInterface::ACCESS_GRANTED,
             ],
             [
                 new Attribute('content', 'read', [
-                    'valueObject' => $this->getMockForAbstractClass(
-                        ValueObject::class
-                    ),
+                    'valueObject' => self::createStub(ValueObject::class),
                 ]),
                 false,
                 VoterInterface::ACCESS_DENIED,
@@ -150,8 +151,8 @@ class ValueObjectVoterTest extends TestCase
                     'content',
                     'read',
                     [
-                        'valueObject' => $this->getMockForAbstractClass(ValueObject::class),
-                        'targets' => [$this->getMockForAbstractClass(ValueObject::class)],
+                        'valueObject' => self::createStub(ValueObject::class),
+                        'targets' => [self::createStub(ValueObject::class)],
                     ]
                 ),
                 true,
@@ -162,8 +163,8 @@ class ValueObjectVoterTest extends TestCase
                     'content',
                     'read',
                     [
-                        'valueObject' => $this->getMockForAbstractClass(ValueObject::class),
-                        'targets' => [$this->getMockForAbstractClass(ValueObject::class)],
+                        'valueObject' => self::createStub(ValueObject::class),
+                        'targets' => [self::createStub(ValueObject::class)],
                     ]
                 ),
                 true,
@@ -174,8 +175,8 @@ class ValueObjectVoterTest extends TestCase
                     'content',
                     'read',
                     [
-                        'valueObject' => $this->getMockForAbstractClass(ValueObject::class),
-                        'targets' => [$this->getMockForAbstractClass(ValueObject::class)],
+                        'valueObject' => self::createStub(ValueObject::class),
+                        'targets' => [self::createStub(ValueObject::class)],
                     ]
                 ),
                 false,
@@ -186,8 +187,8 @@ class ValueObjectVoterTest extends TestCase
                     'content',
                     'read',
                     [
-                        'valueObject' => $this->getMockForAbstractClass(ValueObject::class),
-                        'targets' => [$this->getMockForAbstractClass(ValueObject::class)],
+                        'valueObject' => self::createStub(ValueObject::class),
+                        'targets' => [self::createStub(ValueObject::class)],
                     ]
                 ),
                 false,

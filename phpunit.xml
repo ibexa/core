@@ -1,16 +1,18 @@
+<?xml version="1.0"?>
 <phpunit
-  backupGlobals="false"
-  backupStaticAttributes="false"
-  bootstrap="bootstrap.php"
-  convertErrorsToExceptions="true"
-  convertNoticesToExceptions="true"
-  convertWarningsToExceptions="true"
-  beStrictAboutTestsThatDoNotTestAnything="false"
-  colors="true"
-  >
+    backupGlobals="false"
+    bootstrap="bootstrap.php"
+    beStrictAboutTestsThatDoNotTestAnything="false"
+    colors="true"
+    failOnWarning="true"
+    failOnNotice="true"
+    cacheDirectory=".phpunit.cache"
+    backupStaticProperties="false"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    failOnDeprecation="true"
+>
   <php>
-    <ini name="error_reporting" value="-1" />
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=82&amp;max[direct]=855&amp;max[indirect]=14&amp;verbose=0"/>
+    <ini name="error_reporting" value="-1"/>
   </php>
   <testsuites>
     <testsuite name="unit_core">
@@ -32,7 +34,12 @@
       <directory>tests/bundle/LegacySearchEngine</directory>
     </testsuite>
   </testsuites>
-  <listeners>
-    <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-  </listeners>
+  <source baseline="phpunit.baseline.xml" ignoreIndirectDeprecations="false" ignoreSuppressionOfDeprecations="true">
+    <include>
+      <directory>src</directory>
+    </include>
+  </source>
+  <extensions>
+    <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension"/>
+  </extensions>
 </phpunit>

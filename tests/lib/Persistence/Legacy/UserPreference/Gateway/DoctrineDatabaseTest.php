@@ -13,10 +13,9 @@ use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway
- */
+#[CoversClass(Gateway::class)]
 class DoctrineDatabaseTest extends TestCase
 {
     public const EXISTING_USER_PREFERENCE_ID = 1;
@@ -36,7 +35,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testInsert()
+    public function testInsert(): void
     {
         $id = $this->getGateway()->setUserPreference(new UserPreferenceSetStruct([
             'userId' => 14,
@@ -54,7 +53,7 @@ class DoctrineDatabaseTest extends TestCase
         ], $data);
     }
 
-    public function testUpdateUserPreference()
+    public function testUpdateUserPreference(): void
     {
         $userPreference = new UserPreferenceSetStruct([
             'userId' => 14,
@@ -72,14 +71,14 @@ class DoctrineDatabaseTest extends TestCase
         ], $this->loadUserPreference(self::EXISTING_USER_PREFERENCE_ID));
     }
 
-    public function testCountUserPreferences()
+    public function testCountUserPreferences(): void
     {
         self::assertEquals(3, $this->getGateway()->countUserPreferences(
             self::EXISTING_USER_PREFERENCE_DATA['user_id']
         ));
     }
 
-    public function testLoadUserPreferences()
+    public function testLoadUserPreferences(): void
     {
         $userId = 14;
         $offset = 1;

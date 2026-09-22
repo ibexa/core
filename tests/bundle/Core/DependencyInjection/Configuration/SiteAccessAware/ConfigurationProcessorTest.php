@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ConfigurationProcessorTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $namespace = 'ibexa_test';
         $siteAccessNodeName = 'foo';
@@ -42,7 +42,7 @@ class ConfigurationProcessorTest extends TestCase
         self::assertSame($groupsBySa, $contextualizer->getGroupsBySiteAccess());
     }
 
-    public function testGetSetContextualizer()
+    public function testGetSetContextualizer(): void
     {
         $namespace = 'ibexa_test';
         $siteAccessNodeName = 'foo';
@@ -59,7 +59,7 @@ class ConfigurationProcessorTest extends TestCase
         self::assertSame($newContextualizer, $processor->getContextualizer());
     }
 
-    public function testMapConfigClosure()
+    public function testMapConfigClosure(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';
@@ -98,7 +98,7 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapConfig($config, $mapperClosure);
     }
 
-    public function testMapConfigMapperObject()
+    public function testMapConfigMapperObject(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';
@@ -144,7 +144,7 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapConfig($config, $mapper);
     }
 
-    public function testMapConfigHookableMapperObject()
+    public function testMapConfigHookableMapperObject(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';
@@ -198,7 +198,7 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapConfig($config, $mapper);
     }
 
-    public function testMapSetting()
+    public function testMapSetting(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';
@@ -234,7 +234,7 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapSetting('foo', $config);
     }
 
-    public function testMapConfigArray()
+    public function testMapConfigArray(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';

@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleDownOnlyFilterLoader;
 use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ScaleDownOnlyFilterLoaderTest extends TestCase
@@ -29,17 +30,18 @@ class ScaleDownOnlyFilterLoaderTest extends TestCase
         $this->loader->setInnerLoader($this->innerLoader);
     }
 
-    /**
-     * @dataProvider loadInvalidProvider
-     */
-    public function testLoadInvalidOptions(array $options)
+    #[DataProvider('loadInvalidProvider')]
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->loader->load($this->createMock(ImageInterface::class), $options);
+        $this->loader->load(self::createStub(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -48,10 +50,10 @@ class ScaleDownOnlyFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $options = [123, 456];
-        $image = $this->createMock(ImageInterface::class);
+        $image = self::createStub(ImageInterface::class);
         $this->innerLoader
             ->expects(self::once())
             ->method('load')

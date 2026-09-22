@@ -1,0 +1,37 @@
+imports:
+    - deptrac.baseline.yaml
+
+deptrac:
+    paths:
+        - ./src
+        - ./tests
+    layers:
+        - name: Bundle
+          collectors:
+              - type: directory
+                value: src/bundle/.*
+              - type: directory
+                value: src/lib/.*
+        - name: Contracts
+          collectors:
+              - type: directory
+                value: src/contracts/.*
+        - name: InternalContracts
+          collectors:
+              - type: directory
+                value: src/internal-contracts/.*
+        - name: Test
+          collectors:
+              - type: directory
+                value: tests/.*
+    ruleset:
+        Bundle:
+            - Contracts
+            - InternalContracts
+        Contracts: ~
+        InternalContracts:
+            - Contracts
+        Test:
+            - Bundle
+            - Contracts
+            - InternalContracts

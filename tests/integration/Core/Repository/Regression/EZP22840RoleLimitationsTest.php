@@ -15,12 +15,12 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 /**
  * Issue EZP-22840.
  */
-class EZP22840RoleLimitations extends BaseTestCase
+class EZP22840RoleLimitationsTest extends BaseTestCase
 {
     /**
      * Test Subtree Role Assignment Limitation against state/assign.
      */
-    public function testSubtreeRoleAssignLimitation()
+    public function testSubtreeRoleAssignLimitation(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -66,7 +66,7 @@ class EZP22840RoleLimitations extends BaseTestCase
     /**
      * Test Section Role Assignment Limitation against user/login.
      */
-    public function testSectionRoleAssignLimitation()
+    public function testSectionRoleAssignLimitation(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();

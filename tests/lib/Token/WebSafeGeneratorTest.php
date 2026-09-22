@@ -10,11 +10,11 @@ namespace Ibexa\Tests\Core\Token;
 
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
 use Ibexa\Core\Token\WebSafeGenerator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Token\WebSafeGenerator
- */
+#[CoversClass(WebSafeGenerator::class)]
 final class WebSafeGeneratorTest extends TestCase
 {
     private TokenGeneratorInterface $tokenGenerator;
@@ -29,10 +29,9 @@ final class WebSafeGeneratorTest extends TestCase
     }
 
     /**
-     * @dataProvider provideDataForTestGenerateToken
-     *
      * @throws \Exception
      */
+    #[DataProvider('provideDataForTestGenerateToken')]
     public function testGenerateToken(
         int $expectedTokenLength,
         string $mockGeneratorOutputToken,
@@ -63,7 +62,7 @@ final class WebSafeGeneratorTest extends TestCase
      *     string
      * }>
      */
-    public function provideDataForTestGenerateToken(): iterable
+    public static function provideDataForTestGenerateToken(): iterable
     {
         yield [
             20,

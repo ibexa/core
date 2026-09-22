@@ -13,10 +13,9 @@ use Ibexa\Core\MVC\Symfony\Translation\ValidationErrorFileVisitor;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Translation\ValidationErrorFileVisitor
- */
+#[CoversClass(ValidationErrorFileVisitor::class)]
 final class ValidationErrorFileVisitorTest extends BaseMessageExtractorPhpFileVisitorTestCase
 {
     /**

@@ -28,7 +28,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         return TrashService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public static function providerForPassTroughMethods(): array
     {
         $location = new Location();
         $newLocation = new Location();
@@ -49,9 +49,12 @@ class TrashServiceTest extends AbstractServiceTestCase
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    /**
+     * @return iterable<mixed>
+     */
+    public static function providerForLanguagesLookupMethods(): iterable
     {
         // string $method, array $arguments, bool $return, int $languageArgumentIndex
-        return [];
+        yield [self::NO_DATA_METHOD, ['TrashService has no language-lookup methods.'], null, 0];
     }
 }

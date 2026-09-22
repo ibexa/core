@@ -8,12 +8,12 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Locale;
 
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverter;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Locale\LocaleConverter
- */
+#[CoversClass(LocaleConverter::class)]
 final class LocaleConverterTest extends TestCase
 {
     private LocaleConverter $localeConverter;
@@ -48,9 +48,7 @@ final class LocaleConverterTest extends TestCase
         $this->localeConverter = new LocaleConverter($this->conversionMap, $this->logger);
     }
 
-    /**
-     * @dataProvider convertToPOSIXProvider
-     */
+    #[DataProvider('convertToPOSIXProvider')]
     public function testConvertToPOSIX(string $repositoryLocale, ?string $expected): void
     {
         if ($expected === null) {
@@ -62,7 +60,7 @@ final class LocaleConverterTest extends TestCase
         self::assertSame($expected, $this->localeConverter->convertToPOSIX($repositoryLocale));
     }
 
-    public function convertToPOSIXProvider(): array
+    public static function convertToPOSIXProvider(): array
     {
         return [
             ['eng-GB', 'en_GB'],
@@ -74,9 +72,7 @@ final class LocaleConverterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider convertToRepositoryProvider
-     */
+    #[DataProvider('convertToRepositoryProvider')]
     public function testConvertToRepository(string $posixLocale, ?string $expected): void
     {
         if ($expected === null) {
@@ -96,7 +92,7 @@ final class LocaleConverterTest extends TestCase
      *   }
      * }
      */
-    public function convertToRepositoryProvider(): array
+    public static function convertToRepositoryProvider(): array
     {
         return [
             ['en_GB', 'eng-GB'],

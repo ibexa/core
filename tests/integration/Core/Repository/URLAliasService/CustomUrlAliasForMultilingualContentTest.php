@@ -9,14 +9,16 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\URLAliasService;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Repository\ContentService;
+use Ibexa\Core\Repository\URLAliasService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(ContentService::class)]
+#[CoversClass(URLAliasService::class)]
 final class CustomUrlAliasForMultilingualContentTest extends BaseTestCase
 {
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException

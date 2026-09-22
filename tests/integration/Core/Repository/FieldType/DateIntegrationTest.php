@@ -13,13 +13,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\FieldType\Date\Type;
 use Ibexa\Core\FieldType\Date\Value as DateValue;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 class DateIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
@@ -156,7 +156,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public static function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -200,9 +200,9 @@ class DateIntegrationTest extends SearchBaseIntegrationTestCase
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public static function provideInvalidUpdateFieldData(): array
     {
-        return $this->provideInvalidCreationFieldData();
+        return self::provideInvalidCreationFieldData();
     }
 
     /**
@@ -238,7 +238,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideToHashData()
+    public static function provideToHashData(): array
     {
         $timestamp = 186401;
         $dateTime = new DateTime("@{$timestamp}");
@@ -274,7 +274,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @return array
      */
-    public function provideFromHashData()
+    public static function provideFromHashData(): array
     {
         $timestamp = 123456;
 
@@ -299,47 +299,53 @@ class DateIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsEmptyValue(): array
     {
         return [
             [new DateValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
-                $this->getValidCreationFieldData(),
+                DateValue::fromTimestamp(86400),
             ],
         ];
     }
 
-    protected function getValidSearchValueOne(): int
+    protected static function getValidSearchValueOne(): int
     {
         return 86400;
     }
 
-    protected function getValidSearchValueTwo(): int
+    protected static function getValidSearchValueTwo(): int
     {
         return 172800;
     }
 
-    protected function getSearchTargetValueOne()
+    protected static function getSearchTargetValueOne()
     {
         // Handling Legacy Search Engine, which stores Date value as timestamp
-        if ($this->getSetupFactory() instanceof Legacy) {
-            return $this->getValidSearchValueOne();
+        if (static::resolveSetupFactory() instanceof Legacy) {
+            return static::getValidSearchValueOne();
         }
 
         return '1970-01-02T00:00:00Z';
     }
 
-    protected function getSearchTargetValueTwo()
+    protected static function getSearchTargetValueTwo()
     {
         // Handling Legacy Search Engine, which stores Date value as timestamp
-        if ($this->getSetupFactory() instanceof Legacy) {
-            return $this->getValidSearchValueTwo();
+        if (static::resolveSetupFactory() instanceof Legacy) {
+            return static::getValidSearchValueTwo();
         }
 
         return '1970-01-03T00:00:00Z';

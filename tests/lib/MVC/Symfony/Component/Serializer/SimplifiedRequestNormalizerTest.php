@@ -9,12 +9,11 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer
- */
+#[CoversClass(SimplifiedRequestNormalizer::class)]
 final class SimplifiedRequestNormalizerTest extends TestCase
 {
     /**

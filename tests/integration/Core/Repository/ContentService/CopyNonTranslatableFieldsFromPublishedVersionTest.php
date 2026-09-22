@@ -11,12 +11,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 use DateTime;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[CoversClass(ContentService::class)]
 final class CopyNonTranslatableFieldsFromPublishedVersionTest extends RepositoryTestCase
 {
     private const GER_DE = 'ger-DE';
@@ -31,7 +31,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     {
         $this->createNonTranslatableContentType();
 
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         // Creating start content in eng-US language
         $contentDraft = $this->createEngDraft();
@@ -81,7 +81,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     {
         $this->createNonTranslatableContentType();
 
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         // Creating start content in eng-US language
         $contentDraft = $this->createEngDraft();
@@ -124,7 +124,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     {
         $this->createNonTranslatableContentType();
 
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         // Creating start content in eng-US language
         $contentDraft = $this->createEngDraft();
@@ -167,9 +167,9 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
 
     private function createEngDraft(): Content
     {
-        $contentService = self::getContentService();
-        $contentTypeService = self::getContentTypeService();
-        $locationService = self::getLocationService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
+        $locationService = $this->getIbexaTestCore()->getLocationService();
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::CONTENT_TYPE_IDENTIFIER);
         $mainLanguageCode = self::ENG_US;
@@ -187,8 +187,8 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
 
     private function createNonTranslatableContentType(): void
     {
-        $permissionResolver = self::getPermissionResolver();
-        $contentTypeService = self::getContentTypeService();
+        $permissionResolver = $this->getIbexaTestCore()->getPermissionResolver();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct(self::CONTENT_TYPE_IDENTIFIER);
 
@@ -245,7 +245,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
         bool $isRequired,
         ?string $defaultValue = null
     ): FieldDefinitionCreateStruct {
-        $contentTypeService = self::getContentTypeService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct(
             $fieldIdentifier,

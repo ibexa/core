@@ -9,17 +9,20 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\Repository\ContentService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for create and update Content operations in the ContentService with regard to
  * non-redundant set of fields being passed to the storage.
  *
  * These tests depends on TextLine field type being functional.
- *
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- *
- * @group content
  */
+#[CoversClass(ContentService::class)]
+#[Group('content')]
 class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
 {
     /**
@@ -27,13 +30,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      *
      * Default values are stored.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testCreateContentDefaultValues()
     {
         $mainLanguageCode = 'eng-US';
@@ -52,13 +54,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends testCreateContentDefaultValues
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testCreateContentDefaultValuesFields(Content $content)
+    #[Depends('testCreateContentDefaultValues')]
+    public function testCreateContentDefaultValuesFields(Content $content): void
     {
         self::assertCount(1, $content->versionInfo->languageCodes);
         self::assertContains('eng-US', $content->versionInfo->languageCodes);
@@ -76,13 +77,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      *
      * Creating fields with empty values, no values being passed to storage.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testCreateContentEmptyValues()
     {
         $mainLanguageCode = 'eng-US';
@@ -101,13 +101,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends testCreateContentEmptyValues
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testCreateContentEmptyValuesFields(Content $content)
+    #[Depends('testCreateContentEmptyValues')]
+    public function testCreateContentEmptyValuesFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -129,13 +128,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * Creating fields with empty values, no values being passed to storage.
      * Case where additional language is not stored.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testCreateContentEmptyValuesTranslationNotStored()
     {
         $mainLanguageCode = 'eng-US';
@@ -154,13 +152,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends testCreateContentEmptyValuesTranslationNotStored
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testCreateContentEmptyValuesTranslationNotStoredFields(Content $content)
+    #[Depends('testCreateContentEmptyValuesTranslationNotStored')]
+    public function testCreateContentEmptyValuesTranslationNotStoredFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -184,13 +181,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      *
      * Creating with two languages, main language is always stored (even with all values being empty).
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testCreateContentTwoLanguagesMainTranslationStored()
     {
         $mainLanguageCode = 'eng-US';
@@ -209,13 +205,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends testCreateContentTwoLanguagesMainTranslationStored
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testCreateContentTwoLanguagesMainTranslationStoredFields(Content $content)
+    #[Depends('testCreateContentTwoLanguagesMainTranslationStored')]
+    public function testCreateContentTwoLanguagesMainTranslationStoredFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -244,13 +239,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * Creating with two languages, second (not main one) language with empty values, causing no fields
      * for it being passed to the storage. Second language will not be stored.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testCreateContentTwoLanguagesSecondTranslationNotStored()
     {
         $mainLanguageCode = 'eng-US';
@@ -268,13 +262,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends testCreateContentTwoLanguagesSecondTranslationNotStored
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testCreateContentTwoLanguagesSecondTranslationNotStoredFields(Content $content)
+    #[Depends('testCreateContentTwoLanguagesSecondTranslationNotStored')]
+    public function testCreateContentTwoLanguagesSecondTranslationNotStoredFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -297,13 +290,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      *
      * Creating with no fields in struct, using only default values.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testCreateContentDefaultValuesNoStructFields()
     {
         $mainLanguageCode = 'eng-US';
@@ -319,13 +311,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends testCreateContentDefaultValuesNoStructFields
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testCreateContentDefaultValuesNoStructFieldsFields(Content $content)
+    #[Depends('testCreateContentDefaultValuesNoStructFields')]
+    public function testCreateContentDefaultValuesNoStructFieldsFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -345,13 +336,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      *
      * Creating in two languages with no given field values for main language.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testCreateContentTwoLanguagesNoValuesForMainLanguage()
     {
         $mainLanguageCode = 'eng-US';
@@ -369,13 +359,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends testCreateContentTwoLanguagesNoValuesForMainLanguage
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testCreateContentTwoLanguagesNoValuesForMainLanguageFields(Content $content)
+    #[Depends('testCreateContentTwoLanguagesNoValuesForMainLanguage')]
+    public function testCreateContentTwoLanguagesNoValuesForMainLanguageFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -400,12 +389,11 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContentDraft() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
      *
-     * @depends testCreateContentTwoLanguagesMainTranslationStoredFields
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
      */
+    #[Depends('testCreateContentTwoLanguagesMainTranslationStoredFields')]
     public function testCreateContentDraft()
     {
         $repository = $this->getRepository();
@@ -423,11 +411,11 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContentDraft() method.
      *
-     * @depends testCreateContentDraft
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content[] $data
      */
-    public function testCreateContentDraftFields(array $data)
+    #[Depends('testCreateContentDraft')]
+    public function testCreateContentDraftFields(array $data): void
     {
         $content = $data[1];
 
@@ -454,12 +442,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the createContentDraft() method.
      *
-     * @depends testCreateContentDraft
-     * @depends testCreateContentDraftFields
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content[] $data
      */
-    public function testCreateContentDraftFieldsRetainsIds(array $data)
+    #[Depends('testCreateContentDraft')]
+    #[Depends('testCreateContentDraftFields')]
+    public function testCreateContentDraftFieldsRetainsIds(array $data): void
     {
         $this->assertFieldIds($data[0], $data[1]);
     }
@@ -472,13 +460,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      *  - value for new language is empty
      *  - value for new language is not empty
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testUpdateContentWithNewLanguage()
     {
         $initialLanguageCode = 'ger-DE';
@@ -495,13 +482,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the updateContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
      *
-     * @depends testUpdateContentWithNewLanguage
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testUpdateContentWithNewLanguageFields(Content $content)
+    #[Depends('testUpdateContentWithNewLanguage')]
+    public function testUpdateContentWithNewLanguageFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -540,13 +526,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      *  - existing language value updated with empty value
      *  - existing language value not changed
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testUpdateContentWithNewLanguageVariant()
     {
         $initialLanguageCode = 'ger-DE';
@@ -564,13 +549,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the updateContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
      *
-     * @depends testUpdateContentWithNewLanguageVariant
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testUpdateContentWithNewLanguageVariantFields(Content $content)
+    #[Depends('testUpdateContentWithNewLanguageVariant')]
+    public function testUpdateContentWithNewLanguageVariantFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -604,13 +588,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      *
      * Updating with with new language and no field values given in the update struct.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testUpdateContentWithNewLanguageNoValues()
     {
         $initialLanguageCode = 'ger-DE';
@@ -625,13 +608,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the updateContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
      *
-     * @depends testUpdateContentWithNewLanguageNoValues
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testUpdateContentWithNewLanguageNoValuesFields(Content $content)
+    #[Depends('testUpdateContentWithNewLanguageNoValues')]
+    public function testUpdateContentWithNewLanguageNoValuesFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -666,13 +648,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      * When updating Content with two languages, updating non-translatable field will also update it's value
      * for non-main language.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopy()
     {
         $initialLanguageCode = 'eng-US';
@@ -690,13 +671,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the updateContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
      *
-     * @depends testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopy
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopyFields(Content $content)
+    #[Depends('testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopy')]
+    public function testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopyFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
@@ -723,13 +703,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      *
      * Updating with two languages, initial language is always stored (even with all values being empty).
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
+    #[DependsExternal(ContentServiceTest::class, 'testCreateContent')]
+    #[DependsExternal(ContentTypeServiceTest::class, 'testCreateContentType')]
     public function testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreated()
     {
         $initialLanguageCode = 'ger-DE';
@@ -748,13 +727,12 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
     /**
      * Test for the updateContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
      *
-     * @depends testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreated
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreatedFields(Content $content)
+    #[Depends('testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreated')]
+    public function testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreatedFields(Content $content): void
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 

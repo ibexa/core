@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItem
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\ContentService\RelationListFacade;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class RelationListFacadeTest extends TestCase
@@ -23,12 +24,12 @@ final class RelationListFacadeTest extends TestCase
 
     private RelationListFacade $relationListFacade;
 
-    private VersionInfo&MockObject $versionInfo;
+    private VersionInfo&Stub $versionInfo;
 
     protected function setUp(): void
     {
         $this->contentService = $this->createMock(ContentService::class);
-        $this->versionInfo = $this->createMock(VersionInfo::class);
+        $this->versionInfo = self::createStub(VersionInfo::class);
         $this->relationListFacade = new RelationListFacade($this->contentService);
     }
 
@@ -73,7 +74,7 @@ final class RelationListFacadeTest extends TestCase
 
     public function testGetRelationsYieldsRelationsWhenPresent(): void
     {
-        $relation = $this->createMock(Relation::class);
+        $relation = self::createStub(Relation::class);
 
         $relationListItem = $this->createMock(RelationListItemInterface::class);
         $relationListItem

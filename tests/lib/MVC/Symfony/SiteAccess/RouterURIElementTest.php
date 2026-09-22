@@ -12,11 +12,12 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement as URIElementMatcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LoggerInterface;
 
 class RouterURIElementTest extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'default_sa'],
@@ -67,7 +68,7 @@ class RouterURIElementTest extends RouterBaseTestCase
         ];
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $matcher = new URIElementMatcher([]);
         self::assertSame('uri:element', $matcher->getName());
@@ -76,10 +77,9 @@ class RouterURIElementTest extends RouterBaseTestCase
     /**
      * @param string $uri
      * @param string $expectedFixedUpURI
-     *
-     * @dataProvider analyseProvider
      */
-    public function testAnalyseURI($uri, $expectedFixedUpURI)
+    #[DataProvider('analyseProvider')]
+    public function testAnalyseURI($uri, $expectedFixedUpURI): void
     {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(
@@ -91,10 +91,9 @@ class RouterURIElementTest extends RouterBaseTestCase
     /**
      * @param string $fullUri
      * @param string $linkUri
-     *
-     * @dataProvider analyseProvider
      */
-    public function testAnalyseLink($fullUri, $linkUri)
+    #[DataProvider('analyseProvider')]
+    public function testAnalyseLink($fullUri, $linkUri): void
     {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(
@@ -103,7 +102,10 @@ class RouterURIElementTest extends RouterBaseTestCase
         self::assertSame($fullUri, $matcher->analyseLink($linkUri));
     }
 
-    public function analyseProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function analyseProvider(): array
     {
         return [
             ['/my_siteaccess/foo/bar', '/foo/bar'],
@@ -111,10 +113,8 @@ class RouterURIElementTest extends RouterBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider reverseMatchProvider
-     */
-    public function testReverseMatch($siteAccessName, $originalPathinfo)
+    #[DataProvider('reverseMatchProvider')]
+    public function testReverseMatch($siteAccessName, $originalPathinfo): void
     {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, $originalPathinfo));
@@ -125,7 +125,10 @@ class RouterURIElementTest extends RouterBaseTestCase
         self::assertSame('/foo/bar/baz', $result->analyseURI("/$siteAccessName/foo/bar/baz"));
     }
 
-    public function reverseMatchProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function reverseMatchProvider(): array
     {
         return [
             ['something', '/foo/bar'],
@@ -136,7 +139,7 @@ class RouterURIElementTest extends RouterBaseTestCase
         ];
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/foo/bar'));
@@ -153,7 +156,7 @@ class RouterURIElementTest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            self::createStub(LoggerInterface::class),
             'default_sa',
             [
                 'URIElement' => [

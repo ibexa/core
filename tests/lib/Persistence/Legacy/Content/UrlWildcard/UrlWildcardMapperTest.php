@@ -10,16 +10,15 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlWildcard;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper
- */
+#[CoversClass(Mapper::class)]
 class UrlWildcardMapperTest extends TestCase
 {
     /**
      * Test for the createUrlWildcard() method.
      */
-    public function testCreateUrlWildcard()
+    public function testCreateUrlWildcard(): void
     {
         $mapper = $this->getMapper();
 
@@ -45,7 +44,7 @@ class UrlWildcardMapperTest extends TestCase
     /**
      * Test for the extractUrlWildcardFromRow() method.
      */
-    public function testExtractUrlWildcardFromRow()
+    public function testExtractUrlWildcardFromRow(): void
     {
         $mapper = $this->getMapper();
         $row = [
@@ -73,7 +72,7 @@ class UrlWildcardMapperTest extends TestCase
     /**
      * Test for the extractUrlWildcardFromRow() method.
      */
-    public function testExtractUrlWildcardsFromRows()
+    public function testExtractUrlWildcardsFromRows(): void
     {
         $mapper = $this->getMapper();
         $rows = [

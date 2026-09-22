@@ -134,17 +134,16 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
         float $constantAuthTime = 1.0,
         ?LoggerInterface $logger = null
     ): RepositoryUserAuthenticationSubscriber {
-        $request = $this->createMock(Request::class);
         $requestStack = $this->createMock(RequestStack::class);
         $requestStack
             ->method('getCurrentRequest')
-            ->willReturn($request);
+            ->willReturn(self::createStub(Request::class));
 
         return new RepositoryUserAuthenticationSubscriber(
             $requestStack,
-            $userService ?? $this->createMock(UserService::class),
+            $userService ?? self::createStub(UserService::class),
             $constantAuthTime,
-            $logger ?? $this->createMock(LoggerInterface::class)
+            $logger ?? self::createStub(LoggerInterface::class)
         );
     }
 
@@ -152,7 +151,6 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
         (User & MockObject)|null $user = null,
         ?Passport $passport = null,
     ): CheckPassportEvent {
-        $authenticator = $this->createMock(AuthenticatorInterface::class);
         $user = $user ?? $this->createMock(User::class);
 
         if ($passport === null) {
@@ -164,13 +162,14 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
 
             $passport = new Passport(
                 new UserBadge(
-                    $user->getUserIdentifier(),
+                    // mocked users return an empty identifier, which Symfony 8 rejects
+                    $user->getUserIdentifier() ?: 'user',
                     static fn (string $userIdentifier): IbexaUserInterface => $userProvider->loadUserByIdentifier($userIdentifier)
                 ),
                 new PasswordCredentials($user->getPassword())
             );
         }
 
-        return new CheckPassportEvent($authenticator, $passport);
+        return new CheckPassportEvent(self::createStub(AuthenticatorInterface::class), $passport);
     }
 }

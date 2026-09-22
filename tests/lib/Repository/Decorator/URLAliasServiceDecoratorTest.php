@@ -30,13 +30,13 @@ class URLAliasServiceDecoratorTest extends TestCase
         return $this->createMock(URLAliasService::class);
     }
 
-    public function testCreateUrlAliasDecorator()
+    public function testCreateUrlAliasDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
             'random_value_5ced05ce0f45c8.98320978',
             'random_value_5ced05ce0f45f9.49337276',
             true,
@@ -48,7 +48,7 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService->createUrlAlias(...$parameters);
     }
 
-    public function testCreateGlobalUrlAliasDecorator()
+    public function testCreateGlobalUrlAliasDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -66,13 +66,13 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService->createGlobalUrlAlias(...$parameters);
     }
 
-    public function testListLocationAliasesDecorator()
+    public function testListLocationAliasesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
             true,
             'random_value_5ced05ce0f4720.32499208',
         ];
@@ -82,7 +82,7 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService->listLocationAliases(...$parameters);
     }
 
-    public function testListGlobalAliasesDecorator()
+    public function testListGlobalAliasesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -98,7 +98,7 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService->listGlobalAliases(...$parameters);
     }
 
-    public function testRemoveAliasesDecorator()
+    public function testRemoveAliasesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -110,7 +110,7 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService->removeAliases(...$parameters);
     }
 
-    public function testLookupDecorator()
+    public function testLookupDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -125,13 +125,13 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService->lookup(...$parameters);
     }
 
-    public function testReverseLookupDecorator()
+    public function testReverseLookupDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Location::class),
+            self::createStub(Location::class),
             'random_value_5ced05ce0f4803.92292057',
         ];
 
@@ -140,7 +140,7 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService->reverseLookup(...$parameters);
     }
 
-    public function testLoadDecorator()
+    public function testLoadDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -152,19 +152,19 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService->load(...$parameters);
     }
 
-    public function testRefreshSystemUrlAliasesForLocationDecorator()
+    public function testRefreshSystemUrlAliasesForLocationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(Location::class)];
+        $parameters = [self::createStub(Location::class)];
 
         $serviceMock->expects(self::once())->method('refreshSystemUrlAliasesForLocation')->with(...$parameters);
 
         $decoratedService->refreshSystemUrlAliasesForLocation(...$parameters);
     }
 
-    public function testDeleteCorruptedUrlAliasesDecorator()
+    public function testDeleteCorruptedUrlAliasesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

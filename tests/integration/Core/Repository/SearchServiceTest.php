@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use function count;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
-use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -22,18 +21,21 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Core\Repository\SearchService;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 use ReflectionProperty;
 use RuntimeException;
 
 /**
  * Test case for operations in the SearchService.
- *
- * @covers \Ibexa\Contracts\Core\Repository\SearchService
- *
- * @group integration
- * @group search
  */
+#[CoversClass(SearchService::class)]
+#[Group('integration')]
+#[Group('search')]
 class SearchServiceTest extends BaseTestCase
 {
     public const QUERY_CLASS = Query::class;
@@ -46,9 +48,12 @@ class SearchServiceTest extends BaseTestCase
         self::FIND_LOCATION_METHOD,
     ];
 
-    public function getFilterContentSearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getFilterContentSearches(): array
     {
-        $fixtureDir = $this->getFixtureDir();
+        $fixtureDir = static::getFixtureDir();
 
         return [
             0 => [
@@ -611,9 +616,12 @@ class SearchServiceTest extends BaseTestCase
         ];
     }
 
-    public function getContentQuerySearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getContentQuerySearches(): array
     {
-        $fixtureDir = $this->getFixtureDir();
+        $fixtureDir = static::getFixtureDir();
 
         return [
             [
@@ -846,9 +854,12 @@ class SearchServiceTest extends BaseTestCase
         ];
     }
 
-    public function getLocationQuerySearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getLocationQuerySearches(): array
     {
-        $fixtureDir = $this->getFixtureDir();
+        $fixtureDir = static::getFixtureDir();
 
         return [
             [
@@ -918,12 +929,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @dataProvider getFilterContentSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFindContentFiltered($queryData, $fixture, $closure = null)
+    #[DataProvider('getFilterContentSearches')]
+    public function testFindContentFiltered($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -931,12 +939,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContentInfo() method.
-     *
-     * @dataProvider getFilterContentSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContentInfo()
      */
-    public function testFindContentInfoFiltered($queryData, $fixture, $closure = null)
+    #[DataProvider('getFilterContentSearches')]
+    public function testFindContentInfoFiltered($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure($closure), true);
@@ -944,12 +949,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @dataProvider getFilterContentSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFindLocationsContentFiltered($queryData, $fixture, $closure = null)
+    #[DataProvider('getFilterContentSearches')]
+    public function testFindLocationsContentFiltered($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -957,12 +959,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @dataProvider getContentQuerySearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testQueryContent($queryData, $fixture, $closure = null)
+    #[DataProvider('getContentQuerySearches')]
+    public function testQueryContent($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -970,12 +969,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContentInfo() method.
-     *
-     * @dataProvider getContentQuerySearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testQueryContentInfo($queryData, $fixture, $closure = null)
+    #[DataProvider('getContentQuerySearches')]
+    public function testQueryContentInfo($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure($closure), true);
@@ -983,12 +979,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @dataProvider getContentQuerySearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testQueryContentLocations($queryData, $fixture, $closure = null)
+    #[DataProvider('getContentQuerySearches')]
+    public function testQueryContentLocations($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -996,18 +989,18 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @dataProvider getLocationQuerySearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testQueryLocations($queryData, $fixture, $closure = null)
+    #[DataProvider('getLocationQuerySearches')]
+    public function testQueryLocations($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
 
-    public function getCaseInsensitiveSearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getCaseInsensitiveSearches(): array
     {
         return [
             [
@@ -1045,12 +1038,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @dataProvider getCaseInsensitiveSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFindContentFieldFiltersCaseSensitivity($queryData)
+    #[DataProvider('getCaseInsensitiveSearches')]
+    public function testFindContentFieldFiltersCaseSensitivity($queryData): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture(
@@ -1061,12 +1051,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @dataProvider getCaseInsensitiveSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFindLocationsFieldFiltersCaseSensitivity($queryData)
+    #[DataProvider('getCaseInsensitiveSearches')]
+    public function testFindLocationsFieldFiltersCaseSensitivity($queryData): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture(
@@ -1075,9 +1062,12 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function getRelationFieldFilterSearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getRelationFieldFilterSearches(): array
     {
-        $fixtureDir = $this->getFixtureDir();
+        $fixtureDir = static::getFixtureDir();
 
         return [
             0 => [
@@ -1153,7 +1143,7 @@ class SearchServiceTest extends BaseTestCase
      * Purely for creating relation data needed for testFindRelationFieldContentInfoFiltered()
      * and testFindRelationFieldLocationsFiltered().
      */
-    public function testRelationContentCreation()
+    public function testRelationContentCreation(): void
     {
         $repository = $this->getRepository();
         $galleryType = $repository->getContentTypeService()->loadContentTypeByIdentifier('gallery');
@@ -1179,14 +1169,10 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for FieldRelation using findContentInfo() method.
-     *
-     * @dataProvider getRelationFieldFilterSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContentInfo()
-     *
-     * @depends testRelationContentCreation
      */
-    public function testFindRelationFieldContentInfoFiltered($queryData, $fixture)
+    #[Depends('testRelationContentCreation')]
+    #[DataProvider('getRelationFieldFilterSearches')]
+    public function testFindRelationFieldContentInfoFiltered($queryData, $fixture): void
     {
         $this->getRepository(false); // To make sure repo is setup w/o removing data from getRelationFieldFilterContentSearches
         $query = new Query($queryData);
@@ -1195,21 +1181,17 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for FieldRelation using findLocations() method.
-     *
-     * @dataProvider getRelationFieldFilterSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @depends testRelationContentCreation
      */
-    public function testFindRelationFieldLocationsFiltered($queryData, $fixture)
+    #[Depends('testRelationContentCreation')]
+    #[DataProvider('getRelationFieldFilterSearches')]
+    public function testFindRelationFieldLocationsFiltered($queryData, $fixture): void
     {
         $this->getRepository(false); // To make sure repo is setup w/o removing data from getRelationFieldFilterContentSearches
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, null, true, false, false);
     }
 
-    public function testFindSingle()
+    public function testFindSingle(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -1226,7 +1208,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testFindNoPerformCount()
+    public function testFindNoPerformCount(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -1251,7 +1233,7 @@ class SearchServiceTest extends BaseTestCase
         }
     }
 
-    public function testFindNoPerformCountException()
+    public function testFindNoPerformCountException(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -1272,7 +1254,7 @@ class SearchServiceTest extends BaseTestCase
         $searchService->findContent($query);
     }
 
-    public function testFindLocationsNoPerformCount()
+    public function testFindLocationsNoPerformCount(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -1297,7 +1279,7 @@ class SearchServiceTest extends BaseTestCase
         }
     }
 
-    public function testFindLocationsNoPerformCountException()
+    public function testFindLocationsNoPerformCountException(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -1445,8 +1427,6 @@ class SearchServiceTest extends BaseTestCase
      * Test for the findContent() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
     public function testFieldIsEmpty()
     {
@@ -1478,10 +1458,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFieldIsNotEmpty()
+    public function testFieldIsNotEmpty(): void
     {
         $testContents = $this->createMovieContent();
 
@@ -1507,10 +1485,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFieldCollectionContains()
+    public function testFieldCollectionContains(): void
     {
         $testContent = $this->createMultipleCountriesContent();
 
@@ -1537,12 +1513,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @depends testFieldCollectionContains
      */
-    public function testFieldCollectionContainsNoMatch()
+    #[Depends('testFieldCollectionContains')]
+    public function testFieldCollectionContainsNoMatch(): void
     {
         $this->createMultipleCountriesContent();
         $query = new Query(
@@ -1562,7 +1535,7 @@ class SearchServiceTest extends BaseTestCase
         self::assertEquals(0, $result->totalCount);
     }
 
-    public function testInvalidFieldIdentifierRange()
+    public function testInvalidFieldIdentifierRange(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$criterion->target\' is invalid: No searchable Fields found for the provided Criterion target \'some_hopefully_unknown_field\'');
@@ -1584,7 +1557,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testInvalidFieldIdentifierIn()
+    public function testInvalidFieldIdentifierIn(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$criterion->target\' is invalid: No searchable Fields found for the provided Criterion target \'some_hopefully_unknown_field\'');
@@ -1606,7 +1579,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testFindContentWithNonSearchableField()
+    public function testFindContentWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$criterion->target\' is invalid: No searchable Fields found for the provided Criterion target \'tag_cloud_url\'');
@@ -1628,7 +1601,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testSortFieldWithNonSearchableField()
+    public function testSortFieldWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$sortClause->targetData\' is invalid: No searchable Fields found for the provided Sort Clause target \'title\' on \'template_look\'');
@@ -1645,7 +1618,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testSortMapLocationDistanceWithNonSearchableField()
+    public function testSortMapLocationDistanceWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$sortClause->targetData\' is invalid: No searchable Fields found for the provided Sort Clause target \'title\' on \'template_look\'');
@@ -1669,7 +1642,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testFindSingleFailMultiple()
+    public function testFindSingleFailMultiple(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1683,7 +1656,7 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function testFindSingleWithNonSearchableField()
+    public function testFindSingleWithNonSearchableField(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1699,9 +1672,12 @@ class SearchServiceTest extends BaseTestCase
         );
     }
 
-    public function getSortedContentSearches()
+    /**
+     * @return iterable<mixed>
+     */
+    public static function getSortedContentSearches(): iterable
     {
-        $fixtureDir = $this->getFixtureDir();
+        $fixtureDir = static::getFixtureDir();
 
         yield [
             [
@@ -1854,7 +1830,7 @@ class SearchServiceTest extends BaseTestCase
             $fixtureDir . 'SortFieldMultipleTypesSliceReverse.php',
         ];
 
-        if (!$this->isLegacySearchEngineSetup()) {
+        if (!static::isLegacySearchEngineSetup()) {
             yield [
                 [
                     'filter' => new Criterion\ContentTypeId(1),
@@ -1870,9 +1846,12 @@ class SearchServiceTest extends BaseTestCase
         }
     }
 
-    public function getSortedLocationSearches()
+    /**
+     * @return array<mixed>
+     */
+    public static function getSortedLocationSearches(): array
     {
-        $fixtureDir = $this->getFixtureDir();
+        $fixtureDir = static::getFixtureDir();
 
         return [
             [
@@ -2024,7 +2003,10 @@ class SearchServiceTest extends BaseTestCase
         return $content;
     }
 
-    public function providerForTestMultilingualFieldSort()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestMultilingualFieldSort(): array
     {
         return [
             0 => [
@@ -2333,21 +2315,21 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      *
-     * @group rrr
      *
-     * @dataProvider providerForTestMultilingualFieldSort
      *
      * @param array $contentDataList
      * @param array $languageSettings
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
      * @param array $expected
      */
+    #[Group('rrr')]
+    #[DataProvider('providerForTestMultilingualFieldSort')]
     public function testMultilingualFieldSortContent(
         array $contentDataList,
         $languageSettings,
         array $sortClauses,
         $expected
-    ) {
+    ): void {
         $this->assertMultilingualFieldSort(
             $contentDataList,
             $languageSettings,
@@ -2359,21 +2341,21 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      *
-     * @group rrr
      *
-     * @dataProvider providerForTestMultilingualFieldSort
      *
      * @param array $contentDataList
      * @param array $languageSettings
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
      * @param array $expected
      */
+    #[Group('rrr')]
+    #[DataProvider('providerForTestMultilingualFieldSort')]
     public function testMultilingualFieldSortLocation(
         array $contentDataList,
         $languageSettings,
         array $sortClauses,
         $expected
-    ) {
+    ): void {
         $this->assertMultilingualFieldSort(
             $contentDataList,
             $languageSettings,
@@ -2461,7 +2443,10 @@ class SearchServiceTest extends BaseTestCase
         self::assertEquals($expectedIdList, $this->mapResultContentIds($result));
     }
 
-    public function providerForTestMultilingualFieldFilter()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestMultilingualFieldFilter(): array
     {
         return [
             0 => [
@@ -2623,21 +2608,21 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      *
-     * @group ttt
      *
-     * @dataProvider providerForTestMultilingualFieldFilter
      *
      * @param array $contentDataList
      * @param array $languageSettings
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param array $expected
      */
+    #[Group('ttt')]
+    #[DataProvider('providerForTestMultilingualFieldFilter')]
     public function testMultilingualFieldFilterContent(
         array $contentDataList,
         $languageSettings,
         Criterion $criterion,
         $expected
-    ) {
+    ): void {
         $this->assertMultilingualFieldFilter(
             $contentDataList,
             $languageSettings,
@@ -2649,21 +2634,21 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      *
-     * @group ttt
      *
-     * @dataProvider providerForTestMultilingualFieldFilter
      *
      * @param array $contentDataList
      * @param array $languageSettings
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param array $expected
      */
+    #[Group('ttt')]
+    #[DataProvider('providerForTestMultilingualFieldFilter')]
     public function testMultilingualFieldFilterLocation(
         array $contentDataList,
         $languageSettings,
         Criterion $criterion,
         $expected
-    ) {
+    ): void {
         $this->assertMultilingualFieldFilter(
             $contentDataList,
             $languageSettings,
@@ -2777,12 +2762,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @dataProvider getSortedContentSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFindAndSortContent($queryData, $fixture, $closure = null)
+    #[DataProvider('getSortedContentSearches')]
+    public function testFindAndSortContent($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -2790,12 +2772,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContentInfo() method.
-     *
-     * @dataProvider getSortedContentSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContentInfo()
      */
-    public function testFindAndSortContentInfo($queryData, $fixture, $closure = null)
+    #[DataProvider('getSortedContentSearches')]
+    public function testFindAndSortContentInfo($queryData, $fixture, $closure = null): void
     {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure($closure), true);
@@ -2803,12 +2782,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @dataProvider getSortedContentSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFindAndSortContentLocations($queryData, $fixture, $closure = null)
+    #[DataProvider('getSortedContentSearches')]
+    public function testFindAndSortContentLocations($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -2816,12 +2792,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @dataProvider getSortedLocationSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFindAndSortLocations($queryData, $fixture, $closure = null)
+    #[DataProvider('getSortedLocationSearches')]
+    public function testFindAndSortLocations($queryData, $fixture, $closure = null): void
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
@@ -2829,10 +2802,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testQueryCustomField()
+    public function testQueryCustomField(): void
     {
         $query = new Query(
             [
@@ -2858,10 +2829,8 @@ class SearchServiceTest extends BaseTestCase
      * This tests explicitely queries the first_name while user is contained in
      * the last_name of admin and anonymous. This is done to show the custom
      * copy field working.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testQueryModifiedField()
+    public function testQueryModifiedField(): void
     {
         // Check using get_class since the others extend SetupFactory\Legacy
         if ($this->getSetupFactory() instanceof Legacy) {
@@ -2899,10 +2868,8 @@ class SearchServiceTest extends BaseTestCase
      * for all Content instances of 'folder' ContentType. Custom sort field is then set
      * to the index storage name of folder's 'name' field, in order to show the custom
      * sort field working.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testSortModifiedField()
+    public function testSortModifiedField(): void
     {
         // Check using get_class since the others extend SetupFactory\Legacy
         if ($this->getSetupFactory() instanceof Legacy) {
@@ -2966,12 +2933,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceLessThanOrEqual()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceLessThanOrEqual(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3047,12 +3011,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceGreaterThanOrEqual()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceGreaterThanOrEqual(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3128,12 +3089,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceBetween()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceBetween(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3233,12 +3191,9 @@ class SearchServiceTest extends BaseTestCase
      *
      * Range between 222km and 350km shows the magnitude of error between great-circle
      * (always very precise) and flat Earth (very imprecise for this use case) models.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceBetweenPolar()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceBetweenPolar(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3298,12 +3253,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceSortAscending()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceSortAscending(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3416,12 +3368,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceSortDescending()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceSortDescending(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3534,12 +3483,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceWithCustomField()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceWithCustomField(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3618,12 +3564,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @group maplocation
      */
-    public function testMapLocationDistanceWithCustomFieldSort()
+    #[Group('maplocation')]
+    public function testMapLocationDistanceWithCustomFieldSort(): void
     {
         $contentType = $this->createTestPlaceContentType();
 
@@ -3739,10 +3682,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFindMainLocation()
+    public function testFindMainLocation(): void
     {
         $plainSiteLocationId = 56;
         $designLocationId = 58;
@@ -3784,10 +3725,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFindNonMainLocation()
+    public function testFindNonMainLocation(): void
     {
         $designLocationId = 58;
         $partnersContentId = 59;
@@ -3828,10 +3767,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testSortMainLocationAscending()
+    public function testSortMainLocationAscending(): void
     {
         $plainSiteLocationId = 56;
         $designLocationId = 58;
@@ -3871,10 +3808,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testSortMainLocationDescending()
+    public function testSortMainLocationDescending(): void
     {
         $plainSiteLocationId = 56;
         $designLocationId = 58;
@@ -3914,10 +3849,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testContentWithMultipleLocations()
+    public function testContentWithMultipleLocations(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -4017,10 +3950,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testUserMetadataGroupHorizontalFilterContent(?string $queryType = null)
+    public function testUserMetadataGroupHorizontalFilterContent(?string $queryType = null): void
     {
         if ($queryType === null) {
             $queryType = 'filter';
@@ -4096,20 +4027,16 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testUserMetadataGroupHorizontalQueryContent()
+    public function testUserMetadataGroupHorizontalQueryContent(): void
     {
         $this->testUserMetadataGroupHorizontalFilterContent('query');
     }
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testUserMetadataGroupHorizontalFilterLocation($queryType = null)
+    public function testUserMetadataGroupHorizontalFilterLocation($queryType = null): void
     {
         if ($queryType === null) {
             $queryType = 'filter';
@@ -4197,20 +4124,16 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testUserMetadataGroupHorizontalQueryLocation()
+    public function testUserMetadataGroupHorizontalQueryLocation(): void
     {
         $this->testUserMetadataGroupHorizontalFilterLocation('query');
     }
 
     /**
      * Test for FullText on the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFullTextOnNewContent()
+    public function testFullTextOnNewContent(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -4248,10 +4171,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testLanguageAnalysisSeparateContent()
+    public function testLanguageAnalysisSeparateContent(): void
     {
         self::markTestSkipped('Language analysis is currently not supported');
 
@@ -4312,10 +4233,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testLanguageAnalysisSameContent()
+    public function testLanguageAnalysisSameContent(): void
     {
         self::markTestSkipped('Language analysis is currently not supported');
 
@@ -4362,10 +4281,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testLanguageAnalysisSameContentNotFound()
+    public function testLanguageAnalysisSameContentNotFound(): void
     {
         self::markTestSkipped('Language analysis is currently not supported');
 
@@ -4413,10 +4330,8 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findContent() method searching for content filtered by languages.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
-    public function testFindContentWithLanguageFilter()
+    public function testFindContentWithLanguageFilter(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -4524,13 +4439,12 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      *
-     * @depends testFulltextComplex
      *
      * @param array $data
      */
-    public function testFulltextContentSearchComplex(array $data)
+    #[Depends('testFulltextComplex')]
+    public function testFulltextContentSearchComplex(array $data): void
     {
         // Do not initialize from scratch
         $repository = $this->getRepository(false);
@@ -4570,13 +4484,12 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      *
-     * @depends testFulltextComplex
      *
      * @param array $data
      */
-    public function testFulltextContentTranslationSearch(array $data)
+    #[Depends('testFulltextComplex')]
+    public function testFulltextContentTranslationSearch(array $data): void
     {
         $criterion = $data[0];
         $query = new Query(['query' => $criterion]);
@@ -4587,13 +4500,12 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      *
-     * @depends testFulltextComplex
      *
      * @param array $data
      */
-    public function testFulltextLocationSearchComplex(array $data)
+    #[Depends('testFulltextComplex')]
+    public function testFulltextLocationSearchComplex(array $data): void
     {
         $setupFactory = $this->getSetupFactory();
         if ($setupFactory instanceof LegacySolrSetupFactory && getenv('SOLR_VERSION') === '4.10.4') {
@@ -4638,12 +4550,11 @@ class SearchServiceTest extends BaseTestCase
     /**
      * Test for the findLocations() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      *
-     * @depends testFulltextComplex
      *
      * @param array $data
      */
+    #[Depends('testFulltextComplex')]
     public function testFulltextLocationTranslationSearch(array $data): void
     {
         $criterion = $data[0];
@@ -4852,7 +4763,7 @@ class SearchServiceTest extends BaseTestCase
      *
      * @return string
      */
-    protected function getFixtureDir(): string
+    protected static function getFixtureDir(): string
     {
         return __DIR__ . '/_fixtures/' . getenv('fixtureDir') . '/';
     }
@@ -4884,10 +4795,8 @@ class SearchServiceTest extends BaseTestCase
      * Test searching using Field Criterion where the given Field Identifier exists in
      * both searchable and non-searchable Fields.
      * Number of returned results depends on used storage.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFieldCriterionForContentsWithIdenticalFieldIdentifiers()
+    public function testFieldCriterionForContentsWithIdenticalFieldIdentifiers(): void
     {
         $this->createContentWithFieldType(
             'url',
@@ -4965,12 +4874,9 @@ class SearchServiceTest extends BaseTestCase
      *
      * There is a slight chance when this test could fail, if by some reason,
      * we got to same _random_ results, or mt_rand() provides same seed for seed-supported DB implementation.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @dataProvider getSeedsForRandomSortClause
      */
-    public function testRandomSortContent(?int $firstSeed, ?int $secondSeed)
+    #[DataProvider('getSeedsForRandomSortClause')]
+    public function testRandomSortContent(?int $firstSeed, ?int $secondSeed): void
     {
         if ($firstSeed || $secondSeed) {
             $this->skipIfSeedNotImplemented();
@@ -5011,12 +4917,9 @@ class SearchServiceTest extends BaseTestCase
 
     /**
      * Test for the findLocations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
-     *
-     * @dataProvider getSeedsForRandomSortClause
      */
-    public function testRandomSortLocation(?int $firstSeed, ?int $secondSeed)
+    #[DataProvider('getSeedsForRandomSortClause')]
+    public function testRandomSortLocation(?int $firstSeed, ?int $secondSeed): void
     {
         if ($firstSeed || $secondSeed) {
             $this->skipIfSeedNotImplemented();
@@ -5055,7 +4958,10 @@ class SearchServiceTest extends BaseTestCase
         }
     }
 
-    public function getSeedsForRandomSortClause()
+    /**
+     * @return array<mixed>
+     */
+    public static function getSeedsForRandomSortClause(): array
     {
         $randomSeed = mt_rand();
 
@@ -5214,12 +5120,11 @@ class SearchServiceTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestSortingByNumericFieldsWithValuesOfDifferentLength
-     *
      * @param int[] $expectedOrderedIds
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('providerForTestSortingByNumericFieldsWithValuesOfDifferentLength')]
     public function testSortingByNumericFieldsWithValuesOfDifferentLength(
         LocationQuery $query,
         array $expectedOrderedIds
@@ -5242,7 +5147,7 @@ class SearchServiceTest extends BaseTestCase
         self::assertEquals($expectedOrderedIds, $actualIds);
     }
 
-    public function providerForTestSortingByNumericFieldsWithValuesOfDifferentLength(): iterable
+    public static function providerForTestSortingByNumericFieldsWithValuesOfDifferentLength(): iterable
     {
         yield 'Location ID ASC' => [
             new LocationQuery(

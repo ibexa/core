@@ -27,13 +27,13 @@ class TranslationServiceDecoratorTest extends TestCase
         return $this->createMock(TranslationService::class);
     }
 
-    public function testTranslateDecorator()
+    public function testTranslateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [
-            $this->createMock(Translation::class),
+            self::createStub(Translation::class),
             'random_value_5ced05ce16efc3.57825052',
         ];
 
@@ -42,7 +42,7 @@ class TranslationServiceDecoratorTest extends TestCase
         $decoratedService->translate(...$parameters);
     }
 
-    public function testTranslateStringDecorator()
+    public function testTranslateStringDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

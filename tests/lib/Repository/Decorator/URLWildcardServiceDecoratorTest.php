@@ -27,7 +27,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
         return $this->createMock(URLWildcardService::class);
     }
 
-    public function testCreateDecorator()
+    public function testCreateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -43,19 +43,19 @@ class URLWildcardServiceDecoratorTest extends TestCase
         $decoratedService->create(...$parameters);
     }
 
-    public function testRemoveDecorator()
+    public function testRemoveDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [$this->createMock(URLWildcard::class)];
+        $parameters = [self::createStub(URLWildcard::class)];
 
         $serviceMock->expects(self::once())->method('remove')->with(...$parameters);
 
         $decoratedService->remove(...$parameters);
     }
 
-    public function testLoadDecorator()
+    public function testLoadDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -67,7 +67,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
         $decoratedService->load(...$parameters);
     }
 
-    public function testLoadAllDecorator()
+    public function testLoadAllDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -82,7 +82,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
         $decoratedService->loadAll(...$parameters);
     }
 
-    public function testTranslateDecorator()
+    public function testTranslateDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

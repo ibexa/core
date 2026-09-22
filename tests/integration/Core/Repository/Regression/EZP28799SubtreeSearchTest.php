@@ -61,7 +61,7 @@ class EZP28799SubtreeSearchTest extends BaseTestCase
         return [$leftFolder, $rightFolder, $targetFolder];
     }
 
-    public function testConflictingConditions()
+    public function testConflictingConditions(): void
     {
         list($leftFolder, $rightFolder, $targetFolder) = $this->createTestContent();
         $locationService = $this->getRepository()->getLocationService();
@@ -83,7 +83,7 @@ class EZP28799SubtreeSearchTest extends BaseTestCase
         self::assertSame(0, $result->totalCount);
     }
 
-    public function testNegativeSubtree()
+    public function testNegativeSubtree(): void
     {
         list($leftFolder, $rightFolder, $targetFolder) = $this->createTestContent();
         $locationService = $this->getRepository()->getLocationService();

@@ -26,7 +26,7 @@ class AliasCleanerTest extends TestCase
         $this->aliasCleaner = new AliasCleaner($this->resolver);
     }
 
-    public function testRemoveAliases()
+    public function testRemoveAliases(): void
     {
         $originalPath = 'foo/bar/test.jpg';
         $this->resolver

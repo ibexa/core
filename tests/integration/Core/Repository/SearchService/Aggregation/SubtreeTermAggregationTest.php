@@ -13,7 +13,7 @@ use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBui
 
 final class SubtreeTermAggregationTest extends AbstractAggregationTestCase
 {
-    public function dataProviderForTestFindContentWithAggregation(): iterable
+    public static function dataProviderForTestFindContentWithAggregation(): iterable
     {
         $aggregation = new SubtreeTermAggregation('subtree', '/1/5/');
 
@@ -25,7 +25,7 @@ final class SubtreeTermAggregationTest extends AbstractAggregationTestCase
         ]);
 
         $builder->setEntryMapper([
-            $this->getRepository()->getLocationService(),
+            static::resolveRepository()->getLocationService(),
             'loadLocation',
         ]);
 

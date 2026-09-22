@@ -11,11 +11,10 @@ use Ibexa\Contracts\Core\Exception\InvalidArgumentType;
 use Ibexa\Core\FieldType\TextLine\Type as TextLineType;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\FieldType\ValidationError;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group fieldType
- * @group ibexa_string
- */
+#[Group('fieldType')]
+#[Group('ibexa_string')]
 final class TextLineTest extends FieldTypeTestCase
 {
     private const string STRING_TOO_SHORT_EXPECTED_SINGULAR_MESSAGE = 'The string cannot be shorter than %size% character.';
@@ -57,7 +56,7 @@ final class TextLineTest extends FieldTypeTestCase
         return new TextLineValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -67,7 +66,7 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -115,7 +114,7 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -133,7 +132,7 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -151,7 +150,7 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidValidatorConfiguration(): array
+    public static function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -196,7 +195,7 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidValidatorConfiguration(): array
+    public static function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -255,15 +254,15 @@ final class TextLineTest extends FieldTypeTestCase
         return 'ibexa_string';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new TextLineValue(), '', [], 'en_GB'],
             [new TextLineValue('This is a line of text'), 'This is a line of text', [], 'en_GB'],
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'string within length limits' => [
             [
@@ -300,7 +299,7 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'string too short' => [
             [

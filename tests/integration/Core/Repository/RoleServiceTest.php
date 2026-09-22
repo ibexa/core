@@ -30,6 +30,11 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupRoleAssignment;
 use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
+use Ibexa\Core\Repository\RoleService as CoveredRoleService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test case for operations in the RoleService using in memory storage.
@@ -47,19 +52,15 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
  *     </ul>
  *   </li>
  * <ul>
- *
- * @covers \Ibexa\Contracts\Core\Repository\RoleService
- *
- * @group role
  */
+#[CoversClass(CoveredRoleService::class)]
+#[Group('role')]
 class RoleServiceTest extends BaseTestCase
 {
     /**
      * Test for the newRoleCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::newRoleCreateStruct()
      */
-    public function testNewRoleCreateStruct()
+    public function testNewRoleCreateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -69,9 +70,6 @@ class RoleServiceTest extends BaseTestCase
         self::assertInstanceOf(RoleCreateStruct::class, $roleCreate);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::newRoleCopyStruct
-     */
     public function testNewRoleCopyStruct(): void
     {
         $repository = $this->getRepository();
@@ -85,12 +83,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the newRoleCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::newRoleCreateStruct()
-     *
-     * @depends testNewRoleCreateStruct
      */
-    public function testNewRoleCreateStructSetsNamePropertyOnStruct()
+    #[Depends('testNewRoleCreateStruct')]
+    public function testNewRoleCreateStructSetsNamePropertyOnStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -106,11 +101,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
-     *
-     * @depends testNewRoleCreateStruct
      */
+    #[Depends('testNewRoleCreateStruct')]
     public function testCreateRole()
     {
         $repository = $this->getRepository();
@@ -140,11 +132,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
-     *
-     * @depends testCreateRole
      */
+    #[Depends('testCreateRole')]
     public function testRoleCreateStructValues(array $data)
     {
         $createStruct = $data['createStruct'];
@@ -167,11 +156,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
-     *
-     * @depends testNewRoleCreateStruct
      */
+    #[Depends('testNewRoleCreateStruct')]
     public function testCreateRoleWithPolicy()
     {
         $repository = $this->getRepository();
@@ -215,11 +201,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
-     *
-     * @depends testCreateRoleWithPolicy
      */
+    #[Depends('testCreateRoleWithPolicy')]
     public function testRoleCreateStructValuesWithPolicy(array $data)
     {
         $createStruct = $data['createStruct'];
@@ -246,10 +229,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test creating a role with multiple policies.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole
      */
-    public function testCreateRoleWithMultiplePolicies()
+    public function testCreateRoleWithMultiplePolicies(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -337,12 +318,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRoleDraft()
-     *
-     * @depends testNewRoleCreateStruct
      */
-    public function testCreateRoleDraft()
+    #[Depends('testNewRoleCreateStruct')]
+    public function testCreateRoleDraft(): void
     {
         $repository = $this->getRepository();
 
@@ -369,12 +347,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
-     *
-     * @depends testCreateRole
      */
-    public function testCreateRoleThrowsInvalidArgumentException()
+    #[Depends('testCreateRole')]
+    public function testCreateRoleThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -396,12 +371,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRoleDraft()
-     *
-     * @depends testCreateRoleDraft
      */
-    public function testCreateRoleDraftThrowsInvalidArgumentException()
+    #[Depends('testCreateRoleDraft')]
+    public function testCreateRoleDraftThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -428,10 +400,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
      */
-    public function testCreateRoleThrowsLimitationValidationException()
+    public function testCreateRoleThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -468,12 +438,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
-     *
-     * @depends testNewRoleCreateStruct
      */
-    public function testCreateRoleInTransactionWithRollback()
+    #[Depends('testNewRoleCreateStruct')]
+    public function testCreateRoleInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -505,12 +472,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRoleDraft()
-     *
-     * @depends testNewRoleCreateStruct
      */
-    public function testCreateRoleDraftInTransactionWithRollback()
+    #[Depends('testNewRoleCreateStruct')]
+    public function testCreateRoleDraftInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -540,9 +504,9 @@ class RoleServiceTest extends BaseTestCase
         self::fail('Role draft object still exists after rollback.');
     }
 
-    public function providerForCopyRoleTests(): array
+    public static function providerForCopyRoleTests(): array
     {
-        $repository = $this->getRepository();
+        $repository = static::resolveRepository();
         $roleService = $repository->getRoleService();
 
         $roleCreateStruct = $roleService->newRoleCreateStruct('newRole');
@@ -581,19 +545,15 @@ class RoleServiceTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForCopyRoleTests
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::copyRole
-     *
-     * @depends testNewRoleCopyStruct
-     * @depends testLoadRoleByIdentifier
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
      */
+    #[Depends('testNewRoleCopyStruct')]
+    #[Depends('testLoadRoleByIdentifier')]
+    #[DataProvider('providerForCopyRoleTests')]
     public function testCopyRole(RoleCreateStruct $roleCreateStruct, RoleCopyStruct $roleCopyStruct): void
     {
         $repository = $this->getRepository();
@@ -618,12 +578,8 @@ class RoleServiceTest extends BaseTestCase
     /**
      * Test for the copyRole() method with added policies.
      *
-     * @dataProvider providerForCopyRoleTests
      *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::copyRole
      *
-     * @depends testNewRoleCopyStruct
-     * @depends testLoadRoleByIdentifier
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct[] $policies
      *
@@ -633,6 +589,9 @@ class RoleServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
      */
+    #[Depends('testNewRoleCopyStruct')]
+    #[Depends('testLoadRoleByIdentifier')]
+    #[DataProvider('providerForCopyRoleTests')]
     public function testCopyRoleWithPolicies(
         RoleCreateStruct $roleCreateStruct,
         RoleCopyStruct $roleCopyStruct,
@@ -662,12 +621,8 @@ class RoleServiceTest extends BaseTestCase
     /**
      * Test for the copyRole() method with added policies and limitations.
      *
-     * @dataProvider providerForCopyRoleTests
      *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::copyRole
      *
-     * @depends testNewRoleCopyStruct
-     * @depends testLoadRoleByIdentifier
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct[] $policies
      *
@@ -677,6 +632,9 @@ class RoleServiceTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
      */
+    #[Depends('testNewRoleCopyStruct')]
+    #[Depends('testLoadRoleByIdentifier')]
+    #[DataProvider('providerForCopyRoleTests')]
     public function testCopyRoleWithPoliciesAndLimitations(
         RoleCreateStruct $roleCreateStruct,
         RoleCopyStruct $roleCopyStruct,
@@ -718,12 +676,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the loadRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRole()
-     *
-     * @depends testCreateRole
      */
-    public function testLoadRole()
+    #[Depends('testCreateRole')]
+    public function testLoadRole(): void
     {
         $repository = $this->getRepository();
 
@@ -748,10 +703,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the loadRoleDraft() method.
-     *
-     * @depends testCreateRoleDraft
      */
-    public function testLoadRoleDraft()
+    #[Depends('testCreateRoleDraft')]
+    public function testLoadRoleDraft(): void
     {
         $repository = $this->getRepository();
 
@@ -773,7 +727,7 @@ class RoleServiceTest extends BaseTestCase
         self::assertEquals('roleName', $role->identifier);
     }
 
-    public function testLoadRoleDraftByRoleId()
+    public function testLoadRoleDraftByRoleId(): void
     {
         $repository = $this->getRepository();
 
@@ -801,12 +755,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the loadRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRole()
-     *
-     * @depends testLoadRole
      */
-    public function testLoadRoleThrowsNotFoundException()
+    #[Depends('testLoadRole')]
+    public function testLoadRoleThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -825,12 +776,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the loadRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoleDraft()
-     *
-     * @depends testLoadRoleDraft
      */
-    public function testLoadRoleDraftThrowsNotFoundException()
+    #[Depends('testLoadRoleDraft')]
+    public function testLoadRoleDraftThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -847,7 +795,7 @@ class RoleServiceTest extends BaseTestCase
         /* END: Use Case */
     }
 
-    public function testLoadRoleDraftByRoleIdThrowsNotFoundException()
+    public function testLoadRoleDraftByRoleIdThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -866,12 +814,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the loadRoleByIdentifier() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoleByIdentifier()
-     *
-     * @depends testCreateRole
      */
-    public function testLoadRoleByIdentifier()
+    #[Depends('testCreateRole')]
+    public function testLoadRoleByIdentifier(): void
     {
         $repository = $this->getRepository();
 
@@ -896,12 +841,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the loadRoleByIdentifier() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoleByIdentifier()
-     *
-     * @depends testLoadRoleByIdentifier
      */
-    public function testLoadRoleByIdentifierThrowsNotFoundException()
+    #[Depends('testLoadRoleByIdentifier')]
+    public function testLoadRoleByIdentifierThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -919,12 +861,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the loadRoles() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoles()
-     *
-     * @depends testCreateRole
      */
-    public function testLoadRoles()
+    #[Depends('testCreateRole')]
+    public function testLoadRoles(): void
     {
         $repository = $this->getRepository();
 
@@ -956,12 +895,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the loadRoles() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoles()
-     *
-     * @depends testLoadRoles
      */
-    public function testLoadRolesReturnsExpectedSetOfDefaultRoles()
+    #[Depends('testLoadRoles')]
+    public function testLoadRolesReturnsExpectedSetOfDefaultRoles(): void
     {
         $repository = $this->getRepository();
 
@@ -990,10 +926,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the newRoleUpdateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::newRoleUpdateStruct()
      */
-    public function testNewRoleUpdateStruct()
+    public function testNewRoleUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1007,13 +941,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the updateRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::updateRoleDraft()
-     *
-     * @depends testNewRoleUpdateStruct
-     * @depends testLoadRoleDraft
      */
-    public function testUpdateRoleDraft()
+    #[Depends('testNewRoleUpdateStruct')]
+    #[Depends('testLoadRoleDraft')]
+    public function testUpdateRoleDraft(): void
     {
         $repository = $this->getRepository();
 
@@ -1040,12 +971,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the updateRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::updateRoleDraft()
-     *
-     * @depends testUpdateRoleDraft
      */
-    public function testUpdateRoleDraftThrowsInvalidArgumentException()
+    #[Depends('testUpdateRoleDraft')]
+    public function testUpdateRoleDraftThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1070,13 +998,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::deleteRole()
-     *
-     * @depends testCreateRole
-     * @depends testLoadRoles
      */
-    public function testDeleteRole()
+    #[Depends('testCreateRole')]
+    #[Depends('testLoadRoles')]
+    public function testDeleteRole(): void
     {
         $repository = $this->getRepository();
 
@@ -1099,12 +1024,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the deleteRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::deleteRoleDraft()
-     *
-     * @depends testLoadRoleDraft
      */
-    public function testDeleteRoleDraft()
+    #[Depends('testLoadRoleDraft')]
+    public function testDeleteRoleDraft(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1128,10 +1050,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the newPolicyCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::newPolicyCreateStruct()
      */
-    public function testNewPolicyCreateStruct()
+    public function testNewPolicyCreateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1145,12 +1065,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the newPolicyCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::newPolicyCreateStruct()
-     *
-     * @depends testNewPolicyCreateStruct
      */
-    public function testNewPolicyCreateStructSetsStructProperties()
+    #[Depends('testNewPolicyCreateStruct')]
+    public function testNewPolicyCreateStructSetsStructProperties(): void
     {
         $repository = $this->getRepository();
 
@@ -1167,13 +1084,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the addPolicyByRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::addPolicyByRoleDraft()
-     *
-     * @depends testCreateRoleDraft
-     * @depends testNewPolicyCreateStruct
      */
-    public function testAddPolicyByRoleDraft()
+    #[Depends('testCreateRoleDraft')]
+    #[Depends('testNewPolicyCreateStruct')]
+    public function testAddPolicyByRoleDraft(): void
     {
         $repository = $this->getRepository();
 
@@ -1230,11 +1144,8 @@ class RoleServiceTest extends BaseTestCase
      * Test for the addPolicyByRoleDraft() method.
      *
      * @return array [\Ibexa\Contracts\Core\Repository\Values\User\RoleDraft, \Ibexa\Contracts\Core\Repository\Values\User\Policy]
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::addPolicyByRoleDraft()
-     *
-     * @depends testAddPolicyByRoleDraft
      */
+    #[Depends('testAddPolicyByRoleDraft')]
     public function testAddPolicyByRoleDraftUpdatesRole()
     {
         $repository = $this->getRepository();
@@ -1272,12 +1183,9 @@ class RoleServiceTest extends BaseTestCase
      * Test for the addPolicyByRoleDraft() method.
      *
      * @param array $roleAndPolicy
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::addPolicyByRoleDraft()
-     *
-     * @depends testAddPolicyByRoleDraftUpdatesRole
      */
-    public function testAddPolicyByRoleDraftSetsPolicyProperties($roleAndPolicy)
+    #[Depends('testAddPolicyByRoleDraftUpdatesRole')]
+    public function testAddPolicyByRoleDraftSetsPolicyProperties($roleAndPolicy): void
     {
         list($role, $policy) = $roleAndPolicy;
 
@@ -1289,13 +1197,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the addPolicyByRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::addPolicyByRoleDraft()
-     *
-     * @depends testNewPolicyCreateStruct
-     * @depends testCreateRoleDraft
      */
-    public function testAddPolicyByRoleDraftThrowsLimitationValidationException()
+    #[Depends('testNewPolicyCreateStruct')]
+    #[Depends('testCreateRoleDraft')]
+    public function testAddPolicyByRoleDraftThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -1330,12 +1235,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRole() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
-     *
-     * @depends testAddPolicyByRoleDraftUpdatesRole
      */
-    public function testCreateRoleWithAddPolicy()
+    #[Depends('testAddPolicyByRoleDraftUpdatesRole')]
+    public function testCreateRoleWithAddPolicy(): void
     {
         $repository = $this->getRepository();
 
@@ -1391,12 +1293,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the createRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRoleDraft()
-     *
-     * @depends testAddPolicyByRoleDraftUpdatesRole
      */
-    public function testCreateRoleDraftWithAddPolicy()
+    #[Depends('testAddPolicyByRoleDraftUpdatesRole')]
+    public function testCreateRoleDraftWithAddPolicy(): void
     {
         $repository = $this->getRepository();
 
@@ -1449,10 +1348,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the newPolicyUpdateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::newPolicyUpdateStruct()
      */
-    public function testNewPolicyUpdateStruct()
+    public function testNewPolicyUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1467,7 +1364,7 @@ class RoleServiceTest extends BaseTestCase
         );
     }
 
-    public function testUpdatePolicyByRoleDraftNoLimitation()
+    public function testUpdatePolicyByRoleDraftNoLimitation(): void
     {
         $repository = $this->getRepository();
 
@@ -1523,12 +1420,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * @return array
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::updatePolicyByRoleDraft()
-     *
-     * @depends testAddPolicyByRoleDraft
-     * @depends testNewPolicyUpdateStruct
      */
+    #[Depends('testAddPolicyByRoleDraft')]
+    #[Depends('testNewPolicyUpdateStruct')]
     public function testUpdatePolicyByRoleDraft()
     {
         $repository = $this->getRepository();
@@ -1601,11 +1495,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * @param array $roleAndPolicy
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::testUpdatePolicyByRoleDraft()
-     *
-     * @depends testUpdatePolicyByRoleDraft
      */
+    #[Depends('testUpdatePolicyByRoleDraft')]
     public function testUpdatePolicyUpdatesLimitations($roleAndPolicy)
     {
         list($role, $policy) = $roleAndPolicy;
@@ -1628,12 +1519,9 @@ class RoleServiceTest extends BaseTestCase
      * Test for the updatePolicy() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Role $role
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::updatePolicyByRoleDraft()
-     *
-     * @depends testUpdatePolicyUpdatesLimitations
      */
-    public function testUpdatePolicyUpdatesRole($role)
+    #[Depends('testUpdatePolicyUpdatesLimitations')]
+    public function testUpdatePolicyUpdatesRole($role): void
     {
         $limitations = [];
         foreach ($role->getPolicies() as $policy) {
@@ -1659,16 +1547,13 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the updatePolicy() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::updatePolicyByRoleDraft()
-     *
-     * @depends testAddPolicyByRoleDraft
-     * @depends testNewPolicyCreateStruct
-     * @depends testNewPolicyUpdateStruct
-     * @depends testNewRoleCreateStruct
-     * @depends testCreateRole
      */
-    public function testUpdatePolicyByRoleDraftThrowsLimitationValidationException()
+    #[Depends('testAddPolicyByRoleDraft')]
+    #[Depends('testNewPolicyCreateStruct')]
+    #[Depends('testNewPolicyUpdateStruct')]
+    #[Depends('testNewRoleCreateStruct')]
+    #[Depends('testCreateRole')]
+    public function testUpdatePolicyByRoleDraftThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -1733,12 +1618,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the removePolicyByRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removePolicyByRoleDraft()
-     *
-     * @depends testAddPolicyByRoleDraft
      */
-    public function testRemovePolicyByRoleDraft()
+    #[Depends('testAddPolicyByRoleDraft')]
+    public function testRemovePolicyByRoleDraft(): void
     {
         $repository = $this->getRepository();
 
@@ -1773,10 +1655,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the addPolicyByRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::addPolicyByRoleDraft()
      */
-    public function testAddPolicyWithRoleAssignment()
+    public function testAddPolicyWithRoleAssignment(): void
     {
         $repository = $this->getRepository();
 
@@ -1820,8 +1700,6 @@ class RoleServiceTest extends BaseTestCase
      * Test loading user/group role assignments.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroupRoleAssignment
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoleAssignment
      */
     public function testLoadRoleAssignment()
     {
@@ -1870,11 +1748,8 @@ class RoleServiceTest extends BaseTestCase
      * Test for the getRoleAssignments() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\RoleAssignment[]
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignments()
-     *
-     * @depends testLoadRoleByIdentifier
      */
+    #[Depends('testLoadRoleByIdentifier')]
     public function testGetRoleAssignments()
     {
         $repository = $this->getRepository();
@@ -1907,12 +1782,9 @@ class RoleServiceTest extends BaseTestCase
      * Test for the getRoleAssignments() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleAssignment[] $roleAssignments
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignments
-     *
-     * @depends testGetRoleAssignments
      */
-    public function testGetRoleAssignmentsContainExpectedLimitation(array $roleAssignments)
+    #[Depends('testGetRoleAssignments')]
+    public function testGetRoleAssignmentsContainExpectedLimitation(array $roleAssignments): void
     {
         self::assertEquals(
             'Subtree',
@@ -1920,9 +1792,6 @@ class RoleServiceTest extends BaseTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoleAssignments()
-     */
     public function testLoadRoleAssignments(): void
     {
         $repository = $this->getRepository();
@@ -1943,9 +1812,6 @@ class RoleServiceTest extends BaseTestCase
         self::assertInstanceOf(UserRoleAssignment::class, $roleAssignments[0]);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::countRoleAssignments()
-     */
     public function testLoadRoleAssignmentsWithDeletedUser(): void
     {
         $repository = $this->getRepository();
@@ -2016,12 +1882,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUser()
-     *
-     * @depends testGetRoleAssignments
      */
-    public function testAssignRoleToUser()
+    #[Depends('testGetRoleAssignments')]
+    public function testAssignRoleToUser(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2045,12 +1908,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUser($role, $user, $roleLimitation)
-     *
-     * @depends testAssignRoleToUser
      */
-    public function testAssignRoleToUserWithRoleLimitation()
+    #[Depends('testAssignRoleToUser')]
+    public function testAssignRoleToUserWithRoleLimitation(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2151,13 +2011,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUser($role, $user, $roleLimitation)
-     *
-     * @depends testAssignRoleToUser
-     * @depends testLoadRoleByIdentifier
      */
-    public function testAssignRoleToUserWithRoleLimitationThrowsLimitationValidationException()
+    #[Depends('testAssignRoleToUser')]
+    #[Depends('testLoadRoleByIdentifier')]
+    public function testAssignRoleToUserWithRoleLimitationThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -2193,13 +2050,10 @@ class RoleServiceTest extends BaseTestCase
      * Test for the assignRoleToUser() method.
      *
      * Makes sure assigning role several times throws.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUser($role, $user, $roleLimitation)
-     *
-     * @depends testAssignRoleToUser
-     * @depends testLoadRoleByIdentifier
      */
-    public function testAssignRoleToUserThrowsInvalidArgumentException()
+    #[Depends('testAssignRoleToUser')]
+    #[Depends('testLoadRoleByIdentifier')]
+    public function testAssignRoleToUserThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -2239,13 +2093,10 @@ class RoleServiceTest extends BaseTestCase
      * Test for the assignRoleToUser() method.
      *
      * Makes sure assigning role several times with same limitations throws.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUser($role, $user, $roleLimitation)
-     *
-     * @depends testAssignRoleToUser
-     * @depends testLoadRoleByIdentifier
      */
-    public function testAssignRoleToUserWithRoleLimitationThrowsInvalidArgumentException()
+    #[Depends('testAssignRoleToUser')]
+    #[Depends('testLoadRoleByIdentifier')]
+    public function testAssignRoleToUserWithRoleLimitationThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -2293,12 +2144,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the removeRoleAssignment() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removeRoleAssignment()
-     *
-     * @depends testAssignRoleToUser
      */
-    public function testRemoveRoleAssignment()
+    #[Depends('testAssignRoleToUser')]
+    public function testRemoveRoleAssignment(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2329,13 +2177,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the getRoleAssignmentsForUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUser()
-     *
-     * @depends testAssignRoleToUser
-     * @depends testCreateRoleWithAddPolicy
      */
-    public function testGetRoleAssignmentsForUserDirect()
+    #[Depends('testAssignRoleToUser')]
+    #[Depends('testCreateRoleWithAddPolicy')]
+    public function testGetRoleAssignmentsForUserDirect(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2385,13 +2230,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the getRoleAssignmentsForUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUser()
-     *
-     * @depends testAssignRoleToUser
-     * @depends testCreateRoleWithAddPolicy
      */
-    public function testGetRoleAssignmentsForUserEmpty()
+    #[Depends('testAssignRoleToUser')]
+    #[Depends('testCreateRoleWithAddPolicy')]
+    public function testGetRoleAssignmentsForUserEmpty(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2410,13 +2252,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the getRoleAssignmentsForUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUser()
-     *
-     * @depends testAssignRoleToUser
-     * @depends testCreateRoleWithAddPolicy
      */
-    public function testGetRoleAssignmentsForUserInherited()
+    #[Depends('testAssignRoleToUser')]
+    #[Depends('testCreateRoleWithAddPolicy')]
+    public function testGetRoleAssignmentsForUserInherited(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2439,12 +2278,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup()
-     *
-     * @depends testGetRoleAssignments
      */
-    public function testAssignRoleToUserGroup()
+    #[Depends('testGetRoleAssignments')]
+    public function testAssignRoleToUserGroup(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2470,10 +2306,8 @@ class RoleServiceTest extends BaseTestCase
      * Test for the assignRoleToUserGroup() method.
      *
      * Related issue: EZP-29113
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup()
      */
-    public function testAssignRoleToUserGroupAffectsRoleAssignmentsForUser()
+    public function testAssignRoleToUserGroupAffectsRoleAssignmentsForUser(): void
     {
         $roleService = $this->getRepository()->getRoleService();
 
@@ -2498,12 +2332,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup($role, $userGroup, $roleLimitation)
-     *
-     * @depends testAssignRoleToUserGroup
      */
-    public function testAssignRoleToUserGroupWithRoleLimitation()
+    #[Depends('testAssignRoleToUserGroup')]
+    public function testAssignRoleToUserGroupWithRoleLimitation(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2600,13 +2431,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the assignRoleToUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup($role, $userGroup, $roleLimitation)
-     *
-     * @depends testLoadRoleByIdentifier
-     * @depends testAssignRoleToUserGroup
      */
-    public function testAssignRoleToUserGroupWithRoleLimitationThrowsLimitationValidationException()
+    #[Depends('testLoadRoleByIdentifier')]
+    #[Depends('testAssignRoleToUserGroup')]
+    public function testAssignRoleToUserGroupWithRoleLimitationThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -2643,13 +2471,10 @@ class RoleServiceTest extends BaseTestCase
      * Test for the assignRoleToUserGroup() method.
      *
      * Makes sure assigning role several times throws.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup($role, $userGroup, $roleLimitation)
-     *
-     * @depends testLoadRoleByIdentifier
-     * @depends testAssignRoleToUserGroup
      */
-    public function testAssignRoleToUserGroupThrowsInvalidArgumentException()
+    #[Depends('testLoadRoleByIdentifier')]
+    #[Depends('testAssignRoleToUserGroup')]
+    public function testAssignRoleToUserGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -2690,13 +2515,10 @@ class RoleServiceTest extends BaseTestCase
      * Test for the assignRoleToUserGroup() method.
      *
      * Makes sure assigning role several times with same limitations throws.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup($role, $userGroup, $roleLimitation)
-     *
-     * @depends testLoadRoleByIdentifier
-     * @depends testAssignRoleToUserGroup
      */
-    public function testAssignRoleToUserGroupWithRoleLimitationThrowsInvalidArgumentException()
+    #[Depends('testLoadRoleByIdentifier')]
+    #[Depends('testAssignRoleToUserGroup')]
+    public function testAssignRoleToUserGroupWithRoleLimitationThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -2745,12 +2567,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the removeRoleAssignment() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removeRoleAssignment()
-     *
-     * @depends testAssignRoleToUserGroup
      */
-    public function testRemoveRoleAssignmentFromUserGroup()
+    #[Depends('testAssignRoleToUserGroup')]
+    public function testRemoveRoleAssignmentFromUserGroup(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2783,10 +2602,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test unassigning role by assignment.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removeRoleAssignment
      */
-    public function testUnassignRoleByAssignment()
+    public function testUnassignRoleByAssignment(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2810,10 +2627,8 @@ class RoleServiceTest extends BaseTestCase
      * Test unassigning role by assignment.
      *
      * But on current admin user so he lacks access to read roles.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removeRoleAssignment
      */
-    public function testUnassignRoleByAssignmentThrowsUnauthorizedException()
+    public function testUnassignRoleByAssignmentThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -2835,10 +2650,8 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test unassigning role by non-existing assignment.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::removeRoleAssignment
      */
-    public function testUnassignRoleByAssignmentThrowsNotFoundException()
+    public function testUnassignRoleByAssignmentThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -2860,13 +2673,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the getRoleAssignmentsForUserGroup() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUserGroup()
-     *
-     * @depends testAssignRoleToUserGroup
-     * @depends testCreateRoleWithAddPolicy
      */
-    public function testGetRoleAssignmentsForUserGroup()
+    #[Depends('testAssignRoleToUserGroup')]
+    #[Depends('testCreateRoleWithAddPolicy')]
+    public function testGetRoleAssignmentsForUserGroup(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -2911,13 +2721,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the getRoleAssignmentsForUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUser()
-     *
-     * @depends testAssignRoleToUser
-     * @depends testAssignRoleToUserGroup
      */
-    public function testLoadPoliciesByUserId()
+    #[Depends('testAssignRoleToUser')]
+    #[Depends('testAssignRoleToUserGroup')]
+    public function testLoadPoliciesByUserId(): void
     {
         $repository = $this->getRepository();
 
@@ -2989,12 +2796,9 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the publishRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::publishRoleDraft()
-     *
-     * @depends testCreateRoleDraft
      */
-    public function testPublishRoleDraft()
+    #[Depends('testCreateRoleDraft')]
+    public function testPublishRoleDraft(): void
     {
         $repository = $this->getRepository();
 
@@ -3027,13 +2831,10 @@ class RoleServiceTest extends BaseTestCase
 
     /**
      * Test for the publishRoleDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\RoleService::publishRoleDraft()
-     *
-     * @depends testCreateRoleDraft
-     * @depends testAddPolicyByRoleDraft
      */
-    public function testPublishRoleDraftAddPolicies()
+    #[Depends('testCreateRoleDraft')]
+    #[Depends('testAddPolicyByRoleDraft')]
+    public function testPublishRoleDraftAddPolicies(): void
     {
         $repository = $this->getRepository();
 

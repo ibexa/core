@@ -16,13 +16,13 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Handler
- */
+#[CoversClass(Handler::class)]
 class UrlWildcardHandlerTest extends TestCase
 {
-    public function testLoad()
+    public function testLoad(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -45,7 +45,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the load() method.
      */
-    public function testLoadThrowsNotFoundException()
+    public function testLoadThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -57,11 +57,9 @@ class UrlWildcardHandlerTest extends TestCase
 
     /**
      * Test for the create() method.
-     *
-     *
-     * @depends testLoad
      */
-    public function testCreate()
+    #[Depends('testLoad')]
+    public function testCreate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -90,9 +88,7 @@ class UrlWildcardHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @depends testLoad
-     */
+    #[Depends('testLoad')]
     public function testUpdate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
@@ -127,10 +123,9 @@ class UrlWildcardHandlerTest extends TestCase
 
     /**
      * Test for the remove() method.
-     *
-     * @depends testLoad
      */
-    public function testRemove()
+    #[Depends('testLoad')]
+    public function testRemove(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -144,7 +139,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -164,7 +159,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAllWithOffset()
+    public function testLoadAllWithOffset(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -182,7 +177,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAllWithOffsetAndLimit()
+    public function testLoadAllWithOffsetAndLimit(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();

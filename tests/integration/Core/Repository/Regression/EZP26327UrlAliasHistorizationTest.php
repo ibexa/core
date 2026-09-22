@@ -8,15 +8,15 @@
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Issue https://issues.ibexa.co/browse/EZP-26327.
- *
- * @group ezp26327
  */
+#[Group('ezp26327')]
 class EZP26327UrlAliasHistorizationTest extends BaseTestCase
 {
-    public function testHistorization()
+    public function testHistorization(): void
     {
         $contentService = $this->getRepository()->getContentService();
         $contentTypeService = $this->getRepository()->getContentTypeService();

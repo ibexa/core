@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Parallel;
 
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
 use Ibexa\Tests\Core\Repository\Parallel\ParallelProcessList;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use Jenner\SimpleFork\Process;
@@ -19,9 +21,9 @@ abstract class BaseParallelTestCase extends BaseTestCase
         parent::setUp();
 
         $connection = $this->getRawDatabaseConnection();
-        $dbms = $connection->getDatabasePlatform()->getName();
+        $dbms = DatabasePlatformResolver::resolveName($connection->getDatabasePlatform());
 
-        if ($dbms == 'sqlite') {
+        if ($dbms === DatabasePlatformName::SQLite) {
             self::markTestSkipped('Can not run parallel test on sqlite');
         }
     }
@@ -31,7 +33,7 @@ abstract class BaseParallelTestCase extends BaseTestCase
         $connection = $this->getRawDatabaseConnection();
 
         $process = new Process(static function () use ($callback, $connection) {
-            $connection->connect();
+            $connection->executeQuery('SELECT 1');
             $callback();
             $connection->close();
         });
@@ -53,6 +55,6 @@ abstract class BaseParallelTestCase extends BaseTestCase
             $process->wait();
         }
 
-        $connection->connect();
+        $connection->executeQuery('SELECT 1');
     }
 }

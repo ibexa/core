@@ -9,18 +9,18 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
 use Ibexa\Contracts\Core\Validation\ValidationFailedException;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[CoversClass(ContentService::class)]
 final class CreateContentInNonContainerTest extends RepositoryTestCase
 {
     public function testCreateContentInNonContainerTest(): void
     {
-        $contentService = self::getContentService();
-        $contentTypeService = self::getContentTypeService();
-        $locationService = self::getLocationService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
+        $locationService = $this->getIbexaTestCore()->getLocationService();
 
         $blogPostType = $contentTypeService->loadContentTypeByIdentifier('blog_post');
         $commentType = $contentTypeService->loadContentTypeByIdentifier('comment');

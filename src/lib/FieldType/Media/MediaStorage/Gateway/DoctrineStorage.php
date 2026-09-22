@@ -12,7 +12,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway\DoctrineStorage as BaseDoctrineStorage;
-use PDO;
 
 /**
  * Media Field Type external storage DoctrineStorage gateway.
@@ -99,14 +98,14 @@ class DoctrineStorage extends BaseDoctrineStorage
             ->setParameter(
                 'hasController',
                 $field->value->externalData['hasController'],
-                PDO::PARAM_INT
+                ParameterType::INTEGER
             )
-            ->setParameter('height', $field->value->externalData['height'], PDO::PARAM_INT)
-            ->setParameter('isAutoplay', $field->value->externalData['autoplay'], PDO::PARAM_INT)
-            ->setParameter('isLoop', $field->value->externalData['loop'], PDO::PARAM_INT)
+            ->setParameter('height', $field->value->externalData['height'], ParameterType::INTEGER)
+            ->setParameter('isAutoplay', $field->value->externalData['autoplay'], ParameterType::INTEGER)
+            ->setParameter('isLoop', $field->value->externalData['loop'], ParameterType::INTEGER)
             ->setParameter('pluginsPage', '')
             ->setParameter('quality', 'high')
-            ->setParameter('width', $field->value->externalData['width'], PDO::PARAM_INT)
+            ->setParameter('width', $field->value->externalData['width'], ParameterType::INTEGER)
         ;
     }
 

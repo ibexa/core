@@ -8,16 +8,16 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Controller;
 
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
- * @covers \Ibexa\Core\MVC\Symfony\Controller\Controller::render
- *
  * @mvc
  */
+#[CoversClass(Controller::class)]
 class ControllerTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Controller\Controller */
@@ -31,17 +31,17 @@ class ControllerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->templateEngineMock = $this->createMock(EngineInterface::class);
+        $this->templateEngineMock = $this->createMock(Environment::class);
         $this->containerMock = $this->createMock(ContainerInterface::class);
         $this->controller = $this->getMockForAbstractClass(Controller::class, [$this->containerMock]);
         $this->containerMock
             ->expects(self::any())
             ->method('get')
-            ->with('templating')
+            ->with('twig')
             ->will(self::returnValue($this->templateEngineMock));
     }
 
-    public function testRender()
+    public function testRender(): void
     {
         $view = 'some:valid:view.html.twig';
         $params = ['foo' => 'bar', 'truc' => 'muche'];
@@ -56,7 +56,7 @@ class ControllerTest extends TestCase
         self::assertSame($tplResult, $response->getContent());
     }
 
-    public function testRenderWithResponse()
+    public function testRenderWithResponse(): void
     {
         $response = new Response();
         $view = 'some:valid:view.html.twig';

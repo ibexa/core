@@ -12,6 +12,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
@@ -675,10 +676,10 @@ final class DoctrineDatabase extends Gateway
                 ParameterType::INTEGER,
             ],
             'is_searchable' => [(int)$fieldDefinition->isSearchable, ParameterType::INTEGER],
-            'data_float1' => [$storageFieldDef->dataFloat1, null],
-            'data_float2' => [$storageFieldDef->dataFloat2, null],
-            'data_float3' => [$storageFieldDef->dataFloat3, null],
-            'data_float4' => [$storageFieldDef->dataFloat4, null],
+            'data_float1' => [$storageFieldDef->dataFloat1, Types::FLOAT],
+            'data_float2' => [$storageFieldDef->dataFloat2, Types::FLOAT],
+            'data_float3' => [$storageFieldDef->dataFloat3, Types::FLOAT],
+            'data_float4' => [$storageFieldDef->dataFloat4, Types::FLOAT],
             'data_int1' => [$storageFieldDef->dataInt1, ParameterType::INTEGER],
             'data_int2' => [$storageFieldDef->dataInt2, ParameterType::INTEGER],
             'data_int3' => [$storageFieldDef->dataInt3, ParameterType::INTEGER],
@@ -710,7 +711,7 @@ final class DoctrineDatabase extends Gateway
                 'f_def',
                 self::CONTENT_TYPE_TABLE,
                 'ct',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('f_def.content_type_id', 'ct.id'),
                     $expr->eq('f_def.status', 'ct.status')
                 )
@@ -719,7 +720,7 @@ final class DoctrineDatabase extends Gateway
                 'f_def',
                 self::MULTILINGUAL_FIELD_DEFINITION_TABLE,
                 'transl_f_def',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq(
                         'f_def.id',
                         'transl_f_def.content_type_field_definition_id'
@@ -948,7 +949,7 @@ final class DoctrineDatabase extends Gateway
 
         $query
             ->where($query->expr()->in('c.id', ':ids'))
-            ->andWhere($query->expr()->eq('c.status', Type::STATUS_DEFINED))
+            ->andWhere($query->expr()->eq('c.status', (string) Type::STATUS_DEFINED))
             ->setParameter('ids', $typeIds, ArrayParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
@@ -1071,7 +1072,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 self::FIELD_DEFINITION_TABLE,
                 'a',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('c.id', 'a.content_type_id'),
                     $expr->eq('c.status', 'a.status')
                 )
@@ -1080,7 +1081,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
                 'g',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('c.id', 'g.content_type_id'),
                     $expr->eq('c.status', 'g.content_type_status')
                 )
@@ -1089,7 +1090,7 @@ final class DoctrineDatabase extends Gateway
                 'a',
                 self::MULTILINGUAL_FIELD_DEFINITION_TABLE,
                 'ml',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('a.id', 'ml.content_type_field_definition_id'),
                     $expr->eq('a.status', 'ml.status')
                 )
@@ -1223,7 +1224,7 @@ final class DoctrineDatabase extends Gateway
         }
         $queryBuilder
             ->addSelect(
-                array_map(
+                ...array_map(
                     function (string $columnName) use ($tableName, $tableAlias): string {
                         return sprintf(
                             '%s.%s as %s_%s',

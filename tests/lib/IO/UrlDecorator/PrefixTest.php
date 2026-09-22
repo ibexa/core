@@ -11,14 +11,13 @@ namespace Ibexa\Tests\Core\IO\UrlDecorator;
 use Ibexa\Core\IO\IOConfigProvider;
 use Ibexa\Core\IO\UrlDecorator;
 use Ibexa\Core\IO\UrlDecorator\Prefix;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class PrefixTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
-    public function testDecorate($url, $prefix, $decoratedUrl)
+    #[DataProvider('provideData')]
+    public function testDecorate($url, $prefix, $decoratedUrl): void
     {
         $decorator = $this->buildDecorator($prefix);
 
@@ -28,10 +27,8 @@ class PrefixTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider provideData
-     */
-    public function testUndecorate($url, $prefix, $decoratedUrl)
+    #[DataProvider('provideData')]
+    public function testUndecorate($url, $prefix, $decoratedUrl): void
     {
         $decorator = $this->buildDecorator($prefix);
 
@@ -51,7 +48,10 @@ class PrefixTest extends TestCase
         return new Prefix($ioConfigResolverMock);
     }
 
-    public function provideData()
+    /**
+     * @return array<mixed>
+     */
+    public static function provideData(): array
     {
         return [
             [

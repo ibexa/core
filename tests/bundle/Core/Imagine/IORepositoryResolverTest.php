@@ -20,14 +20,15 @@ use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
 use Liip\ImagineBundle\Model\Binary;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
 
-/**
- * @covers \Ibexa\Bundle\Core\Imagine\IORepositoryResolver
- */
+#[CoversClass(IORepositoryResolver::class)]
 final class IORepositoryResolverTest extends TestCase
 {
     private IOServiceInterface & MockObject $ioService;
@@ -38,7 +39,7 @@ final class IORepositoryResolverTest extends TestCase
 
     private IORepositoryResolver $imageResolver;
 
-    protected VariationPurger & MockObject $variationPurger;
+    protected VariationPurger&Stub $variationPurger;
 
     protected VariationPathGenerator & MockObject $variationPathGenerator;
 
@@ -50,7 +51,7 @@ final class IORepositoryResolverTest extends TestCase
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $filterConfiguration = new FilterConfiguration();
         $filterConfiguration->setConfigResolver($this->configResolver);
-        $this->variationPurger = $this->createMock(VariationPurger::class);
+        $this->variationPurger = self::createStub(VariationPurger::class);
         $this->variationPathGenerator = $this->createMock(VariationPathGenerator::class);
         $this->imageResolver = new IORepositoryResolver(
             $this->ioService,
@@ -61,9 +62,7 @@ final class IORepositoryResolverTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider getFilePathProvider
-     */
+    #[DataProvider('getFilePathProvider')]
     public function testGetFilePath(string $path, string $filter, string $expected): void
     {
         $this->variationPathGenerator
@@ -77,7 +76,7 @@ final class IORepositoryResolverTest extends TestCase
     /**
      * @return array<array{string, string, string}>
      */
-    public function getFilePathProvider(): array
+    public static function getFilePathProvider(): array
     {
         return [
             ['Tardis/bigger/in-the-inside/RiverSong.jpg', 'thumbnail', 'Tardis/bigger/in-the-inside/RiverSong_thumbnail.jpg'],
@@ -129,9 +128,7 @@ final class IORepositoryResolverTest extends TestCase
         self::assertFalse($this->imageResolver->isStored($path, $filter));
     }
 
-    /**
-     * @dataProvider resolveProvider
-     */
+    #[DataProvider('resolveProvider')]
     public function testResolve(string $path, string $filter, string $variationPath, ?string $requestUrl, mixed $expected): void
     {
         if ($requestUrl) {
@@ -183,7 +180,7 @@ final class IORepositoryResolverTest extends TestCase
     /**
      * @return array<int, array{string, string, string, string|null, string}>
      */
-    public function resolveProvider(): array
+    public static function resolveProvider(): array
     {
         return [
             [
@@ -260,7 +257,7 @@ final class IORepositoryResolverTest extends TestCase
     /**
      * @return iterable<string, array{string[], array<string, bool>}>
      */
-    public function getDataForTestRemove(): iterable
+    public static function getDataForTestRemove(): iterable
     {
         yield 'empty filters' => [
             [],
@@ -274,11 +271,10 @@ final class IORepositoryResolverTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataForTestRemove
-     *
      * @param string[] $filters
      * @param array<string, bool> $imageVariations
      */
+    #[DataProvider('getDataForTestRemove')]
     public function testRemove(array $filters, array $imageVariations): void
     {
         $originalPath = 'foo/bar/test.jpg';

@@ -19,10 +19,9 @@ use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Core\Persistence\Cache\ContentHandler;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Cache\ContentHandler
- */
+#[CoversClass(ContentHandler::class)]
 class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
@@ -38,7 +37,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
     /**
      * @return array
      */
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
         return [
@@ -78,7 +77,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
     /**
      * @return array
      */
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $info = new ContentInfo(['id' => 2]);
         $version = new VersionInfo(['versionNo' => 1, 'contentInfo' => $info]);
@@ -123,7 +122,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
     /**
      * @return array
      */
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $info = new ContentInfo([
             'id' => 2,
@@ -437,7 +436,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         ];
     }
 
-    public function testDeleteContent()
+    public function testDeleteContent(): void
     {
         $this->loggerMock->expects(self::once())->method('logCall');
 
@@ -466,15 +465,26 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         $this->cacheMock
             ->expects(self::never())
             ->method('deleteItem');
+        $matcher = self::exactly(2);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(2))
-            ->method('generateTag')
-            ->withConsecutive(
-                ['content', [42], false],
-                ['content', [2], false]
-            )
-            ->willReturnOnConsecutiveCalls('c-42', 'c-2');
+            ->expects($matcher)
+            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame([42], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'c-42';
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertSame('content', $parameters[0]);
+                    $this->assertSame([2], $parameters[1]);
+                    $this->assertFalse($parameters[2]);
+
+                    return 'c-2';
+                }
+            });
 
         $this->cacheMock
             ->expects(self::once())

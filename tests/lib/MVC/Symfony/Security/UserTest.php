@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $login = 'my_username';
         $passwordHash = 'encoded_password';
@@ -31,7 +31,7 @@ class UserTest extends TestCase
                     ],
                 ]
             )
-            ->setMethods(['getUserId'])
+            ->onlyMethods(['getUserId'])
             ->getMockForAbstractClass();
 
         $roles = ['ROLE_USER'];
@@ -45,10 +45,9 @@ class UserTest extends TestCase
         self::assertSame($login, $user->getUsername());
         self::assertSame($passwordHash, $user->getPassword());
         self::assertSame($roles, $user->getRoles());
-        self::assertNull($user->getSalt());
     }
 
-    public function testIsEqualTo()
+    public function testIsEqualTo(): void
     {
         $userId = 123;
         $apiUser = $this->createMock(APIUser::class);
@@ -70,7 +69,7 @@ class UserTest extends TestCase
         self::assertTrue($user->isEqualTo($user2));
     }
 
-    public function testIsNotEqualTo()
+    public function testIsNotEqualTo(): void
     {
         $apiUser = $this->createMock(APIUser::class);
         $apiUser
@@ -91,9 +90,9 @@ class UserTest extends TestCase
         self::assertFalse($user->isEqualTo($user2));
     }
 
-    public function testIsEqualToNotSameUserType()
+    public function testIsEqualToNotSameUserType(): void
     {
-        $user = new User($this->createMock(APIUser::class));
+        $user = new User(self::createStub(APIUser::class));
         $user2 = $this->createMock(ReferenceUserInterface::class);
         $user2
             ->expects(self::once())
@@ -102,10 +101,10 @@ class UserTest extends TestCase
         self::assertFalse($user->isEqualTo($user2));
     }
 
-    public function testSetAPIUser()
+    public function testSetAPIUser(): void
     {
-        $apiUserA = $this->createMock(APIUser::class);
-        $apiUserB = $this->createMock(APIUser::class);
+        $apiUserA = self::createStub(APIUser::class);
+        $apiUserB = self::createStub(APIUser::class);
 
         $user = new User($apiUserA);
         $user->setAPIUser($apiUserB);

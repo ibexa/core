@@ -16,17 +16,17 @@ use PHPUnit\Framework\TestCase;
 
 class StaticStrategyTest extends TestCase
 {
-    public function testStaticStrategy()
+    public function testStaticStrategy(): void
     {
         $resource = 'static-test-resource';
 
         $staticStrategy = new StaticStrategy($resource);
 
-        $contentTypeMock = $this->createMock(ContentType::class);
+        $contentTypeMock = self::createStub(ContentType::class);
         $fieldMocks = [
-            $this->createMock(Field::class),
-            $this->createMock(Field::class),
-            $this->createMock(Field::class),
+            self::createStub(Field::class),
+            self::createStub(Field::class),
+            self::createStub(Field::class),
         ];
 
         $result = $staticStrategy->getThumbnail(

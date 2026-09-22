@@ -28,14 +28,14 @@ final class LocationServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->locationService = new LocationService(
-            $this->createMock(Repository::class),
-            $this->createMock(PersistenceHandler::class),
-            $this->createMock(ContentDomainMapper::class),
-            $this->createMock(NameSchemaServiceInterface::class),
-            $this->createMock(PermissionCriterionResolver::class),
-            $this->createMock(PermissionResolver::class),
-            $this->createMock(LocationFilteringHandler::class),
-            $this->createMock(ContentTypeService::class)
+            self::createStub(Repository::class),
+            self::createStub(PersistenceHandler::class),
+            self::createStub(ContentDomainMapper::class),
+            self::createStub(NameSchemaServiceInterface::class),
+            self::createStub(PermissionCriterionResolver::class),
+            self::createStub(PermissionResolver::class),
+            self::createStub(LocationFilteringHandler::class),
+            self::createStub(ContentTypeService::class)
         );
     }
 

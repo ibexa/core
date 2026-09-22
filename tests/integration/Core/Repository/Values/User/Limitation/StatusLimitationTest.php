@@ -10,16 +10,15 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(StatusLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class StatusLimitationTest extends BaseLimitationTestCase
 {
-    public function testStatusLimitationAllow()
+    public function testStatusLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -80,7 +79,7 @@ class StatusLimitationTest extends BaseLimitationTestCase
         );
     }
 
-    public function testStatusLimitationForbid()
+    public function testStatusLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

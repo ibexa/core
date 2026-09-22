@@ -25,13 +25,12 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
- */
+#[CoversClass(Mapper::class)]
 class MapperTest extends TestCase
 {
-    public function testCreateGroupFromCreateStruct()
+    public function testCreateGroupFromCreateStruct(): void
     {
         $createStruct = $this->getGroupCreateStructFixture();
 
@@ -87,7 +86,7 @@ class MapperTest extends TestCase
         return $struct;
     }
 
-    public function testTypeFromCreateStruct()
+    public function testTypeFromCreateStruct(): void
     {
         $struct = $this->getContentTypeCreateStructFixture();
 
@@ -108,7 +107,7 @@ class MapperTest extends TestCase
         }
     }
 
-    public function testTypeFromUpdateStruct()
+    public function testTypeFromUpdateStruct(): void
     {
         $struct = $this->getContentTypeUpdateStructFixture();
 
@@ -198,7 +197,7 @@ class MapperTest extends TestCase
         return $struct;
     }
 
-    public function testCreateStructFromType()
+    public function testCreateStructFromType(): void
     {
         $type = $this->getContentTypeFixture();
 
@@ -266,7 +265,7 @@ class MapperTest extends TestCase
         return $type;
     }
 
-    public function testExtractGroupsFromRows()
+    public function testExtractGroupsFromRows(): void
     {
         $rows = $this->getLoadGroupFixture();
 
@@ -302,7 +301,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testExtractTypesFromRowsSingle()
+    public function testExtractTypesFromRowsSingle(): void
     {
         $rows = $this->getLoadTypeFixture();
 
@@ -383,7 +382,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $converterMock = $this->createMock(Converter::class);
         $converterMock->expects(self::once())
@@ -417,7 +416,7 @@ class MapperTest extends TestCase
         $mapper->toStorageFieldDefinition($fieldDef, $storageFieldDef);
     }
 
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
 
@@ -454,13 +453,13 @@ class MapperTest extends TestCase
     protected function getNonConvertingMapper()
     {
         $mapper = $this->getMockBuilder(Mapper::class)
-            ->setMethods(['toFieldDefinition'])
             ->setConstructorArgs([
                 $this->getConverterRegistryMock(),
                 $this->getMaskGeneratorMock(),
                 $this->getStorageDispatcherMock(),
                 $this->getFieldTypeAliasResolver(),
             ])
+            ->onlyMethods(['toFieldDefinition'])
             ->getMock();
 
         // Dedicatedly tested test

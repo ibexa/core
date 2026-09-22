@@ -15,6 +15,7 @@ use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent;
 use Ibexa\Core\MVC\Symfony\View\ViewEvents;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -30,8 +31,7 @@ class ViewControllerListenerTest extends TestCase
     /** @var \Symfony\Component\HttpKernel\Controller\ControllerResolver|\PHPUnit\Framework\MockObject\MockObject */
     private $controllerResolver;
 
-    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $logger;
+    private LoggerInterface&Stub $logger;
 
     /** @var \Ibexa\Bundle\Core\EventListener\ViewControllerListener */
     private $controllerListener;
@@ -60,7 +60,7 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerResolver = $this->createMock(ControllerResolverInterface::class);
         $this->viewBuilderRegistry = $this->createMock(ViewBuilderRegistry::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->logger = self::createStub(LoggerInterface::class);
         $this->controllerListener = new ViewControllerListener(
             $this->controllerResolver,
             $this->viewBuilderRegistry,
@@ -74,7 +74,7 @@ class ViewControllerListenerTest extends TestCase
         $this->viewBuilderMock = $this->createMock(ViewBuilder::class);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [KernelEvents::CONTROLLER => ['getController', 10]],
@@ -82,7 +82,7 @@ class ViewControllerListenerTest extends TestCase
         );
     }
 
-    public function testGetControllerNoBuilder()
+    public function testGetControllerNoBuilder(): void
     {
         $initialController = 'Foo::bar';
         $this->request->attributes->set('_controller', $initialController);
@@ -96,7 +96,7 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerListener->getController($this->event);
     }
 
-    public function testGetControllerWithClosure()
+    public function testGetControllerWithClosure(): void
     {
         $initialController = static function () {};
         $this->request->attributes->set('_controller', $initialController);
@@ -110,7 +110,7 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerListener->getController($this->event);
     }
 
-    public function testGetControllerMatchedView()
+    public function testGetControllerMatchedView(): void
     {
         $contentId = 12;
         $locationId = 123;
@@ -170,21 +170,22 @@ class ViewControllerListenerTest extends TestCase
             ->expects(self::once())
             ->method('buildView')
             ->willReturn($viewObject);
+        $matcher = self::exactly(2);
 
         $this->eventDispatcher
-            ->expects(self::exactly(2))
-            ->method('dispatch')
-            ->withConsecutive(
-                [
-                    self::isInstanceOf(FilterViewBuilderParametersEvent::class),
-                    self::identicalTo(ViewEvents::FILTER_BUILDER_PARAMETERS),
-                ],
-                [
-                    self::isInstanceOf(PostBuildViewEvent::class),
-                    self::isNull(),
-                ]
-            )
-            ->willReturnArgument(0);
+            ->expects($matcher)
+            ->method('dispatch')->willReturnCallback(function (...$parameters) use ($matcher) {
+                if ($matcher->numberOfInvocations() === 1) {
+                    $this->assertInstanceOf(FilterViewBuilderParametersEvent::class, $parameters[0]);
+                    $this->assertSame(ViewEvents::FILTER_BUILDER_PARAMETERS, $parameters[1]);
+                }
+                if ($matcher->numberOfInvocations() === 2) {
+                    $this->assertInstanceOf(PostBuildViewEvent::class, $parameters[0]);
+                    $this->assertNull($parameters[1]);
+                }
+
+                return $parameters[0];
+            });
 
         $this->controllerListener->getController($this->event);
     }
@@ -195,7 +196,7 @@ class ViewControllerListenerTest extends TestCase
     protected function createEvent()
     {
         return new ControllerEvent(
-            $this->createMock(HttpKernelInterface::class),
+            self::createStub(HttpKernelInterface::class),
             static function () {},
             $this->request,
             HttpKernelInterface::MAIN_REQUEST

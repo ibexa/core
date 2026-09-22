@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\Gateway;
 
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 // For SORT_ORDER_* constants
@@ -17,10 +18,10 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
- */
+#[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     /**
@@ -37,7 +38,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/languages.php');
     }
 
-    public function testInsertGroup()
+    public function testInsertGroup(): void
     {
         $gateway = $this->getGateway();
 
@@ -95,7 +96,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $group;
     }
 
-    public function testUpdateGroup()
+    public function testUpdateGroup(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_groups.php'
@@ -192,7 +193,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $struct;
     }
 
-    public function testCountTypesInGroup()
+    public function testCountTypesInGroup(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -210,7 +211,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCountGroupsForType()
+    public function testCountGroupsForType(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -228,7 +229,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteGroup()
+    public function testDeleteGroup(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_groups.php'
@@ -250,7 +251,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadGroupData()
+    public function testLoadGroupData(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_groups.php'
@@ -275,7 +276,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadGroupDataByIdentifier()
+    public function testLoadGroupDataByIdentifier(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_groups.php'
@@ -300,7 +301,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadAllGroupsData()
+    public function testLoadAllGroupsData(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_groups.php'
@@ -328,7 +329,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadTypesDataForGroup()
+    public function testLoadTypesDataForGroup(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -343,7 +344,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadTypeData()
+    public function testLoadTypeData(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -371,7 +372,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
          */
     }
 
-    public function testLoadTypeDataByIdentifier()
+    public function testLoadTypeDataByIdentifier(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -390,7 +391,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadTypeDataByRemoteId()
+    public function testLoadTypeDataByRemoteId(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -414,7 +415,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return string[][]
      */
-    public static function getTypeCreationExpectations()
+    public static function getTypeCreationExpectations(): array
     {
         return [
             ['always_available', 0],
@@ -437,10 +438,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getTypeCreationExpectations
-     */
-    public function testInsertType($column, $expectation)
+    #[DataProvider('getTypeCreationExpectations')]
+    public function testInsertType($column, $expectation): void
     {
         $gateway = $this->getGateway();
         $type = $this->getTypeFixture();
@@ -461,7 +460,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return string[][]
      */
-    public static function getTypeCreationContentClassNameExpectations()
+    public static function getTypeCreationContentClassNameExpectations(): array
     {
         return [
             ['content_type_status', [0, 0]],
@@ -471,10 +470,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
-    /**
-     * @dataProvider getTypeCreationContentClassNameExpectations
-     */
-    public function testInsertTypeContentClassName($column, $expectation)
+    #[DataProvider('getTypeCreationContentClassNameExpectations')]
+    public function testInsertTypeContentClassName($column, $expectation): void
     {
         $gateway = $this->getGateway();
         $type = $this->getTypeFixture();
@@ -534,7 +531,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $type;
     }
 
-    public function testInsertFieldDefinition()
+    public function testInsertFieldDefinition(): void
     {
         $gateway = $this->getGateway();
 
@@ -672,7 +669,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $fieldDef;
     }
 
-    public function testDeleteFieldDefinition()
+    public function testDeleteFieldDefinition(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -690,7 +687,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateFieldDefinition()
+    public function testUpdateFieldDefinition(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -762,7 +759,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testInsertGroupAssignment()
+    public function testInsertGroupAssignment(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_groups.php'
@@ -791,7 +788,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteGroupAssignment()
+    public function testDeleteGroupAssignment(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -811,10 +808,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * @dataProvider getTypeUpdateExpectations
-     */
-    public function testUpdateType($fieldName, $expectedValue)
+    #[DataProvider('getTypeUpdateExpectations')]
+    public function testUpdateType($fieldName, $expectedValue): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -841,7 +836,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateTypeName()
+    public function testUpdateTypeName(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -884,7 +879,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return string[][]
      */
-    public static function getTypeUpdateExpectations()
+    public static function getTypeUpdateExpectations(): array
     {
         return [
             ['serialized_name_list', 'a:3:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:10:"New Folder";s:6:"eng-GB";s:18:"New Folder for you";}'],
@@ -934,7 +929,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $type;
     }
 
-    public function testCountInstancesOfTypeExist()
+    public function testCountInstancesOfTypeExist(): void
     {
         $this->insertDatabaseFixture(
             // Fixture for content objects
@@ -950,7 +945,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCountInstancesOfTypeNotExist()
+    public function testCountInstancesOfTypeNotExist(): void
     {
         $this->insertDatabaseFixture(
             // Fixture for content objects
@@ -966,7 +961,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteFieldDefinitionsForTypeExisting()
+    public function testDeleteFieldDefinitionsForTypeExisting(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -983,7 +978,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ->where(
                 $countAffectedAttr->expr()->eq(
                     'content_type_id',
-                    1
+                    $countAffectedAttr->createNamedParameter(1, ParameterType::INTEGER)
                 )
             );
         // 1 left with version 1
@@ -1002,7 +997,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteFieldDefinitionsForTypeNotExisting()
+    public function testDeleteFieldDefinitionsForTypeNotExisting(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -1022,7 +1017,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteGroupAssignmentsForTypeExisting()
+    public function testDeleteGroupAssignmentsForTypeExisting(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -1042,7 +1037,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteGroupAssignmentsForTypeNotExisting()
+    public function testDeleteGroupAssignmentsForTypeNotExisting(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -1062,7 +1057,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteTypeExisting()
+    public function testDeleteTypeExisting(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -1082,7 +1077,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteTypeNotExisting()
+    public function testDeleteTypeNotExisting(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
@@ -1102,7 +1097,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testPublishTypeAndFields()
+    public function testPublishTypeAndFields(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/type_to_publish.php'

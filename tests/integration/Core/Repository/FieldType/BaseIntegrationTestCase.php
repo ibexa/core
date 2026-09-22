@@ -13,7 +13,13 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration test for legacy storage field types.
@@ -37,11 +43,13 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
  * - Test toHash
  * - Test fromHash
  *
- * @group integration
- * @group field-type
  *
  * @todo Finalize dependencies to other tests (including groups!)
  */
+#[CoversClass(FieldType::class)]
+#[CoversClass(ContentService::class)]
+#[Group('integration')]
+#[Group('field-type')]
 abstract class BaseIntegrationTestCase extends BaseTestCase
 {
     /**
@@ -49,6 +57,13 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      * Note: currently there is no way to retrieve this setting from the ContentService.
      */
     public const VERSION_ARCHIVE_LIMIT = 5;
+
+    /**
+     * Sentinel value a {@see self::providerForTestIsEmptyValue()} override returns when the
+     * field type has no "empty" representation, since PHPUnit 11 treats an empty data provider
+     * as a hard error rather than a skip.
+     */
+    protected const string NO_EMPTY_VALUE_DATA = '__no_empty_value_data__';
 
     /**
      * Identifier of the custom field.
@@ -151,7 +166,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @return array[]
      */
-    abstract public function provideInvalidCreationFieldData();
+    abstract public static function provideInvalidCreationFieldData();
 
     /**
      * Get valid field data for updating content.
@@ -191,7 +206,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @return array[]
      */
-    abstract public function provideInvalidUpdateFieldData();
+    abstract public static function provideInvalidUpdateFieldData();
 
     /**
      * Asserts the the field data was loaded correctly.
@@ -223,7 +238,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @return array
      */
-    abstract public function provideToHashData();
+    abstract public static function provideToHashData();
 
     /**
      * Get hashes and their respective converted values.
@@ -245,7 +260,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @return array
      */
-    abstract public function provideFromHashData();
+    abstract public static function provideFromHashData();
 
     /**
      * Method called after content creation.
@@ -382,34 +397,28 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return isset($overrideValues[$key]) ? $overrideValues[$key] : $default;
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\FieldType::isEmptyValue
-     *
-     * @dataProvider providerForTestIsEmptyValue
-     */
-    public function testIsEmptyValue($value)
+    #[DataProvider('providerForTestIsEmptyValue')]
+    public function testIsEmptyValue($value): void
     {
+        if ($value === self::NO_EMPTY_VALUE_DATA) {
+            self::markTestSkipped('This field type has no "empty" value representation.');
+        }
+
         self::assertTrue($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
     }
 
-    abstract public function providerForTestIsEmptyValue();
+    abstract public static function providerForTestIsEmptyValue();
 
-    /**
-     * @covers \Ibexa\Core\FieldType\FieldType::isEmptyValue
-     *
-     * @dataProvider providerForTestIsNotEmptyValue
-     */
-    public function testIsNotEmptyValue($value)
+    #[DataProvider('providerForTestIsNotEmptyValue')]
+    public function testIsNotEmptyValue($value): void
     {
         self::assertFalse($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
     }
 
-    abstract public function providerForTestIsNotEmptyValue();
+    abstract public static function providerForTestIsNotEmptyValue();
 
-    /**
-     * @depends testCreateContentType
-     */
-    public function testContentTypeField($contentType)
+    #[Depends('testCreateContentType')]
+    public function testContentTypeField($contentType): void
     {
         self::assertSame(
             $this->getTypeName(),
@@ -417,9 +426,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testCreateContentType
-     */
+    #[Depends('testCreateContentType')]
     public function testLoadContentTypeField()
     {
         $contentType = $this->testCreateContentType();
@@ -430,9 +437,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentTypeService->loadContentType($contentType->id);
     }
 
-    /**
-     * @depends testLoadContentTypeField
-     */
+    #[Depends('testLoadContentTypeField')]
     public function testLoadContentTypeFieldType($contentType)
     {
         self::assertSame(
@@ -443,7 +448,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentType->fieldDefinitions[1];
     }
 
-    public function testSettingsSchema()
+    public function testSettingsSchema(): void
     {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
@@ -455,10 +460,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testLoadContentTypeFieldType
-     */
-    public function testLoadContentTypeFieldData(FieldDefinition $fieldDefinition)
+    #[Depends('testLoadContentTypeFieldType')]
+    public function testLoadContentTypeFieldData(FieldDefinition $fieldDefinition): void
     {
         self::assertEquals(
             $this->getTypeName(),
@@ -477,10 +480,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testCreateContentType
-     */
-    public function testCreateContentTypeFailsWithInvalidFieldSettings()
+    #[Depends('testCreateContentType')]
+    public function testCreateContentTypeFailsWithInvalidFieldSettings(): void
     {
         $this->expectException(ContentTypeFieldDefinitionValidationException::class);
 
@@ -490,7 +491,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    public function testValidatorSchema()
+    public function testValidatorSchema(): void
     {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
@@ -502,10 +503,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testCreateContentType
-     */
-    public function testCreateContentTypeFailsWithInvalidValidatorConfiguration()
+    #[Depends('testCreateContentType')]
+    public function testCreateContentTypeFailsWithInvalidValidatorConfiguration(): void
     {
         $this->expectException(ContentTypeFieldDefinitionValidationException::class);
 
@@ -515,9 +514,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testLoadContentTypeField
-     */
+    #[Depends('testLoadContentTypeField')]
     public function testCreateContent()
     {
         return $this->createContent($this->getValidCreationFieldData());
@@ -597,9 +594,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->createContent($createStruct, $locationCreateStructs);
     }
 
-    /**
-     * @depends testCreateContent
-     */
+    #[Depends('testCreateContent')]
     public function testCreatedFieldType($content)
     {
         foreach ($content->getFields() as $field) {
@@ -611,9 +606,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testCreateContent
-     */
+    #[Depends('testCreateContent')]
     public function testPublishContent()
     {
         $draft = $this->testCreateContent();
@@ -628,9 +621,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->publishVersion($draft->getVersionInfo());
     }
 
-    /**
-     * @depends testPublishContent
-     */
+    #[Depends('testPublishContent')]
     public function testPublishedFieldType($content)
     {
         foreach ($content->getFields() as $field) {
@@ -642,10 +633,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testPublishContent
-     */
-    public function testPublishedName(Content $content)
+    #[Depends('testPublishContent')]
+    public function testPublishedName(Content $content): void
     {
         self::assertEquals(
             $content->getFieldValue('name') . ' ' . $this->getFieldName(),
@@ -653,9 +642,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testCreateContent
-     */
+    #[Depends('testCreateContent')]
     public function testLoadField()
     {
         $content = $this->testCreateContent();
@@ -666,9 +653,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->loadContent($content->contentInfo->id);
     }
 
-    /**
-     * @depends testLoadField
-     */
+    #[Depends('testLoadField')]
     public function testLoadFieldType()
     {
         $content = $this->testCreateContent();
@@ -682,10 +667,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testLoadFieldType
-     */
-    public function testLoadExternalData()
+    #[Depends('testLoadFieldType')]
+    public function testLoadExternalData(): void
     {
         $this->assertFieldDataLoadedCorrect($this->testLoadFieldType());
     }
@@ -701,20 +684,18 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     /**
      * Test that publishing (and thus indexing) content with an empty field value does not fail.
      *
-     * @depends testCreateContentWithEmptyFieldValue
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentDraft
      */
-    public function testPublishContentWithEmptyFieldValue(Content $contentDraft)
+    #[Depends('testCreateContentWithEmptyFieldValue')]
+    public function testPublishContentWithEmptyFieldValue(Content $contentDraft): void
     {
         $this->getRepository(false)->getContentService()->publishVersion(
             $contentDraft->versionInfo
         );
     }
 
-    /**
-     * @depends testCreateContentWithEmptyFieldValue
-     */
+    #[Depends('testCreateContentWithEmptyFieldValue')]
     public function testCreatedEmptyFieldValue($content)
     {
         foreach ($content->getFields() as $field) {
@@ -726,11 +707,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testCreateContentWithEmptyFieldValue
-     *
-     * @group xx
-     */
+    #[Depends('testCreateContentWithEmptyFieldValue')]
+    #[Group('xx')]
     public function testLoadEmptyFieldValue()
     {
         $content = $this->testCreateContentWithEmptyFieldValue();
@@ -741,9 +719,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->loadContent($content->contentInfo->id);
     }
 
-    /**
-     * @depends testLoadEmptyFieldValue
-     */
+    #[Depends('testLoadEmptyFieldValue')]
     public function testLoadEmptyFieldValueType($content)
     {
         foreach ($content->getFields() as $field) {
@@ -755,10 +731,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testLoadEmptyFieldValueType
-     */
-    public function testLoadEmptyFieldValueData($field)
+    #[Depends('testLoadEmptyFieldValueType')]
+    public function testLoadEmptyFieldValueData($field): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType $fieldType */
         $fieldType = $this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName());
@@ -775,9 +749,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @depends testLoadFieldType
-     */
+    #[Depends('testLoadFieldType')]
     public function testUpdateField()
     {
         return $this->updateContent($this->getValidUpdateFieldData());
@@ -811,9 +783,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->updateContent($draft->versionInfo, $updateStruct);
     }
 
-    /**
-     * @depends testUpdateField
-     */
+    #[Depends('testUpdateField')]
     public function testUpdateTypeFieldStillAvailable($content)
     {
         foreach ($content->getFields() as $field) {
@@ -825,10 +795,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testUpdateTypeFieldStillAvailable
-     */
-    public function testUpdatedDataCorrect(Field $field)
+    #[Depends('testUpdateTypeFieldStillAvailable')]
+    public function testUpdatedDataCorrect(Field $field): void
     {
         $this->assertUpdatedFieldDataLoadedCorrect($field);
     }
@@ -841,9 +809,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $this->updateContent(null, false);
     }
 
-    /**
-     * @depends testUpdateFieldNoNewContent
-     */
+    #[Depends('testUpdateFieldNoNewContent')]
     public function testUpdateNoNewContentTypeFieldStillAvailable($content)
     {
         foreach ($content->getFields() as $field) {
@@ -855,17 +821,13 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testUpdateNoNewContentTypeFieldStillAvailable
-     */
-    public function testUpdatedNoNewContentDataCorrect(Field $field)
+    #[Depends('testUpdateNoNewContentTypeFieldStillAvailable')]
+    public function testUpdatedNoNewContentDataCorrect(Field $field): void
     {
         $this->assertFieldDataLoadedCorrect($field);
     }
 
-    /**
-     * @depends testCreateContent
-     */
+    #[Depends('testCreateContent')]
     public function testCopyField($content)
     {
         $content = $this->testCreateContent();
@@ -887,9 +849,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         return $contentService->loadContent($copied->id);
     }
 
-    /**
-     * @depends testCopyField
-     */
+    #[Depends('testCopyField')]
     public function testCopiedFieldType($content)
     {
         foreach ($content->getFields() as $field) {
@@ -901,18 +861,14 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         self::fail('Custom field not found.');
     }
 
-    /**
-     * @depends testCopiedFieldType
-     */
-    public function testCopiedExternalData(Field $field)
+    #[Depends('testCopiedFieldType')]
+    public function testCopiedExternalData(Field $field): void
     {
         $this->assertCopiedFieldDataLoadedCorrectly($field);
     }
 
-    /**
-     * @depends testCopyField
-     */
-    public function testDeleteContent($content)
+    #[Depends('testCopyField')]
+    public function testDeleteContent($content): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -930,9 +886,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      * Tests failing content creation.
      *
      * @param mixed $failingValue
-     *
-     * @dataProvider provideInvalidCreationFieldData
      */
+    #[DataProvider('provideInvalidCreationFieldData')]
     public function testCreateContentFails($failingValue, ?string $expectedException): void
     {
         $this->expectException($expectedException);
@@ -944,9 +899,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
      *
      * @param mixed $failingValue
      * @param string $expectedException
-     *
-     * @dataProvider provideInvalidUpdateFieldData
      */
+    #[DataProvider('provideInvalidUpdateFieldData')]
     public function testUpdateContentFails($failingValue, $expectedException)
     {
         $this->expectException($expectedException);
@@ -973,7 +927,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     /**
      * Tests removal of field definition from the ContentType of the Content.
      */
-    public function testRemoveFieldDefinition()
+    public function testRemoveFieldDefinition(): void
     {
         $content = $this->removeFieldDefinition();
 
@@ -1025,10 +979,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @dataProvider provideToHashData
-     */
-    public function testToHash($value, $expectedHash)
+    #[DataProvider('provideToHashData')]
+    public function testToHash($value, $expectedHash): void
     {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
@@ -1041,14 +993,12 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     }
 
     /**
-     * @depends testCreateContent
-     *
-     * @dataProvider provideFromHashData
-     *
      * @todo: Requires correct registered FieldTypeService, needs to be
      *        maintained!
      */
-    public function testFromHash($hash, $expectedValue)
+    #[Depends('testCreateContent')]
+    #[DataProvider('provideFromHashData')]
+    public function testFromHash($hash, $expectedValue): void
     {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
@@ -1063,7 +1013,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     /**
      * Test that exceeding default version archive limit has no effect on a published content.
      */
-    public function testExceededVersionArchiveLimitHasNoEffectOnContent()
+    public function testExceededVersionArchiveLimitHasNoEffectOnContent(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1088,7 +1038,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     /**
      * Test that deleting new draft does not affect data of published version.
      */
-    public function testDeleteDraftOfPublishedContentDoesNotDeleteData()
+    public function testDeleteDraftOfPublishedContentDoesNotDeleteData(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1110,7 +1060,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
     /**
      * Test creating new translation from existing content with empty field.
      */
-    public function testUpdateContentWithNewTranslationOnEmptyField()
+    public function testUpdateContentWithNewTranslationOnEmptyField(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1149,10 +1099,8 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
 
     /**
      * Test that removing Translation from all Versions works for data from a Field Type.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslation
      */
-    public function testDeleteTranslation()
+    public function testDeleteTranslation(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();

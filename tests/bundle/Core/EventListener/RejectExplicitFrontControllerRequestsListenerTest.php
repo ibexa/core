@@ -9,6 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -21,15 +24,14 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
     /** @var \Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener */
     private $eventListener;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $httpKernel;
+    private HttpKernelInterface&Stub $httpKernel;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->eventListener = new RejectExplicitFrontControllerRequestsListener();
-        $this->httpKernel = $this->createMock(HttpKernelInterface::class);
+        $this->httpKernel = self::createStub(HttpKernelInterface::class);
     }
 
     public function testSubscribedEvents(): void
@@ -44,11 +46,8 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider validRequestDataProvider
-     *
-     * @doesNotPerformAssertions
-     */
+    #[DataProvider('validRequestDataProvider')]
+    #[DoesNotPerformAssertions]
     public function testOnKernelRequest(Request $request): void
     {
         $event = new RequestEvent(
@@ -60,9 +59,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         $this->eventListener->onKernelRequest($event);
     }
 
-    /**
-     * @dataProvider prohibitedRequestDataProvider
-     */
+    #[DataProvider('prohibitedRequestDataProvider')]
     public function testOnKernelRequestThrowsException(Request $request): void
     {
         $this->expectException(NotFoundHttpException::class);
@@ -76,7 +73,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         $this->eventListener->onKernelRequest($event);
     }
 
-    public function validRequestDataProvider(): array
+    public static function validRequestDataProvider(): array
     {
         return [
             [
@@ -212,7 +209,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         ];
     }
 
-    public function prohibitedRequestDataProvider(): array
+    public static function prohibitedRequestDataProvider(): array
     {
         return [
             [

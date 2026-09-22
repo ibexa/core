@@ -12,13 +12,12 @@ use Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostElement;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer
- */
+#[CoversClass(HostElementNormalizer::class)]
 final class HostElementNormalizerTest extends TestCase
 {
     private const array DATA = [
@@ -58,8 +57,8 @@ final class HostElementNormalizerTest extends TestCase
     {
         $normalizer = new HostElementNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(HostElement::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization(self::createStub(HostElement::class)));
+        self::assertFalse($normalizer->supportsNormalization(self::createStub(Matcher::class)));
     }
 
     /**

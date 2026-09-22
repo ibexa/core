@@ -9,13 +9,12 @@ namespace Ibexa\Tests\Core\Helper\FieldsGroups;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @covers \Ibexa\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList
- */
+#[CoversClass(ArrayTranslatorFieldsGroupsList::class)]
 class ArrayTranslatorFieldsGroupsListTest extends TestCase
 {
     private const FIRST_GROUP_ID = 'slayer';

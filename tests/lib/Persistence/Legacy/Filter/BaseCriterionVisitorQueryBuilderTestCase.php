@@ -13,9 +13,18 @@ use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(LogicalAndQueryBuilder::class)]
+#[CoversClass(LogicalOrQueryBuilder::class)]
+#[CoversClass(LogicalNotQueryBuilder::class)]
+#[CoversClass(CriterionVisitor::class)]
 abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor */
@@ -29,7 +38,7 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
     /**
      * Data provider for {@see testVisitCriteriaProducesQuery}.
      */
-    abstract public function getFilteringCriteriaQueryData(): iterable;
+    abstract public static function getFilteringCriteriaQueryData(): iterable;
 
     protected function setUp(): void
     {
@@ -43,14 +52,9 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
     }
 
     /**
-     * @dataProvider getFilteringCriteriaQueryData
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder::buildQueryConstraint
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder::accepts
-     * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor::visitCriteria
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
+    #[DataProvider('getFilteringCriteriaQueryData')]
     public function testVisitCriteriaProducesQuery(
         FilteringCriterion $criterion,
         string $expectedQuery,
@@ -81,7 +85,7 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
     {
         $connectionMock = $this->createMock(Connection::class);
         $connectionMock
-            ->method('getExpressionBuilder')
+            ->method('createExpressionBuilder')
             ->willReturn(
                 new ExpressionBuilder($connectionMock)
             );

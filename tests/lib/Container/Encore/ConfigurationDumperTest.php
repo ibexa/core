@@ -9,13 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Container\Encore;
 
 use Ibexa\Contracts\Core\Container\Encore\ConfigurationDumper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-/**
- * @covers \Ibexa\Contracts\Core\Container\Encore\ConfigurationDumper
- */
+#[CoversClass(ConfigurationDumper::class)]
 final class ConfigurationDumperTest extends TestCase
 {
     private const string PROJECT_DIR = '/var/io-tests/';

@@ -36,7 +36,7 @@ class ContentPreviewHelperTest extends TestCase
         $this->previewHelper = new ContentPreviewHelper($this->eventDispatcher, $this->siteAccessRouter);
     }
 
-    public function testChangeConfigScope()
+    public function testChangeConfigScope(): void
     {
         $newSiteAccessName = 'test';
         $newSiteAccess = new SiteAccess($newSiteAccessName);
@@ -61,7 +61,7 @@ class ContentPreviewHelperTest extends TestCase
         );
     }
 
-    public function testRestoreConfigScope()
+    public function testRestoreConfigScope(): void
     {
         $originalSiteAccess = new SiteAccess('foo', 'bar');
         $event = new ScopeChangeEvent($originalSiteAccess);
@@ -77,7 +77,7 @@ class ContentPreviewHelperTest extends TestCase
         );
     }
 
-    public function testPreviewActive()
+    public function testPreviewActive(): void
     {
         $originalSiteAccess = new SiteAccess('foo', 'bar');
         $this->previewHelper->setSiteAccess($originalSiteAccess);
@@ -91,18 +91,18 @@ class ContentPreviewHelperTest extends TestCase
         self::assertNotSame($originalSiteAccess, $this->previewHelper->getOriginalSiteAccess());
     }
 
-    public function testPreviewedContent()
+    public function testPreviewedContent(): void
     {
         self::assertNull($this->previewHelper->getPreviewedContent());
-        $content = $this->createMock(APIContent::class);
+        $content = self::createStub(APIContent::class);
         $this->previewHelper->setPreviewedContent($content);
         self::assertSame($content, $this->previewHelper->getPreviewedContent());
     }
 
-    public function testPreviewedLocation()
+    public function testPreviewedLocation(): void
     {
         self::assertNull($this->previewHelper->getPreviewedLocation());
-        $location = $this->createMock(APILocation::class);
+        $location = self::createStub(APILocation::class);
         $this->previewHelper->setPreviewedLocation($location);
         self::assertSame($location, $this->previewHelper->getPreviewedLocation());
     }

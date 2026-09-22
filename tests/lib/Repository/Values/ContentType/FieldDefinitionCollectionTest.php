@@ -13,11 +13,10 @@ use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection
- */
+#[CoversClass(FieldDefinitionCollection::class)]
 final class FieldDefinitionCollectionTest extends TestCase
 {
     public function testGet(): void

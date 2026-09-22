@@ -11,10 +11,11 @@ use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper
- */
+#[CoversClass(Mapper::class)]
 class UrlAliasMapperTest extends LanguageAwareTestCase
 {
     protected $fixture = [
@@ -229,17 +230,19 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
         ];
     }
 
-    public function providerForTestExtractUrlAliasFromData()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestExtractUrlAliasFromData(): array
     {
         return [[0], [1], [2], [3]];
     }
 
     /**
      * Test for the extractUrlAliasFromData() method.
-     *
-     * @dataProvider providerForTestExtractUrlAliasFromData
      */
-    public function testExtractUrlAliasFromData($index)
+    #[DataProvider('providerForTestExtractUrlAliasFromData')]
+    public function testExtractUrlAliasFromData($index): void
     {
         $mapper = $this->getMapper();
 
@@ -254,10 +257,9 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
 
     /**
      * Test for the extractUrlAliasListFromData() method.
-     *
-     * @depends testExtractUrlAliasFromData
      */
-    public function testExtractUrlAliasListFromData()
+    #[Depends('testExtractUrlAliasFromData')]
+    public function testExtractUrlAliasListFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -270,7 +272,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
     /**
      * Test for the extractLanguageCodesFromData method.
      */
-    public function testExtractLanguageCodesFromData()
+    public function testExtractLanguageCodesFromData(): void
     {
         $mapper = $this->getMapper();
 

@@ -12,12 +12,14 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Test case for language issues in EZP-20018.
  *
  * Issue EZP-20018
  */
+#[CoversClass(LanguageCode::class)]
 class EZP20018LanguageTest extends BaseTestCase
 {
     protected function setUp(): void
@@ -58,10 +60,7 @@ class EZP20018LanguageTest extends BaseTestCase
         $this->refreshSearch($repository);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
-     */
-    public function testSearchOnNotExistingLanguageGivesException()
+    public function testSearchOnNotExistingLanguageGivesException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -75,10 +74,7 @@ class EZP20018LanguageTest extends BaseTestCase
         $this->getRepository()->getSearchService()->findContent($query);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
-     */
-    public function testSearchOnUsedLanguageGivesOneResult()
+    public function testSearchOnUsedLanguageGivesOneResult(): void
     {
         $query = new Query();
         $query->filter = new LanguageCode(['por-PT'], false);
@@ -88,10 +84,7 @@ class EZP20018LanguageTest extends BaseTestCase
         self::assertCount(1, $results->searchHits);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
-     */
-    public function testSearchOnStandardLanguageGivesManyResult()
+    public function testSearchOnStandardLanguageGivesManyResult(): void
     {
         $query = new Query();
         $query->filter = new LanguageCode(['eng-US'], false);
@@ -102,10 +95,7 @@ class EZP20018LanguageTest extends BaseTestCase
         self::assertEquals($results->totalCount, count($results->searchHits));
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
-     */
-    public function testSearchOnNotUsedInstalledLanguageGivesNoResult()
+    public function testSearchOnNotUsedInstalledLanguageGivesNoResult(): void
     {
         $query = new Query();
         $query->filter = new LanguageCode(['eng-GB'], false);

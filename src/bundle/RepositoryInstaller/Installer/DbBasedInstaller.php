@@ -8,8 +8,8 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Persistence\Doctrine\DatabasePlatformResolver;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DbBasedInstaller
@@ -108,6 +108,15 @@ class DbBasedInstaller
 
     protected function getDBMSDataDirectoryName(): string
     {
-        return DatabasePlatformResolver::resolveName($this->db->getDatabasePlatform())->value;
+        $platform = $this->db->getDatabasePlatform();
+        $name = DatabasePlatformResolver::resolveName($platform);
+        if ($name === null) {
+            throw new InvalidArgumentException(
+                'platform',
+                sprintf('Unsupported database platform: %s', $platform::class)
+            );
+        }
+
+        return $name->value;
     }
 }

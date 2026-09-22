@@ -30,7 +30,7 @@ class UrlRedecoratorTest extends TestCase
         );
     }
 
-    public function testRedecorateFromSource()
+    public function testRedecorateFromSource(): void
     {
         $this->sourceDecoratorMock
             ->expects(self::once())
@@ -50,7 +50,7 @@ class UrlRedecoratorTest extends TestCase
         );
     }
 
-    public function testRedecorateFromTarget()
+    public function testRedecorateFromTarget(): void
     {
         $this->targetDecoratorMock
             ->expects(self::once())

@@ -10,15 +10,14 @@ namespace Ibexa\Tests\Bundle\Core\Fragment;
 use Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\SiteAccessSerializer;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
-/**
- * @covers \Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer
- */
+#[CoversClass(InlineFragmentRenderer::class)]
 class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
 {
     private const string FOO_BAR_SEMANTIC_PATH = '/foo/bar';

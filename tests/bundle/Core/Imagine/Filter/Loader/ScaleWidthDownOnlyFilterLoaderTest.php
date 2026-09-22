@@ -29,17 +29,17 @@ class ScaleWidthDownOnlyFilterLoaderTest extends TestCase
         $this->loader->setInnerLoader($this->innerLoader);
     }
 
-    public function testLoadInvalid()
+    public function testLoadInvalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->loader->load($this->createMock(ImageInterface::class), []);
+        $this->loader->load(self::createStub(ImageInterface::class), []);
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $width = 123;
-        $image = $this->createMock(ImageInterface::class);
+        $image = self::createStub(ImageInterface::class);
         $this->innerLoader
             ->expects(self::once())
             ->method('load')

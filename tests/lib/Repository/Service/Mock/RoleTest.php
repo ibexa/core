@@ -30,18 +30,16 @@ use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\RoleService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\RoleService
- * @covers \Ibexa\Core\Repository\Permission\LimitationService::validateLimitations
- * @covers \Ibexa\Core\Repository\Permission\LimitationService::validateLimitation
- */
+#[CoversClass(RoleService::class)]
+#[CoversClass(LimitationService::class)]
 class RoleTest extends BaseServiceMockTest
 {
     /**
      * Test for the createRole() method.
      */
-    public function testCreateRoleThrowsLimitationValidationException()
+    public function testCreateRoleThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -106,7 +104,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the addPolicy() method.
      */
-    public function testAddPolicyThrowsLimitationValidationException()
+    public function testAddPolicyThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -170,7 +168,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the updatePolicyByRoleDraft() method.
      */
-    public function testUpdatePolicyThrowsLimitationValidationException()
+    public function testUpdatePolicyThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -196,7 +194,7 @@ class RoleTest extends BaseServiceMockTest
 
         $roleServiceMock = $this->getPartlyMockedRoleService(['loadRole'], $settings);
 
-        $roleDraftMock = $this->createMock(RoleDraft::class);
+        $roleDraftMock = self::createStub(RoleDraft::class);
         $policyDraftMock = $this->createMock(PolicyDraft::class);
         $policyUpdateStructMock = $this->createMock(PolicyUpdateStruct::class);
 
@@ -243,15 +241,15 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserThrowsUnauthorizedException()
+    public function testAssignRoleToUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
         $roleServiceMock = $this->getPartlyMockedRoleService();
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
-        $roleMock = $this->createMock(Role::class);
+        $roleMock = self::createStub(Role::class);
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\User $userMock */
-        $userMock = $this->createMock(User::class);
+        $userMock = self::createStub(User::class);
 
         $permissionResolverMock = $this->getPermissionResolverMock();
         $permissionResolverMock->expects(self::once())
@@ -269,7 +267,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserThrowsLimitationValidationException()
+    public function testAssignRoleToUserThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -295,9 +293,9 @@ class RoleTest extends BaseServiceMockTest
         $roleServiceMock = $this->getPartlyMockedRoleService(null, $settings);
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
-        $roleMock = $this->createMock(Role::class);
+        $roleMock = self::createStub(Role::class);
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\User $userMock */
-        $userMock = $this->createMock(User::class);
+        $userMock = self::createStub(User::class);
 
         $permissionResolverMock = $this->getPermissionResolverMock();
         $permissionResolverMock->expects(self::once())
@@ -316,15 +314,15 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserThrowsBadStateException()
+    public function testAssignRoleToUserThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
         $roleServiceMock = $this->getPartlyMockedRoleService();
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
-        $roleMock = $this->createMock(Role::class);
+        $roleMock = self::createStub(Role::class);
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\User $userMock */
-        $userMock = $this->createMock(User::class);
+        $userMock = self::createStub(User::class);
         $limitationMock = $this->createMock(RoleLimitation::class);
 
         $limitationMock->expects(self::once())
@@ -348,7 +346,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUser()
+    public function testAssignRoleToUser(): void
     {
         $limitationMock = $this->createMock(RoleLimitation::class);
         $limitationTypeMock = $this->createMock(SPIType::class);
@@ -431,7 +429,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserWithNullLimitation()
+    public function testAssignRoleToUserWithNullLimitation(): void
     {
         $repository = $this->getRepositoryMock();
         $roleServiceMock = $this->getPartlyMockedRoleService(['checkAssignmentAndFilterLimitationValues']);
@@ -493,7 +491,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUser() method.
      */
-    public function testAssignRoleToUserWithRollback()
+    public function testAssignRoleToUserWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -557,16 +555,16 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroupThrowsUnauthorizedException()
+    public function testAssignRoleToUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
         $repository = $this->getRepositoryMock();
         $roleServiceMock = $this->getPartlyMockedRoleService();
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
-        $roleMock = $this->createMock(Role::class);
+        $roleMock = self::createStub(Role::class);
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroupMock */
-        $userGroupMock = $this->createMock(UserGroup::class);
+        $userGroupMock = self::createStub(UserGroup::class);
 
         $permissionResolverMock = $this->getPermissionResolverMock();
         $permissionResolverMock->expects(self::once())
@@ -584,7 +582,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroupThrowsLimitationValidationException()
+    public function testAssignRoleToUserGroupThrowsLimitationValidationException(): void
     {
         $this->expectException(LimitationValidationException::class);
 
@@ -611,9 +609,9 @@ class RoleTest extends BaseServiceMockTest
 
         $repository = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
-        $roleMock = $this->createMock(Role::class);
+        $roleMock = self::createStub(Role::class);
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroupMock */
-        $userGroupMock = $this->createMock(UserGroup::class);
+        $userGroupMock = self::createStub(UserGroup::class);
 
         $permissionResolverMock = $this->getPermissionResolverMock();
         $permissionResolverMock->expects(self::once())
@@ -632,16 +630,16 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleGroupToUserThrowsBadStateException()
+    public function testAssignRoleGroupToUserThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
         $repository = $this->getRepositoryMock();
         $roleServiceMock = $this->getPartlyMockedRoleService();
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
-        $roleMock = $this->createMock(Role::class);
+        $roleMock = self::createStub(Role::class);
         /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroupMock */
-        $userGroupMock = $this->createMock(UserGroup::class);
+        $userGroupMock = self::createStub(UserGroup::class);
         $limitationMock = $this->createMock(RoleLimitation::class);
 
         $limitationMock->expects(self::once())
@@ -665,7 +663,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroup()
+    public function testAssignRoleToUserGroup(): void
     {
         $limitationMock = $this->createMock(RoleLimitation::class);
         $limitationTypeMock = $this->createMock(SPIType::class);
@@ -752,7 +750,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroupWithNullLimitation()
+    public function testAssignRoleToUserGroupWithNullLimitation(): void
     {
         $repository = $this->getRepositoryMock();
         $roleServiceMock = $this->getPartlyMockedRoleService(['checkAssignmentAndFilterLimitationValues']);
@@ -818,7 +816,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the assignRoleToUserGroup() method.
      */
-    public function testAssignRoleToUserGroupWithRollback()
+    public function testAssignRoleToUserGroupWithRollback(): void
     {
         $this->expectException(\Exception::class);
 
@@ -883,11 +881,11 @@ class RoleTest extends BaseServiceMockTest
         $roleServiceMock->assignRoleToUserGroup($roleMock, $userGroupMock, null);
     }
 
-    public function testRemovePolicyByRoleDraftThrowsUnauthorizedException()
+    public function testRemovePolicyByRoleDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
-        $roleDraftMock = $this->createMock(RoleDraft::class);
+        $roleDraftMock = self::createStub(RoleDraft::class);
         $roleDomainMapper = $this->createMock(RoleDomainMapper::class);
         $roleDomainMapper
             ->method('buildDomainRoleObject')
@@ -922,7 +920,7 @@ class RoleTest extends BaseServiceMockTest
     /**
      * Test for the removePolicyByRoleDraft() method.
      */
-    public function testRemovePolicyByRoleDraftWithRollback()
+    public function testRemovePolicyByRoleDraftWithRollback(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
@@ -977,7 +975,7 @@ class RoleTest extends BaseServiceMockTest
         $roleServiceMock->removePolicyByRoleDraft($roleDraftMock, $policyDraftMock);
     }
 
-    public function testRemovePolicyByRoleDraft()
+    public function testRemovePolicyByRoleDraft(): void
     {
         $repository = $this->getRepositoryMock();
         $roleDraftMock = $this->createMock(RoleDraft::class);
@@ -1061,13 +1059,11 @@ class RoleTest extends BaseServiceMockTest
             );
             if ($roleDomainMapper === null) {
                 $roleDomainMapper = $this->getMockBuilder(RoleDomainMapper::class)
-                    ->setMethods([])
                     ->setConstructorArgs([$limitationService])
                     ->getMock();
             }
 
             $this->partlyMockedRoleService = $this->getMockBuilder(RoleService::class)
-                ->setMethods($methods)
                 ->setConstructorArgs(
                     [
                         $this->getRepositoryMock(),
@@ -1077,6 +1073,7 @@ class RoleTest extends BaseServiceMockTest
                         $settings,
                     ]
                 )
+                ->onlyMethods(array_values($methods ?? []))
                 ->getMock();
         }
 

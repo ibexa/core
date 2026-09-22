@@ -34,6 +34,7 @@ use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -95,9 +96,7 @@ final class AliasGeneratorTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider supportsValueProvider
-     */
+    #[DataProvider('supportsValueProvider')]
     public function testSupportsValue(Value $value, bool $isSupported): void
     {
         self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
@@ -112,13 +111,13 @@ final class AliasGeneratorTest extends TestCase
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function supportsValueProvider(): array
+    public static function supportsValueProvider(): array
     {
         return [
-            [$this->createMock(FieldTypeValue::class), false],
+            [self::createStub(FieldTypeValue::class), false],
             [new TextLineValue(), false],
             [new ImageValue(), true],
-            [$this->createMock(ImageValue::class), true],
+            [self::createStub(ImageValue::class), true],
         ];
     }
 
@@ -127,7 +126,7 @@ final class AliasGeneratorTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $field = new Field([
-            'value' => $this->createMock(FieldTypeValue::class),
+            'value' => self::createStub(FieldTypeValue::class),
             'fieldDefIdentifier' => 'image_field',
         ]);
         $this->aliasGenerator->getVariation($field, new VersionInfo(), 'foo');
@@ -158,7 +157,7 @@ final class AliasGeneratorTest extends TestCase
             ->expects(self::once())
             ->method('debug');
 
-        $binary = $this->createMock(BinaryInterface::class);
+        $binary = self::createStub(BinaryInterface::class);
         $this->dataLoader
             ->expects(self::once())
             ->method('find')
@@ -247,6 +246,57 @@ final class AliasGeneratorTest extends TestCase
         );
     }
 
+    public function testGetVariationOriginalWithNullWidthAndHeight(): void
+    {
+        $originalPath = 'foo/bar/image.jpg';
+        $variationName = 'original';
+        $imageId = '123-45';
+        $imageValue = new ImageValue(
+            [
+                'id' => $originalPath,
+                'imageId' => $imageId,
+                'width' => null,
+                'height' => null,
+                'fileSize' => 1024,
+                'mime' => 'image/jpeg',
+            ]
+        );
+        $field = new Field([
+            'value' => $imageValue,
+            'fieldDefIdentifier' => 'image_field',
+        ]);
+        $expectedUrl = 'http://localhost/foo/bar/image.jpg';
+
+        $this->ioResolver
+            ->expects(self::once())
+            ->method('resolve')
+            ->with($originalPath, $variationName)
+            ->will(self::returnValue($expectedUrl));
+
+        $expected = new ImageVariation(
+            [
+                'name' => $variationName,
+                'fileName' => 'image.jpg',
+                'dirPath' => 'http://localhost/foo/bar',
+                'uri' => $expectedUrl,
+                'imageId' => $imageId,
+                'height' => null,
+                'width' => null,
+                'fileSize' => 1024,
+                'mimeType' => 'image/jpeg',
+            ]
+        );
+
+        self::assertEquals(
+            $expected,
+            $this->aliasGenerator->getVariation(
+                $field,
+                new VersionInfo(),
+                $variationName
+            )
+        );
+    }
+
     /**
      * Test obtaining Image Variation that hasn't been stored yet and has multiple references.
      *
@@ -279,7 +329,7 @@ final class AliasGeneratorTest extends TestCase
             ->expects(self::once())
             ->method('debug');
 
-        $binary = $this->createMock(BinaryInterface::class);
+        $binary = self::createStub(BinaryInterface::class);
         $this->dataLoader
             ->expects(self::once())
             ->method('find')
@@ -287,21 +337,20 @@ final class AliasGeneratorTest extends TestCase
             ->will(self::returnValue($binary));
 
         // Filter manager is supposed to be called 3 times to generate references, and then passed variation.
+        $expectedApplyFilterCalls = [
+            [$binary, $reference2, []],
+            [$binary, $reference1, []],
+            [$binary, $variationName, []],
+        ];
+        $matcher = self::exactly(3);
         $this->filterManager
-            ->expects(self::at(0))
+            ->expects($matcher)
             ->method('applyFilter')
-            ->with($binary, $reference2)
-            ->will(self::returnValue($binary));
-        $this->filterManager
-            ->expects(self::at(1))
-            ->method('applyFilter')
-            ->with($binary, $reference1)
-            ->will(self::returnValue($binary));
-        $this->filterManager
-            ->expects(self::at(2))
-            ->method('applyFilter')
-            ->with($binary, $variationName)
-            ->will(self::returnValue($binary));
+            ->willReturnCallback(function (...$parameters) use ($matcher, $expectedApplyFilterCalls, $binary) {
+                $this->assertSame($expectedApplyFilterCalls[$matcher->numberOfInvocations() - 1], $parameters);
+
+                return $binary;
+            });
 
         $this->ioResolver
             ->expects(self::once())

@@ -12,19 +12,20 @@ use Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer
- */
+#[CoversClass(URIElementNormalizer::class)]
 final class URIElementNormalizerTest extends TestCase
 {
     /**
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function testNormalization(): void
+    #[DataProvider('provideForTestNormalization')]
+    public function testNormalization(bool $initializeUriElements): void
     {
         $normalizer = new URIElementNormalizer();
         $serializer = new Serializer(
@@ -35,9 +36,10 @@ final class URIElementNormalizerTest extends TestCase
         );
 
         $matcher = new URIElement(2);
-        // Set request and invoke match to initialize HostElement::$hostElements
-        $matcher->setRequest(SimplifiedRequest::fromUrl('http://ibexa.dev/foo/bar'));
-        $matcher->match();
+        $matcher->setRequest(SimplifiedRequest::fromUrl('https://ibexa.dev/foo/bar'));
+        if ($initializeUriElements) {
+            $matcher->match();
+        }
 
         self::assertEquals(
             [
@@ -49,11 +51,21 @@ final class URIElementNormalizerTest extends TestCase
         );
     }
 
+    /**
+     * @return iterable<string, array{bool}>
+     */
+    public static function provideForTestNormalization(): iterable
+    {
+        yield 'uriElements initialized by match()' => [true];
+        // uriElements must be computed from the request during normalization (IBX-12102)
+        yield 'uriElements not yet initialized' => [false];
+    }
+
     public function testSupportsNormalization(): void
     {
         $normalizer = new URIElementNormalizer();
 
-        self::assertTrue($normalizer->supportsNormalization($this->createMock(URIElement::class)));
-        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization(self::createStub(URIElement::class)));
+        self::assertFalse($normalizer->supportsNormalization(self::createStub(Matcher::class)));
     }
 }

@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -32,7 +33,7 @@ class SiteAccessListenerTest extends TestCase
         $this->listener = new SiteAccessListener($this->defaultSiteaccess);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -42,7 +43,10 @@ class SiteAccessListenerTest extends TestCase
         );
     }
 
-    public function siteAccessMatchProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function siteAccessMatchProvider(): array
     {
         return [
             ['/foo/bar', '/foo/bar', '', []],
@@ -60,15 +64,13 @@ class SiteAccessListenerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider siteAccessMatchProvider
-     */
+    #[DataProvider('siteAccessMatchProvider')]
     public function testOnSiteAccessMatchMasterRequest(
         $uri,
         $expectedSemanticPathinfo,
         $expectedVPString,
         array $expectedVPArray
-    ) {
+    ): void {
         $uri = rawurldecode($uri);
         $semanticPathinfoPos = strpos($uri, $expectedSemanticPathinfo);
         if ($semanticPathinfoPos !== 0) {
@@ -97,12 +99,10 @@ class SiteAccessListenerTest extends TestCase
         self::assertSame($this->defaultSiteaccess->groups, $siteAccess->groups);
     }
 
-    /**
-     * @dataProvider siteAccessMatchProvider
-     */
-    public function testOnSiteAccessMatchSubRequest($uri, $semanticPathinfo, $vpString, $expectedViewParameters)
+    #[DataProvider('siteAccessMatchProvider')]
+    public function testOnSiteAccessMatchSubRequest($uri, $semanticPathinfo, $vpString, $expectedViewParameters): void
     {
-        $siteAccess = new SiteAccess('test', 'test', $this->createMock(SiteAccess\Matcher::class));
+        $siteAccess = new SiteAccess('test', 'test', self::createStub(SiteAccess\Matcher::class));
         $request = Request::create($uri);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         if (!empty($vpString)) {

@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Common;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Yaml\Yaml;
 
 class CommonTest extends AbstractParserTestCase
@@ -25,7 +26,7 @@ class CommonTest extends AbstractParserTestCase
         return $this->minimalConfig = Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_minimal.yml'));
     }
 
-    public function testIndexPage()
+    public function testIndexPage(): void
     {
         $indexPage1 = '/Getting-Started';
         $indexPage2 = '/Contact-Us';
@@ -42,7 +43,7 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('index_page', null, self::EMPTY_SA_GROUP);
     }
 
-    public function testDefaultPage()
+    public function testDefaultPage(): void
     {
         $defaultPage1 = '/Getting-Started';
         $defaultPage2 = '/Foo/bar';
@@ -62,7 +63,7 @@ class CommonTest extends AbstractParserTestCase
     /**
      * Test defaults.
      */
-    public function testNonExistentSettings()
+    public function testNonExistentSettings(): void
     {
         $this->load();
         $this->assertConfigResolverParameterValue('url_alias_router', true, 'ibexa_demo_site');
@@ -75,7 +76,7 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('index_page', null, 'ibexa_demo_site');
     }
 
-    public function testMiscSettings()
+    public function testMiscSettings(): void
     {
         $cachePoolName = 'cache_foo';
         $varDir = 'var/foo/bar';
@@ -116,7 +117,7 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('anonymous_user_id', $anonymousUserId, 'ibexa_demo_site');
     }
 
-    public function testApiKeysSettings()
+    public function testApiKeysSettings(): void
     {
         $key = 'my_key';
         $this->load(
@@ -135,7 +136,7 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('api_keys.google_maps', $key, 'ibexa_demo_site');
     }
 
-    public function testUserSettings()
+    public function testUserSettings(): void
     {
         $layout = 'somelayout.html.twig';
         $loginTemplate = 'login_template.html.twig';
@@ -156,7 +157,7 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('security.login_template', $loginTemplate, 'ibexa_demo_site');
     }
 
-    public function testNoUserSettings()
+    public function testNoUserSettings(): void
     {
         $this->load();
         $this->assertConfigResolverParameterValue(
@@ -171,10 +172,8 @@ class CommonTest extends AbstractParserTestCase
         );
     }
 
-    /**
-     * @dataProvider sessionSettingsProvider
-     */
-    public function testSessionSettings(array $inputParams, array $expected)
+    #[DataProvider('sessionSettingsProvider')]
+    public function testSessionSettings(array $inputParams, array $expected): void
     {
         $this->load(
             [
@@ -187,7 +186,10 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('session', $expected['session'], 'ibexa_demo_site');
     }
 
-    public function sessionSettingsProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function sessionSettingsProvider(): array
     {
         return [
             [

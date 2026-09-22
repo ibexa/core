@@ -9,13 +9,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(ContentTypeLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class ContentTypeLimitationTest extends BaseLimitationTestCase
 {
     /**
@@ -23,7 +22,7 @@ class ContentTypeLimitationTest extends BaseLimitationTestCase
      *
      * @throws \ErrorException
      */
-    public function testContentTypeLimitationAllow()
+    public function testContentTypeLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -93,7 +92,7 @@ class ContentTypeLimitationTest extends BaseLimitationTestCase
      *
      * @throws \ErrorException
      */
-    public function testContentTypeLimitationForbid()
+    public function testContentTypeLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -151,7 +150,7 @@ class ContentTypeLimitationTest extends BaseLimitationTestCase
     /**
      * @throws \ErrorException
      */
-    public function testContentTypeLimitationForbidVariant()
+    public function testContentTypeLimitationForbidVariant(): void
     {
         $this->expectException(UnauthorizedException::class);
 

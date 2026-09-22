@@ -15,11 +15,11 @@ use Ibexa\Contracts\Core\Search\FieldType\RemoteIdentifierField;
 use Ibexa\Contracts\Core\Search\FieldType\StringField;
 use Ibexa\Core\Search\Common\FieldValueMapper\RemoteIdentifierMapper;
 use Ibexa\Tests\Core\Search\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LoggerInterface;
 
-/**
- * @covers \Ibexa\Core\Search\Common\FieldValueMapper\RemoteIdentifierMapper
- */
+#[CoversClass(RemoteIdentifierMapper::class)]
 final class RemoteIdentifierMapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Search\Common\FieldValueMapper\RemoteIdentifierMapper */
@@ -28,19 +28,17 @@ final class RemoteIdentifierMapperTest extends TestCase
     protected function setUp(): void
     {
         $this->mapper = new RemoteIdentifierMapper(
-            $this->createMock(LoggerInterface::class)
+            self::createStub(LoggerInterface::class)
         );
     }
 
-    /**
-     * @dataProvider getDataForTestCanMap
-     */
+    #[DataProvider('getDataForTestCanMap')]
     public function testCanMap(Field $field, bool $canMap): void
     {
         self::assertSame($canMap, $this->mapper->canMap($field));
     }
 
-    public function getDataForTestCanMap(): iterable
+    public static function getDataForTestCanMap(): iterable
     {
         yield 'can map' => [
             new Field('id', 1, new RemoteIdentifierField()),
@@ -63,15 +61,13 @@ final class RemoteIdentifierMapperTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getDataForTestMap
-     */
+    #[DataProvider('getDataForTestMap')]
     public function testMap(Field $field, string $expectedMappedValue): void
     {
         self::assertSame($expectedMappedValue, $this->mapper->map($field));
     }
 
-    public function getDataForTestMap(): iterable
+    public static function getDataForTestMap(): iterable
     {
         yield 'numeric id' => [
             new Field('id', 1, new IdentifierField()),
@@ -126,7 +122,7 @@ final class RemoteIdentifierMapperTest extends TestCase
         yield 'identifier with non-printable characters' => [
             new Field(
                 'identifier',
-                utf8_decode("Non\x09Printable\x0EIdentifier"),
+                mb_convert_encoding("Non\x09Printable\x0EIdentifier", 'ISO-8859-1', 'UTF-8'),
                 new IdentifierField()
             ),
             'Non PrintableIdentifier',

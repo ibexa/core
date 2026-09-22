@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 use Ibexa\Bundle\Core\EventListener\RequestEventListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\PhpUnit\ClockMock;
@@ -23,14 +24,11 @@ use Symfony\Component\Routing\RouterInterface;
 
 class RequestEventListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private ConfigResolverInterface&Stub $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $router;
+    private RouterInterface&Stub $router;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface&Stub $logger;
 
     /** @var \Ibexa\Bundle\Core\EventListener\RequestEventListener */
     private $requestEventListener;
@@ -48,15 +46,15 @@ class RequestEventListenerTest extends TestCase
     {
         parent::setUp();
 
-        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
-        $this->router = $this->createMock(RouterInterface::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->configResolver = self::createStub(ConfigResolverInterface::class);
+        $this->router = self::createStub(RouterInterface::class);
+        $this->logger = self::createStub(LoggerInterface::class);
 
         $this->requestEventListener = new RequestEventListener($this->configResolver, $this->router, 'foobar', $this->logger);
 
         $this->request = $this
             ->getMockBuilder(Request::class)
-            ->setMethods(['getSession', 'hasSession'])
+            ->onlyMethods(['getSession', 'hasSession'])
             ->getMock();
 
         $this->httpKernel = $this->createMock(HttpKernelInterface::class);
@@ -67,7 +65,7 @@ class RequestEventListenerTest extends TestCase
         );
     }
 
-    public function testSubscribedEvents()
+    public function testSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -80,7 +78,7 @@ class RequestEventListenerTest extends TestCase
         );
     }
 
-    public function testOnKernelRequestForwardSubRequest()
+    public function testOnKernelRequestForwardSubRequest(): void
     {
         $this->httpKernel
             ->expects(self::never())
@@ -90,7 +88,7 @@ class RequestEventListenerTest extends TestCase
         $this->requestEventListener->onKernelRequestForward($event);
     }
 
-    public function testOnKernelRequestForward()
+    public function testOnKernelRequestForward(): void
     {
         ClockMock::withClockMock(true);
 
@@ -121,14 +119,14 @@ class RequestEventListenerTest extends TestCase
         ClockMock::withClockMock(false);
     }
 
-    public function testOnKernelRequestRedirectSubRequest()
+    public function testOnKernelRequestRedirectSubRequest(): void
     {
         $event = new RequestEvent($this->httpKernel, new Request(), HttpKernelInterface::SUB_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
         self::assertFalse($event->hasResponse());
     }
 
-    public function testOnKernelRequestRedirect()
+    public function testOnKernelRequestRedirect(): void
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
@@ -149,7 +147,7 @@ class RequestEventListenerTest extends TestCase
         self::assertTrue($event->isPropagationStopped());
     }
 
-    public function testOnKernelRequestRedirectWithLocationId()
+    public function testOnKernelRequestRedirectWithLocationId(): void
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
@@ -172,7 +170,7 @@ class RequestEventListenerTest extends TestCase
         self::assertTrue($event->isPropagationStopped());
     }
 
-    public function testOnKernelRequestRedirectPrependSiteaccess()
+    public function testOnKernelRequestRedirectPrependSiteaccess(): void
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];

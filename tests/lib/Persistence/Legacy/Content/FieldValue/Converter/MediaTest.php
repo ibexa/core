@@ -13,11 +13,11 @@ use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\FieldType\Media\Type as MediaType;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MediaConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MediaConverter
- */
+#[CoversClass(MediaConverter::class)]
 class MediaTest extends TestCase
 {
     protected $converter;
@@ -27,11 +27,9 @@ class MediaTest extends TestCase
         $this->converter = new MediaConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_media
-     */
-    public function testToStorageFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('ibexa_media')]
+    public function testToStorageFieldDefinition(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
 
@@ -65,11 +63,9 @@ class MediaTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_media
-     */
-    public function testToFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('ibexa_media')]
+    public function testToFieldDefinition(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(

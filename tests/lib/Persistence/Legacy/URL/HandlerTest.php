@@ -37,7 +37,7 @@ class HandlerTest extends TestCase
         $this->handler = new Handler($this->gateway, $this->mapper);
     }
 
-    public function testUpdateUrl()
+    public function testUpdateUrl(): void
     {
         $urlUpdateStruct = new URLUpdateStruct();
         $url = $this->getUrl(1, 'http://ibexa.co');
@@ -56,7 +56,7 @@ class HandlerTest extends TestCase
         self::assertEquals($url, $this->handler->updateUrl($url->id, $urlUpdateStruct));
     }
 
-    public function testFind()
+    public function testFind(): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\Validity(true);
@@ -98,7 +98,7 @@ class HandlerTest extends TestCase
         self::assertEquals($expected, $this->handler->find($query));
     }
 
-    public function testLoadByIdWithoutUrlData()
+    public function testLoadByIdWithoutUrlData(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -119,7 +119,7 @@ class HandlerTest extends TestCase
         $this->handler->loadById($id);
     }
 
-    public function testLoadByIdWithUrlData()
+    public function testLoadByIdWithUrlData(): void
     {
         $url = $this->getUrl(1, 'http://ibexa.co');
 
@@ -138,7 +138,7 @@ class HandlerTest extends TestCase
         self::assertEquals($url, $this->handler->loadById($url->id));
     }
 
-    public function testLoadByUrlWithoutUrlData()
+    public function testLoadByUrlWithoutUrlData(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -159,7 +159,7 @@ class HandlerTest extends TestCase
         $this->handler->loadByUrl($url);
     }
 
-    public function testLoadByUrlWithUrlData()
+    public function testLoadByUrlWithUrlData(): void
     {
         $url = $this->getUrl(1, 'http://ibexa.co');
 
@@ -178,7 +178,7 @@ class HandlerTest extends TestCase
         self::assertEquals($url, $this->handler->loadByUrl($url->url));
     }
 
-    public function testFindUsages()
+    public function testFindUsages(): void
     {
         $url = $this->getUrl();
         $ids = [1, 2, 3];

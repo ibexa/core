@@ -177,7 +177,7 @@ final class QueryBuilder
                 'v',
                 LocationGateway::CONTENT_TREE_TABLE,
                 't',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('t.contentobject_id', 'v.contentobject_id'),
                     $expr->eq('t.main_node_id', 't.node_id')
                 )

@@ -31,27 +31,26 @@ final class AnonymousUserAccessListener extends AbstractListener
     ) {
     }
 
-    public function supports(Request $request): bool
+    public function supports(Request $request): ?bool
     {
-        [$attributes] = $this->map->getPatterns($request);
-        $request->attributes->set('_access_control_attributes', $attributes);
-        $pathInfo = $request->getPathInfo();
-
-        // we skip the processing in case we are authorized already or the request is the x-user-context-hash
-        // which doesn't need to go through authentication
-        if ($pathInfo === '/_fos_user_context_hash' || $request->getUser() !== null) {
+        // The x-user-context-hash request doesn't need to go through authentication
+        if ($request->getPathInfo() === '/_fos_user_context_hash') {
             return false;
         }
 
-        $firewallConfig = $this->security->getFirewallConfig($request);
-        // we only check `login_path` for the current firewall
-        // e.g. `ibexa_rest` firewall won't be taken into account
-        // as there is no `login_path` defined for its authenticator
-        $loginPath = $firewallConfig !== null
-            ? ($this->firewallLoginPaths[$firewallConfig->getName()] ?? null)
-            : null;
+        if ($this->isAnonymousLoginCheckApplicable($request)) {
+            [$attributes] = $this->map->getPatterns($request);
+            $request->attributes->set('_access_control_attributes', $attributes);
 
-        return $loginPath !== null && !str_ends_with($pathInfo, $loginPath);
+            return true;
+        }
+
+        // The anonymous-login check does not apply here (e.g. the `ibexa_rest`
+        // firewall exposes no `login_path`, the request is already authenticated,
+        // or it targets the login page). Stay transparent and defer to the
+        // decorated AccessListener so that `access_control` is still enforced
+        // instead of being silently skipped.
+        return $this->innerListener->supports($request);
     }
 
     /**
@@ -64,11 +63,21 @@ final class AnonymousUserAccessListener extends AbstractListener
             return;
         }
 
+        $request = $event->getRequest();
+
+        // When the anonymous-login check does not apply, defer to the decorated
+        // AccessListener so that standard `access_control` enforcement still runs.
+        if (!$this->isAnonymousLoginCheckApplicable($request)) {
+            $this->innerListener->authenticate($event);
+
+            return;
+        }
+
         if (
             $this->permissionResolver->canUser(
                 'user',
                 'login',
-                $event->getRequest()->attributes->get('siteaccess')
+                $request->attributes->get('siteaccess')
             )
         ) {
             $this->innerListener->authenticate($event);
@@ -77,5 +86,28 @@ final class AnonymousUserAccessListener extends AbstractListener
         }
 
         throw new AccessDeniedException('Anonymous user cannot login to the current siteaccess');
+    }
+
+    /**
+     * The anonymous-login permission check only applies to anonymous requests on a
+     * firewall that exposes a `login_path`, and never to the login page itself.
+     */
+    private function isAnonymousLoginCheckApplicable(Request $request): bool
+    {
+        // An already-authenticated request (e.g. Basic auth) is not an anonymous login.
+        if ($request->getUser() !== null) {
+            return false;
+        }
+
+        $pathInfo = $request->getPathInfo();
+        $firewallConfig = $this->security->getFirewallConfig($request);
+        // we only check `login_path` for the current firewall
+        // e.g. `ibexa_rest` firewall won't be taken into account
+        // as there is no `login_path` defined for its authenticator
+        $loginPath = $firewallConfig !== null
+            ? ($this->firewallLoginPaths[$firewallConfig->getName()] ?? null)
+            : null;
+
+        return $loginPath !== null && !str_ends_with($pathInfo, $loginPath);
     }
 }

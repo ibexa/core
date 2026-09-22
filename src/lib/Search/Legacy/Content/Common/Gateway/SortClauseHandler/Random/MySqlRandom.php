@@ -8,15 +8,15 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random;
 
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom;
 
 class MySqlRandom extends AbstractRandom
 {
     public function supportsPlatform(AbstractPlatform $platform): bool
     {
-        return $platform instanceof MySQLPlatform;
+        return $platform instanceof AbstractMySQLPlatform;
     }
 
     public function getRandomFunctionName(?int $seed): string

@@ -135,11 +135,11 @@ final class DoctrineDatabase extends Gateway
             $this->criteriaConverter->convertCriteria($query, $filter, $languageFilter),
             $expr->eq(
                 'c.status',
-                ContentInfo::STATUS_PUBLISHED
+                (string) ContentInfo::STATUS_PUBLISHED
             ),
             $expr->eq(
                 'v.status',
-                VersionInfo::STATUS_PUBLISHED
+                (string) VersionInfo::STATUS_PUBLISHED
             )
         );
 
@@ -252,7 +252,7 @@ final class DoctrineDatabase extends Gateway
         }
 
         $query->setMaxResults($limit);
-        $query->setFirstResult($offset);
+        $query->setFirstResult($offset ?? 0);
 
         $statement = $query->executeQuery();
 

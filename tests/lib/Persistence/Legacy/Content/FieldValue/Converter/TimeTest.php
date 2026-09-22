@@ -13,17 +13,17 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition as PersistenceFieldDefinition;
 use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\FieldType\Time\Type as TimeType;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TimeConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter
- *
- * @group fieldType
- * @group time
- */
+#[CoversClass(DateAndTimeConverter::class)]
+#[Group('fieldType')]
+#[Group('time')]
 class TimeTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TimeConverter */
@@ -39,7 +39,7 @@ class TimeTest extends TestCase
         $this->time = 3661;
     }
 
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = $this->time;
@@ -52,7 +52,7 @@ class TimeTest extends TestCase
         self::assertSame('', $storageFieldValue->sortKeyString);
     }
 
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataInt = $this->time;
@@ -66,7 +66,7 @@ class TimeTest extends TestCase
         self::assertSame($storageFieldValue->sortKeyInt, $fieldValue->sortKey);
     }
 
-    public function testToStorageFieldDefinitionDefaultEmpty()
+    public function testToStorageFieldDefinitionDefaultEmpty(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -87,7 +87,7 @@ class TimeTest extends TestCase
         self::assertSame(1, $storageFieldDef->dataInt2);
     }
 
-    public function testToStorageFieldDefinitionDefaultCurrentTime()
+    public function testToStorageFieldDefinitionDefaultCurrentTime(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -108,7 +108,7 @@ class TimeTest extends TestCase
         self::assertSame(0, $storageFieldDef->dataInt2);
     }
 
-    public function testToFieldDefinitionDefaultEmpty()
+    public function testToFieldDefinitionDefaultEmpty(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(
@@ -131,7 +131,7 @@ class TimeTest extends TestCase
         );
     }
 
-    public function testToFieldDefinitionDefaultCurrentTime()
+    public function testToFieldDefinitionDefaultCurrentTime(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(

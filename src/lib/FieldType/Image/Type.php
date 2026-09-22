@@ -438,12 +438,12 @@ class Type extends FieldType implements TranslationContainerInterface
                 'imageId' => (isset($fieldValue->data['imageId'])
                     ? $fieldValue->data['imageId']
                     : null),
-                'width' => (isset($fieldValue->data['width'])
+                'width' => ($fieldValue->data['width'] ?? '') !== ''
                     ? $fieldValue->data['width']
-                    : null),
-                'height' => (isset($fieldValue->data['height'])
+                    : null,
+                'height' => ($fieldValue->data['height'] ?? '') !== ''
                     ? $fieldValue->data['height']
-                    : null),
+                    : null,
                 'additionalData' => $fieldValue->data['additionalData'] ?? [],
                 'mime' => $fieldValue->data['mime'] ?? null,
             ]

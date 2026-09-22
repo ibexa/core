@@ -11,15 +11,16 @@ namespace Ibexa\Tests\Integration\Core\Limitation;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserRoleLimitation;
 use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class RoleLimitationTest extends BaseLimitationIntegrationTestCase
 {
     private const USERS_GROUP_ID = 4;
 
-    public function userPermissionLimitationProvider(): array
+    public static function userPermissionLimitationProvider(): array
     {
         $allowEditorLimitation = new UserRoleLimitation();
-        $roleService = $this->getRepository()->getRoleService();
+        $roleService = static::resolveRepository()->getRoleService();
         $allowEditorLimitation->limitationValues[] = $roleService->loadRoleByIdentifier('Editor')->id;
 
         $allowAdministratorLimitation = new UserRoleLimitation();
@@ -31,9 +32,7 @@ final class RoleLimitationTest extends BaseLimitationIntegrationTestCase
         ];
     }
 
-    /**
-     * @dataProvider userPermissionLimitationProvider
-     */
+    #[DataProvider('userPermissionLimitationProvider')]
     public function testCanUserAssignRole(array $limitations, bool $expectedResult): void
     {
         $repository = $this->getRepository();

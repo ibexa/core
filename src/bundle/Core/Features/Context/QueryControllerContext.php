@@ -8,24 +8,22 @@
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\Step\Given;
+use Behat\Step\Then;
 use Webmozart\Assert\Assert;
 
 class QueryControllerContext extends RawMinkContext
 {
-    /**
-     * @Given /^the Query results are assigned to the "([^"]*)" twig variable$/
-     */
-    public function theQueryResultsAreAssignedToTheTwigVariable($twigVariableName)
+    #[Given('/^the Query results are assigned to the "([^"]*)" twig variable$/')]
+    public function theQueryResultsAreAssignedToTheTwigVariable(string $twigVariableName): void
     {
         $variableTypes = $this->getVariableTypesFromTemplate();
 
         Assert::keyExists($variableTypes, $twigVariableName, "The $twigVariableName twig variable was not set");
     }
 
-    /**
-     * @Then the Query results assigned to the :arg1 twig variable is a :arg2 object
-     */
-    public function theQueryResultsAssignedToTheTwigVariableIsAObject($twigVariableName, $className)
+    #[Then('the Query results assigned to the :arg1 twig variable is a :arg2 object')]
+    public function theQueryResultsAssignedToTheTwigVariableIsAObject(string $twigVariableName, string $className): void
     {
         $variableTypes = $this->getVariableTypesFromTemplate();
 
@@ -33,10 +31,8 @@ class QueryControllerContext extends RawMinkContext
         Assert::eq($variableTypes[$twigVariableName], $className, "The $twigVariableName twig variable does not have $className type");
     }
 
-    /**
-     * @Then the Query results assigned to the twig variable is a Pagerfanta object and has limit :arg1 and selected page :arg2
-     */
-    public function theQueryResultsAssignedToTheTwigVariableIsAObjectAndHasLimitAndCountParams($pageLimit, $pageValue)
+    #[Then('the Query results assigned to the twig variable is a Pagerfanta object and has limit :arg1 and selected page :arg2')]
+    public function theQueryResultsAssignedToTheTwigVariableIsAObjectAndHasLimitAndCountParams(string $pageLimit, string $pageValue): void
     {
         $pageLimitFound = false;
         $currentPageFound = false;

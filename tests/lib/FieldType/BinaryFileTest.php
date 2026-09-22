@@ -12,13 +12,12 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\BinaryFile\Type as BinaryFileType;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 use Ibexa\Core\FieldType\ValidationError;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group fieldType
- * @group ibexa_binaryfile
- *
- * @covers \Ibexa\Core\FieldType\BinaryFile\Type
- */
+#[CoversClass(BinaryFileType::class)]
+#[Group('fieldType')]
+#[Group('ibexa_binaryfile')]
 class BinaryFileTest extends BinaryBaseTestCase
 {
     protected function createFieldTypeUnderTest(): BinaryFileType
@@ -37,7 +36,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         return new BinaryFileValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         yield from parent::provideInvalidInputForAcceptValue();
 
@@ -47,7 +46,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null input' => [
             null,
@@ -152,7 +151,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -299,7 +298,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -422,7 +421,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         return 'ibexa_binaryfile';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
             [new BinaryFileValue(), '', [], 'en_GB'],
@@ -430,7 +429,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'valid file size' => [
             [
@@ -452,7 +451,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'file too large' => [
             [
@@ -504,7 +503,7 @@ class BinaryFileTest extends BinaryBaseTestCase
                 new ValidationError(
                     'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
                     null,
-                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    ['%extensionsBlackList%' => implode(', ', self::BLACK_LISTED_EXTENSIONS)],
                     'fileExtensionBlackList'
                 ),
             ],
@@ -531,7 +530,7 @@ class BinaryFileTest extends BinaryBaseTestCase
                 new ValidationError(
                     'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
                     null,
-                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    ['%extensionsBlackList%' => implode(', ', self::BLACK_LISTED_EXTENSIONS)],
                     'fileExtensionBlackList'
                 ),
             ],

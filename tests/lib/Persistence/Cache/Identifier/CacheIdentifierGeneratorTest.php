@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Cache\Identifier;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGenerator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -37,7 +38,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
         );
     }
 
-    public function providerForTestGenerateTag(): array
+    public static function providerForTestGenerateTag(): array
     {
         return [
             [['content', [], false], 'c'],
@@ -46,7 +47,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
         ];
     }
 
-    public function providerForTestGenerateTagThrowsInvalidArgumentException(): array
+    public static function providerForTestGenerateTagThrowsInvalidArgumentException(): array
     {
         return [
             [['test', [], false], 'c'],
@@ -54,7 +55,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
         ];
     }
 
-    public function providerForTestGenerateKey(): array
+    public static function providerForTestGenerateKey(): array
     {
         return [
             [['content_type', [], true], 'ibx-ct'],
@@ -63,7 +64,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
         ];
     }
 
-    public function providerForTestGenerateKeyThrowsInvalidArgumentException(): array
+    public static function providerForTestGenerateKeyThrowsInvalidArgumentException(): array
     {
         return [
             [['test', [], false], 'c'],
@@ -71,9 +72,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestGenerateTag
-     */
+    #[DataProvider('providerForTestGenerateTag')]
     public function testGenerateTag(array $arguments, string $resultKey): void
     {
         self::assertEquals(
@@ -82,9 +81,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider providerForTestGenerateTagThrowsInvalidArgumentException
-     */
+    #[DataProvider('providerForTestGenerateTagThrowsInvalidArgumentException')]
     public function testGenerateTagThrowsInvalidArgumentException(array $arguments, string $resultKey): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -95,9 +92,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider providerForTestGenerateKey
-     */
+    #[DataProvider('providerForTestGenerateKey')]
     public function testGenerateKey(array $arguments, string $resultKey): void
     {
         self::assertEquals(
@@ -106,9 +101,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider providerForTestGenerateKeyThrowsInvalidArgumentException
-     */
+    #[DataProvider('providerForTestGenerateKeyThrowsInvalidArgumentException')]
     public function testGenerateKeyThrowsInvalidArgumentException(array $arguments, string $resultKey): void
     {
         $this->expectException(InvalidArgumentException::class);

@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 
 class UrlStorageTest extends TestCase
 {
-    public function testStoreFieldDataWithExistingUrl()
+    public function testStoreFieldDataWithExistingUrl(): void
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
         $fieldValue = new FieldValue(['externalData' => 'http://ibexa.co']);
@@ -51,7 +51,7 @@ class UrlStorageTest extends TestCase
         self::assertEquals(12, $field->value->data['urlId']);
     }
 
-    public function testStoreFieldDataWithNewUrl()
+    public function testStoreFieldDataWithNewUrl(): void
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
         $fieldValue = new FieldValue(['externalData' => 'http://ibexa.co']);
@@ -91,7 +91,7 @@ class UrlStorageTest extends TestCase
         self::assertEquals(12, $field->value->data['urlId']);
     }
 
-    public function testStoreFieldDataWithEmptyUrl()
+    public function testStoreFieldDataWithEmptyUrl(): void
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
         $fieldValue = new FieldValue(['externalData' => '']);
@@ -121,7 +121,7 @@ class UrlStorageTest extends TestCase
         self::assertNull($field->value->data);
     }
 
-    public function testGetFieldData()
+    public function testGetFieldData(): void
     {
         $versionInfo = new VersionInfo();
         $fieldValue = new FieldValue(['data' => ['urlId' => 12]]);
@@ -140,7 +140,7 @@ class UrlStorageTest extends TestCase
         self::assertEquals('http://ibexa.co', $field->value->externalData);
     }
 
-    public function testGetFieldDataNotFound()
+    public function testGetFieldDataNotFound(): void
     {
         $versionInfo = new VersionInfo();
         $fieldValue = new FieldValue(['data' => ['urlId' => 12]]);
@@ -165,7 +165,7 @@ class UrlStorageTest extends TestCase
         self::assertEquals('', $field->value->externalData);
     }
 
-    public function testGetFieldDataWithEmptyUrlId()
+    public function testGetFieldDataWithEmptyUrlId(): void
     {
         $versionInfo = new VersionInfo();
         $fieldValue = new FieldValue(['data' => ['urlId' => null]]);
@@ -187,24 +187,27 @@ class UrlStorageTest extends TestCase
         self::assertNull($field->value->externalData);
     }
 
-    public function testDeleteFieldData()
+    public function testDeleteFieldData(): void
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
         $fieldIds = [12, 23, 34];
         $gateway = $this->getGatewayMock();
 
-        foreach ($fieldIds as $index => $id) {
-            $gateway
-                ->expects(self::at($index))
-                ->method('unlinkUrl')
-                ->with($id, 24);
-        }
+        $matcher = self::exactly(count($fieldIds));
+        $gateway
+            ->expects($matcher)
+            ->method('unlinkUrl')
+            ->willReturnCallback(static function ($actualId, $actualVersionNo, array $excludeUrlIds = []) use ($matcher, $fieldIds): void {
+                $index = $matcher->numberOfInvocations() - 1;
+                self::assertSame($fieldIds[$index], $actualId);
+                self::assertSame(24, $actualVersionNo);
+            });
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $storage->deleteFieldData($versionInfo, $fieldIds);
     }
 
-    public function testHasFieldData()
+    public function testHasFieldData(): void
     {
         $storage = $this->getPartlyMockedStorage($this->getGatewayMock());
 
@@ -219,13 +222,13 @@ class UrlStorageTest extends TestCase
     protected function getPartlyMockedStorage(StorageGatewayInterface $gateway)
     {
         return $this->getMockBuilder(UrlStorage::class)
-            ->setMethods(null)
             ->setConstructorArgs(
                 [
                     $gateway,
                     $this->getLoggerMock(),
                 ]
             )
+            ->onlyMethods([])
             ->getMock();
     }
 

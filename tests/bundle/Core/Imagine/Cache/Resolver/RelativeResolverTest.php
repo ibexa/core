@@ -22,7 +22,7 @@ class RelativeResolverTest extends TestCase
         $this->liipResolver = $this->getMockBuilder(ResolverInterface::class)->getMock();
     }
 
-    public function testResolve()
+    public function testResolve(): void
     {
         $resolver = new RelativeResolver($this->liipResolver);
 

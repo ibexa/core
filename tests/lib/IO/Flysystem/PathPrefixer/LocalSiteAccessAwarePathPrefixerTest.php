@@ -11,13 +11,12 @@ namespace Ibexa\Tests\Core\IO\Flysystem\PathPrefixer;
 use Ibexa\Core\IO\Flysystem\PathPrefixer\LocalSiteAccessAwarePathPrefixer;
 use Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface;
 use Ibexa\Core\IO\IOConfigProvider;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\IO\Flysystem\PathPrefixer\LocalSiteAccessAwarePathPrefixer
- */
+#[CoversClass(LocalSiteAccessAwarePathPrefixer::class)]
 final class LocalSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPrefixerTestCase
 {
-    public function getDataForTestPrefixPath(): iterable
+    public static function getDataForTestPrefixPath(): iterable
     {
         yield 'dynamic path to relative file name' => [__DIR__ . '/var/storage/foo', 'foo'];
         yield 'dynamic path to relative file path name' => [
@@ -27,7 +26,7 @@ final class LocalSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePath
         yield 'dynamic path to absolute file name' => [__DIR__ . '/var/storage/foo', '/foo'];
     }
 
-    public function getDataForTestPrefixDirectoryPath(): iterable
+    public static function getDataForTestPrefixDirectoryPath(): iterable
     {
         yield 'dynamic path to relative directory' => [__DIR__ . '/var/storage/foo/', 'foo/'];
         yield 'dynamic path to absolute directory' => [__DIR__ . '/var/storage/foo/', '/foo/'];
@@ -41,7 +40,7 @@ final class LocalSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePath
         ];
     }
 
-    public function getDataForTestStripPrefixPath(): iterable
+    public static function getDataForTestStripPrefixPath(): iterable
     {
         yield 'relative single file name' => ['/foo', __DIR__ . '/var/storage/foo'];
         yield 'relative file path' => ['/foo/bar', __DIR__ . '/var/storage/foo/bar'];

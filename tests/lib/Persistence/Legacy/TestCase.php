@@ -7,16 +7,16 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy;
 
-use Doctrine\Common\EventManager as DoctrineEventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\Exception as DBALException;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FileFixtureFactory;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Contracts\DoctrineSchema\Database\DefaultTableOptions;
 use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\SharedGateway;
@@ -92,10 +92,8 @@ abstract class TestCase extends BaseTestCase
     final public function getDatabaseConnection(): Connection
     {
         if (!$this->connection) {
-            $eventManager = new DoctrineEventManager();
             $connectionFactory = new DatabaseConnectionFactory(
-                [new SqliteDbPlatform()],
-                $eventManager
+                [new SqliteDbPlatform()]
             );
 
             try {
@@ -118,7 +116,7 @@ abstract class TestCase extends BaseTestCase
             $factory = new SharedGateway\GatewayFactory(
                 new SharedGateway\DatabasePlatform\FallbackGateway($connection),
                 [
-                    SqlitePlatform::class => new SharedGateway\DatabasePlatform\SqliteGateway($connection),
+                    SQLitePlatform::class => new SharedGateway\DatabasePlatform\SqliteGateway($connection),
                 ]
             );
 
@@ -135,7 +133,11 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         try {
-            $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
+            $schemaImporter = new LegacySchemaImporter(
+                $this->getDatabaseConnection(),
+                new SchemaAssetsFilterBypass(),
+                DefaultTableOptions::AS_ARRAY
+            );
             $schemaImporter->importSchema(
                 dirname(__DIR__, 4) .
                 '/src/bundle/Core/Resources/config/storage/legacy/schema.yaml'

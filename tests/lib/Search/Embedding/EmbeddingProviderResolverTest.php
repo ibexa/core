@@ -38,7 +38,7 @@ final class EmbeddingProviderResolverTest extends TestCase
     public function testResolveReturnsProviderWhenAvailable(): void
     {
         $embeddingProviderIdentifier = 'ibexa_openai';
-        $mockProvider = $this->createMock(EmbeddingProviderInterface::class);
+        $mockProvider = self::createStub(EmbeddingProviderInterface::class);
 
         $this->configuration
             ->method('getDefaultProvider')
@@ -84,7 +84,7 @@ final class EmbeddingProviderResolverTest extends TestCase
     {
         $modelIdentifier = 'gemini_embedding_001_1536';
         $embeddingProviderIdentifier = 'ibexa_gemini';
-        $mockProvider = $this->createMock(EmbeddingProviderInterface::class);
+        $mockProvider = self::createStub(EmbeddingProviderInterface::class);
 
         $this->configuration
             ->expects(self::once())

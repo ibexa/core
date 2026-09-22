@@ -14,8 +14,10 @@ use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Doctrine\DBAL\SQL\Builder\DefaultSelectSQLBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(FilteringQueryBuilder::class)]
 class FilteringQueryBuilderTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder */
@@ -29,15 +31,12 @@ class FilteringQueryBuilderTest extends TestCase
         $connectionMock = $this->createMock(Connection::class);
         $connectionMock->method('getDatabasePlatform')->willReturn($platform);
 
-        $connectionMock->method('getExpressionBuilder')->willReturn(
+        $connectionMock->method('createExpressionBuilder')->willReturn(
             new ExpressionBuilder($connectionMock)
         );
         $this->queryBuilder = new FilteringQueryBuilder($connectionMock);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder::joinOnce
-     */
     public function testJoinOnce(): void
     {
         $this->queryBuilder

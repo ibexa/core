@@ -8,20 +8,19 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest
- */
+#[CoversClass(SimplifiedRequest::class)]
 class SimplifiedRequestTest extends TestCase
 {
     /**
      * @param string $url
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $expectedRequest
-     *
-     * @dataProvider fromUrlProvider
      */
-    public function testFromUrl($url, $expectedRequest)
+    #[DataProvider('fromUrlProvider')]
+    public function testFromUrl($url, $expectedRequest): void
     {
         self::assertEquals(
             $expectedRequest,
@@ -49,7 +48,10 @@ class SimplifiedRequestTest extends TestCase
         self::assertSame(['param' => 'bar', 'param2' => 'bar2'], $request->getQueryParams());
     }
 
-    public function fromUrlProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function fromUrlProvider(): array
     {
         return [
             [

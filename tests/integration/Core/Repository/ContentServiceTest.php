@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
@@ -35,18 +34,25 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException as CoreUnauthorizedException;
 use Ibexa\Core\FieldType\Relation\Value as RelationValue;
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 use ReflectionClass;
+use ReflectionProperty;
 use Symfony\Bridge\PhpUnit\ClockMock;
 
 /**
  * Test case for operations in the ContentService using in memory storage.
  *
  * @see \Ibexa\Contracts\Core\Repository\ContentService
- *
- * @group content
  */
+#[CoversClass(ContentService::class)]
+#[Group('content')]
 class ContentServiceTest extends BaseContentServiceTestCase
 {
     private const ADMINISTRATORS_USER_GROUP_NAME = 'Administrators';
@@ -89,15 +95,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the newContentCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::newContentCreateStruct()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testLoadContentTypeByIdentifier
-     *
-     * @group user
-     * @group field-type
      */
-    public function testNewContentCreateStruct()
+    #[DependsExternal(ContentTypeServiceTest::class, 'testLoadContentTypeByIdentifier')]
+    #[Group('user')]
+    #[Group('field-type')]
+    public function testNewContentCreateStruct(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
@@ -111,14 +113,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContent() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testNewContentCreateStruct
-     *
-     * @group user
-     * @group field-type
      */
+    #[Depends('testNewContentCreateStruct')]
+    #[Group('user')]
+    #[Group('field-type')]
     public function testCreateContent()
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
@@ -143,12 +141,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      *
      * Tests made for issue #EZP-20955 where Anonymous user is granted access to create content
      * and should have access to do that.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     *
-     * @group user
-     * @group field-type
      */
+    #[Group('user')]
+    #[Group('field-type')]
     public function testCreateContentAndPublishWithPrivilegedAnonymousUser(): void
     {
         $anonymousUserId = $this->generateId('user', 10);
@@ -200,11 +195,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContent
      */
+    #[Depends('testCreateContent')]
     public function testCreateContentSetsContentInfo($content)
     {
         self::assertInstanceOf(ContentInfo::class, $content->contentInfo);
@@ -216,12 +208,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContent() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContentSetsContentInfo
      */
-    public function testCreateContentSetsExpectedContentInfo($content)
+    #[Depends('testCreateContentSetsContentInfo')]
+    public function testCreateContentSetsExpectedContentInfo($content): void
     {
         $permissionResolver = $this->getRepository()->getPermissionResolver();
 
@@ -260,11 +249,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContent
      */
+    #[Depends('testCreateContent')]
     public function testCreateContentSetsVersionInfo($content)
     {
         self::assertInstanceOf(VersionInfo::class, $content->getVersionInfo());
@@ -276,12 +262,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContent() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContentSetsVersionInfo
      */
-    public function testCreateContentSetsExpectedVersionInfo($content)
+    #[Depends('testCreateContentSetsVersionInfo')]
+    public function testCreateContentSetsExpectedVersionInfo($content): void
     {
         $currentUserReference = $this->getRepository()->getPermissionResolver()->getCurrentUserReference();
 
@@ -308,12 +291,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContent() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContent
      */
-    public function testCreateContentSetsExpectedContentType($content)
+    #[Depends('testCreateContent')]
+    public function testCreateContentSetsExpectedContentType($content): void
     {
         $contentType = $content->getContentType();
 
@@ -336,8 +316,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method with utilizing ContentType default options.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      */
     public function testCreateContentWithContentTypeDefaultOptions(): void
     {
@@ -362,12 +340,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContent
      */
-    public function testCreateContentThrowsInvalidArgumentException()
+    #[Depends('testCreateContent')]
+    public function testCreateContentThrowsInvalidArgumentException(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -394,12 +369,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContent
      */
-    public function testCreateContentThrowsInvalidArgumentExceptionOnFieldTypeNotAccept()
+    #[Depends('testCreateContent')]
+    public function testCreateContentThrowsInvalidArgumentExceptionOnFieldTypeNotAccept(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -415,12 +387,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContent
      */
-    public function testCreateContentThrowsContentFieldValidationException()
+    #[Depends('testCreateContent')]
+    public function testCreateContentThrowsContentFieldValidationException(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -439,12 +408,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContent
      */
-    public function testCreateContentRequiredFieldMissing()
+    #[Depends('testCreateContent')]
+    public function testCreateContentRequiredFieldMissing(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
@@ -464,14 +430,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * NOTE: We have bidirectional dependencies between the ContentService and
      * the LocationService, so that we cannot use PHPUnit's test dependencies
      * here.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     *
-     * @depends testCreateContent
-     *
-     * @group user
      */
-    public function testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately()
+    #[Depends('testCreateContent')]
+    #[Group('user')]
+    public function testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately(): void
     {
         $this->createContentDraftVersion1();
 
@@ -483,12 +445,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent($contentCreateStruct, $locationCreateStructs)
-     *
-     * @depends testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately
      */
-    public function testCreateContentThrowsInvalidArgumentExceptionWithLocationCreateParameter()
+    #[Depends('testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately')]
+    public function testCreateContentThrowsInvalidArgumentExceptionWithLocationCreateParameter(): void
     {
         $parentLocationId = $this->generateId('location', 56);
         // $parentLocationId is a valid location ID
@@ -538,11 +497,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfo()
-     *
-     * @group user
      */
+    #[Group('user')]
     public function testLoadContentInfo()
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
@@ -558,13 +514,12 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test for the returned value of the loadContentInfo() method.
      *
-     * @depends testLoadContentInfo
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfo
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
-    public function testLoadContentInfoSetsExpectedContentInfo(ContentInfo $contentInfo)
+    #[Depends('testLoadContentInfo')]
+    public function testLoadContentInfoSetsExpectedContentInfo(ContentInfo $contentInfo): void
     {
         $this->assertPropertiesCorrectUnsorted(
             $this->getExpectedMediaContentInfoProperties(),
@@ -573,12 +528,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @depends testLoadContentInfo
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfo
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
+    #[Depends('testLoadContentInfo')]
     public function testLoadContentInfoGetContentType(ContentInfo $contentInfo): void
     {
         $contentType = $contentInfo->getContentType();
@@ -588,12 +540,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @depends testLoadContentInfo
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfo
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
+    #[Depends('testLoadContentInfo')]
     public function testLoadContentInfoGetSection(ContentInfo $contentInfo): void
     {
         $section = $contentInfo->getSection();
@@ -603,12 +552,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @depends testLoadContentInfo
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfo
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
+    #[Depends('testLoadContentInfo')]
     public function testLoadContentInfoGetMainLanguage(ContentInfo $contentInfo): void
     {
         $language = $contentInfo->getMainLanguage();
@@ -618,12 +564,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @depends testLoadContentInfo
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfo
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
+    #[Depends('testLoadContentInfo')]
     public function testLoadContentInfoGetMainLocation(ContentInfo $contentInfo): void
     {
         $mainLocation = $contentInfo->getMainLocation();
@@ -633,12 +576,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @depends testLoadContentInfo
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfo
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
+    #[Depends('testLoadContentInfo')]
     public function testLoadContentInfoSetsExpectedOwnerProxy(ContentInfo $contentInfo): void
     {
         $owner = $contentInfo->getOwner();
@@ -649,12 +589,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfo()
-     *
-     * @depends testLoadContentInfo
      */
-    public function testLoadContentInfoThrowsNotFoundException()
+    #[Depends('testLoadContentInfo')]
+    public function testLoadContentInfoThrowsNotFoundException(): void
     {
         $nonExistentContentId = $this->generateId('object', self::DB_INT_MAX);
 
@@ -665,10 +602,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentInfoList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfoList()
      */
-    public function testLoadContentInfoList()
+    public function testLoadContentInfoList(): void
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         $list = iterator_to_array($this->contentService->loadContentInfoList([$mediaFolderId]));
@@ -683,12 +618,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentInfoList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfoList()
-     *
-     * @depends testLoadContentInfoList
      */
-    public function testLoadContentInfoListSkipsNotFoundItems()
+    #[Depends('testLoadContentInfoList')]
+    public function testLoadContentInfoListSkipsNotFoundItems(): void
     {
         $nonExistentContentId = $this->generateId('object', self::DB_INT_MAX);
         $list = $this->contentService->loadContentInfoList([$nonExistentContentId]);
@@ -698,8 +630,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentInfoByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfoByRemoteId()
      */
     public function testLoadContentInfoByRemoteId()
     {
@@ -714,13 +644,12 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test for the returned value of the loadContentInfoByRemoteId() method.
      *
-     * @depends testLoadContentInfoByRemoteId
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfoByRemoteId
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
-    public function testLoadContentInfoByRemoteIdSetsExpectedContentInfo(ContentInfo $contentInfo)
+    #[Depends('testLoadContentInfoByRemoteId')]
+    public function testLoadContentInfoByRemoteIdSetsExpectedContentInfo(ContentInfo $contentInfo): void
     {
         $this->assertPropertiesCorrectUnsorted(
             [
@@ -744,12 +673,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentInfoByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentInfoByRemoteId()
-     *
-     * @depends testLoadContentInfoByRemoteId
      */
-    public function testLoadContentInfoByRemoteIdThrowsNotFoundException()
+    #[Depends('testLoadContentInfoByRemoteId')]
+    public function testLoadContentInfoByRemoteIdThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -758,14 +684,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfo()
-     *
-     * @depends testLoadContentInfo
-     *
-     * @group user
      */
-    public function testLoadVersionInfo()
+    #[Depends('testLoadContentInfo')]
+    #[Group('user')]
+    public function testLoadVersionInfo(): void
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         // $mediaFolderId contains the ID of the "Media" folder
@@ -784,8 +706,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfoById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById()
      */
     public function testLoadVersionInfoById()
     {
@@ -806,13 +726,12 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test for the returned value of the loadVersionInfoById() method.
      *
-     * @depends testLoadVersionInfoById
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      */
-    public function testLoadVersionInfoByIdSetsExpectedVersionInfo(VersionInfo $versionInfo)
+    #[Depends('testLoadVersionInfoById')]
+    public function testLoadVersionInfoByIdSetsExpectedVersionInfo(VersionInfo $versionInfo): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -839,10 +758,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @depends testLoadVersionInfoById
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      */
+    #[Depends('testLoadVersionInfoById')]
     public function testLoadVersionInfoByIdGetCreator(VersionInfo $versionInfo): void
     {
         $creator = $versionInfo->getCreator();
@@ -852,12 +770,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @depends testLoadVersionInfoById
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      */
+    #[Depends('testLoadVersionInfoById')]
     public function testLoadVersionInfoByIdGetInitialLanguage(VersionInfo $versionInfo): void
     {
         $initialLanguage = $versionInfo->getInitialLanguage();
@@ -867,10 +782,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @depends testLoadVersionInfoById
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      */
+    #[Depends('testLoadVersionInfoById')]
     public function testLoadVersionInfoByIdGetLanguages(VersionInfo $versionInfo): void
     {
         $actualLanguages = iterator_to_array($versionInfo->getLanguages());
@@ -883,12 +797,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfoById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById()
-     *
-     * @depends testLoadVersionInfoById
      */
-    public function testLoadVersionInfoByIdThrowsNotFoundException()
+    #[Depends('testLoadVersionInfoById')]
+    public function testLoadVersionInfoByIdThrowsNotFoundException(): void
     {
         $nonExistentContentId = $this->generateId('object', self::DB_INT_MAX);
 
@@ -899,12 +810,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByContentInfo()
-     *
-     * @depends testLoadContentInfo
      */
-    public function testLoadContentByContentInfo()
+    #[Depends('testLoadContentInfo')]
+    public function testLoadContentByContentInfo(): void
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         // $mediaFolderId contains the ID of the "Media" folder
@@ -923,12 +831,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByVersionInfo()
-     *
-     * @depends testLoadVersionInfo
      */
-    public function testLoadContentByVersionInfo()
+    #[Depends('testLoadVersionInfo')]
+    public function testLoadContentByVersionInfo(): void
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         // $mediaFolderId contains the ID of the "Media" folder
@@ -950,13 +855,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent()
-     *
-     * @group user
-     * @group field-type
      */
-    public function testLoadContent()
+    #[Group('user')]
+    #[Group('field-type')]
+    public function testLoadContent(): void
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         // $mediaFolderId contains the ID of the "Media" folder
@@ -972,12 +874,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent()
-     *
-     * @depends testLoadContent
      */
-    public function testLoadContentThrowsNotFoundException()
+    #[Depends('testLoadContent')]
+    public function testLoadContentThrowsNotFoundException(): void
     {
         $nonExistentContentId = $this->generateId('object', self::DB_INT_MAX);
 
@@ -991,7 +890,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      *
      * @return array
      */
-    public function contentRemoteIdVersionLanguageProvider()
+    public static function contentRemoteIdVersionLanguageProvider(): array
     {
         return [
             ['f5c88a2209584891056f987fd965b0ba', null, null],
@@ -1008,15 +907,14 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test for the loadContentByRemoteId() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByRemoteId
      *
-     * @dataProvider contentRemoteIdVersionLanguageProvider
      *
      * @param string $remoteId
      * @param array|null $languages
      * @param int $versionNo
      */
-    public function testLoadContentByRemoteId($remoteId, $languages, $versionNo)
+    #[DataProvider('contentRemoteIdVersionLanguageProvider')]
+    public function testLoadContentByRemoteId($remoteId, $languages, $versionNo): void
     {
         $content = $this->contentService->loadContentByRemoteId($remoteId, $languages, $versionNo);
 
@@ -1034,12 +932,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByRemoteId()
-     *
-     * @depends testLoadContentByRemoteId
      */
-    public function testLoadContentByRemoteIdThrowsNotFoundException()
+    #[Depends('testLoadContentByRemoteId')]
+    public function testLoadContentByRemoteIdThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1051,17 +946,13 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the publishVersion() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testLoadContent
-     * @depends testLoadContentInfo
-     * @depends testLoadVersionInfo
-     * @depends testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately
-     *
-     * @group user
-     * @group field-type
      */
+    #[Depends('testLoadContent')]
+    #[Depends('testLoadContentInfo')]
+    #[Depends('testLoadVersionInfo')]
+    #[Depends('testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately')]
+    #[Group('user')]
+    #[Group('field-type')]
     public function testPublishVersion()
     {
         ClockMock::withClockMock(false);
@@ -1084,12 +975,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the publishVersion() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersion
      */
-    public function testPublishVersionSetsExpectedContentInfo($content)
+    #[Depends('testPublishVersion')]
+    public function testPublishVersionSetsExpectedContentInfo($content): void
     {
         $userReference = $this->getRepository()->getPermissionResolver()->getCurrentUserReference();
 
@@ -1126,12 +1014,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the publishVersion() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersion
      */
-    public function testPublishVersionSetsExpectedVersionInfo($content)
+    #[Depends('testPublishVersion')]
+    public function testPublishVersionSetsExpectedVersionInfo($content): void
     {
         $currentUserReference = $this->getRepository()->getPermissionResolver()->getCurrentUserReference();
 
@@ -1166,12 +1051,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the publishVersion() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersion
      */
-    public function testPublishVersionSetsExpectedContentType($content)
+    #[Depends('testPublishVersion')]
+    public function testPublishVersionSetsExpectedContentType($content): void
     {
         $contentType = $content->getContentType();
 
@@ -1194,8 +1076,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion
      */
     public function testPublishVersionCreatesLocationsDefinedOnCreate(): array
     {
@@ -1215,12 +1095,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersionCreatesLocationsDefinedOnCreate
      */
-    public function testCreateContentWithLocationCreateParameterCreatesExpectedLocation(array $testData)
+    #[Depends('testPublishVersionCreatesLocationsDefinedOnCreate')]
+    public function testCreateContentWithLocationCreateParameterCreatesExpectedLocation(array $testData): void
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content */
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
@@ -1249,12 +1126,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersion
      */
-    public function testPublishVersionThrowsBadStateException()
+    #[Depends('testPublishVersion')]
+    public function testPublishVersionThrowsBadStateException(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -1269,10 +1143,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test that publishVersion() does not affect publishedDate (assuming previous version exists).
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion
      */
-    public function testPublishVersionDoesNotChangePublishedDate()
+    public function testPublishVersionDoesNotChangePublishedDate(): void
     {
         $publishedContent = $this->createContentVersion1();
 
@@ -1299,13 +1171,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContentDraft() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testPublishVersion
-     *
-     * @group user
      */
+    #[Depends('testPublishVersion')]
+    #[Group('user')]
     public function testCreateContentDraft()
     {
         $content = $this->createContentVersion1();
@@ -1323,10 +1191,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method with given language for new draft.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft
      */
-    public function testCreateContentDraftInOtherLanguage()
+    public function testCreateContentDraftInOtherLanguage(): void
     {
         $content = $this->createContentVersion1();
 
@@ -1349,14 +1215,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
      *
      * Test that editor has access to edit own draft.
      * Note: Editors have access to version_read, which is needed to load content drafts.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testPublishVersion
-     *
-     * @group user
      */
-    public function testCreateContentDraftAndLoadAccess()
+    #[Depends('testPublishVersion')]
+    #[Group('user')]
+    public function testCreateContentDraftAndLoadAccess(): void
     {
         $user = $this->createUserVersion1();
 
@@ -1376,12 +1238,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContentDraft() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $draft
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testCreateContentDraft
      */
-    public function testCreateContentDraftSetsExpectedProperties($draft)
+    #[Depends('testCreateContentDraft')]
+    public function testCreateContentDraftSetsExpectedProperties($draft): void
     {
         self::assertEquals(
             [
@@ -1399,12 +1258,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContentDraft() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $draft
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testCreateContentDraft
      */
-    public function testCreateContentDraftSetsContentInfo($draft)
+    #[Depends('testCreateContentDraft')]
+    public function testCreateContentDraftSetsContentInfo($draft): void
     {
         $contentInfo = $draft->contentInfo;
         $currentUserReference = $this->getRepository()->getPermissionResolver()->getCurrentUserReference();
@@ -1435,12 +1291,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContentDraft() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $draft
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testCreateContentDraft
      */
-    public function testCreateContentDraftSetsVersionInfo($draft)
+    #[Depends('testCreateContentDraft')]
+    public function testCreateContentDraftSetsVersionInfo($draft): void
     {
         $versionInfo = $draft->getVersionInfo();
         $currentUserReference = $this->getRepository()->getPermissionResolver()->getCurrentUserReference();
@@ -1470,13 +1323,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContentDraft() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $draft
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testCreateContentDraft
-     * @depends testLoadVersionInfo
      */
-    public function testCreateContentDraftLoadVersionInfoStillLoadsPublishedVersion($draft)
+    #[Depends('testCreateContentDraft')]
+    #[Depends('testLoadVersionInfo')]
+    public function testCreateContentDraftLoadVersionInfoStillLoadsPublishedVersion($draft): void
     {
         $content = $this->createContentVersion1();
 
@@ -1491,13 +1341,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testLoadContent
-     * @depends testCreateContentDraft
      */
-    public function testCreateContentDraftLoadContentStillLoadsPublishedVersion()
+    #[Depends('testLoadContent')]
+    #[Depends('testCreateContentDraft')]
+    public function testCreateContentDraftLoadContentStillLoadsPublishedVersion(): void
     {
         $content = $this->createContentVersion1();
 
@@ -1512,13 +1359,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testLoadContentByRemoteId
-     * @depends testCreateContentDraft
      */
-    public function testCreateContentDraftLoadContentByRemoteIdStillLoadsPublishedVersion()
+    #[Depends('testLoadContentByRemoteId')]
+    #[Depends('testCreateContentDraft')]
+    public function testCreateContentDraftLoadContentByRemoteIdStillLoadsPublishedVersion(): void
     {
         $content = $this->createContentVersion1();
 
@@ -1533,13 +1377,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testLoadContentByContentInfo
-     * @depends testCreateContentDraft
      */
-    public function testCreateContentDraftLoadContentByContentInfoStillLoadsPublishedVersion()
+    #[Depends('testLoadContentByContentInfo')]
+    #[Depends('testCreateContentDraft')]
+    public function testCreateContentDraftLoadContentByContentInfoStillLoadsPublishedVersion(): void
     {
         $content = $this->createContentVersion1();
 
@@ -1554,12 +1395,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the newContentUpdateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::newContentUpdateStruct
-     *
-     * @group user
      */
-    public function testNewContentUpdateStruct()
+    #[Group('user')]
+    public function testNewContentUpdateStruct(): void
     {
         $updateStruct = $this->contentService->newContentUpdateStruct();
 
@@ -1581,15 +1419,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the updateContent() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testNewContentUpdateStruct
-     * @depends testCreateContentDraft
-     *
-     * @group user
-     * @group field-type
      */
+    #[Depends('testNewContentUpdateStruct')]
+    #[Depends('testCreateContentDraft')]
+    #[Group('user')]
+    #[Group('field-type')]
     public function testUpdateContent()
     {
         $draftVersion2 = $this->createUpdatedDraftVersion2();
@@ -1612,15 +1446,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the updateContent_WithDifferentUser() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testNewContentUpdateStruct
-     * @depends testCreateContentDraft
-     *
-     * @group user
-     * @group field-type
      */
+    #[Depends('testNewContentUpdateStruct')]
+    #[Depends('testCreateContentDraft')]
+    #[Group('user')]
+    #[Group('field-type')]
     public function testUpdateContentWithDifferentUser()
     {
         $arrayWithDraftVersion2 = $this->createUpdatedDraftVersion2NotAdmin();
@@ -1643,12 +1473,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the updateContent() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testUpdateContent
      */
-    public function testUpdateContentSetsExpectedFields($content)
+    #[Depends('testUpdateContent')]
+    public function testUpdateContentSetsExpectedFields($content): void
     {
         $actual = $this->normalizeFields($content->getFields());
 
@@ -1678,12 +1505,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testUpdateContent
      */
-    public function testUpdateContentThrowsBadStateException()
+    #[Depends('testUpdateContent')]
+    public function testUpdateContentThrowsBadStateException(): void
     {
         $content = $this->createContentVersion1();
 
@@ -1705,12 +1529,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testUpdateContent
      */
-    public function testUpdateContentThrowsInvalidArgumentExceptionWhenFieldTypeDoesNotAccept()
+    #[Depends('testUpdateContent')]
+    public function testUpdateContentThrowsInvalidArgumentExceptionWhenFieldTypeDoesNotAccept(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -1729,12 +1550,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testUpdateContent
      */
-    public function testUpdateContentWhenMandatoryFieldIsEmpty()
+    #[Depends('testUpdateContent')]
+    public function testUpdateContentWhenMandatoryFieldIsEmpty(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -1756,12 +1574,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testUpdateContent
      */
-    public function testUpdateContentThrowsContentFieldValidationException()
+    #[Depends('testUpdateContent')]
+    public function testUpdateContentThrowsContentFieldValidationException(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
@@ -1783,12 +1598,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testUpdateContent
      */
-    public function testUpdateContentValidatorIgnoresRequiredFieldsOfNotUpdatedLanguages()
+    #[Depends('testUpdateContent')]
+    public function testUpdateContentValidatorIgnoresRequiredFieldsOfNotUpdatedLanguages(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
@@ -1825,12 +1637,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testUpdateContent
      */
-    public function testUpdateContentWithNotUpdatingMandatoryField()
+    #[Depends('testUpdateContent')]
+    public function testUpdateContentWithNotUpdatingMandatoryField(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -1860,12 +1669,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft($contentInfo, $versionInfo)
-     *
-     * @depends testUpdateContent
      */
-    public function testCreateContentDraftWithSecondParameter()
+    #[Depends('testUpdateContent')]
+    public function testCreateContentDraftWithSecondParameter(): void
     {
         $contentVersion2 = $this->createContentVersion2();
 
@@ -1880,10 +1686,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method with third parameter.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft
      */
-    public function testCreateContentDraftWithThirdParameter()
+    public function testCreateContentDraftWithThirdParameter(): void
     {
         $content = $this->contentService->loadContent(4);
         $user = $this->createUserVersion1();
@@ -1902,13 +1706,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersion
-     * @depends testUpdateContent
      */
-    public function testPublishVersionFromContentDraft()
+    #[Depends('testPublishVersion')]
+    #[Depends('testUpdateContent')]
+    public function testPublishVersionFromContentDraft(): void
     {
         $contentVersion2 = $this->createContentVersion2();
 
@@ -1931,12 +1732,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersionFromContentDraft
      */
-    public function testPublishVersionFromContentDraftArchivesOldVersion()
+    #[Depends('testPublishVersionFromContentDraft')]
+    public function testPublishVersionFromContentDraftArchivesOldVersion(): void
     {
         $contentVersion2 = $this->createContentVersion2();
 
@@ -1959,12 +1757,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersionFromContentDraft
      */
-    public function testPublishVersionFromContentDraftUpdatesContentInfoCurrentVersion()
+    #[Depends('testPublishVersionFromContentDraft')]
+    public function testPublishVersionFromContentDraftUpdatesContentInfoCurrentVersion(): void
     {
         $contentVersion2 = $this->createContentVersion2();
 
@@ -1973,12 +1768,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersionFromContentDraft
      */
-    public function testPublishVersionFromOldContentDraftArchivesNewerVersionNo()
+    #[Depends('testPublishVersionFromContentDraft')]
+    public function testPublishVersionFromOldContentDraftArchivesNewerVersionNo(): void
     {
         $content = $this->createContentVersion1();
 
@@ -2002,11 +1794,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the publishVersion() method, and that it creates limited archives.
      *
      * @todo Adapt this when per content type archive limited is added on repository content type model.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersionFromContentDraft
      */
+    #[Depends('testPublishVersionFromContentDraft')]
     public function testPublishVersionNotCreatingUnlimitedArchives(): void
     {
         $content = $this->createContentVersion1();
@@ -2068,12 +1857,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the newContentMetadataUpdateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::newContentMetadataUpdateStruct
-     *
-     * @group user
      */
-    public function testNewContentMetadataUpdateStruct()
+    #[Group('user')]
+    public function testNewContentMetadataUpdateStruct(): void
     {
         // Creates a new metadata update struct
         $metadataUpdate = $this->contentService->newContentMetadataUpdateStruct();
@@ -2096,14 +1882,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the updateContentMetadata() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata()
-     *
-     * @depends testPublishVersion
-     * @depends testNewContentMetadataUpdateStruct
-     *
-     * @group user
      */
+    #[Depends('testPublishVersion')]
+    #[Depends('testNewContentMetadataUpdateStruct')]
+    #[Group('user')]
     public function testUpdateContentMetadata()
     {
         $content = $this->createContentVersion1();
@@ -2135,12 +1917,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the updateContentMetadata() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata()
-     *
-     * @depends testUpdateContentMetadata
      */
-    public function testUpdateContentMetadataSetsExpectedProperties($content)
+    #[Depends('testUpdateContentMetadata')]
+    public function testUpdateContentMetadataSetsExpectedProperties($content): void
     {
         $contentInfo = $content->contentInfo;
         $currentUserReference = $this->getRepository()->getPermissionResolver()->getCurrentUserReference();
@@ -2175,24 +1954,18 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the updateContentMetadata() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata()
-     *
-     * @depends testUpdateContentMetadata
      */
-    public function testUpdateContentMetadataNotUpdatesContentVersion($content)
+    #[Depends('testUpdateContentMetadata')]
+    public function testUpdateContentMetadataNotUpdatesContentVersion($content): void
     {
         self::assertEquals(1, $content->getVersionInfo()->versionNo);
     }
 
     /**
      * Test for the updateContentMetadata() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata()
-     *
-     * @depends testUpdateContentMetadata
      */
-    public function testUpdateContentMetadataThrowsInvalidArgumentExceptionOnDuplicateRemoteId()
+    #[Depends('testUpdateContentMetadata')]
+    public function testUpdateContentMetadataThrowsInvalidArgumentExceptionOnDuplicateRemoteId(): void
     {
         $content = $this->createContentVersion1();
 
@@ -2210,10 +1983,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContentMetadata() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata
      */
-    public function testUpdateContentMetadataThrowsInvalidArgumentExceptionOnNoMetadataPropertiesSet()
+    public function testUpdateContentMetadataThrowsInvalidArgumentExceptionOnNoMetadataPropertiesSet(): void
     {
         $contentInfo = $this->contentService->loadContentInfo(4);
         $contentMetadataUpdateStruct = $this->contentService->newContentMetadataUpdateStruct();
@@ -2223,8 +1994,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
@@ -2248,8 +2017,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -2314,12 +2081,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent()
-     *
-     * @depends testPublishVersionFromContentDraft
      */
-    public function testDeleteContent()
+    #[Depends('testPublishVersionFromContentDraft')]
+    public function testDeleteContent(): void
     {
         $contentVersion2 = $this->createContentVersion2();
 
@@ -2341,12 +2105,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      *
      * Test for issue EZP-21057:
      * "contentService: Unable to delete a content with an empty file attribute"
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent()
-     *
-     * @depends testPublishVersionFromContentDraft
      */
-    public function testDeleteContentWithEmptyBinaryField()
+    #[Depends('testPublishVersionFromContentDraft')]
+    public function testDeleteContentWithEmptyBinaryField(): void
     {
         $contentVersion = $this->createContentVersion1EmptyBinaryField();
 
@@ -2408,21 +2169,14 @@ class ContentServiceTest extends BaseContentServiceTestCase
         self::assertSame(0, $previousUserDrafts);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
-     */
-    public function testLoadContentDraftsReturnsEmptyArrayByDefault()
+    public function testLoadContentDraftsReturnsEmptyArrayByDefault(): void
     {
         $contentDrafts = $this->contentService->loadContentDraftList();
 
         self::assertSame([], $contentDrafts->items);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
-     *
-     * @depends testCreateContentDraft
-     */
+    #[Depends('testCreateContentDraft')]
     public function testLoadContentDraftList(): void
     {
         // "Media" content object
@@ -2464,10 +2218,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
-     */
-    public function testLoadContentDraftsWithFirstParameter()
+    public function testLoadContentDraftsWithFirstParameter(): void
     {
         $user = $this->createUserVersion1();
 
@@ -2512,8 +2263,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentDraftList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
     public function testLoadContentDraftListWithPaginationParameters(): void
     {
@@ -2538,8 +2287,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentDraftList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
      */
     public function testLoadContentDraftListWithForUserWithLimitation(): void
     {
@@ -2577,8 +2324,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentDraftList() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
     public function testLoadAllContentDraftList(): void
     {
@@ -2590,12 +2335,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfo($contentInfo, $versionNo)
-     *
-     * @depends testPublishVersionFromContentDraft
      */
-    public function testLoadVersionInfoWithSecondParameter()
+    #[Depends('testPublishVersionFromContentDraft')]
+    public function testLoadVersionInfoWithSecondParameter(): void
     {
         $publishedContent = $this->createContentVersion1();
 
@@ -2615,12 +2357,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfo($contentInfo, $versionNo)
-     *
-     * @depends testLoadVersionInfoWithSecondParameter
      */
-    public function testLoadVersionInfoThrowsNotFoundExceptionWithSecondParameter()
+    #[Depends('testLoadVersionInfoWithSecondParameter')]
+    public function testLoadVersionInfoThrowsNotFoundExceptionWithSecondParameter(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -2632,11 +2371,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfoById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById($contentId, $versionNo)
-     *
-     * @depends testLoadVersionInfoWithSecondParameter
      */
+    #[Depends('testLoadVersionInfoWithSecondParameter')]
     public function testLoadVersionInfoByIdWithSecondParameter()
     {
         $publishedContent = $this->createContentVersion1();
@@ -2663,13 +2399,12 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test for the returned value of the loadVersionInfoById() method.
      *
-     * @depends testLoadVersionInfoByIdWithSecondParameter
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
      *
      * @param array $data
      */
-    public function testLoadVersionInfoByIdWithSecondParameterSetsExpectedVersionInfo(array $data)
+    #[Depends('testLoadVersionInfoByIdWithSecondParameter')]
+    public function testLoadVersionInfoByIdWithSecondParameterSetsExpectedVersionInfo(array $data): void
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo */
         $versionInfo = $data['versionInfo'];
@@ -2713,10 +2448,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadVersionInfoById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById($contentId, $versionNo)
      */
-    public function testLoadVersionInfoByIdThrowsNotFoundExceptionWithSecondParameter()
+    public function testLoadVersionInfoByIdThrowsNotFoundExceptionWithSecondParameter(): void
     {
         $content = $this->createContentVersion1();
 
@@ -2728,13 +2461,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByVersionInfo($versionInfo, $languages)
-     *
-     * @depends testCreateContent
-     * @depends testLoadContentByVersionInfo
      */
-    public function testLoadContentByVersionInfoWithSecondParameter()
+    #[Depends('testCreateContent')]
+    #[Depends('testLoadContentByVersionInfo')]
+    public function testLoadContentByVersionInfoWithSecondParameter(): void
     {
         $sectionId = $this->generateId('section', 1);
         $contentTypeService = $this->getRepository()->getContentTypeService();
@@ -2805,12 +2535,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByContentInfo($contentInfo, $languages)
-     *
-     * @depends testLoadContentByContentInfo
      */
-    public function testLoadContentByContentInfoWithLanguageParameters()
+    #[Depends('testLoadContentByContentInfo')]
+    public function testLoadContentByContentInfoWithLanguageParameters(): void
     {
         $sectionId = $this->generateId('section', 1);
         $contentTypeService = $this->getRepository()->getContentTypeService();
@@ -2915,12 +2642,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByContentInfo($contentInfo, $languages, $versionNo)
-     *
-     * @depends testLoadContentByContentInfo
      */
-    public function testLoadContentByContentInfoWithVersionNumberParameter()
+    #[Depends('testLoadContentByContentInfo')]
+    public function testLoadContentByContentInfoWithVersionNumberParameter(): void
     {
         $publishedContent = $this->createContentVersion1();
 
@@ -2947,12 +2671,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByContentInfo($contentInfo, $languages, $versionNo)
-     *
-     * @depends testLoadContentByContentInfoWithVersionNumberParameter
      */
-    public function testLoadContentByContentInfoThrowsNotFoundExceptionWithVersionNumberParameter()
+    #[Depends('testLoadContentByContentInfoWithVersionNumberParameter')]
+    public function testLoadContentByContentInfoThrowsNotFoundExceptionWithVersionNumberParameter(): void
     {
         $content = $this->createContentVersion1();
 
@@ -2964,11 +2685,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent($contentId, $languages)
-     *
-     * @depends testPublishVersionFromContentDraft
      */
+    #[Depends('testPublishVersionFromContentDraft')]
     public function testLoadContentWithPrioritizedLanguages()
     {
         $draft = $this->createMultipleLanguageDraftVersion1();
@@ -2984,11 +2702,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test for the loadContent() method using undefined translation.
      *
-     * @depends testLoadContentWithPrioritizedLanguages
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentDraft
      */
-    public function testLoadContentWithPrioritizedLanguagesThrowsNotFoundException(Content $contentDraft)
+    #[Depends('testLoadContentWithPrioritizedLanguages')]
+    public function testLoadContentWithPrioritizedLanguagesThrowsNotFoundException(Content $contentDraft): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -2997,11 +2715,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent
-     *
-     * @depends testLoadContentWithPrioritizedLanguages
      */
+    #[Depends('testLoadContentWithPrioritizedLanguages')]
     public function testLoadContentPassTroughPrioritizedLanguagesToContentType(Content $content): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
@@ -3016,12 +2731,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent($contentId, $languages, $versionNo)
-     *
-     * @depends testPublishVersionFromContentDraft
      */
-    public function testLoadContentWithThirdParameter()
+    #[Depends('testPublishVersionFromContentDraft')]
+    public function testLoadContentWithThirdParameter(): void
     {
         $publishedContent = $this->createContentVersion1();
 
@@ -3041,12 +2753,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent($contentId, $languages, $versionNo)
-     *
-     * @depends testLoadContentWithThirdParameter
      */
-    public function testLoadContentThrowsNotFoundExceptionWithThirdParameter()
+    #[Depends('testLoadContentWithThirdParameter')]
+    public function testLoadContentThrowsNotFoundExceptionWithThirdParameter(): void
     {
         $content = $this->createContentVersion1();
 
@@ -3058,12 +2767,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByRemoteId($remoteId, $languages)
-     *
-     * @depends testPublishVersionFromContentDraft
      */
-    public function testLoadContentByRemoteIdWithSecondParameter()
+    #[Depends('testPublishVersionFromContentDraft')]
+    public function testLoadContentByRemoteIdWithSecondParameter(): void
     {
         $draft = $this->createMultipleLanguageDraftVersion1();
 
@@ -3082,12 +2788,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByRemoteId($remoteId, $languages, $versionNo)
-     *
-     * @depends testPublishVersionFromContentDraft
      */
-    public function testLoadContentByRemoteIdWithThirdParameter()
+    #[Depends('testPublishVersionFromContentDraft')]
+    public function testLoadContentByRemoteIdWithThirdParameter(): void
     {
         $publishedContent = $this->createContentVersion1();
 
@@ -3111,12 +2814,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadContentByRemoteId() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByRemoteId($remoteId, $languages, $versionNo)
-     *
-     * @depends testLoadContentByRemoteIdWithThirdParameter
      */
-    public function testLoadContentByRemoteIdThrowsNotFoundExceptionWithThirdParameter()
+    #[Depends('testLoadContentByRemoteIdWithThirdParameter')]
+    public function testLoadContentByRemoteIdThrowsNotFoundExceptionWithThirdParameter(): void
     {
         $content = $this->createContentVersion1();
 
@@ -3133,11 +2833,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test that retrieval of translated name field respects prioritized language list.
      *
-     * @dataProvider getPrioritizedLanguageList
      *
      * @param string[]|null $languageCodes
      */
-    public function testLoadContentWithPrioritizedLanguagesList($languageCodes)
+    #[DataProvider('getPrioritizedLanguageList')]
+    public function testLoadContentWithPrioritizedLanguagesList($languageCodes): void
     {
         $content = $this->createContentVersion2();
 
@@ -3157,7 +2857,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * @return array
      */
-    public function getPrioritizedLanguageList()
+    public static function getPrioritizedLanguageList(): array
     {
         return [
             [[self::ENG_US]],
@@ -3169,15 +2869,12 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion()
-     *
-     * @depends testLoadContent
-     * @depends testCreateContent
-     * @depends testPublishVersion
-     * @depends testCreateContentDraft
      */
-    public function testDeleteVersion()
+    #[Depends('testLoadContent')]
+    #[Depends('testCreateContent')]
+    #[Depends('testPublishVersion')]
+    #[Depends('testCreateContentDraft')]
+    public function testDeleteVersion(): void
     {
         $content = $this->createContentVersion1();
 
@@ -3202,14 +2899,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion()
-     *
-     * @depends testLoadContent
-     * @depends testCreateContent
-     * @depends testPublishVersion
      */
-    public function testDeleteVersionThrowsBadStateExceptionOnPublishedVersion()
+    #[Depends('testLoadContent')]
+    #[Depends('testCreateContent')]
+    #[Depends('testPublishVersion')]
+    public function testDeleteVersionThrowsBadStateExceptionOnPublishedVersion(): void
     {
         $content = $this->createContentVersion1();
 
@@ -3221,14 +2915,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion()
-     *
-     * @depends testLoadContent
-     * @depends testCreateContent
-     * @depends testPublishVersion
      */
-    public function testDeleteVersionWorksIfOnlyVersionIsDraft()
+    #[Depends('testLoadContent')]
+    #[Depends('testCreateContent')]
+    #[Depends('testPublishVersion')]
+    public function testDeleteVersionWorksIfOnlyVersionIsDraft(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -3244,12 +2935,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test for the loadVersions() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersions()
      *
-     * @depends testPublishVersion
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[]
      */
+    #[Depends('testPublishVersion')]
     public function testLoadVersions()
     {
         $contentVersion2 = $this->createContentVersion2();
@@ -3270,13 +2960,12 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test for the loadVersions() method.
      *
-     * @depends testLoadVersions
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersions
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] $versions
      */
-    public function testLoadVersionsSetsExpectedVersionInfo(array $versions)
+    #[Depends('testLoadVersions')]
+    public function testLoadVersionsSetsExpectedVersionInfo(array $versions): void
     {
         self::assertCount(2, $versions);
 
@@ -3322,14 +3011,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent()
-     *
-     * @depends testPublishVersionFromContentDraft
-     *
-     * @group field-type
      */
-    public function testCopyContent()
+    #[Depends('testPublishVersionFromContentDraft')]
+    #[Group('field-type')]
+    public function testCopyContent(): void
     {
         $parentLocationId = $this->generateId('location', 56);
 
@@ -3385,14 +3070,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test for the copyContent() method with ibexa.site_access.config.default.content.retain_owner_on_copy set to false
      * See settings/test/integration_legacy.yml for service override.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent()
-     *
-     * @depends testPublishVersionFromContentDraft
-     *
-     * @group field-type
      */
-    public function testCopyContentWithNewOwner()
+    #[Depends('testPublishVersionFromContentDraft')]
+    #[Group('field-type')]
+    public function testCopyContentWithNewOwner(): void
     {
         $parentLocationId = $this->generateId('location', 56);
 
@@ -3447,12 +3128,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent($contentInfo, $destinationLocationCreateStruct, $versionInfo)
-     *
-     * @depends testCopyContent
      */
-    public function testCopyContentWithGivenVersion()
+    #[Depends('testCopyContent')]
+    public function testCopyContentWithGivenVersion(): void
     {
         $parentLocationId = $this->generateId('location', 56);
 
@@ -3505,14 +3183,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      *
-     * @covers  \Ibexa\Contracts\Core\Repository\ContentService::addRelation
-     *
-     * @depends testPublishVersionFromContentDraft
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
+    #[Depends('testPublishVersionFromContentDraft')]
     public function testAddRelation(): array
     {
         $draft = $this->createContentDraftVersion1();
@@ -3537,12 +3212,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the addRelation() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $relations
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::addRelation()
-     *
-     * @depends testAddRelation
      */
-    public function testAddRelationAddsRelationToContent($relations)
+    #[Depends('testAddRelation')]
+    public function testAddRelationAddsRelationToContent($relations): void
     {
         self::assertCount(
             1,
@@ -3575,12 +3247,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the addRelation() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $relations
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::addRelation()
-     *
-     * @depends testAddRelation
      */
-    public function testAddRelationSetsExpectedRelations($relations)
+    #[Depends('testAddRelation')]
+    public function testAddRelationSetsExpectedRelations($relations): void
     {
         $this->assertExpectedRelations($relations);
     }
@@ -3589,11 +3258,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContentDraft() method.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft
-     *
-     * @depends testAddRelationSetsExpectedRelations
      */
+    #[Depends('testAddRelationSetsExpectedRelations')]
     public function testCreateContentDraftWithRelations()
     {
         $draft = $this->createContentDraftVersion1();
@@ -3620,9 +3286,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $relations
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
-     *
-     * @depends testCreateContentDraftWithRelations
      */
+    #[Depends('testCreateContentDraftWithRelations')]
     public function testCreateContentDraftWithRelationsCreatesRelations(array $relations): array
     {
         self::assertCount(
@@ -3637,22 +3302,18 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test for the createContentDraft() method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $relations
-     *
-     * @depends testCreateContentDraftWithRelationsCreatesRelations
      */
-    public function testCreateContentDraftWithRelationsCreatesExpectedRelations($relations)
+    #[Depends('testCreateContentDraftWithRelationsCreatesRelations')]
+    public function testCreateContentDraftWithRelationsCreatesExpectedRelations($relations): void
     {
         $this->assertExpectedRelations($relations);
     }
 
     /**
      * Test for the addRelation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::addRelation()
-     *
-     * @depends testAddRelation
      */
-    public function testAddRelationThrowsBadStateException()
+    #[Depends('testAddRelation')]
+    public function testAddRelationThrowsBadStateException(): void
     {
         $content = $this->createContentVersion1();
 
@@ -3669,17 +3330,15 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
-     *
-     * @depends testAddRelation
-     * @depends loadRelationList
      */
-    public function testLoadRelationsSkipsArchivedContent()
+    #[Depends('testAddRelation')]
+    #[Depends('testLoadRelationList')]
+    public function testLoadRelationsSkipsArchivedContent(): void
     {
         $trashService = $this->getRepository()->getTrashService();
 
-        $draft = $this->createContentDraftVersion1();
+        // trashing location 56 below would purge a draft created under it
+        $draft = $this->createContentDraftVersion1(2);
 
         // Load other content objects
         $media = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
@@ -3732,13 +3391,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
-     *
-     * @depends testAddRelation
-     * @depends loadRelationList
      */
-    public function testLoadRelationsSkipsDraftContent()
+    #[Depends('testAddRelation')]
+    #[Depends('testLoadRelationList')]
+    public function testLoadRelationsSkipsDraftContent(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -3897,8 +3553,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the countReverseRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::countReverseRelations
      */
     public function testCountReverseRelations(): void
     {
@@ -3934,8 +3588,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the countReverseRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::countReverseRelations
      */
     public function testCountReverseRelationsReturnsZeroByDefault(): void
     {
@@ -3946,8 +3598,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the countReverseRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::countReverseRelations
      */
     public function testCountReverseRelationsForUnauthorizedUser(): void
     {
@@ -3966,12 +3616,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadReverseRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadReverseRelations()
-     *
-     * @depends testAddRelation
      */
-    public function testLoadReverseRelations()
+    #[Depends('testAddRelation')]
+    public function testLoadReverseRelations(): void
     {
         $versionInfo = $this->createContentVersion1()->getVersionInfo();
         $contentInfo = $versionInfo->getContentInfo();
@@ -4048,13 +3695,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadReverseRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadReverseRelations()
-     *
-     * @depends testAddRelation
-     * @depends testLoadReverseRelations
      */
-    public function testLoadReverseRelationsSkipsArchivedContent()
+    #[Depends('testAddRelation')]
+    #[Depends('testLoadReverseRelations')]
+    public function testLoadReverseRelationsSkipsArchivedContent(): void
     {
         $trashService = $this->getRepository()->getTrashService();
 
@@ -4124,13 +3768,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the loadReverseRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadReverseRelations()
-     *
-     * @depends testAddRelation
-     * @depends testLoadReverseRelations
      */
-    public function testLoadReverseRelationsSkipsDraftContent()
+    #[Depends('testAddRelation')]
+    #[Depends('testLoadReverseRelations')]
+    public function testLoadReverseRelationsSkipsDraftContent(): void
     {
         // Load "Media" page Content
         $media = $this->contentService->loadContentByRemoteId(self::MEDIA_REMOTE_ID);
@@ -4186,9 +3827,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadReverseRelationList
-     */
     public function testLoadReverseRelationList(): void
     {
         $draft1 = $this->contentService->createContentDraft(
@@ -4226,9 +3864,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadReverseRelationList
-     */
     public function testLoadReverseRelationListWithPagination(): void
     {
         $draft1 = $this->contentService->createContentDraft(
@@ -4267,9 +3902,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadReverseRelationList
-     */
     public function testLoadReverseRelationListSkipsArchivedContent(): void
     {
         $trashService = $this->getRepository()->getTrashService();
@@ -4311,10 +3943,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadReverseRelationList
-     */
-    public function testLoadReverseRelationListSkipsDraftContent()
+    public function testLoadReverseRelationListSkipsDraftContent(): void
     {
         $draft1 = $this->contentService->createContentDraft(
             $this->createFolder([self::ENG_GB => 'Foo'], 2)->contentInfo
@@ -4361,12 +3990,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteRelation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteRelation()
-     *
-     * @depends testLoadRelationList
      */
-    public function testDeleteRelation()
+    #[Depends('testLoadRelationList')]
+    public function testDeleteRelation(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -4388,12 +4014,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteRelation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteRelation()
-     *
-     * @depends testDeleteRelation
      */
-    public function testDeleteRelationThrowsBadStateException()
+    #[Depends('testDeleteRelation')]
+    public function testDeleteRelationThrowsBadStateException(): void
     {
         $content = $this->createContentVersion1();
 
@@ -4422,12 +4045,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteRelation() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteRelation()
-     *
-     * @depends testDeleteRelation
      */
-    public function testDeleteRelationThrowsInvalidArgumentException()
+    #[Depends('testDeleteRelation')]
+    public function testDeleteRelationThrowsInvalidArgumentException(): void
     {
         $draft = $this->createContentDraftVersion1();
 
@@ -4444,13 +4064,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContent
-     * @depends testLoadContent
      */
-    public function testCreateContentInTransactionWithRollback()
+    #[Depends('testCreateContent')]
+    #[Depends('testLoadContent')]
+    public function testCreateContentInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -4493,13 +4110,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
-     *
-     * @depends testCreateContent
-     * @depends testLoadContent
      */
-    public function testCreateContentInTransactionWithCommit()
+    #[Depends('testCreateContent')]
+    #[Depends('testLoadContent')]
+    public function testCreateContentInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -4537,13 +4151,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent($contentCreateStruct, $locationCreateStructs)
-     *
-     * @depends testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately
-     * @depends testLoadContentThrowsNotFoundException
      */
-    public function testCreateContentWithLocationCreateParameterInTransactionWithRollback()
+    #[Depends('testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately')]
+    #[Depends('testLoadContentThrowsNotFoundException')]
+    public function testCreateContentWithLocationCreateParameterInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -4575,13 +4186,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent($contentCreateStruct, $locationCreateStructs)
-     *
-     * @depends testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately
-     * @depends testLoadContentThrowsNotFoundException
      */
-    public function testCreateContentWithLocationCreateParameterInTransactionWithCommit()
+    #[Depends('testCreateContentWithLocationCreateParameterDoesNotCreateLocationImmediately')]
+    #[Depends('testLoadContentThrowsNotFoundException')]
+    public function testCreateContentWithLocationCreateParameterInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -4609,13 +4217,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testCreateContentDraft
-     * @depends testLoadContent
      */
-    public function testCreateContentDraftInTransactionWithRollback()
+    #[Depends('testCreateContentDraft')]
+    #[Depends('testLoadContent')]
+    public function testCreateContentDraftInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -4654,13 +4259,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the createContentDraft() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
-     *
-     * @depends testCreateContentDraft
-     * @depends testLoadContent
      */
-    public function testCreateContentDraftInTransactionWithCommit()
+    #[Depends('testCreateContentDraft')]
+    #[Depends('testLoadContent')]
+    public function testCreateContentDraftInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -4697,13 +4299,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersion
-     * @depends testLoadContent
      */
-    public function testPublishVersionInTransactionWithRollback()
+    #[Depends('testPublishVersion')]
+    #[Depends('testLoadContent')]
+    public function testPublishVersionInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -4744,13 +4343,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the publishVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
-     *
-     * @depends testPublishVersion
-     * @depends testLoadVersionInfo
      */
-    public function testPublishVersionInTransactionWithCommit()
+    #[Depends('testPublishVersion')]
+    #[Depends('testLoadVersionInfo')]
+    public function testPublishVersionInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -4785,14 +4381,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testUpdateContent
-     * @depends testLoadContent
-     * @depends testLoadContentInfo
      */
-    public function testUpdateContentInTransactionWithRollback()
+    #[Depends('testUpdateContent')]
+    #[Depends('testLoadContent')]
+    #[Depends('testLoadContentInfo')]
+    public function testUpdateContentInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -4836,14 +4429,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
-     *
-     * @depends testUpdateContent
-     * @depends testLoadContent
-     * @depends testLoadContentInfo
      */
-    public function testUpdateContentInTransactionWithCommit()
+    #[Depends('testUpdateContent')]
+    #[Depends('testLoadContent')]
+    #[Depends('testLoadContentInfo')]
+    public function testUpdateContentInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -4887,13 +4477,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContentMetadata() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata()
-     *
-     * @depends testUpdateContentMetadata
-     * @depends testLoadContentInfo
      */
-    public function testUpdateContentMetadataInTransactionWithRollback()
+    #[Depends('testUpdateContentMetadata')]
+    #[Depends('testLoadContentInfo')]
+    public function testUpdateContentMetadataInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -4935,13 +4522,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContentMetadata() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata()
-     *
-     * @depends testUpdateContentMetadata
-     * @depends testLoadContentInfo
      */
-    public function testUpdateContentMetadataInTransactionWithCommit()
+    #[Depends('testUpdateContentMetadata')]
+    #[Depends('testLoadContentInfo')]
+    public function testUpdateContentMetadataInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -4983,13 +4567,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the updateContentMetadata() method, and how cache + transactions play together.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContentMetadata()
-     *
-     * @depends testUpdateContentMetadata
-     * @depends testLoadContentInfo
      */
-    public function testUpdateContentMetadataCheckWithinTransaction()
+    #[Depends('testUpdateContentMetadata')]
+    #[Depends('testLoadContentInfo')]
+    public function testUpdateContentMetadataCheckWithinTransaction(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -5030,14 +4611,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion()
-     *
-     * @depends testCreateContent
-     * @depends testLoadContentInfo
-     * @depends testLoadContentDraftList
      */
-    public function testDeleteVersionInTransactionWithRollback()
+    #[Depends('testCreateContent')]
+    #[Depends('testLoadContentInfo')]
+    #[Depends('testLoadContentDraftList')]
+    public function testDeleteVersionInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -5070,14 +4648,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion()
-     *
-     * @depends testCreateContent
-     * @depends testLoadContentInfo
-     * @depends testLoadContentDrafts
      */
-    public function testDeleteVersionInTransactionWithCommit()
+    #[Depends('testCreateContent')]
+    #[Depends('testLoadContentInfo')]
+    #[Depends('testLoadContentDraftList')]
+    public function testDeleteVersionInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -5110,13 +4685,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent()
-     *
-     * @depends testDeleteContent
-     * @depends testLoadContentInfo
      */
-    public function testDeleteContentInTransactionWithRollback()
+    #[Depends('testDeleteContent')]
+    #[Depends('testLoadContentInfo')]
+    public function testDeleteContentInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -5148,13 +4720,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the deleteContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent()
-     *
-     * @depends testDeleteContent
-     * @depends testLoadContentInfo
      */
-    public function testDeleteContentInTransactionWithCommit()
+    #[Depends('testDeleteContent')]
+    #[Depends('testLoadContentInfo')]
+    public function testDeleteContentInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -5190,12 +4759,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent()
-     *
-     * @depends testCopyContent
      */
-    public function testCopyContentInTransactionWithRollback()
+    #[Depends('testCopyContent')]
+    public function testCopyContentInTransactionWithRollback(): void
     {
         $repository = $this->getRepository();
 
@@ -5238,12 +4804,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent()
-     *
-     * @depends testCopyContent
      */
-    public function testCopyContentInTransactionWithCommit()
+    #[Depends('testCopyContent')]
+    public function testCopyContentInTransactionWithCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -5284,7 +4847,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         self::assertCount(2, $locations);
     }
 
-    public function testURLAliasesCreatedForNewContent()
+    public function testURLAliasesCreatedForNewContent(): void
     {
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
@@ -5315,7 +4878,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    public function testURLAliasesCreatedForUpdatedContent()
+    public function testURLAliasesCreatedForUpdatedContent(): void
     {
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
@@ -5382,7 +4945,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    public function testCustomURLAliasesNotHistorizedOnUpdatedContent()
+    public function testCustomURLAliasesNotHistorizedOnUpdatedContent(): void
     {
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
@@ -5439,7 +5002,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test to ensure that old versions are not affected by updates to newer
      * drafts.
      */
-    public function testUpdatingDraftDoesNotUpdateOldVersions()
+    public function testUpdatingDraftDoesNotUpdateOldVersions(): void
     {
         $contentVersion2 = $this->createContentVersion2();
 
@@ -5456,7 +5019,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test scenario with writer and publisher users.
      * Writer can only create content. Publisher can publish this content.
      */
-    public function testPublishWorkflow()
+    public function testPublishWorkflow(): void
     {
         $this->createRoleWithPolicies('Publisher', [
             ['module' => 'content', 'function' => 'read'],
@@ -5495,7 +5058,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test publish / content policy is required to be able to publish content.
      */
-    public function testPublishContentWithoutPublishPolicyThrowsException()
+    public function testPublishContentWithoutPublishPolicyThrowsException(): void
     {
         $this->createRoleWithPolicies('Writer', [
             ['module' => 'content', 'function' => 'read'],
@@ -5518,10 +5081,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test removal of the specific translation from all the Versions of a Content Object.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslation
      */
-    public function testDeleteTranslation()
+    public function testDeleteTranslation(): void
     {
         $content = $this->createContentVersion2();
 
@@ -5545,7 +5106,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test deleting a Translation which is initial for some Version, updates initialLanguageCode
      * with mainLanguageCode (assuming they are different).
      */
-    public function testDeleteTranslationUpdatesInitialLanguageCodeVersion()
+    public function testDeleteTranslationUpdatesInitialLanguageCodeVersion(): void
     {
         $content = $this->createContentVersion2();
         // create another, copied, version
@@ -5576,10 +5137,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test removal of the specific translation properly updates languages of the URL alias.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslation
      */
-    public function testDeleteTranslationUpdatesUrlAlias()
+    public function testDeleteTranslationUpdatesUrlAlias(): void
     {
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
@@ -5621,10 +5180,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test removal of a main translation throws BadStateException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslation
      */
-    public function testDeleteTranslationMainLanguageThrowsBadStateException()
+    public function testDeleteTranslationMainLanguageThrowsBadStateException(): void
     {
         $content = $this->createContentVersion2();
 
@@ -5640,10 +5197,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test removal of a Translation is possible when some archived Versions have only this Translation.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslation
      */
-    public function testDeleteTranslationDeletesSingleTranslationVersions()
+    public function testDeleteTranslationDeletesSingleTranslationVersions(): void
     {
         // content created by the createContentVersion1 method has eng-US translation only.
         $content = $this->createContentVersion1();
@@ -5669,10 +5224,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test removal of the translation by the user who is not allowed to delete a content
      * throws UnauthorizedException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslation
      */
-    public function testDeleteTranslationThrowsUnauthorizedException()
+    public function testDeleteTranslationThrowsUnauthorizedException(): void
     {
         $content = $this->createContentVersion2();
 
@@ -5699,10 +5252,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test removal of a non-existent translation throws InvalidArgumentException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslation
      */
-    public function testDeleteTranslationThrowsInvalidArgumentException()
+    public function testDeleteTranslationThrowsInvalidArgumentException(): void
     {
         // content created by the createContentVersion1 method has eng-US translation only.
         $content = $this->createContentVersion1();
@@ -5715,10 +5266,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test deleting a Translation from Draft.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslationFromDraft
      */
-    public function testDeleteTranslationFromDraft()
+    public function testDeleteTranslationFromDraft(): void
     {
         $languageCode = self::ENG_GB;
         $content = $this->createMultipleLanguageContentVersion2();
@@ -5736,7 +5285,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      *
      * @return array
      */
-    public function providerForDeleteTranslationFromDraftRemovesUrlAliasOnPublishing()
+    public static function providerForDeleteTranslationFromDraftRemovesUrlAliasOnPublishing(): array
     {
         return [
             [
@@ -5751,9 +5300,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test deleting a Translation from Draft removes previously stored URL aliases for published Content.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslationFromDraft
      *
-     * @dataProvider providerForDeleteTranslationFromDraftRemovesUrlAliasOnPublishing
      *
      * @param string[] $fieldValues translated field values
      *
@@ -5762,7 +5309,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testDeleteTranslationFromDraftRemovesUrlAliasOnPublishing(array $fieldValues)
+    #[DataProvider('providerForDeleteTranslationFromDraftRemovesUrlAliasOnPublishing')]
+    public function testDeleteTranslationFromDraftRemovesUrlAliasOnPublishing(array $fieldValues): void
     {
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
@@ -5823,7 +5371,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test that URL aliases for deleted Translations are properly archived.
      */
-    public function testDeleteTranslationFromDraftArchivesUrlAliasOnPublishing()
+    public function testDeleteTranslationFromDraftArchivesUrlAliasOnPublishing(): void
     {
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
@@ -5879,10 +5427,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test deleting a Translation from Draft which has single Translation throws BadStateException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslationFromDraft
      */
-    public function testDeleteTranslationFromDraftThrowsBadStateExceptionOnSingleTranslation()
+    public function testDeleteTranslationFromDraftThrowsBadStateExceptionOnSingleTranslation(): void
     {
         // create Content with single Translation
         $publishedContent = $this->contentService->publishVersion(
@@ -5916,10 +5462,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test deleting the Main Translation from Draft throws BadStateException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslationFromDraft
      */
-    public function testDeleteTranslationFromDraftThrowsBadStateExceptionOnMainTranslation()
+    public function testDeleteTranslationFromDraftThrowsBadStateExceptionOnMainTranslation(): void
     {
         $mainLanguageCode = self::ENG_US;
         $draft = $this->createMultilingualContentDraft(
@@ -5942,10 +5486,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test deleting the Translation from Published Version throws BadStateException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslationFromDraft
      */
-    public function testDeleteTranslationFromDraftThrowsBadStateExceptionOnPublishedVersion()
+    public function testDeleteTranslationFromDraftThrowsBadStateExceptionOnPublishedVersion(): void
     {
         $languageCode = self::ENG_US;
         $content = $this->createMultipleLanguageContentVersion2();
@@ -5960,10 +5502,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test deleting a Translation from Draft throws UnauthorizedException if user cannot edit Content.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslationFromDraft
      */
-    public function testDeleteTranslationFromDraftThrowsUnauthorizedException()
+    public function testDeleteTranslationFromDraftThrowsUnauthorizedException(): void
     {
         $languageCode = self::ENG_GB;
         $content = $this->createMultipleLanguageContentVersion2();
@@ -5992,10 +5532,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     /**
      * Test deleting a non-existent Translation from Draft throws InvalidArgumentException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslationFromDraft
      */
-    public function testDeleteTranslationFromDraftThrowsInvalidArgumentException()
+    public function testDeleteTranslationFromDraftThrowsInvalidArgumentException(): void
     {
         $languageCode = self::GER_DE;
         $content = $this->createMultipleLanguageContentVersion2();
@@ -6008,7 +5546,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Test loading list of Content items.
      */
-    public function testLoadContentListByContentInfo()
+    public function testLoadContentListByContentInfo(): void
     {
         $allLocationsCount = $this->locationService->getAllLocationsCount();
         $contentInfoList = array_map(
@@ -6036,10 +5574,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * Test loading content versions after removing exactly two drafts.
      *
      * @see https://issues.ibexa.co/browse/EZP-30271
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion
      */
-    public function testLoadVersionsAfterDeletingTwoDrafts()
+    public function testLoadVersionsAfterDeletingTwoDrafts(): void
     {
         $content = $this->createFolder([self::ENG_GB => 'Foo'], 2);
 
@@ -6070,7 +5606,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Tests loading list of content versions of status draft.
      */
-    public function testLoadVersionsOfStatusDraft()
+    public function testLoadVersionsOfStatusDraft(): void
     {
         $content = $this->createContentVersion1();
 
@@ -6086,7 +5622,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     /**
      * Tests loading list of content versions of status archived.
      */
-    public function testLoadVersionsOfStatusArchived()
+    public function testLoadVersionsOfStatusArchived(): void
     {
         $content = $this->createContentVersion1();
 
@@ -6327,8 +5863,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::hideContent
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
@@ -6373,13 +5907,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::revealContent
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRevealContent()
+    public function testRevealContent(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -6505,8 +6037,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @dataProvider draftVisibilityTransitionsProvider
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
@@ -6514,6 +6044,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
+    #[DataProvider('draftVisibilityTransitionsProvider')]
     public function testDraftVisibilityTransitions(
         bool $initiallyHidden,
         bool $secondDraftHidden
@@ -6592,10 +6123,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    /**
-     * @depends testRevealContent
-     */
-    public function testRevealContentWithHiddenParent()
+    #[Depends('testRevealContent')]
+    public function testRevealContentWithHiddenParent(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -6656,10 +6185,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
         }
     }
 
-    /**
-     * @depends testRevealContent
-     */
-    public function testRevealContentWithHiddenChildren()
+    #[Depends('testRevealContent')]
+    public function testRevealContentWithHiddenChildren(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -6734,7 +6261,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         }
     }
 
-    public function testHideContentWithParentLocation()
+    public function testHideContentWithParentLocation(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -6781,7 +6308,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         self::assertTrue($childLocations[0]->invisible);
     }
 
-    public function testChangeContentName()
+    public function testChangeContentName(): void
     {
         $contentDraft = $this->createContentDraft(
             'folder',
@@ -6803,7 +6330,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         self::assertEquals('Polo', $updatedContent->contentInfo->name);
     }
 
-    public function testCopyTranslationsFromPublishedToDraft()
+    public function testCopyTranslationsFromPublishedToDraft(): void
     {
         $contentDraft = $this->createContentDraft(
             'folder',
@@ -6866,7 +6393,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    public function testCopyTranslationsFromInvalidPublishedContentToDraft()
+    public function testCopyTranslationsFromInvalidPublishedContentToDraft(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -6995,7 +6522,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    public function testPublishVersionWithSelectedLanguages()
+    public function testPublishVersionWithSelectedLanguages(): void
     {
         $publishedContent = $this->createFolder(
             [
@@ -7025,7 +6552,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
     }
 
-    public function testCreateContentWithRomanianSpecialCharsInTitle()
+    public function testCreateContentWithRomanianSpecialCharsInTitle(): void
     {
         $baseName = 'ȘșțȚdfdf';
         $expectedPath = '/SstTdfdf';
@@ -7172,20 +6699,43 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $anonymousUserId = $this->generateId('user', 10);
         $repository->getPermissionResolver()->setCurrentUserReference($repository->getUserService()->loadUser($anonymousUserId));
 
+        // the ContentService instance is shared across the test run, restore the setting afterwards
+        $originalGracePeriod = $this->getGracePeriod();
         $this->setGracePeriod(10);
 
-        //Reset clock, to make sure that upfront operations did not exceed grace period.
-        ClockMock::withClockMock(strtotime('2025-04-01 14:00:02'));
-        $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        try {
+            //Reset clock, to make sure that upfront operations did not exceed grace period.
+            ClockMock::withClockMock(strtotime('2025-04-01 14:00:02'));
+            $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
-        ClockMock::sleep(20);
-        $this->expectException(CoreUnauthorizedException::class);
-        $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+            ClockMock::sleep(20);
+            $this->expectException(CoreUnauthorizedException::class);
+            $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        } finally {
+            ClockMock::withClockMock(false);
+            $this->setGracePeriod($originalGracePeriod);
+        }
+    }
 
-        ClockMock::withClockMock(false);
+    private function getGracePeriod(): int
+    {
+        return $this->getInnerContentServiceSettingsProperty()->getValue(
+            $this->getInnerContentService()
+        )['grace_period_in_seconds'];
     }
 
     private function setGracePeriod(int $value): void
+    {
+        $innerService = $this->getInnerContentService();
+        $settingsProperty = $this->getInnerContentServiceSettingsProperty();
+
+        $settings = $settingsProperty->getValue($innerService);
+        $settings['grace_period_in_seconds'] = $value;
+
+        $settingsProperty->setValue($innerService, $settings);
+    }
+
+    private function getInnerContentService(): object
     {
         $reflection = new ReflectionClass($this->contentService);
         $serviceProperty = $reflection->getProperty('service');
@@ -7197,15 +6747,15 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $innerServiceProperty = $serviceReflection->getProperty('innerService');
         $innerServiceProperty->setAccessible(true);
 
-        $innerService = $innerServiceProperty->getValue($service);
+        return $innerServiceProperty->getValue($service);
+    }
 
-        $innerServiceReflection = new ReflectionClass($innerService);
+    private function getInnerContentServiceSettingsProperty(): ReflectionProperty
+    {
+        $innerServiceReflection = new ReflectionClass($this->getInnerContentService());
         $settingsProperty = $innerServiceReflection->getProperty('settings');
         $settingsProperty->setAccessible(true);
 
-        $settings = $settingsProperty->getValue($innerService);
-        $settings['grace_period_in_seconds'] = $value;
-
-        $settingsProperty->setValue($innerService, $settings);
+        return $settingsProperty;
     }
 }

@@ -11,6 +11,7 @@ use Ibexa\Core\Base\Container\Compiler\Storage\ExternalStorageRegistryPass;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Tests\Core\Base\Container\Compiler\Stubs\GatewayBasedStorageHandler;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -28,10 +29,8 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new ExternalStorageRegistryPass());
     }
 
-    /**
-     * @dataProvider externalStorageHandlerTagsProvider
-     */
-    public function testRegisterExternalStorageHandler(string $tag)
+    #[DataProvider('externalStorageHandlerTagsProvider')]
+    public function testRegisterExternalStorageHandler(string $tag): void
     {
         $def = new Definition();
         $fieldTypeIdentifier = 'field_type_identifier';
@@ -48,10 +47,8 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerTagsProvider
-     */
-    public function testRegisterExternalStorageHandlerNoAlias(string $tag)
+    #[DataProvider('externalStorageHandlerTagsProvider')]
+    public function testRegisterExternalStorageHandlerNoAlias(string $tag): void
     {
         $this->expectException(\LogicException::class);
 
@@ -70,10 +67,8 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerGatewayTagsProvider
-     */
-    public function testRegisterExternalStorageHandlerWithGateway(string $tag)
+    #[DataProvider('externalStorageHandlerGatewayTagsProvider')]
+    public function testRegisterExternalStorageHandlerWithGateway(string $tag): void
     {
         $handlerDef = new Definition();
         $handlerDef->setClass(GatewayBasedStorageHandler::class);
@@ -102,10 +97,8 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerGatewayTagsProvider
-     */
-    public function testRegisterExternalStorageHandlerWithoutRegisteredGateway(string $tag)
+    #[DataProvider('externalStorageHandlerGatewayTagsProvider')]
+    public function testRegisterExternalStorageHandlerWithoutRegisteredGateway(string $tag): void
     {
         $this->expectException(\LogicException::class);
 
@@ -127,10 +120,8 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerGatewayTagsProvider
-     */
-    public function testRegisterExternalStorageHandlerWithGatewayNoAlias(string $tag)
+    #[DataProvider('externalStorageHandlerGatewayTagsProvider')]
+    public function testRegisterExternalStorageHandlerWithGatewayNoAlias(string $tag): void
     {
         $this->expectException(\LogicException::class);
 
@@ -158,10 +149,8 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    /**
-     * @dataProvider externalStorageHandlerGatewayTagsProvider
-     */
-    public function testRegisterExternalStorageHandlerWithGatewayNoIdentifier(string $tag)
+    #[DataProvider('externalStorageHandlerGatewayTagsProvider')]
+    public function testRegisterExternalStorageHandlerWithGatewayNoIdentifier(string $tag): void
     {
         $this->expectException(\LogicException::class);
 
@@ -189,14 +178,14 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function externalStorageHandlerTagsProvider(): array
+    public static function externalStorageHandlerTagsProvider(): array
     {
         return [
             [ExternalStorageRegistryPass::EXTERNAL_STORAGE_HANDLER_SERVICE_TAG],
         ];
     }
 
-    public function externalStorageHandlerGatewayTagsProvider(): array
+    public static function externalStorageHandlerGatewayTagsProvider(): array
     {
         return [
             [ExternalStorageRegistryPass::EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG],

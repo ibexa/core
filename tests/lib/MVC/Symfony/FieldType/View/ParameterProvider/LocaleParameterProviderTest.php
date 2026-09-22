@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\View\ParameterProvider;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProvider\LocaleParameterProvider;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class LocaleParameterProviderTest extends TestCase
 {
-    public function providerForTestGetViewParameters()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestGetViewParameters(): array
     {
         return [
             [true, 'fr_FR'],
@@ -25,10 +29,8 @@ class LocaleParameterProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestGetViewParameters
-     */
-    public function testGetViewParameters($hasRequestLocale, $expectedLocale)
+    #[DataProvider('providerForTestGetViewParameters')]
+    public function testGetViewParameters($hasRequestLocale, $expectedLocale): void
     {
         $field = new Field(['languageCode' => 'cro-HR']);
         $parameterProvider = new LocaleParameterProvider($this->getLocaleConverterMock());

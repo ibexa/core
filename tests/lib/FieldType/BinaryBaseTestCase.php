@@ -11,17 +11,17 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\FieldType\Value;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Base class for binary field types.
- *
- * @group fieldType
  */
+#[Group('fieldType')]
 abstract class BinaryBaseTestCase extends FieldTypeTestCase
 {
     /** @var string[] */
-    protected array $blackListedExtensions = [
+    protected const array BLACK_LISTED_EXTENSIONS = [
         'php',
         'php3',
         'phar',
@@ -30,6 +30,9 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         'phtml',
         'pgif',
     ];
+
+    /** @var string[] */
+    protected array $blackListedExtensions = self::BLACK_LISTED_EXTENSIONS;
 
     protected function getValidatorConfigurationSchemaExpectation(): array
     {
@@ -66,10 +69,15 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         return [];
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         yield [
-            $this->getMockForAbstractClass(Value::class),
+            new class() extends Value {
+                public function __toString(): string
+                {
+                    return '';
+                }
+            },
             InvalidArgumentException::class,
         ];
 
@@ -79,7 +87,7 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidValidatorConfiguration(): array
+    public static function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -102,7 +110,7 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidValidatorConfiguration(): array
+    public static function provideInvalidValidatorConfiguration(): array
     {
         return [
             [

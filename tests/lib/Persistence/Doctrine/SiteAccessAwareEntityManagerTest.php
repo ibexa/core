@@ -59,6 +59,21 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
         self::assertSame($entity, $result);
     }
 
+    public function testFindWithoutLockArgumentsDelegatesNullDefaults(): void
+    {
+        $entity = new stdClass();
+        $wrapped = $this->createMock(EntityManagerInterface::class);
+        $wrapped->expects(self::once())
+            ->method('find')
+            ->with(stdClass::class, 1, null, null)
+            ->willReturn($entity);
+        $this->entityManagerFactory->method('getEntityManager')->willReturn($wrapped);
+
+        $result = $this->siteAccessAwareEntityManager->find(stdClass::class, 1);
+
+        self::assertSame($entity, $result);
+    }
+
     public function testRefreshDelegatesToWrappedEntityManager(): void
     {
         $entity = new stdClass();
@@ -85,7 +100,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
 
     public function testGetRepositoryDelegatesToWrappedEntityManager(): void
     {
-        $repository = $this->createMock(EntityRepository::class);
+        $repository = self::createStub(EntityRepository::class);
         $wrapped = $this->createMock(EntityManagerInterface::class);
         $wrapped->expects(self::once())
             ->method('getRepository')
@@ -100,7 +115,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
 
     public function testGetClassMetadataDelegatesToWrappedEntityManager(): void
     {
-        $metadata = $this->createMock(ClassMetadata::class);
+        $metadata = self::createStub(ClassMetadata::class);
         $wrapped = $this->createMock(EntityManagerInterface::class);
         $wrapped->expects(self::once())
             ->method('getClassMetadata')
@@ -115,7 +130,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
 
     public function testGetMetadataFactoryDelegatesToWrappedEntityManager(): void
     {
-        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
+        $metadataFactory = self::createStub(ClassMetadataFactory::class);
         $wrapped = $this->createMock(EntityManagerInterface::class);
         $wrapped->expects(self::once())
             ->method('getMetadataFactory')
@@ -129,7 +144,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
 
     public function testWrappedEntityManagerIsResolvedOnlyOnce(): void
     {
-        $wrapped = $this->createMock(EntityManagerInterface::class);
+        $wrapped = self::createStub(EntityManagerInterface::class);
         $this->entityManagerFactory->expects(self::once())
             ->method('getEntityManager')
             ->willReturn($wrapped);
@@ -141,8 +156,8 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
 
     public function testResetForcesReResolutionOfWrappedEntityManager(): void
     {
-        $first = $this->createMock(EntityManagerInterface::class);
-        $second = $this->createMock(EntityManagerInterface::class);
+        $first = self::createStub(EntityManagerInterface::class);
+        $second = self::createStub(EntityManagerInterface::class);
         $this->entityManagerFactory->expects(self::exactly(2))
             ->method('getEntityManager')
             ->willReturnOnConsecutiveCalls($first, $second);
@@ -154,8 +169,8 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
 
     public function testConfigScopeChangeForcesReResolutionOfWrappedEntityManager(): void
     {
-        $first = $this->createMock(EntityManagerInterface::class);
-        $second = $this->createMock(EntityManagerInterface::class);
+        $first = self::createStub(EntityManagerInterface::class);
+        $second = self::createStub(EntityManagerInterface::class);
         $this->entityManagerFactory->expects(self::exactly(2))
             ->method('getEntityManager')
             ->willReturnOnConsecutiveCalls($first, $second);

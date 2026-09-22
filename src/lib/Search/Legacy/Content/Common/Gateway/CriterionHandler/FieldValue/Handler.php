@@ -194,7 +194,7 @@ abstract class Handler
                 break;
             default:
                 $parameterValue = $value;
-                $parameterType = null;
+                $parameterType = ParameterType::STRING;
         }
 
         return $outerQuery->createNamedParameter(
@@ -206,7 +206,7 @@ abstract class Handler
     /**
      * @param array<int, scalar> $values
      */
-    private function getParamArrayType(array $values): int
+    private function getParamArrayType(array $values): ArrayParameterType
     {
         if (empty($values)) {
             throw new InvalidArgumentException('$values', 'Array cannot be empty');
@@ -223,7 +223,7 @@ abstract class Handler
             }
         }
 
-        $arrayValueTypes = array_unique($types);
+        $arrayValueTypes = array_values(array_unique($types, SORT_REGULAR));
 
         // Fallback to ArrayParameterType::STRING
         return $arrayValueTypes[0] ?? ArrayParameterType::STRING;

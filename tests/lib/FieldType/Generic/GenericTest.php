@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Tests\Core\FieldType\BaseFieldTypeTestCase;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Type as GenericFieldTypeStub;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Value as GenericFieldValueStub;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -37,25 +38,23 @@ class GenericTest extends BaseFieldTypeTestCase
     }
 
     /**
-     * @dataProvider provideValidDataForValidate
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('provideValidDataForValidate')]
     public function testValidateValid(array $fieldDefinitionData, Value $value): void
     {
         $this->validator
             ->method('validate')
             ->with($value, null)
-            ->willReturn($this->createMock(ConstraintViolationListInterface::class));
+            ->willReturn(self::createStub(ConstraintViolationListInterface::class));
 
         parent::testValidateValid($fieldDefinitionData, $value);
     }
 
     /**
-     * @dataProvider provideInvalidDataForValidate
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('provideInvalidDataForValidate')]
     public function testValidateInvalid(array $fieldDefinitionData, FieldTypeValue $value, array $errors): void
     {
         $constraintViolationList = new ConstraintViolationList(
@@ -105,7 +104,7 @@ class GenericTest extends BaseFieldTypeTestCase
         return new GenericFieldValueStub();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -115,7 +114,7 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'null' => [
             null,
@@ -131,7 +130,7 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -145,7 +144,7 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -159,7 +158,7 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
             [new GenericFieldValueStub('This is a generic value.'), 'This is a generic value.', [], 'en_GB'],

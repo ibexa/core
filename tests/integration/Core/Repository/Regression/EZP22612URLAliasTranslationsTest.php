@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-class EZP22612URLAliasTranslations extends BaseTestCase
+class EZP22612URLAliasTranslationsTest extends BaseTestCase
 {
     protected function setUp(): void
     {
@@ -50,7 +50,7 @@ class EZP22612URLAliasTranslations extends BaseTestCase
     /**
      * Test that alias is found (ie. NotFoundException is not thrown).
      */
-    public function testURLAliasLoadedInRightLanguage()
+    public function testURLAliasLoadedInRightLanguage(): void
     {
         $aliasService = $this->getRepository()->getURLAliasService();
         $alias = $aliasService->lookup('common/alias');

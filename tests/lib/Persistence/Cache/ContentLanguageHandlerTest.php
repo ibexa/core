@@ -26,7 +26,7 @@ class ContentLanguageHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         return Handler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public static function providerForUnCachedMethods(): array
     {
         $language = new SPILanguage(['id' => 5, 'languageCode' => 'eng-GB']);
 
@@ -66,7 +66,7 @@ class ContentLanguageHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public static function providerForCachedLoadMethodsHit(): array
     {
         $object = new SPILanguage(['id' => 5, 'languageCode' => 'eng-GB']);
 
@@ -80,7 +80,7 @@ class ContentLanguageHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public static function providerForCachedLoadMethodsMiss(): array
     {
         $object = new SPILanguage(['id' => 5, 'languageCode' => 'eng-GB']);
 

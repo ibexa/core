@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class ScopeChangeEventTest extends TestCase
 {
-    public function testGetSiteAccess()
+    public function testGetSiteAccess(): void
     {
         $siteAccess = new SiteAccess('foo', 'test');
         $event = new ScopeChangeEvent($siteAccess);

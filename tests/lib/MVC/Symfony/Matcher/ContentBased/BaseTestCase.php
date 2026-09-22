@@ -44,7 +44,7 @@ abstract class BaseTestCase extends TestCase
                     $matchingConfig,
                 ]
             )
-            ->setMethods(['getMatcher'])
+            ->onlyMethods(['getMatcher'])
             ->getMock();
     }
 
@@ -58,11 +58,11 @@ abstract class BaseTestCase extends TestCase
         return $this
             ->getMockBuilder($repositoryClass)
             ->disableOriginalConstructor()
-            ->setMethods(
-                array_diff(
+            ->onlyMethods(
+                array_values(array_diff(
                     get_class_methods($repositoryClass),
                     ['sudo']
-                )
+                ))
             )
             ->getMock();
     }
@@ -103,12 +103,12 @@ abstract class BaseTestCase extends TestCase
 
         return $this
             ->getMockBuilder(PermissionResolver::class)
-            ->setMethods(null)
+            ->onlyMethods([])
             ->setConstructorArgs(
                 [
-                    $this->createMock(RoleDomainMapper::class),
-                    $this->createMock(LimitationService::class),
-                    $this->createMock(SPIUserHandler::class),
+                    self::createStub(RoleDomainMapper::class),
+                    self::createStub(LimitationService::class),
+                    self::createStub(SPIUserHandler::class),
                     $configResolverMock,
                     [],
                 ]

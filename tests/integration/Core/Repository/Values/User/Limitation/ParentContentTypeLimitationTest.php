@@ -10,16 +10,15 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(ParentContentTypeLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class ParentContentTypeLimitationTest extends BaseLimitationTestCase
 {
-    public function testParentContentTypeLimitationAllow()
+    public function testParentContentTypeLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -67,7 +66,7 @@ class ParentContentTypeLimitationTest extends BaseLimitationTestCase
         );
     }
 
-    public function testParentContentTypeLimitationForbid()
+    public function testParentContentTypeLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

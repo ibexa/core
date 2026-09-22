@@ -17,14 +17,14 @@ use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 use Ibexa\Contracts\Core\Repository\Values\User\Role;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ChangeOwnerLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(ChangeOwnerLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 final class ChangeOwnerLimitationTest extends BaseLimitationTestCase
 {
     private PermissionResolver $permissionResolver;
@@ -49,7 +49,7 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTestCase
      *     2: int[]
      * }>
      */
-    public function getDataForGrantedAccess(): array
+    public static function getDataForGrantedAccess(): array
     {
         $otherUserId1 = 123;
         $otherUserId2 = 456;
@@ -70,7 +70,7 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTestCase
      *     2: int[]
      * }>
      */
-    public function getDataForDeniedAccess(): array
+    public static function getDataForDeniedAccess(): array
     {
         $otherUserId1 = 123;
         $otherUserId2 = 456;
@@ -83,10 +83,9 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTestCase
     }
 
     /**
-     * @dataProvider getDataForGrantedAccess
-     *
      * @param int[] $limitationValues
      */
+    #[DataProvider('getDataForGrantedAccess')]
     public function testChangeOwnerLimitationAllowed(?int $ownerId, array $limitationValues): void
     {
         $currentUser = $this->createUserVersion1('current_user', null, null, 42);
@@ -98,10 +97,9 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTestCase
     }
 
     /**
-     * @dataProvider getDataForDeniedAccess
-     *
      * @param int[] $limitationValues
      */
+    #[DataProvider('getDataForDeniedAccess')]
     public function testChangeOwnerLimitationDenied(?int $ownerId, array $limitationValues): void
     {
         $currentUser = $this->createUserVersion1('current_user', null, null, 42);

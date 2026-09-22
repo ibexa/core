@@ -11,10 +11,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Section;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Handler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Section\Handler
- */
+#[CoversClass(Handler::class)]
 class SectionHandlerTest extends TestCase
 {
     /**
@@ -31,7 +30,7 @@ class SectionHandlerTest extends TestCase
      */
     protected $gatewayMock;
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getSectionHandler();
 
@@ -57,7 +56,7 @@ class SectionHandlerTest extends TestCase
         );
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $handler = $this->getSectionHandler();
 
@@ -84,7 +83,7 @@ class SectionHandlerTest extends TestCase
         );
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getSectionHandler();
 
@@ -119,7 +118,7 @@ class SectionHandlerTest extends TestCase
         );
     }
 
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $handler = $this->getSectionHandler();
 
@@ -162,7 +161,7 @@ class SectionHandlerTest extends TestCase
         );
     }
 
-    public function testLoadByIdentifier()
+    public function testLoadByIdentifier(): void
     {
         $handler = $this->getSectionHandler();
 
@@ -197,7 +196,7 @@ class SectionHandlerTest extends TestCase
         );
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $handler = $this->getSectionHandler();
 
@@ -217,7 +216,7 @@ class SectionHandlerTest extends TestCase
         $result = $handler->delete(23);
     }
 
-    public function testDeleteFailure()
+    public function testDeleteFailure(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -236,7 +235,7 @@ class SectionHandlerTest extends TestCase
         $result = $handler->delete(23);
     }
 
-    public function testAssign()
+    public function testAssign(): void
     {
         $handler = $this->getSectionHandler();
 
@@ -252,7 +251,7 @@ class SectionHandlerTest extends TestCase
         $result = $handler->assign(23, 42);
     }
 
-    public function testPoliciesCount()
+    public function testPoliciesCount(): void
     {
         $handler = $this->getSectionHandler();
 
@@ -270,7 +269,7 @@ class SectionHandlerTest extends TestCase
         $result = $handler->policiesCount(1);
     }
 
-    public function testCountRoleAssignmentsUsingSection()
+    public function testCountRoleAssignmentsUsingSection(): void
     {
         $handler = $this->getSectionHandler();
 

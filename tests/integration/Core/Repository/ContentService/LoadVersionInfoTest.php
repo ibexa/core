@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\ContentService
- */
+#[CoversClass(ContentService::class)]
 final class LoadVersionInfoTest extends RepositoryTestCase
 {
     /**
@@ -20,7 +20,7 @@ final class LoadVersionInfoTest extends RepositoryTestCase
      */
     public function testLoadVersionInfoListByContentInfo(): void
     {
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
 
         $folder1 = $this->createFolder(['eng-GB' => 'Folder1'], 2);
         $folder2 = $this->createFolder(['eng-GB' => 'Folder2'], 2);
@@ -45,8 +45,8 @@ final class LoadVersionInfoTest extends RepositoryTestCase
 
     public function testLoadVersionInfoListByContentInfoForTopLevelNode(): void
     {
-        $contentService = self::getContentService();
-        $locationService = self::getLocationService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $locationService = $this->getIbexaTestCore()->getLocationService();
 
         $location = $locationService->loadLocation(1);
 

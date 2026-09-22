@@ -9,14 +9,17 @@ namespace Ibexa\Tests\Core\Repository\Values\ObjectState;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
+use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup as CoveredObjectStateGroup;
 use Ibexa\Core\Repository\Values\ObjectState\ObjectState;
+use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Tests\Core\Repository\Values\MultiLanguageTestTrait;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState
- */
+#[CoversClass(ObjectState::class)]
+#[CoversClass(ObjectStateGroup::class)]
+#[CoversClass(CoveredObjectStateGroup::class)]
 class ObjectStateTest extends TestCase
 {
     use ValueObjectTestTrait;
@@ -25,7 +28,7 @@ class ObjectStateTest extends TestCase
     /**
      * Test a new class and default values on properties.
      */
-    public function testNewClass()
+    public function testNewClass(): void
     {
         $objectState = new ObjectState();
 
@@ -75,11 +78,8 @@ class ObjectStateTest extends TestCase
 
     /**
      * Test retrieving missing property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__get
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__get
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -91,11 +91,8 @@ class ObjectStateTest extends TestCase
 
     /**
      * Test setting read only property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__set
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__set
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -107,7 +104,7 @@ class ObjectStateTest extends TestCase
     /**
      * Test if property exists.
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $objectState = new ObjectState();
         /** @phpstan-ignore property.notFound */
@@ -120,11 +117,8 @@ class ObjectStateTest extends TestCase
 
     /**
      * Test unsetting a property.
-     *
-     * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__unset
-     * @covers \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup::__unset
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

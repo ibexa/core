@@ -751,16 +751,16 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 Gateway::CONTENT_VERSION_TABLE,
                 'v',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('c.id', 'v.contentobject_id'),
-                    $expr->eq('v.version', $version ?? 'c.current_version')
+                    $expr->eq('v.version', (string) ($version ?? 'c.current_version'))
                 )
             )
             ->innerJoin(
                 'v',
                 Gateway::CONTENT_FIELD_TABLE,
                 'a',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('v.contentobject_id', 'a.contentobject_id'),
                     $expr->eq('v.version', 'a.version')
                 )
@@ -769,7 +769,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 't',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('c.id', 't.contentobject_id'),
                     $expr->eq('t.node_id', 't.main_node_id')
                 )
@@ -941,9 +941,9 @@ final class DoctrineDatabase extends Gateway
                 'v',
                 Gateway::CONTENT_ITEM_TABLE,
                 'c',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('c.id', 'v.contentobject_id'),
-                    $expr->neq('c.status', ContentInfo::STATUS_TRASHED)
+                    $expr->neq('c.status', (string) ContentInfo::STATUS_TRASHED)
                 )
             )
             ->where(
@@ -988,7 +988,7 @@ final class DoctrineDatabase extends Gateway
             $expr->and(
                 $expr->eq('v.status', ':status'),
                 $expr->eq('v.creator_id', ':user_id'),
-                $expr->neq('c.status', ContentInfo::STATUS_TRASHED)
+                $expr->neq('c.status', (string) ContentInfo::STATUS_TRASHED)
             )
         )
         ->setFirstResult($offset)
@@ -1142,7 +1142,7 @@ final class DoctrineDatabase extends Gateway
                 'a',
                 Gateway::CONTENT_RELATION_TABLE,
                 'l',
-                $expr->and(
+                (string) $expr->and(
                     'l.from_contentobject_id = a.contentobject_id',
                     'l.from_contentobject_version = a.version',
                     'l.content_type_field_definition_id = a.content_type_field_definition_id'
@@ -1155,7 +1155,7 @@ final class DoctrineDatabase extends Gateway
                         'l.relation_type',
                         ':relation_type'
                     ),
-                    0
+                    '0'
                 )
             )
             ->setParameter('content_id', $contentId, ParameterType::INTEGER)
@@ -1478,7 +1478,7 @@ final class DoctrineDatabase extends Gateway
                 'l',
                 self::CONTENT_ITEM_TABLE,
                 'c_to',
-                $expr->and(
+                (string) $expr->and(
                     'l.to_contentobject_id = c_to.id',
                     'c_to.status = :status'
                 )
@@ -1505,7 +1505,7 @@ final class DoctrineDatabase extends Gateway
                     'c_to',
                     self::CONTENT_ITEM_TABLE,
                     'c',
-                    $expr->and(
+                    (string) $expr->and(
                         'c.id = l.from_contentobject_id',
                         'c.current_version = l.from_contentobject_version'
                     )
@@ -1521,7 +1521,7 @@ final class DoctrineDatabase extends Gateway
                             'l.relation_type',
                             ':relation_type'
                         ),
-                        0
+                        '0'
                     )
                 )
                 ->setParameter('relation_type', $relationType, ParameterType::INTEGER);
@@ -1541,7 +1541,7 @@ final class DoctrineDatabase extends Gateway
                 'l',
                 Gateway::CONTENT_ITEM_TABLE,
                 'c',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('l.from_contentobject_id', 'c.id'),
                     $expr->eq('l.from_contentobject_version', 'c.current_version'),
                     $expr->eq('c.status', ':status')
@@ -1560,9 +1560,9 @@ final class DoctrineDatabase extends Gateway
                 $expr->gt(
                     $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'l.relation_type',
-                        $relationType
+                        (string)$relationType
                     ),
-                    0
+                    '0'
                 )
             );
         }
@@ -1579,7 +1579,7 @@ final class DoctrineDatabase extends Gateway
                 'l',
                 Gateway::CONTENT_ITEM_TABLE,
                 'c',
-                $expr->and(
+                (string) $expr->and(
                     'c.id = l.from_contentobject_id',
                     'c.current_version = l.from_contentobject_version',
                     'c.status = :status'
@@ -1601,7 +1601,7 @@ final class DoctrineDatabase extends Gateway
                         'l.relation_type',
                         ':relation_type'
                     ),
-                    0
+                    '0'
                 )
             )
                 ->setParameter('relation_type', $relationType, ParameterType::INTEGER);
@@ -1623,10 +1623,10 @@ final class DoctrineDatabase extends Gateway
                 'l',
                 Gateway::CONTENT_ITEM_TABLE,
                 'c',
-                $expr->and(
+                (string) $expr->and(
                     $expr->eq('l.from_contentobject_id', 'c.id'),
                     $expr->eq('l.from_contentobject_version', 'c.current_version'),
-                    $expr->eq('c.status', ContentInfo::STATUS_PUBLISHED)
+                    $expr->eq('c.status', (string) ContentInfo::STATUS_PUBLISHED)
                 )
             )
             ->where(
@@ -1640,9 +1640,9 @@ final class DoctrineDatabase extends Gateway
                 $expr->gt(
                     $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'l.relation_type',
-                        $relationType
+                        (string)$relationType
                     ),
-                    0
+                    '0'
                 )
             );
         }
@@ -1999,7 +1999,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('contentId', $contentId)
         ;
 
-        $rowCount = $query->executeQuery();
+        $rowCount = $query->executeStatement();
 
         // no rows updated means that most likely somehow it was the last remaining translation
         if ($rowCount === 0) {

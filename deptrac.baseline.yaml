@@ -1,0 +1,91 @@
+deptrac:
+  skip_violations:
+    Ibexa\Contracts\Core\Event\View\PostBuildViewEvent:
+      - Ibexa\Core\MVC\Symfony\View\View
+    Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber:
+      - Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent
+    Ibexa\Contracts\Core\MVC\Templating\BaseRenderStrategy:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+      - Ibexa\Core\MVC\Symfony\SiteAccess
+      - Ibexa\Core\MVC\Symfony\Templating\RenderOptions
+    Ibexa\Contracts\Core\MVC\Templating\RenderStrategy:
+      - Ibexa\Core\MVC\Symfony\Templating\RenderOptions
+    Ibexa\Contracts\Core\MVC\View\VariableProvider:
+      - Ibexa\Core\MVC\Symfony\View\View
+    Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface:
+      - Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface
+    Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface:
+      - Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor
+    Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder:
+      - Ibexa\Core\Base\Exceptions\DatabaseException
+      - Ibexa\Core\Persistence\Legacy\Content\Gateway
+      - Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+      - Ibexa\Core\Repository\Values\Content\VersionInfo
+    Ibexa\Contracts\Core\Persistence\Handler:
+      - Ibexa\Core\Persistence\Legacy\URL\Handler
+    Ibexa\Contracts\Core\Pool\Pool:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\Content:
+      - Ibexa\Core\FieldType\Value
+    Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Location\SubtreeTermAggregation:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\AbstractImageCompositeCriterion:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\AbstractImageRangeCriterion:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\Dimensions:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\FileSize:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\Height:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\Orientation:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+      - Ibexa\Core\FieldType\Image\Orientation
+    Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\Width:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion\SourceUrl:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\SortClause:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\SortClause\DestinationUrl:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\SortClause\Id:
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\Filter\Filter:
+      - Ibexa\Core\Base\Exceptions\BadStateException
+      - Ibexa\Core\Base\Exceptions\InvalidArgumentException
+    Ibexa\Contracts\Core\Repository\Values\User\User:
+      - Ibexa\Core\FieldType\Value
+    Ibexa\Contracts\Core\Repository\Values\User\UserGroup:
+      - Ibexa\Core\FieldType\Value
+    Ibexa\Contracts\Core\Test\IbexaKernelTestCase:
+      - Ibexa\Core\Repository\Values\User\UserReference
+      - Ibexa\Tests\Core\Repository\LegacySchemaImporter
+    Ibexa\Contracts\Core\Test\IbexaKernelTestTrait:
+      - Ibexa\Core\Repository\Values\User\UserReference
+      - Ibexa\Tests\Core\Repository\LegacySchemaImporter
+    Ibexa\Contracts\Core\Test\IbexaTestKernel:
+      - Ibexa\Bundle\Core\IbexaCoreBundle
+      - Ibexa\Bundle\LegacySearchEngine\IbexaLegacySearchEngineBundle
+      - Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapter
+      - Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapterInterface
+    Ibexa\Contracts\Core\Test\Repository\SetupFactory:
+      - Ibexa\Core\Base\ServiceContainer
+      - Ibexa\Tests\Integration\Core\Repository\IdManager
+    Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy:
+      - Ibexa\Bundle\Core\DependencyInjection\ServiceTags
+      - Ibexa\Core\Base\Container\Compiler\Search\FieldRegistryPass
+      - Ibexa\Core\Base\ServiceContainer
+      - Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
+      - Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler
+      - Ibexa\Core\Persistence\Legacy\Handler
+      - Ibexa\Core\Repository\Values\User\UserReference
+      - Ibexa\Tests\Core\Repository\IdManager\Php
+      - Ibexa\Tests\Core\Repository\LegacySchemaImporter
+      - Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder
+      - Ibexa\Tests\Integration\Core\Repository\IdManager

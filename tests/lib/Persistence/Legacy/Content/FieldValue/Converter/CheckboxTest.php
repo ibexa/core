@@ -12,11 +12,11 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition as Persistence
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter
- */
+#[CoversClass(CheckboxConverter::class)]
 class CheckboxTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter */
@@ -28,11 +28,9 @@ class CheckboxTest extends TestCase
         $this->converter = new CheckboxConverter();
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_boolean
-     */
-    public function testToStorageValue()
+    #[Group('fieldType')]
+    #[Group('ibexa_boolean')]
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = true;
@@ -45,11 +43,9 @@ class CheckboxTest extends TestCase
         self::assertSame('', $storageFieldValue->sortKeyString);
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_boolean
-     */
-    public function testToFieldValue()
+    #[Group('fieldType')]
+    #[Group('ibexa_boolean')]
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataInt = 1;
@@ -62,11 +58,9 @@ class CheckboxTest extends TestCase
         self::assertSame($storageFieldValue->sortKeyInt, $fieldValue->sortKey);
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_boolean
-     */
-    public function testToStorageFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('ibexa_boolean')]
+    public function testToStorageFieldDefinition(): void
     {
         $defaultBool = false;
         $storageFieldDef = new StorageFieldDefinition();
@@ -85,11 +79,9 @@ class CheckboxTest extends TestCase
         );
     }
 
-    /**
-     * @group fieldType
-     * @group ibexa_boolean
-     */
-    public function testToFieldDefinition()
+    #[Group('fieldType')]
+    #[Group('ibexa_boolean')]
+    public function testToFieldDefinition(): void
     {
         $defaultBool = true;
         $fieldDef = new PersistenceFieldDefinition();

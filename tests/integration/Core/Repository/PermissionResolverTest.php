@@ -19,24 +19,26 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupPolicyLimitations;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Values\User\UserReference;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  *  Test case for operations in the PermissionResolver.
- *
- * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver
- *
- * @group integration
- * @group permission
  */
+#[CoversClass(PermissionResolver::class)]
+#[Group('integration')]
+#[Group('permission')]
 class PermissionResolverTest extends BaseTestCase
 {
     /**
      * Test for the getCurrentUserReference() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::getCurrentUserReference()
      */
-    public function testGetCurrentUserReferenceReturnsAnonymousUserReference()
+    public function testGetCurrentUserReferenceReturnsAnonymousUserReference(): void
     {
         $repository = $this->getRepository();
         $anonymousUserId = $this->generateId('user', 10);
@@ -61,12 +63,9 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the setCurrentUserReference() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::setCurrentUserReference()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      */
-    public function testSetCurrentUserReference()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    public function testSetCurrentUserReference(): void
     {
         $repository = $this->getRepository();
         $repository->getPermissionResolver()->setCurrentUserReference(
@@ -104,12 +103,9 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      */
-    public function testHasAccessWithAnonymousUserNo()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    public function testHasAccessWithAnonymousUserNo(): void
     {
         $repository = $this->getRepository();
 
@@ -135,13 +131,10 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends testHasAccessWithAnonymousUserNo
      */
-    public function testHasAccessForCurrentUserNo()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[Depends('testHasAccessWithAnonymousUserNo')]
+    public function testHasAccessForCurrentUserNo(): void
     {
         $repository = $this->getRepository();
 
@@ -170,12 +163,9 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      */
-    public function testHasAccessWithAdministratorUser()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    public function testHasAccessWithAdministratorUser(): void
     {
         $repository = $this->getRepository();
 
@@ -199,14 +189,11 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends testSetCurrentUserReference
-     * @depends testHasAccessWithAdministratorUser
      */
-    public function testHasAccessForCurrentUserYes()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[Depends('testSetCurrentUserReference')]
+    #[Depends('testHasAccessWithAdministratorUser')]
+    public function testHasAccessForCurrentUserYes(): void
     {
         $repository = $this->getRepository();
 
@@ -233,13 +220,10 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the hasAccess() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends testSetCurrentUserReference
      */
-    public function testHasAccessLimited()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[Depends('testSetCurrentUserReference')]
+    public function testHasAccessLimited(): void
     {
         $repository = $this->getRepository();
 
@@ -264,14 +248,11 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends testHasAccessForCurrentUserNo
      */
-    public function testCanUserForAnonymousUserNo()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[Depends('testHasAccessForCurrentUserNo')]
+    public function testCanUserForAnonymousUserNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -311,14 +292,11 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends testHasAccessForCurrentUserYes
      */
-    public function testCanUserForAdministratorUser()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[Depends('testHasAccessForCurrentUserYes')]
+    public function testCanUserForAdministratorUser(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -357,14 +335,11 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends testHasAccessLimited
      */
-    public function testCanUserWithLimitationYes()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[Depends('testHasAccessLimited')]
+    public function testCanUserWithLimitationYes(): void
     {
         $repository = $this->getRepository();
 
@@ -394,14 +369,11 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends testHasAccessLimited
      */
-    public function testCanUserWithLimitationNo()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[Depends('testHasAccessLimited')]
+    public function testCanUserWithLimitationNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -439,15 +411,12 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
-     * @depends testSetCurrentUserReference
-     * @depends testHasAccessLimited
      */
-    public function testCanUserThrowsInvalidArgumentException()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
+    #[Depends('testSetCurrentUserReference')]
+    #[Depends('testHasAccessLimited')]
+    public function testCanUserThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -479,15 +448,12 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
-     * @depends testHasAccessLimited
      */
-    public function testCanUserWithTargetYes()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
+    #[Depends('testHasAccessLimited')]
+    public function testCanUserWithTargetYes(): void
     {
         $repository = $this->getRepository();
 
@@ -541,15 +507,12 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
-     * @depends testHasAccessLimited
      */
-    public function testCanUserWithTargetNo()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
+    #[Depends('testHasAccessLimited')]
+    public function testCanUserWithTargetNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -602,15 +565,12 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
-     * @depends testHasAccessLimited
      */
-    public function testCanUserWithMultipleTargetsYes()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
+    #[Depends('testHasAccessLimited')]
+    public function testCanUserWithMultipleTargetsYes(): void
     {
         $repository = $this->getRepository();
 
@@ -665,15 +625,12 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
-     * @depends testHasAccessLimited
      */
-    public function testCanUserWithMultipleTargetsNo()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
+    #[Depends('testHasAccessLimited')]
+    public function testCanUserWithMultipleTargetsNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -727,17 +684,14 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetURLAliasService
-     * @depends testSetCurrentUserReference
-     * @depends testHasAccessLimited
      */
-    public function testCanUserWithTargetThrowsInvalidArgumentException()
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentTypeService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetURLAliasService')]
+    #[Depends('testSetCurrentUserReference')]
+    #[Depends('testHasAccessLimited')]
+    public function testCanUserWithTargetThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -777,10 +731,8 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the canUser() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
      */
-    public function testCanUserThrowsBadStateException()
+    public function testCanUserThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -792,9 +744,7 @@ class PermissionResolverTest extends BaseTestCase
     /**
      * Test PermissionResolver::canUser for Users with different Limitations.
      *
-     * @covers       \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser
      *
-     * @dataProvider getDataForTestCanUserWithLimitations
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
      * @param string $module
@@ -806,6 +756,7 @@ class PermissionResolverTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[DataProvider('getDataForTestCanUserWithLimitations')]
     public function testCanUserWithLimitations(
         Limitation $limitation,
         $module,
@@ -813,7 +764,7 @@ class PermissionResolverTest extends BaseTestCase
         ValueObject $object,
         array $targets,
         $expectedResult
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $roleService = $repository->getRoleService();
@@ -847,9 +798,9 @@ class PermissionResolverTest extends BaseTestCase
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function getDataForTestCanUserWithLimitations()
+    public static function getDataForTestCanUserWithLimitations(): array
     {
-        $repository = $this->getRepository();
+        $repository = static::resolveRepository();
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
 
@@ -897,13 +848,10 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the lookupLimitations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::lookupLimitations()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends Ibexa\Tests\Integration\Core\Repository\PermissionResolverTest::testHasAccessForCurrentUserNo
      */
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[DependsExternal(self::class, 'testHasAccessForCurrentUserNo')]
     public function testLookupLimitationsForAnonymousUserHasNoAccess(): void
     {
         $repository = $this->getRepository();
@@ -942,13 +890,10 @@ class PermissionResolverTest extends BaseTestCase
 
     /**
      * Test for the lookupLimitations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::lookupLimitations()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends Ibexa\Tests\Integration\Core\Repository\PermissionResolverTest::testHasAccessForCurrentUserYes
      */
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[DependsExternal(self::class, 'testHasAccessForCurrentUserYes')]
     public function testLookupLimitationsForAdministratorUser(): void
     {
         $repository = $this->getRepository();
@@ -985,11 +930,7 @@ class PermissionResolverTest extends BaseTestCase
     /**
      * When one of policy pass then all limitation should be returned.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::lookupLimitations()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends Ibexa\Tests\Integration\Core\Repository\PermissionResolverTest::testHasAccessForCurrentUserYes
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
@@ -997,6 +938,9 @@ class PermissionResolverTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[DependsExternal(self::class, 'testHasAccessForCurrentUserYes')]
     public function testLookupLimitationsWithLimitations(): void
     {
         $repository = $this->getRepository();
@@ -1047,11 +991,7 @@ class PermissionResolverTest extends BaseTestCase
     /**
      * When one of policy pass then only filtered limitation should be returned.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::lookupLimitations()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
-     * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
-     * @depends Ibexa\Tests\Integration\Core\Repository\PermissionResolverTest::testHasAccessForCurrentUserYes
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
@@ -1059,6 +999,9 @@ class PermissionResolverTest extends BaseTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
+    #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
+    #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
+    #[DependsExternal(self::class, 'testHasAccessForCurrentUserYes')]
     public function testLookupLimitationsWithFilteredLimitations(): void
     {
         $repository = $this->getRepository();

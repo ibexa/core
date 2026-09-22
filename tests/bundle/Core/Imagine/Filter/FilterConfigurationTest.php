@@ -27,7 +27,7 @@ class FilterConfigurationTest extends TestCase
         $this->filterConfiguration->setConfigResolver($this->configResolver);
     }
 
-    public function testGetOnlyImagineFilters()
+    public function testGetOnlyImagineFilters(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -44,7 +44,7 @@ class FilterConfigurationTest extends TestCase
         self::assertSame($barConfig, $this->filterConfiguration->get('bar'));
     }
 
-    public function testGetNoEzVariationInvalidImagineFilter()
+    public function testGetNoEzVariationInvalidImagineFilter(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -90,7 +90,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationNoReference()
+    public function testGetEzVariationNoReference(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -119,7 +119,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationWithReference()
+    public function testGetEzVariationWithReference(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -149,7 +149,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationImagineFilters()
+    public function testGetEzVariationImagineFilters(): void
     {
         $filters = ['some_filter' => []];
         $imagineConfig = ['filters' => $filters];
@@ -177,7 +177,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationImagineOptions()
+    public function testGetEzVariationImagineOptions(): void
     {
         $imagineConfig = [
             'foo_option' => 'foo',
@@ -210,7 +210,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testAll()
+    public function testAll(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];

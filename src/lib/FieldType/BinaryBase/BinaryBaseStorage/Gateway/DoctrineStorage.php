@@ -14,7 +14,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
-use PDO;
 
 /**
  * Base class for binary files external storage DoctrineStorage gateways.
@@ -98,11 +97,11 @@ abstract class DoctrineStorage extends Gateway
             ->setValue('mime_type', ':mimeType')
             ->setValue('original_filename', ':originalFilename')
             ->setValue('version', ':versionNo')
-            ->setParameter('fieldId', $field->id, PDO::PARAM_INT)
+            ->setParameter('fieldId', $field->id, ParameterType::INTEGER)
             ->setParameter('filename', $this->removeMimeFromPath($field->value->externalData['id']))
             ->setParameter('mimeType', $field->value->externalData['mimeType'])
             ->setParameter('originalFilename', $field->value->externalData['fileName'])
-            ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setParameter('versionNo', $versionInfo->versionNo, ParameterType::INTEGER)
         ;
     }
 
@@ -238,8 +237,8 @@ abstract class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
+            ->setParameter('versionNo', $versionNo, ParameterType::INTEGER)
         ;
 
         $statement = $selectQuery->executeQuery();
@@ -335,7 +334,7 @@ abstract class DoctrineStorage extends Gateway
                 )
             )
             ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
-            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('versionNo', $versionNo, ParameterType::INTEGER)
         ;
 
         $deleteQuery->executeStatement();
@@ -364,8 +363,8 @@ abstract class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
+            ->setParameter('versionNo', $versionNo, ParameterType::INTEGER)
         ;
 
         $deleteQuery->executeStatement();
@@ -404,7 +403,7 @@ abstract class DoctrineStorage extends Gateway
                 )
             )
             ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
-            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('versionNo', $versionNo, ParameterType::INTEGER)
         ;
 
         $statement = $selectQuery->executeQuery();

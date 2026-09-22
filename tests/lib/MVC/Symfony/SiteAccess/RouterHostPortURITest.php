@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 
 class RouterHostPortURITest extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'fifth_sa'],
@@ -83,7 +83,7 @@ class RouterHostPortURITest extends RouterBaseTestCase
         ];
     }
 
-    public function testSetGetRequestMapHost()
+    public function testSetGetRequestMapHost(): void
     {
         $mapKey = 'phoenix-rises.fm';
         $request = new SimplifiedRequest('http', $mapKey);
@@ -93,14 +93,14 @@ class RouterHostPortURITest extends RouterBaseTestCase
         self::assertSame($mapKey, $matcher->getMapKey());
     }
 
-    public function testReverseHostMatchFail()
+    public function testReverseHostMatchFail(): void
     {
         $config = ['foo' => 'bar'];
         $matcher = new Host($config);
         self::assertNull($matcher->reverseMatch('non_existent'));
     }
 
-    public function testReverseMatchHost()
+    public function testReverseMatchHost(): void
     {
         $config = [
             'ibexa.co' => 'some_siteaccess',
@@ -119,7 +119,7 @@ class RouterHostPortURITest extends RouterBaseTestCase
         self::assertSame('phoenix-rises.fm', $result->getRequest()->getHost());
     }
 
-    public function testSetGetRequestMapPort()
+    public function testSetGetRequestMapPort(): void
     {
         $mapKey = 8000;
         $request = new SimplifiedRequest('http', '', $mapKey);
@@ -129,14 +129,14 @@ class RouterHostPortURITest extends RouterBaseTestCase
         self::assertSame((string)$mapKey, $matcher->getMapKey());
     }
 
-    public function testReversePortMatchFail()
+    public function testReversePortMatchFail(): void
     {
         $config = ['foo' => 8080];
         $matcher = new Port($config);
         self::assertNull($matcher->reverseMatch('non_existent'));
     }
 
-    public function testReverseMatchPort()
+    public function testReverseMatchPort(): void
     {
         $config = [
             '80' => 'some_siteaccess',
@@ -160,7 +160,7 @@ class RouterHostPortURITest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            self::createStub(LoggerInterface::class),
             'default_sa',
             [
                 'Map\\Host' => [

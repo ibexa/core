@@ -11,11 +11,10 @@ namespace Ibexa\Tests\Core\Search\Common\FieldValueMapper;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\StringField;
 use Ibexa\Core\Search\Common\FieldValueMapper\StringMapper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Search\Common\FieldValueMapper\StringMapper
- */
+#[CoversClass(StringMapper::class)]
 final class StringMapperTest extends TestCase
 {
     private StringMapper $mapper;

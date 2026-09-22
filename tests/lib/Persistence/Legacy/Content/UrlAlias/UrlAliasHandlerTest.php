@@ -30,26 +30,26 @@ use Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler;
 use Ibexa\Core\Persistence\Utf8Converter;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
- *
- * @group urlalias-handler
- */
+#[CoversClass(Handler::class)]
+#[Group('urlalias-handler')]
 class UrlAliasHandlerTest extends TestCase
 {
     /**
      * Test for the lookup() method.
      *
      * Simple lookup case.
-     *
-     * @group location
-     * @group virtual
-     * @group resource
-     * @group case-correction
-     * @group multiple-languages
      */
-    public function testLookup()
+    #[Group('location')]
+    #[Group('virtual')]
+    #[Group('resource')]
+    #[Group('case-correction')]
+    #[Group('multiple-languages')]
+    public function testLookup(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location.php');
@@ -62,13 +62,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Trying to lookup non existent URL alias throws NotFoundException.
-     *
-     *
-     * @group location
-     * @group virtual
-     * @group resource
      */
-    public function testLookupThrowsNotFoundException()
+    #[Group('location')]
+    #[Group('virtual')]
+    #[Group('resource')]
+    public function testLookupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -80,11 +78,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Trying to lookup URL alias with exceeded path segments limit
-     *
-     * @group location
-     * @group case-correction
      */
-    public function testLookupThrowsInvalidArgumentException()
+    #[Group('location')]
+    #[Group('case-correction')]
+    public function testLookupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -92,7 +89,10 @@ class UrlAliasHandlerTest extends TestCase
         $handler->lookup(str_repeat('/1', 99));
     }
 
-    public function providerForTestLookupLocationUrlAlias()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestLookupLocationUrlAlias(): array
     {
         return [
             [
@@ -341,13 +341,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupLocationUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group location
      */
+    #[Depends('testLookup')]
+    #[Group('location')]
+    #[DataProvider('providerForTestLookupLocationUrlAlias')]
     public function testLookupLocationUrlAlias(
         $url,
         array $pathData,
@@ -355,7 +352,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $locationId,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location.php');
 
@@ -392,15 +389,15 @@ class UrlAliasHandlerTest extends TestCase
      * to is available in it.
      *
      *
-     * @dataProvider providerForTestLookupLocationUrlAlias
      *
-     * @depends testLookup
      *
-     * @group case-correction
-     * @group location
      *
      * @todo refactor, only forward pertinent
      */
+    #[Depends('testLookup')]
+    #[Group('case-correction')]
+    #[Group('location')]
+    #[DataProvider('providerForTestLookupLocationUrlAlias')]
     public function testLookupLocationCaseCorrection(
         $url,
         array $pathData,
@@ -408,7 +405,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $locationId,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location.php');
 
@@ -433,7 +430,10 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    public function providerForTestLookupLocationMultipleLanguages()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestLookupLocationMultipleLanguages(): array
     {
         return [
             [
@@ -521,14 +521,11 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the lookup() method.
-     *
-     * @dataProvider providerForTestLookupLocationMultipleLanguages
-     *
-     * @depends testLookup
-     *
-     * @group multiple-languages
-     * @group location
      */
+    #[Depends('testLookup')]
+    #[Group('multiple-languages')]
+    #[Group('location')]
+    #[DataProvider('providerForTestLookupLocationMultipleLanguages')]
     public function testLookupLocationMultipleLanguages(
         $url,
         array $pathData,
@@ -536,7 +533,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $locationId,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_multilang.php');
 
@@ -565,13 +562,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * @todo document
-     *
-     * @depends testLookup
-     *
-     * @group history
-     * @group location
      */
-    public function testLookupLocationHistoryUrlAlias()
+    #[Depends('testLookup')]
+    #[Group('history')]
+    #[Group('location')]
+    public function testLookupLocationHistoryUrlAlias(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location.php');
@@ -584,7 +579,10 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    public function providerForTestLookupCustomLocationUrlAlias()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestLookupCustomLocationUrlAlias(): array
     {
         return [
             [
@@ -704,14 +702,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupCustomLocationUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group location
-     * @group custom
      */
+    #[Depends('testLookup')]
+    #[Group('location')]
+    #[Group('custom')]
+    #[DataProvider('providerForTestLookupCustomLocationUrlAlias')]
     public function testLookupCustomLocationUrlAlias(
         $url,
         array $pathData,
@@ -720,7 +715,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $destination,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
 
@@ -748,14 +743,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupCustomLocationUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group location
-     * @group custom
      */
+    #[Depends('testLookup')]
+    #[Group('location')]
+    #[Group('custom')]
+    #[DataProvider('providerForTestLookupCustomLocationUrlAlias')]
     public function testLookupCustomLocationUrlAliasCaseCorrection(
         $url,
         array $pathData,
@@ -764,7 +756,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $destination,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
 
@@ -789,7 +781,10 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    public function providerForTestLookupVirtualUrlAlias()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestLookupVirtualUrlAlias(): array
     {
         return [
             [
@@ -807,14 +802,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that NOP action redirects to site root.
-     *
-     * @dataProvider providerForTestLookupVirtualUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group virtual
      */
-    public function testLookupVirtualUrlAlias($url, $id)
+    #[Depends('testLookup')]
+    #[Group('virtual')]
+    #[DataProvider('providerForTestLookupVirtualUrlAlias')]
+    public function testLookupVirtualUrlAlias($url, $id): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
@@ -824,7 +816,10 @@ class UrlAliasHandlerTest extends TestCase
         $this->assertVirtualUrlAliasValid($urlAlias, $id);
     }
 
-    public function providerForTestLookupResourceUrlAlias()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestLookupResourceUrlAlias(): array
     {
         return [
             [
@@ -878,13 +873,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupResourceUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group resource
      */
+    #[Depends('testLookup')]
+    #[Group('resource')]
+    #[DataProvider('providerForTestLookupResourceUrlAlias')]
     public function testLookupResourceUrlAlias(
         $url,
         $pathData,
@@ -893,7 +885,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $destination,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_resource.php');
 
@@ -922,13 +914,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * Testing that UrlAlias is found and has expected state.
-     *
-     * @dataProvider providerForTestLookupResourceUrlAlias
-     *
-     * @depends testLookup
-     *
-     * @group resource
      */
+    #[Depends('testLookup')]
+    #[Group('resource')]
+    #[DataProvider('providerForTestLookupResourceUrlAlias')]
     public function testLookupResourceUrlAliasCaseInsensitive(
         $url,
         $pathData,
@@ -937,7 +926,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $destination,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_resource.php');
 
@@ -964,11 +953,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the lookup() method with uppercase utf8 characters.
-     *
-     *
-     * @depends testLookup
      */
-    public function testLookupUppercaseIri()
+    #[Depends('testLookup')]
+    public function testLookupUppercaseIri(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_iri.php');
@@ -987,7 +974,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the listURLAliasesForLocation() method.
      */
-    public function testListURLAliasesForLocation()
+    public function testListURLAliasesForLocation(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location.php');
@@ -1055,12 +1042,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testLookupLocationUrlAlias
-     *
-     * @group publish
      */
-    public function testPublishUrlAliasForLocation()
+    #[Depends('testLookupLocationUrlAlias')]
+    #[Group('publish')]
+    public function testPublishUrlAliasForLocation(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -1099,12 +1084,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
-    public function testPublishUrlAliasForLocationRepublish()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
+    public function testPublishUrlAliasForLocationRepublish(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -1125,12 +1108,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
-    public function testPublishUrlAliasCreatesUniqueAlias()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
+    public function testPublishUrlAliasCreatesUniqueAlias(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -1168,22 +1149,19 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * @return array
      */
-    public function providerForTestPublishUrlAliasForLocationComplex()
+    public static function providerForTestPublishUrlAliasForLocationComplex(): array
     {
-        return $this->providerForTestLookupLocationUrlAlias();
+        return self::providerForTestLookupLocationUrlAlias();
     }
 
     /**
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @dataProvider providerForTestPublishUrlAliasForLocationComplex
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
+    #[DataProvider('providerForTestPublishUrlAliasForLocationComplex')]
     public function testPublishUrlAliasForLocationComplex(
         $url,
         $pathData,
@@ -1191,7 +1169,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $locationId,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
 
@@ -1227,12 +1205,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
-    public function testPublishUrlAliasForLocationSameAliasForMultipleLanguages()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
+    public function testPublishUrlAliasForLocationSameAliasForMultipleLanguages(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -1276,12 +1252,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
-    public function testPublishUrlAliasForLocationDowngradesOldEntryToHistory()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
+    public function testPublishUrlAliasForLocationDowngradesOldEntryToHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -1348,14 +1322,12 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationSameAliasForMultipleLanguages
-     *
-     * @group publish
-     * @group downgrade
      */
-    public function testPublishUrlAliasForLocationDowngradesOldEntryRemovesLanguage()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationSameAliasForMultipleLanguages')]
+    #[Group('publish')]
+    #[Group('downgrade')]
+    public function testPublishUrlAliasForLocationDowngradesOldEntryRemovesLanguage(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -1423,13 +1395,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationDowngradesOldEntryToHistory
-     *
-     * @group publish
      */
-    public function testPublishUrlAliasForLocationReusesHistory()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationDowngradesOldEntryToHistory')]
+    #[Group('publish')]
+    public function testPublishUrlAliasForLocationReusesHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -1456,13 +1426,11 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationDowngradesOldEntryToHistory
-     *
-     * @group publish
      */
-    public function testPublishUrlAliasForLocationReusesHistoryOfDifferentLanguage()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationDowngradesOldEntryToHistory')]
+    #[Group('publish')]
+    public function testPublishUrlAliasForLocationReusesHistoryOfDifferentLanguage(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -1509,12 +1477,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     *
-     * @group publish
      */
-    public function testPublishUrlAliasForLocationReusesCustomAlias()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Group('publish')]
+    public function testPublishUrlAliasForLocationReusesCustomAlias(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_reusing.php');
@@ -1534,10 +1500,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
      */
-    public function testPublishUrlAliasForLocationReusingNopElement()
+    #[Depends('testPublishUrlAliasForLocation')]
+    public function testPublishUrlAliasForLocationReusingNopElement(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_reusing.php');
@@ -1604,11 +1569,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationReusingNopElement
      */
-    public function testPublishUrlAliasForLocationReusingNopElementChangesCustomPath()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationReusingNopElement')]
+    public function testPublishUrlAliasForLocationReusingNopElementChangesCustomPath(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_reusing.php');
@@ -1652,11 +1616,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
-     * @depends testPublishUrlAliasForLocation
-     * @depends testPublishUrlAliasForLocationReusingNopElementChangesCustomPath
      */
-    public function testPublishUrlAliasForLocationReusingNopElementChangesCustomPathAndCreatesHistory()
+    #[Depends('testPublishUrlAliasForLocation')]
+    #[Depends('testPublishUrlAliasForLocationReusingNopElementChangesCustomPath')]
+    public function testPublishUrlAliasForLocationReusingNopElementChangesCustomPathAndCreatesHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_reusing.php');
@@ -1678,7 +1641,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the publishUrlAliasForLocation() method.
      */
-    public function testPublishUrlAliasForLocationUpdatesLocationPathIdentificationString()
+    public function testPublishUrlAliasForLocationUpdatesLocationPathIdentificationString(): void
     {
         $handler = $this->getHandler();
         $locationGateway = $this->getLocationGateway();
@@ -1694,10 +1657,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the publishUrlAliasForLocation() method.
-     *
-     * @group cleanup
      */
-    public function testPublishUrlAliasReuseNopCleanupCustomAliasIsDestroyed()
+    #[Group('cleanup')]
+    public function testPublishUrlAliasReuseNopCleanupCustomAliasIsDestroyed(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_cleanup_nop.php');
@@ -1768,10 +1730,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the publishUrlAliasForLocation() method.
-     *
-     * @group cleanup
      */
-    public function testPublishUrlAliasReuseHistoryCleanup()
+    #[Group('cleanup')]
+    public function testPublishUrlAliasReuseHistoryCleanup(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_cleanup_history.php');
@@ -1832,10 +1793,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the publishUrlAliasForLocation() method.
-     *
-     * @group cleanup
      */
-    public function testPublishUrlAliasReuseAutogeneratedCleanup()
+    #[Group('cleanup')]
+    public function testPublishUrlAliasReuseAutogeneratedCleanup(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_cleanup_reusing.php');
@@ -1897,12 +1857,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createCustomUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
-    public function testCreateCustomUrlAliasBehaviour()
+    #[Group('create')]
+    #[Group('custom')]
+    public function testCreateCustomUrlAliasBehaviour(): void
     {
         $handlerMock = $this->getPartlyMockedHandler(['createUrlAlias']);
 
@@ -1930,12 +1888,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createGlobalUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group global
      */
-    public function testCreateGlobalUrlAliasBehaviour()
+    #[Group('create')]
+    #[Group('global')]
+    public function testCreateGlobalUrlAliasBehaviour(): void
     {
         $handlerMock = $this->getPartlyMockedHandler(['createUrlAlias']);
 
@@ -1963,12 +1919,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
-    public function testCreateCustomUrlAlias()
+    #[Group('create')]
+    #[Group('custom')]
+    public function testCreateCustomUrlAlias(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -2010,12 +1964,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
-    public function testCreateCustomUrlAliasWithNonameParts()
+    #[Group('create')]
+    #[Group('custom')]
+    public function testCreateCustomUrlAliasWithNonameParts(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -2084,12 +2036,12 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the createUrlAlias() method.
      *
      *
-     * @group create
-     * @group custom
      *
      * @todo pathData
      */
-    public function testCreatedCustomUrlAliasIsLoadable()
+    #[Group('create')]
+    #[Group('custom')]
+    public function testCreatedCustomUrlAliasIsLoadable(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -2128,11 +2080,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasWithNopElement(): void
     {
         $handler = $this->getHandler();
@@ -2190,12 +2140,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
-    public function testCreateCustomUrlAliasReusesHistory()
+    #[Group('create')]
+    #[Group('custom')]
+    public function testCreateCustomUrlAliasReusesHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_reusing.php');
@@ -2236,10 +2184,8 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @group create
-     * @group custom
-     */
+    #[Group('create')]
+    #[Group('custom')]
     public function testCreateCustomUrlAliasAddLanguage(): void
     {
         $handler = $this->getHandler();
@@ -2289,12 +2235,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
-    public function testCreateCustomUrlAliasReusesHistoryOfDifferentLanguage()
+    #[Group('create')]
+    #[Group('custom')]
+    public function testCreateCustomUrlAliasReusesHistoryOfDifferentLanguage(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_reusing.php');
@@ -2337,12 +2281,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
-    public function testCreateCustomUrlAliasReusesNopElement()
+    #[Group('create')]
+    #[Group('custom')]
+    public function testCreateCustomUrlAliasReusesNopElement(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_reusing.php');
@@ -2391,12 +2333,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the createUrlAlias() method.
-     *
-     *
-     * @group create
-     * @group custom
      */
-    public function testCreateCustomUrlAliasReusesLocationElement()
+    #[Group('create')]
+    #[Group('custom')]
+    public function testCreateCustomUrlAliasReusesLocationElement(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_reusing.php');
@@ -2425,11 +2365,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the listGlobalURLAliases() method.
-     *
-     *
-     * @depends testLookupResourceUrlAlias
      */
-    public function testListGlobalURLAliases()
+    #[Depends('testLookupResourceUrlAlias')]
+    public function testListGlobalURLAliases(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_resource.php');
@@ -2448,11 +2386,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the listGlobalURLAliases() method.
-     *
-     *
-     * @depends testLookupResourceUrlAlias
      */
-    public function testListGlobalURLAliasesWithLanguageCode()
+    #[Depends('testLookupResourceUrlAlias')]
+    public function testListGlobalURLAliasesWithLanguageCode(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_resource.php');
@@ -2470,11 +2406,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the listGlobalURLAliases() method.
-     *
-     *
-     * @depends testLookupResourceUrlAlias
      */
-    public function testListGlobalURLAliasesWithOffset()
+    #[Depends('testLookupResourceUrlAlias')]
+    public function testListGlobalURLAliasesWithOffset(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_resource.php');
@@ -2491,11 +2425,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the listGlobalURLAliases() method.
-     *
-     *
-     * @depends testLookupResourceUrlAlias
      */
-    public function testListGlobalURLAliasesWithOffsetAndLimit()
+    #[Depends('testLookupResourceUrlAlias')]
+    public function testListGlobalURLAliasesWithOffsetAndLimit(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_resource.php');
@@ -2513,7 +2445,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationDeleted() method.
      */
-    public function testLocationDeleted()
+    public function testLocationDeleted(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_delete.php');
@@ -2566,7 +2498,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationMoved() method.
      */
-    public function testLocationMovedHistorize()
+    public function testLocationMovedHistorize(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_move.php');
@@ -2601,7 +2533,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationMoved() method.
      */
-    public function testLocationMovedHistory()
+    public function testLocationMovedHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_move.php');
@@ -2636,7 +2568,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationMoved() method.
      */
-    public function testLocationMovedHistorySubtree()
+    public function testLocationMovedHistorySubtree(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_move.php');
@@ -2679,7 +2611,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationMoved() method.
      */
-    public function testLocationMovedReparent()
+    public function testLocationMovedReparent(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_move.php');
@@ -2722,7 +2654,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationMoved() method.
      */
-    public function testLocationMovedReparentHistory()
+    public function testLocationMovedReparentHistory(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -2738,7 +2670,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationMoved() method.
      */
-    public function testLocationMovedReparentSubtree()
+    public function testLocationMovedReparentSubtree(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_move.php');
@@ -2785,7 +2717,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationMoved() method.
      */
-    public function testLocationMovedReparentSubtreeHistory()
+    public function testLocationMovedReparentSubtreeHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_move.php');
@@ -2899,7 +2831,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationCopied() method.
      */
-    public function testLocationCopiedCopiedLocationAliasIsValid()
+    public function testLocationCopiedCopiedLocationAliasIsValid(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_copy.php');
@@ -2917,7 +2849,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationCopied() method.
      */
-    public function testLocationCopiedCopiedSubtreeIsValid()
+    public function testLocationCopiedCopiedSubtreeIsValid(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_copy.php');
@@ -2935,7 +2867,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationCopied() method.
      */
-    public function testLocationCopiedHistoryNotCopied()
+    public function testLocationCopiedHistoryNotCopied(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -2950,7 +2882,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationCopied() method.
      */
-    public function testLocationCopiedSubtreeHistoryNotCopied()
+    public function testLocationCopiedSubtreeHistoryNotCopied(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -2965,7 +2897,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the locationCopied() method.
      */
-    public function testLocationCopiedSubtree()
+    public function testLocationCopiedSubtree(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_copy.php');
@@ -3017,10 +2949,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the loadUrlAlias() method.
-     *
-     *
-     * @dataProvider providerForTestLookupLocationMultipleLanguages
      */
+    #[DataProvider('providerForTestLookupLocationMultipleLanguages')]
     public function testLoadAutogeneratedUrlAlias(
         $url,
         array $pathData,
@@ -3028,7 +2958,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $locationId,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_multilang.php');
 
@@ -3055,10 +2985,8 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the loadUrlAlias() method.
-     *
-     *
-     * @dataProvider providerForTestLookupResourceUrlAlias
      */
+    #[DataProvider('providerForTestLookupResourceUrlAlias')]
     public function testLoadResourceUrlAlias(
         $url,
         $pathData,
@@ -3067,7 +2995,7 @@ class UrlAliasHandlerTest extends TestCase
         $alwaysAvailable,
         $destination,
         $id
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_resource.php');
 
@@ -3094,11 +3022,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the loadUrlAlias() method.
-     *
-     *
-     * @dataProvider providerForTestLookupVirtualUrlAlias
      */
-    public function testLoadVirtualUrlAlias($url, $id)
+    #[DataProvider('providerForTestLookupVirtualUrlAlias')]
+    public function testLoadVirtualUrlAlias($url, $id): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
@@ -3146,7 +3072,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the loadUrlAlias() method.
      */
-    public function testLoadHistoryUrlAlias()
+    public function testLoadHistoryUrlAlias(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location.php');
@@ -3163,7 +3089,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the loadUrlAlias() method.
      */
-    public function testLoadUrlAliasThrowsNotFoundException()
+    public function testLoadUrlAliasThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -3172,7 +3098,10 @@ class UrlAliasHandlerTest extends TestCase
         $handler->loadUrlAlias('non-existent');
     }
 
-    public function providerForTestPublishUrlAliasForLocationSkipsReservedWord()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestPublishUrlAliasForLocationSkipsReservedWord(): array
     {
         return [
             [
@@ -3188,14 +3117,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the publishUrlAliasForLocation() method.
-     *
-     * @dataProvider providerForTestPublishUrlAliasForLocationSkipsReservedWord
-     *
-     * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler::publishUrlAliasForLocation
-     *
-     * @group publish
      */
-    public function testPublishUrlAliasForLocationSkipsReservedWord($text, $alias)
+    #[Group('publish')]
+    #[DataProvider('providerForTestPublishUrlAliasForLocationSkipsReservedWord')]
+    public function testPublishUrlAliasForLocationSkipsReservedWord($text, $alias): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -3210,10 +3135,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSimple()
+    #[Group('swap')]
+    public function testLocationSwappedSimple(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_simple.php');
@@ -3296,10 +3220,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSimpleWithHistory()
+    #[Group('swap')]
+    public function testLocationSwappedSimpleWithHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_simple_history.php');
@@ -3448,10 +3371,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSimpleWithConflict()
+    #[Group('swap')]
+    public function testLocationSwappedSimpleWithConflict(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_simple_conflict.php');
@@ -3554,10 +3476,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSiblingsSimple()
+    #[Group('swap')]
+    public function testLocationSwappedSiblingsSimple(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_siblings_simple.php');
@@ -3628,10 +3549,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSiblingsSimpleReverse()
+    #[Group('swap')]
+    public function testLocationSwappedSiblingsSimpleReverse(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_siblings_simple.php');
@@ -3702,10 +3622,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSiblingsSimpleWithHistory()
+    #[Group('swap')]
+    public function testLocationSwappedSiblingsSimpleWithHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_siblings_simple_history.php');
@@ -3830,10 +3749,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSiblingsSimpleWithHistoryReverse()
+    #[Group('swap')]
+    public function testLocationSwappedSiblingsSimpleWithHistoryReverse(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_siblings_simple_history.php');
@@ -3958,10 +3876,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSiblingsSameName()
+    #[Group('swap')]
+    public function testLocationSwappedSiblingsSameName(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_siblings_same_name.php');
@@ -4032,10 +3949,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSiblingsSameNameReverse()
+    #[Group('swap')]
+    public function testLocationSwappedSiblingsSameNameReverse(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_siblings_same_name.php');
@@ -4106,10 +4022,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedSiblingsSameNameMultipleLanguages()
+    #[Group('swap')]
+    public function testLocationSwappedSiblingsSameNameMultipleLanguages(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_siblings_same_name_multilang.php');
@@ -4238,10 +4153,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedMultipleLanguagesSimple()
+    #[Group('swap')]
+    public function testLocationSwappedMultipleLanguagesSimple(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_multilang_simple.php');
@@ -4273,10 +4187,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedMultipleLanguagesDifferentLanguagesSimple()
+    #[Group('swap')]
+    public function testLocationSwappedMultipleLanguagesDifferentLanguagesSimple(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_multilang_diff_simple.php');
@@ -4495,10 +4408,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedMultipleLanguagesDifferentLanguages()
+    #[Group('swap')]
+    public function testLocationSwappedMultipleLanguagesDifferentLanguages(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_multilang_diff.php');
@@ -4653,10 +4565,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedMultipleLanguagesWithCompositeHistory()
+    #[Group('swap')]
+    public function testLocationSwappedMultipleLanguagesWithCompositeHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_multilang_cleanup_composite.php');
@@ -4946,10 +4857,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedWithReusingExternalHistory()
+    #[Group('swap')]
+    public function testLocationSwappedWithReusingExternalHistory(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_reusing_external_history.php');
@@ -5098,10 +5008,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedWithReusingNopEntry()
+    #[Group('swap')]
+    public function testLocationSwappedWithReusingNopEntry(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_reusing_nop.php');
@@ -5250,12 +5159,10 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @depends testLocationSwappedWithReusingNopEntry
-     *
-     * @group swap
      */
-    public function testLocationSwappedWithReusingNopEntryCustomAliasIsDestroyed()
+    #[Depends('testLocationSwappedWithReusingNopEntry')]
+    #[Group('swap')]
+    public function testLocationSwappedWithReusingNopEntryCustomAliasIsDestroyed(): void
     {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_reusing_nop.php');
@@ -5275,10 +5182,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedUpdatesLocationPathIdentificationString()
+    #[Group('swap')]
+    public function testLocationSwappedUpdatesLocationPathIdentificationString(): void
     {
         $handler = $this->getHandler();
         $locationGateway = $this->getLocationGateway();
@@ -5302,10 +5208,9 @@ class UrlAliasHandlerTest extends TestCase
 
     /**
      * Test for the locationSwapped() method.
-     *
-     * @group swap
      */
-    public function testLocationSwappedMultipleLanguagesUpdatesLocationPathIdentificationString()
+    #[Group('swap')]
+    public function testLocationSwappedMultipleLanguagesUpdatesLocationPathIdentificationString(): void
     {
         $handler = $this->getHandler();
         $locationGateway = $this->getLocationGateway();
@@ -5359,17 +5264,17 @@ class UrlAliasHandlerTest extends TestCase
         return $this->getMockBuilder(Handler::class)
             ->setConstructorArgs(
                 [
-                    $this->createMock(UrlAliasGateway::class),
-                    $this->createMock(Mapper::class),
-                    $this->createMock(LocationGateway::class),
-                    $this->createMock(LanguageHandler::class),
-                    $this->createMock(SlugConverter::class),
-                    $this->createMock(Gateway::class),
-                    $this->createMock(LanguageMaskGenerator::class),
-                    $this->createMock(TransactionHandler::class),
+                    self::createStub(UrlAliasGateway::class),
+                    self::createStub(Mapper::class),
+                    self::createStub(LocationGateway::class),
+                    self::createStub(LanguageHandler::class),
+                    self::createStub(SlugConverter::class),
+                    self::createStub(Gateway::class),
+                    self::createStub(LanguageMaskGenerator::class),
+                    self::createStub(TransactionHandler::class),
                 ]
             )
-            ->setMethods($methods)
+            ->onlyMethods(array_values($methods))
             ->getMock();
     }
 
@@ -5405,7 +5310,7 @@ class UrlAliasHandlerTest extends TestCase
             $slugConverter,
             $contentGateway,
             $languageMaskGenerator,
-            $this->createMock(TransactionHandler::class)
+            self::createStub(TransactionHandler::class)
         );
     }
 
@@ -5477,7 +5382,7 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @return array
      */
-    public function providerForArchiveUrlAliasesForDeletedTranslations()
+    public static function providerForArchiveUrlAliasesForDeletedTranslations(): array
     {
         return [
             [2, ['eng-GB', 'pol-PL'], 'pol-PL'],
@@ -5486,17 +5391,16 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @dataProvider providerForArchiveUrlAliasesForDeletedTranslations
-     *
      * @param int $locationId
      * @param string[] $expectedLanguages expected language codes before deleting
      * @param string $removeLanguage language code to be deleted
      */
+    #[DataProvider('providerForArchiveUrlAliasesForDeletedTranslations')]
     public function testArchiveUrlAliasesForDeletedTranslations(
         $locationId,
         array $expectedLanguages,
         $removeLanguage
-    ) {
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_multilingual.php');
 

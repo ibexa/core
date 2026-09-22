@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\CacheFactory;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
@@ -32,7 +33,7 @@ final class CacheFactoryTest extends TestCase
     /**
      * @return array<array{string, string}>
      */
-    public function providerGetService(): array
+    public static function providerGetService(): array
     {
         return [
             ['default', 'default'],
@@ -41,9 +42,7 @@ final class CacheFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetService
-     */
+    #[DataProvider('providerGetService')]
     public function testGetService($name, $expected): void
     {
         $this->configResolver
@@ -56,7 +55,7 @@ final class CacheFactoryTest extends TestCase
             ->expects(self::once())
             ->method('get')
             ->with($expected)
-            ->will(self::returnValue($this->createMock(AdapterInterface::class)));
+            ->will(self::returnValue(self::createStub(AdapterInterface::class)));
 
         $factory = new CacheFactory($this->container);
 

@@ -11,7 +11,7 @@ namespace Ibexa\Tests\Integration\Core;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
-use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
+use Ibexa\Contracts\Test\Core\IbexaKernelTestCase;
 use InvalidArgumentException;
 
 abstract class RepositoryTestCase extends IbexaKernelTestCase
@@ -24,12 +24,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
-        self::loadSchema();
-        self::loadFixtures();
-
-        self::setAdministratorUser();
+        $this->getIbexaTestCore()->setAdministratorUser();
     }
 
     /**
@@ -39,7 +34,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
      */
     public function createFolder(array $names, int $parentLocationId = self::CONTENT_TREE_ROOT_ID): Content
     {
-        $contentService = self::getContentService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
         $draft = $this->createFolderDraft($names, $parentLocationId);
 
         return $contentService->publishVersion($draft->getVersionInfo());
@@ -54,7 +49,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
      */
     final protected function createUser(string $login, string $firstName, string $lastName, ?UserGroup $userGroup = null): User
     {
-        $userService = self::getUserService();
+        $userService = $this->getIbexaTestCore()->getUserService();
 
         if (null === $userGroup) {
             $userGroup = $userService->loadUserGroupByRemoteId(self::MAIN_USER_GROUP_REMOTE_ID);
@@ -87,9 +82,9 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
             throw new InvalidArgumentException(__METHOD__ . ' requires $names to be not empty');
         }
 
-        $contentService = self::getContentService();
-        $contentTypeService = self::getContentTypeService();
-        $locationService = self::getLocationService();
+        $contentService = $this->getIbexaTestCore()->getContentService();
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
+        $locationService = $this->getIbexaTestCore()->getLocationService();
 
         $folderType = $contentTypeService->loadContentTypeByIdentifier(self::CONTENT_TYPE_FOLDER_IDENTIFIER);
         $mainLanguageCode = array_keys($names)[0];

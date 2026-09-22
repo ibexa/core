@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 
 class RouterSpecialPortsTest extends RouterBaseTestCase
 {
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://example.com'), 'fifth_sa'],
@@ -75,7 +75,7 @@ class RouterSpecialPortsTest extends RouterBaseTestCase
         ];
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $matcher = new PortMatcher(['port' => '8080', 'scheme' => 'http'], []);
         self::assertSame('port', $matcher->getName());
@@ -85,7 +85,7 @@ class RouterSpecialPortsTest extends RouterBaseTestCase
     {
         return new Router(
             $this->matcherBuilder,
-            $this->createMock(LoggerInterface::class),
+            self::createStub(LoggerInterface::class),
             'default_sa',
             [
                 'Map\\URI' => [

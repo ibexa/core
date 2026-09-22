@@ -15,11 +15,10 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver
- */
+#[CoversClass(PermissionAwareLocationResolver::class)]
 final class PermissionAwareLocationResolverTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */

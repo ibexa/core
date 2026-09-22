@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Bundle\Core\EventSubscriber;
 
 use Ibexa\Bundle\Core\EventSubscriber\CrowdinRequestLocaleSubscriber;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -15,10 +16,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class CrowdinRequestLocaleSubscriberTest extends TestCase
 {
-    /**
-     * @dataProvider testSetRequestsProvider
-     */
-    public function testSetLocale(Request $request, $shouldHaveCustomLocale)
+    #[DataProvider('provideSetRequests')]
+    public function testSetLocale(Request $request, $shouldHaveCustomLocale): void
     {
         $event = new RequestEvent(
             $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
@@ -36,7 +35,10 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
         );
     }
 
-    public function testSetRequestsProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function provideSetRequests(): array
     {
         return [
             'with_ez_in_context_translation_cookie' => [

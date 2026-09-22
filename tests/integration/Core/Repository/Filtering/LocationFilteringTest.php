@@ -16,12 +16,139 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use IteratorAggregate;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
  */
 final class LocationFilteringTest extends BaseRepositoryFilteringTestCase
 {
+    private const BOOKMARKED_LOCATION_ID = 52;
+
+    public function testBookmarkedAndNotBookmarkedCountsMatchTotal(): void
+    {
+        $locationService = $this->getRepository(false)->getLocationService();
+
+        $baseFilter = new Filter();
+        $totalCount = $locationService->count($baseFilter);
+
+        $bookmarkedFilter = clone $baseFilter;
+        $bookmarkedFilter->withCriterion(new Criterion\Location\IsBookmarked(true));
+        $bookmarkedCount = $locationService->count($bookmarkedFilter);
+
+        $notBookmarkedFilter = clone $baseFilter;
+        $notBookmarkedFilter->withCriterion(new Criterion\Location\IsBookmarked(false));
+        $notBookmarkedCount = $locationService->count($notBookmarkedFilter);
+
+        self::assertSame(
+            $totalCount,
+            $bookmarkedCount + $notBookmarkedCount,
+            sprintf(
+                'Mismatch: total=%d, bookmarked=%d, notBookmarked=%d',
+                $totalCount,
+                $bookmarkedCount,
+                $notBookmarkedCount
+            )
+        );
+    }
+
+    /**
+     * @return iterable<string, array{bool, int, int, int}>
+     */
+    public static function isBookmarkedProvider(): iterable
+    {
+        // [isBookmarkedCriterion, initialCount, afterCreateCount, afterDeleteCount]
+        yield 'bookmarked=true' => [true, 0, 1, 0];
+        yield 'bookmarked=false' => [false, 1, 0, 1];
+    }
+
+    #[DataProvider('isBookmarkedProvider')]
+    public function testIsBookmarkedTrueAndFalse(
+        bool $isBookmarked,
+        int $initialCount,
+        int $afterCreateCount,
+        int $afterDeleteCount
+    ): void {
+        $repository = $this->getRepository(false);
+        $locationService = $repository->getLocationService();
+        $bookmarkService = $repository->getBookmarkService();
+
+        $bookmarkedLocation = $locationService->loadLocation(self::BOOKMARKED_LOCATION_ID);
+
+        $filter = new Filter();
+        $filter->withCriterion(new Criterion\Location\IsBookmarked($isBookmarked))
+            ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
+
+        self::assertCount(
+            $initialCount,
+            $locationService->find($filter),
+            'Unexpected initial bookmark state for IsBookmarked(' . ($isBookmarked ? 'true' : 'false') . ')'
+        );
+
+        $bookmarkService->createBookmark($bookmarkedLocation);
+
+        $filter = new Filter();
+        $filter->withCriterion(new Criterion\Location\IsBookmarked($isBookmarked))
+            ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
+
+        self::assertCount(
+            $afterCreateCount,
+            $locationService->find($filter),
+            'Unexpected state after creating bookmark for IsBookmarked(' . ($isBookmarked ? 'true' : 'false') . ')'
+        );
+
+        $bookmarkService->deleteBookmark($bookmarkedLocation);
+
+        $filter = new Filter();
+        $filter->withCriterion(new Criterion\Location\IsBookmarked($isBookmarked))
+            ->andWithCriterion(new Criterion\LocationId(self::BOOKMARKED_LOCATION_ID));
+
+        self::assertCount(
+            $afterDeleteCount,
+            $locationService->find($filter),
+            'Unexpected state after deleting bookmark for IsBookmarked(' . ($isBookmarked ? 'true' : 'false') . ')'
+        );
+    }
+
+    public function testLogicalOrOfBookmarkedAndNotBookmarkedMatchesEveryLocationOnce(): void
+    {
+        $repository = $this->getRepository(false);
+        $locationService = $repository->getLocationService();
+        $bookmarkService = $repository->getBookmarkService();
+
+        $bookmarkedLocation = $locationService->loadLocation(self::BOOKMARKED_LOCATION_ID);
+        $bookmarkService->createBookmark($bookmarkedLocation);
+
+        try {
+            $totalCount = $locationService->count(new Filter());
+
+            $orFilter = new Filter();
+            $orFilter->withCriterion(
+                new Criterion\LogicalOr([
+                    new Criterion\Location\IsBookmarked(true),
+                    new Criterion\Location\IsBookmarked(false),
+                ])
+            );
+
+            self::assertSame($totalCount, $locationService->count($orFilter));
+
+            $locationIds = array_map(
+                static function ($location) {
+                    return $location->getId();
+                },
+                iterator_to_array($locationService->find($orFilter))
+            );
+
+            self::assertSame(
+                $totalCount,
+                count(array_unique($locationIds)),
+                'LogicalOr(IsBookmarked(true), IsBookmarked(false)) returned duplicate locations'
+            );
+        } finally {
+            $bookmarkService->deleteBookmark($bookmarkedLocation);
+        }
+    }
+
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
@@ -61,7 +188,7 @@ final class LocationFilteringTest extends BaseRepositoryFilteringTestCase
         return new Query\SortClause\Location\Id();
     }
 
-    public function getCriteriaForInitialData(): iterable
+    public static function getCriteriaForInitialData(): iterable
     {
         yield 'Location\\Depth=2' => new Criterion\Location\Depth(Criterion\Operator::EQ, 2);
         yield 'Location\\IsMainLocation' => new Criterion\Location\IsMainLocation(

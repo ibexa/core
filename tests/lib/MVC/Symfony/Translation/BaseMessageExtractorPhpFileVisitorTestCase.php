@@ -14,6 +14,7 @@ use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 
@@ -45,10 +46,9 @@ abstract class BaseMessageExtractorPhpFileVisitorTestCase extends TestCase
     }
 
     /**
-     * @dataProvider getDataForTestExtractTranslation
-     *
      * @param array<\JMS\TranslationBundle\Model\Message> $expectedMessages
      */
+    #[DataProvider('getDataForTestExtractTranslation')]
     public function testExtractTranslation(string $phpFileName, array $expectedMessages): void
     {
         $messageCatalogue = new MessageCatalogue();

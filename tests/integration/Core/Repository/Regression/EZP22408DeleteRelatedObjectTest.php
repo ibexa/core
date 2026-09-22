@@ -22,7 +22,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTestCase
         $this->createTestContentType();
     }
 
-    public function testRelationListIsUpdatedWhenRelatedObjectIsDeleted()
+    public function testRelationListIsUpdatedWhenRelatedObjectIsDeleted(): void
     {
         $targetObject1 = $this->createTargetObject('Relation list target object 1');
         $targetObject2 = $this->createTargetObject('Relation list target object 2');
@@ -43,7 +43,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTestCase
         self::assertSame([$targetObject2->id], $relationListValue->destinationContentIds);
     }
 
-    public function testSingleRelationIsUpdatedWhenRelatedObjectIsDeleted()
+    public function testSingleRelationIsUpdatedWhenRelatedObjectIsDeleted(): void
     {
         $targetObject = $this->createTargetObject('Single relation target object');
         $referenceObject = $this->createReferenceObject(

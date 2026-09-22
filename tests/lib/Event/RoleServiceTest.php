@@ -47,7 +47,7 @@ use Ibexa\Core\Event\RoleService;
 
 class RoleServiceTest extends AbstractServiceTestCase
 {
-    public function testPublishRoleDraftEvents()
+    public function testPublishRoleDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforePublishRoleDraftEvent::class,
@@ -55,10 +55,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
+            self::createStub(RoleDraft::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $service = new RoleService($innerServiceMock, $traceableEventDispatcher);
         $service->publishRoleDraft(...$parameters);
@@ -72,7 +72,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testPublishRoleDraftStopPropagationInBeforeEvents()
+    public function testPublishRoleDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforePublishRoleDraftEvent::class,
@@ -80,10 +80,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
+            self::createStub(RoleDraft::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforePublishRoleDraftEvent::class, static function (BeforePublishRoleDraftEvent $event) {
             $event->stopPropagation();
@@ -104,7 +104,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testAssignRoleToUserEvents()
+    public function testAssignRoleToUserEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignRoleToUserEvent::class,
@@ -112,12 +112,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Role::class),
-            $this->createMock(User::class),
-            $this->createMock(RoleLimitation::class),
+            self::createStub(Role::class),
+            self::createStub(User::class),
+            self::createStub(RoleLimitation::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $service = new RoleService($innerServiceMock, $traceableEventDispatcher);
         $service->assignRoleToUser(...$parameters);
@@ -131,7 +131,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testAssignRoleToUserStopPropagationInBeforeEvents()
+    public function testAssignRoleToUserStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignRoleToUserEvent::class,
@@ -139,12 +139,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Role::class),
-            $this->createMock(User::class),
-            $this->createMock(RoleLimitation::class),
+            self::createStub(Role::class),
+            self::createStub(User::class),
+            self::createStub(RoleLimitation::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeAssignRoleToUserEvent::class, static function (BeforeAssignRoleToUserEvent $event) {
             $event->stopPropagation();
@@ -165,7 +165,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdateRoleDraftEvents()
+    public function testUpdateRoleDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateRoleDraftEvent::class,
@@ -173,11 +173,11 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(RoleUpdateStruct::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(RoleUpdateStruct::class),
         ];
 
-        $updatedRoleDraft = $this->createMock(RoleDraft::class);
+        $updatedRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('updateRoleDraft')->willReturn($updatedRoleDraft);
 
@@ -194,7 +194,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateRoleDraftResultInBeforeEvents()
+    public function testReturnUpdateRoleDraftResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateRoleDraftEvent::class,
@@ -202,12 +202,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(RoleUpdateStruct::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(RoleUpdateStruct::class),
         ];
 
-        $updatedRoleDraft = $this->createMock(RoleDraft::class);
-        $eventUpdatedRoleDraft = $this->createMock(RoleDraft::class);
+        $updatedRoleDraft = self::createStub(RoleDraft::class);
+        $eventUpdatedRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('updateRoleDraft')->willReturn($updatedRoleDraft);
 
@@ -229,7 +229,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateRoleDraftStopPropagationInBeforeEvents()
+    public function testUpdateRoleDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateRoleDraftEvent::class,
@@ -237,12 +237,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(RoleUpdateStruct::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(RoleUpdateStruct::class),
         ];
 
-        $updatedRoleDraft = $this->createMock(RoleDraft::class);
-        $eventUpdatedRoleDraft = $this->createMock(RoleDraft::class);
+        $updatedRoleDraft = self::createStub(RoleDraft::class);
+        $eventUpdatedRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('updateRoleDraft')->willReturn($updatedRoleDraft);
 
@@ -267,7 +267,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testAssignRoleToUserGroupEvents()
+    public function testAssignRoleToUserGroupEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignRoleToUserGroupEvent::class,
@@ -275,12 +275,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Role::class),
-            $this->createMock(UserGroup::class),
-            $this->createMock(RoleLimitation::class),
+            self::createStub(Role::class),
+            self::createStub(UserGroup::class),
+            self::createStub(RoleLimitation::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $service = new RoleService($innerServiceMock, $traceableEventDispatcher);
         $service->assignRoleToUserGroup(...$parameters);
@@ -294,7 +294,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testAssignRoleToUserGroupStopPropagationInBeforeEvents()
+    public function testAssignRoleToUserGroupStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignRoleToUserGroupEvent::class,
@@ -302,12 +302,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Role::class),
-            $this->createMock(UserGroup::class),
-            $this->createMock(RoleLimitation::class),
+            self::createStub(Role::class),
+            self::createStub(UserGroup::class),
+            self::createStub(RoleLimitation::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeAssignRoleToUserGroupEvent::class, static function (BeforeAssignRoleToUserGroupEvent $event) {
             $event->stopPropagation();
@@ -328,7 +328,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testUpdatePolicyByRoleDraftEvents()
+    public function testUpdatePolicyByRoleDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdatePolicyByRoleDraftEvent::class,
@@ -336,12 +336,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyDraft::class),
-            $this->createMock(PolicyUpdateStruct::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(PolicyDraft::class),
+            self::createStub(PolicyUpdateStruct::class),
         ];
 
-        $updatedPolicyDraft = $this->createMock(PolicyDraft::class);
+        $updatedPolicyDraft = self::createStub(PolicyDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('updatePolicyByRoleDraft')->willReturn($updatedPolicyDraft);
 
@@ -358,7 +358,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdatePolicyByRoleDraftResultInBeforeEvents()
+    public function testReturnUpdatePolicyByRoleDraftResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdatePolicyByRoleDraftEvent::class,
@@ -366,13 +366,13 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyDraft::class),
-            $this->createMock(PolicyUpdateStruct::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(PolicyDraft::class),
+            self::createStub(PolicyUpdateStruct::class),
         ];
 
-        $updatedPolicyDraft = $this->createMock(PolicyDraft::class);
-        $eventUpdatedPolicyDraft = $this->createMock(PolicyDraft::class);
+        $updatedPolicyDraft = self::createStub(PolicyDraft::class);
+        $eventUpdatedPolicyDraft = self::createStub(PolicyDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('updatePolicyByRoleDraft')->willReturn($updatedPolicyDraft);
 
@@ -394,7 +394,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdatePolicyByRoleDraftStopPropagationInBeforeEvents()
+    public function testUpdatePolicyByRoleDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdatePolicyByRoleDraftEvent::class,
@@ -402,13 +402,13 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyDraft::class),
-            $this->createMock(PolicyUpdateStruct::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(PolicyDraft::class),
+            self::createStub(PolicyUpdateStruct::class),
         ];
 
-        $updatedPolicyDraft = $this->createMock(PolicyDraft::class);
-        $eventUpdatedPolicyDraft = $this->createMock(PolicyDraft::class);
+        $updatedPolicyDraft = self::createStub(PolicyDraft::class);
+        $eventUpdatedPolicyDraft = self::createStub(PolicyDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('updatePolicyByRoleDraft')->willReturn($updatedPolicyDraft);
 
@@ -433,7 +433,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateRoleEvents()
+    public function testCreateRoleEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateRoleEvent::class,
@@ -441,10 +441,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleCreateStruct::class),
+            self::createStub(RoleCreateStruct::class),
         ];
 
-        $roleDraft = $this->createMock(RoleDraft::class);
+        $roleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('createRole')->willReturn($roleDraft);
 
@@ -461,7 +461,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateRoleResultInBeforeEvents()
+    public function testReturnCreateRoleResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateRoleEvent::class,
@@ -469,11 +469,11 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleCreateStruct::class),
+            self::createStub(RoleCreateStruct::class),
         ];
 
-        $roleDraft = $this->createMock(RoleDraft::class);
-        $eventRoleDraft = $this->createMock(RoleDraft::class);
+        $roleDraft = self::createStub(RoleDraft::class);
+        $eventRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('createRole')->willReturn($roleDraft);
 
@@ -495,7 +495,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateRoleStopPropagationInBeforeEvents()
+    public function testCreateRoleStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateRoleEvent::class,
@@ -503,11 +503,11 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleCreateStruct::class),
+            self::createStub(RoleCreateStruct::class),
         ];
 
-        $roleDraft = $this->createMock(RoleDraft::class);
-        $eventRoleDraft = $this->createMock(RoleDraft::class);
+        $roleDraft = self::createStub(RoleDraft::class);
+        $eventRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('createRole')->willReturn($roleDraft);
 
@@ -532,7 +532,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testRemovePolicyByRoleDraftEvents()
+    public function testRemovePolicyByRoleDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemovePolicyByRoleDraftEvent::class,
@@ -540,11 +540,11 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyDraft::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(PolicyDraft::class),
         ];
 
-        $updatedRoleDraft = $this->createMock(RoleDraft::class);
+        $updatedRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('removePolicyByRoleDraft')->willReturn($updatedRoleDraft);
 
@@ -561,7 +561,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnRemovePolicyByRoleDraftResultInBeforeEvents()
+    public function testReturnRemovePolicyByRoleDraftResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemovePolicyByRoleDraftEvent::class,
@@ -569,12 +569,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyDraft::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(PolicyDraft::class),
         ];
 
-        $updatedRoleDraft = $this->createMock(RoleDraft::class);
-        $eventUpdatedRoleDraft = $this->createMock(RoleDraft::class);
+        $updatedRoleDraft = self::createStub(RoleDraft::class);
+        $eventUpdatedRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('removePolicyByRoleDraft')->willReturn($updatedRoleDraft);
 
@@ -596,7 +596,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testRemovePolicyByRoleDraftStopPropagationInBeforeEvents()
+    public function testRemovePolicyByRoleDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemovePolicyByRoleDraftEvent::class,
@@ -604,12 +604,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyDraft::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(PolicyDraft::class),
         ];
 
-        $updatedRoleDraft = $this->createMock(RoleDraft::class);
-        $eventUpdatedRoleDraft = $this->createMock(RoleDraft::class);
+        $updatedRoleDraft = self::createStub(RoleDraft::class);
+        $eventUpdatedRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('removePolicyByRoleDraft')->willReturn($updatedRoleDraft);
 
@@ -634,7 +634,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testAddPolicyByRoleDraftEvents()
+    public function testAddPolicyByRoleDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAddPolicyByRoleDraftEvent::class,
@@ -642,11 +642,11 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyCreateStruct::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(PolicyCreateStruct::class),
         ];
 
-        $updatedRoleDraft = $this->createMock(RoleDraft::class);
+        $updatedRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('addPolicyByRoleDraft')->willReturn($updatedRoleDraft);
 
@@ -663,7 +663,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnAddPolicyByRoleDraftResultInBeforeEvents()
+    public function testReturnAddPolicyByRoleDraftResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAddPolicyByRoleDraftEvent::class,
@@ -671,12 +671,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyCreateStruct::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(PolicyCreateStruct::class),
         ];
 
-        $updatedRoleDraft = $this->createMock(RoleDraft::class);
-        $eventUpdatedRoleDraft = $this->createMock(RoleDraft::class);
+        $updatedRoleDraft = self::createStub(RoleDraft::class);
+        $eventUpdatedRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('addPolicyByRoleDraft')->willReturn($updatedRoleDraft);
 
@@ -698,7 +698,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testAddPolicyByRoleDraftStopPropagationInBeforeEvents()
+    public function testAddPolicyByRoleDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAddPolicyByRoleDraftEvent::class,
@@ -706,12 +706,12 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
-            $this->createMock(PolicyCreateStruct::class),
+            self::createStub(RoleDraft::class),
+            self::createStub(PolicyCreateStruct::class),
         ];
 
-        $updatedRoleDraft = $this->createMock(RoleDraft::class);
-        $eventUpdatedRoleDraft = $this->createMock(RoleDraft::class);
+        $updatedRoleDraft = self::createStub(RoleDraft::class);
+        $eventUpdatedRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('addPolicyByRoleDraft')->willReturn($updatedRoleDraft);
 
@@ -736,7 +736,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteRoleEvents()
+    public function testDeleteRoleEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteRoleEvent::class,
@@ -744,10 +744,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Role::class),
+            self::createStub(Role::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $service = new RoleService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteRole(...$parameters);
@@ -761,7 +761,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteRoleStopPropagationInBeforeEvents()
+    public function testDeleteRoleStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteRoleEvent::class,
@@ -769,10 +769,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Role::class),
+            self::createStub(Role::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteRoleEvent::class, static function (BeforeDeleteRoleEvent $event) {
             $event->stopPropagation();
@@ -793,7 +793,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteRoleDraftEvents()
+    public function testDeleteRoleDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteRoleDraftEvent::class,
@@ -801,10 +801,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
+            self::createStub(RoleDraft::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $service = new RoleService($innerServiceMock, $traceableEventDispatcher);
         $service->deleteRoleDraft(...$parameters);
@@ -818,7 +818,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteRoleDraftStopPropagationInBeforeEvents()
+    public function testDeleteRoleDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteRoleDraftEvent::class,
@@ -826,10 +826,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleDraft::class),
+            self::createStub(RoleDraft::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeDeleteRoleDraftEvent::class, static function (BeforeDeleteRoleDraftEvent $event) {
             $event->stopPropagation();
@@ -850,7 +850,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testRemoveRoleAssignmentEvents()
+    public function testRemoveRoleAssignmentEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveRoleAssignmentEvent::class,
@@ -858,10 +858,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleAssignment::class),
+            self::createStub(RoleAssignment::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $service = new RoleService($innerServiceMock, $traceableEventDispatcher);
         $service->removeRoleAssignment(...$parameters);
@@ -875,7 +875,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testRemoveRoleAssignmentStopPropagationInBeforeEvents()
+    public function testRemoveRoleAssignmentStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveRoleAssignmentEvent::class,
@@ -883,10 +883,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(RoleAssignment::class),
+            self::createStub(RoleAssignment::class),
         ];
 
-        $innerServiceMock = $this->createMock(RoleServiceInterface::class);
+        $innerServiceMock = self::createStub(RoleServiceInterface::class);
 
         $traceableEventDispatcher->addListener(BeforeRemoveRoleAssignmentEvent::class, static function (BeforeRemoveRoleAssignmentEvent $event) {
             $event->stopPropagation();
@@ -907,7 +907,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testCreateRoleDraftEvents()
+    public function testCreateRoleDraftEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateRoleDraftEvent::class,
@@ -915,10 +915,10 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Role::class),
+            self::createStub(Role::class),
         ];
 
-        $roleDraft = $this->createMock(RoleDraft::class);
+        $roleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('createRoleDraft')->willReturn($roleDraft);
 
@@ -935,7 +935,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateRoleDraftResultInBeforeEvents()
+    public function testReturnCreateRoleDraftResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateRoleDraftEvent::class,
@@ -943,11 +943,11 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Role::class),
+            self::createStub(Role::class),
         ];
 
-        $roleDraft = $this->createMock(RoleDraft::class);
-        $eventRoleDraft = $this->createMock(RoleDraft::class);
+        $roleDraft = self::createStub(RoleDraft::class);
+        $eventRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('createRoleDraft')->willReturn($roleDraft);
 
@@ -969,7 +969,7 @@ class RoleServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateRoleDraftStopPropagationInBeforeEvents()
+    public function testCreateRoleDraftStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateRoleDraftEvent::class,
@@ -977,11 +977,11 @@ class RoleServiceTest extends AbstractServiceTestCase
         );
 
         $parameters = [
-            $this->createMock(Role::class),
+            self::createStub(Role::class),
         ];
 
-        $roleDraft = $this->createMock(RoleDraft::class);
-        $eventRoleDraft = $this->createMock(RoleDraft::class);
+        $roleDraft = self::createStub(RoleDraft::class);
+        $eventRoleDraft = self::createStub(RoleDraft::class);
         $innerServiceMock = $this->createMock(RoleServiceInterface::class);
         $innerServiceMock->method('createRoleDraft')->willReturn($roleDraft);
 

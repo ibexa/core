@@ -11,20 +11,21 @@ namespace Ibexa\Tests\Bundle\Core\Routing\JsRouting;
 use FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractorInterface;
 use Ibexa\Bundle\Core\Routing\JsRouting\ExposedRoutesExtractor;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * @covers \Ibexa\Bundle\Core\Routing\JsRouting\ExposedRoutesExtractor
- *
  * @internal
  */
+#[CoversClass(ExposedRoutesExtractor::class)]
 final class ExposedRoutesExtractorTest extends TestCase
 {
     private const BASE_URL = '/foo';
 
-    public function getDataForTestGetBaseUrl(): iterable
+    public static function getDataForTestGetBaseUrl(): iterable
     {
         yield 'CLI' => [
             // no master request in a stack
@@ -58,9 +59,7 @@ final class ExposedRoutesExtractorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getDataForTestGetBaseUrl
-     */
+    #[DataProvider('getDataForTestGetBaseUrl')]
     public function testGetBaseUrl(?Request $masterRequest, string $expectedBaseUrl): void
     {
         $innerExtractor = $this->createMock(ExposedRoutesExtractorInterface::class);

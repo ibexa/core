@@ -8,6 +8,9 @@
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -48,26 +51,20 @@ class ConsoleContext implements Context
         $this->defaultSiteaccess = $defaultSiteaccess;
     }
 
-    /**
-     * @When I run a console script without specifying a siteaccess
-     */
-    public function iRunAConsoleScript()
+    #[When('I run a console script without specifying a siteaccess')]
+    public function iRunAConsoleScript(): void
     {
         $this->iRunTheCommand('ibexa:behat:test-siteaccess');
     }
 
-    /**
-     * @When I run a console script with the siteaccess option :siteaccessOption
-     */
-    public function iRunAConsoleScriptWithSiteaccess($siteaccessOption)
+    #[When('I run a console script with the siteaccess option :siteaccessOption')]
+    public function iRunAConsoleScriptWithSiteaccess(string $siteaccessOption): void
     {
         $this->iRunTheCommand('ibexa:behat:test-siteaccess', $siteaccessOption);
     }
 
-    /**
-     * @Then It is executed with the siteaccess :siteaccess
-     */
-    public function iExpectItToBeExecutedWithTheSiteaccess($siteaccess)
+    #[Then('It is executed with the siteaccess :siteaccess')]
+    public function iExpectItToBeExecutedWithTheSiteaccess(string $siteaccess): void
     {
         $actualSiteaccess = trim($this->scriptOutput);
         Assertion::eq(
@@ -78,19 +75,16 @@ class ConsoleContext implements Context
     }
 
     /**
-     * @Then it is executed with the default one
-     *
      * default one: default siteaccess.
      */
-    public function iExpectItToBeExecutedWithTheDefaultOne()
+    #[Then('it is executed with the default one')]
+    public function iExpectItToBeExecutedWithTheDefaultOne(): void
     {
         $this->iExpectItToBeExecutedWithTheSiteaccess($this->getDefaultSiteaccessName());
     }
 
-    /**
-     * @Given /^that there is a "([^"]*)" siteaccess$/
-     */
-    public function thereIsASiteaccess($expectedSiteaccessName, $default = false)
+    #[Given('/^that there is a "([^"]*)" siteaccess$/')]
+    public function thereIsASiteaccess(string $expectedSiteaccessName, bool $default = false): void
     {
         $found = false;
 
@@ -105,10 +99,8 @@ class ConsoleContext implements Context
         $this->it['siteaccess'] = $expectedSiteaccessName;
     }
 
-    /**
-     * @Given /^that there is a default "([^"]*)" siteaccess$/
-     */
-    public function thereIsADefaultSiteaccess($expectedSiteaccessName)
+    #[Given('/^that there is a default "([^"]*)" siteaccess$/')]
+    public function thereIsADefaultSiteaccess(string $expectedSiteaccessName): void
     {
         $this->thereIsASiteaccess($expectedSiteaccessName, true);
         Assertion::eq(
@@ -118,11 +110,10 @@ class ConsoleContext implements Context
     }
 
     /**
-     * @When I run a console script with it
-     *
      * it: the siteaccess referenced above.
      */
-    public function iRunAConsoleScriptWithIt()
+    #[When('I run a console script with it')]
+    public function iRunAConsoleScriptWithIt(): void
     {
         $this->iRunTheCommand(
             'ibexa:behat:test-siteaccess',
@@ -161,20 +152,16 @@ class ConsoleContext implements Context
         $this->scriptOutput = $process->getOutput();
     }
 
-    /**
-     * @Given /^that there is a siteaccess that is not the default one$/
-     */
-    public function thereIsASiteaccessThatIsNotTheDefaultOne()
+    #[Given('/^that there is a siteaccess that is not the default one$/')]
+    public function thereIsASiteaccessThatIsNotTheDefaultOne(): void
     {
         $siteaccessName = $this->getNonDefaultSiteaccessName();
         Assertion::notNull($siteaccessName, 'There is no siteaccess other than the default one');
         $this->it['siteaccess'] = $siteaccessName;
     }
 
-    /**
-     * @Then /^I expect it to be executed with it$/
-     */
-    public function iExpectItToBeExecutedWithIt()
+    #[Then('/^I expect it to be executed with it$/')]
+    public function iExpectItToBeExecutedWithIt(): void
     {
         Assertion::eq($this->scriptOutput, $this->it['siteaccess']);
     }

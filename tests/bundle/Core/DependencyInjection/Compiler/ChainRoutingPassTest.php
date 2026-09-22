@@ -9,16 +9,14 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainRoutingPass;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainRoutingPass
- */
+#[CoversClass(ChainRoutingPass::class)]
 class ChainRoutingPassTest extends AbstractCompilerPassTestCase
 {
     protected function setUp(): void
@@ -41,10 +39,9 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
     /**
      * @param int|null $declaredPriority
      * @param int $expectedPriority
-     *
-     * @dataProvider addRouterProvider
      */
-    public function testAddRouter($declaredPriority, $expectedPriority)
+    #[DataProvider('addRouterProvider')]
+    public function testAddRouter($declaredPriority, $expectedPriority): void
     {
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
@@ -67,16 +64,12 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
     /**
      * @param int|null $declaredPriority
      * @param int $expectedPriority
-     *
-     * @dataProvider addRouterProvider
      */
-    public function testAddRouterWithDefaultRouter($declaredPriority, $expectedPriority)
+    #[DataProvider('addRouterProvider')]
+    public function testAddRouterWithDefaultRouter($declaredPriority, $expectedPriority): void
     {
         $defaultRouter = new Definition();
         $this->setDefinition('router.default', $defaultRouter);
-        $this->setDefinition(SiteAccess::class, new Definition());
-        $this->setDefinition('ibexa.config.resolver', new Definition());
-        $this->setDefinition(Router::class, new Definition());
 
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
@@ -90,26 +83,7 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         // Assertion for default router
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'router.default',
-            'setSiteAccess',
-            [new Reference(SiteAccess::class)]
-        );
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'router.default',
-            'setConfigResolver',
-            [new Reference('ibexa.config.resolver')]
-        );
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'router.default',
-            'setNonSiteAccessAwareRoutes',
-            ['%ibexa.default_router.non_site_access_aware_routes%']
-        );
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'router.default',
-            'setSiteAccessRouter',
-            [new Reference(Router::class)]
-        );
+        $this->assertContainerBuilderHasServiceDefinitionWithTag('router.default', 'router', ['priority' => 255]);
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             ChainRouter::class,
             'add',
@@ -124,7 +98,10 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function addRouterProvider()
+    /**
+     * @return array<mixed>
+     */
+    public static function addRouterProvider(): array
     {
         return [
             [null, 0],

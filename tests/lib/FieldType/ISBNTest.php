@@ -11,11 +11,10 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\ISBN\Type as ISBN;
 use Ibexa\Core\FieldType\ISBN\Value as ISBNValue;
 use Ibexa\Core\FieldType\ValidationError;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group fieldType
- * @group ibexa_isbn
- */
+#[Group('fieldType')]
+#[Group('ibexa_isbn')]
 class ISBNTest extends FieldTypeTestCase
 {
     protected function createFieldTypeUnderTest(): ISBN
@@ -46,7 +45,7 @@ class ISBNTest extends FieldTypeTestCase
         return new ISBNValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): iterable
+    public static function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -68,7 +67,7 @@ class ISBNTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): iterable
+    public static function provideValidInputForAcceptValue(): iterable
     {
         yield 'ISBN-13 standard' => [
             '9789722514095',
@@ -86,7 +85,7 @@ class ISBNTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForToHash(): iterable
+    public static function provideInputForToHash(): iterable
     {
         return [
             [
@@ -96,7 +95,7 @@ class ISBNTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): iterable
+    public static function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -111,15 +110,15 @@ class ISBNTest extends FieldTypeTestCase
         return 'ibexa_isbn';
     }
 
-    public function provideDataForGetName(): array
+    public static function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new ISBNValue(), '', [], 'en_GB'],
             [new ISBNValue('9789722514095'), '9789722514095', [], 'en_GB'],
         ];
     }
 
-    public function provideValidDataForValidate(): iterable
+    public static function provideValidDataForValidate(): iterable
     {
         yield 'empty value with ISBN-13' => [
             [
@@ -158,7 +157,7 @@ class ISBNTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): iterable
+    public static function provideInvalidDataForValidate(): iterable
     {
         yield 'ISBN-13 when ISBN-10 required' => [
             [

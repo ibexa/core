@@ -13,11 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Core\Repository\Values\Content\Content
- */
+#[CoversClass(Content::class)]
 final class ContentTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */

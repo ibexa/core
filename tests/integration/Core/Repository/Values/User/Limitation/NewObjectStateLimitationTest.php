@@ -9,16 +9,15 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation
- *
- * @group integration
- * @group limitation
- */
+#[CoversClass(NewObjectStateLimitation::class)]
+#[Group('integration')]
+#[Group('limitation')]
 class NewObjectStateLimitationTest extends BaseLimitationTestCase
 {
-    public function testNewObjectStateLimitationAllow()
+    public function testNewObjectStateLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $notLockedState = $this->generateId('objectstate', 2);
@@ -58,11 +57,10 @@ class NewObjectStateLimitationTest extends BaseLimitationTestCase
     /**
      * Tests a NewObjectStateLimitation.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation
      *
      * @throws \ErrorException if a mandatory test fixture not exists.
      */
-    public function testNewObjectStateLimitationForbid()
+    public function testNewObjectStateLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

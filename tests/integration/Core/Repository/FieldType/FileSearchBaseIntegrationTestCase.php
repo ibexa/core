@@ -8,16 +8,16 @@
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use FilesystemIterator;
+use PHPUnit\Framework\Attributes\Group;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use UnexpectedValueException;
 
 /**
  * Integration test for use field type.
- *
- * @group integration
- * @group field-type
  */
+#[Group('integration')]
+#[Group('field-type')]
 abstract class FileSearchBaseIntegrationTestCase extends SearchBaseIntegrationTestCase
 {
     /**
@@ -193,7 +193,7 @@ abstract class FileSearchBaseIntegrationTestCase extends SearchBaseIntegrationTe
     /**
      * Tests that a VersionUpdate can remove the stored file.
      */
-    public function testUpdateWithRemove()
+    public function testUpdateWithRemove(): void
     {
         $type = $this->createContentType(
             $this->getValidFieldSettings(),

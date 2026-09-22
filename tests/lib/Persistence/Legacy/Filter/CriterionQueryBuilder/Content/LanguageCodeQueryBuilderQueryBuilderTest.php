@@ -11,13 +11,12 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Conte
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\LanguageCodeQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\LanguageCodeQueryBuilder
- */
+#[CoversClass(LanguageCodeQueryBuilder::class)]
 final class LanguageCodeQueryBuilderQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
-    public function getFilteringCriteriaQueryData(): iterable
+    public static function getFilteringCriteriaQueryData(): iterable
     {
         yield 'Language Code IN (eng-GB, eng-US), match always available' => [
             new Criterion\LanguageCode(['eng-GB', 'eng-US']),

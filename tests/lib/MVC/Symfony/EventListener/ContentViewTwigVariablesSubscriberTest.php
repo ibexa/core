@@ -72,7 +72,7 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
             $this->getRegistry([
                 $this->getProvider('test_provider'),
             ]),
-            $this->createMock(ConfigResolverInterface::class)
+            self::createStub(ConfigResolverInterface::class)
         );
     }
 

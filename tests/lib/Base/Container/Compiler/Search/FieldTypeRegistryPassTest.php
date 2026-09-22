@@ -33,7 +33,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new FieldRegistryPass());
     }
 
-    public function testRegisterFieldType()
+    public function testRegisterFieldType(): void
     {
         $fieldTypeIdentifier = 'field_type_identifier';
         $serviceId = 'service_id';
@@ -50,7 +50,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testRegisterFieldTypeNoAlias()
+    public function testRegisterFieldTypeNoAlias(): void
     {
         $this->expectException(\LogicException::class);
 

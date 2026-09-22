@@ -14,11 +14,15 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\Relation\Value;
 use Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    public function providerForTestGetViewParameters()
+    /**
+     * @return array<mixed>
+     */
+    public static function providerForTestGetViewParameters(): array
     {
         return [
             [ContentInfo::STATUS_DRAFT, ['available' => true]],
@@ -27,10 +31,8 @@ class ParameterProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForTestGetViewParameters
-     */
-    public function testGetViewParameters($status, array $expected)
+    #[DataProvider('providerForTestGetViewParameters')]
+    public function testGetViewParameters($status, array $expected): void
     {
         $contentServiceMock = $this->createMock(ContentService::class);
         $contentServiceMock
@@ -47,7 +49,7 @@ class ParameterProviderTest extends TestCase
         TestCase::assertSame($parameters, $expected);
     }
 
-    public function testNotFoundGetViewParameters()
+    public function testNotFoundGetViewParameters(): void
     {
         $contentId = 123;
 
@@ -64,7 +66,7 @@ class ParameterProviderTest extends TestCase
         TestCase::assertSame($parameters, ['available' => false]);
     }
 
-    public function testUnauthorizedGetViewParameters()
+    public function testUnauthorizedGetViewParameters(): void
     {
         $contentId = 123;
 
