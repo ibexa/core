@@ -12,9 +12,13 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\Migrations\Query\Query;
+use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface;
 use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
+use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
@@ -29,6 +33,10 @@ class CoreInstaller extends DbBasedInstaller implements Installer
 
     private DbPlatformFactoryInterface $dbPlatformFactory;
 
+    private bool $schemaBuilderEventEnabled;
+
+    private ?TaggedMigrationsRunner $taggedMigrationsRunner;
+
     /**
      * @param \Doctrine\DBAL\Connection $db
      * @param \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface $schemaBuilder
@@ -37,13 +45,17 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         Connection $db,
         SchemaBuilderInterface $schemaBuilder,
         SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass,
-        DbPlatformFactoryInterface $dbPlatformFactory
+        DbPlatformFactoryInterface $dbPlatformFactory,
+        bool $schemaBuilderEventEnabled,
+        ?TaggedMigrationsRunner $taggedMigrationsRunner = null
     ) {
         parent::__construct($db);
 
         $this->schemaBuilder = $schemaBuilder;
         $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
         $this->dbPlatformFactory = $dbPlatformFactory;
+        $this->schemaBuilderEventEnabled = $schemaBuilderEventEnabled;
+        $this->taggedMigrationsRunner = $taggedMigrationsRunner;
     }
 
     private function getIbexaDatabasePlatform(): AbstractPlatform
@@ -66,15 +78,44 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      */
     public function importSchema()
     {
-        // note: schema is built using Schema Builder event-driven API
+        if ($this->schemaBuilderEventEnabled) {
+            $this->executeQueries($this->getQueriesFromSchemaBuilderEvent());
+
+            return;
+        }
+
+        if ($this->taggedMigrationsRunner === null) {
+            throw new RuntimeException(
+                'Disabling "ibexa.installer.schema_builder_event.enabled" requires the "' .
+                IbexaOnlyDependencyFactory::SERVICE_ID . '" service (provided by "ibexa/doctrine-migrations", ' .
+                'with Ibexa\\Bundle\\DoctrineMigrations\\IbexaDoctrineMigrationsBundle registered) to be available.'
+            );
+        }
+
+        $this->reportExecutedQueries($this->taggedMigrationsRunner->run());
+    }
+
+    /**
+     * @return list<\Doctrine\Migrations\Query\Query>
+     */
+    private function getQueriesFromSchemaBuilderEvent(): array
+    {
         $schema = $this->schemaBuilder->buildSchema();
         $databasePlatform = $this->getIbexaDatabasePlatform();
-        $queries = array_merge(
+
+        $sqls = array_merge(
             $this->getDropSqlStatementsForExistingSchema($schema, $databasePlatform),
-            // generate schema DDL queries
             $schema->toSql($databasePlatform)
         );
 
+        return array_map(static fn (string $sql): Query => new Query($sql), $sqls);
+    }
+
+    /**
+     * @param list<\Doctrine\Migrations\Query\Query> $queries
+     */
+    private function executeQueries(array $queries): void
+    {
         $queriesCount = count($queries);
         $this->output->writeln(
             sprintf(
@@ -88,7 +129,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         $progressBar->start($queriesCount);
 
         foreach ($queries as $query) {
-            $this->db->executeStatement($query);
+            $this->db->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
             $progressBar->advance(1);
         }
 
@@ -100,12 +141,29 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
+     * @param list<\Doctrine\Migrations\Query\Query> $queries
+     */
+    private function reportExecutedQueries(array $queries): void
+    {
+        $this->output->writeln(
+            sprintf(
+                '<info>Executed %d queries on database <comment>%s</comment> (<comment>%s</comment>)</info>',
+                count($queries),
+                $this->db->getDatabase(),
+                $this->getDBMSDataDirectoryName()
+            )
+        );
+    }
+
+    /**
      * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function importData()
     {
-        $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
+        if ($this->schemaBuilderEventEnabled) {
+            $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
+        }
     }
 
     /**
