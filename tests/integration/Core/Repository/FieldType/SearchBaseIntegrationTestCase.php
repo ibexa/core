@@ -310,12 +310,12 @@ abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
         $context = [
             $repository,
             $this->createTestSearchContent(
-                static::getValidSearchValueOne(),
+                $this::getValidSearchValueOne(),
                 $repository,
                 $contentType
             )->id,
             $this->createTestSearchContent(
-                static::getValidSearchValueTwo(),
+                $this::getValidSearchValueTwo(),
                 $repository,
                 $contentType
             )->id,

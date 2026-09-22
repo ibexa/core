@@ -289,10 +289,10 @@ abstract class AbstractServiceTestCase extends TestCase
     {
         $tested = array_merge(
             array_diff(
-                array_column(self::toArray(static::providerForLanguagesLookupMethods()), 0),
+                array_column(self::toArray($this::providerForLanguagesLookupMethods()), 0),
                 [self::NO_DATA_METHOD]
             ),
-            array_column(self::toArray(static::providerForPassTroughMethods()), 0)
+            array_column(self::toArray($this::providerForPassTroughMethods()), 0)
         );
 
         $class = new ReflectionClass($this->getSiteAccessAwareServiceClassName());

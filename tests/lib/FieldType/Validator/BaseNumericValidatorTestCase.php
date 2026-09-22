@@ -184,10 +184,10 @@ abstract class BaseNumericValidatorTestCase extends TestCase
 
         $constraints = [];
         if (array_key_exists('min', $data)) {
-            $constraints[static::getMinNumericValueName()] = $data['min'];
+            $constraints[$this::getMinNumericValueName()] = $data['min'];
         }
         if (array_key_exists('max', $data)) {
-            $constraints[static::getMinNumericValueName()] = $data['max'];
+            $constraints[$this::getMinNumericValueName()] = $data['max'];
         }
 
         self::assertEmpty(
@@ -203,8 +203,8 @@ abstract class BaseNumericValidatorTestCase extends TestCase
     #[DataProvider('providerForConstraintsInitializeSetGet')]
     final public function testConstraintsInitializeGet(array $constraints): void
     {
-        $minNumericValueName = static::getMinNumericValueName();
-        $maxNumericValueName = static::getMaxNumericValueName();
+        $minNumericValueName = $this::getMinNumericValueName();
+        $maxNumericValueName = $this::getMaxNumericValueName();
         $validator = $this->getValidatorInstance();
         $validator->initializeWithConstraints(
             $constraints
@@ -219,8 +219,8 @@ abstract class BaseNumericValidatorTestCase extends TestCase
     #[DataProvider('providerForConstraintsInitializeSetGet')]
     final public function testConstraintsSetGet(array $constraints): void
     {
-        $minNumericValueName = static::getMinNumericValueName();
-        $maxNumericValueName = static::getMaxNumericValueName();
+        $minNumericValueName = $this::getMinNumericValueName();
+        $maxNumericValueName = $this::getMaxNumericValueName();
         $validator = $this->getValidatorInstance();
         $validator->{$minNumericValueName} = $constraints[$minNumericValueName];
         $validator->{$maxNumericValueName} = $constraints[$maxNumericValueName];
