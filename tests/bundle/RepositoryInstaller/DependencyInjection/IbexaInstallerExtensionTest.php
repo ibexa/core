@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Bundle\RepositoryInstaller\DependencyInjection;
 
 use Ibexa\Bundle\RepositoryInstaller\Bootstrapper\DoctrineMigrationsSchemaHook;
 use Ibexa\Bundle\RepositoryInstaller\Command\InstallPlatformCommand;
-use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass;
 use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\IbexaRepositoryInstallerExtension;
 use Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller;
 use Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller;
@@ -30,7 +29,7 @@ class IbexaInstallerExtensionTest extends AbstractExtensionTestCase
         );
         $this->assertContainerBuilderHasServiceDefinitionWithTag(
             CoreInstaller::class,
-            InstallerTagPass::INSTALLER_TAG,
+            'ibexa.installer',
             ['type' => 'ibexa-oss']
         );
     }
