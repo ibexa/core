@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver;
 
 use Ibexa\Contracts\Core\Limitation\Target\Version;
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -80,7 +81,7 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
         $this->loginAsEditorUserWithLimitations('content', 'read', $limitations);
 
         $trashItem = $repository->sudo(
-            static function (Repository $repository) use ($location): ?\Ibexa\Contracts\Core\Repository\Values\Content\TrashItem {
+            static function (Repository $repository) use ($location): ?TrashItem {
                 return $repository->getTrashService()->trash($location);
             }
         );

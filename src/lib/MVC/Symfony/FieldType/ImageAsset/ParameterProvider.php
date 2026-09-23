@@ -73,7 +73,7 @@ class ParameterProvider implements ParameterProviderInterface
     private function loadContentInfo(int $id): ContentInfo
     {
         return $this->repository->sudo(
-            static function (Repository $repository) use ($id): \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo {
+            static function (Repository $repository) use ($id): ContentInfo {
                 return $repository->getContentService()->loadContentInfo($id);
             }
         );

@@ -1039,7 +1039,7 @@ class ContentTypeHandlerTest extends TestCase
         $matcher = self::exactly(2);
         $handler->expects($matcher)
             ->method('load')
-            ->willReturnCallback(static function (...$parameters) use ($matcher): \Ibexa\Contracts\Core\Persistence\Content\Type {
+            ->willReturnCallback(static function (...$parameters) use ($matcher): Type {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame([23, 1], $parameters);
 

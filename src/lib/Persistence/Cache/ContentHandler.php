@@ -154,7 +154,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $this->getCacheValue(
             (int) $contentId,
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_IDENTIFIER, [], true) . '-',
-            function ($id) use ($versionNo, $translations): \Ibexa\Contracts\Core\Persistence\Content {
+            function ($id) use ($versionNo, $translations): Content {
                 return $this->persistenceHandler->contentHandler()->load($id, $versionNo, $translations);
             },
             $this->getContentTags,
@@ -207,7 +207,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $this->getCacheValue(
             $contentId,
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_INFO_IDENTIFIER, [], true) . '-',
-            function ($contentId): \Ibexa\Contracts\Core\Persistence\Content\ContentInfo {
+            function ($contentId): ContentInfo {
                 return $this->persistenceHandler->contentHandler()->loadContentInfo($contentId);
             },
             $this->getContentInfoTags,
@@ -240,7 +240,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($remoteId),
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_INFO_BY_REMOTE_ID_IDENTIFIER, [], true) . '-',
-            function () use ($remoteId): \Ibexa\Contracts\Core\Persistence\Content\ContentInfo {
+            function () use ($remoteId): ContentInfo {
                 return $this->persistenceHandler->contentHandler()->loadContentInfoByRemoteId($remoteId);
             },
             $this->getContentInfoTags,

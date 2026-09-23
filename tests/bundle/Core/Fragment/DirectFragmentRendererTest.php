@@ -59,7 +59,7 @@ final class DirectFragmentRendererTest extends TestCase
 
         $controllerResolver
             ->method('getController')
-            ->willReturn(static function (): \Symfony\Component\HttpFoundation\Response {
+            ->willReturn(static function (): Response {
                 return new Response('response_body');
             });
 
@@ -75,7 +75,7 @@ final class DirectFragmentRendererTest extends TestCase
 
         $controllerResolver
             ->method('getController')
-            ->willReturn(static function (): \Symfony\Component\HttpFoundation\Response {
+            ->willReturn(static function (): Response {
                 return new Response('response_body');
             });
 

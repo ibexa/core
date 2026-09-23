@@ -1343,7 +1343,7 @@ class ContentHandlerTest extends TestCase
         $copyLoadMatcher = self::exactly(2);
         $handler->expects($copyLoadMatcher)
             ->method('load')
-            ->willReturnCallback(static function ($contentId, $versionNo) use ($copyLoadMatcher, $versionInfo): \Ibexa\Contracts\Core\Persistence\Content {
+            ->willReturnCallback(static function ($contentId, $versionNo) use ($copyLoadMatcher, $versionInfo): Content {
                 self::assertSame(23, $contentId);
                 if ($copyLoadMatcher->numberOfInvocations() === 1) {
                     self::assertSame(2, $versionNo);

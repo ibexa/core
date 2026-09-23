@@ -234,7 +234,7 @@ class LocationHandlerTest extends TestCase
         $this->treeHandler
             ->expects($loadLocationMatcher)
             ->method('loadLocation')
-            ->willReturnCallback(static function (int $nodeId) use ($loadLocationMatcher, $sourceData, $destinationData): \Ibexa\Contracts\Core\Persistence\Content\Location {
+            ->willReturnCallback(static function (int $nodeId) use ($loadLocationMatcher, $sourceData, $destinationData): Location {
                 $expectedArgs = [$sourceData['node_id'], $destinationData['node_id']];
                 $returnValues = [
                     new Location([
@@ -253,7 +253,7 @@ class LocationHandlerTest extends TestCase
         $this->contentHandler
             ->expects($loadContentInfoMatcher)
             ->method('loadContentInfo')
-            ->willReturnCallback(static function (int $contentId) use ($loadContentInfoMatcher, $sourceData, $destinationData): \Ibexa\Contracts\Core\Persistence\Content\ContentInfo {
+            ->willReturnCallback(static function (int $contentId) use ($loadContentInfoMatcher, $sourceData, $destinationData): ContentInfo {
                 $expectedArgs = [$destinationData['contentobject_id'], $sourceData['contentobject_id']];
                 $returnValues = [
                     new ContentInfo(['sectionId' => 12345]),

@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Cache;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandlerInterface;
@@ -150,7 +151,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         return $this->getCacheValue(
             $groupId,
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_IDENTIFIER, [], true) . '-',
-            function ($groupId): \Ibexa\Contracts\Core\Persistence\Content\Type\Group {
+            function ($groupId): Group {
                 return $this->persistenceHandler->contentTypeHandler()->loadGroup($groupId);
             },
             $this->getGroupTags,
@@ -182,7 +183,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($identifier),
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_IDENTIFIER, [], true) . '-',
-            function () use ($identifier): \Ibexa\Contracts\Core\Persistence\Content\Type\Group {
+            function () use ($identifier): Group {
                 return $this->persistenceHandler->contentTypeHandler()->loadGroupByIdentifier($identifier);
             },
             $this->getGroupTags,
@@ -272,7 +273,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         return $this->getCacheValue(
             $typeId,
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_IDENTIFIER, [], true) . '-',
-            function ($typeId) use ($status): \Ibexa\Contracts\Core\Persistence\Content\Type {
+            function ($typeId) use ($status): Type {
                 return $this->persistenceHandler->contentTypeHandler()->load($typeId, $status);
             },
             $this->getTypeTags,
@@ -290,7 +291,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($identifier),
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_IDENTIFIER, [], true) . '-',
-            function () use ($identifier): \Ibexa\Contracts\Core\Persistence\Content\Type {
+            function () use ($identifier): Type {
                 return $this->persistenceHandler->contentTypeHandler()->loadByIdentifier($identifier);
             },
             $this->getTypeTags,
@@ -307,7 +308,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($remoteId),
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_IDENTIFIER, [], true) . '-',
-            function () use ($remoteId): \Ibexa\Contracts\Core\Persistence\Content\Type {
+            function () use ($remoteId): Type {
                 return $this->persistenceHandler->contentTypeHandler()->loadByRemoteId($remoteId);
             },
             $this->getTypeTags,

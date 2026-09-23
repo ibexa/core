@@ -66,7 +66,7 @@ class ContentContext implements Context
         $draft = $this->createDraft($contentTypeIdentifier, $fields);
 
         $this->currentContent = $this->repository->sudo(
-            function () use ($draft): \Ibexa\Contracts\Core\Repository\Values\Content\Content {
+            function () use ($draft): Content {
                 return $this->repository->getContentService()->publishVersion($draft->versionInfo);
             }
         );
@@ -79,7 +79,7 @@ class ContentContext implements Context
     public function createDraftForContent(Content $content)
     {
         $this->currentDraft = $this->repository->sudo(
-            function () use ($content): \Ibexa\Contracts\Core\Repository\Values\Content\Content {
+            function () use ($content): Content {
                 return $this->repository->getContentService()->createContentDraft($content->contentInfo);
             }
         );
@@ -105,7 +105,7 @@ class ContentContext implements Context
             $updateStruct->setField($fieldDefIdentifier, $fieldValueUpdate);
         }
 
-        $updatedDraft = $this->repository->sudo(function () use ($updateStruct): \Ibexa\Contracts\Core\Repository\Values\Content\Content {
+        $updatedDraft = $this->repository->sudo(function () use ($updateStruct): Content {
             return $this->repository->getContentService()->updateContent(
                 $this->currentDraft->versionInfo,
                 $updateStruct
@@ -140,7 +140,7 @@ class ContentContext implements Context
         $locationCreateStruct = $this->repository->getLocationService()->newLocationCreateStruct(2);
 
         $this->currentDraft = $this->repository->sudo(
-            function () use ($createStruct, $locationCreateStruct): \Ibexa\Contracts\Core\Repository\Values\Content\Content {
+            function () use ($createStruct, $locationCreateStruct): Content {
                 return $this->repository->getContentService()->createContent(
                     $createStruct,
                     [$locationCreateStruct]

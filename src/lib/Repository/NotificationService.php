@@ -39,7 +39,7 @@ class NotificationService implements NotificationServiceInterface
         $list->totalCount = $this->persistenceHandler->countNotifications($currentUserId);
 
         if ($list->totalCount > 0) {
-            $list->items = array_map(function (Notification $spiNotification): \Ibexa\Contracts\Core\Repository\Values\Notification\Notification {
+            $list->items = array_map(function (Notification $spiNotification): APINotification {
                 return $this->buildDomainObject($spiNotification);
             }, $this->persistenceHandler->loadUserNotifications($currentUserId, $offset, $limit));
         }
@@ -55,7 +55,7 @@ class NotificationService implements NotificationServiceInterface
         $list->totalCount = $this->persistenceHandler->countNotifications($currentUserId, $query);
 
         if ($list->totalCount > 0) {
-            $list->items = array_map(function (Notification $spiNotification): \Ibexa\Contracts\Core\Repository\Values\Notification\Notification {
+            $list->items = array_map(function (Notification $spiNotification): APINotification {
                 return $this->buildDomainObject($spiNotification);
             }, $this->persistenceHandler->findUserNotifications($currentUserId, $query));
         }

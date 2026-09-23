@@ -160,7 +160,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $userId,
             $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [], true) . '-',
-            function ($userId): \Ibexa\Contracts\Core\Persistence\User {
+            function ($userId): User {
                 return $this->persistenceHandler->userHandler()->load($userId);
             },
             $this->getUserTags,
@@ -176,7 +176,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($login),
             $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [], true) . '-',
-            function () use ($login): \Ibexa\Contracts\Core\Persistence\User {
+            function () use ($login): User {
                 return $this->persistenceHandler->userHandler()->loadByLogin($login);
             },
             $this->getUserTags,
@@ -194,7 +194,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         $cachedValue = $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($email),
             $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [], true) . '-',
-            function () use ($email): \Ibexa\Contracts\Core\Persistence\User {
+            function () use ($email): User {
                 return $this->persistenceHandler->userHandler()->loadByEmail($email);
             },
             $this->getUserTags,
@@ -236,7 +236,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $hash,
             $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [], true) . '-',
-            function ($hash): \Ibexa\Contracts\Core\Persistence\User {
+            function ($hash): User {
                 return $this->persistenceHandler->userHandler()->loadUserByToken($hash);
             },
             function (User $user) use ($getUserTagsFn): array {
@@ -407,7 +407,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $roleId,
             $this->cacheIdentifierGenerator->generateKey(self::ROLE_IDENTIFIER, [], true) . '-',
-            function ($roleId): \Ibexa\Contracts\Core\Persistence\User\Role {
+            function ($roleId): Role {
                 return $this->persistenceHandler->userHandler()->loadRole($roleId);
             },
             $this->getRoleTags,
@@ -429,7 +429,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($identifier),
             $this->cacheIdentifierGenerator->generateKey(self::ROLE_IDENTIFIER, [], true) . '-',
-            function () use ($identifier): \Ibexa\Contracts\Core\Persistence\User\Role {
+            function () use ($identifier): Role {
                 return $this->persistenceHandler->userHandler()->loadRoleByIdentifier($identifier);
             },
             $this->getRoleTags,
@@ -466,7 +466,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $this->getCacheValue(
             $roleAssignmentId,
             $this->cacheIdentifierGenerator->generateKey(self::ROLE_ASSIGNMENT_IDENTIFIER, [], true) . '-',
-            function ($roleAssignmentId): \Ibexa\Contracts\Core\Persistence\User\RoleAssignment {
+            function ($roleAssignmentId): RoleAssignment {
                 return $this->persistenceHandler->userHandler()->loadRoleAssignment($roleAssignmentId);
             },
             $this->getRoleAssignmentTags,

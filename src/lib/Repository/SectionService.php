@@ -210,7 +210,7 @@ class SectionService implements SectionServiceInterface
      */
     public function loadSections(): iterable
     {
-        $sections = array_map(function ($spiSection): \Ibexa\Contracts\Core\Repository\Values\Content\Section {
+        $sections = array_map(function ($spiSection): Section {
             return $this->buildDomainSectionObject($spiSection);
         }, $this->sectionHandler->loadAll());
 

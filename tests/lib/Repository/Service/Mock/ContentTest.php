@@ -1896,7 +1896,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function ($languageCode): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
+                    static function ($languageCode): Language {
                         if ($languageCode === 'Klingon') {
                             throw new NotFoundException('Language', 'Klingon');
                         }
@@ -1963,7 +1963,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($valueString): \Ibexa\Tests\Core\Repository\Service\Mock\ValueStub {
+                    static function ($valueString): ValueStub {
                         return new ValueStub($valueString);
                     }
                 )
@@ -2152,7 +2152,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function (): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
+                    static function (): Language {
                         return new Language(['id' => 4242]);
                     }
                 )
@@ -2472,7 +2472,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($valueString): \Ibexa\Tests\Core\Repository\Service\Mock\ValueStub {
+                    static function ($valueString): ValueStub {
                         return new ValueStub($valueString);
                     }
                 )
@@ -2725,7 +2725,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function (): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
+                    static function (): Language {
                         return new Language(['id' => 4242]);
                     }
                 )
@@ -2736,7 +2736,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($valueString): \Ibexa\Tests\Core\Repository\Service\Mock\ValueStub {
+                    static function ($valueString): ValueStub {
                         return new ValueStub($valueString);
                     }
                 )
@@ -2809,7 +2809,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('acceptValue')
             ->will(
                 self::returnCallback(
-                    static function ($valueString): \Ibexa\Tests\Core\Repository\Service\Mock\ValueStub {
+                    static function ($valueString): ValueStub {
                         return new ValueStub($valueString);
                     }
                 )
@@ -3292,7 +3292,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function (): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
+                    static function (): Language {
                         return new Language(['id' => 4242]);
                     }
                 )
@@ -4820,7 +4820,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function ($languageCode): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
+                    static function ($languageCode): Language {
                         if ($languageCode === 'Klingon') {
                             throw new NotFoundException('Language', 'Klingon');
                         }
@@ -4923,7 +4923,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isString())
             ->will(
                 self::returnCallback(
-                    static function ($languageCode): \Ibexa\Contracts\Core\Repository\Values\Content\Language {
+                    static function ($languageCode): Language {
                         if ($languageCode === 'Klingon') {
                             throw new NotFoundException('Language', 'Klingon');
                         }

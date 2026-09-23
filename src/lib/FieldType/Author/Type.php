@@ -138,7 +138,7 @@ class Type extends FieldType implements TranslationContainerInterface
     {
         return new Value(
             array_map(
-                static function ($author): \Ibexa\Core\FieldType\Author\Author {
+                static function ($author): Author {
                     return new Author($author);
                 },
                 $hash

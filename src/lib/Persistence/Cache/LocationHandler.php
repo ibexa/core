@@ -69,7 +69,7 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $this->getCacheValue(
             (int) $locationId,
             $this->cacheIdentifierGenerator->generateKey(self::LOCATION_IDENTIFIER, [], true) . '-',
-            function ($id) use ($translations, $useAlwaysAvailable): \Ibexa\Contracts\Core\Persistence\Content\Location {
+            function ($id) use ($translations, $useAlwaysAvailable): Location {
                 return $this->persistenceHandler->locationHandler()->load($id, $translations, $useAlwaysAvailable);
             },
             $this->getLocationTags,
@@ -231,7 +231,7 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($remoteId),
             $this->cacheIdentifierGenerator->generateKey(self::LOCATION_REMOTE_ID_IDENTIFIER, [], true) . '-',
-            function () use ($remoteId, $translations, $useAlwaysAvailable): \Ibexa\Contracts\Core\Persistence\Content\Location {
+            function () use ($remoteId, $translations, $useAlwaysAvailable): Location {
                 return $this->persistenceHandler->locationHandler()->loadByRemoteId($remoteId, $translations, $useAlwaysAvailable);
             },
             $this->getLocationTags,

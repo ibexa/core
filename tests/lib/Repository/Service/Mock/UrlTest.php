@@ -351,11 +351,11 @@ class UrlTest extends BaseServiceMockTest
             $searchService
                 ->expects(self::once())
                 ->method('findContentInfo')
-                ->willReturnCallback(static function ($query) use ($expectedQuery, $usages): \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult {
+                ->willReturnCallback(static function ($query) use ($expectedQuery, $usages): ContentSearchResults {
                     self::assertEquals($expectedQuery, $query);
 
                     return new ContentSearchResults([
-                        'searchHits' => array_map(static function ($id): \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit {
+                        'searchHits' => array_map(static function ($id): SearchHit {
                             return new SearchHit([
                                 'valueObject' => new ContentInfo([
                                     'id' => $id,

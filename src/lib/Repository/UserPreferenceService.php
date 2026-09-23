@@ -47,7 +47,7 @@ class UserPreferenceService implements UserPreferenceServiceInterface
 
         $list->totalCount = $this->userPreferenceHandler->countUserPreferences($currentUserId);
         if ($list->totalCount > 0) {
-            $list->items = array_map(function (UserPreference $spiUserPreference): \Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference {
+            $list->items = array_map(function (UserPreference $spiUserPreference): APIUserPreference {
                 return $this->buildDomainObject($spiUserPreference);
             }, $this->userPreferenceHandler->loadUserPreferences($currentUserId, $offset, $limit));
         }

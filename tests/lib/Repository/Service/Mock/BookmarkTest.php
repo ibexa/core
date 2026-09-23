@@ -68,7 +68,7 @@ class BookmarkTest extends BaseServiceMockTest
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('create')
-                ->willReturnCallback(static function (CreateStruct $createStruct): \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark {
+                ->willReturnCallback(static function (CreateStruct $createStruct): Bookmark {
                     self::assertEquals(self::LOCATION_ID, $createStruct->locationId);
                     self::assertEquals(self::CURRENT_USER_ID, $createStruct->userId);
 
@@ -199,7 +199,7 @@ class BookmarkTest extends BaseServiceMockTest
         $limit = 25;
 
         $expectedTotalCount = 10;
-        $expectedItems = array_map(function ($locationId): \Ibexa\Core\Repository\Values\Content\Location {
+        $expectedItems = array_map(function ($locationId): Location {
             return $this->createLocation($locationId);
         }, range(1, $expectedTotalCount));
         $locationList = new LocationList(['totalCount' => $expectedTotalCount, 'locations' => $expectedItems]);

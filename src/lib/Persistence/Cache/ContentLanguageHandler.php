@@ -87,7 +87,7 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
         return $this->getCacheValue(
             $id,
             $this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_IDENTIFIER, [], true) . '-',
-            function ($id): \Ibexa\Contracts\Core\Persistence\Content\Language {
+            function ($id): Language {
                 return $this->persistenceHandler->contentLanguageHandler()->load($id);
             },
             $this->getTags,
@@ -119,7 +119,7 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($languageCode),
             $this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_CODE_IDENTIFIER, [], true) . '-',
-            function () use ($languageCode): \Ibexa\Contracts\Core\Persistence\Content\Language {
+            function () use ($languageCode): Language {
                 return $this->persistenceHandler->contentLanguageHandler()->loadByLanguageCode($languageCode);
             },
             $this->getTags,

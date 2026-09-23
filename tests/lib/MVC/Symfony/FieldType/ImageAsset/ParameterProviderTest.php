@@ -75,7 +75,7 @@ class ParameterProviderTest extends TestCase
             ->method('isEmptyValue')
             ->willReturn(false);
 
-        $closure = static function (Repository $repository) use ($destinationContentId): \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo {
+        $closure = static function (Repository $repository) use ($destinationContentId): ContentInfo {
             return $repository->getContentService()->loadContentInfo($destinationContentId);
         };
 
@@ -103,7 +103,7 @@ class ParameterProviderTest extends TestCase
             ->method('isEmptyValue')
             ->willReturn(false);
 
-        $closure = static function (Repository $repository) use ($destinationContentId): \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo {
+        $closure = static function (Repository $repository) use ($destinationContentId): ContentInfo {
             return $repository->getContentService()->loadContentInfo($destinationContentId);
         };
 

@@ -260,7 +260,7 @@ class UrlAliasGeneratorTest extends TestCase
             ->method('loadLocation')
             ->will(
                 self::returnCallback(
-                    static function ($locationId): \Ibexa\Core\Repository\Values\Content\Location {
+                    static function ($locationId): Location {
                         return new Location(['id' => $locationId]);
                     }
                 )

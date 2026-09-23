@@ -208,7 +208,7 @@ class ContentViewBuilder implements ViewBuilder
     private function loadEmbeddedContent($contentId, ?Location $location = null, ?string $languageCode = null)
     {
         $content = $this->repository->sudo(
-            static function (Repository $repository) use ($contentId, $languageCode): \Ibexa\Contracts\Core\Repository\Values\Content\Content {
+            static function (Repository $repository) use ($contentId, $languageCode): Content {
                 return $repository->getContentService()->loadContent($contentId, $languageCode ? [$languageCode] : null);
             }
         );
@@ -242,7 +242,7 @@ class ContentViewBuilder implements ViewBuilder
     private function loadLocation($locationId)
     {
         $location = $this->repository->sudo(
-            static function (Repository $repository) use ($locationId): \Ibexa\Contracts\Core\Repository\Values\Content\Location {
+            static function (Repository $repository) use ($locationId): Location {
                 return $repository->getLocationService()->loadLocation($locationId);
             }
         );

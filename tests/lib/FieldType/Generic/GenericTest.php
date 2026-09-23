@@ -59,7 +59,7 @@ class GenericTest extends BaseFieldTypeTestCase
     {
         $constraintViolationList = new ConstraintViolationList(
             array_map(
-                static fn (ValidationError $error): \Symfony\Component\Validator\ConstraintViolation => new ConstraintViolation(
+                static fn (ValidationError $error): ConstraintViolation => new ConstraintViolation(
                     (string)$error->getTranslatableMessage(),
                     null,
                     [],
@@ -185,7 +185,7 @@ class GenericTest extends BaseFieldTypeTestCase
 
         $serializer
             ->method('denormalize')
-            ->willReturnCallback(static function (array $data, string $valueClass): \Ibexa\Tests\Core\FieldType\Generic\Stubs\Value {
+            ->willReturnCallback(static function (array $data, string $valueClass): GenericFieldValueStub {
                 self::assertEquals(GenericFieldValueStub::class, $valueClass);
 
                 return new GenericFieldValueStub($data['value']);

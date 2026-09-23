@@ -35,7 +35,7 @@ class URLCheckerTest extends TestCase
         $this->urlService
             ->expects(self::any())
             ->method('createUpdateStruct')
-            ->willReturnCallback(static function (): \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct {
+            ->willReturnCallback(static function (): URLUpdateStruct {
                 return new URLUpdateStruct();
             });
 

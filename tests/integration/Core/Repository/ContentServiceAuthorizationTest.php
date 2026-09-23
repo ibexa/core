@@ -129,7 +129,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
         $contentId = $this->generateId('object', 10);
         $this->setRestrictedEditorUser();
 
-        $contentInfo = $repository->sudo(static function (Repository $repository) use ($contentId): \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo {
+        $contentInfo = $repository->sudo(static function (Repository $repository) use ($contentId): ContentInfo {
             return $repository->getContentService()->loadContentInfo($contentId);
         });
 

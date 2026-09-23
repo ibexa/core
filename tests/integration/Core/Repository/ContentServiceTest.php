@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\DraftList\Item\UnauthorizedCo
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
@@ -5876,7 +5877,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
         $locationCreateStructs = array_map(
-            function (Location $parentLocation): \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct {
+            function (Location $parentLocation): LocationCreateStruct {
                 return $this->locationService->newLocationCreateStruct($parentLocation->id);
             },
             $this->createParentLocationsForHideReveal(2)
@@ -5916,7 +5917,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
         $locationCreateStructs = array_map(
-            function (Location $parentLocation): \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct {
+            function (Location $parentLocation): LocationCreateStruct {
                 return $this->locationService->newLocationCreateStruct($parentLocation->id);
             },
             $this->createParentLocationsForHideReveal(2)

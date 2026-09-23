@@ -66,7 +66,7 @@ final class StaticSiteAccessProvider implements SiteAccessProviderInterface
     {
         $siteAccess = new SiteAccess($name, SiteAccess::DEFAULT_MATCHING_TYPE, null, self::class);
         $siteAccess->groups = array_map(
-            static function ($groupName): \Ibexa\Core\MVC\Symfony\SiteAccessGroup {
+            static function ($groupName): SiteAccessGroup {
                 return new SiteAccessGroup($groupName);
             },
             $this->groupsBySiteAccess[$name] ?? []
