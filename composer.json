@@ -87,7 +87,7 @@
         "doctrine/orm": "2.20.7",
         "ezsystems/ezpublish-legacy": "*",
         "phpunit/phpunit": "8.4.0",
-        "twig/twig": ">=3.29"
+        "twig/twig": "3.29.0"
     },
     "replace": {
         "ezsystems/ezplatform-kernel": "*"
