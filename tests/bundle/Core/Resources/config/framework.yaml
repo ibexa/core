@@ -10,3 +10,5 @@ framework:
         app: cache.adapter.array
     router:
         resource: '%ibexa.core.test.resource_dir%/config/routes.yaml'
+    property_info:
+        with_constructor_extractor: false
