@@ -36,7 +36,7 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
         $repositoryMock
             ->method('sudo')
             ->willReturnCallback(
-                static fn (callable $callback) => $callback()
+                static fn (callable $callback): mixed => $callback()
             );
 
         $inputMock = $this->createMock(InputInterface::class);

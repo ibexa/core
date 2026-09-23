@@ -111,8 +111,8 @@ class ContentUpdaterTest extends TestCase
         $actionAMatcher = self::exactly(2);
         $actionA->expects($actionAMatcher)
             ->method('apply')
-            ->willReturnCallback(function (...$parameters) use ($actionAMatcher) {
-                $this->assertSame([$actionAMatcher->numberOfInvocations() === 1 ? 11 : 22], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($actionAMatcher): void {
+                self::assertSame([$actionAMatcher->numberOfInvocations() === 1 ? 11 : 22], $parameters);
             });
         $actionB = $this->getMockForAbstractClass(
             Action::class,
@@ -123,8 +123,8 @@ class ContentUpdaterTest extends TestCase
         $actionBMatcher = self::exactly(2);
         $actionB->expects($actionBMatcher)
             ->method('apply')
-            ->willReturnCallback(function (...$parameters) use ($actionBMatcher) {
-                $this->assertSame([$actionBMatcher->numberOfInvocations() === 1 ? 11 : 22], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($actionBMatcher): void {
+                self::assertSame([$actionBMatcher->numberOfInvocations() === 1 ? 11 : 22], $parameters);
             });
 
         $actions = [$actionA, $actionB];

@@ -46,7 +46,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $id = $gateway->insertGroup($group);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '1',
@@ -108,7 +108,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $res = $gateway->updateGroup($struct);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 ['4'],
             ],
@@ -129,7 +129,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             )
             ->from(Gateway::CONTENT_TYPE_GROUP_TABLE)
             ->orderBy('id');
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => 1,
@@ -239,7 +239,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->deleteGroup(2);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 ['1'],
                 ['3'],
@@ -446,7 +446,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->insertType($type);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$expectation]],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select($column)
@@ -478,9 +478,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->insertType($type);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             array_map(
-                static function ($value) {
+                static function ($value): array {
                     return [$value];
                 },
                 $expectation
@@ -540,7 +540,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->insertFieldDefinition(23, 1, $field, $storageField);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'content_type_id' => '23',
@@ -679,7 +679,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->deleteFieldDefinition(1, 0, 119);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[5]],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT(*)')
@@ -699,7 +699,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $gateway->updateFieldDefinition(2, 0, $fieldDefinitionFixture, $storageFieldDefinitionFixture);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 // "random" sample
                 [
@@ -769,7 +769,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->insertGroupAssignment(3, 42, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'content_type_id' => '42',
@@ -798,7 +798,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->deleteGroupAssignment(1, 1, 0);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['1']],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select(
@@ -821,7 +821,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->updateType(1, 0, $type);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     $fieldName => $expectedValue,
@@ -848,7 +848,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->updateType(1, 0, $type);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'content_type_id' => 1,
@@ -982,7 +982,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 )
             );
         // 1 left with version 1
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1]],
             $countAffectedAttr
         );
@@ -991,7 +991,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $countNotAffectedAttr->select('COUNT(*)')
             ->from(Gateway::FIELD_DEFINITION_TABLE);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[2]],
             $countNotAffectedAttr
         );
@@ -1011,7 +1011,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $countNotAffectedAttr->select('COUNT(*)')
             ->from(Gateway::FIELD_DEFINITION_TABLE);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[5]],
             $countNotAffectedAttr
         );
@@ -1031,7 +1031,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $countAffectedAttr->select('COUNT(*)')
             ->from(Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[2]],
             $countAffectedAttr
         );
@@ -1051,7 +1051,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $countAffectedAttr->select('COUNT(*)')
             ->from(Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[3]],
             $countAffectedAttr
         );
@@ -1071,7 +1071,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $countAffectedAttr->select('COUNT(*)')
             ->from(Gateway::CONTENT_TYPE_TABLE);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1]],
             $countAffectedAttr
         );
@@ -1091,7 +1091,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $countAffectedAttr->select('COUNT(*)')
             ->from(Gateway::CONTENT_TYPE_TABLE);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[2]],
             $countAffectedAttr
         );
@@ -1106,7 +1106,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $gateway->publishTypeAndFields(1, 1, 0);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1]],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
@@ -1114,7 +1114,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->where('id = 1 AND status = 0')
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[2]],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
@@ -1122,7 +1122,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->where('content_type_id = 1 AND content_type_status = 0')
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[3]],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
@@ -1130,7 +1130,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->where('content_type_id = 1 AND status = 0')
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1]],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')

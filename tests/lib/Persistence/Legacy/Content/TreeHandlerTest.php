@@ -142,7 +142,7 @@ class TreeHandlerTest extends TestCase
         $this->getLocationGatewayMock()
             ->expects(self::exactly(3))
             ->method('getBasicNodeData')
-            ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder) {
+            ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder): array {
                 $order = $invocationOrder++;
                 switch ($order) {
                     case 0:
@@ -174,7 +174,7 @@ class TreeHandlerTest extends TestCase
         $this->getLocationGatewayMock()
             ->expects(self::exactly(3))
             ->method('getChildren')
-            ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder) {
+            ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder): array {
                 $order = $invocationOrder++;
                 switch ($order) {
                     case 1:
@@ -200,7 +200,7 @@ class TreeHandlerTest extends TestCase
         $this->getLocationGatewayMock()
             ->expects(self::exactly(2))
             ->method('countLocationsByContentId')
-            ->willReturnCallback(static function (int $contentId) use (&$invocationOrder) {
+            ->willReturnCallback(static function (int $contentId) use (&$invocationOrder): int {
                 $order = $invocationOrder++;
                 switch ($order) {
                     case 4:
@@ -224,7 +224,7 @@ class TreeHandlerTest extends TestCase
         $this->getLocationGatewayMock()
             ->expects(self::exactly(3))
             ->method('removeLocation')
-            ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder) {
+            ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder): void {
                 $order = $invocationOrder++;
                 switch ($order) {
                     case 5:
@@ -244,7 +244,7 @@ class TreeHandlerTest extends TestCase
         $this->getLocationGatewayMock()
             ->expects(self::exactly(3))
             ->method('deleteNodeAssignment')
-            ->willReturnCallback(static function (int $contentId) use (&$invocationOrder) {
+            ->willReturnCallback(static function (int $contentId) use (&$invocationOrder): void {
                 $order = $invocationOrder++;
                 switch ($order) {
                     case 6:
@@ -265,7 +265,7 @@ class TreeHandlerTest extends TestCase
             ->expects(self::once())
             ->method('getFallbackMainNodeData')
             ->with(102, 202)
-            ->willReturnCallback(static function () use (&$invocationOrder) {
+            ->willReturnCallback(static function () use (&$invocationOrder): array {
                 self::assertSame(10, $invocationOrder++);
 
                 return [
@@ -326,7 +326,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler
             ->expects(self::exactly(2))
             ->method('loadLocation')
-            ->willReturnCallback(static function (int $locationId) use (&$invocationOrder) {
+            ->willReturnCallback(static function (int $locationId) use (&$invocationOrder): Location {
                 $order = $invocationOrder++;
                 switch ($order) {
                     case 0:
@@ -345,7 +345,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler
             ->expects(self::exactly(2))
             ->method('loadContentInfo')
-            ->willReturnCallback(static function ($contentId) use (&$invocationOrder) {
+            ->willReturnCallback(static function ($contentId) use (&$invocationOrder): ContentInfo {
                 $order = $invocationOrder++;
                 switch ($order) {
                     case 1:
@@ -391,7 +391,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler
             ->expects(self::exactly(2))
             ->method('loadLocation')
-            ->willReturnCallback(static function (int $locationId) use (&$invocationOrder) {
+            ->willReturnCallback(static function (int $locationId) use (&$invocationOrder): Location {
                 $order = $invocationOrder++;
                 switch ($order) {
                     case 0:
@@ -410,7 +410,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler
             ->expects(self::exactly(2))
             ->method('loadContentInfo')
-            ->willReturnCallback(static function ($contentId) use (&$invocationOrder) {
+            ->willReturnCallback(static function ($contentId) use (&$invocationOrder): ContentInfo {
                 $order = $invocationOrder++;
                 switch ($order) {
                     case 1:

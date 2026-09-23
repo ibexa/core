@@ -335,12 +335,12 @@ final class PreviewControllerTest extends TestCase
         $matcher = self::exactly(2);
         $this->previewHelper
             ->expects($matcher)
-            ->method('setPreviewActive')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('setPreviewActive')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertTrue($parameters[0]);
+                    self::assertTrue($parameters[0]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertFalse($parameters[0]);
+                    self::assertFalse($parameters[0]);
                 }
             })
         ;

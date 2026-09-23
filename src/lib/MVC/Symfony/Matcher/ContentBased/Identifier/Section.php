@@ -10,6 +10,7 @@ namespace Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\Section as APISection;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Core\MVC\Symfony\View\ContentValueView;
 use Ibexa\Core\MVC\Symfony\View\View;
@@ -26,7 +27,7 @@ class Section extends MultipleValued
     public function matchLocation(Location $location): bool
     {
         $section = $this->repository->sudo(
-            static function (Repository $repository) use ($location) {
+            static function (Repository $repository) use ($location): APISection {
                 return $repository->getSectionService()->loadSection(
                     $location->getContentInfo()->getSectionId()
                 );
@@ -46,7 +47,7 @@ class Section extends MultipleValued
     public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         $section = $this->repository->sudo(
-            static function (Repository $repository) use ($contentInfo) {
+            static function (Repository $repository) use ($contentInfo): APISection {
                 return $repository->getSectionService()->loadSection(
                     $contentInfo->getSectionId()
                 );
@@ -64,7 +65,7 @@ class Section extends MultipleValued
 
         $contentInfo = $view->getContent()->contentInfo;
         $section = $this->repository->sudo(
-            static function (Repository $repository) use ($contentInfo) {
+            static function (Repository $repository) use ($contentInfo): APISection {
                 return $repository->getSectionService()->loadSection(
                     $contentInfo->getSectionId()
                 );

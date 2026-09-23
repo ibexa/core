@@ -69,7 +69,7 @@ final class DFSSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPr
 
         return new DFSSiteAccessAwarePathPrefixer(
             $configProcessor,
-            $this->getDFSRootDir(),
+            self::getDFSRootDir(),
             $dynamicPath
         );
     }

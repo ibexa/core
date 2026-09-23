@@ -45,22 +45,22 @@ final class ImageFileVariationPurgerTest extends TestCase
 
         $this->pathGeneratorMock
             ->expects($matcher)
-            ->method('getVariationPath')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('getVariationPath')->willReturnCallback(static function (...$parameters) use ($matcher): string {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('path/to/1st/image.jpg', $parameters[0]);
-                    $this->assertSame('large', $parameters[1]);
+                    self::assertSame('path/to/1st/image.jpg', $parameters[0]);
+                    self::assertSame('large', $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('path/to/1st/image.jpg', $parameters[0]);
-                    $this->assertSame('gallery', $parameters[1]);
+                    self::assertSame('path/to/1st/image.jpg', $parameters[0]);
+                    self::assertSame('gallery', $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 3) {
-                    $this->assertSame('path/to/2nd/image.png', $parameters[0]);
-                    $this->assertSame('large', $parameters[1]);
+                    self::assertSame('path/to/2nd/image.png', $parameters[0]);
+                    self::assertSame('large', $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 4) {
-                    $this->assertSame('path/to/2nd/image.png', $parameters[0]);
-                    $this->assertSame('gallery', $parameters[1]);
+                    self::assertSame('path/to/2nd/image.png', $parameters[0]);
+                    self::assertSame('gallery', $parameters[1]);
                 }
 
                 return '';

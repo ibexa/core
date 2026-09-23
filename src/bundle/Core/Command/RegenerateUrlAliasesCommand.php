@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\Core\Command;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Psr\Log\LoggerInterface;
@@ -186,9 +187,9 @@ EOT
     private function processLocations(array $locations, ProgressBar $progressBar): void
     {
         $contentList = $this->repository->sudo(
-            static function (Repository $repository) use ($locations) {
+            static function (Repository $repository) use ($locations): iterable {
                 $contentInfoList = array_map(
-                    static function (Location $location) {
+                    static function (Location $location): ContentInfo {
                         return $location->contentInfo;
                     },
                     $locations
@@ -211,7 +212,7 @@ EOT
                 }
 
                 $this->repository->sudo(
-                    static function (Repository $repository) use ($location) {
+                    static function (Repository $repository) use ($location): void {
                         $repository->getURLAliasService()->refreshSystemUrlAliasesForLocation(
                             $location
                         );
@@ -247,7 +248,7 @@ EOT
     private function loadAllLocations(int $offset, int $iterationCount): array
     {
         return $this->repository->sudo(
-            static function (Repository $repository) use ($offset, $iterationCount) {
+            static function (Repository $repository) use ($offset, $iterationCount): array {
                 return $repository->getLocationService()->loadAllLocations($offset, $iterationCount);
             }
         );
@@ -267,7 +268,7 @@ EOT
         $locationIds = array_slice($locationIds, $offset, $iterationCount);
 
         return $this->repository->sudo(
-            static function (Repository $repository) use ($locationIds) {
+            static function (Repository $repository) use ($locationIds): iterable {
                 return $repository->getLocationService()->loadLocationList($locationIds);
             }
         );
@@ -283,7 +284,7 @@ EOT
     private function getFilteredLocationList(array $locationIds): array
     {
         $locations = $this->repository->sudo(
-            static function (Repository $repository) use ($locationIds) {
+            static function (Repository $repository) use ($locationIds): iterable {
                 $locationService = $repository->getLocationService();
 
                 return $locationService->loadLocationList($locationIds);
@@ -291,7 +292,7 @@ EOT
         );
 
         return array_map(
-            static function (Location $location) {
+            static function (Location $location): int {
                 return $location->id;
             },
             $locations

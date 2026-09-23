@@ -346,8 +346,8 @@ final class AliasGeneratorTest extends TestCase
         $this->filterManager
             ->expects($matcher)
             ->method('applyFilter')
-            ->willReturnCallback(function (...$parameters) use ($matcher, $expectedApplyFilterCalls, $binary) {
-                $this->assertSame($expectedApplyFilterCalls[$matcher->numberOfInvocations() - 1], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($matcher, $expectedApplyFilterCalls, $binary): BinaryInterface {
+                self::assertSame($expectedApplyFilterCalls[$matcher->numberOfInvocations() - 1], $parameters);
 
                 return $binary;
             });

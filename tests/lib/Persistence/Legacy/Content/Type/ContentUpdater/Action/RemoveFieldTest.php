@@ -115,8 +115,8 @@ class RemoveFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
-            ->willReturnCallback(function (...$parameters) use ($loadMatcher, $contentId) {
-                $this->assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId): array {
+                self::assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
                 return [];
             });
@@ -125,8 +125,8 @@ class RemoveFieldTest extends TestCase
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->willReturnCallback(function (...$parameters) use ($extractMatcher, $content1, $content2) {
-                $this->assertSame([[], [], 'content_', null], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
+                self::assertSame([[], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
             });
@@ -140,11 +140,11 @@ class RemoveFieldTest extends TestCase
         $this->getContentStorageHandlerMock()
             ->expects($deleteFieldDataMatcher)
             ->method('deleteFieldData')
-            ->willReturnCallback(function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId) {
+            ->willReturnCallback(static function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId): void {
                 $expectedVersionInfo = $deleteFieldDataMatcher->numberOfInvocations() === 1
                     ? $content1->versionInfo
                     : $content2->versionInfo;
-                $this->assertSame(['ibexa_string', $expectedVersionInfo, [$fieldId]], $parameters);
+                self::assertSame(['ibexa_string', $expectedVersionInfo, [$fieldId]], $parameters);
             });
 
         $action->apply($contentId);
@@ -176,8 +176,8 @@ class RemoveFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
-            ->willReturnCallback(function (...$parameters) use ($loadMatcher, $contentId) {
-                $this->assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId): array {
+                self::assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
                 return [];
             });
@@ -186,8 +186,8 @@ class RemoveFieldTest extends TestCase
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->willReturnCallback(function (...$parameters) use ($extractMatcher, $content1, $content2) {
-                $this->assertSame([[], [], 'content_', null], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
+                self::assertSame([[], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
             });
@@ -196,20 +196,20 @@ class RemoveFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($deleteFieldMatcher)
             ->method('deleteField')
-            ->willReturnCallback(function (...$parameters) use ($deleteFieldMatcher, $fieldId1, $fieldId2) {
+            ->willReturnCallback(static function (...$parameters) use ($deleteFieldMatcher, $fieldId1, $fieldId2): void {
                 $expected = $deleteFieldMatcher->numberOfInvocations() === 1 ? $fieldId1 : $fieldId2;
-                $this->assertSame([$expected], $parameters);
+                self::assertSame([$expected], $parameters);
             });
 
         $deleteFieldDataMatcher = self::exactly(2);
         $this->getContentStorageHandlerMock()
             ->expects($deleteFieldDataMatcher)
             ->method('deleteFieldData')
-            ->willReturnCallback(function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId1, $fieldId2) {
+            ->willReturnCallback(static function (...$parameters) use ($deleteFieldDataMatcher, $content1, $content2, $fieldId1, $fieldId2): void {
                 $expectedVersionInfo = $deleteFieldDataMatcher->numberOfInvocations() === 1
                     ? $content1->versionInfo
                     : $content2->versionInfo;
-                $this->assertSame(['ibexa_string', $expectedVersionInfo, [$fieldId1, $fieldId2]], $parameters);
+                self::assertSame(['ibexa_string', $expectedVersionInfo, [$fieldId1, $fieldId2]], $parameters);
             });
 
         $this->getContentGatewayMock()

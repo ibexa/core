@@ -62,7 +62,7 @@ class ArrayListTest extends AbstractCollectionTestCase
 
         self::assertEquals(
             $this->createCollection(['A', 'B', 'C']),
-            $list->map(static fn (string $value) => strtoupper($value))
+            $list->map(static fn (string $value): string => strtoupper($value))
         );
     }
 
@@ -72,7 +72,7 @@ class ArrayListTest extends AbstractCollectionTestCase
 
         self::assertEquals(
             $this->createCollection(['7', '9', '10']),
-            $list->filter(static fn (string $item) => ctype_digit($item))
+            $list->filter(static fn (string $item): bool => ctype_digit($item))
         );
     }
 

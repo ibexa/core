@@ -29,7 +29,7 @@ final class RemoteIdIndexingTest extends BaseTestCase
         parent::setUp();
 
         if (empty(self::$contentIdByRemoteIdIndex)) {
-            foreach ($this->getRemoteIDs() as $remoteId) {
+            foreach (self::getRemoteIDs() as $remoteId) {
                 self::$contentIdByRemoteIdIndex[$remoteId] = $this->createTestFolder(
                     $remoteId
                 );

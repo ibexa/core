@@ -62,11 +62,11 @@ final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
     public function testGetConstraintsSchema(): void
     {
         $constraintsSchema = [
-            $this->getMinNumericValueName() => [
+            self::getMinNumericValueName() => [
                 'type' => 'int',
                 'default' => 0,
             ],
-            $this->getMaxNumericValueName() => [
+            self::getMaxNumericValueName() => [
                 'type' => 'int',
                 'default' => null,
             ],
@@ -120,8 +120,8 @@ final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
     public function testValidateWrongValues(int $value, string $message): void
     {
         $validator = $this->getValidatorInstance();
-        $validator->minIntegerValue = $this->getMinIntegerValue();
-        $validator->maxIntegerValue = $this->getMaxIntegerValue();
+        $validator->minIntegerValue = self::getMinIntegerValue();
+        $validator->maxIntegerValue = self::getMaxIntegerValue();
         self::assertFalse($validator->validate(new IntegerValue($value)));
         self::assertWrongValueValidationMessage($validator->getMessage(), $message);
     }

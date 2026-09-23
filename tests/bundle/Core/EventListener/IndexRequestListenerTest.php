@@ -62,7 +62,7 @@ class IndexRequestListenerTest extends TestCase
                     ['onKernelRequestIndex', 40],
                 ],
             ],
-            $this->indexRequestEventListener->getSubscribedEvents()
+            IndexRequestListener::getSubscribedEvents()
         );
     }
 

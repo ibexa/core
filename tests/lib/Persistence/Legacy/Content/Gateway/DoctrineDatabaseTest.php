@@ -44,7 +44,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->insertContentObject($struct);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'name' => 'Content name',
@@ -168,7 +168,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->insertVersion($version, []);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'contentobject_id' => '2342',
@@ -217,7 +217,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $gateway->setStatus($version->contentInfo->id, $version->versionNo, VersionInfo::STATUS_PENDING)
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[VersionInfo::STATUS_PENDING]],
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
@@ -226,7 +226,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         // check that content status has not been set to published
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[VersionInfo::STATUS_DRAFT]],
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
@@ -252,7 +252,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $gateway->setStatus($version->contentInfo->id, $version->versionNo, VersionInfo::STATUS_PUBLISHED)
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[VersionInfo::STATUS_PUBLISHED]],
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
@@ -261,7 +261,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         // check that content status has been set to published
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[ContentInfo::STATUS_PUBLISHED]],
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
@@ -291,7 +291,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->updateContent(10, $metadataStruct);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'initial_language_id' => '3',
@@ -361,7 +361,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
         $expr = $query->expr();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'creator_id' => '23',
@@ -396,7 +396,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->insertNewField($content, $field, $value);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'content_type_field_definition_id' => '231',
@@ -443,7 +443,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->insertNewField($content, $field, $value);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'content_type_field_definition_id' => '231',
@@ -500,7 +500,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->updateField($field, $newValue);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'data_float' => '124.42',
@@ -549,7 +549,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->updateNonTranslatableField($fieldGb, $newValue, $content->versionInfo->contentInfo->id);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 // Both fields updated
                 [
@@ -949,7 +949,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->countContentFields()
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('*')
@@ -1076,7 +1076,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->setName(14, 2, 'Hello world!', self::ENG_GB);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[self::ENG_GB, 2, 14, 4, 'Hello world!', self::ENG_GB]],
             $query
                 ->select(
@@ -1350,7 +1350,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->insertRelation($struct);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => 1,
@@ -1399,7 +1399,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->deleteRelation(11, RelationType::COMMON->value);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['relation_type' => RelationType::LINK->value]],
             $query
                 ->select('relation_type')
@@ -1427,7 +1427,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $connection = $this->getDatabaseConnection();
         $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['id' => 2]],
             $query
                 ->select('language_mask')
@@ -1441,7 +1441,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['language_id' => 2]],
             $query
                 ->select(
@@ -1463,7 +1463,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 ['language_id' => 2],
             ],
@@ -1494,7 +1494,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $connection = $this->getDatabaseConnection();
         $expectedLanguageId = 3;
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['id' => $expectedLanguageId]],
             $connection->createQueryBuilder()
                 ->select('language_mask')
@@ -1504,7 +1504,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $versionNo = 1;
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 ['language_id' => $expectedLanguageId],
             ],
@@ -1526,7 +1526,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 ['language_id' => $expectedLanguageId],
             ],
@@ -1567,7 +1567,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
         $gateway->updateContent(4, $contentMetadataUpdateStruct);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['id' => 7]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'language_mask'
@@ -1616,7 +1616,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
         $gateway->updateContent(4, $contentMetadataUpdateStruct);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['id' => 6]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'language_mask'
@@ -1923,7 +1923,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         array $expectation
     ): void {
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             $expectation,
             $query
                 ->select('DISTINCT id, language_id')

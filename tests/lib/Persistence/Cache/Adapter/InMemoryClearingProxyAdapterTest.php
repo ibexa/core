@@ -48,7 +48,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         );
 
         $this->cacheItemsClosure = \Closure::bind(
-            static function ($key, $value, $isHit, $defaultLifetime = 0, $tags = []) {
+            static function ($key, $value, $isHit, $defaultLifetime = 0, $tags = []): CacheItem {
                 $item = new CacheItem();
                 $item->isTaggable = true;
                 $item->key = $key;

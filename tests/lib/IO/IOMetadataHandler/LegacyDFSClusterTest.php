@@ -163,14 +163,14 @@ class LegacyDFSClusterTest extends TestCase
 
         $this->qbMock
             ->expects($matcher)
-            ->method('setParameter')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('setParameter')->willReturnCallback(function (...$parameters) use ($matcher): QueryBuilder&MockObject {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('esc', $parameters[0]);
-                    $this->assertSame('\\', $parameters[1]);
+                    self::assertSame('esc', $parameters[0]);
+                    self::assertSame('\\', $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('spiPath', $parameters[0]);
-                    $this->assertSame('prefix/images/\_alias/subfolder/%', $parameters[1]);
+                    self::assertSame('spiPath', $parameters[0]);
+                    self::assertSame('prefix/images/\_alias/subfolder/%', $parameters[1]);
                 }
 
                 return $this->qbMock;

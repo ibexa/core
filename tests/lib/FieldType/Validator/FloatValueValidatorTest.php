@@ -68,11 +68,11 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
     public function testGetConstraintsSchema(): void
     {
         $constraintsSchema = [
-            $this->getMinNumericValueName() => [
+            self::getMinNumericValueName() => [
                 'type' => 'float',
                 'default' => null,
             ],
-            $this->getMaxNumericValueName() => [
+            self::getMaxNumericValueName() => [
                 'type' => 'float',
                 'default' => null,
             ],
@@ -132,8 +132,8 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
     public function testValidateWrongValues(float $value, string $message): void
     {
         $validator = $this->getValidatorInstance();
-        $validator->minFloatValue = $this->getMinFloatValue();
-        $validator->maxFloatValue = $this->getMaxFloatValue();
+        $validator->minFloatValue = self::getMinFloatValue();
+        $validator->maxFloatValue = self::getMaxFloatValue();
         self::assertFalse($validator->validate(new FloatValue($value)));
         self::assertWrongValueValidationMessage($validator->getMessage(), $message);
     }

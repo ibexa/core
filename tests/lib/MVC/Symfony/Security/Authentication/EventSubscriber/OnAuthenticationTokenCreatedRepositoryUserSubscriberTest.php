@@ -34,7 +34,7 @@ final class OnAuthenticationTokenCreatedRepositoryUserSubscriberTest extends Tes
             [
                 AuthenticationTokenCreatedEvent::class => ['onAuthenticationTokenCreated', 10],
             ],
-            $subscriber->getSubscribedEvents()
+            OnAuthenticationTokenCreatedRepositoryUserSubscriber::getSubscribedEvents()
         );
     }
 

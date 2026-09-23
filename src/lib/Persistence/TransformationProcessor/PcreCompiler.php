@@ -174,13 +174,13 @@ class PcreCompiler
      */
     protected function getModuloCharRange($start, $end, $modulo): string
     {
-        $start = $this->converter->toUnicodeCodepoint($start);
-        $end = $this->converter->toUnicodeCodepoint($end);
-        $modulo = hexdec($modulo);
+        $start = Utf8Converter::toUnicodeCodepoint($start);
+        $end = Utf8Converter::toUnicodeCodepoint($end);
+        $modulo = (int)hexdec($modulo);
 
         $chars = '';
         for ($start; $start <= $end; $start += $modulo) {
-            $chars .= $this->converter->toUTF8Character($start);
+            $chars .= Utf8Converter::toUTF8Character($start);
         }
 
         return $chars;
@@ -198,11 +198,10 @@ class PcreCompiler
     protected function getTransposeClosure($operator, $value)
     {
         $value = $this->hexdec($value) * ($operator === '-' ? -1 : 1);
-        $converter = $this->converter;
 
-        return static function ($matches) use ($value, $converter) {
-            return $converter->toUTF8Character(
-                $converter->toUnicodeCodepoint($matches[0]) + $value
+        return static function ($matches) use ($value): string {
+            return Utf8Converter::toUTF8Character(
+                Utf8Converter::toUnicodeCodepoint($matches[0]) + $value
             );
         };
     }
@@ -224,7 +223,7 @@ class PcreCompiler
                 };
 
             case $char === 'keep':
-                return static function ($matches) {
+                return static function ($matches): string {
                     return $matches[0];
                 };
 
@@ -235,14 +234,14 @@ class PcreCompiler
                     substr($char, 1, -1)
                 );
 
-                return static function ($matches) use ($string) {
+                return static function ($matches) use ($string): string {
                     return $string;
                 };
 
             default:
                 $char = $this->compileCharacter($char);
 
-                return static function ($matches) use ($char) {
+                return static function ($matches) use ($char): string {
                     return $char;
                 };
         }
@@ -263,7 +262,7 @@ class PcreCompiler
     {
         switch (true) {
             case preg_match('(^U\\+[0-9a-fA-F]{4}$)', $char):
-                return $this->converter->toUTF8Character(hexdec(substr($char, 2)));
+                return Utf8Converter::toUTF8Character((int)hexdec(substr($char, 2)));
 
             case preg_match('(^[0-9a-fA-F]{2}$)', $char):
                 return chr(hexdec($char));

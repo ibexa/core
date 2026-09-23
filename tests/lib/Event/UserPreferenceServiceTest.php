@@ -52,7 +52,7 @@ class UserPreferenceServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(UserPreferenceServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeSetUserPreferenceEvent::class, static function (BeforeSetUserPreferenceEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeSetUserPreferenceEvent::class, static function (BeforeSetUserPreferenceEvent $event): void {
             $event->stopPropagation();
         }, 10);
 

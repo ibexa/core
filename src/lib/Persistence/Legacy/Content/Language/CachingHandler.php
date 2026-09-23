@@ -243,7 +243,7 @@ class CachingHandler implements BaseLanguageHandler
 
         $this->cache->setMulti(
             $languages,
-            static function (Language $language) use ($generator) {
+            static function (Language $language) use ($generator): array {
                 return [
                     $generator->generateKey(self::LANGUAGE_IDENTIFIER, [$language->id], true),
                     $generator->generateKey(self::LANGUAGE_CODE_IDENTIFIER, [$language->languageCode], true),

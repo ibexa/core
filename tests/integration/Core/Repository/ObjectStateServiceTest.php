@@ -539,7 +539,7 @@ class ObjectStateServiceTest extends BaseTestCase
     protected function getGroupIdentifierMap(array $groups): array
     {
         $existingGroupIdentifiers = array_map(
-            static function ($group) {
+            static function ($group): string {
                 return $group->identifier;
             },
             $groups

@@ -39,7 +39,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
             [
                 CheckPassportEvent::class => ['validateRepositoryUser'],
             ],
-            $this->getSubscriber()->getSubscribedEvents()
+            RepositoryUserAuthenticationSubscriber::getSubscribedEvents()
         );
     }
 

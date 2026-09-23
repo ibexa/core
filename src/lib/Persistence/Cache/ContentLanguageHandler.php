@@ -28,12 +28,12 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
      */
     protected function init(): void
     {
-        $this->getTags = function (Language $language) {
+        $this->getTags = function (Language $language): array {
             return [
                 $this->cacheIdentifierGenerator->generateTag(self::LANGUAGE_IDENTIFIER, [$language->id]),
             ];
         };
-        $this->getKeys = function (Language $language) {
+        $this->getKeys = function (Language $language): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_IDENTIFIER, [$language->id], true),
                 $this->cacheIdentifierGenerator->generateKey(
@@ -87,7 +87,7 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
         return $this->getCacheValue(
             $id,
             $this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_IDENTIFIER, [], true) . '-',
-            function ($id) {
+            function ($id): Language {
                 return $this->persistenceHandler->contentLanguageHandler()->load($id);
             },
             $this->getTags,
@@ -103,7 +103,7 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
         return $this->getMultipleCacheValues(
             $ids,
             $this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_IDENTIFIER, [], true) . '-',
-            function (array $ids) {
+            function (array $ids): iterable {
                 return $this->persistenceHandler->contentLanguageHandler()->loadList($ids);
             },
             $this->getTags,
@@ -119,7 +119,7 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
         return $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($languageCode),
             $this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_CODE_IDENTIFIER, [], true) . '-',
-            function () use ($languageCode) {
+            function () use ($languageCode): Language {
                 return $this->persistenceHandler->contentLanguageHandler()->loadByLanguageCode($languageCode);
             },
             $this->getTags,
@@ -135,7 +135,7 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
         return $this->getMultipleCacheValues(
             array_map([$this->cacheIdentifierSanitizer, 'escapeForCacheKey'], $languageCodes),
             $this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_CODE_IDENTIFIER, [], true) . '-',
-            function () use ($languageCodes) {
+            function () use ($languageCodes): iterable {
                 return $this->persistenceHandler->contentLanguageHandler()->loadListByLanguageCodes($languageCodes);
             },
             $this->getTags,
@@ -150,7 +150,7 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
     {
         return $this->getListCacheValue(
             $this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_LIST_IDENTIFIER, [], true),
-            function () {
+            function (): array {
                 return $this->persistenceHandler->contentLanguageHandler()->loadAll();
             },
             $this->getTags,

@@ -51,7 +51,7 @@ final class LocationSearchAdapterTest extends BaseLocationSearchResultAdapterTes
         $adapter = $this->getAdapter($query, $this->searchService, self::EXAMPLE_LANGUAGE_FILTER);
 
         self::assertSame(
-            array_map(static fn (SearchHit $hit) => $hit->valueObject, $hits),
+            array_map(static fn (SearchHit $hit): mixed => $hit->valueObject, $hits),
             $adapter->getSlice(self::EXAMPLE_OFFSET, self::EXAMPLE_LIMIT)
         );
 

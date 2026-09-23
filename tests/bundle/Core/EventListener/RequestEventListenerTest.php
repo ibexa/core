@@ -74,7 +74,7 @@ class RequestEventListenerTest extends TestCase
                     ['onKernelRequestRedirect', 0],
                 ],
             ],
-            $this->requestEventListener->getSubscribedEvents()
+            RequestEventListener::getSubscribedEvents()
         );
     }
 

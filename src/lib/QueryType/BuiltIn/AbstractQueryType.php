@@ -64,7 +64,7 @@ abstract class AbstractQueryType extends OptionsResolverBasedQueryType
             'sort' => [],
         ]);
 
-        $resolver->setNormalizer('sort', function (Options $options, $value) {
+        $resolver->setNormalizer('sort', function (Options $options, $value): array {
             if (is_string($value)) {
                 $value = $this->sortClausesFactory->createFromSpecification($value);
             }

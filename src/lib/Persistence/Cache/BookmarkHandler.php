@@ -56,7 +56,7 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
         return $this->getMultipleCacheItems(
             $locationIds,
             $this->cacheIdentifierGenerator->generateKey(self::BOOKMARK_IDENTIFIER, [$userId], true) . '-',
-            function (array $missingIds) use ($userId) {
+            function (array $missingIds) use ($userId): array {
                 $this->logger->logCall(__CLASS__ . '::loadByUserIdAndLocationId', [
                     'userId' => $userId,
                     'locationIds' => $missingIds,
@@ -64,7 +64,7 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
 
                 return $this->persistenceHandler->bookmarkHandler()->loadByUserIdAndLocationId($userId, $missingIds);
             },
-            function (Bookmark $bookmark) {
+            function (Bookmark $bookmark): array {
                 $tags = [
                     $this->cacheIdentifierGenerator->generateTag(self::BOOKMARK_IDENTIFIER, [$bookmark->id]),
                     $this->cacheIdentifierGenerator->generateTag(self::LOCATION_IDENTIFIER, [$bookmark->locationId]),

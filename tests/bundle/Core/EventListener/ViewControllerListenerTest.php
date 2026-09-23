@@ -98,7 +98,7 @@ class ViewControllerListenerTest extends TestCase
 
     public function testGetControllerWithClosure(): void
     {
-        $initialController = static function () {};
+        $initialController = static function (): void {};
         $this->request->attributes->set('_controller', $initialController);
 
         $this->viewBuilderRegistry
@@ -144,7 +144,7 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerResolver
             ->expects(self::once())
             ->method('getController')
-            ->will(self::returnValue(static function () {}));
+            ->will(self::returnValue(static function (): void {}));
 
         $this->controllerListener->getController($this->event);
         self::assertEquals($customController, $this->request->attributes->get('_controller'));
@@ -174,14 +174,14 @@ class ViewControllerListenerTest extends TestCase
 
         $this->eventDispatcher
             ->expects($matcher)
-            ->method('dispatch')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('dispatch')->willReturnCallback(static function (...$parameters) use ($matcher): mixed {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertInstanceOf(FilterViewBuilderParametersEvent::class, $parameters[0]);
-                    $this->assertSame(ViewEvents::FILTER_BUILDER_PARAMETERS, $parameters[1]);
+                    self::assertInstanceOf(FilterViewBuilderParametersEvent::class, $parameters[0]);
+                    self::assertSame(ViewEvents::FILTER_BUILDER_PARAMETERS, $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertInstanceOf(PostBuildViewEvent::class, $parameters[0]);
-                    $this->assertNull($parameters[1]);
+                    self::assertInstanceOf(PostBuildViewEvent::class, $parameters[0]);
+                    self::assertNull($parameters[1]);
                 }
 
                 return $parameters[0];
@@ -197,7 +197,7 @@ class ViewControllerListenerTest extends TestCase
     {
         return new ControllerEvent(
             self::createStub(HttpKernelInterface::class),
-            static function () {},
+            static function (): void {},
             $this->request,
             HttpKernelInterface::MAIN_REQUEST
         );

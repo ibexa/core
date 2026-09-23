@@ -44,7 +44,7 @@ class RoutingListenerTest extends TestCase
             [
                 MVCEvents::SITEACCESS => ['onSiteAccessMatch', 200],
             ],
-            $listener->getSubscribedEvents()
+            RoutingListener::getSubscribedEvents()
         );
     }
 

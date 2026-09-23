@@ -60,10 +60,6 @@ class FieldTypeServiceTest extends BaseTestCase
         $fieldType = $fieldTypeService->getFieldType('ibexa_url');
         /* END: Use Case */
 
-        $this->assertInstanceof(
-            FieldType::class,
-            $fieldType
-        );
         self::assertEquals(
             'ibexa_url',
             $fieldType->getFieldTypeIdentifier()

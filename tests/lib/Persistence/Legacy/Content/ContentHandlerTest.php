@@ -682,7 +682,7 @@ class ContentHandlerTest extends TestCase
         $handler->expects($loadMatcher)
             ->method('load')
             ->with(14, 4)
-            ->willReturnCallback(static function () use ($loadMatcher, $contentStub) {
+            ->willReturnCallback(static function () use ($loadMatcher, $contentStub): ?Content {
                 if ($loadMatcher->numberOfInvocations() === 1) {
                     return $contentStub;
                 }
@@ -1343,7 +1343,7 @@ class ContentHandlerTest extends TestCase
         $copyLoadMatcher = self::exactly(2);
         $handler->expects($copyLoadMatcher)
             ->method('load')
-            ->willReturnCallback(static function ($contentId, $versionNo) use ($copyLoadMatcher, $versionInfo) {
+            ->willReturnCallback(static function ($contentId, $versionNo) use ($copyLoadMatcher, $versionInfo): Content {
                 self::assertSame(23, $contentId);
                 if ($copyLoadMatcher->numberOfInvocations() === 1) {
                     self::assertSame(2, $versionNo);

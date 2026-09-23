@@ -62,7 +62,7 @@ class UrlAlias extends MultipleValued
 
         array_walk(
             $matchingConfig,
-            static function (&$item) {
+            static function (&$item): void {
                 $item = trim($item, '/ ');
             }
         );

@@ -91,7 +91,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $fixtures = (require __DIR__ . '/../_fixtures/bookmarks.php')[DoctrineDatabase::TABLE_BOOKMARKS];
 
-        $expectedRows = static function ($userId) use ($fixtures) {
+        $expectedRows = static function ($userId) use ($fixtures): array {
             $rows = array_filter($fixtures, static function (array $row) use ($userId): bool {
                 return $row['user_id'] == $userId;
             });

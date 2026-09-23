@@ -469,21 +469,23 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
-            ->method('generateTag')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher): ?string {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame('content', $parameters[0]);
-                    $this->assertSame([42], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('content', $parameters[0]);
+                    self::assertSame([42], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return 'c-42';
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame('content', $parameters[0]);
-                    $this->assertSame([2], $parameters[1]);
-                    $this->assertFalse($parameters[2]);
+                    self::assertSame('content', $parameters[0]);
+                    self::assertSame([2], $parameters[1]);
+                    self::assertFalse($parameters[2]);
 
                     return 'c-2';
                 }
+
+                return null;
             });
 
         $this->cacheMock

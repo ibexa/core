@@ -145,14 +145,14 @@ class AddFieldTest extends TestCase
         $action
             ->expects($matcher)
             ->method('insertField')
-            ->willReturnCallback(function (...$parameters) use ($matcher, $content) {
+            ->willReturnCallback(function (...$parameters) use ($matcher, $content): string {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertEquals([$content, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
+                    self::assertEquals([$content, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
 
                     return 'fieldId1';
                 }
 
-                $this->assertEquals([$content, $this->getFieldReference(null, 1, 'ger-DE')], $parameters);
+                self::assertEquals([$content, $this->getFieldReference(null, 1, 'ger-DE')], $parameters);
 
                 return 'fieldId2';
             });
@@ -184,8 +184,8 @@ class AddFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
-            ->willReturnCallback(function (...$parameters) use ($loadMatcher, $contentId) {
-                $this->assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId): array {
+                self::assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
                 return [];
             });
@@ -194,8 +194,8 @@ class AddFieldTest extends TestCase
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->willReturnCallback(function (...$parameters) use ($extractMatcher, $content1, $content2) {
-                $this->assertSame([[], [], 'content_', null], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
+                self::assertSame([[], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
             });
@@ -204,11 +204,11 @@ class AddFieldTest extends TestCase
         $action
             ->expects($insertMatcher)
             ->method('insertField')
-            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2) {
+            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2): string {
                 if ($insertMatcher->numberOfInvocations() === 1) {
-                    $this->assertEquals([$content1, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
+                    self::assertEquals([$content1, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
                 } else {
-                    $this->assertEquals([$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')], $parameters);
+                    self::assertEquals([$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')], $parameters);
                 }
 
                 return 'fieldId1';
@@ -241,8 +241,8 @@ class AddFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
-            ->willReturnCallback(function (...$parameters) use ($loadMatcher, $contentId) {
-                $this->assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($loadMatcher, $contentId): array {
+                self::assertSame([$contentId, $loadMatcher->numberOfInvocations(), null], $parameters);
 
                 return [];
             });
@@ -251,8 +251,8 @@ class AddFieldTest extends TestCase
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
-            ->willReturnCallback(function (...$parameters) use ($extractMatcher, $content1, $content2) {
-                $this->assertSame([[], [], 'content_', null], $parameters);
+            ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
+                self::assertSame([[], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
             });
@@ -261,22 +261,22 @@ class AddFieldTest extends TestCase
         $action
             ->expects($insertMatcher)
             ->method('insertField')
-            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2) {
+            ->willReturnCallback(function (...$parameters) use ($insertMatcher, $content1, $content2): string {
                 switch ($insertMatcher->numberOfInvocations()) {
                     case 1:
-                        $this->assertEquals([$content1, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
+                        self::assertEquals([$content1, $this->getFieldReference(null, 1, 'eng-GB')], $parameters);
 
                         return 'fieldId1';
                     case 2:
-                        $this->assertEquals([$content1, $this->getFieldReference(null, 1, 'ger-DE')], $parameters);
+                        self::assertEquals([$content1, $this->getFieldReference(null, 1, 'ger-DE')], $parameters);
 
                         return 'fieldId2';
                     case 3:
-                        $this->assertEquals([$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')], $parameters);
+                        self::assertEquals([$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')], $parameters);
 
                         return 'fieldId1';
                     default:
-                        $this->assertEquals([$content2, $this->getFieldReference('fieldId2', 2, 'ger-DE')], $parameters);
+                        self::assertEquals([$content2, $this->getFieldReference('fieldId2', 2, 'ger-DE')], $parameters);
 
                         return 'fieldId2';
                 }

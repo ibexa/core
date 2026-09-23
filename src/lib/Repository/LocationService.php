@@ -849,7 +849,7 @@ class LocationService implements LocationServiceInterface
         );
         $contentIds = array_unique(
             array_map(
-                static function (SPILocation $spiLocation) {
+                static function (SPILocation $spiLocation): int {
                     return $spiLocation->contentId;
                 },
                 $spiLocations

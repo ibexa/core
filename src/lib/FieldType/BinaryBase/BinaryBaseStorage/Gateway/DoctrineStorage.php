@@ -409,7 +409,7 @@ abstract class DoctrineStorage extends Gateway
         $statement = $selectQuery->executeQuery();
 
         return array_map(
-            function ($row) {
+            function ($row): string {
                 return $this->prependMimeToPath($row['filename'], $row['mime_type']);
             },
             $statement->fetchAllAssociative()

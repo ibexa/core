@@ -49,7 +49,23 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         );
     }
 
-    public function testConstructor(): void
+    public function testConstructorDoesNotResolvePrefixEagerly(): void
+    {
+        $this->innerIOService
+            ->expects(self::never())
+            ->method('setPrefix')
+        ;
+
+        // Assigned (rather than a bare `new` statement) purely to construct the object under test;
+        // the "never" expectation above is what PHPUnit verifies when the test finishes.
+        $ioService = new ConfigScopeChangeAwareIOService(
+            $this->configResolver,
+            $this->innerIOService,
+            self::PREFIX_PARAMETER_NAME
+        );
+    }
+
+    public function testPrefixIsResolvedLazilyOnFirstUse(): void
     {
         $this->innerIOService
             ->expects(self::once())
@@ -57,11 +73,11 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
             ->with(self::PREFIX)
         ;
 
-        new ConfigScopeChangeAwareIOService(
-            $this->configResolver,
-            $this->innerIOService,
-            self::PREFIX_PARAMETER_NAME
-        );
+        $this->innerIOService->method('exists')->willReturn(true);
+
+        self::assertTrue($this->ioService->exists('test-id'));
+        // second call must not resolve the prefix again
+        self::assertTrue($this->ioService->exists('test-id'));
     }
 
     public function testSetPrefix(): void
@@ -273,14 +289,21 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $this->innerIOService->deleteDirectory($path);
     }
 
-    public function testOnConfigScopeChange(): void
+    public function testOnConfigScopeChangeResolvesPrefixAgainOnNextUse(): void
     {
         $event = self::createStub(ScopeChangeEvent::class);
+        $this->innerIOService->method('exists')->willReturn(true);
+
+        // resolve the prefix once
+        $this->ioService->exists('test-id');
+
+        $this->ioService->onConfigScopeChange($event);
+
         $this->innerIOService
             ->expects(self::once())
             ->method('setPrefix')
             ->with(self::PREFIX);
 
-        $this->ioService->onConfigScopeChange($event);
+        $this->ioService->exists('test-id');
     }
 }

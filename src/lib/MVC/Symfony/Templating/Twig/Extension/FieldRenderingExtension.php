@@ -52,7 +52,7 @@ class FieldRenderingExtension extends AbstractExtension
 
     public function getFunctions(): array
     {
-        $renderFieldCallable = function (Environment $environment, Content|ContentAwareInterface $data, $fieldIdentifier, array $params = []) {
+        $renderFieldCallable = function (Environment $environment, Content|ContentAwareInterface $data, $fieldIdentifier, array $params = []): string {
             $this->fieldBlockRenderer->setTwig($environment);
 
             return $this->renderField($this->getContent($data), $fieldIdentifier, $params);
@@ -63,7 +63,7 @@ class FieldRenderingExtension extends AbstractExtension
                 Environment $environment,
                 FieldDefinition $fieldDefinition,
                 array $params = []
-            ) {
+            ): string {
                 $this->fieldBlockRenderer->setTwig($environment);
 
                 return $this->renderFieldDefinitionSettings($fieldDefinition, $params);

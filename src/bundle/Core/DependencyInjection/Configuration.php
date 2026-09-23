@@ -89,7 +89,7 @@ class Configuration extends SiteAccessConfiguration
                         ->beforeNormalization()
                             ->always(
                                 // Handling deprecated structure by mapping it to new one
-                                static function ($v) {
+                                static function ($v): mixed {
                                     if (isset($v['storage'])) {
                                         return $v;
                                     }
@@ -116,7 +116,7 @@ class Configuration extends SiteAccessConfiguration
                         ->beforeNormalization()
                             ->always(
                                 // Setting default values
-                                static function ($v) {
+                                static function ($v): mixed {
                                     if ($v === null) {
                                         $v = [];
                                     }
@@ -202,7 +202,7 @@ class Configuration extends SiteAccessConfiguration
                                 ->useAttributeAsKey('key')
                                 ->beforeNormalization()
                                     ->always(
-                                        static function ($v) {
+                                        static function ($v): mixed {
                                             // Value passed to the matcher should always be an array.
                                             // If value is not an array, we transform it to a hash, with 'value' as key.
                                             if (!is_array($v)) {
@@ -230,7 +230,7 @@ class Configuration extends SiteAccessConfiguration
                         ->end()
                     ->end()
                     ->beforeNormalization()
-                        ->always()->then(function ($v) {
+                        ->always()->then(function ($v): mixed {
                             if (isset($this->siteAccessConfigurationFilters)) {
                                 foreach ($this->siteAccessConfigurationFilters as $filter) {
                                     $v = $filter->filter($v);

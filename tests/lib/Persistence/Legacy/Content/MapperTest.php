@@ -739,7 +739,7 @@ class MapperTest extends LanguageAwareTestCase
                 ->method('load')
                 ->will(
                     self::returnCallback(
-                        static function ($id) use ($languages) {
+                        static function ($id) use ($languages): ?Language {
                             foreach ($languages as $language) {
                                 if ($language->id == $id) {
                                     return $language;
@@ -754,7 +754,7 @@ class MapperTest extends LanguageAwareTestCase
                 ->method('loadByLanguageCode')
                 ->will(
                     self::returnCallback(
-                        static function ($languageCode) use ($languages) {
+                        static function ($languageCode) use ($languages): ?Language {
                             foreach ($languages as $language) {
                                 if ($language->languageCode == $languageCode) {
                                     return $language;

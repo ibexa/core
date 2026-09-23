@@ -471,7 +471,7 @@ class MapperTest extends TestCase
                 )
             )->will(
                 self::returnCallback(
-                    static function () {
+                    static function (): FieldDefinition {
                         return new FieldDefinition();
                     }
                 )

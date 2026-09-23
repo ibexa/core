@@ -133,7 +133,7 @@ final class LocationFilteringTest extends BaseRepositoryFilteringTestCase
             self::assertSame($totalCount, $locationService->count($orFilter));
 
             $locationIds = array_map(
-                static function ($location) {
+                static function ($location): int {
                     return $location->getId();
                 },
                 iterator_to_array($locationService->find($orFilter))
@@ -174,7 +174,7 @@ final class LocationFilteringTest extends BaseRepositoryFilteringTestCase
             [
                 'totalCount' => $searchResults->totalCount,
                 'locations' => array_map(
-                    static function (SearchHit $searchHit) {
+                    static function (SearchHit $searchHit): mixed {
                         return $searchHit->valueObject;
                     },
                     $searchResults->searchHits

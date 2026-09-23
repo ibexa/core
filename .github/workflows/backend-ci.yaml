@@ -18,6 +18,8 @@ jobs:
         steps:
             -   uses: actions/checkout@v7
 
+            -   uses: ibexa/gh-workflows/actions/setup-composer-root-version@main
+
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
                     php-version: ${{ matrix.php }}
@@ -44,6 +46,7 @@ jobs:
                     - '8.4'
         steps:
             -   uses: actions/checkout@v7
+            -   uses: ibexa/gh-workflows/actions/setup-composer-root-version@main
             -   name: Install Composer dependencies
                 uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -68,6 +71,8 @@ jobs:
 
         steps:
             -   uses: actions/checkout@v7
+
+            -   uses: ibexa/gh-workflows/actions/setup-composer-root-version@main
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -121,6 +126,8 @@ jobs:
         steps:
             -   uses: actions/checkout@v7
 
+            -   uses: ibexa/gh-workflows/actions/setup-composer-root-version@main
+
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
                     php-version: ${{ matrix.php }}
@@ -172,6 +179,8 @@ jobs:
 
         steps:
             -   uses: actions/checkout@v7
+
+            -   uses: ibexa/gh-workflows/actions/setup-composer-root-version@main
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -228,6 +237,8 @@ jobs:
                 with:
                     php-version: ${{ matrix.php }}
                     coverage: none
+
+            -   uses: ibexa/gh-workflows/actions/setup-composer-root-version@main
 
             -   name: Add solr dependency
                 run: |

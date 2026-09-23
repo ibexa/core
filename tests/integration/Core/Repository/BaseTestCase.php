@@ -294,9 +294,9 @@ abstract class BaseTestCase extends TestCase
      */
     private function sortItems(array &$items)
     {
-        $sorter = function ($a, $b): int {
+        $sorter = static function ($a, $b): int {
             if (!is_scalar($a) || !is_scalar($b)) {
-                $this->fail('Wrong usage: method ' . __METHOD__ . ' accepts only an array of scalar values');
+                self::fail('Wrong usage: method ' . __METHOD__ . ' accepts only an array of scalar values');
             }
 
             return strcmp($a, $b);
@@ -532,7 +532,7 @@ abstract class BaseTestCase extends TestCase
      */
     protected function refreshSearch(Repository $repository)
     {
-        if ($this->isLegacySearchEngineSetup()) {
+        if (self::isLegacySearchEngineSetup()) {
             return;
         }
 

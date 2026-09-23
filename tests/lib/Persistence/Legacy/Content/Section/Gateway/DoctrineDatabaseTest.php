@@ -42,7 +42,7 @@ class DoctrineDatabaseTest extends TestCase
         $gateway->insertSection('New Section', 'new_section');
         $query = $this->getDatabaseConnection()->createQueryBuilder();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '7',
@@ -69,7 +69,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $gateway->updateSection(2, 'New Section', 'new_section');
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '2',
@@ -208,7 +208,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $gateway->deleteSection(2);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '5',
@@ -219,7 +219,7 @@ class DoctrineDatabaseTest extends TestCase
                 ->from(Gateway::CONTENT_SECTION_TABLE)
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '0',

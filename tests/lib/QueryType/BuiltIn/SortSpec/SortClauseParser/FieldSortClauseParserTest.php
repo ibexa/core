@@ -31,24 +31,26 @@ final class FieldSortClauseParserTest extends TestCase
     public function testParse(): void
     {
         $parser = $this->createMock(SortSpecParserInterface::class);
-        $matcher = $this->exactly(3);
+        $matcher = self::exactly(3);
         $parser->expects($matcher)
-            ->method('match')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('match')->willReturnCallback(static function (...$parameters) use ($matcher): ?Token {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame(Token::TYPE_ID, $parameters[0]);
+                    self::assertSame(Token::TYPE_ID, $parameters[0]);
 
                     return new Token(Token::TYPE_ID, self::EXAMPLE_CONTENT_TYPE_ID);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame(Token::TYPE_DOT, $parameters[0]);
+                    self::assertSame(Token::TYPE_DOT, $parameters[0]);
 
                     return new Token(Token::TYPE_DOT);
                 }
                 if ($matcher->numberOfInvocations() === 3) {
-                    $this->assertSame(Token::TYPE_ID, $parameters[0]);
+                    self::assertSame(Token::TYPE_ID, $parameters[0]);
 
                     return new Token(Token::TYPE_ID, self::EXAMPLE_FIELD_ID);
                 }
+
+                return null;
             });
 
         $parser->method('parseSortDirection')->willReturn(Query::SORT_ASC);

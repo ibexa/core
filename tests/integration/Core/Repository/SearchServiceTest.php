@@ -453,7 +453,7 @@ class SearchServiceTest extends BaseTestCase
                 ],
                 $fixtureDir . 'Status.php',
                 // Result having the same sort level should be sorted between them to be system independent
-                static function (&$data) {
+                static function (&$data): void {
                     usort(
                         $data->searchHits,
                         static function ($a, $b): int {
@@ -1045,7 +1045,7 @@ class SearchServiceTest extends BaseTestCase
         $query = new Query($queryData);
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . 'Field.php'
+            self::getFixtureDir() . 'Field.php'
         );
     }
 
@@ -1058,7 +1058,7 @@ class SearchServiceTest extends BaseTestCase
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . 'Field.php'
+            self::getFixtureDir() . 'Field.php'
         );
     }
 
@@ -1872,7 +1872,7 @@ class SearchServiceTest extends BaseTestCase
                 ],
                 $fixtureDir . 'SortLocationDepth.php',
                 // Result having the same sort level should be sorted between them to be system independent
-                static function (&$data) {
+                static function (&$data): void {
                     // Result with ids:
                     //     4 has depth = 1
                     //     11, 12, 13, 42, 59 have depth = 2
@@ -2749,7 +2749,7 @@ class SearchServiceTest extends BaseTestCase
     protected function mapResultContentIds(SearchResult $result): array
     {
         return array_map(
-            static function (SearchHit $searchHit) {
+            static function (SearchHit $searchHit): mixed {
                 if ($searchHit->valueObject instanceof Location) {
                     return $searchHit->valueObject->contentInfo->id;
                 }
@@ -2819,7 +2819,7 @@ class SearchServiceTest extends BaseTestCase
         );
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . '/QueryCustomField.php'
+            self::getFixtureDir() . '/QueryCustomField.php'
         );
     }
 
@@ -2857,7 +2857,7 @@ class SearchServiceTest extends BaseTestCase
 
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . '/QueryModifiedField.php'
+            self::getFixtureDir() . '/QueryModifiedField.php'
         );
     }
 
@@ -2896,7 +2896,7 @@ class SearchServiceTest extends BaseTestCase
 
         $this->assertQueryFixture(
             $query,
-            $this->getFixtureDir() . '/SortFolderName.php'
+            self::getFixtureDir() . '/SortFolderName.php'
         );
     }
 
@@ -4017,7 +4017,7 @@ class SearchServiceTest extends BaseTestCase
 
             $this->simplifySearchResult($result);
             self::assertEqualsWithDelta(
-                include $this->getFixtureDir() . '/UserMetadata.php',
+                include self::getFixtureDir() . '/UserMetadata.php',
                 $result,
                 .1, // Be quite generous regarding delay -- most important for scores
                 'Search results do not match.',
@@ -4114,7 +4114,7 @@ class SearchServiceTest extends BaseTestCase
 
             $this->simplifySearchResult($result);
             self::assertEqualsWithDelta(
-                include $this->getFixtureDir() . '/UserMetadataLocation.php',
+                include self::getFixtureDir() . '/UserMetadataLocation.php',
                 $result,
                 .1, // Be quite generous regarding delay -- most important for scores
                 'Search results do not match.',
@@ -4778,7 +4778,7 @@ class SearchServiceTest extends BaseTestCase
     private function getContentInfoFixtureClosure($closure = null)
     {
         /** @var $data \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult */
-        return static function (&$data) use ($closure) {
+        return static function (&$data) use ($closure): void {
             foreach ($data->searchHits as $searchHit) {
                 if ($searchHit->valueObject instanceof Content) {
                     $searchHit->valueObject = $searchHit->valueObject->getVersionInfo()->getContentInfo();
@@ -5136,7 +5136,7 @@ class SearchServiceTest extends BaseTestCase
 
         self::assertEquals(count($expectedOrderedIds), $result->totalCount);
         $actualIds = array_map(
-            static function (SearchHit $searchHit) {
+            static function (SearchHit $searchHit): int {
                 /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
                 $location = $searchHit->valueObject;
 

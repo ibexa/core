@@ -16,7 +16,7 @@ final class SerializationTest extends RepositoryTestCase
 {
     public function testSerialization(): void
     {
-        $serializer = $this->getContainer()->get(SerializerInterface::class);
+        $serializer = self::getContainer()->get(SerializerInterface::class);
         self::assertInstanceOf(SerializerInterface::class, $serializer);
         $contentService = $this->getIbexaTestCore()->getContentService();
 

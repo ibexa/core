@@ -260,7 +260,7 @@ class UrlAliasGeneratorTest extends TestCase
             ->method('loadLocation')
             ->will(
                 self::returnCallback(
-                    static function ($locationId) {
+                    static function ($locationId): Location {
                         return new Location(['id' => $locationId]);
                     }
                 )
@@ -270,7 +270,7 @@ class UrlAliasGeneratorTest extends TestCase
             ->method('reverseLookup')
             ->will(
                 self::returnCallback(
-                    static function ($location) use ($treeRootUrlAlias) {
+                    static function ($location) use ($treeRootUrlAlias): URLAlias {
                         return $treeRootUrlAlias[$location->id];
                     }
                 )

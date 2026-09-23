@@ -92,7 +92,7 @@ final class DownloadControllerTest extends TestCase
             ->with(393)
             ->willThrowException(new BaseNotFoundException('Content', 393));
         $this->translationHelper
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getTranslatedField');
         $this->expectBinaryFileNotLoaded();
 
@@ -134,7 +134,7 @@ final class DownloadControllerTest extends TestCase
             ->with(42, null, null)
             ->willReturn($content);
         $this->translationHelper
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getTranslatedField');
         $this->expectBinaryFileNotLoaded();
 

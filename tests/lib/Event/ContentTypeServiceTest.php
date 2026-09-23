@@ -93,7 +93,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeAddFieldDefinitionEvent::class, static function (BeforeAddFieldDefinitionEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeAddFieldDefinitionEvent::class, static function (BeforeAddFieldDefinitionEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -150,7 +150,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeDeleteContentTypeGroupEvent::class, static function (BeforeDeleteContentTypeGroupEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeDeleteContentTypeGroupEvent::class, static function (BeforeDeleteContentTypeGroupEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -213,7 +213,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeDraft')->willReturn($contentTypeDraft);
 
-        $traceableEventDispatcher->addListener(BeforeCreateContentTypeDraftEvent::class, static function (BeforeCreateContentTypeDraftEvent $event) use ($eventContentTypeDraft) {
+        $traceableEventDispatcher->addListener(BeforeCreateContentTypeDraftEvent::class, static function (BeforeCreateContentTypeDraftEvent $event) use ($eventContentTypeDraft): void {
             $event->setContentTypeDraft($eventContentTypeDraft);
         }, 10);
 
@@ -247,7 +247,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeDraft')->willReturn($contentTypeDraft);
 
-        $traceableEventDispatcher->addListener(BeforeCreateContentTypeDraftEvent::class, static function (BeforeCreateContentTypeDraftEvent $event) use ($eventContentTypeDraft) {
+        $traceableEventDispatcher->addListener(BeforeCreateContentTypeDraftEvent::class, static function (BeforeCreateContentTypeDraftEvent $event) use ($eventContentTypeDraft): void {
             $event->setContentTypeDraft($eventContentTypeDraft);
             $event->stopPropagation();
         }, 10);
@@ -312,7 +312,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeGroup')->willReturn($contentTypeGroup);
 
-        $traceableEventDispatcher->addListener(BeforeCreateContentTypeGroupEvent::class, static function (BeforeCreateContentTypeGroupEvent $event) use ($eventContentTypeGroup) {
+        $traceableEventDispatcher->addListener(BeforeCreateContentTypeGroupEvent::class, static function (BeforeCreateContentTypeGroupEvent $event) use ($eventContentTypeGroup): void {
             $event->setContentTypeGroup($eventContentTypeGroup);
         }, 10);
 
@@ -346,7 +346,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentTypeGroup')->willReturn($contentTypeGroup);
 
-        $traceableEventDispatcher->addListener(BeforeCreateContentTypeGroupEvent::class, static function (BeforeCreateContentTypeGroupEvent $event) use ($eventContentTypeGroup) {
+        $traceableEventDispatcher->addListener(BeforeCreateContentTypeGroupEvent::class, static function (BeforeCreateContentTypeGroupEvent $event) use ($eventContentTypeGroup): void {
             $event->setContentTypeGroup($eventContentTypeGroup);
             $event->stopPropagation();
         }, 10);
@@ -407,7 +407,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateContentTypeGroupEvent::class, static function (BeforeUpdateContentTypeGroupEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeUpdateContentTypeGroupEvent::class, static function (BeforeUpdateContentTypeGroupEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -472,7 +472,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentType')->willReturn($contentTypeDraft);
 
-        $traceableEventDispatcher->addListener(BeforeCreateContentTypeEvent::class, static function (BeforeCreateContentTypeEvent $event) use ($eventContentTypeDraft) {
+        $traceableEventDispatcher->addListener(BeforeCreateContentTypeEvent::class, static function (BeforeCreateContentTypeEvent $event) use ($eventContentTypeDraft): void {
             $event->setContentTypeDraft($eventContentTypeDraft);
         }, 10);
 
@@ -507,7 +507,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('createContentType')->willReturn($contentTypeDraft);
 
-        $traceableEventDispatcher->addListener(BeforeCreateContentTypeEvent::class, static function (BeforeCreateContentTypeEvent $event) use ($eventContentTypeDraft) {
+        $traceableEventDispatcher->addListener(BeforeCreateContentTypeEvent::class, static function (BeforeCreateContentTypeEvent $event) use ($eventContentTypeDraft): void {
             $event->setContentTypeDraft($eventContentTypeDraft);
             $event->stopPropagation();
         }, 10);
@@ -574,7 +574,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('removeContentTypeTranslation')->willReturn($newContentTypeDraft);
 
-        $traceableEventDispatcher->addListener(BeforeRemoveContentTypeTranslationEvent::class, static function (BeforeRemoveContentTypeTranslationEvent $event) use ($eventNewContentTypeDraft) {
+        $traceableEventDispatcher->addListener(BeforeRemoveContentTypeTranslationEvent::class, static function (BeforeRemoveContentTypeTranslationEvent $event) use ($eventNewContentTypeDraft): void {
             $event->setNewContentTypeDraft($eventNewContentTypeDraft);
         }, 10);
 
@@ -609,7 +609,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('removeContentTypeTranslation')->willReturn($newContentTypeDraft);
 
-        $traceableEventDispatcher->addListener(BeforeRemoveContentTypeTranslationEvent::class, static function (BeforeRemoveContentTypeTranslationEvent $event) use ($eventNewContentTypeDraft) {
+        $traceableEventDispatcher->addListener(BeforeRemoveContentTypeTranslationEvent::class, static function (BeforeRemoveContentTypeTranslationEvent $event) use ($eventNewContentTypeDraft): void {
             $event->setNewContentTypeDraft($eventNewContentTypeDraft);
             $event->stopPropagation();
         }, 10);
@@ -670,7 +670,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeUnassignContentTypeGroupEvent::class, static function (BeforeUnassignContentTypeGroupEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeUnassignContentTypeGroupEvent::class, static function (BeforeUnassignContentTypeGroupEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -727,7 +727,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforePublishContentTypeDraftEvent::class, static function (BeforePublishContentTypeDraftEvent $event) {
+        $traceableEventDispatcher->addListener(BeforePublishContentTypeDraftEvent::class, static function (BeforePublishContentTypeDraftEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -788,7 +788,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateFieldDefinitionEvent::class, static function (BeforeUpdateFieldDefinitionEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeUpdateFieldDefinitionEvent::class, static function (BeforeUpdateFieldDefinitionEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -847,7 +847,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeRemoveFieldDefinitionEvent::class, static function (BeforeRemoveFieldDefinitionEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeRemoveFieldDefinitionEvent::class, static function (BeforeRemoveFieldDefinitionEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -906,7 +906,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeAssignContentTypeGroupEvent::class, static function (BeforeAssignContentTypeGroupEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeAssignContentTypeGroupEvent::class, static function (BeforeAssignContentTypeGroupEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -965,7 +965,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateContentTypeDraftEvent::class, static function (BeforeUpdateContentTypeDraftEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeUpdateContentTypeDraftEvent::class, static function (BeforeUpdateContentTypeDraftEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -1022,7 +1022,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
         $innerServiceMock = self::createStub(ContentTypeServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeDeleteContentTypeEvent::class, static function (BeforeDeleteContentTypeEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeDeleteContentTypeEvent::class, static function (BeforeDeleteContentTypeEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -1087,7 +1087,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('copyContentType')->willReturn($contentTypeCopy);
 
-        $traceableEventDispatcher->addListener(BeforeCopyContentTypeEvent::class, static function (BeforeCopyContentTypeEvent $event) use ($eventContentTypeCopy) {
+        $traceableEventDispatcher->addListener(BeforeCopyContentTypeEvent::class, static function (BeforeCopyContentTypeEvent $event) use ($eventContentTypeCopy): void {
             $event->setContentTypeCopy($eventContentTypeCopy);
         }, 10);
 
@@ -1122,7 +1122,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
         $innerServiceMock = $this->createMock(ContentTypeServiceInterface::class);
         $innerServiceMock->method('copyContentType')->willReturn($contentTypeCopy);
 
-        $traceableEventDispatcher->addListener(BeforeCopyContentTypeEvent::class, static function (BeforeCopyContentTypeEvent $event) use ($eventContentTypeCopy) {
+        $traceableEventDispatcher->addListener(BeforeCopyContentTypeEvent::class, static function (BeforeCopyContentTypeEvent $event) use ($eventContentTypeCopy): void {
             $event->setContentTypeCopy($eventContentTypeCopy);
             $event->stopPropagation();
         }, 10);

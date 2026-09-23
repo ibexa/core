@@ -328,7 +328,7 @@ class ParentDepthLimitationTypeTest extends Base
             $this->locationHandlerMock
                 ->expects($matcher)
                 ->method('load')
-                ->willReturnCallback(static function ($parentLocationId) use ($matcher, $parentLocationIds, $persistenceLocations) {
+                ->willReturnCallback(static function ($parentLocationId) use ($matcher, $parentLocationIds, $persistenceLocations): Location {
                     self::assertSame($parentLocationIds[$matcher->numberOfInvocations() - 1], $parentLocationId);
 
                     return $persistenceLocations[$parentLocationId];

@@ -87,14 +87,14 @@ class DecoratedLocationServiceTest extends TestCase
 
         $this->mapper
             ->expects($matcher)
-            ->method('setMapping')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame(1, $parameters[0]);
-                    $this->assertSame(2, $parameters[1]);
+                    self::assertSame(1, $parameters[0]);
+                    self::assertSame(2, $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame(3, $parameters[0]);
-                    $this->assertSame(4, $parameters[1]);
+                    self::assertSame(3, $parameters[0]);
+                    self::assertSame(4, $parameters[1]);
                 }
             });
 
@@ -139,14 +139,14 @@ class DecoratedLocationServiceTest extends TestCase
 
         $this->mapper
             ->expects($matcher)
-            ->method('setMapping')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame(1, $parameters[0]);
-                    $this->assertSame(2, $parameters[1]);
+                    self::assertSame(1, $parameters[0]);
+                    self::assertSame(2, $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame(3, $parameters[0]);
-                    $this->assertSame(4, $parameters[1]);
+                    self::assertSame(3, $parameters[0]);
+                    self::assertSame(4, $parameters[1]);
                 }
             });
 
@@ -193,14 +193,14 @@ class DecoratedLocationServiceTest extends TestCase
 
         $this->mapper
             ->expects($matcher)
-            ->method('setMapping')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame(1, $parameters[0]);
-                    $this->assertSame(2, $parameters[1]);
+                    self::assertSame(1, $parameters[0]);
+                    self::assertSame(2, $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame(3, $parameters[0]);
-                    $this->assertSame(4, $parameters[1]);
+                    self::assertSame(3, $parameters[0]);
+                    self::assertSame(4, $parameters[1]);
                 }
             });
 
@@ -241,14 +241,14 @@ class DecoratedLocationServiceTest extends TestCase
 
         $this->mapper
             ->expects($matcher)
-            ->method('setMapping')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('setMapping')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame(1, $parameters[0]);
-                    $this->assertSame(2, $parameters[1]);
+                    self::assertSame(1, $parameters[0]);
+                    self::assertSame(2, $parameters[1]);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame(3, $parameters[0]);
-                    $this->assertSame(4, $parameters[1]);
+                    self::assertSame(3, $parameters[0]);
+                    self::assertSame(4, $parameters[1]);
                 }
             });
 

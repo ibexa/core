@@ -10,6 +10,7 @@ namespace Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as APIContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Core\MVC\Symfony\View\ContentValueView;
 use Ibexa\Core\MVC\Symfony\View\LocationValueView;
@@ -27,7 +28,7 @@ class ParentContentType extends MultipleValued
     public function matchLocation(APILocation $location): bool
     {
         $parentContentType = $this->repository->sudo(
-            static function (Repository $repository) use ($location) {
+            static function (Repository $repository) use ($location): APIContentType {
                 $parent = $repository->getLocationService()->loadLocation($location->parentLocationId);
 
                 return $repository
@@ -49,7 +50,7 @@ class ParentContentType extends MultipleValued
     public function matchContentInfo(ContentInfo $contentInfo)
     {
         $location = $this->repository->sudo(
-            static function (Repository $repository) use ($contentInfo) {
+            static function (Repository $repository) use ($contentInfo): APILocation {
                 return $repository->getLocationService()->loadLocation($contentInfo->mainLocationId);
             }
         );

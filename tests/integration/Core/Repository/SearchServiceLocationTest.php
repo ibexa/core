@@ -433,7 +433,7 @@ class SearchServiceLocationTest extends BaseTestCase
     protected function mapResultLocationIds(SearchResult $result): array
     {
         return array_map(
-            static function (SearchHit $searchHit) {
+            static function (SearchHit $searchHit): mixed {
                 return $searchHit->valueObject->id;
             },
             $result->searchHits

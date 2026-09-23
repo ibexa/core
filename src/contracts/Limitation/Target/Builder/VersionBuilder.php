@@ -115,7 +115,7 @@ final class VersionBuilder
     public function updateFieldsTo(?string $initialLanguageCode, array $fields): self
     {
         $languageCodes = array_map(
-            static function (Field $field) {
+            static function (Field $field): mixed {
                 return $field->languageCode;
             },
             $fields

@@ -116,10 +116,9 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTestCase
             ->method('getName')
             ->willReturn('method_b');
 
-        $controllerReferenceCallback = self::callback(function (ControllerReference $controllerReference): bool {
-            $this->assertInstanceOf(ControllerReference::class, $controllerReference);
-            $this->assertEquals('ibexa_content::viewAction', $controllerReference->controller);
-            $this->assertSame([
+        $controllerReferenceCallback = self::callback(static function (ControllerReference $controllerReference): bool {
+            self::assertEquals('ibexa_content::viewAction', $controllerReference->controller);
+            self::assertSame([
                 'contentId' => 234,
                 'locationId' => 345,
                 'viewType' => 'awesome',
@@ -129,8 +128,8 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTestCase
             return true;
         });
 
-        $requestCallback = self::callback(function (Request $request) use ($siteAccess, $content): bool {
-            $this->assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
+        $requestCallback = self::callback(static function (Request $request) use ($siteAccess, $content): bool {
+            self::assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
 
             return true;
         });

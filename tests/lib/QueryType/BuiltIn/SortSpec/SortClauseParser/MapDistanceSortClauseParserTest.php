@@ -33,34 +33,36 @@ final class MapDistanceSortClauseParserTest extends TestCase
     public function testParse(): void
     {
         $parser = $this->createMock(SortSpecParserInterface::class);
-        $matcher = $this->exactly(5);
+        $matcher = self::exactly(5);
         $parser->expects($matcher)
-            ->method('match')->willReturnCallback(function (...$parameters) use ($matcher) {
+            ->method('match')->willReturnCallback(static function (...$parameters) use ($matcher): ?Token {
                 if ($matcher->numberOfInvocations() === 1) {
-                    $this->assertSame(Token::TYPE_ID, $parameters[0]);
+                    self::assertSame(Token::TYPE_ID, $parameters[0]);
 
                     return new Token(Token::TYPE_ID, self::EXAMPLE_CONTENT_TYPE_ID);
                 }
                 if ($matcher->numberOfInvocations() === 2) {
-                    $this->assertSame(Token::TYPE_DOT, $parameters[0]);
+                    self::assertSame(Token::TYPE_DOT, $parameters[0]);
 
                     return new Token(Token::TYPE_DOT);
                 }
                 if ($matcher->numberOfInvocations() === 3) {
-                    $this->assertSame(Token::TYPE_ID, $parameters[0]);
+                    self::assertSame(Token::TYPE_ID, $parameters[0]);
 
                     return new Token(Token::TYPE_ID, self::EXAMPLE_FIELD_ID);
                 }
                 if ($matcher->numberOfInvocations() === 4) {
-                    $this->assertSame(Token::TYPE_FLOAT, $parameters[0]);
+                    self::assertSame(Token::TYPE_FLOAT, $parameters[0]);
 
                     return new Token(Token::TYPE_FLOAT, (string)self::EXAMPLE_LAT);
                 }
                 if ($matcher->numberOfInvocations() === 5) {
-                    $this->assertSame(Token::TYPE_FLOAT, $parameters[0]);
+                    self::assertSame(Token::TYPE_FLOAT, $parameters[0]);
 
                     return new Token(Token::TYPE_FLOAT, (string)self::EXAMPLE_LON);
                 }
+
+                return null;
             });
 
         $parser->method('parseSortDirection')->willReturn(Query::SORT_ASC);

@@ -25,6 +25,8 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
 
     private string $prefixParameterName;
 
+    private bool $prefixResolved = false;
+
     public function __construct(
         ConfigResolverInterface $configResolver,
         IOServiceInterface $innerIOService,
@@ -33,78 +35,89 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
         $this->configResolver = $configResolver;
         $this->innerIOService = $innerIOService;
         $this->prefixParameterName = $prefixParameterName;
-
-        // set initial prefix on inner IOService
-        $this->setPrefix($this->configResolver->getParameter($this->prefixParameterName));
     }
 
     public function setPrefix(string $prefix): void
     {
         $this->innerIOService->setPrefix($prefix);
+        $this->prefixResolved = true;
+    }
+
+    /**
+     * Returns the inner IOService, resolving and setting its prefix lazily on first use so that
+     * the ConfigResolver is never read in the constructor (its scope may not be final yet then).
+     */
+    private function getInnerIOService(): IOServiceInterface
+    {
+        if (!$this->prefixResolved) {
+            $this->setPrefix($this->configResolver->getParameter($this->prefixParameterName));
+        }
+
+        return $this->innerIOService;
     }
 
     public function newBinaryCreateStructFromLocalFile(string $localFile): BinaryFileCreateStruct
     {
-        return $this->innerIOService->newBinaryCreateStructFromLocalFile($localFile);
+        return $this->getInnerIOService()->newBinaryCreateStructFromLocalFile($localFile);
     }
 
     public function exists(string $binaryFileId): bool
     {
-        return $this->innerIOService->exists($binaryFileId);
+        return $this->getInnerIOService()->exists($binaryFileId);
     }
 
     public function loadBinaryFile(string $binaryFileId): BinaryFile
     {
-        return $this->innerIOService->loadBinaryFile($binaryFileId);
+        return $this->getInnerIOService()->loadBinaryFile($binaryFileId);
     }
 
     public function loadBinaryFileByUri(string $binaryFileUri): BinaryFile
     {
-        return $this->innerIOService->loadBinaryFileByUri($binaryFileUri);
+        return $this->getInnerIOService()->loadBinaryFileByUri($binaryFileUri);
     }
 
     public function getFileContents(BinaryFile $binaryFile): string
     {
-        return $this->innerIOService->getFileContents($binaryFile);
+        return $this->getInnerIOService()->getFileContents($binaryFile);
     }
 
     public function createBinaryFile(BinaryFileCreateStruct $binaryFileCreateStruct): BinaryFile
     {
-        return $this->innerIOService->createBinaryFile($binaryFileCreateStruct);
+        return $this->getInnerIOService()->createBinaryFile($binaryFileCreateStruct);
     }
 
     public function getUri(string $binaryFileId): string
     {
-        return $this->innerIOService->getUri($binaryFileId);
+        return $this->getInnerIOService()->getUri($binaryFileId);
     }
 
     public function getMimeType(string $binaryFileId): ?string
     {
-        return $this->innerIOService->getMimeType($binaryFileId);
+        return $this->getInnerIOService()->getMimeType($binaryFileId);
     }
 
     public function getFileInputStream(BinaryFile $binaryFile): mixed
     {
-        return $this->innerIOService->getFileInputStream($binaryFile);
+        return $this->getInnerIOService()->getFileInputStream($binaryFile);
     }
 
     public function deleteBinaryFile(BinaryFile $binaryFile): void
     {
-        $this->innerIOService->deleteBinaryFile($binaryFile);
+        $this->getInnerIOService()->deleteBinaryFile($binaryFile);
     }
 
     public function newBinaryCreateStructFromUploadedFile(array $uploadedFile): BinaryFileCreateStruct
     {
-        return $this->innerIOService->newBinaryCreateStructFromUploadedFile($uploadedFile);
+        return $this->getInnerIOService()->newBinaryCreateStructFromUploadedFile($uploadedFile);
     }
 
     public function deleteDirectory(string $path): void
     {
-        $this->innerIOService->deleteDirectory($path);
+        $this->getInnerIOService()->deleteDirectory($path);
     }
 
     public function onConfigScopeChange(ScopeChangeEvent $event): void
     {
-        $this->setPrefix($this->configResolver->getParameter($this->prefixParameterName));
+        $this->prefixResolved = false;
     }
 }

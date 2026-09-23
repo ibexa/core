@@ -51,14 +51,14 @@ class UserPreferenceTest extends BaseServiceMockTest
             'value' => 'value',
         ]);
 
-        $this->assertTransactionIsCommitted(function () {
+        $this->assertTransactionIsCommitted(function (): void {
             $this->userSPIPreferenceHandler
                 ->expects($this->once())
                 ->method('setUserPreference')
-                ->willReturnCallback(function (UserPreferenceSetStruct $setStruct) {
-                    $this->assertEquals(self::USER_PREFERENCE_NAME, $setStruct->name);
-                    $this->assertEquals(self::USER_PREFERENCE_VALUE, $setStruct->value);
-                    $this->assertEquals(self::CURRENT_USER_ID, $setStruct->userId);
+                ->willReturnCallback(static function (UserPreferenceSetStruct $setStruct): UserPreference {
+                    self::assertEquals(self::USER_PREFERENCE_NAME, $setStruct->name);
+                    self::assertEquals(self::USER_PREFERENCE_VALUE, $setStruct->value);
+                    self::assertEquals(self::CURRENT_USER_ID, $setStruct->userId);
 
                     return new UserPreference();
                 });
@@ -75,7 +75,7 @@ class UserPreferenceTest extends BaseServiceMockTest
             'value' => 'value',
         ]);
 
-        $this->assertTransactionIsNotStarted(function () {
+        $this->assertTransactionIsNotStarted(function (): void {
             $this->userSPIPreferenceHandler->expects($this->never())->method('setUserPreference');
         });
 
@@ -91,7 +91,7 @@ class UserPreferenceTest extends BaseServiceMockTest
             'value' => 'value',
         ]);
 
-        $this->assertTransactionIsRollback(function () {
+        $this->assertTransactionIsRollback(function (): void {
             $this->userSPIPreferenceHandler
                 ->expects($this->once())
                 ->method('setUserPreference')
@@ -130,7 +130,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         $limit = 25;
         $expectedTotalCount = 10;
 
-        $expectedItems = array_map(function () {
+        $expectedItems = array_map(function (): APIUserPreference {
             return $this->createAPIUserPreference();
         }, range(1, $expectedTotalCount));
 
@@ -144,7 +144,7 @@ class UserPreferenceTest extends BaseServiceMockTest
             ->expects(self::once())
             ->method('loadUserPreferences')
             ->with(self::CURRENT_USER_ID, $offset, $limit)
-            ->willReturn(array_map(static function ($locationId) {
+            ->willReturn(array_map(static function ($locationId): UserPreference {
                 return new UserPreference([
                     'name' => 'setting',
                     'value' => 'value',

@@ -254,7 +254,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
         $groupedLimitationValues = [];
         foreach ($stateGroups as $stateGroup) {
             $states = $objectStateHandler->loadObjectStates($stateGroup->id);
-            $stateIds = array_map(static function ($state) {
+            $stateIds = array_map(static function ($state): mixed {
                 return $state->id;
             }, $states);
             $limitationValuesGroup = array_intersect($stateIds, $limitationValues);

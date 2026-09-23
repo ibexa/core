@@ -38,7 +38,7 @@ class ParentLocation extends MultipleValued
     public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         $location = $this->repository->sudo(
-            static function (Repository $repository) use ($contentInfo) {
+            static function (Repository $repository) use ($contentInfo): APILocation {
                 return $repository->getLocationService()->loadLocation($contentInfo->mainLocationId);
             }
         );

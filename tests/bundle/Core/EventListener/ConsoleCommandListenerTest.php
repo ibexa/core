@@ -62,7 +62,7 @@ class ConsoleCommandListenerTest extends TestCase
             [
                 ConsoleEvents::COMMAND => [['onConsoleCommand', 128]],
             ],
-            $this->listener->getSubscribedEvents()
+            ConsoleCommandListener::getSubscribedEvents()
         );
     }
 

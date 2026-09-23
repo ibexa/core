@@ -19,8 +19,8 @@ abstract class AbstractServiceTestCase extends TestCase
     public function getEventDispatcher(string $beforeEventName, string $eventName): TraceableEventDispatcher
     {
         $eventDispatcher = new EventDispatcher();
-        $eventDispatcher->addListener($beforeEventName, static function (BeforeEvent $event) {});
-        $eventDispatcher->addListener($eventName, static function (AfterEvent $event) {});
+        $eventDispatcher->addListener($beforeEventName, static function (BeforeEvent $event): void {});
+        $eventDispatcher->addListener($eventName, static function (AfterEvent $event): void {});
 
         return new TraceableEventDispatcher(
             $eventDispatcher,

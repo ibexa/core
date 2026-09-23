@@ -30,7 +30,7 @@ final class TwigVariableProviderExtension implements ExpressionFunctionProviderI
                 static function (string $identifier): string {
                     return 'Not implemented: Not a Dependency Injection expression';
                 },
-                function (array $variables, string $identifier) {
+                function (array $variables, string $identifier): object {
                     if (!$this->hasParameterProvider($variables)) {
                         throw new InvalidArgumentException(
                             self::PROVIDER_REGISTRY_PARAMETER,

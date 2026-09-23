@@ -61,7 +61,7 @@ final class SessionSetDynamicNameListenerTest extends TestCase
             [
                 MVCEvents::SITEACCESS => ['onSiteAccessMatch', 250],
             ],
-            $listener->getSubscribedEvents()
+            SessionSetDynamicNameListener::getSubscribedEvents()
         );
     }
 

@@ -394,7 +394,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->setContentState(42, 2, 2);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'contentobject_id' => 42,

@@ -126,7 +126,7 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         int $versionNo
     ): array {
         return array_map(
-            function (array $row) use ($versionNo) {
+            function (array $row) use ($versionNo): Field {
                 $field = new Field();
                 $field->id = (int)$row['field_id'];
                 $field->fieldDefinitionId = (int)$row['field_definition_id'];

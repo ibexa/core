@@ -133,7 +133,7 @@ class BookmarkServiceTest extends BaseTestCase
 
         self::assertEquals(5, $bookmarks->totalCount);
         // Assert bookmarks order: recently added should be first
-        self::assertEquals([15, 13, 12], array_map(static function ($location) {
+        self::assertEquals([15, 13, 12], array_map(static function ($location): int {
             return $location->id;
         }, $bookmarks->items));
     }

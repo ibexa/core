@@ -39,7 +39,7 @@ class SiteAccessListenerTest extends TestCase
             [
                 MVCEvents::SITEACCESS => ['onSiteAccessMatch', 255],
             ],
-            $this->listener->getSubscribedEvents()
+            SiteAccessListener::getSubscribedEvents()
         );
     }
 

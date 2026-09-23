@@ -255,7 +255,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
                                   ->method(self::anything())// loadByLanguageCode && loadListByLanguageCodes
                                   ->will(
                                       self::returnCallback(
-                                          static function ($languageCodes) {
+                                          static function ($languageCodes): Language|array {
                                               if (is_string($languageCodes)) {
                                                   $language = $languageCodes;
                                                   $languageCodes = [$language];

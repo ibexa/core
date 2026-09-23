@@ -35,7 +35,7 @@ class URLCheckerTest extends TestCase
         $this->urlService
             ->expects(self::any())
             ->method('createUpdateStruct')
-            ->willReturnCallback(static function () {
+            ->willReturnCallback(static function (): URLUpdateStruct {
                 return new URLUpdateStruct();
             });
 
@@ -63,8 +63,8 @@ class URLCheckerTest extends TestCase
             $handler
                 ->expects(self::once())
                 ->method('validate')
-                ->willReturnCallback(function (array $urls) use ($scheme, $groups) {
-                    $this->assertEqualsCanonicalizing($groups[$scheme], $urls);
+                ->willReturnCallback(static function (array $urls) use ($scheme, $groups): void {
+                    self::assertEqualsCanonicalizing($groups[$scheme], $urls);
                 });
         }
 
@@ -98,8 +98,8 @@ class URLCheckerTest extends TestCase
             $handler
                 ->expects(self::once())
                 ->method('validate')
-                ->willReturnCallback(function (array $urls) use ($scheme, $groups) {
-                    $this->assertEqualsCanonicalizing($groups[$scheme], $urls);
+                ->willReturnCallback(static function (array $urls) use ($scheme, $groups): void {
+                    self::assertEqualsCanonicalizing($groups[$scheme], $urls);
                 });
         }
 
@@ -119,7 +119,7 @@ class URLCheckerTest extends TestCase
 
         $this->handlerRegistry
             ->method('getHandler')
-            ->willReturnCallback(static function ($scheme) use ($schemes) {
+            ->willReturnCallback(static function ($scheme) use ($schemes): URLHandlerInterface {
                 return $schemes[$scheme];
             });
     }

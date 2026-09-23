@@ -64,13 +64,13 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
 
-        $this->assertTransactionIsCommitted(function () {
+        $this->assertTransactionIsCommitted(function (): void {
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('create')
-                ->willReturnCallback(function (CreateStruct $createStruct) {
-                    $this->assertEquals(self::LOCATION_ID, $createStruct->locationId);
-                    $this->assertEquals(self::CURRENT_USER_ID, $createStruct->userId);
+                ->willReturnCallback(static function (CreateStruct $createStruct): Bookmark {
+                    self::assertEquals(self::LOCATION_ID, $createStruct->locationId);
+                    self::assertEquals(self::CURRENT_USER_ID, $createStruct->userId);
 
                     return new Bookmark();
                 });
@@ -93,7 +93,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => new Bookmark()]);
 
-        $this->assertTransactionIsNotStarted(function () {
+        $this->assertTransactionIsNotStarted(function (): void {
             $this->bookmarkHandler->expects($this->never())->method('create');
         });
 
@@ -114,7 +114,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
 
-        $this->assertTransactionIsRollback(function () {
+        $this->assertTransactionIsRollback(function (): void {
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('create')
@@ -138,7 +138,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => $bookmark]);
 
-        $this->assertTransactionIsCommitted(function () use ($bookmark) {
+        $this->assertTransactionIsCommitted(function () use ($bookmark): void {
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('delete')
@@ -162,7 +162,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => new Bookmark(['id' => self::BOOKMARK_ID])]);
 
-        $this->assertTransactionIsRollback(function () {
+        $this->assertTransactionIsRollback(function (): void {
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('delete')
@@ -186,7 +186,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
 
-        $this->assertTransactionIsNotStarted(function () {
+        $this->assertTransactionIsNotStarted(function (): void {
             $this->bookmarkHandler->expects($this->never())->method('delete');
         });
 
@@ -199,7 +199,7 @@ class BookmarkTest extends BaseServiceMockTest
         $limit = 25;
 
         $expectedTotalCount = 10;
-        $expectedItems = array_map(function ($locationId) {
+        $expectedItems = array_map(function ($locationId): Location {
             return $this->createLocation($locationId);
         }, range(1, $expectedTotalCount));
         $locationList = new LocationList(['totalCount' => $expectedTotalCount, 'locations' => $expectedItems]);

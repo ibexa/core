@@ -112,7 +112,7 @@ abstract class AbstractBaseHandlerTestCase extends TestCase
         );
 
         $this->cacheItemsClosure = \Closure::bind(
-            static function ($key, $value, $isHit, $defaultLifetime = 0) {
+            static function ($key, $value, $isHit, $defaultLifetime = 0): CacheItem {
                 $item = new CacheItem();
                 $item->key = $key;
                 $item->value = $value;

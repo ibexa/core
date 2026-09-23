@@ -1279,7 +1279,7 @@ class URLAliasServiceTest extends BaseTestCase
 
         // corrupt database by removing original entry, keeping its history
         $this->performRawDatabaseOperation(
-            static function (Connection $connection) use ($folderLocation) {
+            static function (Connection $connection) use ($folderLocation): int|string {
                 $queryBuilder = $connection->createQueryBuilder();
                 $expr = $queryBuilder->expr();
                 $queryBuilder
@@ -1361,7 +1361,7 @@ class URLAliasServiceTest extends BaseTestCase
 
         // corrupt database by breaking link to the original URL alias
         $this->performRawDatabaseOperation(
-            static function (Connection $connection) use ($nestedFolderLocation) {
+            static function (Connection $connection) use ($nestedFolderLocation): int|string {
                 $queryBuilder = $connection->createQueryBuilder();
                 $expr = $queryBuilder->expr();
                 $queryBuilder

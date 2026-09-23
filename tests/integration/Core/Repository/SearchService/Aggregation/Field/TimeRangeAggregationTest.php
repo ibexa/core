@@ -66,13 +66,13 @@ final class TimeRangeAggregationTest extends AbstractAggregationTestCase
         $generator->setFieldDefinitionIdentifier('time_field');
         $generator->setFieldTypeIdentifier('ibexa_time');
         $generator->setValues([
-            new TimeValue($this->mktime(6, 45, 0, 0, 0, 0)),
-            new TimeValue($this->mktime(7, 0, 0, 0, 0, 0)),
-            new TimeValue($this->mktime(6, 30, 0, 0, 0, 0)),
-            new TimeValue($this->mktime(11, 45, 0, 0, 0, 0)),
-            new TimeValue($this->mktime(16, 00, 0, 0, 0, 0)),
-            new TimeValue($this->mktime(17, 00, 0, 0, 0, 0)),
-            new TimeValue($this->mktime(17, 30, 0, 0, 0, 0)),
+            new TimeValue(self::mktime(6, 45, 0, 0, 0, 0)),
+            new TimeValue(self::mktime(7, 0, 0, 0, 0, 0)),
+            new TimeValue(self::mktime(6, 30, 0, 0, 0, 0)),
+            new TimeValue(self::mktime(11, 45, 0, 0, 0, 0)),
+            new TimeValue(self::mktime(16, 00, 0, 0, 0, 0)),
+            new TimeValue(self::mktime(17, 00, 0, 0, 0, 0)),
+            new TimeValue(self::mktime(17, 30, 0, 0, 0, 0)),
         ]);
 
         $generator->execute();

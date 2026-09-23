@@ -26,7 +26,7 @@ class ParentContentType extends MultipleValued
     public function matchLocation(APILocation $location): bool
     {
         $parent = $this->repository->sudo(
-            static function (Repository $repository) use ($location) {
+            static function (Repository $repository) use ($location): APILocation {
                 return $repository->getLocationService()->loadLocation($location->parentLocationId);
             }
         );
@@ -44,7 +44,7 @@ class ParentContentType extends MultipleValued
     public function matchContentInfo(ContentInfo $contentInfo)
     {
         $location = $this->repository->sudo(
-            static function (Repository $repository) use ($contentInfo) {
+            static function (Repository $repository) use ($contentInfo): APILocation {
                 return $repository->getLocationService()->loadLocation($contentInfo->mainLocationId);
             }
         );
@@ -70,7 +70,7 @@ class ParentContentType extends MultipleValued
     private function loadParentLocation($locationId)
     {
         return $this->repository->sudo(
-            static function (Repository $repository) use ($locationId) {
+            static function (Repository $repository) use ($locationId): APILocation {
                 return $repository->getLocationService()->loadLocation($locationId);
             }
         );

@@ -29,9 +29,9 @@ class GenericProviderTest extends TestCase
         $imagine
             ->expects(self::atLeastOnce())
             ->method('font')
-            ->willReturnCallback(function ($fontpath, $fontsize, ColorInterface $foreground) use ($options, $font) {
-                $this->assertEquals($options['fontpath'], $fontpath);
-                $this->assertEquals($options['fontsize'], $fontsize);
+            ->willReturnCallback(function ($fontpath, $fontsize, ColorInterface $foreground) use ($options, $font): AbstractFont {
+                self::assertEquals($options['fontpath'], $fontpath);
+                self::assertEquals($options['fontsize'], $fontsize);
                 $this->assertColorEquals($options['foreground'], $foreground);
 
                 return $font;
@@ -47,7 +47,7 @@ class GenericProviderTest extends TestCase
         $imagine
             ->expects(self::atLeastOnce())
             ->method('create')
-            ->willReturnCallback(function (BoxInterface $size, ColorInterface $background) use ($value, $options, $image) {
+            ->willReturnCallback(function (BoxInterface $size, ColorInterface $background) use ($value, $options, $image): ImageInterface {
                 $this->assertSizeEquals([$value->width, $value->height], $size);
                 $this->assertColorEquals($options['background'], $background);
 

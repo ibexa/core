@@ -960,7 +960,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
         /* END: Use Case */
 
         $foundIds = array_map(
-            static function ($trashItem) {
+            static function ($trashItem): int {
                 return $trashItem->id;
             },
             $searchResult->items

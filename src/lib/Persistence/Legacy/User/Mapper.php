@@ -195,7 +195,7 @@ class Mapper
         $roleAssignments = [];
         array_walk_recursive(
             $roleAssignmentData,
-            static function ($roleAssignment) use (&$roleAssignments) {
+            static function ($roleAssignment) use (&$roleAssignments): void {
                 $roleAssignments[] = $roleAssignment;
             }
         );
