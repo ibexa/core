@@ -34,7 +34,7 @@ final class DoctrineDatabase extends Gateway
             ->insert(self::SETTING_TABLE)
             ->values(
                 [
-                    $this->connection->quoteIdentifier('group') => $query->createPositionalParameter($group),
+                    $this->connection->quoteSingleIdentifier('group') => $query->createPositionalParameter($group),
                     'identifier' => $query->createPositionalParameter($identifier),
                     'value' => $query->createPositionalParameter($serializedValue),
                 ]
@@ -53,7 +53,7 @@ final class DoctrineDatabase extends Gateway
             ->set('value', $query->createPositionalParameter($serializedValue))
             ->where(
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('group'),
+                    $this->connection->quoteSingleIdentifier('group'),
                     $query->createPositionalParameter($group, ParameterType::STRING)
                 ),
                 $query->expr()->eq(
@@ -70,14 +70,14 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->connection->quoteIdentifier('group'),
+                $this->connection->quoteSingleIdentifier('group'),
                 'identifier',
                 'value'
             )
             ->from(self::SETTING_TABLE)
             ->where(
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('group'),
+                    $this->connection->quoteSingleIdentifier('group'),
                     $query->createPositionalParameter($group, ParameterType::STRING)
                 ),
                 $query->expr()->eq(
@@ -101,7 +101,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->connection->quoteIdentifier('group'),
+                $this->connection->quoteSingleIdentifier('group'),
                 'identifier',
                 'value'
             )
@@ -130,7 +130,7 @@ final class DoctrineDatabase extends Gateway
             ->delete(self::SETTING_TABLE)
             ->where(
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('group'),
+                    $this->connection->quoteSingleIdentifier('group'),
                     $query->createPositionalParameter($group, ParameterType::STRING)
                 ),
                 $query->expr()->eq(

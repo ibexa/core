@@ -83,8 +83,8 @@ class MapLocationDistance extends Field
         $table = $this->getSortTableName($number);
         $externalTable = $this->getSortTableName($number, DoctrineStorage::MAP_LOCATION_TABLE);
 
-        $tableAlias = $this->connection->quoteIdentifier($table);
-        $externalTableAlias = $this->connection->quoteIdentifier($externalTable);
+        $tableAlias = $this->connection->quoteSingleIdentifier($table);
+        $externalTableAlias = $this->connection->quoteSingleIdentifier($externalTable);
         $query
             ->leftJoin(
                 'c',

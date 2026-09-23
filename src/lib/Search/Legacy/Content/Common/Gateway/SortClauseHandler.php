@@ -78,7 +78,7 @@ abstract class SortClauseHandler
      */
     protected function getSortColumnName($number)
     {
-        return $this->connection->quoteIdentifier('sort_column_' . $number);
+        return $this->connection->quoteSingleIdentifier('sort_column_' . $number);
     }
 
     /**

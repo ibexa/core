@@ -70,11 +70,11 @@ class DoctrineStorage extends BaseDoctrineStorage
         parent::setFetchColumns($queryBuilder, $fieldId, $versionNo);
 
         $queryBuilder->addSelect(
-            $this->connection->quoteIdentifier('has_controller'),
-            $this->connection->quoteIdentifier('is_autoplay'),
-            $this->connection->quoteIdentifier('is_loop'),
-            $this->connection->quoteIdentifier('width'),
-            $this->connection->quoteIdentifier('height')
+            $this->connection->quoteSingleIdentifier('has_controller'),
+            $this->connection->quoteSingleIdentifier('is_autoplay'),
+            $this->connection->quoteSingleIdentifier('is_loop'),
+            $this->connection->quoteSingleIdentifier('width'),
+            $this->connection->quoteSingleIdentifier('height')
         );
     }
 

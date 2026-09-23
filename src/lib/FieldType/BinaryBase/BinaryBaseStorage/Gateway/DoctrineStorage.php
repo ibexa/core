@@ -72,9 +72,9 @@ abstract class DoctrineStorage extends Gateway
     protected function setFetchColumns(QueryBuilder $queryBuilder, $fieldId, $versionNo)
     {
         $queryBuilder->select(
-            $this->connection->quoteIdentifier('filename'),
-            $this->connection->quoteIdentifier('mime_type'),
-            $this->connection->quoteIdentifier('original_filename')
+            $this->connection->quoteSingleIdentifier('filename'),
+            $this->connection->quoteSingleIdentifier('mime_type'),
+            $this->connection->quoteSingleIdentifier('original_filename')
         );
     }
 
@@ -155,7 +155,7 @@ abstract class DoctrineStorage extends Gateway
     {
         $updateQuery = $this->connection->createQueryBuilder();
         $updateQuery->update(
-            $this->connection->quoteIdentifier($this->getStorageTable())
+            $this->connection->quoteSingleIdentifier($this->getStorageTable())
         );
 
         $this->setUpdateColumns($updateQuery, $versionInfo, $field);
@@ -163,11 +163,11 @@ abstract class DoctrineStorage extends Gateway
             ->where(
                 $updateQuery->expr()->and(
                     $updateQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                         ':fieldId'
                     ),
                     $updateQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('version'),
+                        $this->connection->quoteSingleIdentifier('version'),
                         ':versionNo'
                     )
                 )
@@ -187,7 +187,7 @@ abstract class DoctrineStorage extends Gateway
     {
         $insertQuery = $this->connection->createQueryBuilder();
         $insertQuery->insert(
-            $this->connection->quoteIdentifier($this->getStorageTable())
+            $this->connection->quoteSingleIdentifier($this->getStorageTable())
         );
 
         $this->setInsertColumns($insertQuery, $versionInfo, $field);
@@ -224,15 +224,15 @@ abstract class DoctrineStorage extends Gateway
         $this->setFetchColumns($selectQuery, $fieldId, $versionNo);
 
         $selectQuery
-            ->from($this->connection->quoteIdentifier($this->getStorageTable()))
+            ->from($this->connection->quoteSingleIdentifier($this->getStorageTable()))
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                         ':fieldId'
                     ),
                     $selectQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('version'),
+                        $this->connection->quoteSingleIdentifier('version'),
                         ':versionNo'
                     )
                 )
@@ -320,15 +320,15 @@ abstract class DoctrineStorage extends Gateway
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
-            ->delete($this->connection->quoteIdentifier($this->getStorageTable()))
+            ->delete($this->connection->quoteSingleIdentifier($this->getStorageTable()))
             ->where(
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->in(
-                        $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                         ':fieldIds'
                     ),
                     $deleteQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('version'),
+                        $this->connection->quoteSingleIdentifier('version'),
                         ':versionNo'
                     )
                 )
@@ -350,15 +350,15 @@ abstract class DoctrineStorage extends Gateway
     {
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
-            ->delete($this->connection->quoteIdentifier($this->getStorageTable()))
+            ->delete($this->connection->quoteSingleIdentifier($this->getStorageTable()))
             ->where(
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                         ':fieldId'
                     ),
                     $deleteQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('version'),
+                        $this->connection->quoteSingleIdentifier('version'),
                         ':versionNo'
                     )
                 )
@@ -386,18 +386,18 @@ abstract class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select(
-                $this->connection->quoteIdentifier('filename'),
-                $this->connection->quoteIdentifier('mime_type')
+                $this->connection->quoteSingleIdentifier('filename'),
+                $this->connection->quoteSingleIdentifier('mime_type')
             )
-            ->from($this->connection->quoteIdentifier($this->getStorageTable()))
+            ->from($this->connection->quoteSingleIdentifier($this->getStorageTable()))
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->in(
-                        $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                         ':fieldIds'
                     ),
                     $selectQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('version'),
+                        $this->connection->quoteSingleIdentifier('version'),
                         ':versionNo'
                     )
                 )
@@ -432,23 +432,23 @@ abstract class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select(
-                $this->connection->quoteIdentifier('filename'),
-                $this->connection->quoteIdentifier('mime_type'),
+                $this->connection->quoteSingleIdentifier('filename'),
+                $this->connection->quoteSingleIdentifier('mime_type'),
                 sprintf(
                     'COUNT(%s) AS count',
-                    $this->connection->quoteIdentifier('contentobject_attribute_id')
+                    $this->connection->quoteSingleIdentifier('contentobject_attribute_id')
                 )
             )
-            ->from($this->connection->quoteIdentifier($this->getStorageTable()))
+            ->from($this->connection->quoteSingleIdentifier($this->getStorageTable()))
             ->where(
                 $selectQuery->expr()->in(
-                    $this->connection->quoteIdentifier('filename'),
+                    $this->connection->quoteSingleIdentifier('filename'),
                     ':filenames'
                 )
             )
             ->groupBy(
-                $this->connection->quoteIdentifier('filename'),
-                $this->connection->quoteIdentifier('mime_type')
+                $this->connection->quoteSingleIdentifier('filename'),
+                $this->connection->quoteSingleIdentifier('mime_type')
             )
             ->setParameter(
                 'filenames',

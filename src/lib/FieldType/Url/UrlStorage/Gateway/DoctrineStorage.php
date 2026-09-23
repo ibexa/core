@@ -43,8 +43,8 @@ class DoctrineStorage extends Gateway
             $query = $this->connection->createQueryBuilder();
             $query
                 ->select(
-                    $this->connection->quoteIdentifier('id'),
-                    $this->connection->quoteIdentifier('url')
+                    $this->connection->quoteSingleIdentifier('id'),
+                    $this->connection->quoteSingleIdentifier('url')
                 )
                 ->from(self::URL_TABLE)
                 ->where('id IN (:ids)')
@@ -76,8 +76,8 @@ class DoctrineStorage extends Gateway
             $query = $this->connection->createQueryBuilder();
             $query
                 ->select(
-                    $this->connection->quoteIdentifier('id'),
-                    $this->connection->quoteIdentifier('url')
+                    $this->connection->quoteSingleIdentifier('id'),
+                    $this->connection->quoteSingleIdentifier('url')
                 )
                 ->from(self::URL_TABLE)
                 ->where(
@@ -108,7 +108,7 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
 
         $query
-            ->insert($this->connection->quoteIdentifier(self::URL_TABLE))
+            ->insert($this->connection->quoteSingleIdentifier(self::URL_TABLE))
             ->values(
                 [
                     'created' => ':created',
@@ -140,7 +140,7 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
 
         $query
-            ->insert($this->connection->quoteIdentifier(self::URL_LINK_TABLE))
+            ->insert($this->connection->quoteSingleIdentifier(self::URL_LINK_TABLE))
             ->values(
                 [
                     'contentobject_attribute_id' => ':contentobject_attribute_id',
@@ -168,7 +168,7 @@ class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select('link.url_id')
-            ->from($this->connection->quoteIdentifier(self::URL_LINK_TABLE), 'link')
+            ->from($this->connection->quoteSingleIdentifier(self::URL_LINK_TABLE), 'link')
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->in(
@@ -193,7 +193,7 @@ class DoctrineStorage extends Gateway
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
-            ->delete($this->connection->quoteIdentifier(self::URL_LINK_TABLE))
+            ->delete($this->connection->quoteSingleIdentifier(self::URL_LINK_TABLE))
             ->where(
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->in(
@@ -238,11 +238,11 @@ class DoctrineStorage extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->connection->quoteIdentifier('url.id'))
-            ->from($this->connection->quoteIdentifier(self::URL_TABLE), 'url')
+            ->select('url.' . $this->connection->quoteSingleIdentifier('id'))
+            ->from($this->connection->quoteSingleIdentifier(self::URL_TABLE), 'url')
             ->leftJoin(
                 'url',
-                $this->connection->quoteIdentifier(self::URL_LINK_TABLE),
+                $this->connection->quoteSingleIdentifier(self::URL_LINK_TABLE),
                 'link',
                 'url.id = link.url_id'
             )
@@ -265,7 +265,7 @@ class DoctrineStorage extends Gateway
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
-            ->delete($this->connection->quoteIdentifier(self::URL_TABLE))
+            ->delete($this->connection->quoteSingleIdentifier(self::URL_TABLE))
             ->where($deleteQuery->expr()->in('id', ':ids'))
             ->setParameter('ids', $ids, ArrayParameterType::STRING)
         ;

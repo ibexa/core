@@ -106,26 +106,26 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($this->connection->quoteIdentifier('keyword'))
-            ->from($this->connection->quoteIdentifier(self::KEYWORD_TABLE), 'kwd')
+            ->select($this->connection->quoteSingleIdentifier('keyword'))
+            ->from($this->connection->quoteSingleIdentifier(self::KEYWORD_TABLE), 'kwd')
             ->innerJoin(
                 'kwd',
-                $this->connection->quoteIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE),
+                $this->connection->quoteSingleIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE),
                 'attr',
                 $expr->eq(
-                    $this->connection->quoteIdentifier('kwd.id'),
-                    $this->connection->quoteIdentifier('attr.keyword_id')
+                    'kwd.' . $this->connection->quoteSingleIdentifier('id'),
+                    'attr.' . $this->connection->quoteSingleIdentifier('keyword_id')
                 )
             )
             ->where(
                 $expr->eq(
-                    $this->connection->quoteIdentifier('attr.objectattribute_id'),
+                    'attr.' . $this->connection->quoteSingleIdentifier('objectattribute_id'),
                     ':field_id'
                 )
             )
             ->andWhere(
                 $expr->eq(
-                    $this->connection->quoteIdentifier('attr.version'),
+                    'attr.' . $this->connection->quoteSingleIdentifier('version'),
                     ':version_no'
                 )
             )
@@ -147,8 +147,8 @@ class DoctrineStorage extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->connection->quoteIdentifier('content_type_id'))
-            ->from($this->connection->quoteIdentifier(ContentTypeGateway::FIELD_DEFINITION_TABLE))
+            ->select($this->connection->quoteSingleIdentifier('content_type_id'))
+            ->from($this->connection->quoteSingleIdentifier(ContentTypeGateway::FIELD_DEFINITION_TABLE))
             ->where(
                 $query->expr()->eq('id', ':fieldDefinitionId')
             )
@@ -192,18 +192,18 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->connection->quoteIdentifier('id'),
-                $this->connection->quoteIdentifier('keyword')
+                $this->connection->quoteSingleIdentifier('id'),
+                $this->connection->quoteSingleIdentifier('keyword')
             )
-            ->from($this->connection->quoteIdentifier(self::KEYWORD_TABLE))
+            ->from($this->connection->quoteSingleIdentifier(self::KEYWORD_TABLE))
             ->where(
                 $query->expr()->and(
                     $query->expr()->in(
-                        $this->connection->quoteIdentifier('keyword'),
+                        $this->connection->quoteSingleIdentifier('keyword'),
                         ':keywordList'
                     ),
                     $query->expr()->eq(
-                        $this->connection->quoteIdentifier('class_id'),
+                        $this->connection->quoteSingleIdentifier('class_id'),
                         ':contentTypeId'
                     )
                 )
@@ -249,11 +249,11 @@ class DoctrineStorage extends Gateway
         if (!empty($keywordsToInsert)) {
             $insertQuery = $this->connection->createQueryBuilder();
             $insertQuery
-                ->insert($this->connection->quoteIdentifier(self::KEYWORD_TABLE))
+                ->insert($this->connection->quoteSingleIdentifier(self::KEYWORD_TABLE))
                 ->values(
                     [
-                        $this->connection->quoteIdentifier('class_id') => ':contentTypeId',
-                        $this->connection->quoteIdentifier('keyword') => ':keyword',
+                        $this->connection->quoteSingleIdentifier('class_id') => ':contentTypeId',
+                        $this->connection->quoteSingleIdentifier('keyword') => ':keyword',
                     ]
                 )
                 ->setParameter('contentTypeId', $contentTypeId, ParameterType::INTEGER);
@@ -272,15 +272,15 @@ class DoctrineStorage extends Gateway
     {
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
-            ->delete($this->connection->quoteIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE))
+            ->delete($this->connection->quoteSingleIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE))
             ->where(
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('objectattribute_id'),
+                        $this->connection->quoteSingleIdentifier('objectattribute_id'),
                         ':fieldId'
                     ),
                     $deleteQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('version'),
+                        $this->connection->quoteSingleIdentifier('version'),
                         ':versionNo'
                     )
                 )
@@ -306,12 +306,12 @@ class DoctrineStorage extends Gateway
     {
         $insertQuery = $this->connection->createQueryBuilder();
         $insertQuery
-            ->insert($this->connection->quoteIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE))
+            ->insert($this->connection->quoteSingleIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE))
             ->values(
                 [
-                    $this->connection->quoteIdentifier('keyword_id') => ':keywordId',
-                    $this->connection->quoteIdentifier('objectattribute_id') => ':fieldId',
-                    $this->connection->quoteIdentifier('version') => ':versionNo',
+                    $this->connection->quoteSingleIdentifier('keyword_id') => ':keywordId',
+                    $this->connection->quoteSingleIdentifier('objectattribute_id') => ':fieldId',
+                    $this->connection->quoteSingleIdentifier('version') => ':versionNo',
                 ]
             )
         ;
@@ -335,15 +335,15 @@ class DoctrineStorage extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->connection->quoteIdentifier('kwd.id'))
-            ->from($this->connection->quoteIdentifier(self::KEYWORD_TABLE), 'kwd')
+            ->select('kwd.' . $this->connection->quoteSingleIdentifier('id'))
+            ->from($this->connection->quoteSingleIdentifier(self::KEYWORD_TABLE), 'kwd')
             ->leftJoin(
                 'kwd',
-                $this->connection->quoteIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE),
+                $this->connection->quoteSingleIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE),
                 'attr',
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('attr.keyword_id'),
-                    $this->connection->quoteIdentifier('kwd.id')
+                    'attr.' . $this->connection->quoteSingleIdentifier('keyword_id'),
+                    'kwd.' . $this->connection->quoteSingleIdentifier('id')
                 )
             )
             ->where($query->expr()->isNull('attr.id'));
@@ -357,9 +357,9 @@ class DoctrineStorage extends Gateway
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
-            ->delete($this->connection->quoteIdentifier(self::KEYWORD_TABLE))
+            ->delete($this->connection->quoteSingleIdentifier(self::KEYWORD_TABLE))
             ->where(
-                $deleteQuery->expr()->in($this->connection->quoteIdentifier('id'), ':ids')
+                $deleteQuery->expr()->in($this->connection->quoteSingleIdentifier('id'), ':ids')
             )
             ->setParameter('ids', $ids, ArrayParameterType::INTEGER);
 
