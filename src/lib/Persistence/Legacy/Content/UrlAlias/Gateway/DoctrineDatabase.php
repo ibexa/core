@@ -578,6 +578,24 @@ final class DoctrineDatabase extends Gateway
 
     public function insertRow(array $values): int
     {
+        $this->connection->beginTransaction();
+        try {
+            $id = $this->doInsertRow($values);
+            $this->connection->commit();
+
+            return $id;
+        } catch (\Throwable $e) {
+            $this->connection->rollBack();
+
+            throw $e;
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     */
+    private function doInsertRow(array $values): int
+    {
         if (!isset($values['id'])) {
             $values['id'] = $this->getNextId();
         }
