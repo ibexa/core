@@ -10885,7 +10885,7 @@ parameters:
 			path: src/lib/FieldType/ISBN/Type.php
 
 		-
-			message: '#^Binary operation "\*" between int\<\-3, 3\> and non\-empty\-string results in an error\.$#'
+			message: '#^Binary operation "\*" between int\<\-1, 3\> and non\-empty\-string results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
 			path: src/lib/FieldType/ISBN/Type.php
@@ -13065,6 +13065,12 @@ parameters:
 		-
 			message: '#^Property Ibexa\\Core\\IO\\MimeTypeDetector\\FileInfo\:\:\$fileInfo \(finfo\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
+			count: 1
+			path: src/lib/IO/MimeTypeDetector/FileInfo.php
+
+		-
+			message: '#^Method Ibexa\\Core\\IO\\MimeTypeDetector\\FileInfo\:\:getFromPath\(\) should return string but returns string\|false\.$#'
+			identifier: return.type
 			count: 1
 			path: src/lib/IO/MimeTypeDetector/FileInfo.php
 
@@ -25393,27 +25399,9 @@ parameters:
 			path: src/lib/Repository/URLWildcardService.php
 
 		-
-			message: '#^Result of \|\| is always false\.$#'
-			identifier: booleanOr.alwaysFalse
-			count: 1
-			path: src/lib/Repository/URLWildcardService.php
-
-		-
 			message: '#^Strict comparison using \!\=\= between int and null will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 2
-			path: src/lib/Repository/URLWildcardService.php
-
-		-
-			message: '#^Variable \$patterns in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: src/lib/Repository/URLWildcardService.php
-
-		-
-			message: '#^Variable \$placeholders in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
 			path: src/lib/Repository/URLWildcardService.php
 
 		-
@@ -40682,7 +40670,7 @@ parameters:
 			path: tests/integration/Core/Repository/LanguageServiceAuthorizationTest.php
 
 		-
-			message: '#^Comparison operation "\<" between int\<70400, 80599\> and 50400 is always false\.$#'
+			message: '#^Comparison operation "\<" between int\<70400, 80699\> and 50400 is always false\.$#'
 			identifier: smaller.alwaysFalse
 			count: 1
 			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
