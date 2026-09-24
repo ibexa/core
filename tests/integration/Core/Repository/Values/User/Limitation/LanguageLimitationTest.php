@@ -30,10 +30,10 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 class LanguageLimitationTest extends BaseTest
 {
     /** @var string */
-    private const ENG_US = 'eng-GB';
+    private const ENG_GB = 'eng-GB';
 
     /** @var string */
-    private const ENG_GB = 'eng-US';
+    private const ENG_US = 'eng-US';
 
     /** @var string */
     private const GER_DE = 'ger-DE';
@@ -391,7 +391,7 @@ class LanguageLimitationTest extends BaseTest
         $content = $contentService->loadContent($draft->contentInfo->id);
         $this->assertEquals(
             [
-                self::ENG_US => 'Published US',
+                self::ENG_GB => 'Published US',
                 self::GER_DE => 'Draft 1 DE',
             ],
             $content->fields['name']
@@ -413,14 +413,14 @@ class LanguageLimitationTest extends BaseTest
 
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
 
-        $contentUpdateStruct->setField('name', 'Draft 1 EN', self::ENG_US);
+        $contentUpdateStruct->setField('name', 'Draft 1 EN', self::ENG_GB);
 
         $contentService->updateContent($draft->versionInfo, $contentUpdateStruct);
 
         $permissionResolver->setCurrentUserReference($this->createEditorUserWithLanguageLimitation([self::GER_DE]));
 
         $this->expectException(UnauthorizedException::class);
-        $contentService->publishVersion($draft->versionInfo, [self::ENG_US]);
+        $contentService->publishVersion($draft->versionInfo, [self::ENG_GB]);
     }
 
     /**
@@ -435,7 +435,7 @@ class LanguageLimitationTest extends BaseTest
         $permissionResolver = $repository->getPermissionResolver();
 
         $editorDE = $this->createEditorUserWithLanguageLimitation([self::GER_DE], 'editor-de');
-        $editorUS = $this->createEditorUserWithLanguageLimitation([self::ENG_US], 'editor-us');
+        $editorUS = $this->createEditorUserWithLanguageLimitation([self::ENG_GB], 'editor-us');
 
         // German editor publishes content in German language
         $permissionResolver->setCurrentUserReference($editorDE);
@@ -448,7 +448,7 @@ class LanguageLimitationTest extends BaseTest
         $folder = $contentService->loadContent($folder->id);
         $folderDraft = $contentService->createContentDraft($folder->contentInfo);
         $folderUpdateStruct = $contentService->newContentUpdateStruct();
-        $folderUpdateStruct->setField('name', 'English Folder', self::ENG_US);
+        $folderUpdateStruct->setField('name', 'English Folder', self::ENG_GB);
         $folderDraft = $contentService->updateContent(
             $folderDraft->versionInfo,
             $folderUpdateStruct
@@ -463,7 +463,7 @@ class LanguageLimitationTest extends BaseTest
         self::assertTrue($folderDraftVersionInfo->isDraft());
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage("The User does not have the 'publish' 'content' permission");
-        $contentService->publishVersion($folderDraftVersionInfo, [self::ENG_US]);
+        $contentService->publishVersion($folderDraftVersionInfo, [self::ENG_GB]);
     }
 
     /**
@@ -482,7 +482,7 @@ class LanguageLimitationTest extends BaseTest
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
 
         $contentUpdateStruct->setField('name', 'Draft 1 DE', self::GER_DE);
-        $contentUpdateStruct->setField('name', 'Draft 1 GB', self::ENG_GB);
+        $contentUpdateStruct->setField('name', 'Draft 1 GB', self::ENG_US);
 
         $contentService->updateContent($draft->versionInfo, $contentUpdateStruct);
 
@@ -491,7 +491,7 @@ class LanguageLimitationTest extends BaseTest
         );
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage("The User does not have the 'publish' 'content' permission");
-        $contentService->publishVersion($draft->versionInfo, [self::GER_DE, self::ENG_GB]);
+        $contentService->publishVersion($draft->versionInfo, [self::GER_DE, self::ENG_US]);
     }
 
     /**
@@ -859,7 +859,7 @@ class LanguageLimitationTest extends BaseTest
     {
         return [
             [[self::GER_DE], false],
-            [[self::GER_DE, self::ENG_US, self::ENG_GB], true],
+            [[self::GER_DE, self::ENG_GB, self::ENG_US], true],
         ];
     }
 
@@ -876,7 +876,7 @@ class LanguageLimitationTest extends BaseTest
     {
         $publishedContent = $this->createFolder(
             [
-                self::ENG_US => 'Published US',
+                self::ENG_GB => 'Published US',
                 self::GER_DE => 'Published DE',
             ],
             $this->generateId('location', 2)

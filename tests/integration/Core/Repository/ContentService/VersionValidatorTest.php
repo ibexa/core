@@ -24,7 +24,7 @@ final class VersionValidatorTest extends BaseTest
 {
     private const CONTENT_TYPE_IDENTIFIER = 'single-text';
     private const FIELD_IDENTIFIER = 'name';
-    private const ENG_GB = 'eng-US';
+    private const ENG_US = 'eng-US';
     private const GER_DE = 'ger-DE';
 
     /** @var \Ibexa\Core\Repository\Validator\VersionValidator */
@@ -64,7 +64,7 @@ final class VersionValidatorTest extends BaseTest
     {
         $contentType = $this->createSimpleContentType(
             self::CONTENT_TYPE_IDENTIFIER,
-            self::ENG_GB,
+            self::ENG_US,
             [
                 self::FIELD_IDENTIFIER => 'ezstring',
             ],
@@ -83,8 +83,8 @@ final class VersionValidatorTest extends BaseTest
 
     private function createAndPublishMultilingualContent(ContentType $contentType): Content
     {
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
-        $contentCreate->setField(self::FIELD_IDENTIFIER, null, self::ENG_GB);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate->setField(self::FIELD_IDENTIFIER, null, self::ENG_US);
         $contentCreate->setField(self::FIELD_IDENTIFIER, 'Name DE', self::GER_DE);
 
         $contentDraft = $this->contentService->createContent($contentCreate);

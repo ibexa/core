@@ -20,7 +20,7 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 final class CopyNonTranslatableFieldsFromPublishedVersionTest extends RepositoryTestCase
 {
     private const GER_DE = 'ger-DE';
-    private const ENG_US = 'eng-GB';
+    private const ENG_GB = 'eng-GB';
     private const CONTENT_TYPE_IDENTIFIER = 'nontranslatable';
     private const TEXT_LINE_FIELD_TYPE_IDENTIFIER = 'ezstring';
 
@@ -52,13 +52,13 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
         $engContent = $contentService->createContentDraft($publishedContent->contentInfo);
 
         $contentUpdateStruct = new ContentUpdateStruct([
-            'initialLanguageCode' => self::ENG_US,
+            'initialLanguageCode' => self::ENG_GB,
             'fields' => $contentDraft->getFields(),
         ]);
 
         $expectedBodyValue = 'Non-translatable value';
-        $contentUpdateStruct->setField('title', 'Title v2', self::ENG_US);
-        $contentUpdateStruct->setField('body', $expectedBodyValue, self::ENG_US);
+        $contentUpdateStruct->setField('title', 'Title v2', self::ENG_GB);
+        $contentUpdateStruct->setField('body', $expectedBodyValue, self::ENG_GB);
 
         $engContent = $contentService->updateContent($engContent->getVersionInfo(), $contentUpdateStruct);
         $contentService->publishVersion($engContent->getVersionInfo());
@@ -93,11 +93,11 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
 
         // Publishing the draft in eng-GB language
         $contentUpdateStruct = new ContentUpdateStruct([
-            'initialLanguageCode' => self::ENG_US,
+            'initialLanguageCode' => self::ENG_GB,
             'fields' => $usDraft->getFields(),
         ]);
-        $contentUpdateStruct->setField('title', 'Title v2', self::ENG_US);
-        $contentUpdateStruct->setField('body', 'Nontranslatable body v2', self::ENG_US);
+        $contentUpdateStruct->setField('title', 'Title v2', self::ENG_GB);
+        $contentUpdateStruct->setField('body', 'Nontranslatable body v2', self::ENG_GB);
         $usContent = $contentService->updateContent($usDraft->getVersionInfo(), $contentUpdateStruct);
         $contentService->publishVersion($usContent->getVersionInfo());
 
@@ -146,13 +146,13 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
         $engContent = $contentService->createContentDraft($publishedContent->contentInfo);
 
         $contentUpdateStruct = new ContentUpdateStruct([
-            'initialLanguageCode' => self::ENG_US,
+            'initialLanguageCode' => self::ENG_GB,
             'fields' => $contentDraft->getFields(),
         ]);
 
         $expectedBodyValue = 'Non-translatable value';
-        $contentUpdateStruct->setField('title', 'Title v2', self::ENG_US);
-        $contentUpdateStruct->setField('body', $expectedBodyValue, self::ENG_US);
+        $contentUpdateStruct->setField('title', 'Title v2', self::ENG_GB);
+        $contentUpdateStruct->setField('body', $expectedBodyValue, self::ENG_GB);
 
         $engContent = $contentService->updateContent($engContent->getVersionInfo(), $contentUpdateStruct);
         $contentService->publishVersion($engContent->getVersionInfo());
@@ -172,7 +172,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
         $locationService = $this->getIbexaTestCore()->getLocationService();
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::CONTENT_TYPE_IDENTIFIER);
-        $mainLanguageCode = self::ENG_US;
+        $mainLanguageCode = self::ENG_GB;
         $contentCreateStruct = $contentService->newContentCreateStruct($contentType, $mainLanguageCode);
         $contentCreateStruct->setField('title', 'Test title');
         $contentCreateStruct->setField('body', 'Test body');

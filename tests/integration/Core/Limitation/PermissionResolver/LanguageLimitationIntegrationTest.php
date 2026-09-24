@@ -17,8 +17,8 @@ use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLi
  */
 class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTest
 {
-    private const LANG_ENG_GB = 'eng-US';
-    private const LANG_ENG_US = 'eng-GB';
+    private const LANG_ENG_GB = 'eng-GB';
+    private const LANG_ENG_US = 'eng-US';
     private const LANG_GER_DE = 'ger-DE';
 
     /**
@@ -229,19 +229,19 @@ class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTest
         $multilingualLimitation = new LanguageLimitation();
         $multilingualLimitation->limitationValues = [self::LANG_ENG_US, self::LANG_GER_DE];
 
-        yield 'Limitation with eng-US should return true for eng-US translation' => [
+        yield 'Limitation with eng-GB should return true for eng-GB translation' => [
             [$limitationForBritishEnglish],
             self::LANG_ENG_GB,
             true,
         ];
 
-        yield 'Limitation with ger-de should return false for eng-US translation' => [
+        yield 'Limitation with ger-de should return false for eng-GB translation' => [
             [$limitationForGerman],
             self::LANG_ENG_GB,
             false,
         ];
 
-        yield 'Limitation with neg-US and ger-de should return true for eng-GB translation' => [
+        yield 'Limitation with neg-US and ger-de should return true for eng-US translation' => [
             [$multilingualLimitation],
             self::LANG_ENG_US,
             true,

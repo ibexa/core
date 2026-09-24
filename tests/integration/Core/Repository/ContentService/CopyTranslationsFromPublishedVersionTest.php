@@ -20,9 +20,9 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
  */
 final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
 {
-    private const ENG_LANGUAGE_CODE = 'eng-US';
+    private const US_LANGUAGE_CODE = 'eng-US';
     private const GER_LANGUAGE_CODE = 'ger-DE';
-    private const US_LANGUAGE_CODE = 'eng-GB';
+    private const ENG_LANGUAGE_CODE = 'eng-GB';
     private const CONTENT_TYPE_IDENTIFIER = 'custom';
 
     /**
@@ -38,7 +38,7 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
 
         // Creating and publishing content in eng-US language
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::CONTENT_TYPE_IDENTIFIER);
-        $mainLanguageCode = self::ENG_LANGUAGE_CODE;
+        $mainLanguageCode = self::US_LANGUAGE_CODE;
         $contentCreateStruct = $contentService->newContentCreateStruct($contentType, $mainLanguageCode);
         $contentCreateStruct->setField('title', 'Test title');
 
@@ -63,13 +63,13 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
 
         // Creating a draft and publishing in eng-GB language with empty 'title' field
         $contentUpdateStruct = new ContentUpdateStruct([
-            'initialLanguageCode' => self::US_LANGUAGE_CODE,
+            'initialLanguageCode' => self::ENG_LANGUAGE_CODE,
         ]);
         $contentUpdateStruct->setField('title', null);
         $usContent = $contentService->updateContent($usDraft->getVersionInfo(), $contentUpdateStruct);
-        $publishedUsContent = $contentService->publishVersion($usContent->getVersionInfo(), [self::US_LANGUAGE_CODE]);
+        $publishedUsContent = $contentService->publishVersion($usContent->getVersionInfo(), [self::ENG_LANGUAGE_CODE]);
 
-        $usFieldInUsContent = $publishedUsContent->getField('title', self::US_LANGUAGE_CODE);
+        $usFieldInUsContent = $publishedUsContent->getField('title', self::ENG_LANGUAGE_CODE);
         self::assertInstanceOf(Field::class, $usFieldInUsContent);
 
         $usFieldValueInUsContent = $usFieldInUsContent->getValue();
@@ -96,10 +96,10 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
         $typeCreate->urlAliasSchema = '<title>';
         $typeCreate->nameSchema = '<title>';
         $typeCreate->names = [
-            self::ENG_LANGUAGE_CODE => 'Some content type',
+            self::US_LANGUAGE_CODE => 'Some content type',
         ];
         $typeCreate->descriptions = [
-            self::ENG_LANGUAGE_CODE => '',
+            self::US_LANGUAGE_CODE => '',
         ];
         $typeCreate->creatorId = $permissionResolver->getCurrentUserReference()->getUserId();
         $typeCreate->creationDate = new DateTime();
