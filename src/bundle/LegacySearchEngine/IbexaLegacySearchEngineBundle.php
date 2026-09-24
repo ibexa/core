@@ -7,7 +7,6 @@
 namespace Ibexa\Bundle\LegacySearchEngine;
 
 use Ibexa\Core\Base\Container\Compiler\Search\FieldRegistryPass;
-use Ibexa\Core\Base\Container\Compiler\Search\Legacy\CriteriaConverterPass;
 use Ibexa\Core\Base\Container\Compiler\Search\Legacy\CriterionFieldValueHandlerRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\Search\Legacy\SortClauseConverterPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,7 +18,6 @@ class IbexaLegacySearchEngineBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new CriteriaConverterPass());
         $container->addCompilerPass(new CriterionFieldValueHandlerRegistryPass());
         $container->addCompilerPass(new SortClauseConverterPass());
         $container->addCompilerPass(new FieldRegistryPass());
