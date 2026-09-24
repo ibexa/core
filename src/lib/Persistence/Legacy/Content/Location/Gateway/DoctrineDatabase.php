@@ -126,7 +126,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from($this->connection->quoteIdentifier(Gateway::TRASH_TABLE), 't')
+            ->from($this->connection->quoteSingleIdentifier(Gateway::TRASH_TABLE), 't')
             ->where('t.contentobject_id = :contentobject_id')
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 

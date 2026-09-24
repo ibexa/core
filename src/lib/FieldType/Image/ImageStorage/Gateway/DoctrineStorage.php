@@ -45,21 +45,21 @@ class DoctrineStorage extends Gateway
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
-            ->select($this->connection->quoteIdentifier('path_identification_string'))
-            ->from($this->connection->quoteIdentifier(LocationGateway::CONTENT_TREE_TABLE))
+            ->select($this->connection->quoteSingleIdentifier('path_identification_string'))
+            ->from($this->connection->quoteSingleIdentifier(LocationGateway::CONTENT_TREE_TABLE))
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_id'),
                         ':contentObjectId'
                     ),
                     $selectQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_version'),
+                        $this->connection->quoteSingleIdentifier('contentobject_version'),
                         ':versionNo'
                     ),
                     $selectQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('node_id'),
-                        $this->connection->quoteIdentifier('main_node_id')
+                        $this->connection->quoteSingleIdentifier('node_id'),
+                        $this->connection->quoteSingleIdentifier('main_node_id')
                     )
                 )
             )
@@ -80,11 +80,11 @@ class DoctrineStorage extends Gateway
 
         $insertQuery = $this->connection->createQueryBuilder();
         $insertQuery
-            ->insert($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
+            ->insert($this->connection->quoteSingleIdentifier(self::IMAGE_FILE_TABLE))
             ->values(
                 [
-                    $this->connection->quoteIdentifier('contentobject_attribute_id') => ':fieldId',
-                    $this->connection->quoteIdentifier('filepath') => ':path',
+                    $this->connection->quoteSingleIdentifier('contentobject_attribute_id') => ':fieldId',
+                    $this->connection->quoteSingleIdentifier('filepath') => ':path',
                 ]
             )
             ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
@@ -102,18 +102,18 @@ class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select(
-                $this->connection->quoteIdentifier('attr.id'),
-                $this->connection->quoteIdentifier('attr.data_text')
+                'attr.' . $this->connection->quoteSingleIdentifier('id'),
+                'attr.' . $this->connection->quoteSingleIdentifier('data_text')
             )
-            ->from($this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE), 'attr')
+            ->from($this->connection->quoteSingleIdentifier(ContentGateway::CONTENT_FIELD_TABLE), 'attr')
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('attr.version'),
+                        'attr.' . $this->connection->quoteSingleIdentifier('version'),
                         ':versionNo'
                     ),
                     $selectQuery->expr()->in(
-                        $this->connection->quoteIdentifier('attr.id'),
+                        'attr.' . $this->connection->quoteSingleIdentifier('id'),
                         ':fieldIds'
                     )
                 )
@@ -141,10 +141,10 @@ class DoctrineStorage extends Gateway
                 'field.version',
                 'field.data_text'
             )
-            ->from($this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE), 'field')
+            ->from($this->connection->quoteSingleIdentifier(ContentGateway::CONTENT_FIELD_TABLE), 'field')
             ->where(
                 $selectQuery->expr()->eq(
-                    $this->connection->quoteIdentifier('id'),
+                    $this->connection->quoteSingleIdentifier('id'),
                     ':field_id'
                 )
             )
@@ -179,15 +179,15 @@ class DoctrineStorage extends Gateway
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
-            ->delete($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
+            ->delete($this->connection->quoteSingleIdentifier(self::IMAGE_FILE_TABLE))
             ->where(
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                         ':fieldId'
                     ),
                     $deleteQuery->expr()->like(
-                        $this->connection->quoteIdentifier('filepath'),
+                        $this->connection->quoteSingleIdentifier('filepath'),
                         ':likePath'
                     )
                 )
@@ -208,11 +208,11 @@ class DoctrineStorage extends Gateway
 
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
-            ->select('COUNT(' . $this->connection->quoteIdentifier('id') . ')')
-            ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
+            ->select('COUNT(' . $this->connection->quoteSingleIdentifier('id') . ')')
+            ->from($this->connection->quoteSingleIdentifier(self::IMAGE_FILE_TABLE))
             ->where(
                 $selectQuery->expr()->eq(
-                    $this->connection->quoteIdentifier('filepath'),
+                    $this->connection->quoteSingleIdentifier('filepath'),
                     ':filepath'
                 )
             )
@@ -231,10 +231,10 @@ class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select('1')
-            ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
+            ->from($this->connection->quoteSingleIdentifier(self::IMAGE_FILE_TABLE))
             ->where(
                 $selectQuery->expr()->eq(
-                    $this->connection->quoteIdentifier('filepath'),
+                    $this->connection->quoteSingleIdentifier('filepath'),
                     ':likePath'
                 )
             )
@@ -251,7 +251,7 @@ class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select('COUNT(id)')
-            ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
+            ->from($this->connection->quoteSingleIdentifier(self::IMAGE_FILE_TABLE))
         ;
 
         $statement = $selectQuery->executeQuery();
@@ -265,25 +265,25 @@ class DoctrineStorage extends Gateway
         $expressionBuilder = $selectQuery->expr();
         $selectQuery
             ->select('attr.data_text')
-            ->from($this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE), 'attr')
+            ->from($this->connection->quoteSingleIdentifier(ContentGateway::CONTENT_FIELD_TABLE), 'attr')
             ->innerJoin(
                 'attr',
-                $this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE),
+                $this->connection->quoteSingleIdentifier(self::IMAGE_FILE_TABLE),
                 'img',
                 $expressionBuilder->eq(
-                    $this->connection->quoteIdentifier('img.contentobject_attribute_id'),
-                    $this->connection->quoteIdentifier('attr.id')
+                    'img.' . $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
+                    'attr.' . $this->connection->quoteSingleIdentifier('id')
                 )
             )
             ->where(
                 $expressionBuilder->eq(
-                    $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                    $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                     ':fieldId'
                 )
             )
             ->andWhere(
                 $expressionBuilder->neq(
-                    $this->connection->quoteIdentifier('version'),
+                    $this->connection->quoteSingleIdentifier('version'),
                     ':versionNo'
                 )
             )
@@ -351,7 +351,7 @@ class DoctrineStorage extends Gateway
                 'img.filepath'
             )
             ->distinct()
-            ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE), 'img')
+            ->from($this->connection->quoteSingleIdentifier(self::IMAGE_FILE_TABLE), 'img')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
@@ -364,21 +364,21 @@ class DoctrineStorage extends Gateway
         $expressionBuilder = $updateQuery->expr();
         $updateQuery
             ->update(
-                $this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE)
+                $this->connection->quoteSingleIdentifier(ContentGateway::CONTENT_FIELD_TABLE)
             )
             ->set(
-                $this->connection->quoteIdentifier('data_text'),
+                $this->connection->quoteSingleIdentifier('data_text'),
                 ':xml'
             )
             ->where(
                 $expressionBuilder->eq(
-                    $this->connection->quoteIdentifier('id'),
+                    $this->connection->quoteSingleIdentifier('id'),
                     ':field_id'
                 )
             )
             ->andWhere(
                 $expressionBuilder->eq(
-                    $this->connection->quoteIdentifier('version'),
+                    $this->connection->quoteSingleIdentifier('version'),
                     ':version_no'
                 )
             )
@@ -395,21 +395,21 @@ class DoctrineStorage extends Gateway
         $expressionBuilder = $updateQuery->expr();
         $updateQuery
             ->update(
-                $this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE)
+                $this->connection->quoteSingleIdentifier(self::IMAGE_FILE_TABLE)
             )
             ->set(
-                $this->connection->quoteIdentifier('filepath'),
+                $this->connection->quoteSingleIdentifier('filepath'),
                 ':new_path'
             )
             ->where(
                 $expressionBuilder->eq(
-                    $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                    $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                     ':field_id'
                 )
             )
             ->andWhere(
                 $expressionBuilder->eq(
-                    $this->connection->quoteIdentifier('filepath'),
+                    $this->connection->quoteSingleIdentifier('filepath'),
                     ':old_path'
                 )
             )
@@ -432,16 +432,16 @@ class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select('1')
-            ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
+            ->from($this->connection->quoteSingleIdentifier(self::IMAGE_FILE_TABLE))
             ->andWhere(
                 $selectQuery->expr()->eq(
-                    $this->connection->quoteIdentifier('filepath'),
+                    $this->connection->quoteSingleIdentifier('filepath'),
                     ':path'
                 )
             )
             ->andWhere(
                 $selectQuery->expr()->eq(
-                    $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                    $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                     ':field_id'
                 )
             )

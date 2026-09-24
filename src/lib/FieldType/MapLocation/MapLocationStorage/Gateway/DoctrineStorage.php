@@ -73,18 +73,18 @@ class DoctrineStorage extends Gateway
     protected function updateFieldData(VersionInfo $versionInfo, Field $field)
     {
         $updateQuery = $this->connection->createQueryBuilder();
-        $updateQuery->update($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
-            ->set($this->connection->quoteIdentifier('latitude'), ':latitude')
-            ->set($this->connection->quoteIdentifier('longitude'), ':longitude')
-            ->set($this->connection->quoteIdentifier('address'), ':address')
+        $updateQuery->update($this->connection->quoteSingleIdentifier(self::MAP_LOCATION_TABLE))
+            ->set($this->connection->quoteSingleIdentifier('latitude'), ':latitude')
+            ->set($this->connection->quoteSingleIdentifier('longitude'), ':longitude')
+            ->set($this->connection->quoteSingleIdentifier('address'), ':address')
             ->where(
                 $updateQuery->expr()->and(
                     $updateQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                         ':fieldId'
                     ),
                     $updateQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_version'),
+                        $this->connection->quoteSingleIdentifier('contentobject_version'),
                         ':versionNo'
                     )
                 )
@@ -109,7 +109,7 @@ class DoctrineStorage extends Gateway
     {
         $insertQuery = $this->connection->createQueryBuilder();
         $insertQuery
-            ->insert($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
+            ->insert($this->connection->quoteSingleIdentifier(self::MAP_LOCATION_TABLE))
             ->values([
                 'latitude' => ':latitude',
                 'longitude' => ':longitude',
@@ -155,19 +155,19 @@ class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select(
-                $this->connection->quoteIdentifier('latitude'),
-                $this->connection->quoteIdentifier('longitude'),
-                $this->connection->quoteIdentifier('address')
+                $this->connection->quoteSingleIdentifier('latitude'),
+                $this->connection->quoteSingleIdentifier('longitude'),
+                $this->connection->quoteSingleIdentifier('address')
             )
-            ->from($this->connection->quoteIdentifier(DoctrineStorage::MAP_LOCATION_TABLE))
+            ->from($this->connection->quoteSingleIdentifier(DoctrineStorage::MAP_LOCATION_TABLE))
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                         ':fieldId'
                     ),
                     $selectQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_version'),
+                        $this->connection->quoteSingleIdentifier('contentobject_version'),
                         ':versionNo'
                     )
                 )
@@ -218,15 +218,15 @@ class DoctrineStorage extends Gateway
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
-            ->delete($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
+            ->delete($this->connection->quoteSingleIdentifier(self::MAP_LOCATION_TABLE))
             ->where(
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->in(
-                        $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                        $this->connection->quoteSingleIdentifier('contentobject_attribute_id'),
                         ':fieldIds'
                     ),
                     $deleteQuery->expr()->eq(
-                        $this->connection->quoteIdentifier('contentobject_version'),
+                        $this->connection->quoteSingleIdentifier('contentobject_version'),
                         ':versionNo'
                     )
                 )

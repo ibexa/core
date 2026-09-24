@@ -128,7 +128,7 @@ class Field extends SortClauseHandler
         $fieldDefinitionId = $fieldMap[$fieldTarget->typeIdentifier][$fieldTarget->fieldIdentifier]['field_definition_id'];
         $table = $this->getSortTableName($number);
 
-        $tableAlias = $this->connection->quoteIdentifier($table);
+        $tableAlias = $this->connection->quoteSingleIdentifier($table);
         $query
             ->leftJoin(
                 'c',

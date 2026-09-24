@@ -48,7 +48,7 @@ class DoctrineStorage extends BaseDoctrineStorage
         parent::setFetchColumns($queryBuilder, $fieldId, $versionNo);
 
         $queryBuilder->addSelect(
-            $this->connection->quoteIdentifier('download_count')
+            $this->connection->quoteSingleIdentifier('download_count')
         );
     }
 

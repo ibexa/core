@@ -71,7 +71,7 @@ final class FixtureImporter
             try {
                 // Cleanup before inserting (using TRUNCATE for speed, however not possible to rollback)
                 $this->connection->executeStatement(
-                    $dbPlatform->getTruncateTableSql($this->connection->quoteIdentifier($table))
+                    $dbPlatform->getTruncateTableSql($this->connection->quoteSingleIdentifier($table))
                 );
             } catch (DBALException) {
                 // Fallback to DELETE if TRUNCATE failed (because of FKs for instance)
@@ -130,8 +130,8 @@ final class FixtureImporter
             self::$resetSequenceStatements[$tableName] = sprintf(
                 $queryTemplate,
                 $sequenceName,
-                sprintf('MAX(%s)', $this->connection->quoteIdentifier($columnName)),
-                $this->connection->quoteIdentifier($tableName)
+                sprintf('MAX(%s)', $this->connection->quoteSingleIdentifier($columnName)),
+                $this->connection->quoteSingleIdentifier($tableName)
             );
         }
 

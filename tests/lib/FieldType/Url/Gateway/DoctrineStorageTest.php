@@ -71,7 +71,7 @@ class DoctrineStorageTest extends TestCase
             ->from(DoctrineDatabase::URL_TABLE)
             ->where(
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('id'),
+                    $this->connection->quoteSingleIdentifier('id'),
                     ':id'
                 )
             )
@@ -114,7 +114,7 @@ class DoctrineStorageTest extends TestCase
             ->select('*')
             ->from(DoctrineDatabase::URL_LINK_TABLE)
             ->where(
-                $query->expr()->eq($this->connection->quoteIdentifier('url_id'), ':urlId')
+                $query->expr()->eq($this->connection->quoteSingleIdentifier('url_id'), ':urlId')
             )
             ->setParameter('urlId', $urlId, ParameterType::INTEGER)
         ;

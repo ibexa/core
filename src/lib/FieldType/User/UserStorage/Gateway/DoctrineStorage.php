@@ -131,12 +131,12 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->connection->quoteIdentifier('contentobject_id')
+                $this->connection->quoteSingleIdentifier('contentobject_id')
             )
-            ->from($this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE))
+            ->from($this->connection->quoteSingleIdentifier(ContentGateway::CONTENT_FIELD_TABLE))
             ->where(
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('id'),
+                    $this->connection->quoteSingleIdentifier('id'),
                     ':fieldId'
                 )
             )
@@ -153,17 +153,17 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->connection->quoteIdentifier('usr.contentobject_id'),
-                $this->connection->quoteIdentifier('usr.login'),
-                $this->connection->quoteIdentifier('usr.email'),
-                $this->connection->quoteIdentifier('usr.password_hash'),
-                $this->connection->quoteIdentifier('usr.password_hash_type'),
-                $this->connection->quoteIdentifier('usr.password_updated_at')
+                'usr.' . $this->connection->quoteSingleIdentifier('contentobject_id'),
+                'usr.' . $this->connection->quoteSingleIdentifier('login'),
+                'usr.' . $this->connection->quoteSingleIdentifier('email'),
+                'usr.' . $this->connection->quoteSingleIdentifier('password_hash'),
+                'usr.' . $this->connection->quoteSingleIdentifier('password_hash_type'),
+                'usr.' . $this->connection->quoteSingleIdentifier('password_updated_at')
             )
-            ->from($this->connection->quoteIdentifier(self::USER_TABLE), 'usr')
+            ->from($this->connection->quoteSingleIdentifier(self::USER_TABLE), 'usr')
             ->where(
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('usr.contentobject_id'),
+                    'usr.' . $this->connection->quoteSingleIdentifier('contentobject_id'),
                     ':userId'
                 )
             )
@@ -182,13 +182,13 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->connection->quoteIdentifier('s.is_enabled'),
-                $this->connection->quoteIdentifier('s.max_login')
+                's.' . $this->connection->quoteSingleIdentifier('is_enabled'),
+                's.' . $this->connection->quoteSingleIdentifier('max_login')
             )
-            ->from($this->connection->quoteIdentifier(self::USER_SETTING_TABLE), 's')
+            ->from($this->connection->quoteSingleIdentifier(self::USER_SETTING_TABLE), 's')
             ->where(
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('s.user_id'),
+                    's.' . $this->connection->quoteSingleIdentifier('user_id'),
                     ':userId'
                 )
             )
@@ -235,7 +235,7 @@ class DoctrineStorage extends Gateway
         $insertQuery = $this->connection->createQueryBuilder();
 
         $insertQuery
-            ->insert($this->connection->quoteIdentifier(self::USER_TABLE))
+            ->insert($this->connection->quoteSingleIdentifier(self::USER_TABLE))
             ->setValue('contentobject_id', ':userId')
             ->setValue('login', ':login')
             ->setValue('email', ':email')
@@ -255,7 +255,7 @@ class DoctrineStorage extends Gateway
         $settingsQuery = $this->connection->createQueryBuilder();
 
         $settingsQuery
-            ->insert($this->connection->quoteIdentifier(self::USER_SETTING_TABLE))
+            ->insert($this->connection->quoteSingleIdentifier(self::USER_SETTING_TABLE))
             ->setValue('user_id', ':userId')
             ->setValue('is_enabled', ':isEnabled')
             ->setValue('max_login', ':maxLogin')
@@ -271,7 +271,7 @@ class DoctrineStorage extends Gateway
         $queryBuilder = $this->connection->createQueryBuilder();
 
         $queryBuilder
-            ->update($this->connection->quoteIdentifier(self::USER_TABLE))
+            ->update($this->connection->quoteSingleIdentifier(self::USER_TABLE))
             ->set('login', ':login')
             ->set('email', ':email')
             ->set('password_hash', ':passwordHash')
@@ -284,7 +284,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('passwordUpdatedAt', $field->value->externalData['passwordUpdatedAt'])
             ->where(
                 $queryBuilder->expr()->eq(
-                    $this->connection->quoteIdentifier('contentobject_id'),
+                    $this->connection->quoteSingleIdentifier('contentobject_id'),
                     ':userId'
                 )
             )
@@ -296,14 +296,14 @@ class DoctrineStorage extends Gateway
         $settingsQuery = $this->connection->createQueryBuilder();
 
         $settingsQuery
-            ->update($this->connection->quoteIdentifier(self::USER_SETTING_TABLE))
+            ->update($this->connection->quoteSingleIdentifier(self::USER_SETTING_TABLE))
             ->set('is_enabled', ':isEnabled')
             ->set('max_login', ':maxLogin')
             ->setParameter('isEnabled', $field->value->externalData['enabled'], ParameterType::INTEGER)
             ->setParameter('maxLogin', $field->value->externalData['maxLogin'], ParameterType::INTEGER)
             ->where(
                 $queryBuilder->expr()->eq(
-                    $this->connection->quoteIdentifier('user_id'),
+                    $this->connection->quoteSingleIdentifier('user_id'),
                     ':userId'
                 )
             )
@@ -322,10 +322,10 @@ class DoctrineStorage extends Gateway
 
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete($this->connection->quoteIdentifier(self::USER_SETTING_TABLE))
+            ->delete($this->connection->quoteSingleIdentifier(self::USER_SETTING_TABLE))
             ->where(
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('user_id'),
+                    $this->connection->quoteSingleIdentifier('user_id'),
                     ':userId'
                 )
             )
@@ -335,10 +335,10 @@ class DoctrineStorage extends Gateway
 
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete($this->connection->quoteIdentifier(self::USER_TABLE))
+            ->delete($this->connection->quoteSingleIdentifier(self::USER_TABLE))
             ->where(
                 $query->expr()->eq(
-                    $this->connection->quoteIdentifier('contentobject_id'),
+                    $this->connection->quoteSingleIdentifier('contentobject_id'),
                     ':userId'
                 )
             )
@@ -363,7 +363,7 @@ class DoctrineStorage extends Gateway
             ->from(ContentGateway::CONTENT_FIELD_TABLE)
             ->where(
                 $checkQuery->expr()->in(
-                    $this->connection->quoteIdentifier('id'),
+                    $this->connection->quoteSingleIdentifier('id'),
                     ':fieldIds'
                 )
             )

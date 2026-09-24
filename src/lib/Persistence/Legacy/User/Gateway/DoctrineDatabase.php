@@ -117,7 +117,7 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder = $this->connection->createQueryBuilder();
 
         $queryBuilder
-            ->update($this->connection->quoteIdentifier(self::USER_TABLE))
+            ->update($this->connection->quoteSingleIdentifier(self::USER_TABLE))
             ->set('password_hash', ':passwordHash')
             ->set('password_hash_type', ':passwordHashType')
             ->set('password_updated_at', ':passwordUpdatedAt')
@@ -126,7 +126,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('passwordUpdatedAt', $user->passwordUpdatedAt)
             ->where(
                 $queryBuilder->expr()->eq(
-                    $this->connection->quoteIdentifier('contentobject_id'),
+                    $this->connection->quoteSingleIdentifier('contentobject_id'),
                     ':userId'
                 )
             )

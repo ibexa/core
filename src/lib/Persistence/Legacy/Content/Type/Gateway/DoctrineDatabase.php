@@ -1229,7 +1229,7 @@ final class DoctrineDatabase extends Gateway
                         return sprintf(
                             '%s.%s as %s_%s',
                             $tableAlias,
-                            $this->connection->quoteIdentifier($columnName),
+                            $this->connection->quoteSingleIdentifier($columnName),
                             preg_replace('/^ibexa_/', '', $tableName),
                             $columnName
                         );
