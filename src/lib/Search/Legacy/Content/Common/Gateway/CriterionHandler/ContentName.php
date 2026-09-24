@@ -88,9 +88,6 @@ final class ContentName extends CriterionHandler
         );
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     private function toLowerCase(string $value): string
     {
         return sprintf('LOWER(%s)', $value);

@@ -21,6 +21,6 @@ return static function (ContainerConfigurator $container): void {
         'orm' => array_filter([
             'controller_resolver' => ['auto_mapping' => false],
             'enable_native_lazy_objects' => \PHP_VERSION_ID >= 80400 ? true : null,
-        ], static fn ($v) => $v !== null),
+        ], static fn ($v): bool => $v !== null),
     ]);
 };
