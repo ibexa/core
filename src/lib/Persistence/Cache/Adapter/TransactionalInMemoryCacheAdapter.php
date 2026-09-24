@@ -43,8 +43,8 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
      * @param \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface $sharedPool
      * @param \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache[] $inMemoryPools
      * @param int $transactionDepth
-     * @param array<string, true> $deferredTagsInvalidation
-     * @param array<string, true> $deferredItemsDeletion
+     * @param list<string> $deferredTagsInvalidation
+     * @param list<string> $deferredItemsDeletion
      */
     public function __construct(
         TagAwareAdapterInterface $sharedPool,

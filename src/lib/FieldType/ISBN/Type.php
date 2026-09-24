@@ -284,7 +284,7 @@ class Type extends FieldType implements TranslationContainerInterface
                 if (($i === 1) && ($isbnNr[9] === 'X')) {
                     $result += 10 * $i;
                 } else {
-                    $result += $isbnNr[10 - $i] * $i;
+                    $result += (int)$isbnNr[10 - $i] * $i;
                 }
             } else {
                 return false;
@@ -327,12 +327,12 @@ class Type extends FieldType implements TranslationContainerInterface
         //compute checksum
         $val = 0;
         for ($i = 0; $i < self::ISBN13_LENGTH; ++$i) {
-            $val = $isbnNr[$i];
             if (!is_numeric($isbnNr[$i])) {
                 $error = 'All ISBN-13 characters need to be numeric';
 
                 return false;
             }
+            $val = (int)$isbnNr[$i];
             $checksum13 = $checksum13 + $weight13 * $val;
             $weight13 = ($weight13 + 2) % 4;
         }

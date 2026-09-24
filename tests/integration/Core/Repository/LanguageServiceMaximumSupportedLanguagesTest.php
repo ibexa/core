@@ -7,8 +7,6 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
-
 /**
  * Test case for maximum number of languages supported in the LanguageService.
  *
@@ -36,14 +34,6 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase
 
         $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = true;
-
-        // SKIP If using sqlite, PHP 5.3 and 64bit, tests will fail as int column seems to be limited to 32bit on 64bit
-        if (\PHP_VERSION_ID < 50400 && PHP_INT_SIZE === 8) {
-            $setupFactory = $this->getSetupFactory();
-            if ($setupFactory instanceof LegacySetupFactory && $setupFactory->getDB() === 'sqlite') {
-                self::markTestSkipped('Skip on Sqlite, PHP 5.3 and 64bit, as int column is limited to 32bit on 64bit');
-            }
-        }
 
         // Create as much languages as possible
         for ($i = count($this->languageService->loadLanguages()) + 1; $i <= 8 * PHP_INT_SIZE - 2; ++$i) {
