@@ -11,9 +11,9 @@ return [
         2 => new Language(
             [
                 'id' => 2,
-                'name' => 'English (United Kingdom)',
+                'name' => 'English (American)',
                 'enabled' => true,
-                'languageCode' => 'eng-GB',
+                'languageCode' => 'eng-US',
             ]
         ),
         4 => new Language(
@@ -27,16 +27,16 @@ return [
         8 => new Language(
             [
                 'id' => 8,
-                'name' => 'English (American)',
+                'name' => 'English (United Kingdom)',
                 'enabled' => true,
-                'languageCode' => 'eng-US',
+                'languageCode' => 'eng-GB',
             ]
         ),
     ],
     [
-        'eng-GB' => 2,
+        'eng-US' => 2,
         'ger-DE' => 4,
-        'eng-US' => 8,
+        'eng-GB' => 8,
     ],
     8,
 ];
