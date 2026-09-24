@@ -266,7 +266,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->setField('name', 'Test object');
         $createStruct->setField(
             'data',

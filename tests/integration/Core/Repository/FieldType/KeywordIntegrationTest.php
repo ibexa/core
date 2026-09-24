@@ -341,7 +341,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->setField('name', 'Test object');
         $createStruct->setField(
             'data',
@@ -363,7 +363,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     private function assertContentFieldHasCorrectData($contentId, KeywordValue $value)
     {
         $contentService = $this->getRepository()->getContentService();
-        $loadedContent = $contentService->loadContent($contentId, ['eng-GB']);
+        $loadedContent = $contentService->loadContent($contentId, ['eng-US']);
         $dataField = $loadedContent->getField('data');
         sort($dataField->value->values);
         sort($value->values);
@@ -425,7 +425,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->setField('name', 'Test object');
         $createStruct->setField(
             'data',
@@ -507,7 +507,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         $contentDraft = $contentService->updateContent($contentDraft->versionInfo, $updateStruct);
         $publishedContent = $contentService->publishVersion($contentDraft->versionInfo);
 
-        $content = $contentService->loadContent($publishedContent->contentInfo->id, ['eng-GB']);
+        $content = $contentService->loadContent($publishedContent->contentInfo->id, ['eng-US']);
 
         $fieldValue = $content->getField('data')->value;
         self::assertTrue(
@@ -528,14 +528,14 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         $contentService = $repository->getContentService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('content-keyword');
-        $createStruct->mainLanguageCode = 'eng-US';
+        $createStruct->mainLanguageCode = 'eng-GB';
         $createStruct->remoteId = 'content-keyword-123';
-        $createStruct->names = ['eng-US' => 'Keywords'];
+        $createStruct->names = ['eng-GB' => 'Keywords'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('tags', 'ezkeyword');
-        $fieldCreate->names = ['eng-US' => 'Tags'];
+        $fieldCreate->names = ['eng-GB' => 'Tags'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
         $fieldCreate->isTranslatable = false;
@@ -548,7 +548,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
 
         $toCreate = [
             'content-keyword-456' => ['foo', 'bar'],

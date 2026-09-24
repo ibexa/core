@@ -380,7 +380,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
             'content-checkbox-not-active' => false,
         ];
         foreach ($toCreate as $remoteId => $isActive) {
-            $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+            $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
             $createStruct->remoteId = $remoteId;
             $createStruct->alwaysAvailable = false;
             $createStruct->setField(self::IS_ACTIVE_FIELD_DEF_IDENTIFIER, $isActive);
@@ -403,14 +403,14 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
         $contentTypeService = $repository->getContentTypeService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('content-checkbox');
-        $createStruct->mainLanguageCode = 'eng-US';
-        $createStruct->names = ['eng-US' => 'Checkboxes'];
+        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->names = ['eng-GB' => 'Checkboxes'];
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct(
             self::IS_ACTIVE_FIELD_DEF_IDENTIFIER,
             'ezboolean'
         );
-        $fieldCreate->names = ['eng-US' => 'Active'];
+        $fieldCreate->names = ['eng-GB' => 'Active'];
         $fieldCreate->position = 1;
         $fieldCreate->isTranslatable = false;
         $fieldCreate->isSearchable = true;

@@ -50,14 +50,14 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
                     4 => 'Zombies',
                 ],
                 'multilingualOptions' => [
-                    'eng-US' => [
+                    'eng-GB' => [
                         0 => 'A first',
                         1 => 'Bielefeld',
                         2 => 'Sindelfingen',
                         3 => 'Turtles',
                         4 => 'Zombies',
                     ],
-                    'eng-GB' => [
+                    'eng-US' => [
                         0 => 'Arkansas',
                         1 => 'Hudson',
                         2 => 'Mississippi',
@@ -77,8 +77,8 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
     {
         return [
             'names' => [
-                'eng-US' => 'Test',
-                'eng-GB' => 'US TEST',
+                'eng-GB' => 'Test',
+                'eng-US' => 'US TEST',
                 'ger-DE' => 'GER Test',
             ],
         ];
