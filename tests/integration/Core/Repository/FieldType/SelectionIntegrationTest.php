@@ -79,7 +79,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
                 4 => 'Zombies',
             ],
             'multilingualOptions' => [
-                'eng-GB' => [
+                'eng-US' => [
                     0 => 'A first',
                     1 => 'Bielefeld',
                     2 => 'Sindelfingen',

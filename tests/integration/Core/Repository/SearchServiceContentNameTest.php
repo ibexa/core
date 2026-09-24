@@ -20,7 +20,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
 {
     private const TOTAL_COUNT = 20;
 
-    private const LANGUAGE_CODE_ENG = 'eng-GB';
+    private const LANGUAGE_CODE_ENG = 'eng-US';
     private const LANGUAGE_CODE_GER = 'ger-DE';
 
     private const CAR_ENG = 'Car';

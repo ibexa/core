@@ -19,8 +19,8 @@ final class MultilingualContentSearchIndexingTest extends BaseTest
     private const MODIFIED_TRANSLATION = 'pol-PL';
 
     private const LANGUAGES = [
-        'eng-US' => 'English (American)',
         'eng-GB' => 'English (United Kingdom)',
+        'eng-US' => 'English (American)',
         self::MODIFIED_TRANSLATION => 'Polish (Poland)',
         'nor-NO' => 'Norwegian (Norway)',
         'ger-DE' => 'German (Germany)',
@@ -40,7 +40,7 @@ final class MultilingualContentSearchIndexingTest extends BaseTest
         $this->createMissingLanguages($repository->getContentLanguageService());
 
         // create Folder with a single translation
-        $folder = $this->createFolder(['eng-US' => 'Test eng-US']);
+        $folder = $this->createFolder(['eng-GB' => 'Test eng-GB']);
 
         // add 20 translations
         $folderUpdate = $contentService->newContentUpdateStruct();

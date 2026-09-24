@@ -29,7 +29,7 @@ return [
                 'destination' => 60,
                 'path' => '/Contact-Us',
                 'languageCodes' => [
-                    0 => 'eng-GB',
+                    0 => 'eng-US',
                 ],
                 'alwaysAvailable' => 0,
                 'isHistory' => false,
@@ -44,7 +44,7 @@ return [
                 'destination' => 58,
                 'path' => '/Design',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -59,7 +59,7 @@ return [
                 'destination' => 48,
                 'path' => '/Setup2',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -88,7 +88,7 @@ return [
                 'destination' => 43,
                 'path' => '/Media',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -131,7 +131,7 @@ return [
                 'destination' => 5,
                 'path' => '/Users',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -146,8 +146,8 @@ return [
                 'destination' => 2,
                 'path' => '/',
                 'languageCodes' => [
-                    0 => 'eng-US',
-                    1 => 'eng-GB',
+                    0 => 'eng-GB',
+                    1 => 'eng-US',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -162,7 +162,7 @@ return [
                 'destination' => 61,
                 'path' => '/Users/Partners',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -177,7 +177,7 @@ return [
                 'destination' => 14,
                 'path' => '/Users/Editors',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -192,7 +192,7 @@ return [
                 'destination' => 44,
                 'path' => '/Users/Anonymous-Users',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -207,7 +207,7 @@ return [
                 'destination' => 12,
                 'path' => '/Users/Members',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -222,7 +222,7 @@ return [
                 'destination' => 12,
                 'path' => '/Users/Guest-accounts',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => true,
@@ -237,7 +237,7 @@ return [
                 'destination' => 13,
                 'path' => '/Users/Administrator-users',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -336,7 +336,7 @@ return [
                 'destination' => 15,
                 'path' => '/Users/Administrator-users/Administrator-User',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -365,7 +365,7 @@ return [
                 'destination' => 53,
                 'path' => '/Media/Multimedia',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -380,7 +380,7 @@ return [
                 'destination' => 52,
                 'path' => '/Media/Files',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -395,7 +395,7 @@ return [
                 'destination' => 51,
                 'path' => '/Media/Images',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -410,7 +410,7 @@ return [
                 'destination' => 45,
                 'path' => '/Users/Anonymous-Users/Anonymous-User',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 1,
                 'isHistory' => false,
@@ -439,7 +439,7 @@ return [
                 'destination' => 54,
                 'path' => '/Setup2/Common-INI-settings',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 0,
                 'isHistory' => false,
@@ -524,7 +524,7 @@ return [
                 'destination' => 56,
                 'path' => '/Design/Ibexa',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 0,
                 'isHistory' => true,
@@ -539,7 +539,7 @@ return [
                 'destination' => 56,
                 'path' => '/Design/Plain-site',
                 'languageCodes' => [
-                    0 => 'eng-US',
+                    0 => 'eng-GB',
                 ],
                 'alwaysAvailable' => 0,
                 'isHistory' => false,

@@ -462,12 +462,12 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         }
 
         $this->assertTrue(
-            isset($paths['eng-US']) && isset($paths['ger-DE']),
+            isset($paths['eng-GB']) && isset($paths['ger-DE']),
             'Failed asserting that file path for all languages were found in draft'
         );
 
         $this->assertEquals(
-            $paths['eng-US'],
+            $paths['eng-GB'],
             $paths['ger-DE']
         );
 
@@ -570,7 +570,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         // Create a new draft and update it
         $updatedDraft = $contentService->createContentDraft($content->contentInfo);
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
-        $contentUpdateStruct->initialLanguageCode = 'eng-GB';
+        $contentUpdateStruct->initialLanguageCode = 'eng-US';
         $contentUpdateStruct->setField('name', 'EZP23152_2');
         $updatedDraft = $contentService->updateContent($updatedDraft->versionInfo, $contentUpdateStruct);
 
@@ -933,7 +933,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
         $contentCreateStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('image'),
-            'eng-GB'
+            'eng-US'
         );
         $contentCreateStruct->setField('name', $name);
         $contentCreateStruct->setField('image', $imageValue);

@@ -24,7 +24,7 @@ final class VersionValidatorTest extends BaseTest
 {
     private const CONTENT_TYPE_IDENTIFIER = 'single-text';
     private const FIELD_IDENTIFIER = 'name';
-    private const ENG_GB = 'eng-GB';
+    private const ENG_GB = 'eng-US';
     private const GER_DE = 'ger-DE';
 
     /** @var \Ibexa\Core\Repository\Validator\VersionValidator */
@@ -76,7 +76,7 @@ final class VersionValidatorTest extends BaseTest
         try {
             $this->updateContentTranslation($content);
         } catch (ContentFieldValidationException $e) {
-            // since we updated only one translation, we expect one field error to be thrown (related to null value for eng-GB version)
+            // since we updated only one translation, we expect one field error to be thrown (related to null value for eng-US version)
             self::assertCount(1, $e->getFieldErrors());
         }
     }

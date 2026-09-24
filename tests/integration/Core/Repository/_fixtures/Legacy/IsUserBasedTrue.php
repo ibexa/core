@@ -18,7 +18,7 @@ return SearchResult::__set_state([
                 'score' => null,
                 'index' => null,
                 'highlight' => null,
-                'matchedTranslation' => 'eng-US',
+                'matchedTranslation' => 'eng-GB',
             ]),
             SearchHit::__set_state([
                 'valueObject' => [
@@ -28,7 +28,7 @@ return SearchResult::__set_state([
                 'score' => null,
                 'index' => null,
                 'highlight' => null,
-                'matchedTranslation' => 'eng-US',
+                'matchedTranslation' => 'eng-GB',
             ]),
         ],
     'spellSuggestion' => null,

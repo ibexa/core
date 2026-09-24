@@ -20,9 +20,9 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
  */
 final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
 {
-    private const ENG_LANGUAGE_CODE = 'eng-GB';
+    private const ENG_LANGUAGE_CODE = 'eng-US';
     private const GER_LANGUAGE_CODE = 'ger-DE';
-    private const US_LANGUAGE_CODE = 'eng-US';
+    private const US_LANGUAGE_CODE = 'eng-GB';
     private const CONTENT_TYPE_IDENTIFIER = 'custom';
 
     /**
@@ -36,7 +36,7 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
         $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $locationService = $this->getIbexaTestCore()->getLocationService();
 
-        // Creating and publishing content in eng-GB language
+        // Creating and publishing content in eng-US language
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::CONTENT_TYPE_IDENTIFIER);
         $mainLanguageCode = self::ENG_LANGUAGE_CODE;
         $contentCreateStruct = $contentService->newContentCreateStruct($contentType, $mainLanguageCode);
@@ -61,7 +61,7 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
         $gerContent = $contentService->updateContent($gerDraft->getVersionInfo(), $contentUpdateStruct);
         $contentService->publishVersion($gerContent->getVersionInfo(), [self::GER_LANGUAGE_CODE]);
 
-        // Creating a draft and publishing in eng-US language with empty 'title' field
+        // Creating a draft and publishing in eng-GB language with empty 'title' field
         $contentUpdateStruct = new ContentUpdateStruct([
             'initialLanguageCode' => self::US_LANGUAGE_CODE,
         ]);
@@ -91,7 +91,7 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct(self::CONTENT_TYPE_IDENTIFIER);
 
-        $typeCreate->mainLanguageCode = 'eng-GB';
+        $typeCreate->mainLanguageCode = 'eng-US';
         $typeCreate->remoteId = '1234567890abcdef';
         $typeCreate->urlAliasSchema = '<title>';
         $typeCreate->nameSchema = '<title>';
@@ -109,7 +109,7 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
                 [
                     'fieldTypeIdentifier' => 'ezstring',
                     'identifier' => 'title',
-                    'names' => ['eng-GB' => 'Title'],
+                    'names' => ['eng-US' => 'Title'],
                     'isRequired' => false,
                     'isTranslatable' => true,
                 ],

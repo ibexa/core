@@ -115,7 +115,7 @@ final class RemoteIdIndexingTest extends BaseTest
         $locationService = $repository->getLocationService();
 
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $folderCreateStruct = $contentService->newContentCreateStruct($folderType, 'eng-GB');
+        $folderCreateStruct = $contentService->newContentCreateStruct($folderType, 'eng-US');
         $folderCreateStruct->remoteId = $remoteId;
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
         $locationCreateStruct->remoteId = $remoteId;

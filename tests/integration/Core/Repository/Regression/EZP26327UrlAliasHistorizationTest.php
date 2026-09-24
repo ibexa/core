@@ -24,10 +24,10 @@ class EZP26327UrlAliasHistorizationTest extends BaseTest
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
 
-        $contentCreateStruct->setField('name', 'name-gb', 'eng-GB');
-        $contentCreateStruct->setField('name', 'name-us', 'eng-US');
+        $contentCreateStruct->setField('name', 'name-gb', 'eng-US');
+        $contentCreateStruct->setField('name', 'name-us', 'eng-GB');
 
         $draft = $contentService->createContent(
             $contentCreateStruct,
@@ -40,7 +40,7 @@ class EZP26327UrlAliasHistorizationTest extends BaseTest
         $urlAliasService->lookup('/name-us');
 
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
-        $contentUpdateStruct->setField('name', 'name-gb', 'eng-US');
+        $contentUpdateStruct->setField('name', 'name-gb', 'eng-GB');
         $draft = $contentService->createContentDraft($content->contentInfo);
         $draft = $contentService->updateContent($draft->versionInfo, $contentUpdateStruct);
         $contentService->publishVersion($draft->versionInfo);

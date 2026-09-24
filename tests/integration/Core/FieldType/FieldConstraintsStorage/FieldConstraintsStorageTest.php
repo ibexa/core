@@ -55,9 +55,9 @@ final class FieldConstraintsStorageTest extends BaseTest
             ExampleFieldType::FIELD_TYPE_IDENTIFIER
         );
 
-        $fieldDefCreateStruct->names = ['eng-GB' => 'Example'];
+        $fieldDefCreateStruct->names = ['eng-US' => 'Example'];
         $fieldDefCreateStruct->descriptions = [
-            'eng-GB' => 'Example field with external storage for field constraints',
+            'eng-US' => 'Example field with external storage for field constraints',
         ];
         $fieldDefCreateStruct->fieldSettings = self::EXAMPLE_FIELD_SETTINGS;
         $fieldDefCreateStruct->validatorConfiguration = self::EXAMPLE_VALIDATOR_CONFIGURATION;
@@ -151,8 +151,8 @@ final class FieldConstraintsStorageTest extends BaseTest
         $creatorId = $this->generateId('user', $permissionResolver->getCurrentUserReference()->getUserId());
 
         $typeCreateStruct = $contentTypeService->newContentTypeCreateStruct('field_constraints_storage_test');
-        $typeCreateStruct->mainLanguageCode = 'eng-GB';
-        $typeCreateStruct->names = ['eng-GB' => 'FieldConstraintsStorageTest'];
+        $typeCreateStruct->mainLanguageCode = 'eng-US';
+        $typeCreateStruct->names = ['eng-US' => 'FieldConstraintsStorageTest'];
         $typeCreateStruct->creatorId = $creatorId;
         $typeCreateStruct->creationDate = $this->createDateTime();
 

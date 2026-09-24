@@ -30,10 +30,10 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 class LanguageLimitationTest extends BaseTest
 {
     /** @var string */
-    private const ENG_US = 'eng-US';
+    private const ENG_US = 'eng-GB';
 
     /** @var string */
-    private const ENG_GB = 'eng-GB';
+    private const ENG_GB = 'eng-US';
 
     /** @var string */
     private const GER_DE = 'ger-DE';
@@ -88,8 +88,8 @@ class LanguageLimitationTest extends BaseTest
                 ['ger-DE'],
             ],
             [
-                ['ger-DE' => 'German Folder', 'eng-GB' => 'British Folder'],
-                ['ger-DE', 'eng-GB'],
+                ['ger-DE' => 'German Folder', 'eng-US' => 'British Folder'],
+                ['ger-DE', 'eng-US'],
             ],
         ];
     }
@@ -182,7 +182,7 @@ class LanguageLimitationTest extends BaseTest
             'Editing a content before translating it' => [
                 'content',
                 'edit',
-                ['eng-GB' => 'BrE Folder'],
+                ['eng-US' => 'BrE Folder'],
                 ['ger-DE'],
                 [
                     (new VersionBuilder())
@@ -194,7 +194,7 @@ class LanguageLimitationTest extends BaseTest
             'Publishing the specific translation of a content item' => [
                 'content',
                 'publish',
-                ['eng-GB' => 'BrE Folder', 'ger-DE' => 'DE Folder'],
+                ['eng-US' => 'BrE Folder', 'ger-DE' => 'DE Folder'],
                 ['ger-DE'],
                 [
                     (new VersionBuilder())
@@ -206,11 +206,11 @@ class LanguageLimitationTest extends BaseTest
             'Not being able to edit a content before translating it' => [
                 'content',
                 'edit',
-                ['eng-GB' => 'BrE Folder'],
+                ['eng-US' => 'BrE Folder'],
                 ['ger-DE'],
                 [
                     (new VersionBuilder())
-                        ->translateToAnyLanguageOf(['eng-GB'])
+                        ->translateToAnyLanguageOf(['eng-US'])
                         ->build(),
                 ],
                 false,
@@ -218,11 +218,11 @@ class LanguageLimitationTest extends BaseTest
             'Not being able to publish the specific translation of a content item' => [
                 'content',
                 'publish',
-                ['eng-GB' => 'BrE Folder', 'ger-DE' => 'DE Folder'],
+                ['eng-US' => 'BrE Folder', 'ger-DE' => 'DE Folder'],
                 ['ger-DE'],
                 [
                     (new VersionBuilder())
-                        ->publishTranslations(['eng-GB'])
+                        ->publishTranslations(['eng-US'])
                         ->build(),
                 ],
                 false,
@@ -243,28 +243,28 @@ class LanguageLimitationTest extends BaseTest
         // $names (as admin), $namesToUpdate (as editor), $allowedTranslationsList (editor limitations)
         return [
             [
-                ['eng-US' => 'American Folder'],
+                ['eng-GB' => 'American Folder'],
                 ['ger-DE' => 'Updated German Folder'],
                 ['ger-DE'],
             ],
             [
-                ['eng-US' => 'American Folder', 'ger-DE' => 'German Folder'],
+                ['eng-GB' => 'American Folder', 'ger-DE' => 'German Folder'],
                 ['ger-DE' => 'Updated German Folder'],
                 ['ger-DE'],
             ],
             [
                 [
-                    'eng-US' => 'American Folder',
-                    'eng-GB' => 'British Folder',
+                    'eng-GB' => 'American Folder',
+                    'eng-US' => 'British Folder',
                     'ger-DE' => 'German Folder',
                 ],
-                ['ger-DE' => 'Updated German Folder', 'eng-GB' => 'British Folder'],
-                ['ger-DE', 'eng-GB'],
+                ['ger-DE' => 'Updated German Folder', 'eng-US' => 'British Folder'],
+                ['ger-DE', 'eng-US'],
             ],
             [
-                ['eng-US' => 'American Folder', 'ger-DE' => 'German Folder'],
-                ['ger-DE' => 'Updated German Folder', 'eng-GB' => 'British Folder'],
-                ['ger-DE', 'eng-GB'],
+                ['eng-GB' => 'American Folder', 'ger-DE' => 'German Folder'],
+                ['ger-DE' => 'Updated German Folder', 'eng-US' => 'British Folder'],
+                ['ger-DE', 'eng-US'],
             ],
         ];
     }
@@ -348,13 +348,13 @@ class LanguageLimitationTest extends BaseTest
         $folder = $this->createFolder($names, 2);
         $folderDraft = $contentService->createContentDraft($folder->contentInfo);
         $folderUpdateStruct = $contentService->newContentUpdateStruct();
-        $folderUpdateStruct->setField('name', 'Updated American Folder', 'eng-US');
+        $folderUpdateStruct->setField('name', 'Updated American Folder', 'eng-GB');
         $folderDraft = $contentService->updateContent(
             $folderDraft->getVersionInfo(),
             $folderUpdateStruct
         );
 
-        // switch context to the user not allowed to publish eng-US
+        // switch context to the user not allowed to publish eng-GB
         $repository->getPermissionResolver()->setCurrentUserReference(
             $this->createEditorUserWithLanguageLimitation(['ger-DE'])
         );

@@ -101,7 +101,7 @@ final class FieldAggregationFixtureGenerator
         $locationService = $this->repository->getLocationService();
 
         foreach ($values as $value) {
-            $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+            $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
             $contentCreateStruct->setField($fieldDefinitionIdentifier, $value);
 
             $contentService->publishVersion(
@@ -124,9 +124,9 @@ final class FieldAggregationFixtureGenerator
         $contentTypeService = $this->repository->getContentTypeService();
 
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct($contentTypeIdentifier);
-        $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
+        $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
         $contentTypeCreateStruct->names = [
-            'eng-GB' => 'Field aggregation',
+            'eng-US' => 'Field aggregation',
         ];
 
         $contentTypeCreateStruct->addFieldDefinition(
@@ -163,7 +163,7 @@ final class FieldAggregationFixtureGenerator
 
         $fieldDefinitionCreateStruct->isSearchable = true;
         $fieldDefinitionCreateStruct->names = [
-            'eng-GB' => 'Aggregated field',
+            'eng-US' => 'Aggregated field',
         ];
 
         if ($fieldDefinitionCreateStructConfigurator !== null) {

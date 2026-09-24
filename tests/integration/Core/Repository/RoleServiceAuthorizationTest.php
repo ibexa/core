@@ -254,7 +254,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         $roleCreate = $roleService->newRoleCreateStruct('newRole');
 
         // @todo uncomment when support for multilingual names and descriptions is added EZP-24776
-        // $roleCreate->mainLanguageCode = 'eng-US';
+        // $roleCreate->mainLanguageCode = 'eng-GB';
 
         // Create a new role with two policies
         $roleDraft = $roleService->createRole($roleCreate);
@@ -658,7 +658,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         $roleCreate = $roleService->newRoleCreateStruct('testRole');
 
         // @todo uncomment when support for multilingual names and descriptions is added EZP-24776
-        // $roleCreate->mainLanguageCode = 'eng-GB';
+        // $roleCreate->mainLanguageCode = 'eng-US';
 
         $roleCreate->addPolicy($policyCreate);
 

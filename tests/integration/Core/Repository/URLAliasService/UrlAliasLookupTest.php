@@ -22,7 +22,7 @@ final class UrlAliasLookupTest extends RepositoryTestCase
     public function testLookup(): void
     {
         $urlAliasService = $this->getIbexaTestCore()->getServiceByClassName(URLAliasService::class);
-        $folder = $this->createFolder(['eng-GB' => 'Foo']);
+        $folder = $this->createFolder(['eng-US' => 'Foo']);
         $folderMainLocation = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
         $urlAlias = $urlAliasService->lookup('/Foo');
         self::assertSame(

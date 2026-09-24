@@ -384,7 +384,7 @@ class UserIntegrationTest extends BaseIntegrationTest
             self::TEST_LOGIN,
             'hans@example.com',
             'PassWord42',
-            'eng-US',
+            'eng-GB',
             $contentType
         );
         $userCreate->enabled = true;

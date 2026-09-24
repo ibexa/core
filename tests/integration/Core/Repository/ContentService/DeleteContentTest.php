@@ -71,19 +71,19 @@ final class DeleteContentTest extends RepositoryTestCase
      */
     private function prepareContentStructure(): array
     {
-        $folder = $this->createFolder(['eng-GB' => 'Folder'], 2);
+        $folder = $this->createFolder(['eng-US' => 'Folder'], 2);
         $folderMainLocationId = $folder->getVersionInfo()->getContentInfo()->getMainLocationId();
         Assert::assertIsNumeric($folderMainLocationId);
 
         $childFolder = $this->createFolder(
-            ['eng-GB' => 'Child folder'],
+            ['eng-US' => 'Child folder'],
             $folderMainLocationId,
         );
         $childFolderMainLocationId = $childFolder->getVersionInfo()->getContentInfo()->getMainLocationId();
         Assert::assertIsNumeric($childFolderMainLocationId);
 
         $secondDepthChildFolder = $this->createFolder(
-            ['eng-GB' => 'Second depth folder'],
+            ['eng-US' => 'Second depth folder'],
             $childFolderMainLocationId,
         );
         $secondDepthChildFolderLocationId = $secondDepthChildFolder
@@ -93,11 +93,11 @@ final class DeleteContentTest extends RepositoryTestCase
         ;
         Assert::assertIsNumeric($secondDepthChildFolderLocationId);
 
-        $draft1 = $this->createFolderDraft(['eng-GB' => 'Folder draft 1'], $folderMainLocationId);
-        $draft2 = $this->createFolderDraft(['eng-GB' => 'Folder draft 2'], $childFolderMainLocationId);
-        $draft3 = $this->createFolderDraft(['eng-GB' => 'Folder draft 3'], $childFolderMainLocationId);
+        $draft1 = $this->createFolderDraft(['eng-US' => 'Folder draft 1'], $folderMainLocationId);
+        $draft2 = $this->createFolderDraft(['eng-US' => 'Folder draft 2'], $childFolderMainLocationId);
+        $draft3 = $this->createFolderDraft(['eng-US' => 'Folder draft 3'], $childFolderMainLocationId);
         $draftSecondDepth = $this->createFolderDraft(
-            ['eng-GB' => 'Folder draft 4'],
+            ['eng-US' => 'Folder draft 4'],
             $secondDepthChildFolderLocationId,
         );
 

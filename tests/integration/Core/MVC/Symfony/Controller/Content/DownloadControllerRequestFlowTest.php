@@ -63,14 +63,14 @@ final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
                 'contentId' => 42,
                 'fieldIdentifier' => 'file',
                 'filename' => self::FILENAME,
-                'inLanguage' => 'eng-GB',
+                'inLanguage' => 'eng-US',
             ]
         );
 
         self::assertStringContainsString('Q1%20report%20%231%20+%20100%25.jpg', $url);
 
         $content = $this->createContent(self::FILENAME);
-        $field = $content->getField('file', 'eng-GB');
+        $field = $content->getField('file', 'eng-US');
         self::assertInstanceOf(Field::class, $field);
 
         $binaryFile = $this->createBinaryFile();

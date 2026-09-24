@@ -72,7 +72,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('forum');
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, 'eng-GB');
         $contentCreate->setField('name', 'Awesome Sindelfingen forum');
 
         $contentCreate->remoteId = 'abcdef0123456789abcdef0123456789';
@@ -297,7 +297,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'read\' \'content\'/');
 
-        $this->contentService->loadContentByContentInfo($contentInfo, ['eng-US']);
+        $this->contentService->loadContentByContentInfo($contentInfo, ['eng-GB']);
     }
 
     /**
@@ -315,7 +315,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'read\' \'content\'/');
 
-        $this->contentService->loadContentByContentInfo($contentInfo, ['eng-US'], 2);
+        $this->contentService->loadContentByContentInfo($contentInfo, ['eng-GB'], 2);
     }
 
     /**
@@ -355,7 +355,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'read\' \'content\'/');
 
-        $this->contentService->loadContentByVersionInfo($versionInfo, ['eng-US']);
+        $this->contentService->loadContentByVersionInfo($versionInfo, ['eng-GB']);
     }
 
     /**
@@ -389,7 +389,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'read\' \'content\'/');
 
-        $this->contentService->loadContent($anonymousUserId, ['eng-US']);
+        $this->contentService->loadContent($anonymousUserId, ['eng-GB']);
     }
 
     /**
@@ -406,7 +406,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'read\' \'content\'/');
 
-        $this->contentService->loadContent($anonymousUserId, ['eng-US'], 2);
+        $this->contentService->loadContent($anonymousUserId, ['eng-GB'], 2);
     }
 
     /**
@@ -452,7 +452,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         // create folder
         $newStruct = $this->contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-US'
+            'eng-GB'
         );
         $newStruct->setField('name', 'Test Folder');
         $draft = $this->contentService->createContent(
@@ -513,7 +513,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'read\' \'content\'/');
 
-        $this->contentService->loadContentByRemoteId($anonymousRemoteId, ['eng-US']);
+        $this->contentService->loadContentByRemoteId($anonymousRemoteId, ['eng-GB']);
     }
 
     /**
@@ -531,7 +531,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'read\' \'content\'/');
 
-        $this->contentService->loadContentByRemoteId($anonymousRemoteId, ['eng-US'], 2);
+        $this->contentService->loadContentByRemoteId($anonymousRemoteId, ['eng-GB'], 2);
     }
 
     /**
@@ -551,7 +551,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $metadataUpdate = $this->contentService->newContentMetadataUpdateStruct();
 
         $metadataUpdate->remoteId = 'aaaabbbbccccddddeeeeffff11112222';
-        $metadataUpdate->mainLanguageCode = 'eng-US';
+        $metadataUpdate->mainLanguageCode = 'eng-GB';
         $metadataUpdate->alwaysAvailable = false;
         $metadataUpdate->publishedDate = $this->createDateTime();
         $metadataUpdate->modificationDate = $this->createDateTime();
@@ -593,7 +593,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $contentVersion2 = $this->createMultipleLanguageContentVersion2();
         $contentInfo = $contentVersion2->contentInfo;
         $limitations = [
-            new LanguageLimitation(['limitationValues' => ['eng-US']]),
+            new LanguageLimitation(['limitationValues' => ['eng-GB']]),
         ];
 
         $user = $this->createUserWithPolicies(
@@ -620,7 +620,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $contentInfo = $contentVersion2->contentInfo;
 
         $limitations = [
-            new LanguageLimitation(['limitationValues' => ['eng-US', 'eng-GB']]),
+            new LanguageLimitation(['limitationValues' => ['eng-GB', 'eng-US']]),
         ];
 
         $user = $this->createUserWithPolicies(
@@ -738,9 +738,9 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         // Create an update struct and modify some fields
         $contentUpdate = $this->contentService->newContentUpdateStruct();
         $contentUpdate->setField('name', 'An awesome² story about ezp.');
-        $contentUpdate->setField('name', 'An awesome²³ story about ezp.', 'eng-GB');
+        $contentUpdate->setField('name', 'An awesome²³ story about ezp.', 'eng-US');
 
-        $contentUpdate->initialLanguageCode = 'eng-US';
+        $contentUpdate->initialLanguageCode = 'eng-GB';
 
         $this->expectException(UnauthorizedException::class);
         /* TODO - the `content/edit` policy should be probably needed */
@@ -1034,7 +1034,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
      */
     public function testLoadRelationsWithUnauthorizedRelations()
     {
-        $mainLanguage = 'eng-GB';
+        $mainLanguage = 'eng-US';
 
         $contentTypeService = $this->repository->getContentTypeService();
         $locationService = $this->repository->getLocationService();

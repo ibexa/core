@@ -20,7 +20,7 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 final class CopyNonTranslatableFieldsFromPublishedVersionTest extends RepositoryTestCase
 {
     private const GER_DE = 'ger-DE';
-    private const ENG_US = 'eng-US';
+    private const ENG_US = 'eng-GB';
     private const CONTENT_TYPE_IDENTIFIER = 'nontranslatable';
     private const TEXT_LINE_FIELD_TYPE_IDENTIFIER = 'ezstring';
 
@@ -33,7 +33,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
 
         $contentService = $this->getIbexaTestCore()->getContentService();
 
-        // Creating start content in eng-US language
+        // Creating start content in eng-GB language
         $contentDraft = $this->createEngDraft();
         $publishedContent = $contentService->publishVersion($contentDraft->getVersionInfo());
 
@@ -48,7 +48,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
         $contentUpdateStruct->setField('title', 'Folder GER', self::GER_DE);
         $gerContent = $contentService->updateContent($gerDraft->getVersionInfo(), $contentUpdateStruct);
 
-        // Updating non-translatable field in eng-US language (allowed) and publishing it
+        // Updating non-translatable field in eng-GB language (allowed) and publishing it
         $engContent = $contentService->createContentDraft($publishedContent->contentInfo);
 
         $contentUpdateStruct = new ContentUpdateStruct([
@@ -83,7 +83,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
 
         $contentService = $this->getIbexaTestCore()->getContentService();
 
-        // Creating start content in eng-US language
+        // Creating start content in eng-GB language
         $contentDraft = $this->createEngDraft();
         $publishedContent = $contentService->publishVersion($contentDraft->getVersionInfo());
 
@@ -91,7 +91,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
         $usDraft = $contentService->createContentDraft($publishedContent->contentInfo);
         $gerDraft = $contentService->createContentDraft($publishedContent->contentInfo);
 
-        // Publishing the draft in eng-US language
+        // Publishing the draft in eng-GB language
         $contentUpdateStruct = new ContentUpdateStruct([
             'initialLanguageCode' => self::ENG_US,
             'fields' => $usDraft->getFields(),
@@ -126,7 +126,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
 
         $contentService = $this->getIbexaTestCore()->getContentService();
 
-        // Creating start content in eng-US language
+        // Creating start content in eng-GB language
         $contentDraft = $this->createEngDraft();
         $publishedContent = $contentService->publishVersion($contentDraft->getVersionInfo());
 
@@ -142,7 +142,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
         $gerContent = $contentService->updateContent($gerDraft->getVersionInfo(), $contentUpdateStruct);
         $publishedContent = $contentService->publishVersion($gerContent->getVersionInfo());
 
-        // Updating non-translatable field in eng-US language (allowed) and publishing it
+        // Updating non-translatable field in eng-GB language (allowed) and publishing it
         $engContent = $contentService->createContentDraft($publishedContent->contentInfo);
 
         $contentUpdateStruct = new ContentUpdateStruct([
@@ -192,15 +192,15 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct(self::CONTENT_TYPE_IDENTIFIER);
 
-        $typeCreate->mainLanguageCode = 'eng-GB';
+        $typeCreate->mainLanguageCode = 'eng-US';
         $typeCreate->remoteId = '1234567890abcdef';
         $typeCreate->urlAliasSchema = '<title>';
         $typeCreate->nameSchema = '<title>';
         $typeCreate->names = [
-            'eng-GB' => 'Non-translatable content type',
+            'eng-US' => 'Non-translatable content type',
         ];
         $typeCreate->descriptions = [
-            'eng-GB' => '',
+            'eng-US' => '',
         ];
         $typeCreate->creatorId = $permissionResolver->getCurrentUserReference()->getUserId();
         $typeCreate->creationDate = new DateTime();
@@ -210,7 +210,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
             $this->buildFieldDefinitionCreateStructForNonTranslatableContentType(
                 $fieldDefinitionPosition,
                 'title',
-                ['eng-GB' => 'Title'],
+                ['eng-US' => 'Title'],
                 true,
                 true,
                 'default title'
@@ -221,7 +221,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
             $this->buildFieldDefinitionCreateStructForNonTranslatableContentType(
                 ++$fieldDefinitionPosition,
                 'body',
-                ['eng-GB' => 'Body'],
+                ['eng-US' => 'Body'],
                 false,
                 false
             )

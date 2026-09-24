@@ -327,9 +327,9 @@ abstract class BaseIntegrationTest extends BaseTest
         $createStruct = $contentTypeService->newContentTypeCreateStruct(
             $contentTypeIdentifier
         );
-        $createStruct->mainLanguageCode = $this->getOverride('mainLanguageCode', $typeCreateOverride, 'eng-GB');
+        $createStruct->mainLanguageCode = $this->getOverride('mainLanguageCode', $typeCreateOverride, 'eng-US');
         $createStruct->remoteId = $this->getTypeName();
-        $createStruct->names = $this->getOverride('names', $typeCreateOverride, ['eng-GB' => 'Test']);
+        $createStruct->names = $this->getOverride('names', $typeCreateOverride, ['eng-US' => 'Test']);
         $createStruct->creatorId = 14;
         $createStruct->creationDate = $this->createDateTime();
 
@@ -339,14 +339,14 @@ abstract class BaseIntegrationTest extends BaseTest
         }
 
         $nameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
-        $nameFieldCreate->names = ['eng-GB' => 'Title'];
+        $nameFieldCreate->names = ['eng-US' => 'Title'];
         $nameFieldCreate->fieldGroup = 'main';
         $nameFieldCreate->position = 1;
         $nameFieldCreate->isTranslatable = true;
         $createStruct->addFieldDefinition($nameFieldCreate);
 
         $dataFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('data', $this->getTypeName());
-        $dataFieldCreate->names = $this->getOverride('names', $fieldCreateOverride, ['eng-GB' => 'Title']);
+        $dataFieldCreate->names = $this->getOverride('names', $fieldCreateOverride, ['eng-US' => 'Title']);
         $dataFieldCreate->fieldGroup = 'main';
         $dataFieldCreate->position = 2;
         $dataFieldCreate->isTranslatable = $this->getOverride('isTranslatable', $fieldCreateOverride, false);
@@ -536,7 +536,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $createStruct->setField('name', 'Test object');
         $createStruct->setField(
             'data',
@@ -580,7 +580,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         foreach ($names as $languageCode => $name) {
             $createStruct->setField('name', $name, $languageCode);
         }
@@ -1074,7 +1074,7 @@ abstract class BaseIntegrationTest extends BaseTest
 
         $loadedContent = $contentService->loadContent(
             $publishedContent->contentInfo->id,
-            ['eng-US']
+            ['eng-GB']
         );
         $this->assertUpdatedFieldDataLoadedCorrect($loadedContent->getField('data'));
     }
@@ -1094,7 +1094,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $contentDraft = $contentService->createContentDraft($publishedContent->contentInfo);
 
         $contentService->deleteVersion($contentDraft->versionInfo);
-        $loadedContent = $contentService->loadContent($publishedContent->contentInfo->id, ['eng-US']);
+        $loadedContent = $contentService->loadContent($publishedContent->contentInfo->id, ['eng-GB']);
 
         self::assertFalse(
             $fieldType->isEmptyValue($loadedContent->getField('data')->value)
@@ -1116,10 +1116,10 @@ abstract class BaseIntegrationTest extends BaseTest
         $updateStruct = $contentService->newContentUpdateStruct();
         $updateStruct->setField(
             'data',
-            $publishedContent->getFieldValue('data', 'eng-US'),
-            'eng-US'
+            $publishedContent->getFieldValue('data', 'eng-GB'),
+            'eng-GB'
         );
-        $updateStruct->initialLanguageCode = 'eng-GB';
+        $updateStruct->initialLanguageCode = 'eng-US';
         $updatedContentDraft = $contentService->updateContent($contentDraft->versionInfo, $updateStruct);
         $contentService->publishVersion($updatedContentDraft->versionInfo);
     }
@@ -1151,7 +1151,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $languageCodes = ['eng-US', 'ger-DE'];
+        $languageCodes = ['eng-GB', 'ger-DE'];
 
         $fieldName = $this->getFieldName();
         $names = [];
@@ -1189,8 +1189,8 @@ abstract class BaseIntegrationTest extends BaseTest
         // check if are Versions have valid Translation
         foreach ($contentService->loadVersions($publishedContent->contentInfo) as $versionInfo) {
             // check if deleted Translation does not exist
-            self::assertEquals(['eng-US'], array_keys($versionInfo->getNames()));
-            self::assertEquals(['eng-US'], $versionInfo->languageCodes);
+            self::assertEquals(['eng-GB'], array_keys($versionInfo->getNames()));
+            self::assertEquals(['eng-GB'], $versionInfo->languageCodes);
 
             // load Content of a Version to access other fields data
             $versionContent = $contentService->loadContent(
@@ -1204,14 +1204,14 @@ abstract class BaseIntegrationTest extends BaseTest
 
             // check if the remaining Translation is still valid
             $expectedContent = $contentByVersion[$versionContent->versionInfo->versionNo];
-            self::assertNotEmpty($versionContent->getFieldsByLanguage('eng-US'));
+            self::assertNotEmpty($versionContent->getFieldsByLanguage('eng-GB'));
             self::assertEquals(
-                $expectedContent->getField('name', 'eng-US'),
-                $versionContent->getField('name', 'eng-US')
+                $expectedContent->getField('name', 'eng-GB'),
+                $versionContent->getField('name', 'eng-GB')
             );
             self::assertEquals(
-                $expectedContent->getField('data', 'eng-US'),
-                $versionContent->getField('data', 'eng-US')
+                $expectedContent->getField('data', 'eng-GB'),
+                $versionContent->getField('data', 'eng-GB')
             );
         }
     }
