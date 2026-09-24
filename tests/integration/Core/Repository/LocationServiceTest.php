@@ -538,7 +538,7 @@ class LocationServiceTest extends BaseTest
                 'publishedDate' => $legacyDateTime,
                 'alwaysAvailable' => 1,
                 'remoteId' => null,
-                'mainLanguageCode' => 'eng-US',
+                'mainLanguageCode' => 'eng-GB',
             ],
             $location->contentInfo
         );
