@@ -24,6 +24,7 @@
             <file>tests/integration/Core/Repository/ContentTypeService/FindContentTypesTest.php</file>
             <file>tests/integration/Core/Repository/ContentService/CopyNonTranslatableFieldsFromPublishedVersionTest.php</file>
             <file>tests/integration/Core/Persistence/Legacy/BookmarkHandlerTest.php</file>
+            <file>tests/integration/Core/Persistence/Legacy/UrlAliasGatewayTest.php</file>
             <file>tests/integration/Core/Repository/ContentService/CopyTranslationsFromPublishedVersionTest.php</file>
             <file>tests/integration/Core/Repository/URLAliasService/UrlAliasLookupTest.php</file>
             <file>tests/integration/Core/Repository/ContentService/ContentUpdateAfterAddingFieldDefinitionTest.php</file>
