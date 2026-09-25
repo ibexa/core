@@ -11,7 +11,6 @@ namespace Ibexa\Bundle\RepositoryInstaller\Event\Subscriber;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Tools\SchemaTool;
 use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
 use Ibexa\Contracts\DoctrineSchema\SchemaBuilderEvents;
@@ -35,15 +34,20 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * Tables already present in the schema are left as they are.
  */
-final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
+final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
 {
+    private EntityManagerInterface $entityManager;
+
+    /** @var list<class-string> */
+    private array $entityClasses;
+
     /**
      * @param list<class-string> $entityClasses
      */
-    public function __construct(
-        private EntityManagerInterface $entityManager,
-        private array $entityClasses
-    ) {
+    public function __construct(EntityManagerInterface $entityManager, array $entityClasses)
+    {
+        $this->entityManager = $entityManager;
+        $this->entityClasses = $entityClasses;
     }
 
     public static function getSubscribedEvents(): array
@@ -57,7 +61,9 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
     {
         $metadataFactory = $this->entityManager->getMetadataFactory();
         $classMetadata = array_map(
-            static fn (string $class): ClassMetadata => $metadataFactory->getMetadataFor($class),
+            static function (string $class) use ($metadataFactory) {
+                return $metadataFactory->getMetadataFor($class);
+            },
             $this->entityClasses,
         );
 
@@ -70,7 +76,9 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
         // own table, regardless of which classes were actually requested here. Only transplant the
         // tables that genuinely belong to the requested entities.
         $ownTableNames = array_map(
-            static fn (ClassMetadata $metadata): string => $metadata->getTableName(),
+            static function ($metadata) {
+                return $metadata->getTableName();
+            },
             $classMetadata,
         );
 
@@ -88,7 +96,11 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
         }
 
         $ownSequenceNames = array_filter(array_map(
-            static fn (ClassMetadata $metadata): ?string => $metadata->sequenceGeneratorDefinition['sequenceName'] ?? null,
+            static function ($metadata) {
+                return isset($metadata->sequenceGeneratorDefinition['sequenceName'])
+                    ? $metadata->sequenceGeneratorDefinition['sequenceName']
+                    : null;
+            },
             $classMetadata,
         ));
 
@@ -116,10 +128,8 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
      * SchemaImporter uses when building a table from a parsed Yaml array, just reading from an
      * already-built Table here instead.
      */
-    private function copyTable(
-        Table $source,
-        Table $target
-    ): void {
+    private function copyTable(Table $source, Table $target): void
+    {
         foreach ($source->getColumns() as $column) {
             $options = [
                 'length' => $column->getLength(),
@@ -159,8 +169,8 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
         foreach ($source->getForeignKeys() as $foreignKey) {
             $target->addForeignKeyConstraint(
                 $foreignKey->getForeignTableName(),
-                array_values($foreignKey->getUnquotedLocalColumns()),
-                array_values($foreignKey->getUnquotedForeignColumns()),
+                $foreignKey->getUnquotedLocalColumns(),
+                $foreignKey->getUnquotedForeignColumns(),
                 $foreignKey->getOptions(),
                 $foreignKey->getName(),
             );
