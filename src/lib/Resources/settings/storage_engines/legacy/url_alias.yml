@@ -4,6 +4,7 @@ services:
         arguments:
             - '@ibexa.api.storage_engine.legacy.connection'
             - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@?logger'
 
     Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion
