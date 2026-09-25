@@ -33,6 +33,7 @@
             <exclude>tests/integration/Core/Repository/ContentTypeService/FindContentTypesTest.php</exclude>
             <exclude>tests/integration/Core/Repository/ContentService/CopyNonTranslatableFieldsFromPublishedVersionTest.php</exclude>
             <exclude>tests/integration/Core/Persistence/Legacy/BookmarkHandlerTest.php</exclude>
+            <exclude>tests/integration/Core/Persistence/Legacy/UrlAliasGatewayTest.php</exclude>
             <exclude>tests/integration/Core/Repository/ContentService/CopyTranslationsFromPublishedVersionTest.php</exclude>
             <exclude>tests/integration/Core/Repository/URLAliasService/UrlAliasLookupTest.php</exclude>
             <exclude>tests/integration/Core/Repository/ContentService/ContentUpdateAfterAddingFieldDefinitionTest.php</exclude>
