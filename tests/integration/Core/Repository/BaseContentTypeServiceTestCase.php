@@ -40,16 +40,16 @@ abstract class BaseContentTypeServiceTestCase extends BaseTestCase
         ];
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct('blog-post');
-        $typeCreate->mainLanguageCode = 'eng-US';
+        $typeCreate->mainLanguageCode = 'eng-GB';
         $typeCreate->remoteId = '384b94a1bd6bc06826410e284dd9684887bf56fc';
         $typeCreate->urlAliasSchema = 'url|scheme';
         $typeCreate->nameSchema = 'name|scheme';
         $typeCreate->names = [
-            'eng-US' => 'Blog post',
+            'eng-GB' => 'Blog post',
             'ger-DE' => 'Blog-Eintrag',
         ];
         $typeCreate->descriptions = [
-            'eng-US' => 'A blog post',
+            'eng-GB' => 'A blog post',
             'ger-DE' => 'Ein Blog-Eintrag',
         ];
         // $creatorId contains the ID of user 23
@@ -58,11 +58,11 @@ abstract class BaseContentTypeServiceTestCase extends BaseTestCase
 
         $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $titleFieldCreate->names = [
-            'eng-US' => 'Title',
+            'eng-GB' => 'Title',
             'ger-DE' => 'Titel',
         ];
         $titleFieldCreate->descriptions = [
-            'eng-US' => 'Title of the blog post',
+            'eng-GB' => 'Title of the blog post',
             'ger-DE' => 'Titel des Blog-Eintrages',
         ];
         $titleFieldCreate->fieldGroup = 'blog-content';
@@ -83,11 +83,11 @@ abstract class BaseContentTypeServiceTestCase extends BaseTestCase
 
         $bodyFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('body', 'ibexa_text');
         $bodyFieldCreate->names = [
-            'eng-US' => 'Body',
+            'eng-GB' => 'Body',
             'ger-DE' => 'Textkörper',
         ];
         $bodyFieldCreate->descriptions = [
-            'eng-US' => 'Body of the blog post',
+            'eng-GB' => 'Body of the blog post',
             'ger-DE' => 'Textkörper des Blog-Eintrages',
         ];
         $bodyFieldCreate->fieldGroup = 'blog-content';
@@ -147,12 +147,12 @@ abstract class BaseContentTypeServiceTestCase extends BaseTestCase
         $contentType = $contentTypeService->loadContentTypeByIdentifier('blog-post');
 
         // Configure new content object
-        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-GB');
 
         $contentCreate->setField('title', 'My awesome blog post');
         $contentCreate->setField('body', 'Body is not done yet but it is going to be awesome...');
-        $contentCreate->setField('title', 'My marvellous blog post', 'eng-GB');
-        $contentCreate->setField('body', 'Body is not done yet but it is going to be jolly good...', 'eng-GB');
+        $contentCreate->setField('title', 'My marvellous blog post', 'eng-US');
+        $contentCreate->setField('body', 'Body is not done yet but it is going to be jolly good...', 'eng-US');
         $contentCreate->remoteId = 'abcdef0123456789abcdef0123456789';
         // $sectionId is the ID of section 1
         $contentCreate->sectionId = $sectionId;

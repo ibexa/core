@@ -17,7 +17,7 @@ return new SearchResult([
                 'score' => null,
                 'index' => null,
                 'highlight' => null,
-                'matchedTranslation' => 'eng-US',
+                'matchedTranslation' => 'eng-GB',
             ]),
             new SearchHit([
                 'valueObject' => [
@@ -27,7 +27,7 @@ return new SearchResult([
                 'score' => null,
                 'index' => null,
                 'highlight' => null,
-                'matchedTranslation' => 'eng-US',
+                'matchedTranslation' => 'eng-GB',
             ]),
             new SearchHit([
                 'valueObject' => [
@@ -37,7 +37,7 @@ return new SearchResult([
                 'score' => null,
                 'index' => null,
                 'highlight' => null,
-                'matchedTranslation' => 'eng-US',
+                'matchedTranslation' => 'eng-GB',
             ]),
             new SearchHit([
                 'valueObject' => [
@@ -47,7 +47,7 @@ return new SearchResult([
                 'score' => null,
                 'index' => null,
                 'highlight' => null,
-                'matchedTranslation' => 'eng-US',
+                'matchedTranslation' => 'eng-GB',
             ]),
             new SearchHit([
                 'valueObject' => [
@@ -57,7 +57,7 @@ return new SearchResult([
                 'score' => null,
                 'index' => null,
                 'highlight' => null,
-                'matchedTranslation' => 'eng-US',
+                'matchedTranslation' => 'eng-GB',
             ]),
         ],
     'spellcheck' => null,

@@ -31,7 +31,7 @@ class ParentUserGroupLimitationTest extends BaseLimitationTestCase
             $permissionResolver->getCurrentUserReference()->getUserId()
         );
 
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
         $userGroupCreate->setField('name', 'Shared wiki');
 
         $userGroup = $userService->createUserGroup(
@@ -92,7 +92,7 @@ class ParentUserGroupLimitationTest extends BaseLimitationTestCase
         /* BEGIN: Use Case */
         $user = $this->createUserVersion1();
 
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
         $userGroupCreate->setField('name', 'Shared wiki');
 
         $userGroup = $userService->createUserGroup(

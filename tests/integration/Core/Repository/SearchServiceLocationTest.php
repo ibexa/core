@@ -45,14 +45,14 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentService = $repository->getContentService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('movie');
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->remoteId = 'movie-123';
-        $createStruct->names = ['eng-GB' => 'Movie'];
+        $createStruct->names = ['eng-US' => 'Movie'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
         $fieldTitle = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
-        $fieldTitle->names = ['eng-GB' => 'Title'];
+        $fieldTitle->names = ['eng-US' => 'Title'];
         $fieldTitle->fieldGroup = 'main';
         $fieldTitle->position = 1;
         $fieldTitle->isTranslatable = false;
@@ -61,7 +61,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $createStruct->addFieldDefinition($fieldTitle);
 
         $fieldSubtitle = $contentTypeService->newFieldDefinitionCreateStruct('subtitle', 'ibexa_string');
-        $fieldSubtitle->names = ['eng-GB' => 'Subtitle'];
+        $fieldSubtitle->names = ['eng-US' => 'Subtitle'];
         $fieldSubtitle->fieldGroup = 'main';
         $fieldSubtitle->position = 2;
         $fieldSubtitle->isTranslatable = false;
@@ -74,7 +74,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
-        $createStructRambo = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStructRambo = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStructRambo->remoteId = 'movie-456';
         $createStructRambo->alwaysAvailable = false;
         $createStructRambo->setField('title', 'Rambo');
@@ -84,7 +84,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $movies[] = $contentService->publishVersion($ramboDraft->getVersionInfo());
         $this->refreshSearch($repository);
 
-        $createStructRobocop = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStructRobocop = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStructRobocop->remoteId = 'movie-789';
         $createStructRobocop->alwaysAvailable = false;
         $createStructRobocop->setField('title', 'Robocop');
@@ -95,7 +95,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $movies[] = $contentService->publishVersion($robocopDraft->getVersionInfo());
         $this->refreshSearch($repository);
 
-        $createStructLastHope = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStructLastHope = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStructLastHope->remoteId = 'movie-101112';
         $createStructLastHope->alwaysAvailable = false;
         $createStructLastHope->setField('title', 'Star Wars');
@@ -121,14 +121,14 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentService = $repository->getContentService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('countries-multiple');
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->remoteId = 'countries-multiple-123';
-        $createStruct->names = ['eng-GB' => 'Multiple countries'];
+        $createStruct->names = ['eng-US' => 'Multiple countries'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('countries', 'ibexa_country');
-        $fieldCreate->names = ['eng-GB' => 'Countries'];
+        $fieldCreate->names = ['eng-US' => 'Countries'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
         $fieldCreate->isTranslatable = false;
@@ -142,7 +142,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->remoteId = 'countries-multiple-456';
         $createStruct->alwaysAvailable = false;
         $createStruct->setField(
@@ -171,7 +171,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentService = $repository->getContentService();
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->remoteId = 'non-printable-char-folder-123';
         $createStruct->alwaysAvailable = false;
         $createStruct->setField(
@@ -529,13 +529,13 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('testtype');
-        $createStruct->mainLanguageCode = 'eng-GB';
-        $createStruct->names = ['eng-GB' => 'Test type'];
+        $createStruct->mainLanguageCode = 'eng-US';
+        $createStruct->names = ['eng-US' => 'Test type'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
         $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('maplocation', 'ibexa_gmap_location');
-        $translatableFieldCreate->names = ['eng-GB' => 'Map location field'];
+        $translatableFieldCreate->names = ['eng-US' => 'Map location field'];
         $translatableFieldCreate->fieldGroup = 'main';
         $translatableFieldCreate->position = 1;
         $translatableFieldCreate->isTranslatable = false;
@@ -569,9 +569,9 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService->createContentTypeDraft($contentType);
         $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct(2);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -579,15 +579,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -595,7 +595,7 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
@@ -651,9 +651,9 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService->createContentTypeDraft($contentType);
         $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct(2);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -661,15 +661,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -677,7 +677,7 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
@@ -733,9 +733,9 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService->createContentTypeDraft($contentType);
         $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct(2);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -743,15 +743,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -759,15 +759,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $tree = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -775,7 +775,7 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.958788,
                 'address' => 'Meadow with mushrooms',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
@@ -831,9 +831,9 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService->createContentTypeDraft($contentType);
         $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct(2);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -841,15 +841,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -857,15 +857,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $tree = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -873,7 +873,7 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.958788,
                 'address' => 'Meadow with mushrooms',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
@@ -950,9 +950,9 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService->createContentTypeDraft($contentType);
         $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct(2);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -960,15 +960,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -976,15 +976,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $tree = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -992,7 +992,7 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.958788,
                 'address' => 'Meadow with mushrooms',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
@@ -1069,9 +1069,9 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService->createContentTypeDraft($contentType);
         $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct(2);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -1079,15 +1079,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -1095,7 +1095,7 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
@@ -1154,9 +1154,9 @@ class SearchServiceLocationTest extends BaseTestCase
         $contentTypeService->createContentTypeDraft($contentType);
         $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct(2);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -1164,15 +1164,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -1180,15 +1180,15 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $tree = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -1196,7 +1196,7 @@ class SearchServiceLocationTest extends BaseTestCase
                 'longitude' => 15.958788,
                 'address' => 'Meadow with mushrooms',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
@@ -1273,7 +1273,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $locationService = $repository->getLocationService();
         $searchService = $repository->getSearchService();
 
-        $testRootContentCreate = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $testRootContentCreate = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $testRootContentCreate->setField('name', 'Root for test');
 
         $rootContent = $contentService->createContent(
@@ -1287,7 +1287,7 @@ class SearchServiceLocationTest extends BaseTestCase
 
         $publishedRootContent = $contentService->publishVersion($rootContent->versionInfo);
 
-        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $contentCreate->setField('name', 'To Hide');
 
         $content = $contentService->createContent(
@@ -1300,7 +1300,7 @@ class SearchServiceLocationTest extends BaseTestCase
         );
         $publishedContent = $contentService->publishVersion($content->versionInfo);
 
-        $childContentCreate = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $childContentCreate = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $childContentCreate->setField('name', 'Invisible Child');
 
         $childContent = $contentService->createContent(

@@ -667,8 +667,8 @@ class TrashServiceTest extends BaseTrashServiceTestCase
         $trashService = $repository->getTrashService();
         $locationService = $repository->getLocationService();
 
-        $folder1 = $this->createFolder(['eng-GB' => 'Folder1'], 2);
-        $folder2 = $this->createFolder(['eng-GB' => 'Folder2'], 2);
+        $folder1 = $this->createFolder(['eng-US' => 'Folder1'], 2);
+        $folder2 = $this->createFolder(['eng-US' => 'Folder2'], 2);
 
         $firstTrashedItem = $trashService->trash(
             $locationService->loadLocation($folder1->contentInfo->mainLocationId)
@@ -824,10 +824,10 @@ class TrashServiceTest extends BaseTrashServiceTestCase
         $contentTypeService = $repository->getContentTypeService();
         $trashService = $repository->getTrashService();
 
-        $folder1 = $this->createFolder(['eng-GB' => 'Folder1'], 2);
+        $folder1 = $this->createFolder(['eng-US' => 'Folder1'], 2);
         $folderLocationId = $folder1->contentInfo->mainLocationId;
         $contentType = $contentTypeService->loadContentTypeByIdentifier('forum');
-        $newContent = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $newContent = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $newContent->setField('name', 'Media');
         $draftContent = $contentService->createContent($newContent, [new LocationCreateStruct(['parentLocationId' => $folderLocationId])]);
         $published = $contentService->publishVersion($draftContent->versionInfo);
@@ -1017,9 +1017,9 @@ class TrashServiceTest extends BaseTrashServiceTestCase
         $trashService = $repository->getTrashService();
         $locationService = $repository->getLocationService();
 
-        $folder1 = $this->createFolder(['eng-GB' => 'Folder1'], 2);
-        $folder2 = $this->createFolder(['eng-GB' => 'Folder2'], $folder1->contentInfo->getMainLocationId());
-        $folder3 = $this->createFolder(['eng-GB' => 'Folder2'], $folder2->contentInfo->getMainLocationId());
+        $folder1 = $this->createFolder(['eng-US' => 'Folder1'], 2);
+        $folder2 = $this->createFolder(['eng-US' => 'Folder2'], $folder1->contentInfo->getMainLocationId());
+        $folder3 = $this->createFolder(['eng-US' => 'Folder2'], $folder2->contentInfo->getMainLocationId());
 
         $folderLocation = $locationService->loadLocation($folder1->contentInfo->getMainLocationId());
 
@@ -1261,7 +1261,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('forum');
-        $newContent = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $newContent = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $newContent->setField('name', 'Media');
 
         $location = $locationService->newLocationCreateStruct($parentLocationId);
@@ -1310,7 +1310,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
         $locationService = $repository->getLocationService();
         $currentUser = $permissionResolver->getCurrentUserReference();
 
-        $folderContent = $this->createFolder(['eng-GB' => 'Folder'], 2);
+        $folderContent = $this->createFolder(['eng-US' => 'Folder'], 2);
 
         $newCreator = $this->createUserWithPolicies(
             'test_user',

@@ -39,12 +39,12 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
         $contentTypeService->publishContentTypeDraft($contentType);
 
         // Create content, with two translations
-        $content = $this->createNewContent('Some Content', ['eng-US', 'ger-DE']);
+        $content = $this->createNewContent('Some Content', ['eng-GB', 'ger-DE']);
 
-        // Create a draft in language with higher id (later in the $contentLanguageService->loadLanguages() list than 'eng-US')
-        $content = $contentService->loadContent($content->getId(), ['eng-US']);
-        $engUpdateStruct = $this->createUpdateStruct($content, '', ['eng-US']);
-        $engDraft = $this->createContentDraft($content, 'eng-US');
+        // Create a draft in language with higher id (later in the $contentLanguageService->loadLanguages() list than 'eng-GB')
+        $content = $contentService->loadContent($content->getId(), ['eng-GB']);
+        $engUpdateStruct = $this->createUpdateStruct($content, '', ['eng-GB']);
+        $engDraft = $this->createContentDraft($content, 'eng-GB');
         $engDraft = $this->updateContent($engDraft, $engUpdateStruct);
 
         // Create a new non-translatable field
@@ -55,8 +55,8 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
 
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
 
-        // Update eng-US draft
-        $engUpdateStruct->setField('non_trans_field', '', 'eng-US');
+        // Update eng-GB draft
+        $engUpdateStruct->setField('non_trans_field', '', 'eng-GB');
         $this->updateContent($engDraft, $engUpdateStruct);
     }
 
@@ -69,9 +69,9 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
             self::TEXT_LINE_FIELD_TYPE_IDENTIFIER
         );
 
-        $fieldDefCreateStruct->names = ['eng-US' => $name];
+        $fieldDefCreateStruct->names = ['eng-GB' => $name];
         $fieldDefCreateStruct->descriptions = [
-            'eng-US' => '',
+            'eng-GB' => '',
         ];
         $fieldDefCreateStruct->isTranslatable = $isTranslatable;
 
@@ -82,8 +82,8 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
     {
         $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $typeCreateStruct = $contentTypeService->newContentTypeCreateStruct('multi_lang_drafts');
-        $typeCreateStruct->mainLanguageCode = 'eng-US';
-        $typeCreateStruct->names = ['eng-US' => 'Multi lang drafts'];
+        $typeCreateStruct->mainLanguageCode = 'eng-GB';
+        $typeCreateStruct->names = ['eng-GB' => 'Multi lang drafts'];
 
         return $typeCreateStruct;
     }
@@ -93,7 +93,7 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    protected function createNewContent(string $name, array $languages = ['eng-US'], int $parentLocationId = 2): Content
+    protected function createNewContent(string $name, array $languages = ['eng-GB'], int $parentLocationId = 2): Content
     {
         $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $contentService = $this->getIbexaTestCore()->getContentService();

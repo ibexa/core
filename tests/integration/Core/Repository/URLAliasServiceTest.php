@@ -84,7 +84,7 @@ class URLAliasServiceTest extends BaseTestCase
 
         $location = $locationService->loadLocation($locationId);
 
-        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US');
+        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-GB');
         /* END: Use Case */
 
         self::assertInstanceOf(
@@ -112,12 +112,12 @@ class URLAliasServiceTest extends BaseTestCase
         $urlAliasService = $repository->getURLAliasService();
         $location = $locationService->loadLocation($locationId);
 
-        $urlAliasService->createUrlAlias($location, '/alias', 'eng-US');
-        $updatedAlias = $urlAliasService->createUrlAlias($location, '/alias', 'eng-GB');
+        $urlAliasService->createUrlAlias($location, '/alias', 'eng-GB');
+        $updatedAlias = $urlAliasService->createUrlAlias($location, '/alias', 'eng-US');
 
         $this->assertPropertiesCorrect(
             [
-                'languageCodes' => ['eng-US', 'eng-GB'],
+                'languageCodes' => ['eng-GB', 'eng-US'],
             ],
             $updatedAlias
         );
@@ -137,7 +137,7 @@ class URLAliasServiceTest extends BaseTestCase
                 'type' => URLAlias::LOCATION,
                 'destination' => 2,
                 'path' => '/',
-                'languageCodes' => ['eng-US', 'eng-GB'],
+                'languageCodes' => ['eng-GB', 'eng-US'],
                 'alwaysAvailable' => true,
                 'isHistory' => false,
                 'isCustom' => false,
@@ -163,7 +163,7 @@ class URLAliasServiceTest extends BaseTestCase
                 'type' => URLAlias::LOCATION,
                 'destination' => $locationId,
                 'path' => '/Home/My-New-Site',
-                'languageCodes' => ['eng-US'],
+                'languageCodes' => ['eng-GB'],
                 'alwaysAvailable' => false,
                 'isHistory' => false,
                 'isCustom' => true,
@@ -194,7 +194,7 @@ class URLAliasServiceTest extends BaseTestCase
 
         $location = $locationService->loadLocation($locationId);
 
-        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US', true);
+        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-GB', true);
         /* END: Use Case */
 
         self::assertInstanceOf(
@@ -221,7 +221,7 @@ class URLAliasServiceTest extends BaseTestCase
                 'type' => URLAlias::LOCATION,
                 'destination' => $locationId,
                 'path' => '/Home/My-New-Site',
-                'languageCodes' => ['eng-US'],
+                'languageCodes' => ['eng-GB'],
                 'alwaysAvailable' => false,
                 'isHistory' => false,
                 'isCustom' => true,
@@ -250,7 +250,7 @@ class URLAliasServiceTest extends BaseTestCase
 
         $location = $locationService->loadLocation($locationId);
 
-        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US', false, true);
+        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-GB', false, true);
         /* END: Use Case */
 
         self::assertInstanceOf(
@@ -277,7 +277,7 @@ class URLAliasServiceTest extends BaseTestCase
                 'type' => URLAlias::LOCATION,
                 'destination' => $locationId,
                 'path' => '/Home/My-New-Site',
-                'languageCodes' => ['eng-US'],
+                'languageCodes' => ['eng-GB'],
                 'alwaysAvailable' => true,
                 'isHistory' => false,
                 'isCustom' => true,
@@ -310,7 +310,7 @@ class URLAliasServiceTest extends BaseTestCase
 
         // Throws InvalidArgumentException, since this path already exists for the
         // language
-        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Design/Plain-site', 'eng-US');
+        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Design/Plain-site', 'eng-GB');
         /* END: Use Case */
     }
 
@@ -329,7 +329,7 @@ class URLAliasServiceTest extends BaseTestCase
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
             '/Home/My-New-Site',
-            'eng-US'
+            'eng-GB'
         );
         /* END: Use Case */
 
@@ -353,7 +353,7 @@ class URLAliasServiceTest extends BaseTestCase
                 'type' => URLAlias::RESOURCE,
                 'destination' => 'content/search?SearchText=Ibexa',
                 'path' => '/Home/My-New-Site',
-                'languageCodes' => ['eng-US'],
+                'languageCodes' => ['eng-GB'],
                 'alwaysAvailable' => false,
                 'isHistory' => false,
                 'isCustom' => true,
@@ -378,7 +378,7 @@ class URLAliasServiceTest extends BaseTestCase
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
             '/Home/My-New-Site',
-            'eng-US',
+            'eng-GB',
             true
         );
         /* END: Use Case */
@@ -403,7 +403,7 @@ class URLAliasServiceTest extends BaseTestCase
                 'type' => URLAlias::RESOURCE,
                 'destination' => 'content/search?SearchText=Ibexa',
                 'path' => '/Home/My-New-Site',
-                'languageCodes' => ['eng-US'],
+                'languageCodes' => ['eng-GB'],
                 'alwaysAvailable' => false,
                 'isHistory' => false,
                 'isCustom' => true,
@@ -428,7 +428,7 @@ class URLAliasServiceTest extends BaseTestCase
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
             '/Home/My-New-Site',
-            'eng-US',
+            'eng-GB',
             false,
             true
         );
@@ -454,7 +454,7 @@ class URLAliasServiceTest extends BaseTestCase
                 'type' => URLAlias::RESOURCE,
                 'destination' => 'content/search?SearchText=Ibexa',
                 'path' => '/Home/My-New-Site',
-                'languageCodes' => ['eng-US'],
+                'languageCodes' => ['eng-GB'],
                 'alwaysAvailable' => true,
                 'isHistory' => false,
                 'isCustom' => true,
@@ -485,7 +485,7 @@ class URLAliasServiceTest extends BaseTestCase
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
             'module:content/view/full/' . $locationId,
             '/Home/My-New-Site-global',
-            'eng-US',
+            'eng-GB',
             false,
             true
         );
@@ -520,7 +520,7 @@ class URLAliasServiceTest extends BaseTestCase
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
             'eznode:' . $locationId,
             '/Home/My-New-Site-global',
-            'eng-US',
+            'eng-GB',
             false,
             true
         );
@@ -550,7 +550,7 @@ class URLAliasServiceTest extends BaseTestCase
                 'type' => URLAlias::LOCATION,
                 'destination' => $locationId,
                 'path' => '/Home/My-New-Site-global',
-                'languageCodes' => ['eng-US'],
+                'languageCodes' => ['eng-GB'],
                 'alwaysAvailable' => true,
                 'isHistory' => false,
                 'isCustom' => true,
@@ -589,7 +589,7 @@ class URLAliasServiceTest extends BaseTestCase
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
             '/Design/Plain-site',
-            'eng-US'
+            'eng-GB'
         );
         /* END: Use Case */
     }
@@ -613,7 +613,7 @@ class URLAliasServiceTest extends BaseTestCase
         $location = $locationService->loadLocation($locationId);
 
         // Create a custom URL alias for $location
-        $urlAliasService->createUrlAlias($location, '/My/Great-new-Site', 'eng-US');
+        $urlAliasService->createUrlAlias($location, '/My/Great-new-Site', 'eng-GB');
 
         // $loadedAliases will contain an array of custom URLAlias objects
         $loadedAliases = $urlAliasService->listLocationAliases($location);
@@ -669,8 +669,8 @@ class URLAliasServiceTest extends BaseTestCase
         // Create a second URL alias for $location, this is a "custom" one
         $urlAliasService->createUrlAlias($location, '/My/Great-new-Site', 'ger-DE');
 
-        // $loadedAliases will contain 1 aliases in eng-US only
-        $loadedAliases = $urlAliasService->listLocationAliases($location, false, 'eng-US');
+        // $loadedAliases will contain 1 aliases in eng-GB only
+        $loadedAliases = $urlAliasService->listLocationAliases($location, false, 'eng-GB');
         /* END: Use Case */
 
         self::assertIsArray($loadedAliases);
@@ -695,10 +695,10 @@ class URLAliasServiceTest extends BaseTestCase
 
         $location = $locationService->loadLocation($locationId);
         // Create a custom URL alias for $location
-        $urlAliasService->createUrlAlias($location, '/My/Great-new-Site', 'eng-US');
+        $urlAliasService->createUrlAlias($location, '/My/Great-new-Site', 'eng-GB');
 
-        // $loadedAliases will contain only 1 of 3 aliases (custom in eng-US)
-        $loadedAliases = $urlAliasService->listLocationAliases($location, true, 'eng-US');
+        // $loadedAliases will contain only 1 of 3 aliases (custom in eng-GB)
+        $loadedAliases = $urlAliasService->listLocationAliases($location, true, 'eng-GB');
         /* END: Use Case */
 
         self::assertIsArray($loadedAliases);
@@ -740,17 +740,17 @@ class URLAliasServiceTest extends BaseTestCase
         $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
             '/My/Special-Support',
-            'eng-US'
+            'eng-GB'
         );
         $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
             '/My/London-Office',
-            'eng-GB'
+            'eng-US'
         );
         $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Sindelfingen',
             '/My/Fancy-Site',
-            'eng-US'
+            'eng-GB'
         );
         /* END: Inline */
     }
@@ -771,7 +771,7 @@ class URLAliasServiceTest extends BaseTestCase
         $this->createGlobalAliases();
 
         // $loadedAliases will contain only 2 of 3 global aliases
-        $loadedAliases = $urlAliasService->listGlobalAliases('eng-US');
+        $loadedAliases = $urlAliasService->listGlobalAliases('eng-GB');
         /* END: Use Case */
 
         self::assertIsArray($loadedAliases);
@@ -849,7 +849,7 @@ class URLAliasServiceTest extends BaseTestCase
         $urlAliasService->createUrlAlias(
             $someLocation,
             '/my/fancy/url/alias/sindelfingen',
-            'eng-US'
+            'eng-GB'
         );
 
         $customAliases = $urlAliasService->listLocationAliases($someLocation);
@@ -932,7 +932,7 @@ class URLAliasServiceTest extends BaseTestCase
         // Create aliases in multiple languages
         $this->createGlobalAliases();
 
-        $loadedAlias = $urlAliasService->lookup('/My/Special-Support', 'eng-US');
+        $loadedAlias = $urlAliasService->lookup('/My/Special-Support', 'eng-GB');
         /* END: Use Case */
 
         self::assertInstanceOf(
@@ -1019,7 +1019,7 @@ class URLAliasServiceTest extends BaseTestCase
 
         // 1. Create new container object (e.g. Folder "My Folder").
         $folderContentType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $folderCreateStruct = $contentService->newContentCreateStruct($folderContentType, 'eng-GB');
+        $folderCreateStruct = $contentService->newContentCreateStruct($folderContentType, 'eng-US');
         $folderCreateStruct->setField('name', 'My-Folder');
 
         $folderDraft = $contentService->createContent($folderCreateStruct, [
@@ -1032,7 +1032,7 @@ class URLAliasServiceTest extends BaseTestCase
         $folderLocation = $locationService->loadLocation($folder->contentInfo->mainLocationId);
 
         $articleContentType = $contentTypeService->loadContentTypeByIdentifier('article');
-        $articleCreateStruct = $contentService->newContentCreateStruct($articleContentType, 'eng-GB');
+        $articleCreateStruct = $contentService->newContentCreateStruct($articleContentType, 'eng-US');
         $articleCreateStruct->setField('title', 'My Article');
         $article = $contentService->publishVersion(
             $contentService->createContent($articleCreateStruct, [
@@ -1076,14 +1076,14 @@ class URLAliasServiceTest extends BaseTestCase
         $locationService = $this->getRepository()->getLocationService();
 
         $topFolderNames = [
-            'eng-GB' => 'My folder Name',
-            'ger-DE' => 'Ger folder Name',
             'eng-US' => 'My folder Name',
+            'ger-DE' => 'Ger folder Name',
+            'eng-GB' => 'My folder Name',
         ];
         $nestedFolderNames = [
-            'eng-GB' => 'nested Folder name',
-            'ger-DE' => 'Ger Nested folder Name',
             'eng-US' => 'nested Folder name',
+            'ger-DE' => 'Ger Nested folder Name',
+            'eng-GB' => 'nested Folder name',
         ];
         $topFolderLocation = $locationService->loadLocation(
             $this->createFolder($topFolderNames, 2)->contentInfo->mainLocationId
@@ -1099,7 +1099,7 @@ class URLAliasServiceTest extends BaseTestCase
             [
                 'destination' => $nestedFolderLocation->id,
                 'path' => '/My-folder-Name/nested-Folder-name',
-                'languageCodes' => ['eng-US', 'eng-GB'],
+                'languageCodes' => ['eng-GB', 'eng-US'],
                 'isHistory' => false,
                 'isCustom' => false,
                 'forward' => false,
@@ -1148,7 +1148,7 @@ class URLAliasServiceTest extends BaseTestCase
             $this->assertUrlAliasPropertiesCorrect(
                 $nestedFolderLocation,
                 '/My-folder-Name/nested-Folder-name',
-                ['eng-US', 'eng-GB'],
+                ['eng-GB', 'eng-US'],
                 true,
                 $urlAlias
             );
@@ -1157,7 +1157,7 @@ class URLAliasServiceTest extends BaseTestCase
             $this->assertUrlAliasPropertiesCorrect(
                 $nestedFolderLocation,
                 '/my_folder_name/nested_folder_name',
-                ['eng-US', 'eng-GB'],
+                ['eng-GB', 'eng-US'],
                 false,
                 $urlAlias
             );
@@ -1206,12 +1206,12 @@ class URLAliasServiceTest extends BaseTestCase
         $this->updateContentField(
             $topFolderLocation->getContentInfo(),
             'short_name',
-            ['eng-GB' => 'EN Short Name', 'ger-DE' => 'DE Short Name']
+            ['eng-US' => 'EN Short Name', 'ger-DE' => 'DE Short Name']
         );
         $this->updateContentField(
             $nestedFolderLocation->getContentInfo(),
             'short_name',
-            ['eng-GB' => 'EN Nested Short Name', 'ger-DE' => 'DE Nested Short Name']
+            ['eng-US' => 'EN Nested Short Name', 'ger-DE' => 'DE Nested Short Name']
         );
 
         $this->changeContentTypeUrlAliasSchema('folder', '<short_name>');
@@ -1253,7 +1253,7 @@ class URLAliasServiceTest extends BaseTestCase
         $locationService = $repository->getLocationService();
 
         $folderNames = [
-            'eng-GB' => 'ひらがな',
+            'eng-US' => 'ひらがな',
         ];
 
         $folderLocation1 = $locationService->loadLocation(
@@ -1264,7 +1264,7 @@ class URLAliasServiceTest extends BaseTestCase
             [
                 'destination' => $folderLocation1->id,
                 'path' => '/1',
-                'languageCodes' => ['eng-GB'],
+                'languageCodes' => ['eng-US'],
                 'isHistory' => false,
                 'isCustom' => false,
                 'forward' => false,
@@ -1280,7 +1280,7 @@ class URLAliasServiceTest extends BaseTestCase
             [
                 'destination' => $folderLocation2->id,
                 'path' => '/2',
-                'languageCodes' => ['eng-GB'],
+                'languageCodes' => ['eng-US'],
                 'isHistory' => false,
                 'isCustom' => false,
                 'forward' => false,
@@ -1303,28 +1303,28 @@ class URLAliasServiceTest extends BaseTestCase
         $urlAliasService = $repository->getURLAliasService();
         $locationService = $repository->getLocationService();
 
-        $folderNames = ['eng-GB' => 'My folder Name'];
+        $folderNames = ['eng-US' => 'My folder Name'];
         $folder = $this->createFolder($folderNames, 2);
         $folderLocation = $locationService->loadLocation($folder->contentInfo->mainLocationId);
-        $nestedFolder = $this->createFolder(['eng-GB' => 'Nested folder'], $folderLocation->id);
+        $nestedFolder = $this->createFolder(['eng-US' => 'Nested folder'], $folderLocation->id);
         $nestedFolderLocation = $locationService->loadLocation($nestedFolder->contentInfo->mainLocationId);
 
         $folder = $this->updateContentField(
             $folder->contentInfo,
             'name',
-            ['eng-GB' => 'Updated Name']
+            ['eng-US' => 'Updated Name']
         );
         // create more historical entries
         $this->updateContentField(
             $folder->contentInfo,
             'name',
-            ['eng-GB' => 'Updated Again Name']
+            ['eng-US' => 'Updated Again Name']
         );
         // create historical entry for nested folder
         $this->updateContentField(
             $nestedFolder->contentInfo,
             'name',
-            ['eng-GB' => 'Updated Nested folder']
+            ['eng-US' => 'Updated Nested folder']
         );
 
         // perform sanity check
@@ -1402,14 +1402,14 @@ class URLAliasServiceTest extends BaseTestCase
         $urlAliasService = $repository->getURLAliasService();
         $locationService = $repository->getLocationService();
 
-        $folderNames = ['eng-GB' => 'folder'];
+        $folderNames = ['eng-US' => 'folder'];
         $folder = $this->createFolder($folderNames, 2);
         $nestedFolder = $this->createFolder($folderNames, $folder->contentInfo->mainLocationId);
 
         $nestedFolder = $this->updateContentField(
             $nestedFolder->contentInfo,
             'name',
-            ['eng-GB' => 'folder2']
+            ['eng-US' => 'folder2']
         );
 
         $nestedFolderLocation = $locationService->loadLocation(
@@ -1461,7 +1461,7 @@ class URLAliasServiceTest extends BaseTestCase
         $urlAliasService = $repository->getURLAliasService();
         $locationService = $repository->getLocationService();
 
-        $folderNames = ['eng-GB' => 'foo'];
+        $folderNames = ['eng-US' => 'foo'];
         $folder = $this->createFolder($folderNames, 2);
         $destinationFolder = $this->createFolder($folderNames, 2);
 
@@ -1473,7 +1473,7 @@ class URLAliasServiceTest extends BaseTestCase
         $urlAliasService->lookup('foo');
         $urlAliasService->lookup('foo2/foo');
 
-        $newFolder = ['eng-GB' => 'foo'];
+        $newFolder = ['eng-US' => 'foo'];
         $this->createFolder($newFolder, 2);
 
         $newAlias = $urlAliasService->lookup('foo');

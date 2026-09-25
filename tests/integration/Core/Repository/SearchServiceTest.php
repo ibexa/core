@@ -652,14 +652,14 @@ class SearchServiceTest extends BaseTestCase
             ],
             [
                 [
-                    'query' => new Criterion\LanguageCode('eng-GB', false),
+                    'query' => new Criterion\LanguageCode('eng-US', false),
                     'sortClauses' => [new SortClause\ContentId()],
                 ],
                 $fixtureDir . 'LanguageCode.php',
             ],
             [
                 [
-                    'query' => new Criterion\LanguageCode(['eng-US', 'eng-GB']),
+                    'query' => new Criterion\LanguageCode(['eng-GB', 'eng-US']),
                     'offset' => 10,
                     'sortClauses' => [new SortClause\ContentId()],
                 ],
@@ -667,7 +667,7 @@ class SearchServiceTest extends BaseTestCase
             ],
             [
                 [
-                    'query' => new Criterion\LanguageCode('eng-GB'),
+                    'query' => new Criterion\LanguageCode('eng-US'),
                     'offset' => 10,
                     'sortClauses' => [new SortClause\ContentId()],
                 ],
@@ -1162,13 +1162,13 @@ class SearchServiceTest extends BaseTestCase
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2); // Home
 
-        $createStruct = $contentService->newContentCreateStruct($galleryType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($galleryType, 'eng-US');
         $createStruct->setField('name', 'Image gallery');
         $createStruct->setField('image', 49); // Images folder
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
         $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($galleryType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($galleryType, 'eng-US');
         $createStruct->setField('name', 'User gallery');
         $createStruct->setField('image', 4); // User folder
         $draft = $contentService->createContent($createStruct, [$locationCreateStruct]);
@@ -1332,14 +1332,14 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('movie');
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->remoteId = 'movie-123';
-        $createStruct->names = ['eng-GB' => 'Movie'];
+        $createStruct->names = ['eng-US' => 'Movie'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
         $fieldTitle = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
-        $fieldTitle->names = ['eng-GB' => 'Title'];
+        $fieldTitle->names = ['eng-US' => 'Title'];
         $fieldTitle->fieldGroup = 'main';
         $fieldTitle->position = 1;
         $fieldTitle->isTranslatable = false;
@@ -1348,7 +1348,7 @@ class SearchServiceTest extends BaseTestCase
         $createStruct->addFieldDefinition($fieldTitle);
 
         $fieldSubtitle = $contentTypeService->newFieldDefinitionCreateStruct('subtitle', 'ibexa_string');
-        $fieldSubtitle->names = ['eng-GB' => 'Subtitle'];
+        $fieldSubtitle->names = ['eng-US' => 'Subtitle'];
         $fieldSubtitle->fieldGroup = 'main';
         $fieldSubtitle->position = 2;
         $fieldSubtitle->isTranslatable = false;
@@ -1361,7 +1361,7 @@ class SearchServiceTest extends BaseTestCase
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
-        $createStructRambo = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStructRambo = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStructRambo->remoteId = 'movie-456';
         $createStructRambo->alwaysAvailable = false;
         $createStructRambo->setField('title', 'Rambo');
@@ -1369,7 +1369,7 @@ class SearchServiceTest extends BaseTestCase
         $ramboDraft = $contentService->createContent($createStructRambo);
         $movies[] = $contentService->publishVersion($ramboDraft->getVersionInfo());
         $this->refreshSearch($repository);
-        $createStructRobocop = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStructRobocop = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStructRobocop->remoteId = 'movie-789';
         $createStructRobocop->alwaysAvailable = false;
         $createStructRobocop->setField('title', 'Robocop');
@@ -1378,7 +1378,7 @@ class SearchServiceTest extends BaseTestCase
         $robocopDraft = $contentService->createContent($createStructRobocop);
         $movies[] = $contentService->publishVersion($robocopDraft->getVersionInfo());
         $this->refreshSearch($repository);
-        $createStructLastHope = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStructLastHope = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStructLastHope->remoteId = 'movie-101112';
         $createStructLastHope->alwaysAvailable = false;
         $createStructLastHope->setField('title', 'Star Wars');
@@ -1404,14 +1404,14 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('countries-multiple');
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->remoteId = 'countries-multiple-123';
-        $createStruct->names = ['eng-GB' => 'Multiple countries'];
+        $createStruct->names = ['eng-US' => 'Multiple countries'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('countries', 'ibexa_country');
-        $fieldCreate->names = ['eng-GB' => 'Countries'];
+        $fieldCreate->names = ['eng-US' => 'Countries'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
         $fieldCreate->isTranslatable = false;
@@ -1425,7 +1425,7 @@ class SearchServiceTest extends BaseTestCase
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->remoteId = 'countries-multiple-456';
         $createStruct->alwaysAvailable = false;
         $createStruct->setField(
@@ -1460,7 +1460,7 @@ class SearchServiceTest extends BaseTestCase
 
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
-        $result = $searchService->findContent($query, ['eng-GB']);
+        $result = $searchService->findContent($query, ['eng-US']);
 
         self::assertEquals(2, $result->totalCount);
 
@@ -1496,7 +1496,7 @@ class SearchServiceTest extends BaseTestCase
 
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
-        $result = $searchService->findContent($query, ['eng-GB']);
+        $result = $searchService->findContent($query, ['eng-US']);
 
         self::assertEquals(1, $result->totalCount);
         self::assertEquals(
@@ -1952,13 +1952,13 @@ class SearchServiceTest extends BaseTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('test-type');
-        $createStruct->mainLanguageCode = 'eng-GB';
-        $createStruct->names = ['eng-GB' => 'Test type'];
+        $createStruct->mainLanguageCode = 'eng-US';
+        $createStruct->names = ['eng-US' => 'Test type'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
         $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('integer', 'ibexa_integer');
-        $translatableFieldCreate->names = ['eng-GB' => 'Simple translatable integer field'];
+        $translatableFieldCreate->names = ['eng-US' => 'Simple translatable integer field'];
         $translatableFieldCreate->fieldGroup = 'main';
         $translatableFieldCreate->position = 1;
         $translatableFieldCreate->isTranslatable = true;
@@ -1967,7 +1967,7 @@ class SearchServiceTest extends BaseTestCase
         $createStruct->addFieldDefinition($translatableFieldCreate);
 
         $nonTranslatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('integer2', 'ibexa_integer');
-        $nonTranslatableFieldCreate->names = ['eng-GB' => 'Simple non-translatable integer field'];
+        $nonTranslatableFieldCreate->names = ['eng-US' => 'Simple non-translatable integer field'];
         $nonTranslatableFieldCreate->fieldGroup = 'main';
         $nonTranslatableFieldCreate->position = 2;
         $nonTranslatableFieldCreate->isTranslatable = false;
@@ -1998,17 +1998,17 @@ class SearchServiceTest extends BaseTestCase
         $fieldValue11 = null,
         $fieldValue12 = null,
         $fieldValue2 = null,
-        $mainLanguageCode = 'eng-GB',
+        $mainLanguageCode = 'eng-US',
         $alwaysAvailable = false
     ) {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = $alwaysAvailable;
         $createStruct->mainLanguageCode = $mainLanguageCode;
         if ($fieldValue11) {
-            $createStruct->setField('integer', $fieldValue11, 'eng-GB');
+            $createStruct->setField('integer', $fieldValue11, 'eng-US');
         }
         if ($fieldValue12) {
             $createStruct->setField('integer', $fieldValue12, 'ger-DE');
@@ -2036,7 +2036,7 @@ class SearchServiceTest extends BaseTestCase
                 ],
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                     ],
                 ],
@@ -2045,7 +2045,7 @@ class SearchServiceTest extends BaseTestCase
                     new SortClause\Field('test-type', 'integer2', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 4, 1, 2, 4
                  * Content 1, 1, 2, 1
@@ -2064,7 +2064,7 @@ class SearchServiceTest extends BaseTestCase
                 [
                     'languages' => [
                         'ger-DE',
-                        'eng-GB',
+                        'eng-US',
                     ],
                 ],
                 [
@@ -2072,7 +2072,7 @@ class SearchServiceTest extends BaseTestCase
                     new SortClause\Field('test-type', 'integer2', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 3, 2, 1, 3
                  * Content 2, 2, 1, 2
@@ -2084,20 +2084,20 @@ class SearchServiceTest extends BaseTestCase
             2 => [
                 [
                     1 => [null, 2, null, 'ger-DE'],
-                    2 => [3, null, null, 'eng-GB'],
-                    3 => [4, null, null, 'eng-GB'],
+                    2 => [3, null, null, 'eng-US'],
+                    3 => [4, null, null, 'eng-US'],
                     4 => [null, 1, null, 'ger-DE'],
                 ],
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                     ],
                 ],
                 [
                     new SortClause\Field('test-type', 'integer', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 3, 4, -
                  * Content 2, 3, -
@@ -2107,8 +2107,8 @@ class SearchServiceTest extends BaseTestCase
             3 => [
                 [
                     1 => [null, 2, null, 'ger-DE'],
-                    2 => [3, null, null, 'eng-GB'],
-                    3 => [4, null, null, 'eng-GB'],
+                    2 => [3, null, null, 'eng-US'],
+                    3 => [4, null, null, 'eng-US'],
                     4 => [null, 1, null, 'ger-DE'],
                 ],
                 [
@@ -2120,7 +2120,7 @@ class SearchServiceTest extends BaseTestCase
                     new SortClause\Field('test-type', 'integer', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 1, -, 2
                  * Content 4, -, 1
@@ -2130,13 +2130,13 @@ class SearchServiceTest extends BaseTestCase
             4 => [
                 [
                     1 => [null, 2, null, 'ger-DE'],
-                    2 => [3, null, null, 'eng-GB'],
-                    3 => [4, null, null, 'eng-GB'],
+                    2 => [3, null, null, 'eng-US'],
+                    3 => [4, null, null, 'eng-US'],
                     4 => [null, 1, null, 'ger-DE'],
                 ],
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                     ],
                 ],
@@ -2144,7 +2144,7 @@ class SearchServiceTest extends BaseTestCase
                     new SortClause\Field('test-type', 'integer', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 3, 4, -
                  * Content 2, 3, -
@@ -2156,21 +2156,21 @@ class SearchServiceTest extends BaseTestCase
             5 => [
                 [
                     1 => [null, 2, null, 'ger-DE'],
-                    2 => [3, null, null, 'eng-GB'],
-                    3 => [4, null, null, 'eng-GB'],
+                    2 => [3, null, null, 'eng-US'],
+                    3 => [4, null, null, 'eng-US'],
                     4 => [null, 1, null, 'ger-DE'],
                 ],
                 [
                     'languages' => [
                         'ger-DE',
-                        'eng-GB',
+                        'eng-US',
                     ],
                 ],
                 [
                     new SortClause\Field('test-type', 'integer', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 3, 4, -
                  * Content 2, 3, -
@@ -2182,13 +2182,13 @@ class SearchServiceTest extends BaseTestCase
             6 => [
                 [
                     1 => [null, 2, null, 'ger-DE'],
-                    2 => [3, 4, null, 'eng-GB'],
-                    3 => [4, 3, null, 'eng-GB'],
+                    2 => [3, 4, null, 'eng-US'],
+                    3 => [4, 3, null, 'eng-US'],
                     4 => [null, 1, null, 'ger-DE'],
                 ],
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                     ],
                 ],
@@ -2196,7 +2196,7 @@ class SearchServiceTest extends BaseTestCase
                     new SortClause\Field('test-type', 'integer', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 3, 4, 3
                  * Content 2, 3, 4
@@ -2208,21 +2208,21 @@ class SearchServiceTest extends BaseTestCase
             7 => [
                 [
                     1 => [null, 2, null, 'ger-DE'],
-                    2 => [3, 4, null, 'eng-GB'],
-                    3 => [4, 3, null, 'eng-GB'],
+                    2 => [3, 4, null, 'eng-US'],
+                    3 => [4, 3, null, 'eng-US'],
                     4 => [null, 1, null, 'ger-DE'],
                 ],
                 [
                     'languages' => [
                         'ger-DE',
-                        'eng-GB',
+                        'eng-US',
                     ],
                 ],
                 [
                     new SortClause\Field('test-type', 'integer', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 2, 3, 4
                  * Content 3, 4, 3
@@ -2234,20 +2234,20 @@ class SearchServiceTest extends BaseTestCase
             8 => [
                 [
                     1 => [null, 1, null, 'ger-DE', true],
-                    2 => [4, null, null, 'eng-GB', true],
-                    3 => [3, null, null, 'eng-GB', false],
+                    2 => [4, null, null, 'eng-US', true],
+                    3 => [3, null, null, 'eng-US', false],
                     4 => [null, 2, null, 'ger-DE', false],
                 ],
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                     ],
                 ],
                 [
                     new SortClause\Field('test-type', 'integer', Query::SORT_ASC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 1, -, 1
                  * Content 3, 3, -
@@ -2258,8 +2258,8 @@ class SearchServiceTest extends BaseTestCase
             9 => [
                 [
                     1 => [null, 1, null, 'ger-DE', true],
-                    2 => [4, null, null, 'eng-GB', true],
-                    3 => [3, null, null, 'eng-GB', false],
+                    2 => [4, null, null, 'eng-US', true],
+                    3 => [3, null, null, 'eng-US', false],
                     4 => [null, 2, null, 'ger-DE', false],
                 ],
                 [
@@ -2271,7 +2271,7 @@ class SearchServiceTest extends BaseTestCase
                     new SortClause\Field('test-type', 'integer', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 2, 4, -
                  * Content 4, -, 2
@@ -2282,13 +2282,13 @@ class SearchServiceTest extends BaseTestCase
             10 => [
                 [
                     1 => [null, 1, null, 'ger-DE', true],
-                    2 => [4, null, null, 'eng-GB', true],
-                    3 => [3, null, null, 'eng-GB', false],
+                    2 => [4, null, null, 'eng-US', true],
+                    3 => [3, null, null, 'eng-US', false],
                     4 => [null, 2, null, 'ger-DE', false],
                 ],
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => false,
                 ],
@@ -2296,7 +2296,7 @@ class SearchServiceTest extends BaseTestCase
                     new SortClause\Field('test-type', 'integer', Query::SORT_ASC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 3, 3, -
                  * Content 2, 4, -
@@ -2306,8 +2306,8 @@ class SearchServiceTest extends BaseTestCase
             11 => [
                 [
                     1 => [null, 1, null, 'ger-DE', true],
-                    2 => [4, null, null, 'eng-GB', true],
-                    3 => [3, null, null, 'eng-GB', false],
+                    2 => [4, null, null, 'eng-US', true],
+                    3 => [3, null, null, 'eng-US', false],
                     4 => [null, 2, null, 'ger-DE', false],
                 ],
                 [
@@ -2320,7 +2320,7 @@ class SearchServiceTest extends BaseTestCase
                     new SortClause\Field('test-type', 'integer', Query::SORT_DESC),
                 ],
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 4, -, 2
                  * Content 1, -, 1
@@ -2404,7 +2404,7 @@ class SearchServiceTest extends BaseTestCase
         $contentTypeService = $repository->getContentTypeService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $defaults = [null, null, null, 'eng-GB', false];
+        $defaults = [null, null, null, 'eng-US', false];
         $contentIdList = [];
         foreach ($contentDataList as $key => $contentData) {
             $contentData = $contentData + $defaults;
@@ -2467,10 +2467,10 @@ class SearchServiceTest extends BaseTestCase
             0 => [
                 $fixture = [
                     1 => [null, 1, null, 'ger-DE', true],
-                    2 => [4, null, null, 'eng-GB', true],
-                    3 => [3, null, null, 'eng-GB', false],
+                    2 => [4, null, null, 'eng-US', true],
+                    3 => [3, null, null, 'eng-US', false],
                     4 => [null, 2, null, 'ger-DE', false],
-                    5 => [5, null, null, 'eng-GB', true],
+                    5 => [5, null, null, 'eng-US', true],
                 ],
                 $languageSettings = [
                     'languages' => [
@@ -2479,7 +2479,7 @@ class SearchServiceTest extends BaseTestCase
                 ],
                 new Criterion\Field('integer', Criterion\Operator::LT, 5),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 2, 4, -
                  * Content 4, -, 2
@@ -2497,7 +2497,7 @@ class SearchServiceTest extends BaseTestCase
                 ],
                 new Criterion\Field('integer', Criterion\Operator::LT, 2),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 1, -, 1
                  */
@@ -2507,12 +2507,12 @@ class SearchServiceTest extends BaseTestCase
                 $fixture,
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                     ],
                 ],
                 new Criterion\Field('integer', Criterion\Operator::LTE, 4),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 5, 5, -
                  * Content 2, 4, -
@@ -2525,13 +2525,13 @@ class SearchServiceTest extends BaseTestCase
                 $fixture,
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => false,
                 ],
                 new Criterion\Field('integer', Criterion\Operator::LTE, 4),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 2, 4, -
                  * Content 3, 3, -
@@ -2543,7 +2543,7 @@ class SearchServiceTest extends BaseTestCase
                 $languageSettings,
                 new Criterion\Field('integer', Criterion\Operator::LTE, 4),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 2, 4, -
                  * Content 4, -, 2
@@ -2556,7 +2556,7 @@ class SearchServiceTest extends BaseTestCase
                 $languageSettings,
                 new Criterion\Field('integer', Criterion\Operator::GT, 1),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 5, 5, -
                  * Content 2, 4, -
@@ -2569,7 +2569,7 @@ class SearchServiceTest extends BaseTestCase
                 $languageSettings,
                 new Criterion\Field('integer', Criterion\Operator::GTE, 2),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 5, 5, -
                  * Content 2, 4, -
@@ -2582,7 +2582,7 @@ class SearchServiceTest extends BaseTestCase
                 $languageSettings,
                 new Criterion\Field('integer', Criterion\Operator::BETWEEN, [2, 4]),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 2, 4, -
                  * Content 4, -, 2
@@ -2600,7 +2600,7 @@ class SearchServiceTest extends BaseTestCase
                 $languageSettings,
                 new Criterion\Field('integer', Criterion\Operator::EQ, 4),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 4, -, 2
                  */
@@ -2611,7 +2611,7 @@ class SearchServiceTest extends BaseTestCase
                 $languageSettings,
                 new Criterion\Field('integer', Criterion\Operator::EQ, 2),
                 /**
-                 * Expected order, Value eng-GB, Value ger-DE.
+                 * Expected order, Value eng-US, Value ger-DE.
                  *
                  * Content 2, 4, -
                  */
@@ -2694,7 +2694,7 @@ class SearchServiceTest extends BaseTestCase
         $contentTypeService = $repository->getContentTypeService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $defaults = [null, null, null, 'eng-GB', false];
+        $defaults = [null, null, null, 'eng-US', false];
         $contentIdList = [];
         foreach ($contentDataList as $key => $contentData) {
             $contentData = $contentData + $defaults;
@@ -2942,13 +2942,13 @@ class SearchServiceTest extends BaseTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('testtype');
-        $createStruct->mainLanguageCode = 'eng-GB';
-        $createStruct->names = ['eng-GB' => 'Test type'];
+        $createStruct->mainLanguageCode = 'eng-US';
+        $createStruct->names = ['eng-US' => 'Test type'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
         $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('maplocation', 'ibexa_gmap_location');
-        $translatableFieldCreate->names = ['eng-GB' => 'Map location field'];
+        $translatableFieldCreate->names = ['eng-US' => 'Map location field'];
         $translatableFieldCreate->fieldGroup = 'main';
         $translatableFieldCreate->position = 1;
         $translatableFieldCreate->isTranslatable = false;
@@ -2981,9 +2981,9 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -2991,15 +2991,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3007,7 +3007,7 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
@@ -3062,9 +3062,9 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3072,15 +3072,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3088,7 +3088,7 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
@@ -3143,9 +3143,9 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3153,15 +3153,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3169,15 +3169,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $tree = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3185,7 +3185,7 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.958788,
                 'address' => 'Meadow with mushrooms',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
@@ -3248,9 +3248,9 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3258,7 +3258,7 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => -164,
                 'address' => 'Polar bear media tower',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
@@ -3313,9 +3313,9 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3323,15 +3323,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3339,15 +3339,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $tree = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3355,7 +3355,7 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.958788,
                 'address' => 'Meadow with mushrooms',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
@@ -3431,9 +3431,9 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3441,15 +3441,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3457,15 +3457,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $tree = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3473,7 +3473,7 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.958788,
                 'address' => 'Meadow with mushrooms',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
@@ -3549,9 +3549,9 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3559,15 +3559,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3575,7 +3575,7 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
@@ -3633,9 +3633,9 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
         $contentTypeService->createContentTypeDraft($contentType);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3643,15 +3643,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.972699,
                 'address' => 'Here be wild boars',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $wildBoars = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3659,15 +3659,15 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.934847,
                 'address' => 'A lone tree',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
         $tree = $contentService->publishVersion($draft->getVersionInfo());
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->setField(
             'maplocation',
             [
@@ -3675,7 +3675,7 @@ class SearchServiceTest extends BaseTestCase
                 'longitude' => 15.958788,
                 'address' => 'Meadow with mushrooms',
             ],
-            'eng-GB'
+            'eng-US'
         );
 
         $draft = $contentService->createContent($createStruct);
@@ -3926,7 +3926,7 @@ class SearchServiceTest extends BaseTestCase
 
         $forumType = $contentTypeService->loadContentTypeByIdentifier('forum');
 
-        $createStruct = $contentService->newContentCreateStruct($forumType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($forumType, 'eng-US');
         $createStruct->alwaysAvailable = false;
         $createStruct->setField('name', 'An awesome duplicate forum');
 
@@ -4002,7 +4002,7 @@ class SearchServiceTest extends BaseTestCase
         // be tested elsewhere (dedicated indexing integration tests, missing ATM).
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->setField('name', 'test');
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
@@ -4220,7 +4220,7 @@ class SearchServiceTest extends BaseTestCase
 
         $contentCreateStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
 
         $contentCreateStruct->setField('name', 'foxes');
@@ -4270,7 +4270,7 @@ class SearchServiceTest extends BaseTestCase
 
         $contentCreateStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
 
         $contentCreateStruct->setField('name', 'foxes');
@@ -4334,10 +4334,10 @@ class SearchServiceTest extends BaseTestCase
 
         $contentCreateStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
 
-        $contentCreateStruct->setField('name', 'foxes важнейшими', 'eng-GB');
+        $contentCreateStruct->setField('name', 'foxes важнейшими', 'eng-US');
         $contentCreateStruct->setField('name', 'foxes важнейшими', 'rus-RU');
 
         $mixedContent = $contentService->publishVersion(
@@ -4384,10 +4384,10 @@ class SearchServiceTest extends BaseTestCase
 
         $contentCreateStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
 
-        $contentCreateStruct->setField('name', 'foxes важнейшими', 'eng-GB');
+        $contentCreateStruct->setField('name', 'foxes важнейшими', 'eng-US');
         $contentCreateStruct->setField('name', 'foxes важнейшими', 'rus-RU');
 
         $mixedContent = $contentService->publishVersion(
@@ -4406,7 +4406,7 @@ class SearchServiceTest extends BaseTestCase
 
         // Filtering fields for only English will cause no match because the term will
         // not be correctly stemmed
-        $searchResult = $searchService->findContent($query, ['languages' => ['eng-GB']]);
+        $searchResult = $searchService->findContent($query, ['languages' => ['eng-US']]);
 
         self::assertEquals(0, $searchResult->totalCount);
     }
@@ -4429,7 +4429,7 @@ class SearchServiceTest extends BaseTestCase
         );
         $searchResult = $searchService->findContent(
             $query,
-            ['languages' => ['eng-US']],
+            ['languages' => ['eng-GB']],
             false
         );
         /* END: Use Case */
@@ -4466,7 +4466,7 @@ class SearchServiceTest extends BaseTestCase
         $locationService = $repository->getLocationService();
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
 
         $contentCreateStruct->setField('name', 'red');
         $contentCreateStruct->setField('short_name', 'red apple');
@@ -4539,7 +4539,7 @@ class SearchServiceTest extends BaseTestCase
 
         $searchResult = $searchService->findContent(
             new Query(['query' => $criterion]),
-            ['languages' => ['eng-GB']]
+            ['languages' => ['eng-US']]
         );
         $searchHits = $searchResult->searchHits;
 
@@ -4607,7 +4607,7 @@ class SearchServiceTest extends BaseTestCase
 
         $searchResult = $searchService->findLocations(
             new LocationQuery(['query' => $criterion]),
-            ['languages' => ['eng-GB']]
+            ['languages' => ['eng-US']]
         );
         $searchHits = $searchResult->searchHits;
 
@@ -4926,14 +4926,14 @@ class SearchServiceTest extends BaseTestCase
         $contentService = $repository->getContentService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct($fieldType . uniqid());
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
         $createStruct->remoteId = $fieldType . '-123';
-        $createStruct->names = ['eng-GB' => $fieldType];
+        $createStruct->names = ['eng-US' => $fieldType];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct($fieldName, 'ibexa_' . $fieldType);
-        $fieldCreate->names = ['eng-GB' => $fieldName];
+        $fieldCreate->names = ['eng-US' => $fieldName];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
 
@@ -4944,7 +4944,7 @@ class SearchServiceTest extends BaseTestCase
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->remoteId = $fieldType . '-456';
         $createStruct->alwaysAvailable = false;
         $createStruct->setField(
@@ -5142,34 +5142,34 @@ class SearchServiceTest extends BaseTestCase
          */
         $searchResult = $this->find($findMethod, $query, ['ger-DE'], true);
         self::assertEquals(4, $searchResult->totalCount);
-        $this->assertSearchResultMatchTranslations($searchResult, ['eng-GB', 'eng-GB', 'eng-GB', 'ger-DE']);
+        $this->assertSearchResultMatchTranslations($searchResult, ['eng-US', 'eng-US', 'eng-US', 'ger-DE']);
 
         /*
-         * Search in multiple (ger-DE, eng-GB) translations without always available
+         * Search in multiple (ger-DE, eng-US) translations without always available
          */
-        $searchResult = $this->find($findMethod, $query, ['ger-DE', 'eng-GB'], false);
+        $searchResult = $this->find($findMethod, $query, ['ger-DE', 'eng-US'], false);
         self::assertEquals(4, $searchResult->totalCount);
-        $this->assertSearchResultMatchTranslations($searchResult, ['eng-GB', 'eng-GB', 'eng-GB', 'ger-DE']);
+        $this->assertSearchResultMatchTranslations($searchResult, ['eng-US', 'eng-US', 'eng-US', 'ger-DE']);
 
         /*
-         * Search in multiple (eng-US, ger-DE) translations without always available
+         * Search in multiple (eng-GB, ger-DE) translations without always available
          */
-        $searchResult = $this->find($findMethod, $query, ['eng-US', 'ger-DE'], false);
+        $searchResult = $this->find($findMethod, $query, ['eng-GB', 'ger-DE'], false);
         self::assertEquals(1, $searchResult->totalCount);
         $this->assertSearchResultMatchTranslations($searchResult, ['ger-DE']);
 
         /*
-         * Search in eng-US translations without always available
+         * Search in eng-GB translations without always available
          */
-        $searchResult = $this->find($findMethod, $query, ['eng-US'], false);
+        $searchResult = $this->find($findMethod, $query, ['eng-GB'], false);
         self::assertEquals(0, $searchResult->totalCount);
 
         /*
-         * Search in eng-US translations with always available
+         * Search in eng-GB translations with always available
          */
-        $searchResult = $this->find($findMethod, $query, ['eng-US'], true);
+        $searchResult = $this->find($findMethod, $query, ['eng-GB'], true);
         self::assertEquals(3, $searchResult->totalCount);
-        $this->assertSearchResultMatchTranslations($searchResult, ['eng-GB', 'eng-GB', 'eng-GB']);
+        $this->assertSearchResultMatchTranslations($searchResult, ['eng-US', 'eng-US', 'eng-US']);
     }
 
     /**

@@ -19,8 +19,8 @@ final class LanguageTermAggregationTest extends AbstractAggregationTestCase
 
         $builder = new TermAggregationDataSetBuilder($aggregation);
         $builder->setExpectedEntries([
-            'eng-US' => 16,
-            'eng-GB' => 2,
+            'eng-GB' => 16,
+            'eng-US' => 2,
         ]);
 
         $builder->setEntryMapper([

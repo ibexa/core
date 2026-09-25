@@ -157,7 +157,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
      */
     public function testStoreFieldDataWithSameImageOnAutosave(VersionInfo $versionInfo, Field $field): void
     {
-        $targetPath = '1/8/6/232-eng-GB/' . $field->value->externalData['fileName'];
+        $targetPath = '1/8/6/232-eng-US/' . $field->value->externalData['fileName'];
 
         $binaryFile = new BinaryFile([
             'id' => $targetPath,
@@ -222,7 +222,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
         $this->filePathNormalizer
             ->expects(self::once())
             ->method('normalizePath')
-            ->willReturn($targetPath = '1/8/6/232-eng-GB/' . $field->value->externalData['fileName']);
+            ->willReturn($targetPath = '1/8/6/232-eng-US/' . $field->value->externalData['fileName']);
 
         $this->ioService
             ->expects(self::once())

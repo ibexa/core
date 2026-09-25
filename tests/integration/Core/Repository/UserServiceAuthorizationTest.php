@@ -128,7 +128,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
         $permissionResolver->setCurrentUserReference($user);
 
         // Instantiate a new group create struct
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
         $userGroupCreate->setField('name', 'Example Group');
 
         // This call will fail with an "UnauthorizedException"
@@ -265,7 +265,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
             'test',
             'test@example.com',
             'password',
-            'eng-GB'
+            'eng-US'
         );
 
         $userCreateStruct->setField('first_name', 'Christian');
@@ -509,7 +509,7 @@ class UserServiceAuthorizationTest extends BaseTestCase
         $parentUserGroup = $userService->loadUserGroup($mainGroupId);
 
         // Instantiate a new create struct
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
         $userGroupCreate->setField('name', 'Example Group');
 
         // Create the new user group

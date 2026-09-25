@@ -244,7 +244,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
         yield 'IsUserBased=true' => new Criterion\IsUserBased(true);
         yield 'IsUserBased=false' => new Criterion\IsUserBased(false);
         yield 'IsUserEnabled=true' => new Criterion\IsUserEnabled();
-        yield 'LanguageCode=eng-GB' => new Criterion\LanguageCode(TestContentProvider::ENG_GB);
+        yield 'LanguageCode=eng-US' => new Criterion\LanguageCode(TestContentProvider::ENG_US);
         yield 'LocationId=2' => new Criterion\LocationId(2);
         yield 'LocationRemoteId=f3e90596361e31d496d4026eb624c983' => new Criterion\LocationRemoteId(
             'f3e90596361e31d496d4026eb624c983'

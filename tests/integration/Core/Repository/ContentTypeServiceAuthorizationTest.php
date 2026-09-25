@@ -51,8 +51,8 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
         $groupCreate->creationDate = $this->createDateTime();
         /* @todo uncomment when support for multilingual names and descriptions is added EZP-24776
         $groupCreate->mainLanguageCode = 'ger-DE';
-        $groupCreate->names = array( 'eng-GB' => 'A name.' );
-        $groupCreate->descriptions = array( 'eng-GB' => 'A description.' );
+        $groupCreate->names = array( 'eng-US' => 'A name.' );
+        $groupCreate->descriptions = array( 'eng-US' => 'A description.' );
         */
 
         // Set anonymous user
@@ -94,15 +94,15 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
         $groupUpdate->modifierId = $modifierId;
         $groupUpdate->modificationDate = $this->createDateTime();
         /* @todo uncomment when support for multilingual names and descriptions is added EZP-24776
-        $groupUpdate->mainLanguageCode = 'eng-GB';
+        $groupUpdate->mainLanguageCode = 'eng-US';
 
         $groupUpdate->names = array(
-            'eng-GB' => 'A name',
             'eng-US' => 'A name',
+            'eng-GB' => 'A name',
         );
         $groupUpdate->descriptions = array(
-            'eng-GB' => 'A description',
             'eng-US' => 'A description',
+            'eng-GB' => 'A description',
         );
         */
 
@@ -188,13 +188,13 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
         // $creatorId is the ID of the administrator user
         $typeCreate->creatorId = $creatorId;
         $typeCreate->creationDate = $this->createDateTime();
-        $typeCreate->mainLanguageCode = 'eng-GB';
-        $typeCreate->names = ['eng-GB' => 'A name.'];
-        $typeCreate->descriptions = ['eng-GB' => 'A description.'];
+        $typeCreate->mainLanguageCode = 'eng-US';
+        $typeCreate->names = ['eng-US' => 'A name.'];
+        $typeCreate->descriptions = ['eng-US' => 'A description.'];
 
         $titleFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
-        $titleFieldCreateStruct->names = ['eng-GB' => 'Title'];
-        $titleFieldCreateStruct->descriptions = ['eng-GB' => 'The Title'];
+        $titleFieldCreateStruct->names = ['eng-US' => 'Title'];
+        $titleFieldCreateStruct->descriptions = ['eng-US' => 'The Title'];
         $titleFieldCreateStruct->fieldGroup = 'content';
         $titleFieldCreateStruct->position = 10;
         $titleFieldCreateStruct->isTranslatable = true;
@@ -244,11 +244,11 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
         $typeUpdate->modifierId = $modifierId;
         $typeUpdate->modificationDate = $this->createDateTime();
         $typeUpdate->names = [
-            'eng-GB' => 'News article',
+            'eng-US' => 'News article',
             'ger-DE' => 'Nachrichten-Artikel',
         ];
         $typeUpdate->descriptions = [
-            'eng-GB' => 'A news article',
+            'eng-US' => 'A news article',
             'ger-DE' => 'Ein Nachrichten-Artikel',
         ];
 
@@ -286,11 +286,11 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 
         $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('tags', 'string');
         $fieldDefCreate->names = [
-            'eng-GB' => 'Tags',
+            'eng-US' => 'Tags',
             'ger-DE' => 'Schlagworte',
         ];
         $fieldDefCreate->descriptions = [
-            'eng-GB' => 'Tags of the blog post',
+            'eng-US' => 'Tags of the blog post',
             'ger-DE' => 'Schlagworte des Blog-Eintrages',
         ];
         $fieldDefCreate->fieldGroup = 'blog-meta';
@@ -386,11 +386,11 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
         $bodyUpdateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
         $bodyUpdateStruct->identifier = 'blog-body';
         $bodyUpdateStruct->names = [
-            'eng-GB' => 'Blog post body',
+            'eng-US' => 'Blog post body',
             'ger-DE' => 'Blog-Eintrags-Textkörper',
         ];
         $bodyUpdateStruct->descriptions = [
-            'eng-GB' => 'Blog post body of the blog post',
+            'eng-US' => 'Blog post body of the blog post',
             'ger-DE' => 'Blog-Eintrags-Textkörper des Blog-Eintrages',
         ];
         $bodyUpdateStruct->fieldGroup = 'updated-blog-content';

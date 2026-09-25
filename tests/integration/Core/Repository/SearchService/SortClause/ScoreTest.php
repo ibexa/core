@@ -114,13 +114,13 @@ final class ScoreTest extends AbstractSortClauseTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('score_sort_test');
-        $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
-        $contentTypeCreateStruct->names = ['eng-GB' => 'score_sort_test'];
+        $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
+        $contentTypeCreateStruct->names = ['eng-US' => 'score_sort_test'];
         $contentTypeCreateStruct->creatorId = 14;
         $contentTypeCreateStruct->creationDate = new \DateTime();
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('value', 'ibexa_string');
-        $fieldCreate->names = ['eng-GB' => 'value'];
+        $fieldCreate->names = ['eng-US' => 'value'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
 
@@ -132,7 +132,7 @@ final class ScoreTest extends AbstractSortClauseTestCase
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
         foreach ($values as $value) {
-            $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+            $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
             $contentCreateStruct->remoteId = $value;
             $contentCreateStruct->alwaysAvailable = false;
             $contentCreateStruct->setField('value', $value);

@@ -277,7 +277,7 @@ class LanguageServiceTest extends BaseTestCase
         $repository = $this->getRepository();
         $languageService = $repository->getContentLanguageService();
 
-        $language = $languageService->loadLanguage('eng-GB');
+        $language = $languageService->loadLanguage('eng-US');
         $languageService->updateLanguageName($language, '');
     }
 
@@ -474,7 +474,7 @@ class LanguageServiceTest extends BaseTestCase
         }
         /* END: Use Case */
 
-        // eng-US, eng-GB, ger-DE + 2 newly created
+        // eng-GB, eng-US, ger-DE + 2 newly created
         self::assertCount(5, $languages);
     }
 
@@ -706,7 +706,7 @@ class LanguageServiceTest extends BaseTestCase
 
         try {
             // Load an existing language
-            $language = $languageService->loadLanguage('eng-US');
+            $language = $languageService->loadLanguage('eng-GB');
 
             // Update the language name
             $languageService->updateLanguageName($language, 'My English');
@@ -719,11 +719,11 @@ class LanguageServiceTest extends BaseTestCase
         // Rollback all changes
         $repository->rollback();
 
-        // Load updated version, name will still be "English (American)"
-        $updatedLanguage = $languageService->loadLanguage('eng-US');
+        // Load updated version, name will still be "English (United Kingdom)"
+        $updatedLanguage = $languageService->loadLanguage('eng-GB');
         /* END: Use Case */
 
-        self::assertEquals('English (American)', $updatedLanguage->name);
+        self::assertEquals('English (United Kingdom)', $updatedLanguage->name);
     }
 
     /**
@@ -745,7 +745,7 @@ class LanguageServiceTest extends BaseTestCase
 
         try {
             // Load an existing language
-            $language = $languageService->loadLanguage('eng-US');
+            $language = $languageService->loadLanguage('eng-GB');
 
             // Update the language name
             $languageService->updateLanguageName($language, 'My English');
@@ -759,7 +759,7 @@ class LanguageServiceTest extends BaseTestCase
         }
 
         // Load updated version, name will be "My English"
-        $updatedLanguage = $languageService->loadLanguage('eng-US');
+        $updatedLanguage = $languageService->loadLanguage('eng-GB');
         /* END: Use Case */
 
         self::assertEquals('My English', $updatedLanguage->name);

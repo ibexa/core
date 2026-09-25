@@ -31,7 +31,7 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
 
         $contentCreateStruct->setField('name', 'Articles');
         $draft = $contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
@@ -43,7 +43,7 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
         $locationCreateStruct = $locationService->newLocationCreateStruct(
             $folder->contentInfo->mainLocationId
         );
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
 
         $contentCreateStruct->setField('title', 'Article');
         $draft = $contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
@@ -99,7 +99,7 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
 
         $contentCreateStruct->setField('name', 'Articles');
         $draft = $contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
@@ -111,7 +111,7 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
         $locationCreateStruct = $locationService->newLocationCreateStruct(
             $folder->contentInfo->mainLocationId
         );
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
 
         $contentCreateStruct->setField('title', 'Article');
         $draft = $contentService->createContent($contentCreateStruct, [$locationCreateStruct]);

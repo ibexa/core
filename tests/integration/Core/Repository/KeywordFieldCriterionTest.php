@@ -51,11 +51,11 @@ final class KeywordFieldCriterionTest extends RepositorySearchTestCase
         $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $typeStruct = $contentTypeService->newContentTypeCreateStruct(self::CONTENT_TYPE_IDENTIFIER);
-        $typeStruct->mainLanguageCode = 'eng-GB';
-        $typeStruct->names = ['eng-GB' => 'Keyword criterion test'];
+        $typeStruct->mainLanguageCode = 'eng-US';
+        $typeStruct->names = ['eng-US' => 'Keyword criterion test'];
 
         $fieldDef = $contentTypeService->newFieldDefinitionCreateStruct(self::FIELD_IDENTIFIER, 'ibexa_keyword');
-        $fieldDef->names = ['eng-GB' => 'Tags'];
+        $fieldDef->names = ['eng-US' => 'Tags'];
         $fieldDef->isSearchable = true;
         $typeStruct->addFieldDefinition($fieldDef);
 
@@ -72,7 +72,7 @@ final class KeywordFieldCriterionTest extends RepositorySearchTestCase
     {
         $contentService = $this->getIbexaTestCore()->getContentService();
 
-        $createStruct = $contentService->newContentCreateStruct($this->contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($this->contentType, 'eng-US');
         $createStruct->setField(self::FIELD_IDENTIFIER, new KeywordValue([$keyword]));
 
         return $contentService->publishVersion(
