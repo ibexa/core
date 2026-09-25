@@ -495,7 +495,7 @@ class PermissionResolverTest extends BaseTest
 
         $contentService = $repository->getContentService();
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $contentCreateStruct->setField('title', 'My awesome forums');
         $contentCreateStruct->remoteId = 'abcdef0123456789abcdef0123456789';
         $contentCreateStruct->alwaysAvailable = true;
@@ -558,7 +558,7 @@ class PermissionResolverTest extends BaseTest
 
         $contentService = $repository->getContentService();
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $contentCreateStruct->setField('name', 'My awesome forum');
         $contentCreateStruct->remoteId = 'abcdef0123456789abcdef0123456789';
         $contentCreateStruct->alwaysAvailable = true;
@@ -618,7 +618,7 @@ class PermissionResolverTest extends BaseTest
 
         $contentService = $repository->getContentService();
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $contentCreateStruct->setField('name', 'My multipurpose folder');
         $contentCreateStruct->remoteId = 'abcdef0123456789abcdef0123456789';
         $contentCreateStruct->alwaysAvailable = true;
@@ -682,7 +682,7 @@ class PermissionResolverTest extends BaseTest
 
         $contentService = $repository->getContentService();
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $contentCreateStruct->setField('title', 'My awesome forums');
         $contentCreateStruct->remoteId = 'abcdef0123456789abcdef0123456789';
         $contentCreateStruct->alwaysAvailable = true;
@@ -739,7 +739,7 @@ class PermissionResolverTest extends BaseTest
 
         $contentService = $repository->getContentService();
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $contentCreateStruct->setField('name', 'My awesome forum');
         $contentCreateStruct->remoteId = 'abcdef0123456789abcdef0123456789';
         $contentCreateStruct->alwaysAvailable = true;
@@ -837,7 +837,7 @@ class PermissionResolverTest extends BaseTest
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $contentCreateStruct->sectionId = 2;
 
         // return data sets, numbered for readability and debugging
@@ -992,7 +992,7 @@ class PermissionResolverTest extends BaseTest
                 ['module' => $module, 'function' => $function, 'limitations' => [new Limitation\SubtreeLimitation(['limitationValues' => ['/1/2/']])]],
                 ['module' => $module, 'function' => $function, 'limitations' => [
                     new Limitation\SectionLimitation(['limitationValues' => [2]]),
-                    new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']]),
+                    new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
                 ]],
                 ['module' => 'content', 'function' => 'edit', 'limitations' => [new Limitation\SectionLimitation(['limitationValues' => [2]])]],
             ]
@@ -1011,7 +1011,7 @@ class PermissionResolverTest extends BaseTest
                     $role->getPolicies()[1],
                     [
                         new Limitation\SectionLimitation(['limitationValues' => [2]]),
-                        new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']]),
+                        new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
                     ]
                 ),
             ]
@@ -1053,7 +1053,7 @@ class PermissionResolverTest extends BaseTest
                 ['module' => $module, 'function' => $function, 'limitations' => [new Limitation\SubtreeLimitation(['limitationValues' => ['/1/2/']])]],
                 ['module' => $module, 'function' => $function, 'limitations' => [
                     new Limitation\SectionLimitation(['limitationValues' => [2]]),
-                    new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']]),
+                    new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
                 ]],
                 ['module' => 'content', 'function' => 'edit', 'limitations' => [new Limitation\SectionLimitation(['limitationValues' => [2]])]],
             ]
@@ -1108,7 +1108,7 @@ class PermissionResolverTest extends BaseTest
             'role_' . __FUNCTION__,
             [
                 ['module' => $module, 'function' => $function, 'limitations' => [new Limitation\SubtreeLimitation(['limitationValues' => ['/1/2/']])]],
-                ['module' => $module, 'function' => $function, 'limitations' => [new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']])]],
+                ['module' => $module, 'function' => $function, 'limitations' => [new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']])]],
                 ['module' => 'content', 'function' => 'edit', 'limitations' => [new Limitation\SectionLimitation(['limitationValues' => [2]])]],
             ]
         );
@@ -1126,7 +1126,7 @@ class PermissionResolverTest extends BaseTest
             [
                 new LookupPolicyLimitations(
                     $role->getPolicies()[1],
-                    [new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']])]
+                    [new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']])]
                 ),
             ]
         );
@@ -1222,7 +1222,7 @@ class PermissionResolverTest extends BaseTest
             'role_' . __FUNCTION__,
             [
                 ['module' => $module, 'function' => $function, 'limitations' => [new Limitation\SubtreeLimitation(['limitationValues' => ['/1/2/']])]],
-                ['module' => $module, 'function' => $function, 'limitations' => [new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']])]],
+                ['module' => $module, 'function' => $function, 'limitations' => [new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']])]],
                 ['module' => 'content', 'function' => 'edit', 'limitations' => [new Limitation\SectionLimitation(['limitationValues' => [2]])]],
             ]
         );
@@ -1272,7 +1272,7 @@ class PermissionResolverTest extends BaseTest
                     'module' => $module,
                     'function' => $function,
                     'limitations' => [
-                        new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
+                        new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']]),
                     ],
                 ],
             ]
@@ -1286,7 +1286,7 @@ class PermissionResolverTest extends BaseTest
             $function,
             $location->contentInfo,
             [
-                (new VersionBuilder())->translateToAnyLanguageOf(['eng-GB'])->build(),
+                (new VersionBuilder())->translateToAnyLanguageOf(['eng-US'])->build(),
                 $location,
             ],
             [Limitation::LANGUAGE]
@@ -1301,7 +1301,7 @@ class PermissionResolverTest extends BaseTest
             $lookupPolicyLanguageLimitation = new LookupPolicyLimitations(
                 $firstPolicy,
                 [
-                    new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
+                    new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']]),
                 ]
             );
             $lookupPolicyLocationLimitation = new LookupPolicyLimitations(
@@ -1312,7 +1312,7 @@ class PermissionResolverTest extends BaseTest
             $lookupPolicyLanguageLimitation = new LookupPolicyLimitations(
                 $actual->lookupPolicyLimitations[1]->policy,
                 [
-                    new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
+                    new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']]),
                 ]
             );
             $lookupPolicyLocationLimitation = new LookupPolicyLimitations(
@@ -1348,7 +1348,7 @@ class PermissionResolverTest extends BaseTest
     private function getContentCreateStruct(
         Repository $repository,
         string $contentTypeIdentifier = 'folder',
-        string $mainLanguageCode = 'eng-US',
+        string $mainLanguageCode = 'eng-GB',
         int $sectionId = 2
     ): ContentCreateStruct {
         $contentService = $repository->getContentService();

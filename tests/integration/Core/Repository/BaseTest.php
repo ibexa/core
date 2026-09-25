@@ -329,7 +329,7 @@ abstract class BaseTest extends TestCase
             $login,
             $email,
             'VerySecret@Password.1234',
-            'eng-US'
+            'eng-GB'
         );
         $userCreate->enabled = true;
 
@@ -415,7 +415,7 @@ abstract class BaseTest extends TestCase
         $userService = $repository->getUserService();
 
         // Get a group create struct
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
         $userGroupCreate->setField('name', $userGroupName);
 
         // Create new group with media editor rights
@@ -434,7 +434,7 @@ abstract class BaseTest extends TestCase
             $login,
             $email,
             'secret',
-            'eng-US'
+            'eng-GB'
         );
         $userCreate->enabled = true;
 
@@ -473,7 +473,7 @@ abstract class BaseTest extends TestCase
             $login,
             "{$login}@example.com",
             'secret',
-            'eng-US'
+            'eng-GB'
         );
         $userCreate->enabled = true;
 
@@ -609,7 +609,7 @@ abstract class BaseTest extends TestCase
                 $login,
                 "{$login}@test.local",
                 $login,
-                'eng-GB'
+                'eng-US'
             );
             $userCreateStruct->setField('first_name', $login);
             $userCreateStruct->setField('last_name', $login);

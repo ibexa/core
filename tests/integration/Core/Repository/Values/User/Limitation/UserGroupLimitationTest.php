@@ -74,7 +74,7 @@ class UserGroupLimitationTest extends BaseLimitationTest
 
         $parentUserGroupId = $this->generateId('location', 4);
         /* BEGIN: Inline */
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
         $userGroupCreate->setField('name', 'Shared wiki');
 
         $userGroup = $userService->createUserGroup(

@@ -18,7 +18,7 @@ return SearchResult::__set_state([
       ],
        'score' => null,
        'index' => null,
-       'matchedTranslation' => 'eng-GB',
+       'matchedTranslation' => 'eng-US',
        'highlight' => null,
     ]),
     1 => SearchHit::__set_state([
@@ -28,7 +28,7 @@ return SearchResult::__set_state([
       ],
        'score' => null,
        'index' => null,
-       'matchedTranslation' => 'eng-GB',
+       'matchedTranslation' => 'eng-US',
        'highlight' => null,
     ]),
   ],

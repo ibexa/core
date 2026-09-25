@@ -32,14 +32,14 @@ class URLAliasServiceAuthorizationTest extends BaseTest
         $urlAliasService = $repository->getURLAliasService();
         $locationService = $repository->getLocationService();
 
-        $content = $this->createFolder(['eng-GB' => 'Foo'], $parentLocationId);
+        $content = $this->createFolder(['eng-US' => 'Foo'], $parentLocationId);
         $location = $locationService->loadLocation($content->contentInfo->mainLocationId);
 
         $anonymousUser = $userService->loadUser($anonymousUserId);
         $repository->getPermissionResolver()->setCurrentUserReference($anonymousUser);
 
         $this->expectException(UnauthorizedException::class);
-        $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US');
+        $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-GB');
         /* END: Use Case */
     }
 
@@ -66,7 +66,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
         $repository->getPermissionResolver()->setCurrentUserReference($anonymousUser);
 
         // This call will fail with an UnauthorizedException
-        $urlAliasService->createGlobalUrlAlias('module:content/search?SearchText=Ibexa', '/Home/My-New-Site', 'eng-US');
+        $urlAliasService->createGlobalUrlAlias('module:content/search?SearchText=Ibexa', '/Home/My-New-Site', 'eng-GB');
         /* END: Use Case */
     }
 

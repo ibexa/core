@@ -152,7 +152,7 @@ class URLServiceTest extends BaseURLServiceTest
 
         $contentType = $repository->getContentTypeService()->loadContentTypeByIdentifier('url');
         foreach ($urls as $data) {
-            $struct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+            $struct = $contentService->newContentCreateStruct($contentType, 'eng-US');
             $struct->setField('name', $data['name']);
             $struct->setField('url', $data['url']);
             $struct->sectionId = $data['sectionId'];

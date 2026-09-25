@@ -42,7 +42,7 @@ class EZP21069Test extends BaseTest
         // Create Folder News
         $contentCreateStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
         $contentCreateStruct->setField('name', 'TheOriginalNews');
         $contentService->publishVersion(
@@ -60,7 +60,7 @@ class EZP21069Test extends BaseTest
             $contentService->updateContent(
                 $contentService->createContentDraft(
                     $locationService->loadLocation(
-                        $urlAliasService->lookup('/TheOriginalNews', 'eng-GB')->destination
+                        $urlAliasService->lookup('/TheOriginalNews', 'eng-US')->destination
                     )->getContentInfo()
                 )->versionInfo,
                 $contentUpdateStruct
@@ -74,7 +74,7 @@ class EZP21069Test extends BaseTest
         $contentService->updateContent(
             $contentService->createContentDraft(
                 $locationService->loadLocation(
-                    $urlAliasService->lookup('/TheUpdatedNews', 'eng-GB')->destination
+                    $urlAliasService->lookup('/TheUpdatedNews', 'eng-US')->destination
                 )->getContentInfo()
             )->versionInfo,
             $contentDraftStruct

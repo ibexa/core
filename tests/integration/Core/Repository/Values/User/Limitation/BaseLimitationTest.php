@@ -98,7 +98,7 @@ abstract class BaseLimitationTest extends BaseTest
         $wikiPageType = $contentTypeService->loadContentTypeByIdentifier('wiki_page');
 
         // Configure new content object
-        $wikiPageCreate = $contentService->newContentCreateStruct($wikiPageType, 'eng-US');
+        $wikiPageCreate = $contentService->newContentCreateStruct($wikiPageType, 'eng-GB');
         $wikiPageCreate->setField('title', 'An awesome wiki page');
 
         if (null === $remoteId) {

@@ -87,37 +87,37 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTest
     {
         $inputValues = [
             'foo' => [
-                'eng-GB' => 'A',
+                'eng-US' => 'A',
                 'pol-PL' => 'C',
             ],
             'bar' => [
-                'eng-GB' => 'B',
+                'eng-US' => 'B',
                 'pol-PL' => 'B',
             ],
             'baz' => [
-                'eng-GB' => 'C',
+                'eng-US' => 'C',
                 'pol-PL' => 'A',
             ],
         ];
 
-        yield 'eng-GB, ASC' => [
+        yield 'eng-US, ASC' => [
             $inputValues,
             new SortClause\ContentTranslatedName(Query::SORT_ASC),
             [
                 'languages' => [
-                    'eng-GB',
+                    'eng-US',
                 ],
                 'useAlwaysAvailable' => false,
             ],
             ['foo', 'bar', 'baz'],
         ];
 
-        yield 'eng-GB, DESC' => [
+        yield 'eng-US, DESC' => [
             $inputValues,
             new SortClause\ContentTranslatedName(Query::SORT_DESC),
             [
                 'languages' => [
-                    'eng-GB',
+                    'eng-US',
                 ],
                 'useAlwaysAvailable' => false,
             ],
@@ -151,24 +151,24 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTest
         // Content name from main translation should be used ("C")
         unset($inputValues['baz']['pol-PL']);
 
-        yield 'eng-GB + pol-PL, ASC' => [
+        yield 'eng-US + pol-PL, ASC' => [
             $inputValues,
             new SortClause\ContentTranslatedName(Query::SORT_ASC),
             [
                 'languages' => [
-                    'pol-PL', 'eng-GB',
+                    'pol-PL', 'eng-US',
                 ],
                 'useAlwaysAvailable' => true,
             ],
             ['bar', 'foo', 'baz'],
         ];
 
-        yield 'eng-GB + pol-PL, DESC' => [
+        yield 'eng-US + pol-PL, DESC' => [
             $inputValues,
             new SortClause\ContentTranslatedName(Query::SORT_DESC),
             [
                 'languages' => [
-                    'pol-PL', 'eng-GB',
+                    'pol-PL', 'eng-US',
                 ],
                 'useAlwaysAvailable' => true,
             ],
@@ -184,15 +184,15 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTest
         $contentTypeService = $repository->getContentTypeService();
 
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('content_translated_name_test');
-        $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
-        $contentTypeCreateStruct->names = ['eng-GB' => 'content_translated_name_test'];
+        $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
+        $contentTypeCreateStruct->names = ['eng-US' => 'content_translated_name_test'];
         $contentTypeCreateStruct->creatorId = 14;
         $contentTypeCreateStruct->creationDate = new DateTime();
         $contentTypeCreateStruct->nameSchema = '<value>';
         $contentTypeCreateStruct->defaultAlwaysAvailable = true;
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('value', 'ezstring');
-        $fieldCreate->names = ['eng-GB' => 'value'];
+        $fieldCreate->names = ['eng-US' => 'value'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
 
@@ -204,7 +204,7 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTest
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
         foreach ($values as $remoteId => $translations) {
-            $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+            $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
             $contentCreateStruct->remoteId = $remoteId;
             $contentCreateStruct->alwaysAvailable = false;
             foreach ($translations as $languageCode => $value) {

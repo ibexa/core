@@ -20,9 +20,9 @@ final class DefaultLanguageCodeForContentTest extends BaseTest
     public function testDefaultLanguageCodeForCreatedContentWithoutPrioritizedLanguage(): void
     {
         $names = [
-            'eng-GB' => 'Test GB',
+            'eng-US' => 'Test GB',
             'ger-DE' => 'Test DE',
-            'eng-US' => 'Test US',
+            'eng-GB' => 'Test US',
         ];
         $testFolder = $this->createFolder(
             $names,
@@ -31,7 +31,7 @@ final class DefaultLanguageCodeForContentTest extends BaseTest
             false
         );
 
-        self::assertEquals('eng-GB', $testFolder->getDefaultLanguageCode());
+        self::assertEquals('eng-US', $testFolder->getDefaultLanguageCode());
     }
 
     /**
@@ -42,9 +42,9 @@ final class DefaultLanguageCodeForContentTest extends BaseTest
     public function testDefaultLanguageCodeForCreatedContentWithPrioritizedLanguage(): void
     {
         $names = [
-            'eng-GB' => 'Test GB',
+            'eng-US' => 'Test GB',
             'ger-DE' => 'Test DE',
-            'eng-US' => 'Test US',
+            'eng-GB' => 'Test US',
         ];
 
         $testFolder = $this->createFolder(

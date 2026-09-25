@@ -174,7 +174,7 @@ class BookmarkServiceTest extends BaseTest
         $restrictedSection = $sectionService->createSection($sectionCreateStruct);
 
         // Created as administrator, so it lands in the Standard section (ID 1)
-        $folder = $this->createFolder(['eng-GB' => 'Bookmarked folder'], 2);
+        $folder = $this->createFolder(['eng-US' => 'Bookmarked folder'], 2);
         $folderLocationId = $folder->getContentInfo()->getMainLocationId();
         self::assertNotNull($folderLocationId);
 
@@ -235,7 +235,7 @@ class BookmarkServiceTest extends BaseTest
         $repository = $this->getRepository();
         $bookmarkService = $repository->getBookmarkService();
 
-        $folder = $this->createFolder(['eng-GB' => 'Folder to be trashed'], 2);
+        $folder = $this->createFolder(['eng-US' => 'Folder to be trashed'], 2);
         $location = $this->loadMainLocation($folder);
 
         $bookmarkService->createBookmark($location);
@@ -251,7 +251,7 @@ class BookmarkServiceTest extends BaseTest
         $repository = $this->getRepository();
         $bookmarkService = $repository->getBookmarkService();
 
-        $folder = $this->createFolder(['eng-GB' => 'Folder to be deleted'], 2);
+        $folder = $this->createFolder(['eng-US' => 'Folder to be deleted'], 2);
         $location = $this->loadMainLocation($folder);
 
         $bookmarkService->createBookmark($location);

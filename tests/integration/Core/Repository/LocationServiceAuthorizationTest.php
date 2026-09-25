@@ -86,7 +86,7 @@ class LocationServiceAuthorizationTest extends BaseTest
 
         // Create the new "Dummy" user group
         $userService = $repository->getUserService();
-        $userGroupCreateStruct = $userService->newUserGroupCreateStruct('eng-GB');
+        $userGroupCreateStruct = $userService->newUserGroupCreateStruct('eng-US');
         $userGroupCreateStruct->setField('name', 'Dummy');
         $dummyUserGroup = $userService->createUserGroup($userGroupCreateStruct, $userService->loadUserGroup(4));
 
@@ -501,7 +501,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         // Create and publish Content with Location under $parentLocationId
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
         $contentCreateStruct->setField('name', 'My awesome possibly deletable folder');
         $contentCreateStruct->alwaysAvailable = true;
 

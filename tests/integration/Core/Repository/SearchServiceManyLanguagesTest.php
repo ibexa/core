@@ -25,7 +25,7 @@ final class SearchServiceManyLanguagesTest extends BaseTest
         $searchService = $repository->getSearchService();
 
         // Create 50 languages to trigger maxBooleanClauses (usually 1024)
-        $languages = ['eng-GB'];
+        $languages = ['eng-US'];
         for ($i = 0; $i < 50; ++$i) {
             $code = sprintf('tst-%02d', $i);
             $langCreateStruct = $languageService->newLanguageCreateStruct();

@@ -31,7 +31,7 @@ class EZP21771EzStringTest extends BaseTest
         // create content
         $createStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
         $createStruct->setField('name', '12345678901');
 
@@ -50,7 +50,7 @@ class EZP21771EzStringTest extends BaseTest
         // finaly test if the value is done right
         $this->assertEquals(
             $content->versionInfo->names,
-            ['eng-GB' => '12345678901']
+            ['eng-US' => '12345678901']
         );
     }
 }
