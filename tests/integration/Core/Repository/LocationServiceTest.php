@@ -605,19 +605,19 @@ class LocationServiceTest extends BaseTest
         // Load with priority language (fallback will be the old one)
         $location = $locationService->loadLocation(5, ['nor-NO']);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Location::class,
             $location
         );
         self::assertEquals(5, $location->id);
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Content::class,
             $content = $location->getContent()
         );
-        $this->assertEquals(4, $content->contentInfo->id);
+        self::assertEquals(4, $content->contentInfo->id);
 
-        $this->assertEquals($content->getVersionInfo()->getName(), 'Brukere');
-        $this->assertEquals($content->getVersionInfo()->getName('eng-GB'), 'Users');
+        self::assertEquals('Brukere', $content->getVersionInfo()->getName());
+        self::assertEquals('Users', $content->getVersionInfo()->getName('eng-GB'));
     }
 
     /**
