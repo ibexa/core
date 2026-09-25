@@ -1658,7 +1658,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 [
                     'id' => 0,
                     'value' => true,
-                    'languageCode' => self::ENG_US,
+                    'languageCode' => self::ENG_GB,
                     'fieldDefIdentifier' => 'name',
                     'fieldTypeIdentifier' => 'ibexa_string',
                 ]
@@ -1667,7 +1667,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 [
                     'id' => 0,
                     'value' => true,
-                    'languageCode' => self::ENG_GB,
+                    'languageCode' => self::ENG_US,
                     'fieldDefIdentifier' => 'name',
                     'fieldTypeIdentifier' => 'ibexa_string',
                 ]
