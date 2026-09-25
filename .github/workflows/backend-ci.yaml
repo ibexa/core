@@ -176,6 +176,11 @@ jobs:
                 image:
                     - 'mysql:8.0'
                     - 'mysql:8.4'
+                include:
+                    -   image: 'mysql:8.0'
+                        server_version: '8.0.0'
+                    -   image: 'mysql:8.4'
+                        server_version: '8.4.0'
 
         steps:
             -   uses: actions/checkout@v7
@@ -196,8 +201,8 @@ jobs:
             -   name: Run integration test suite vs MySQL
                 run: composer run-script integration
                 env:
-                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb?serverVersion=${{ matrix.server_version }}"
+                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb?serverVersion=${{ matrix.server_version }}"
 
     solr-integration:
         name: "Solr integration tests"
