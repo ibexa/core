@@ -42,7 +42,7 @@ class EZP20018LanguageTest extends BaseTestCase
 
         // Translate "Image" Folder name to por-PT
         $objUpdateStruct = $contentService->newContentUpdateStruct();
-        $objUpdateStruct->initialLanguageCode = 'eng-US';
+        $objUpdateStruct->initialLanguageCode = 'eng-GB';
         $objUpdateStruct->setField('name', 'Imagens', 'por-PT');
 
         // @todo Also test always available flag?
@@ -87,7 +87,7 @@ class EZP20018LanguageTest extends BaseTestCase
     public function testSearchOnStandardLanguageGivesManyResult(): void
     {
         $query = new Query();
-        $query->filter = new LanguageCode(['eng-US'], false);
+        $query->filter = new LanguageCode(['eng-GB'], false);
         $query->limit = 50;
         $results = $this->getRepository()->getSearchService()->findContent($query);
 
@@ -98,7 +98,7 @@ class EZP20018LanguageTest extends BaseTestCase
     public function testSearchOnNotUsedInstalledLanguageGivesNoResult(): void
     {
         $query = new Query();
-        $query->filter = new LanguageCode(['eng-GB'], false);
+        $query->filter = new LanguageCode(['eng-US'], false);
         $results = $this->getRepository()->getSearchService()->findContent($query);
 
         self::assertEquals(2, $results->totalCount);

@@ -22,8 +22,8 @@ final class LoadVersionInfoTest extends RepositoryTestCase
     {
         $contentService = $this->getIbexaTestCore()->getContentService();
 
-        $folder1 = $this->createFolder(['eng-GB' => 'Folder1'], 2);
-        $folder2 = $this->createFolder(['eng-GB' => 'Folder2'], 2);
+        $folder1 = $this->createFolder(['eng-US' => 'Folder1'], 2);
+        $folder2 = $this->createFolder(['eng-US' => 'Folder2'], 2);
 
         $versionInfoList = $contentService->loadVersionInfoListByContentInfo(
             [

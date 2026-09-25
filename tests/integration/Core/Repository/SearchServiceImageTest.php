@@ -350,15 +350,15 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     ): void {
         $contentCreateStruct = $this->getIbexaTestCore()->getContentService()->newContentCreateStruct(
             $contentType,
-            'eng-GB'
+            'eng-US'
         );
 
         $imageValue = new ImageValue();
         $imageValue->fileName = $fileName;
         $imageValue->inputUri = $path;
 
-        $contentCreateStruct->setField('name', new TextValue('Image'), 'eng-GB');
-        $contentCreateStruct->setField('image', $imageValue, 'eng-GB');
+        $contentCreateStruct->setField('name', new TextValue('Image'), 'eng-US');
+        $contentCreateStruct->setField('image', $imageValue, 'eng-US');
 
         $contentService = $this->getIbexaTestCore()->getContentService();
         $contentService->publishVersion(

@@ -35,10 +35,10 @@ use PHPUnit\Framework\Attributes\Group;
 class LanguageLimitationTest extends BaseTestCase
 {
     /** @var string */
-    private const ENG_US = 'eng-US';
+    private const ENG_GB = 'eng-GB';
 
     /** @var string */
-    private const ENG_GB = 'eng-GB';
+    private const ENG_US = 'eng-US';
 
     /** @var string */
     private const GER_DE = 'ger-DE';
@@ -93,8 +93,8 @@ class LanguageLimitationTest extends BaseTestCase
                 ['ger-DE'],
             ],
             [
-                ['ger-DE' => 'German Folder', 'eng-GB' => 'British Folder'],
-                ['ger-DE', 'eng-GB'],
+                ['ger-DE' => 'German Folder', 'eng-US' => 'British Folder'],
+                ['ger-DE', 'eng-US'],
             ],
         ];
     }
@@ -183,7 +183,7 @@ class LanguageLimitationTest extends BaseTestCase
             'Editing a content before translating it' => [
                 'content',
                 'edit',
-                ['eng-GB' => 'BrE Folder'],
+                ['eng-US' => 'BrE Folder'],
                 ['ger-DE'],
                 [
                     (new VersionBuilder())
@@ -195,7 +195,7 @@ class LanguageLimitationTest extends BaseTestCase
             'Publishing the specific translation of a content item' => [
                 'content',
                 'publish',
-                ['eng-GB' => 'BrE Folder', 'ger-DE' => 'DE Folder'],
+                ['eng-US' => 'BrE Folder', 'ger-DE' => 'DE Folder'],
                 ['ger-DE'],
                 [
                     (new VersionBuilder())
@@ -207,11 +207,11 @@ class LanguageLimitationTest extends BaseTestCase
             'Not being able to edit a content before translating it' => [
                 'content',
                 'edit',
-                ['eng-GB' => 'BrE Folder'],
+                ['eng-US' => 'BrE Folder'],
                 ['ger-DE'],
                 [
                     (new VersionBuilder())
-                        ->translateToAnyLanguageOf(['eng-GB'])
+                        ->translateToAnyLanguageOf(['eng-US'])
                         ->build(),
                 ],
                 false,
@@ -219,11 +219,11 @@ class LanguageLimitationTest extends BaseTestCase
             'Not being able to publish the specific translation of a content item' => [
                 'content',
                 'publish',
-                ['eng-GB' => 'BrE Folder', 'ger-DE' => 'DE Folder'],
+                ['eng-US' => 'BrE Folder', 'ger-DE' => 'DE Folder'],
                 ['ger-DE'],
                 [
                     (new VersionBuilder())
-                        ->publishTranslations(['eng-GB'])
+                        ->publishTranslations(['eng-US'])
                         ->build(),
                 ],
                 false,
@@ -244,28 +244,28 @@ class LanguageLimitationTest extends BaseTestCase
         // $names (as admin), $namesToUpdate (as editor), $allowedTranslationsList (editor limitations)
         return [
             [
-                ['eng-US' => 'American Folder'],
+                ['eng-GB' => 'American Folder'],
                 ['ger-DE' => 'Updated German Folder'],
                 ['ger-DE'],
             ],
             [
-                ['eng-US' => 'American Folder', 'ger-DE' => 'German Folder'],
+                ['eng-GB' => 'American Folder', 'ger-DE' => 'German Folder'],
                 ['ger-DE' => 'Updated German Folder'],
                 ['ger-DE'],
             ],
             [
                 [
-                    'eng-US' => 'American Folder',
-                    'eng-GB' => 'British Folder',
+                    'eng-GB' => 'American Folder',
+                    'eng-US' => 'British Folder',
                     'ger-DE' => 'German Folder',
                 ],
-                ['ger-DE' => 'Updated German Folder', 'eng-GB' => 'British Folder'],
-                ['ger-DE', 'eng-GB'],
+                ['ger-DE' => 'Updated German Folder', 'eng-US' => 'British Folder'],
+                ['ger-DE', 'eng-US'],
             ],
             [
-                ['eng-US' => 'American Folder', 'ger-DE' => 'German Folder'],
-                ['ger-DE' => 'Updated German Folder', 'eng-GB' => 'British Folder'],
-                ['ger-DE', 'eng-GB'],
+                ['eng-GB' => 'American Folder', 'ger-DE' => 'German Folder'],
+                ['ger-DE' => 'Updated German Folder', 'eng-US' => 'British Folder'],
+                ['ger-DE', 'eng-US'],
             ],
         ];
     }
@@ -339,13 +339,13 @@ class LanguageLimitationTest extends BaseTestCase
         $folder = $this->createFolder($names, 2);
         $folderDraft = $contentService->createContentDraft($folder->contentInfo);
         $folderUpdateStruct = $contentService->newContentUpdateStruct();
-        $folderUpdateStruct->setField('name', 'Updated American Folder', 'eng-US');
+        $folderUpdateStruct->setField('name', 'Updated American Folder', 'eng-GB');
         $folderDraft = $contentService->updateContent(
             $folderDraft->getVersionInfo(),
             $folderUpdateStruct
         );
 
-        // switch context to the user not allowed to publish eng-US
+        // switch context to the user not allowed to publish eng-GB
         $repository->getPermissionResolver()->setCurrentUserReference(
             $this->createEditorUserWithLanguageLimitation(['ger-DE'])
         );
@@ -382,7 +382,7 @@ class LanguageLimitationTest extends BaseTestCase
         $content = $contentService->loadContent($draft->contentInfo->id);
         self::assertEquals(
             [
-                self::ENG_US => 'Published US',
+                self::ENG_GB => 'Published US',
                 self::GER_DE => 'Draft 1 DE',
             ],
             $content->fields['name']
@@ -404,14 +404,14 @@ class LanguageLimitationTest extends BaseTestCase
 
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
 
-        $contentUpdateStruct->setField('name', 'Draft 1 EN', self::ENG_US);
+        $contentUpdateStruct->setField('name', 'Draft 1 EN', self::ENG_GB);
 
         $contentService->updateContent($draft->versionInfo, $contentUpdateStruct);
 
         $permissionResolver->setCurrentUserReference($this->createEditorUserWithLanguageLimitation([self::GER_DE]));
 
         $this->expectException(UnauthorizedException::class);
-        $contentService->publishVersion($draft->versionInfo, [self::ENG_US]);
+        $contentService->publishVersion($draft->versionInfo, [self::ENG_GB]);
     }
 
     /**
@@ -426,7 +426,7 @@ class LanguageLimitationTest extends BaseTestCase
         $permissionResolver = $repository->getPermissionResolver();
 
         $editorDE = $this->createEditorUserWithLanguageLimitation([self::GER_DE], 'editor-de');
-        $editorUS = $this->createEditorUserWithLanguageLimitation([self::ENG_US], 'editor-us');
+        $editorUS = $this->createEditorUserWithLanguageLimitation([self::ENG_GB], 'editor-us');
 
         // German editor publishes content in German language
         $permissionResolver->setCurrentUserReference($editorDE);
@@ -439,7 +439,7 @@ class LanguageLimitationTest extends BaseTestCase
         $folder = $contentService->loadContent($folder->id);
         $folderDraft = $contentService->createContentDraft($folder->contentInfo);
         $folderUpdateStruct = $contentService->newContentUpdateStruct();
-        $folderUpdateStruct->setField('name', 'English Folder', self::ENG_US);
+        $folderUpdateStruct->setField('name', 'English Folder', self::ENG_GB);
         $folderDraft = $contentService->updateContent(
             $folderDraft->versionInfo,
             $folderUpdateStruct
@@ -454,7 +454,7 @@ class LanguageLimitationTest extends BaseTestCase
         self::assertTrue($folderDraftVersionInfo->isDraft());
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage("The User does not have the 'publish' 'content' permission");
-        $contentService->publishVersion($folderDraftVersionInfo, [self::ENG_US]);
+        $contentService->publishVersion($folderDraftVersionInfo, [self::ENG_GB]);
     }
 
     /**
@@ -473,7 +473,7 @@ class LanguageLimitationTest extends BaseTestCase
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
 
         $contentUpdateStruct->setField('name', 'Draft 1 DE', self::GER_DE);
-        $contentUpdateStruct->setField('name', 'Draft 1 GB', self::ENG_GB);
+        $contentUpdateStruct->setField('name', 'Draft 1 GB', self::ENG_US);
 
         $contentService->updateContent($draft->versionInfo, $contentUpdateStruct);
 
@@ -482,7 +482,7 @@ class LanguageLimitationTest extends BaseTestCase
         );
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage("The User does not have the 'publish' 'content' permission");
-        $contentService->publishVersion($draft->versionInfo, [self::GER_DE, self::ENG_GB]);
+        $contentService->publishVersion($draft->versionInfo, [self::GER_DE, self::ENG_US]);
     }
 
     /**
@@ -840,7 +840,7 @@ class LanguageLimitationTest extends BaseTestCase
     {
         return [
             [[self::GER_DE], false],
-            [[self::GER_DE, self::ENG_US, self::ENG_GB], true],
+            [[self::GER_DE, self::ENG_GB, self::ENG_US], true],
         ];
     }
 
@@ -857,7 +857,7 @@ class LanguageLimitationTest extends BaseTestCase
     {
         $publishedContent = $this->createFolder(
             [
-                self::ENG_US => 'Published US',
+                self::ENG_GB => 'Published US',
                 self::GER_DE => 'Published DE',
             ],
             $this->generateId('location', 2)

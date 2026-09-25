@@ -28,19 +28,19 @@ class EZP28799SubtreeSearchTest extends BaseTestCase
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $locationCreateStruct = $locationService->newLocationCreateStruct($rootLocationId);
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $contentCreateStruct->setField('name', 'LEFT');
 
         $draft = $contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
         $leftFolder = $contentService->publishVersion($draft->versionInfo);
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $contentCreateStruct->setField('name', 'RIGHT');
 
         $draft = $contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
         $rightFolder = $contentService->publishVersion($draft->versionInfo);
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $contentCreateStruct->setField('name', 'TARGET');
 
         $locationCreateStructLeft = $locationService->newLocationCreateStruct(

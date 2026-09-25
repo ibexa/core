@@ -76,7 +76,7 @@ class SearchServiceFulltextTest extends BaseTestCase
         $idMap = [];
 
         foreach ($dataMap as $key => $string) {
-            $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+            $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
             $contentCreateStruct->setField('name', $string);
 
             $content = $contentService->publishVersion(

@@ -61,7 +61,7 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
             'edit',
             $limitations,
             $location->contentInfo,
-            [$location, new Version(['allLanguageCodesList' => ['eng-GB']])]
+            [$location, new Version(['allLanguageCodesList' => ['eng-US']])]
         );
     }
 

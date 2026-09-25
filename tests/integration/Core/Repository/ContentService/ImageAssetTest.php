@@ -35,7 +35,7 @@ final class ImageAssetTest extends RepositoryTestCase
         $contentType = $this->createContentTypeWithImageAsset();
         $destinationContent = $this->createImageContent();
 
-        $struct = $this->contentService->newContentCreateStruct($contentType, 'eng-US');
+        $struct = $this->contentService->newContentCreateStruct($contentType, 'eng-GB');
         $struct->setField('asset', new AssetValue(
             $destinationContent->getId(),
         ));
@@ -61,12 +61,12 @@ final class ImageAssetTest extends RepositoryTestCase
     private function createContentTypeWithImageAsset(): ContentType
     {
         $struct = $this->contentTypeService->newContentTypeCreateStruct('content_type_with_image_asset');
-        $struct->names = ['eng-US' => 'Content Type with Image Asset'];
+        $struct->names = ['eng-GB' => 'Content Type with Image Asset'];
 
         $struct->addFieldDefinition(
             $this->contentTypeService->newFieldDefinitionCreateStruct('asset', 'ibexa_image_asset')
         );
-        $struct->mainLanguageCode = 'eng-US';
+        $struct->mainLanguageCode = 'eng-GB';
         $contentType = $this->contentTypeService->createContentType(
             $struct,
             [$this->contentTypeService->loadContentTypeGroupByIdentifier('Content')],
@@ -81,7 +81,7 @@ final class ImageAssetTest extends RepositoryTestCase
         $path = __DIR__ . '/../_fixtures/image/square.png';
 
         $imageContentType = $this->contentTypeService->loadContentTypeByIdentifier('image');
-        $struct = $this->contentService->newContentCreateStruct($imageContentType, 'eng-US');
+        $struct = $this->contentService->newContentCreateStruct($imageContentType, 'eng-GB');
         $struct->setField('name', 'Image Name');
         $struct->setField('image', new Value(
             [

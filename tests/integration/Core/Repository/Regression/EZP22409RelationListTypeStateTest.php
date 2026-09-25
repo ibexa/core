@@ -34,15 +34,15 @@ class EZP22409RelationListTypeStateTest extends BaseTestCase
             'test-type'
         );
         $typeCreateStruct->names = [
-            'eng-GB' => 'title',
+            'eng-US' => 'title',
         ];
         $typeCreateStruct->descriptions = [
-            'eng-GB' => 'description',
+            'eng-US' => 'description',
         ];
         $typeCreateStruct->remoteId = 'new-remoteid';
         $typeCreateStruct->creatorId = $creatorId;
         $typeCreateStruct->creationDate = $creationDate;
-        $typeCreateStruct->mainLanguageCode = 'eng-GB';
+        $typeCreateStruct->mainLanguageCode = 'eng-US';
         $typeCreateStruct->nameSchema = '<title>';
         $typeCreateStruct->urlAliasSchema = '<title>';
 
@@ -52,10 +52,10 @@ class EZP22409RelationListTypeStateTest extends BaseTestCase
             'ibexa_string'
         );
         $titleFieldCreate->names = [
-            'eng-GB' => 'title',
+            'eng-US' => 'title',
         ];
         $titleFieldCreate->descriptions = [
-            'eng-GB' => 'title description',
+            'eng-US' => 'title description',
         ];
         $titleFieldCreate->fieldGroup = 'content';
         $titleFieldCreate->position = 1;
@@ -71,10 +71,10 @@ class EZP22409RelationListTypeStateTest extends BaseTestCase
             'ibexa_object_relation_list'
         );
         $objectRelationListFieldCreate->names = [
-            'eng-GB' => 'object relation list',
+            'eng-US' => 'object relation list',
         ];
         $objectRelationListFieldCreate->descriptions = [
-            'eng-GB' => 'object relation list description',
+            'eng-US' => 'object relation list description',
         ];
         $objectRelationListFieldCreate->fieldGroup = 'content';
         $objectRelationListFieldCreate->position = 2;
@@ -130,7 +130,7 @@ class EZP22409RelationListTypeStateTest extends BaseTestCase
         // create destination content
         $contentCreateStruct1 = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
         $contentCreateStruct1->setField('name', 'EZP-22409-2');
         $draft1 = $contentService->createContent(
@@ -142,7 +142,7 @@ class EZP22409RelationListTypeStateTest extends BaseTestCase
         // create source content #1
         $contentCreateStruct2 = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('test-type'),
-            'eng-GB'
+            'eng-US'
         );
         $contentCreateStruct2->setField('title', 'EZP-22409-1');
         $contentCreateStruct2->setField(

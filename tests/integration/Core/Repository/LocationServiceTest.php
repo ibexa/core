@@ -477,7 +477,7 @@ class LocationServiceTest extends BaseTestCase
             ->loadLocation(
                 $this->generateId('location', 1),
                 [
-                    'eng-GB',
+                    'eng-US',
                     'ger-DE',
                 ]
             );
@@ -600,7 +600,7 @@ class LocationServiceTest extends BaseTestCase
         self::assertEquals(4, $content->contentInfo->id);
 
         self::assertEquals($content->getVersionInfo()->getName(), 'Brukere');
-        self::assertEquals($content->getVersionInfo()->getName('eng-US'), 'Users');
+        self::assertEquals($content->getVersionInfo()->getName('eng-GB'), 'Users');
     }
 
     /**
@@ -917,7 +917,7 @@ class LocationServiceTest extends BaseTestCase
 
         // Create new content, which is not published
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $contentCreate = $contentService->newContentCreateStruct($folderType, 'eng-US');
+        $contentCreate = $contentService->newContentCreateStruct($folderType, 'eng-GB');
         $contentCreate->setField('name', 'New Folder');
         $content = $contentService->createContent($contentCreate);
 
@@ -947,7 +947,7 @@ class LocationServiceTest extends BaseTestCase
 
         // Create new content, which is not published
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $contentCreate = $contentService->newContentCreateStruct($folderType, 'eng-US');
+        $contentCreate = $contentService->newContentCreateStruct($folderType, 'eng-GB');
         $contentCreate->setField('name', 'New Folder');
         $content = $contentService->createContent($contentCreate);
 
@@ -1010,7 +1010,7 @@ class LocationServiceTest extends BaseTestCase
 
         // Create new content
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $contentCreate = $contentService->newContentCreateStruct($folderType, 'eng-US');
+        $contentCreate = $contentService->newContentCreateStruct($folderType, 'eng-GB');
         $contentCreate->setField('name', 'New Folder');
         $contentDraft = $contentService->createContent($contentCreate, $locationCreateStructs);
 
@@ -1251,7 +1251,7 @@ class LocationServiceTest extends BaseTestCase
         $rootLocation = $locationService->loadLocation(1);
         $createStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
         $createStruct->setField('name', 'Parent folder');
         $content = $contentService->publishVersion(
@@ -1268,7 +1268,7 @@ class LocationServiceTest extends BaseTestCase
             $rootLocation = $locationService->loadLocation($content->contentInfo->mainLocationId);
             $createStruct = $contentService->newContentCreateStruct(
                 $contentTypeService->loadContentTypeByIdentifier('folder'),
-                'eng-GB'
+                'eng-US'
             );
             $createStruct->setField('name', $contentName);
 
@@ -1608,14 +1608,14 @@ class LocationServiceTest extends BaseTestCase
         $urlAliasService = $repository->getURLAliasService();
         $this->createLanguage('pol-PL', 'Polski');
 
-        $folder1 = $this->createFolder(['eng-GB' => 'Folder1', 'pol-PL' => 'Folder1'], 2);
-        $folder2 = $this->createFolder(['eng-GB' => 'Folder2'], 2);
+        $folder1 = $this->createFolder(['eng-US' => 'Folder1', 'pol-PL' => 'Folder1'], 2);
+        $folder2 = $this->createFolder(['eng-US' => 'Folder2'], 2);
         $location1 = $locationService->loadLocation($folder1->contentInfo->mainLocationId);
         $location2 = $locationService->loadLocation($folder2->contentInfo->mainLocationId);
 
-        $urlAlias = $urlAliasService->createUrlAlias($location1, '/custom-location1', 'eng-GB', false, true);
+        $urlAlias = $urlAliasService->createUrlAlias($location1, '/custom-location1', 'eng-US', false, true);
         $urlAliasService->createUrlAlias($location1, '/custom-location1', 'pol-PL', false, true);
-        $urlAliasService->createUrlAlias($location2, '/custom-location2', 'eng-GB', false, true);
+        $urlAliasService->createUrlAlias($location2, '/custom-location2', 'eng-US', false, true);
         $location1UrlAliases = iterator_to_array($urlAliasService->listLocationAliases($location1));
         $location2UrlAliases = iterator_to_array($urlAliasService->listLocationAliases($location2));
 
@@ -1632,7 +1632,7 @@ class LocationServiceTest extends BaseTestCase
         self::assertEquals($folder2->id, $location1->contentInfo->id);
         self::assertNotEquals($location1UrlAliases, $location1UrlAliasesAfterSwap);
         self::assertEquals($location2UrlAliases, $location2UrlAliasesAfterSwap);
-        self::assertEquals(['eng-GB'], $location1UrlAliasesAfterSwap[$keyUrlAlias]->languageCodes);
+        self::assertEquals(['eng-US'], $location1UrlAliasesAfterSwap[$keyUrlAlias]->languageCodes);
     }
 
     /**
@@ -1653,9 +1653,9 @@ class LocationServiceTest extends BaseTestCase
         $locationService = $repository->getLocationService();
         $contentService = $repository->getContentService();
 
-        $folder1 = $this->createFolder(['eng-GB' => 'Folder1'], 2);
-        $folder2 = $this->createFolder(['eng-GB' => 'Folder2'], 2);
-        $folder3 = $this->createFolder(['eng-GB' => 'Folder3'], 2);
+        $folder1 = $this->createFolder(['eng-US' => 'Folder1'], 2);
+        $folder2 = $this->createFolder(['eng-US' => 'Folder2'], 2);
+        $folder3 = $this->createFolder(['eng-US' => 'Folder3'], 2);
 
         $primaryLocation = $folder1->getVersionInfo()->getContentInfo()->getMainLocation();
         $parentLocation = $folder2->getVersionInfo()->getContentInfo()->getMainLocation();
@@ -1803,10 +1803,10 @@ class LocationServiceTest extends BaseTestCase
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
 
-        $folder1 = $this->createFolder(['eng-GB' => 'Folder1'], 2);
-        $folder2 = $this->createFolder(['eng-GB' => 'Folder2'], 2);
-        $parentFolder1 = $this->createFolder(['eng-GB' => 'Parent1'], 2);
-        $parentFolder2 = $this->createFolder(['eng-GB' => 'Parent2'], 2);
+        $folder1 = $this->createFolder(['eng-US' => 'Folder1'], 2);
+        $folder2 = $this->createFolder(['eng-US' => 'Folder2'], 2);
+        $parentFolder1 = $this->createFolder(['eng-US' => 'Parent1'], 2);
+        $parentFolder2 = $this->createFolder(['eng-US' => 'Parent2'], 2);
 
         $parentLocation1 = $parentFolder1->getVersionInfo()->getContentInfo()->getMainLocation();
         $parentLocation2 = $parentFolder2->getVersionInfo()->getContentInfo()->getMainLocation();
@@ -2200,7 +2200,7 @@ class LocationServiceTest extends BaseTestCase
         // prepare Content object
         $createStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
         $createStruct->setField('name', 'Test folder');
 
@@ -2283,8 +2283,8 @@ class LocationServiceTest extends BaseTestCase
         $locationService = $repository->getLocationService();
         $urlAliasService = $repository->getURLAliasService();
 
-        $originalFolder = $this->createFolder(['eng-GB' => 'Original folder'], 2);
-        $newFolder = $this->createFolder(['eng-GB' => 'New folder'], 2);
+        $originalFolder = $this->createFolder(['eng-US' => 'Original folder'], 2);
+        $newFolder = $this->createFolder(['eng-US' => 'New folder'], 2);
         $originalFolderLocationId = $originalFolder->contentInfo->mainLocationId;
 
         $forum = $contentService->publishVersion(
@@ -2305,7 +2305,7 @@ class LocationServiceTest extends BaseTestCase
         $urlAliasService->createUrlAlias(
             $forumMainLocation,
             $customRelativeAliasPath,
-            'eng-GB',
+            'eng-US',
             true,
             true
         );
@@ -2456,7 +2456,7 @@ class LocationServiceTest extends BaseTestCase
 
         // creating additional content under translated folder
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $contentCreate->setField('name', 'My folder');
         $content = $contentService->createContent(
             $contentCreate,
@@ -3126,8 +3126,8 @@ class LocationServiceTest extends BaseTestCase
 
         $rootLocationId = 2;
 
-        $folder = $this->createFolder(['eng-GB' => 'Folder'], $rootLocationId);
-        $child = $this->createFolder(['eng-GB' => 'Child'], $folder->contentInfo->mainLocationId);
+        $folder = $this->createFolder(['eng-US' => 'Folder'], $rootLocationId);
+        $child = $this->createFolder(['eng-US' => 'Child'], $folder->contentInfo->mainLocationId);
         $locationService->hideLocation(
             $locationService->loadLocation($folder->contentInfo->mainLocationId)
         );
@@ -3137,7 +3137,7 @@ class LocationServiceTest extends BaseTestCase
         self::assertTrue($childLocation->invisible);
         self::assertEquals($folder->contentInfo->mainLocationId, $childLocation->parentLocationId);
 
-        $destination = $this->createFolder(['eng-GB' => 'Destination'], $rootLocationId);
+        $destination = $this->createFolder(['eng-US' => 'Destination'], $rootLocationId);
         $destinationLocation = $locationService->loadLocation(
             $destination->contentInfo->mainLocationId
         );
@@ -3203,17 +3203,17 @@ class LocationServiceTest extends BaseTestCase
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
 
-        $topNode = $this->createFolder(['eng-US' => 'top_node'], 2);
+        $topNode = $this->createFolder(['eng-GB' => 'top_node'], 2);
 
         $newParentLocation = $locationService->loadLocation(
             $this
-                ->createFolder(['eng-US' => 'Parent'], $topNode->contentInfo->mainLocationId)
+                ->createFolder(['eng-GB' => 'Parent'], $topNode->contentInfo->mainLocationId)
                 ->contentInfo
                 ->mainLocationId
         );
         $location = $locationService->loadLocation(
             $this
-                ->createFolder(['eng-US' => 'Move Me'], $topNode->contentInfo->mainLocationId)
+                ->createFolder(['eng-GB' => 'Move Me'], $topNode->contentInfo->mainLocationId)
                 ->contentInfo
                 ->mainLocationId
         );
@@ -3307,7 +3307,7 @@ class LocationServiceTest extends BaseTestCase
 
         $sourceLocationId = $this->createFolder(
             [
-                'eng-GB' => 'SourceParentFolder',
+                'eng-US' => 'SourceParentFolder',
             ],
             2
         )->getVersionInfo()->getContentInfo()->mainLocationId;
@@ -3430,15 +3430,15 @@ class LocationServiceTest extends BaseTestCase
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
 
-        $folder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
+        $folder = $this->createFolder(['eng-US' => 'Parent Folder'], 2);
         $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
         self::assertNotNull($location);
 
         // phpstan-ignore-next-line
         self::assertSame(1, $locationService->getSubtreeSize($location));
 
-        $this->createFolder(['eng-GB' => 'Child 1'], $location->id);
-        $this->createFolder(['eng-GB' => 'Child 2'], $location->id);
+        $this->createFolder(['eng-US' => 'Child 1'], $location->id);
+        $this->createFolder(['eng-US' => 'Child 2'], $location->id);
 
         self::assertSame(3, $locationService->getSubtreeSize($location));
 
@@ -3582,7 +3582,7 @@ class LocationServiceTest extends BaseTestCase
 
         $contentCreateStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-US'
+            'eng-GB'
         );
         $contentCreateStruct->setField('name', $contentName);
         $contentDraft = $contentService->createContent(
@@ -3606,7 +3606,7 @@ class LocationServiceTest extends BaseTestCase
             ->loadContentTypeByIdentifier('forum');
 
         $forum = $repository->getContentService()
-            ->newContentCreateStruct($contentTypeForum, 'eng-GB');
+            ->newContentCreateStruct($contentTypeForum, 'eng-US');
 
         $forum->setField('name', $name);
 

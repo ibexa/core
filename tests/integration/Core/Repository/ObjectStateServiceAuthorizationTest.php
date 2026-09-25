@@ -45,14 +45,14 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
         $objectStateGroupCreate = $objectStateService->newObjectStateGroupCreateStruct(
             'publishing'
         );
-        $objectStateGroupCreate->defaultLanguageCode = 'eng-US';
+        $objectStateGroupCreate->defaultLanguageCode = 'eng-GB';
         $objectStateGroupCreate->names = [
-            'eng-US' => 'Publishing',
-            'eng-GB' => 'Sindelfingen',
+            'eng-GB' => 'Publishing',
+            'eng-US' => 'Sindelfingen',
         ];
         $objectStateGroupCreate->descriptions = [
-            'eng-US' => 'Put something online',
-            'eng-GB' => 'Put something ton Sindelfingen.',
+            'eng-GB' => 'Put something online',
+            'eng-US' => 'Put something ton Sindelfingen.',
         ];
 
         // Throws unauthorized exception, since the anonymous user must not
@@ -176,12 +176,12 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
             'locked_and_unlocked'
         );
         $objectStateCreateStruct->priority = 23;
-        $objectStateCreateStruct->defaultLanguageCode = 'eng-US';
+        $objectStateCreateStruct->defaultLanguageCode = 'eng-GB';
         $objectStateCreateStruct->names = [
-            'eng-US' => 'Locked and Unlocked',
+            'eng-GB' => 'Locked and Unlocked',
         ];
         $objectStateCreateStruct->descriptions = [
-            'eng-US' => 'A state between locked and unlocked.',
+            'eng-GB' => 'A state between locked and unlocked.',
         ];
 
         // Throws unauthorized exception, since the anonymous user must not
@@ -224,11 +224,11 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
         $updateStateStruct->identifier = 'somehow_locked';
         $updateStateStruct->defaultLanguageCode = 'ger-DE';
         $updateStateStruct->names = [
-            'eng-US' => 'Somehow locked',
+            'eng-GB' => 'Somehow locked',
             'ger-DE' => 'Irgendwie gelockt',
         ];
         $updateStateStruct->descriptions = [
-            'eng-US' => 'The object is somehow locked',
+            'eng-GB' => 'The object is somehow locked',
             'ger-DE' => 'Sindelfingen',
         ];
 

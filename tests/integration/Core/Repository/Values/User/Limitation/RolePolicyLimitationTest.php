@@ -82,7 +82,7 @@ class RolePolicyLimitationTest extends BaseLimitationTestCase
         $role = $roleService->loadRoleByIdentifier($roleName);
 
         // create group and assign new role to that group, limited by subtree
-        $userGroup = $this->createGroup('Test group', 'eng-US', 4);
+        $userGroup = $this->createGroup('Test group', 'eng-GB', 4);
         $roleService->assignRoleToUserGroup($role, $userGroup, new SubtreeLimitation([
             'limitationValues' => [$subtreePathString],
         ]));
@@ -152,7 +152,7 @@ class RolePolicyLimitationTest extends BaseLimitationTestCase
             'user',
             'user@example.com',
             'secret',
-            'eng-US'
+            'eng-GB'
         );
         $userCreateStruct->enabled = true;
 

@@ -17,7 +17,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     1 => SearchHit::__set_state([
        'valueObject' => [
@@ -27,7 +27,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     2 => SearchHit::__set_state([
        'valueObject' => [
@@ -37,7 +37,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     3 => SearchHit::__set_state([
        'valueObject' => [
@@ -47,7 +47,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     4 => SearchHit::__set_state([
        'valueObject' => [
@@ -57,7 +57,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     5 => SearchHit::__set_state([
        'valueObject' => [
@@ -67,7 +67,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     6 => SearchHit::__set_state([
        'valueObject' => [
@@ -77,7 +77,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     7 => SearchHit::__set_state([
        'valueObject' => [
@@ -87,7 +87,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     8 => SearchHit::__set_state([
        'valueObject' => [
@@ -97,7 +97,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     9 => SearchHit::__set_state([
        'valueObject' => [
@@ -107,7 +107,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     10 => SearchHit::__set_state([
        'valueObject' => [
@@ -117,7 +117,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     11 => SearchHit::__set_state([
        'valueObject' => [
@@ -127,7 +127,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     12 => SearchHit::__set_state([
        'valueObject' => [
@@ -137,7 +137,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     13 => SearchHit::__set_state([
        'valueObject' => [
@@ -147,7 +147,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     14 => SearchHit::__set_state([
        'valueObject' => [
@@ -157,7 +157,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
     15 => SearchHit::__set_state([
        'valueObject' => [
@@ -167,7 +167,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-GB',
+       'matchedTranslation' => 'eng-US',
     ]),
     16 => SearchHit::__set_state([
        'valueObject' => [
@@ -177,7 +177,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-GB',
+       'matchedTranslation' => 'eng-US',
     ]),
     17 => SearchHit::__set_state([
        'valueObject' => [
@@ -187,7 +187,7 @@ return SearchResult::__set_state([
        'score' => null,
        'index' => null,
        'highlight' => null,
-       'matchedTranslation' => 'eng-US',
+       'matchedTranslation' => 'eng-GB',
     ]),
   ],
    'spellcheck' => null,

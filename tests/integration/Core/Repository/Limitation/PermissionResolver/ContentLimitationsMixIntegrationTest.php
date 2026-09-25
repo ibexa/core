@@ -34,7 +34,7 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
             [
                 new Limitation\ParentContentTypeLimitation([self::LIMITATION_VALUES => [1]]),
                 new Limitation\ParentDepthLimitation([self::LIMITATION_VALUES => [2]]),
-                new Limitation\LanguageLimitation([self::LIMITATION_VALUES => ['eng-US']]),
+                new Limitation\LanguageLimitation([self::LIMITATION_VALUES => ['eng-GB']]),
             ]
         );
 
@@ -44,7 +44,7 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
                 new Limitation\ObjectStateLimitation(
                     [self::LIMITATION_VALUES => [1, 2]]
                 ),
-                new Limitation\LanguageLimitation([self::LIMITATION_VALUES => ['eng-US']]),
+                new Limitation\LanguageLimitation([self::LIMITATION_VALUES => ['eng-GB']]),
             ]
         );
 
@@ -87,7 +87,7 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
 
-        $folder = $this->createFolder(['eng-US' => 'Folder'], 2);
+        $folder = $this->createFolder(['eng-GB' => 'Folder'], 2);
         $location = $locationService->loadLocation($folder->contentInfo->mainLocationId);
 
         $this->loginAsEditorUserWithLimitations($module, $function, $limitations);

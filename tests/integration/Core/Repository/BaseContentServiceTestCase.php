@@ -46,7 +46,7 @@ abstract class BaseContentServiceTestCase extends BaseTestCase
         $contentType = $contentTypeService->loadContentTypeByIdentifier('video');
 
         // Configure new content object
-        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-GB');
 
         $contentCreate->setField('name', 'An empty file');
         $contentCreate->remoteId = 'abcdef0123456789abcdef0123456789gh';
@@ -98,7 +98,7 @@ abstract class BaseContentServiceTestCase extends BaseTestCase
         $contentType = $contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
 
         // Configure new content object
-        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreate = $contentService->newContentCreateStruct($contentType, 'eng-GB');
 
         $contentCreate->setField($contentFieldNameIdentifier, "An awesome {$contentTypeIdentifier}");
         $contentCreate->remoteId = 'abcdef0123456789abcdef0123456789';
@@ -177,10 +177,10 @@ abstract class BaseContentServiceTestCase extends BaseTestCase
 
         // Create an update struct and modify some fields
         $contentUpdate = $contentService->newContentUpdateStruct();
-        $contentUpdate->initialLanguageCode = 'eng-US';
+        $contentUpdate->initialLanguageCode = 'eng-GB';
         $contentUpdate->creatorId = $this->generateId('user', 10);
         $contentUpdate->setField('name', 'An awesome forum²');
-        $contentUpdate->setField('name', 'An awesome forum²³', 'eng-GB');
+        $contentUpdate->setField('name', 'An awesome forum²³', 'eng-US');
 
         // Update the content draft
         $draftVersion2 = $contentService->updateContent(
@@ -205,7 +205,7 @@ abstract class BaseContentServiceTestCase extends BaseTestCase
 
         $contentService = $repository->getContentService();
         $userService = $repository->getUserService();
-        $mainLanguageCode = 'eng-US';
+        $mainLanguageCode = 'eng-GB';
 
         // Create a new user that belongs to the Administrator users group
         $newUserCreateStruct = $userService->newUserCreateStruct('admin2', 'admin2@ibexa.co', 'admin2', $mainLanguageCode);
@@ -225,7 +225,7 @@ abstract class BaseContentServiceTestCase extends BaseTestCase
 
         $contentUpdate->creatorId = $this->generateId('user', $userAdmin2->id);
         $contentUpdate->setField('name', 'An awesome forum²');
-        $contentUpdate->setField('name', 'An awesome forum²³', 'eng-GB');
+        $contentUpdate->setField('name', 'An awesome forum²³', 'eng-US');
 
         // Update the content draft
         $draftVersion2 = $contentService->updateContent(
@@ -275,11 +275,11 @@ abstract class BaseContentServiceTestCase extends BaseTestCase
 
         $contentUpdate = $contentService->newContentUpdateStruct();
 
-        $contentUpdate->initialLanguageCode = 'eng-US';
+        $contentUpdate->initialLanguageCode = 'eng-GB';
 
         $contentUpdate->setField('name', 'An awesome multi-lang forum²');
 
-        $contentUpdate->setField('name', 'An awesome multi-lang forum²³', 'eng-GB');
+        $contentUpdate->setField('name', 'An awesome multi-lang forum²³', 'eng-US');
 
         $draft = $contentService->updateContent(
             $draft->getVersionInfo(),
@@ -410,7 +410,7 @@ abstract class BaseContentServiceTestCase extends BaseTestCase
         $contentType = $contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
 
         // Prepare new Content Object
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
 
         foreach ($fieldValues as $fieldIdentifier => $fieldValue) {
             $contentCreateStruct->setField($fieldIdentifier, $fieldValue);

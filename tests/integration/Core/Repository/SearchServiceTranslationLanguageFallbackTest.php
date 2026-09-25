@@ -50,13 +50,13 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('test-type');
-        $createStruct->mainLanguageCode = 'eng-GB';
-        $createStruct->names = ['eng-GB' => 'Test type'];
+        $createStruct->mainLanguageCode = 'eng-US';
+        $createStruct->names = ['eng-US' => 'Test type'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new DateTime();
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('search_field', 'ibexa_integer');
-        $fieldCreate->names = ['eng-GB' => 'Search field'];
+        $fieldCreate->names = ['eng-US' => 'Search field'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
         $fieldCreate->isTranslatable = true;
@@ -65,7 +65,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         $createStruct->addFieldDefinition($fieldCreate);
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('sort_field', 'ibexa_integer');
-        $fieldCreate->names = ['eng-GB' => 'Sort field'];
+        $fieldCreate->names = ['eng-US' => 'Sort field'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 2;
         $fieldCreate->isTranslatable = false;
@@ -153,11 +153,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 1 => $this->createContent(
                     $contentType,
                     [
-                        'eng-GB' => 1,
+                        'eng-US' => 1,
                         'ger-DE' => 2,
                         'por-PT' => 3,
                     ],
-                    'eng-GB',
+                    'eng-US',
                     false,
                     1,
                     $parentLocationIds
@@ -165,7 +165,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 2 => $this->createContent(
                     $contentType,
                     [
-                        //"eng-GB" => ,
+                        //"eng-US" => ,
                         'ger-DE' => 1,
                         'por-PT' => 2,
                     ],
@@ -177,7 +177,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 3 => $this->createContent(
                     $contentType,
                     [
-                        //"eng-GB" => ,
+                        //"eng-US" => ,
                         //"ger-DE" => ,
                         'por-PT' => 1,
                     ],
@@ -208,7 +208,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             0 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                         'por-PT',
                     ],
@@ -217,7 +217,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -250,7 +250,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             1 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'por-PT',
                         'ger-DE',
                     ],
@@ -259,7 +259,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -293,7 +293,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'ger-DE',
-                        'eng-GB',
+                        'eng-US',
                         'por-PT',
                     ],
                     'useAlwaysAvailable' => false,
@@ -336,7 +336,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                     'languages' => [
                         'ger-DE',
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => false,
                 ],
@@ -377,7 +377,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                     ],
                     'useAlwaysAvailable' => false,
@@ -419,7 +419,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                     ],
                     'useAlwaysAvailable' => false,
@@ -460,7 +460,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             6 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                     ],
                     'useAlwaysAvailable' => false,
@@ -468,7 +468,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -492,7 +492,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'ger-DE',
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => false,
                 ],
@@ -522,7 +522,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             8 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'por-PT',
                     ],
                     'useAlwaysAvailable' => false,
@@ -530,7 +530,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -564,7 +564,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => false,
                 ],
@@ -646,7 +646,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => false,
                 ],
@@ -686,14 +686,14 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             12 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => false,
                 ],
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -776,7 +776,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             15 => [
                 [
                     'languages' => [
-                        'eng-US',
+                        'eng-GB',
                     ],
                     'useAlwaysAvailable' => false,
                 ],
@@ -785,7 +785,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             16 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                         'por-PT',
                     ],
@@ -794,7 +794,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -827,7 +827,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             17 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'por-PT',
                         'ger-DE',
                     ],
@@ -836,7 +836,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -870,7 +870,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'ger-DE',
-                        'eng-GB',
+                        'eng-US',
                         'por-PT',
                     ],
                     'useAlwaysAvailable' => true,
@@ -913,7 +913,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                     'languages' => [
                         'ger-DE',
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => true,
                 ],
@@ -954,7 +954,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                     ],
                     'useAlwaysAvailable' => true,
@@ -996,7 +996,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                     ],
                     'useAlwaysAvailable' => true,
@@ -1037,7 +1037,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             22 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'ger-DE',
                     ],
                     'useAlwaysAvailable' => true,
@@ -1045,7 +1045,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -1069,7 +1069,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'ger-DE',
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => true,
                 ],
@@ -1099,7 +1099,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             24 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                         'por-PT',
                     ],
                     'useAlwaysAvailable' => true,
@@ -1107,7 +1107,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -1141,7 +1141,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => true,
                 ],
@@ -1223,7 +1223,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 [
                     'languages' => [
                         'por-PT',
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => true,
                 ],
@@ -1263,14 +1263,14 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             28 => [
                 [
                     'languages' => [
-                        'eng-GB',
+                        'eng-US',
                     ],
                     'useAlwaysAvailable' => true,
                 ],
                 [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -1363,7 +1363,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             31 => [
                 [
                     'languages' => [
-                        'eng-US',
+                        'eng-GB',
                     ],
                     'useAlwaysAvailable' => true,
                 ],
@@ -1388,7 +1388,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                 $mainLanguages = [
                     [
                         1,
-                        'eng-GB',
+                        'eng-US',
                         [
                             self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                             self::SETUP_SHARED => 'localhost:8983/solr/core0',
@@ -1454,7 +1454,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             38 => [
                 [
                     'languages' => [
-                        'eng-US',
+                        'eng-GB',
                     ],
                     'useAlwaysAvailable' => false,
                 ],
@@ -1463,7 +1463,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             39 => [
                 [
                     'languages' => [
-                        'eng-US',
+                        'eng-GB',
                     ],
                     'useAlwaysAvailable' => true,
                 ],
@@ -1491,7 +1491,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                     [
                         [
                             'languages' => [
-                                'eng-GB',
+                                'eng-US',
                                 'ger-DE',
                             ],
                             'useAlwaysAvailable' => true,
@@ -1500,7 +1500,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                         [
                             [
                                 1,
-                                'eng-GB',
+                                'eng-US',
                                 [
                                     self::SETUP_DEDICATED => 'localhost:8983/solr/core0',
                                     self::SETUP_SHARED => 'localhost:8983/solr/core3',
@@ -1588,7 +1588,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                         [
                             'languages' => [
                                 'ger-DE',
-                                'eng-GB',
+                                'eng-US',
                             ],
                             'useAlwaysAvailable' => true,
                             'excludeTranslationsFromAlwaysAvailable' => false,

@@ -17,7 +17,7 @@ return SearchResult::__set_state([
                 'score' => null,
                 'index' => null,
                 'highlight' => null,
-                'matchedTranslation' => 'eng-US',
+                'matchedTranslation' => 'eng-GB',
             ]),
         ],
     'spellcheck' => null,

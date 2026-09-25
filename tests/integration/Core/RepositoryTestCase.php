@@ -59,7 +59,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
             $login,
             "$login@mail.invalid",
             'secret',
-            'eng-US'
+            'eng-GB'
         );
         $userCreateStruct->enabled = true;
 

@@ -20,7 +20,7 @@ final class ContentServiceTest extends BaseParallelTestCase
         $contentService = $repository->getContentService();
         $content = $this->createFolder(
             [
-                'eng-US' => 'Content',
+                'eng-GB' => 'Content',
             ],
             $this->generateId('location', 2)
         );

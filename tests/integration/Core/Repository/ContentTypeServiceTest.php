@@ -108,8 +108,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $groupCreate->creationDate = $this->createDateTime();
         /* @todo uncomment when support for multilingual names and descriptions is added
         $groupCreate->mainLanguageCode = 'ger-DE';
-        $groupCreate->names = array( 'eng-GB' => 'A name.' );
-        $groupCreate->descriptions = array( 'eng-GB' => 'A description.' );
+        $groupCreate->names = array( 'eng-US' => 'A name.' );
+        $groupCreate->descriptions = array( 'eng-US' => 'A description.' );
         */
 
         $groupCreate->isSystem = true;
@@ -440,15 +440,15 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $groupUpdate->modificationDate = $this->createDateTime();
         $groupUpdate->isSystem = true;
         /* @todo uncomment when support for multilingual names and descriptions is added
-        $groupUpdate->mainLanguageCode = 'eng-GB';
+        $groupUpdate->mainLanguageCode = 'eng-US';
 
         $groupUpdate->names = array(
-            'eng-GB' => 'A name',
             'eng-US' => 'A name',
+            'eng-GB' => 'A name',
         );
         $groupUpdate->descriptions = array(
-            'eng-GB' => 'A description',
             'eng-US' => 'A description',
+            'eng-GB' => 'A description',
         );
         */
 
@@ -580,9 +580,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $group = $contentTypeService->loadContentTypeGroupByIdentifier('new-group');
         for ($i = 0; $i < 3; ++$i) {
             $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('content_type_draft_' . $i);
-            $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
+            $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
             $contentTypeCreateStruct->names = [
-                'eng-GB' => 'content_type_draft_' . $i,
+                'eng-US' => 'content_type_draft_' . $i,
             ];
 
             $contentTypeService->createContentType($contentTypeCreateStruct, [$group]);
@@ -733,16 +733,16 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $permissionResolver = $repository->getPermissionResolver();
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct('blog-post');
-        $typeCreate->mainLanguageCode = 'eng-GB';
+        $typeCreate->mainLanguageCode = 'eng-US';
         $typeCreate->remoteId = '384b94a1bd6bc06826410e284dd9684887bf56fc';
         $typeCreate->urlAliasSchema = 'url|scheme';
         $typeCreate->nameSchema = 'name|scheme';
         $typeCreate->names = [
-            'eng-GB' => 'Blog post',
+            'eng-US' => 'Blog post',
             'ger-DE' => 'Blog-Eintrag',
         ];
         $typeCreate->descriptions = [
-            'eng-GB' => 'A blog post',
+            'eng-US' => 'A blog post',
             'ger-DE' => 'Ein Blog-Eintrag',
         ];
         $typeCreate->creatorId = $this->generateId('user', $permissionResolver->getCurrentUserReference()->getUserId());
@@ -750,11 +750,11 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $titleFieldCreate->names = [
-            'eng-GB' => 'Title',
+            'eng-US' => 'Title',
             'ger-DE' => 'Titel',
         ];
         $titleFieldCreate->descriptions = [
-            'eng-GB' => 'Title of the blog post',
+            'eng-US' => 'Title of the blog post',
             'ger-DE' => 'Titel des Blog-Eintrages',
         ];
         $titleFieldCreate->fieldGroup = 'blog-content';
@@ -776,11 +776,11 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         $bodyFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('body', 'ibexa_string');
         $bodyFieldCreate->names = [
-            'eng-GB' => 'Body',
+            'eng-US' => 'Body',
             'ger-DE' => 'Textkörper',
         ];
         $bodyFieldCreate->descriptions = [
-            'eng-GB' => 'Body of the blog post',
+            'eng-US' => 'Body of the blog post',
             'ger-DE' => 'Textkörper des Blog-Eintrages',
         ];
         $bodyFieldCreate->fieldGroup = 'blog-content';
@@ -973,8 +973,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct('folder');
-        $typeCreate->mainLanguageCode = 'eng-GB';
-        $typeCreate->names = ['eng-GB' => 'Article'];
+        $typeCreate->mainLanguageCode = 'eng-US';
+        $typeCreate->names = ['eng-US' => 'Article'];
 
         $firstFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $typeCreate->addFieldDefinition($firstFieldCreate);
@@ -1006,8 +1006,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct('news-article');
         $typeCreate->remoteId = 'a3d405b81be900468eb153d774f4f0d2';
-        $typeCreate->mainLanguageCode = 'eng-GB';
-        $typeCreate->names = ['eng-GB' => 'Article'];
+        $typeCreate->mainLanguageCode = 'eng-US';
+        $typeCreate->names = ['eng-US' => 'Article'];
 
         $firstFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $typeCreate->addFieldDefinition($firstFieldCreate);
@@ -1037,8 +1037,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct('blog-post');
-        $typeCreate->mainLanguageCode = 'eng-GB';
-        $typeCreate->names = ['eng-GB' => 'Blog post'];
+        $typeCreate->mainLanguageCode = 'eng-US';
+        $typeCreate->names = ['eng-US' => 'Blog post'];
 
         $firstFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $typeCreate->addFieldDefinition($firstFieldCreate);
@@ -1077,9 +1077,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $typeCreateStruct->remoteId = 'other-remote-id';
         $typeCreateStruct->creatorId = $repository->getPermissionResolver()->getCurrentUserReference()->getUserId();
         $typeCreateStruct->creationDate = new \DateTime();
-        $typeCreateStruct->mainLanguageCode = 'eng-US';
-        $typeCreateStruct->names = ['eng-US' => 'A name.'];
-        $typeCreateStruct->descriptions = ['eng-US' => 'A description.'];
+        $typeCreateStruct->mainLanguageCode = 'eng-GB';
+        $typeCreateStruct->names = ['eng-GB' => 'A name.'];
+        $typeCreateStruct->descriptions = ['eng-GB' => 'A description.'];
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('test', 'ibexa_text');
         $typeCreateStruct->addFieldDefinition($fieldCreate);
@@ -1105,8 +1105,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct('blog-post');
-        $typeCreate->mainLanguageCode = 'eng-GB';
-        $typeCreate->names = ['eng-GB' => 'Blog post'];
+        $typeCreate->mainLanguageCode = 'eng-US';
+        $typeCreate->names = ['eng-US' => 'Blog post'];
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('temperature', 'ibexa_integer');
         $fieldCreate->isSearchable = true;
@@ -1165,8 +1165,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct(
             'new-type'
         );
-        $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
-        $contentTypeCreateStruct->names = ['eng-GB' => 'Test type'];
+        $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
+        $contentTypeCreateStruct->names = ['eng-US' => 'Test type'];
 
         // Thrown an exception because array of content type groups is empty
         $contentTypeService->createContentType($contentTypeCreateStruct, []);
@@ -1306,16 +1306,16 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $typeUpdate->urlAliasSchema = 'url@alias|scheme';
         $typeUpdate->nameSchema = '@name@scheme@';
         $typeUpdate->isContainer = true;
-        $typeUpdate->mainLanguageCode = 'eng-US';
+        $typeUpdate->mainLanguageCode = 'eng-GB';
         $typeUpdate->defaultAlwaysAvailable = false;
         $typeUpdate->modifierId = $modifierId;
         $typeUpdate->modificationDate = $this->createDateTime();
         $typeUpdate->names = [
-            'eng-GB' => 'News article',
+            'eng-US' => 'News article',
             'ger-DE' => 'Nachrichten-Artikel',
         ];
         $typeUpdate->descriptions = [
-            'eng-GB' => 'A news article',
+            'eng-US' => 'A news article',
             'ger-DE' => 'Ein Nachrichten-Artikel',
         ];
 
@@ -1396,23 +1396,23 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
         // sanity check
         self::assertEquals(
-            ['eng-US', 'ger-DE'],
+            ['eng-GB', 'ger-DE'],
             array_keys($contentType->getNames())
         );
 
         $contentTypeDraft = $contentTypeService->createContentTypeDraft($contentType);
         $updateStruct = $contentTypeService->newContentTypeUpdateStruct();
         $updateStruct->names = [
-            'eng-GB' => 'BrE blog post',
+            'eng-US' => 'BrE blog post',
         ];
         $contentTypeService->updateContentTypeDraft($contentTypeDraft, $updateStruct);
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
 
         self::assertEquals(
             [
-                'eng-US' => 'Blog post',
+                'eng-GB' => 'Blog post',
                 'ger-DE' => 'Blog-Eintrag',
-                'eng-GB' => 'BrE blog post',
+                'eng-US' => 'BrE blog post',
             ],
             $contentTypeService->loadContentType($contentType->id)->getNames()
         );
@@ -1512,11 +1512,11 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('tags', 'ibexa_string');
         $fieldDefCreate->names = [
-            'eng-GB' => 'Tags',
+            'eng-US' => 'Tags',
             'ger-DE' => 'Schlagworte',
         ];
         $fieldDefCreate->descriptions = [
-            'eng-GB' => 'Tags of the blog post',
+            'eng-US' => 'Tags of the blog post',
             'ger-DE' => 'Schlagworte des Blog-Eintrages',
         ];
         $fieldDefCreate->fieldGroup = 'blog-meta';
@@ -1674,10 +1674,10 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('second_user_account', 'ibexa_user');
         $fieldDefCreate->names = [
-            'eng-GB' => 'Second user account',
+            'eng-US' => 'Second user account',
         ];
         $fieldDefCreate->descriptions = [
-            'eng-GB' => 'Second user account for the ContentType',
+            'eng-US' => 'Second user account for the ContentType',
         ];
         $fieldDefCreate->fieldGroup = 'users';
         $fieldDefCreate->position = 1;
@@ -1709,8 +1709,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         /* BEGIN: Use Case */
         $contentTypeService = $repository->getContentTypeService();
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('this_is_new');
-        $contentTypeCreateStruct->names = ['eng-GB' => 'This is new'];
-        $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
+        $contentTypeCreateStruct->names = ['eng-US' => 'This is new'];
+        $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
 
         // create first field definition
         $firstFieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct(
@@ -1718,7 +1718,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
             'ibexa_user'
         );
         $firstFieldDefinition->names = [
-            'eng-GB' => 'First user account',
+            'eng-US' => 'First user account',
         ];
         $firstFieldDefinition->position = 1;
 
@@ -1730,7 +1730,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
             'ibexa_user'
         );
         $secondFieldDefinition->names = [
-            'eng-GB' => 'Second user account',
+            'eng-US' => 'Second user account',
         ];
         $secondFieldDefinition->position = 2;
 
@@ -1765,10 +1765,10 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('user_account', 'ibexa_user');
         $fieldDefCreate->names = [
-            'eng-GB' => 'User account',
+            'eng-US' => 'User account',
         ];
         $fieldDefCreate->descriptions = [
-            'eng-GB' => 'User account field definition for ContentType that has Content instances',
+            'eng-US' => 'User account field definition for ContentType that has Content instances',
         ];
         $fieldDefCreate->fieldGroup = 'users';
         $fieldDefCreate->position = 1;
@@ -2005,10 +2005,10 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('byline', 'ibexa_string');
         $fieldDefinitionCreateStruct->names = [
-            'eng-US' => 'Byline',
+            'eng-GB' => 'Byline',
         ];
         $fieldDefinitionCreateStruct->descriptions = [
-            'eng-US' => 'Byline of the blog post',
+            'eng-GB' => 'Byline of the blog post',
         ];
         $fieldDefinitionCreateStruct->fieldGroup = 'blog-meta';
         $fieldDefinitionCreateStruct->position = 1;
@@ -2159,11 +2159,11 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $bodyUpdateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
         $bodyUpdateStruct->identifier = 'blog-body';
         $bodyUpdateStruct->names = [
-            'eng-GB' => 'Blog post body',
+            'eng-US' => 'Blog post body',
             'ger-DE' => 'Blog-Eintrags-Textkörper',
         ];
         $bodyUpdateStruct->descriptions = [
-            'eng-GB' => 'Blog post body of the blog post',
+            'eng-US' => 'Blog post body of the blog post',
             'ger-DE' => 'Blog-Eintrags-Textkörper des Blog-Eintrages',
         ];
         $bodyUpdateStruct->fieldGroup = 'updated-blog-content';
@@ -2208,17 +2208,17 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $bodyField = $contentTypeDraft->getFieldDefinition('body');
 
         self::assertEquals(
-            ['eng-US', 'ger-DE'],
+            ['eng-GB', 'ger-DE'],
             array_keys($bodyField->getNames())
         );
 
         $bodyUpdateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
         $bodyUpdateStruct->identifier = 'blog-body';
         $bodyUpdateStruct->names = [
-            'eng-GB' => 'New blog post body',
+            'eng-US' => 'New blog post body',
         ];
         $bodyUpdateStruct->descriptions = [
-            'eng-GB' => null,
+            'eng-US' => null,
         ];
         $bodyUpdateStruct->fieldGroup = 'updated-blog-content';
         $bodyUpdateStruct->position = 3;
@@ -2242,16 +2242,16 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         self::assertEquals(
             [
-                'eng-GB' => 'New blog post body',
-                'eng-US' => 'Body',
+                'eng-US' => 'New blog post body',
+                'eng-GB' => 'Body',
                 'ger-DE' => 'Textkörper',
             ],
             $contentType->getFieldDefinition('blog-body')->getNames()
         );
         self::assertEquals(
             [
-                'eng-GB' => null,
-                'eng-US' => 'Body of the blog post',
+                'eng-US' => null,
+                'eng-GB' => 'Body of the blog post',
                 'ger-DE' => 'Textkörper des Blog-Eintrages',
             ],
             $contentType->getFieldDefinition('blog-body')->getDescriptions()
@@ -2416,9 +2416,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
             'new-type'
         );
         $typeCreateStruct->names = [
-            'eng-GB' => 'Type title',
+            'eng-US' => 'Type title',
         ];
-        $typeCreateStruct->mainLanguageCode = 'eng-GB';
+        $typeCreateStruct->mainLanguageCode = 'eng-US';
 
         $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $titleFieldCreate->position = 1;
@@ -2529,9 +2529,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $typeCreateStruct->remoteId = 'new-unique-remoteid';
         $typeCreateStruct->creatorId = $repository->getPermissionResolver()->getCurrentUserReference()->getUserId();
         $typeCreateStruct->creationDate = new \DateTime();
-        $typeCreateStruct->mainLanguageCode = 'eng-US';
-        $typeCreateStruct->names = ['eng-US' => 'A name.'];
-        $typeCreateStruct->descriptions = ['eng-US' => 'A description.'];
+        $typeCreateStruct->mainLanguageCode = 'eng-GB';
+        $typeCreateStruct->names = ['eng-GB' => 'A name.'];
+        $typeCreateStruct->descriptions = ['eng-GB' => 'A description.'];
 
         $contentTypeDraft = $contentTypeService->createContentType(
             $typeCreateStruct,
@@ -2585,7 +2585,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $contentTypeService->publishContentTypeDraft($contentType);
         $contentType = $contentTypeService->loadContentType($contentType->id, $languageCodes);
 
-        $language = isset($languageCodes[0]) ? $languageCodes[0] : 'eng-US';
+        $language = isset($languageCodes[0]) ? $languageCodes[0] : 'eng-GB';
         /** @var \Ibexa\Core\FieldType\TextLine\Value $nameValue */
         self::assertEquals(
             $contentType->getName($language),
@@ -2615,10 +2615,10 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     {
         return [
             [[]],
-            [['eng-US']],
+            [['eng-GB']],
             [['ger-DE']],
-            [['eng-US', 'ger-DE']],
-            [['ger-DE', 'eng-US']],
+            [['eng-GB', 'ger-DE']],
+            [['ger-DE', 'eng-GB']],
         ];
     }
 
@@ -2642,12 +2642,12 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
                 'modifierId' => $this->generateId('user', 14),
                 'remoteId' => '25b4268cdcd01921b808a0d854b877ef',
                 'names' => [
-                    'eng-US' => 'User group',
+                    'eng-GB' => 'User group',
                 ],
                 'descriptions' => [],
                 'nameSchema' => '<name>',
                 'isContainer' => true,
-                'mainLanguageCode' => 'eng-US',
+                'mainLanguageCode' => 'eng-GB',
                 'defaultAlwaysAvailable' => true,
                 'defaultSortField' => 1,
                 'defaultSortOrder' => 1,
@@ -2679,7 +2679,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
                 'isSearchable' => true,
                 'defaultValue' => new TextLineValue(),
                 'names' => [
-                    'eng-US' => 'Name',
+                    'eng-GB' => 'Name',
                 ],
                 'descriptions' => [],
             ],
@@ -2694,7 +2694,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
                 'isSearchable' => true,
                 'defaultValue' => new TextLineValue(),
                 'names' => [
-                    'eng-US' => 'Description',
+                    'eng-GB' => 'Description',
                 ],
                 'descriptions' => [],
             ],
@@ -3443,7 +3443,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         // Get create struct and set language property
         $groupCreate = $contentTypeService->newContentTypeGroupCreateStruct('new-group');
         /* @todo uncomment when support for multilingual names and descriptions is added
-        $groupCreate->mainLanguageCode = 'eng-GB';
+        $groupCreate->mainLanguageCode = 'eng-US';
         */
 
         // Start a new transaction
@@ -3487,7 +3487,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         // Get create struct and set language property
         $groupCreate = $contentTypeService->newContentTypeGroupCreateStruct('new-group');
         /* @todo uncomment when support for multilingual names and descriptions is added
-        $groupCreate->mainLanguageCode = 'eng-GB';
+        $groupCreate->mainLanguageCode = 'eng-US';
         */
 
         // Start a new transaction
@@ -3706,11 +3706,11 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         try {
             // Get create struct and set some properties
             $typeCreate = $contentTypeService->newContentTypeCreateStruct('blog-post');
-            $typeCreate->mainLanguageCode = 'eng-GB';
-            $typeCreate->names = ['eng-GB' => 'Blog post'];
+            $typeCreate->mainLanguageCode = 'eng-US';
+            $typeCreate->names = ['eng-US' => 'Blog post'];
 
             $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
-            $titleFieldCreate->names = ['eng-GB' => 'Title'];
+            $titleFieldCreate->names = ['eng-US' => 'Title'];
             $titleFieldCreate->position = 1;
             $typeCreate->addFieldDefinition($titleFieldCreate);
 
@@ -3764,11 +3764,11 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         try {
             // Get create struct and set some properties
             $typeCreate = $contentTypeService->newContentTypeCreateStruct('blog-post');
-            $typeCreate->mainLanguageCode = 'eng-GB';
-            $typeCreate->names = ['eng-GB' => 'Blog post'];
+            $typeCreate->mainLanguageCode = 'eng-US';
+            $typeCreate->names = ['eng-US' => 'Blog post'];
 
             $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
-            $titleFieldCreate->names = ['eng-GB' => 'Title'];
+            $titleFieldCreate->names = ['eng-US' => 'Title'];
             $titleFieldCreate->position = 1;
             $typeCreate->addFieldDefinition($titleFieldCreate);
 
@@ -4085,7 +4085,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         self::assertEquals(
             [
-                'eng-US' => 'Blog post',
+                'eng-GB' => 'Blog post',
                 'ger-DE' => 'Blog-Eintrag',
             ],
             $contentType->getNames()
@@ -4121,7 +4121,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $selectionFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('selection', 'ibexa_selection');
 
         $selectionFieldCreate->names = [
-            'eng-US' => 'Selection',
+            'eng-GB' => 'Selection',
             'ger-DE' => 'GER Selection',
         ];
 
@@ -4133,7 +4133,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $selectionFieldCreate->validatorConfiguration = [];
         $selectionFieldCreate->fieldSettings = [
             'multilingualOptions' => [
-                'eng-US' => [
+                'eng-GB' => [
                     0 => 'A first',
                     1 => 'Bielefeld',
                     2 => 'Sindelfingen',
@@ -4181,7 +4181,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $selectionFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('selection', 'ibexa_selection');
 
         $selectionFieldCreate->names = [
-            'eng-US' => 'Selection',
+            'eng-GB' => 'Selection',
             'ger-DE' => 'GER Selection',
         ];
 
@@ -4193,7 +4193,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $selectionFieldCreate->validatorConfiguration = [];
         $selectionFieldCreate->fieldSettings = [
             'multilingualOptions' => [
-                'eng-US' => [
+                'eng-GB' => [
                     0 => 'A first',
                     1 => 'Bielefeld',
                     2 => 'Sindelfingen',
@@ -4217,20 +4217,20 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
         // sanity check
         self::assertEquals(
-            ['eng-US', 'ger-DE'],
+            ['eng-GB', 'ger-DE'],
             array_keys($contentType->getNames())
         );
 
         $contentTypeDraft = $contentTypeService->createContentTypeDraft($contentType);
         $updateStruct = $contentTypeService->newContentTypeUpdateStruct();
         $updateStruct->names = [
-            'eng-GB' => 'BrE blog post',
+            'eng-US' => 'BrE blog post',
         ];
 
         $selectionFieldUpdate = $contentTypeService->newFieldDefinitionUpdateStruct();
 
         $selectionFieldUpdate->names = [
-            'eng-GB' => 'GB Selection',
+            'eng-US' => 'GB Selection',
         ];
 
         $selectionFieldUpdate->fieldGroup = 'blog-content';
@@ -4241,7 +4241,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $selectionFieldUpdate->validatorConfiguration = [];
         $selectionFieldUpdate->fieldSettings = [
             'multilingualOptions' => [
-                'eng-US' => [
+                'eng-GB' => [
                     0 => 'A first',
                     1 => 'Bielefeld',
                     2 => 'Sindelfingen',
@@ -4255,7 +4255,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
                     3 => 'Frankfurt',
                     4 => 'Hamburg',
                 ],
-                'eng-GB' => [
+                'eng-US' => [
                     0 => 'London',
                     1 => 'Liverpool',
                 ],
@@ -4274,7 +4274,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $loadedFieldDefinition = $contentTypeService->loadContentType($contentType->id)->getFieldDefinition('selection');
         self::assertEquals(
             [
-                'eng-US' => [
+                'eng-GB' => [
                     0 => 'A first',
                     1 => 'Bielefeld',
                     2 => 'Sindelfingen',
@@ -4288,7 +4288,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
                     3 => 'Frankfurt',
                     4 => 'Hamburg',
                 ],
-                'eng-GB' => [
+                'eng-US' => [
                     0 => 'London',
                     1 => 'Liverpool',
                 ],

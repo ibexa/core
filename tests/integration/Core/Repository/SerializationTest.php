@@ -43,7 +43,7 @@ final class SerializationTest extends RepositoryTestCase
                     "maxLogin": 10,
                     "plainPassword": null
                 },
-                "languageCode": "eng-US",
+                "languageCode": "eng-GB",
                 "fieldTypeIdentifier": "ibexa_user",
                 "fieldDefinitionIdentifier": "user_account",
                 "virtual": false

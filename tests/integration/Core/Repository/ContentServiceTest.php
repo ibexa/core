@@ -71,9 +71,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
     private const FORUM_IDENTIFIER = 'forum';
 
-    private const ENG_US = 'eng-US';
-    private const GER_DE = 'ger-DE';
     private const ENG_GB = 'eng-GB';
+    private const GER_DE = 'ger-DE';
+    private const ENG_US = 'eng-US';
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;
@@ -105,7 +105,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
 
         self::assertInstanceOf(ContentCreateStruct::class, $contentCreate);
     }
@@ -124,7 +124,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate->setField('name', 'My awesome forum');
 
         $contentCreate->remoteId = 'abcdef0123456789abcdef0123456789';
@@ -175,7 +175,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // Create a new content object:
         $contentCreate = $this->contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            self::ENG_GB
+            self::ENG_US
         );
 
         $contentCreate->setField('name', 'Folder 1');
@@ -222,7 +222,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 true,
                 1,
                 'abcdef0123456789abcdef0123456789',
-                self::ENG_US,
+                self::ENG_GB,
                 $permissionResolver->getCurrentUserReference()->getUserId(),
                 false,
                 null,
@@ -274,7 +274,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 'status' => VersionInfo::STATUS_DRAFT,
                 'versionNo' => 1,
                 'creatorId' => $currentUserReference->getUserId(),
-                'initialLanguageCode' => self::ENG_US,
+                'initialLanguageCode' => self::ENG_GB,
             ],
             [
                 'status' => $content->getVersionInfo()->status,
@@ -323,7 +323,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentType = $this->getRepository()->getContentTypeService()
             ->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
         $contentCreate->setField('name', 'Sorting Test');
 
         $content = $this->contentService->createContent(
@@ -349,7 +349,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
-        $contentCreate1 = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate1 = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate1->setField('name', 'An awesome Sidelfingen forum');
 
         $contentCreate1->remoteId = 'abcdef0123456789abcdef0123456789';
@@ -358,7 +358,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $draft = $this->contentService->createContent($contentCreate1);
         $this->contentService->publishVersion($draft->versionInfo);
 
-        $contentCreate2 = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
+        $contentCreate2 = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
         $contentCreate2->setField('name', 'An awesome Bielefeld forum');
 
         $contentCreate2->remoteId = 'abcdef0123456789abcdef0123456789';
@@ -378,7 +378,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         // The name field does only accept strings and null as its values
         $contentCreate->setField('name', new \stdClass());
 
@@ -396,7 +396,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $contentCreate1 = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate1 = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate1->setField('name', 'An awesome Sidelfingen folder');
         // Violates string length constraint
         $contentCreate1->setField('short_name', str_repeat('a', 200));
@@ -416,7 +416,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
-        $contentCreate1 = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate1 = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         // Required field "name" is not set
 
         $this->expectException(ContentFieldValidationException::class);
@@ -475,7 +475,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $locationCreate2->sortOrder = Location::SORT_ORDER_DESC;
 
         // Configure new content object
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
 
         $contentCreate->setField('name', 'A awesome Sindelfingen forum');
         $contentCreate->remoteId = 'abcdef0123456789abcdef0123456789';
@@ -561,7 +561,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $language = $contentInfo->getMainLanguage();
 
         self::assertInstanceOf(Language::class, $language);
-        self::assertEquals('eng-US', $language->languageCode);
+        self::assertEquals('eng-GB', $language->languageCode);
     }
 
     /**
@@ -665,7 +665,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 'publishedDate' => $this->createDateTime(1033920665),
                 'alwaysAvailable' => 1,
                 'remoteId' => 'faaeb9be3bd98ed09f606fc16d144eca',
-                'mainLanguageCode' => self::ENG_US,
+                'mainLanguageCode' => self::ENG_GB,
                 'mainLocationId' => 45,
             ],
             $contentInfo
@@ -737,7 +737,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $this->assertPropertiesCorrect(
             [
                 'names' => [
-                    self::ENG_US => 'Media',
+                    self::ENG_GB => 'Media',
                 ],
                 'contentInfo' => new ContentInfo($this->getExpectedMediaContentInfoProperties()),
                 'id' => 472,
@@ -746,9 +746,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 'creatorId' => 14,
                 'creationDate' => $this->createDateTime(1060695450),
                 'status' => VersionInfo::STATUS_PUBLISHED,
-                'initialLanguageCode' => self::ENG_US,
+                'initialLanguageCode' => self::ENG_GB,
                 'languageCodes' => [
-                    self::ENG_US,
+                    self::ENG_GB,
                 ],
             ],
             $versionInfo
@@ -779,7 +779,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $initialLanguage = $versionInfo->getInitialLanguage();
 
         self::assertInstanceOf(Language::class, $initialLanguage);
-        self::assertEquals('eng-US', $initialLanguage->languageCode);
+        self::assertEquals('eng-GB', $initialLanguage->languageCode);
     }
 
     /**
@@ -790,7 +790,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $actualLanguages = iterator_to_array($versionInfo->getLanguages());
 
-        $expectedLanguages = ['eng-US'];
+        $expectedLanguages = ['eng-GB'];
         foreach ($expectedLanguages as $i => $expectedLanguage) {
             self::assertEquals($expectedLanguage, $actualLanguages[$i]->languageCode);
         }
@@ -895,13 +895,13 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         return [
             ['f5c88a2209584891056f987fd965b0ba', null, null],
-            ['f5c88a2209584891056f987fd965b0ba', [self::ENG_US], null],
+            ['f5c88a2209584891056f987fd965b0ba', [self::ENG_GB], null],
             ['f5c88a2209584891056f987fd965b0ba', null, 1],
-            ['f5c88a2209584891056f987fd965b0ba', [self::ENG_US], 1],
+            ['f5c88a2209584891056f987fd965b0ba', [self::ENG_GB], 1],
             [self::MEDIA_REMOTE_ID, null, null],
-            [self::MEDIA_REMOTE_ID, [self::ENG_US], null],
+            [self::MEDIA_REMOTE_ID, [self::ENG_GB], null],
             [self::MEDIA_REMOTE_ID, null, 1],
-            [self::MEDIA_REMOTE_ID, [self::ENG_US], 1],
+            [self::MEDIA_REMOTE_ID, [self::ENG_GB], 1],
         ];
     }
 
@@ -988,7 +988,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 true,
                 1,
                 'abcdef0123456789abcdef0123456789',
-                self::ENG_US,
+                self::ENG_GB,
                 $userReference->getUserId(),
                 true,
             ],
@@ -1024,7 +1024,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         self::assertEquals(
             [
                 $currentUserReference->getUserId(),
-                self::ENG_US,
+                self::ENG_GB,
                 VersionInfo::STATUS_PUBLISHED,
                 1,
             ],
@@ -1197,7 +1197,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $content = $this->createContentVersion1();
 
-        $language = $this->getRepository()->getContentLanguageService()->loadLanguage('eng-GB');
+        $language = $this->getRepository()->getContentLanguageService()->loadLanguage('eng-US');
 
         // Now we create a new draft from the published content
         $draftedContent = $this->contentService->createContentDraft(
@@ -1207,8 +1207,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
             $language
         );
 
-        self::assertEquals('eng-US', $content->versionInfo->initialLanguageCode);
-        self::assertEquals('eng-GB', $draftedContent->versionInfo->initialLanguageCode);
+        self::assertEquals('eng-GB', $content->versionInfo->initialLanguageCode);
+        self::assertEquals('eng-US', $draftedContent->versionInfo->initialLanguageCode);
     }
 
     /**
@@ -1271,7 +1271,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 $draft->id,
                 true,
                 1,
-                self::ENG_US,
+                self::ENG_GB,
                 $currentUserReference->getUserId(),
                 'abcdef0123456789abcdef0123456789',
                 1,
@@ -1302,8 +1302,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
         self::assertEquals(
             [
                 'creatorId' => $currentUserReference->getUserId(),
-                'initialLanguageCode' => self::ENG_US,
-                'languageCodes' => [0 => self::ENG_US],
+                'initialLanguageCode' => self::ENG_GB,
+                'languageCodes' => [0 => self::ENG_GB],
                 'status' => VersionInfo::STATUS_DRAFT,
                 'versionNo' => 2,
             ],
@@ -1515,9 +1515,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // Now create an update struct and modify some fields
         $contentUpdateStruct = $this->contentService->newContentUpdateStruct();
         $contentUpdateStruct->setField('name', 'An awesome² story about ezp.');
-        $contentUpdateStruct->setField('name', 'An awesome²³ story about ezp.', self::ENG_GB);
+        $contentUpdateStruct->setField('name', 'An awesome²³ story about ezp.', self::ENG_US);
 
-        $contentUpdateStruct->initialLanguageCode = self::ENG_US;
+        $contentUpdateStruct->initialLanguageCode = self::ENG_GB;
 
         $this->expectException(BadStateException::class);
 
@@ -1539,7 +1539,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // Now create an update struct and modify some fields
         $contentUpdateStruct = $this->contentService->newContentUpdateStruct();
         // The name field does not accept a stdClass object as its input
-        $contentUpdateStruct->setField('name', new \stdClass(), self::ENG_US);
+        $contentUpdateStruct->setField('name', new \stdClass(), self::ENG_GB);
 
         $this->expectException(APIInvalidArgumentException::class);
         // is not accepted
@@ -1562,7 +1562,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentUpdateStruct->setField('name', null);
 
         // Don't set this, then the above call without languageCode will fail
-        $contentUpdateStruct->initialLanguageCode = self::ENG_US;
+        $contentUpdateStruct->initialLanguageCode = self::ENG_GB;
 
         $this->expectException(ContentFieldValidationException::class);
 
@@ -1582,14 +1582,14 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate->setField('name', 'An awesome Sidelfingen folder');
 
         $draft = $this->contentService->createContent($contentCreate);
 
         $contentUpdate = $this->contentService->newContentUpdateStruct();
         // Violates string length constraint
-        $contentUpdate->setField('short_name', str_repeat('a', 200), self::ENG_US);
+        $contentUpdate->setField('short_name', str_repeat('a', 200), self::ENG_GB);
 
         $this->expectException(ContentFieldValidationException::class);
 
@@ -1607,9 +1607,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
         // Create multilangual content
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
-        $contentCreate->setField('name', 'An awesome Sidelfingen folder', self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate->setField('name', 'An awesome Sidelfingen folder', self::ENG_GB);
+        $contentCreate->setField('name', 'An awesome Sidelfingen folder', self::ENG_US);
 
         $contentDraft = $this->contentService->createContent($contentCreate);
 
@@ -1628,9 +1628,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
 
-        // 3. Update only eng-US translation
+        // 3. Update only eng-GB translation
         $contentUpdate = $this->contentService->newContentUpdateStruct();
-        $contentUpdate->setField('name', 'An awesome Sidelfingen folder (updated)', self::ENG_US);
+        $contentUpdate->setField('name', 'An awesome Sidelfingen folder (updated)', self::ENG_GB);
         $contentUpdate->setField('short_name', 'Lorem ipsum dolor');
 
         $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdate);
@@ -1649,22 +1649,22 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentUpdateStruct = $this->contentService->newContentUpdateStruct();
 
         // Don't set this, then the above call without languageCode will fail
-        $contentUpdateStruct->initialLanguageCode = self::ENG_US;
+        $contentUpdateStruct->initialLanguageCode = self::ENG_GB;
 
-        // This will only update the "description" field in the "eng-US" language
+        // This will only update the "description" field in the "eng-GB" language
         $updatedDraft = $this->contentService->updateContent(
             $draft->getVersionInfo(),
             $contentUpdateStruct
         );
 
         foreach ($updatedDraft->getFields() as $field) {
-            if ($field->languageCode === self::ENG_US && $field->fieldDefIdentifier === 'name' && $field->value !== null) {
+            if ($field->languageCode === self::ENG_GB && $field->fieldDefIdentifier === 'name' && $field->value !== null) {
                 // Found field
                 return;
             }
         }
         self::fail(
-            'Field with identifier "name" in language "eng-US" could not be found or has empty value.'
+            'Field with identifier "name" in language "eng-GB" could not be found or has empty value.'
         );
     }
 
@@ -1870,7 +1870,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         }
 
         $metadataUpdate->remoteId = 'aaaabbbbccccddddeeeeffff11112222';
-        $metadataUpdate->mainLanguageCode = self::ENG_GB;
+        $metadataUpdate->mainLanguageCode = self::ENG_US;
         $metadataUpdate->alwaysAvailable = false;
 
         self::assertInstanceOf(
@@ -1895,7 +1895,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $metadataUpdate = $this->contentService->newContentMetadataUpdateStruct();
 
         $metadataUpdate->remoteId = 'aaaabbbbccccddddeeeeffff11112222';
-        $metadataUpdate->mainLanguageCode = self::ENG_GB;
+        $metadataUpdate->mainLanguageCode = self::ENG_US;
         $metadataUpdate->alwaysAvailable = false;
         $metadataUpdate->publishedDate = $this->createDateTime(441759600); // 1984/01/01
         $metadataUpdate->modificationDate = $this->createDateTime(441759600); // 1984/01/01
@@ -1931,7 +1931,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 'sectionId' => $this->generateId('section', 1),
                 'alwaysAvailable' => false,
                 'currentVersionNo' => 1,
-                'mainLanguageCode' => self::ENG_GB,
+                'mainLanguageCode' => self::ENG_US,
                 'modificationDate' => $this->createDateTime(441759600),
                 'ownerId' => $currentUserReference->getUserId(),
                 'published' => true,
@@ -2004,7 +2004,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $folder = $this->createFolder(['eng-GB' => 'Folder'], 2);
+        $folder = $this->createFolder(['eng-US' => 'Folder'], 2);
 
         $contentMetadataUpdate = $contentService->newContentMetadataUpdateStruct();
         $contentMetadataUpdate->alwaysAvailable = !$folder->contentInfo->alwaysAvailable;
@@ -2031,7 +2031,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // create a content type which is not always available by default
         $contentType = $this->createSimpleContentType(
             'test_t',
-            self::ENG_GB,
+            self::ENG_US,
             [
                 'name' => 'ibexa_string',
             ],
@@ -2040,7 +2040,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentCreate = $contentService->newContentCreateStruct(
             $contentType,
-            self::ENG_US
+            self::ENG_GB
         );
         $contentCreate->setField('name', 'My content');
         $content = $contentService->publishVersion(
@@ -2053,12 +2053,12 @@ class ContentServiceTest extends BaseContentServiceTestCase
         self::assertFalse($content->contentInfo->alwaysAvailable);
 
         $updateStruct = $contentService->newContentMetadataUpdateStruct();
-        $updateStruct->mainLanguageCode = self::ENG_GB;
+        $updateStruct->mainLanguageCode = self::ENG_US;
 
         $contentService->updateContentMetadata($content->contentInfo, $updateStruct);
 
         $reloadedContent = $contentService->loadContent($content->id);
-        self::assertEquals(self::ENG_GB, $reloadedContent->contentInfo->mainLanguageCode);
+        self::assertEquals(self::ENG_US, $reloadedContent->contentInfo->mainLanguageCode);
 
         // check that other properties remained unchanged
         self::assertStructPropertiesCorrect(
@@ -2293,8 +2293,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $oldUser = $this->permissionResolver->getCurrentUserReference();
 
-        $parentContent = $this->createFolder(['eng-US' => 'parentFolder'], 2);
-        $content = $this->createFolder(['eng-US' => 'parentFolder'], $parentContent->contentInfo->mainLocationId);
+        $parentContent = $this->createFolder(['eng-GB' => 'parentFolder'], 2);
+        $content = $this->createFolder(['eng-GB' => 'parentFolder'], $parentContent->contentInfo->mainLocationId);
 
         // User has limitation to read versions only for `$content`, not for `$parentContent`
         $newUser = $this->createUserWithVersionReadLimitations([$content->contentInfo->mainLocationId]);
@@ -2415,7 +2415,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $this->assertPropertiesCorrect(
             [
                 'names' => [
-                    self::ENG_US => 'An awesome forum',
+                    self::ENG_GB => 'An awesome forum',
                 ],
                 'contentInfo' => new ContentInfo([
                     'id' => $draftContent->contentInfo->id,
@@ -2430,7 +2430,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'publishedDate' => $versionInfo->contentInfo->publishedDate,
                     'alwaysAvailable' => 1,
                     'remoteId' => 'abcdef0123456789abcdef0123456789',
-                    'mainLanguageCode' => self::ENG_US,
+                    'mainLanguageCode' => self::ENG_GB,
                     'mainLocationId' => $draftContent->contentInfo->mainLocationId,
                     'status' => ContentInfo::STATUS_PUBLISHED,
                 ]),
@@ -2438,9 +2438,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 'versionNo' => 2,
                 'creatorId' => 14,
                 'status' => 0,
-                'initialLanguageCode' => self::ENG_US,
+                'initialLanguageCode' => self::ENG_GB,
                 'languageCodes' => [
-                    self::ENG_US,
+                    self::ENG_GB,
                 ],
             ],
             $versionInfo
@@ -2472,11 +2472,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
-        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
 
         $contentCreateStruct->setField('name', 'Sindelfingen forum²');
 
-        $contentCreateStruct->setField('name', 'Sindelfingen forum²³', self::ENG_GB);
+        $contentCreateStruct->setField('name', 'Sindelfingen forum²³', self::ENG_US);
 
         $contentCreateStruct->remoteId = 'abcdef0123456789abcdef0123456789';
         // $sectionId contains the ID of section 1
@@ -2489,11 +2489,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // Now publish this draft
         $publishedContent = $this->contentService->publishVersion($content->getVersionInfo());
 
-        // Will return a content instance with fields in "eng-US"
+        // Will return a content instance with fields in "eng-GB"
         $reloadedContent = $this->contentService->loadContentByVersionInfo(
             $publishedContent->getVersionInfo(),
             [
-                self::ENG_GB,
+                self::ENG_US,
             ],
             false
         );
@@ -2525,7 +2525,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 [
                     'id' => 0,
                     'value' => true,
-                    'languageCode' => self::ENG_GB,
+                    'languageCode' => self::ENG_US,
                     'fieldDefIdentifier' => 'name',
                 ]
             ),
@@ -2545,11 +2545,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
-        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
 
         $contentCreateStruct->setField('name', 'Sindelfingen forum²');
 
-        $contentCreateStruct->setField('name', 'Sindelfingen forum²³', self::ENG_GB);
+        $contentCreateStruct->setField('name', 'Sindelfingen forum²³', self::ENG_US);
 
         $contentCreateStruct->remoteId = 'abcdef0123456789abcdef0123456789';
         // $sectionId contains the ID of section 1
@@ -2562,40 +2562,14 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // Now publish this draft
         $publishedContent = $this->contentService->publishVersion($content->getVersionInfo());
 
-        // Will return a content instance with fields in "eng-US"
-        $reloadedContent = $this->contentService->loadContentByContentInfo(
-            $publishedContent->contentInfo,
-            [
-                self::ENG_US,
-            ],
-            null,
-            false
-        );
-
-        $actual = $this->normalizeFields($reloadedContent->getFields());
-
-        $expected = [
-            new Field(
-                [
-                    'id' => 0,
-                    'value' => true,
-                    'languageCode' => self::ENG_US,
-                    'fieldDefIdentifier' => 'name',
-                    'fieldTypeIdentifier' => 'ibexa_string',
-                ]
-            ),
-        ];
-
-        self::assertEquals($expected, $actual);
-
-        // Will return a content instance with fields in "eng-GB" (versions prior to 6.0.0-beta9 returned "eng-US" also)
+        // Will return a content instance with fields in "eng-GB"
         $reloadedContent = $this->contentService->loadContentByContentInfo(
             $publishedContent->contentInfo,
             [
                 self::ENG_GB,
             ],
             null,
-            true
+            false
         );
 
         $actual = $this->normalizeFields($reloadedContent->getFields());
@@ -2614,7 +2588,33 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         self::assertEquals($expected, $actual);
 
-        // Will return a content instance with fields in main language "eng-US", as "fre-FR" does not exists
+        // Will return a content instance with fields in "eng-US" (versions prior to 6.0.0-beta9 returned "eng-GB" also)
+        $reloadedContent = $this->contentService->loadContentByContentInfo(
+            $publishedContent->contentInfo,
+            [
+                self::ENG_US,
+            ],
+            null,
+            true
+        );
+
+        $actual = $this->normalizeFields($reloadedContent->getFields());
+
+        $expected = [
+            new Field(
+                [
+                    'id' => 0,
+                    'value' => true,
+                    'languageCode' => self::ENG_US,
+                    'fieldDefIdentifier' => 'name',
+                    'fieldTypeIdentifier' => 'ibexa_string',
+                ]
+            ),
+        ];
+
+        self::assertEquals($expected, $actual);
+
+        // Will return a content instance with fields in main language "eng-GB", as "fre-FR" does not exists
         $reloadedContent = $this->contentService->loadContentByContentInfo(
             $publishedContent->contentInfo,
             [
@@ -2631,7 +2631,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 [
                     'id' => 0,
                     'value' => true,
-                    'languageCode' => self::ENG_US,
+                    'languageCode' => self::ENG_GB,
                     'fieldDefIdentifier' => 'name',
                     'fieldTypeIdentifier' => 'ibexa_string',
                 ]
@@ -2692,10 +2692,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $draft = $this->createMultipleLanguageDraftVersion1();
 
-        // This draft contains those fields localized with "eng-GB"
-        $draftLocalized = $this->contentService->loadContent($draft->id, [self::ENG_GB], null, false);
+        // This draft contains those fields localized with "eng-US"
+        $draftLocalized = $this->contentService->loadContent($draft->id, [self::ENG_US], null, false);
 
-        $this->assertLocaleFieldsEquals($draftLocalized->getFields(), self::ENG_GB);
+        $this->assertLocaleFieldsEquals($draftLocalized->getFields(), self::ENG_US);
 
         return $draftLocalized;
     }
@@ -2724,7 +2724,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentType(
             $content->contentInfo->contentTypeId,
-            [self::ENG_GB]
+            [self::ENG_US]
         );
 
         self::assertEquals($contentType, $content->getContentType());
@@ -2776,15 +2776,15 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $this->contentService->publishVersion($draft->versionInfo);
 
-        // This draft contains those fields localized with "eng-GB"
+        // This draft contains those fields localized with "eng-US"
         $draftLocalized = $this->contentService->loadContentByRemoteId(
             $draft->contentInfo->remoteId,
-            [self::ENG_GB],
+            [self::ENG_US],
             null,
             false
         );
 
-        $this->assertLocaleFieldsEquals($draftLocalized->getFields(), self::ENG_GB);
+        $this->assertLocaleFieldsEquals($draftLocalized->getFields(), self::ENG_US);
     }
 
     /**
@@ -2861,10 +2861,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
     public static function getPrioritizedLanguageList(): array
     {
         return [
-            [[self::ENG_US]],
             [[self::ENG_GB]],
-            [[self::ENG_GB, self::ENG_US]],
+            [[self::ENG_US]],
             [[self::ENG_US, self::ENG_GB]],
+            [[self::ENG_GB, self::ENG_US]],
         ];
     }
 
@@ -2975,15 +2975,15 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 'versionNo' => 1,
                 'creatorId' => 14,
                 'status' => VersionInfo::STATUS_ARCHIVED,
-                'initialLanguageCode' => self::ENG_US,
-                'languageCodes' => [self::ENG_US],
+                'initialLanguageCode' => self::ENG_GB,
+                'languageCodes' => [self::ENG_GB],
             ],
             [
                 'versionNo' => 2,
                 'creatorId' => 10,
                 'status' => VersionInfo::STATUS_PUBLISHED,
-                'initialLanguageCode' => self::ENG_US,
-                'languageCodes' => [self::ENG_US, self::ENG_GB],
+                'initialLanguageCode' => self::ENG_GB,
+                'languageCodes' => [self::ENG_GB, self::ENG_US],
             ],
         ];
 
@@ -3559,10 +3559,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $contentWithReverseRelations = $this->createContentWithReverseRelations([
             $this->contentService->createContentDraft(
-                $this->createFolder([self::ENG_GB => 'Foo'], 2)->contentInfo
+                $this->createFolder([self::ENG_US => 'Foo'], 2)->contentInfo
             ),
             $this->contentService->createContentDraft(
-                $this->createFolder([self::ENG_GB => 'Bar'], 2)->contentInfo
+                $this->createFolder([self::ENG_US => 'Bar'], 2)->contentInfo
             ),
         ]);
 
@@ -3604,7 +3604,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $contentWithReverseRelations = $this->createContentWithReverseRelations([
             $this->contentService->createContentDraft(
-                $this->createFolder([self::ENG_GB => 'Foo'], 2)->contentInfo
+                $this->createFolder([self::ENG_US => 'Foo'], 2)->contentInfo
             ),
         ]);
         $mediaUser = $this->createMediaUserVersion1();
@@ -3831,13 +3831,13 @@ class ContentServiceTest extends BaseContentServiceTestCase
     public function testLoadReverseRelationList(): void
     {
         $draft1 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Foo'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Foo'], 2)->contentInfo
         );
         $draft2 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Bar'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Bar'], 2)->contentInfo
         );
         $draft3 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Baz'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Baz'], 2)->contentInfo
         );
 
         $contentWithReverseRelations = $this->createContentWithReverseRelations([
@@ -3868,13 +3868,13 @@ class ContentServiceTest extends BaseContentServiceTestCase
     public function testLoadReverseRelationListWithPagination(): void
     {
         $draft1 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Foo'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Foo'], 2)->contentInfo
         );
         $draft2 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Bar'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Bar'], 2)->contentInfo
         );
         $draft3 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Baz'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Baz'], 2)->contentInfo
         );
 
         $contentWithReverseRelations = $this->createContentWithReverseRelations([
@@ -3908,13 +3908,13 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $trashService = $this->getRepository()->getTrashService();
 
         $draft1 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Foo'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Foo'], 2)->contentInfo
         );
         $draft2 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Bar'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Bar'], 2)->contentInfo
         );
         $draft3 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Baz'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Baz'], 2)->contentInfo
         );
 
         $contentWithReverseRelations = $this->createContentWithReverseRelations([
@@ -3947,7 +3947,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     public function testLoadReverseRelationListSkipsDraftContent(): void
     {
         $draft1 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Foo'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Foo'], 2)->contentInfo
         );
 
         $contentWithReverseRelations = $this->createContentWithReverseRelations([$draft1]);
@@ -3956,7 +3956,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         // create a relation, but without publishing it
         $draft2 = $this->contentService->createContentDraft(
-            $this->createFolder([self::ENG_GB => 'Bar'], 2)->contentInfo
+            $this->createFolder([self::ENG_US => 'Bar'], 2)->contentInfo
         );
         $this->contentService->addRelation(
             $draft2->getVersionInfo(),
@@ -4081,7 +4081,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
             $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
             // Get a content create struct and set mandatory properties
-            $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+            $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
             $contentCreate->setField('name', 'Sindelfingen forum');
 
             $contentCreate->remoteId = 'abcdef0123456789abcdef0123456789';
@@ -4127,7 +4127,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
             $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
 
             // Get a content create struct and set mandatory properties
-            $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+            $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
             $contentCreate->setField('name', 'Sindelfingen forum');
 
             $contentCreate->remoteId = 'abcdef0123456789abcdef0123456789';
@@ -4399,7 +4399,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         // Get an update struct and change the group name
         $contentUpdate = $this->contentService->newContentUpdateStruct();
-        $contentUpdate->setField('name', self::ADMINISTRATORS_USER_GROUP_NAME, self::ENG_US);
+        $contentUpdate->setField('name', self::ADMINISTRATORS_USER_GROUP_NAME, self::ENG_GB);
 
         // Start a transaction
         $repository->beginTransaction();
@@ -4447,7 +4447,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         // Get an update struct and change the group name
         $contentUpdate = $this->contentService->newContentUpdateStruct();
-        $contentUpdate->setField('name', self::ADMINISTRATORS_USER_GROUP_NAME, self::ENG_US);
+        $contentUpdate->setField('name', self::ADMINISTRATORS_USER_GROUP_NAME, self::ENG_GB);
 
         // Start a transaction
         $repository->beginTransaction();
@@ -4471,7 +4471,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         }
 
         // Name is now "Administrators"
-        $name = $this->contentService->loadContent($contentId)->getFieldValue('name', self::ENG_US);
+        $name = $this->contentService->loadContent($contentId)->getFieldValue('name', self::ENG_GB);
 
         self::assertEquals(self::ADMINISTRATORS_USER_GROUP_NAME, $name);
     }
@@ -4869,7 +4869,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'type' => URLAlias::LOCATION,
                     'destination' => $location->id,
                     'path' => '/Design/Plain-site/An-awesome-forum',
-                    'languageCodes' => [self::ENG_US],
+                    'languageCodes' => [self::ENG_GB],
                     'isHistory' => false,
                     'isCustom' => false,
                     'forward' => false,
@@ -4899,7 +4899,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'type' => URLAlias::LOCATION,
                     'destination' => $location->id,
                     'path' => '/Design/Plain-site/An-awesome-forum',
-                    'languageCodes' => [self::ENG_US],
+                    'languageCodes' => [self::ENG_GB],
                     'alwaysAvailable' => true,
                     'isHistory' => false,
                     'isCustom' => false,
@@ -4925,7 +4925,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'type' => URLAlias::LOCATION,
                     'destination' => $location->id,
                     'path' => '/Design/Plain-site/An-awesome-forum2',
-                    'languageCodes' => [self::ENG_US],
+                    'languageCodes' => [self::ENG_GB],
                     'alwaysAvailable' => true,
                     'isHistory' => false,
                     'isCustom' => false,
@@ -4935,7 +4935,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'type' => URLAlias::LOCATION,
                     'destination' => $location->id,
                     'path' => '/Design/Plain-site/An-awesome-forum23',
-                    'languageCodes' => [self::ENG_GB],
+                    'languageCodes' => [self::ENG_US],
                     'alwaysAvailable' => true,
                     'isHistory' => false,
                     'isCustom' => false,
@@ -4958,13 +4958,13 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $urlAliasService->createUrlAlias(
             $this->locationService->loadLocation($contentMainLocationId),
             '/my/fancy/story-about-ibexa-dxp',
-            self::ENG_US
+            self::ENG_GB
         );
 
         $draftVersion2 = $this->contentService->createContentDraft($content->contentInfo);
 
         $contentUpdate = $this->contentService->newContentUpdateStruct();
-        $contentUpdate->initialLanguageCode = self::ENG_US;
+        $contentUpdate->initialLanguageCode = self::ENG_GB;
         $contentUpdate->setField('name', 'Amazing Bielefeld forum');
 
         $draftVersion2 = $this->contentService->updateContent(
@@ -4988,7 +4988,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'type' => URLAlias::LOCATION,
                     'destination' => $location->id,
                     'path' => '/my/fancy/story-about-ibexa-dxp',
-                    'languageCodes' => [self::ENG_US],
+                    'languageCodes' => [self::ENG_GB],
                     'isHistory' => false,
                     'isCustom' => true,
                     'forward' => false,
@@ -5011,8 +5011,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $loadedContent2 = $this->contentService->loadContent($contentVersion2->id, null, 2);
 
         self::assertNotEquals(
-            $loadedContent1->getFieldValue('name', self::ENG_US),
-            $loadedContent2->getFieldValue('name', self::ENG_US)
+            $loadedContent1->getFieldValue('name', self::ENG_GB),
+            $loadedContent2->getFieldValue('name', self::ENG_GB)
         );
     }
 
@@ -5098,9 +5098,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
             $this->contentService->publishVersion($contentDraft->versionInfo);
         }
 
-        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_GB);
+        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_US);
 
-        $this->assertTranslationDoesNotExist(self::ENG_GB, $content->id);
+        $this->assertTranslationDoesNotExist(self::ENG_US, $content->id);
     }
 
     /**
@@ -5123,17 +5123,17 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
 
         // sanity check
-        self::assertEquals(self::ENG_US, $content->contentInfo->mainLanguageCode);
-        self::assertEquals(self::ENG_US, $content->versionInfo->initialLanguageCode);
+        self::assertEquals(self::ENG_GB, $content->contentInfo->mainLanguageCode);
+        self::assertEquals(self::ENG_GB, $content->versionInfo->initialLanguageCode);
 
         // update mainLanguageCode so it is different than initialLanguageCode for Version
         $contentMetadataUpdateStruct = $this->contentService->newContentMetadataUpdateStruct();
-        $contentMetadataUpdateStruct->mainLanguageCode = self::ENG_GB;
+        $contentMetadataUpdateStruct->mainLanguageCode = self::ENG_US;
         $content = $this->contentService->updateContentMetadata($publishedContent->contentInfo, $contentMetadataUpdateStruct);
 
-        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_US);
+        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_GB);
 
-        $this->assertTranslationDoesNotExist(self::ENG_US, $content->id);
+        $this->assertTranslationDoesNotExist(self::ENG_GB, $content->id);
     }
 
     /**
@@ -5152,7 +5152,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $mainLocation = $this->locationService->loadLocation($contentMainLocationId);
 
         // create custom URL alias for Content main Location
-        $urlAliasService->createUrlAlias($mainLocation, '/my-custom-url', self::ENG_GB);
+        $urlAliasService->createUrlAlias($mainLocation, '/my-custom-url', self::ENG_US);
 
         // create secondary Location for Content
         $secondaryLocation = $this->locationService->createLocation(
@@ -5161,20 +5161,20 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
 
         // create custom URL alias for Content secondary Location
-        $urlAliasService->createUrlAlias($secondaryLocation, '/my-secondary-url', self::ENG_GB);
+        $urlAliasService->createUrlAlias($secondaryLocation, '/my-secondary-url', self::ENG_US);
 
         // delete Translation
-        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_GB);
+        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_US);
 
         foreach ([$mainLocation, $secondaryLocation] as $location) {
             // check auto-generated URL aliases
             foreach ($urlAliasService->listLocationAliases($location, false) as $alias) {
-                self::assertNotContains(self::ENG_GB, $alias->languageCodes);
+                self::assertNotContains(self::ENG_US, $alias->languageCodes);
             }
 
             // check custom URL aliases
             foreach ($urlAliasService->listLocationAliases($location) as $alias) {
-                self::assertNotContains(self::ENG_GB, $alias->languageCodes);
+                self::assertNotContains(self::ENG_US, $alias->languageCodes);
             }
         }
     }
@@ -5201,25 +5201,25 @@ class ContentServiceTest extends BaseContentServiceTestCase
      */
     public function testDeleteTranslationDeletesSingleTranslationVersions(): void
     {
-        // content created by the createContentVersion1 method has eng-US translation only.
+        // content created by the createContentVersion1 method has eng-GB translation only.
         $content = $this->createContentVersion1();
 
-        // create new version and add eng-GB translation
+        // create new version and add eng-US translation
         $contentDraft = $this->contentService->createContentDraft($content->contentInfo);
         $contentUpdateStruct = $this->contentService->newContentUpdateStruct();
-        $contentUpdateStruct->setField('name', 'Awesome Board', self::ENG_GB);
+        $contentUpdateStruct->setField('name', 'Awesome Board', self::ENG_US);
         $contentDraft = $this->contentService->updateContent($contentDraft->versionInfo, $contentUpdateStruct);
         $publishedContent = $this->contentService->publishVersion($contentDraft->versionInfo);
 
         // update mainLanguageCode to avoid exception related to that
         $contentMetadataUpdateStruct = $this->contentService->newContentMetadataUpdateStruct();
-        $contentMetadataUpdateStruct->mainLanguageCode = self::ENG_GB;
+        $contentMetadataUpdateStruct->mainLanguageCode = self::ENG_US;
 
         $content = $this->contentService->updateContentMetadata($publishedContent->contentInfo, $contentMetadataUpdateStruct);
 
-        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_US);
+        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_GB);
 
-        $this->assertTranslationDoesNotExist(self::ENG_US, $content->id);
+        $this->assertTranslationDoesNotExist(self::ENG_GB, $content->id);
     }
 
     /**
@@ -5248,7 +5248,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage('The User does not have the \'remove\' \'content\' permission');
 
-        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_GB);
+        $this->contentService->deleteTranslation($content->contentInfo, self::ENG_US);
     }
 
     /**
@@ -5256,7 +5256,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      */
     public function testDeleteTranslationThrowsInvalidArgumentException(): void
     {
-        // content created by the createContentVersion1 method has eng-US translation only.
+        // content created by the createContentVersion1 method has eng-GB translation only.
         $content = $this->createContentVersion1();
 
         $this->expectException(APIInvalidArgumentException::class);
@@ -5270,7 +5270,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      */
     public function testDeleteTranslationFromDraft(): void
     {
-        $languageCode = self::ENG_GB;
+        $languageCode = self::ENG_US;
         $content = $this->createMultipleLanguageContentVersion2();
         $draft = $this->contentService->createContentDraft($content->contentInfo);
         $draft = $this->contentService->deleteTranslationFromDraft($draft->versionInfo, $languageCode);
@@ -5290,10 +5290,10 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         return [
             [
-                [self::ENG_US => 'US Name', self::ENG_GB => 'GB Name'],
+                [self::ENG_GB => 'US Name', self::ENG_US => 'GB Name'],
             ],
             [
-                [self::ENG_US => 'Same Name', self::ENG_GB => 'Same Name'],
+                [self::ENG_GB => 'Same Name', self::ENG_US => 'Same Name'],
             ],
         ];
     }
@@ -5316,15 +5316,15 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
         // set language code to be removed
-        $languageCode = self::ENG_GB;
+        $languageCode = self::ENG_US;
         $draft = $this->createMultilingualContentDraft(
             'folder',
             2,
-            self::ENG_US,
+            self::ENG_GB,
             [
                 'name' => [
-                    self::ENG_GB => $fieldValues[self::ENG_GB],
                     self::ENG_US => $fieldValues[self::ENG_US],
+                    self::ENG_GB => $fieldValues[self::ENG_GB],
                 ],
             ]
         );
@@ -5340,8 +5340,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $locations = $this->locationService->loadLocations($content->contentInfo);
         self::assertCount(2, $locations, 'Sanity check: Expected to find 2 Locations');
         foreach ($locations as $location) {
-            $urlAliasService->createUrlAlias($location, '/us-custom_' . $location->id, self::ENG_US);
-            $urlAliasService->createUrlAlias($location, '/gb-custom_' . $location->id, self::ENG_GB);
+            $urlAliasService->createUrlAlias($location, '/us-custom_' . $location->id, self::ENG_GB);
+            $urlAliasService->createUrlAlias($location, '/gb-custom_' . $location->id, self::ENG_US);
 
             // check default URL aliases
             $aliases = $urlAliasService->listLocationAliases($location, false, $languageCode);
@@ -5380,11 +5380,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
             $this->createMultilingualContentDraft(
                 'folder',
                 2,
-                self::ENG_US,
+                self::ENG_GB,
                 [
                     'name' => [
-                        self::ENG_GB => 'BritishEnglishContent',
-                        self::ENG_US => 'AmericanEnglishContent',
+                        self::ENG_US => 'BritishEnglishContent',
+                        self::ENG_GB => 'AmericanEnglishContent',
                     ],
                 ]
             )->versionInfo
@@ -5394,11 +5394,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
             $this->createMultilingualContentDraft(
                 'folder',
                 2,
-                self::ENG_US,
+                self::ENG_GB,
                 [
                     'name' => [
-                        self::ENG_GB => 'AnotherBritishContent',
-                        self::ENG_US => 'AnotherAmericanContent',
+                        self::ENG_US => 'AnotherBritishContent',
+                        self::ENG_GB => 'AnotherAmericanContent',
                     ],
                 ]
             )->versionInfo
@@ -5411,7 +5411,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $draft = $this->contentService->deleteTranslationFromDraft(
             $this->contentService->createContentDraft($content->contentInfo)->versionInfo,
-            self::ENG_GB
+            self::ENG_US
         );
         $content = $this->contentService->publishVersion($draft->versionInfo);
 
@@ -5442,7 +5442,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         // update mainLanguageCode to avoid exception related to trying to delete main Translation
         $contentMetadataUpdateStruct = $this->contentService->newContentMetadataUpdateStruct();
-        $contentMetadataUpdateStruct->mainLanguageCode = self::ENG_GB;
+        $contentMetadataUpdateStruct->mainLanguageCode = self::ENG_US;
         $publishedContent = $this->contentService->updateContentMetadata(
             $publishedContent->contentInfo,
             $contentMetadataUpdateStruct
@@ -5458,7 +5458,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $this->expectExceptionMessage('The provided translation is the only translation in this version');
 
         // attempt to delete Translation
-        $this->contentService->deleteTranslationFromDraft($draft->versionInfo, self::ENG_US);
+        $this->contentService->deleteTranslationFromDraft($draft->versionInfo, self::ENG_GB);
     }
 
     /**
@@ -5466,15 +5466,15 @@ class ContentServiceTest extends BaseContentServiceTestCase
      */
     public function testDeleteTranslationFromDraftThrowsBadStateExceptionOnMainTranslation(): void
     {
-        $mainLanguageCode = self::ENG_US;
+        $mainLanguageCode = self::ENG_GB;
         $draft = $this->createMultilingualContentDraft(
             self::FORUM_IDENTIFIER,
             2,
             $mainLanguageCode,
             [
                 'name' => [
-                    self::ENG_US => 'An awesome eng-US forum',
                     self::ENG_GB => 'An awesome eng-GB forum',
+                    self::ENG_US => 'An awesome eng-US forum',
                 ],
             ]
         );
@@ -5490,7 +5490,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      */
     public function testDeleteTranslationFromDraftThrowsBadStateExceptionOnPublishedVersion(): void
     {
-        $languageCode = self::ENG_US;
+        $languageCode = self::ENG_GB;
         $content = $this->createMultipleLanguageContentVersion2();
         $draft = $this->contentService->createContentDraft($content->contentInfo);
         $publishedContent = $this->contentService->publishVersion($draft->versionInfo);
@@ -5506,7 +5506,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
      */
     public function testDeleteTranslationFromDraftThrowsUnauthorizedException(): void
     {
-        $languageCode = self::ENG_GB;
+        $languageCode = self::ENG_US;
         $content = $this->createMultipleLanguageContentVersion2();
         $draft = $this->contentService->createContentDraft($content->contentInfo);
 
@@ -5578,19 +5578,19 @@ class ContentServiceTest extends BaseContentServiceTestCase
      */
     public function testLoadVersionsAfterDeletingTwoDrafts(): void
     {
-        $content = $this->createFolder([self::ENG_GB => 'Foo'], 2);
+        $content = $this->createFolder([self::ENG_US => 'Foo'], 2);
 
         // First update and publish
-        $modifiedContent = $this->updateFolder($content, [self::ENG_GB => 'Foo1']);
+        $modifiedContent = $this->updateFolder($content, [self::ENG_US => 'Foo1']);
         $content = $this->contentService->publishVersion($modifiedContent->versionInfo);
 
         // Second update and publish
-        $modifiedContent = $this->updateFolder($content, [self::ENG_GB => 'Foo2']);
+        $modifiedContent = $this->updateFolder($content, [self::ENG_US => 'Foo2']);
         $content = $this->contentService->publishVersion($modifiedContent->versionInfo);
 
         // Create drafts
-        $this->updateFolder($content, [self::ENG_GB => 'Foo3']);
-        $this->updateFolder($content, [self::ENG_GB => 'Foo4']);
+        $this->updateFolder($content, [self::ENG_US => 'Foo3']);
+        $this->updateFolder($content, [self::ENG_US => 'Foo4']);
 
         $versions = iterator_to_array($this->contentService->loadVersions($content->contentInfo));
 
@@ -5821,7 +5821,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 [
                     'id' => 0,
                     'value' => 'An awesome multi-lang forum²',
-                    'languageCode' => self::ENG_US,
+                    'languageCode' => self::ENG_GB,
                     'fieldDefIdentifier' => 'name',
                     'fieldTypeIdentifier' => 'ibexa_string',
                 ]
@@ -5830,7 +5830,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                 [
                     'id' => 0,
                     'value' => 'An awesome multi-lang forum²³',
-                    'languageCode' => self::ENG_GB,
+                    'languageCode' => self::ENG_US,
                     'fieldDefIdentifier' => 'name',
                     'fieldTypeIdentifier' => 'ibexa_string',
                 ]
@@ -5857,7 +5857,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
             'publishedDate' => $this->createDateTime(1060695457),
             'alwaysAvailable' => 1,
             'remoteId' => self::MEDIA_REMOTE_ID,
-            'mainLanguageCode' => self::ENG_US,
+            'mainLanguageCode' => self::ENG_GB,
             'mainLocationId' => 43,
             'status' => ContentInfo::STATUS_PUBLISHED,
         ];
@@ -5885,7 +5885,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate->setField('name', 'Folder to hide');
 
         $content = $this->contentService->createContent(
@@ -5925,7 +5925,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate->setField('name', 'Folder to hide');
 
         $locationCreateStructs[0]->hidden = true;
@@ -6115,7 +6115,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $locationCreateStructs = $this->locationService->newLocationCreateStruct(2);
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate->setField('name', 'Folder to hide');
 
         return $this->contentService->createContent(
@@ -6147,7 +6147,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contents = [];
 
         foreach ($contentNames as $contentName) {
-            $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+            $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
             $contentCreate->setField('name', $contentName);
 
             $content = $this->contentService->createContent($contentCreate, [$parentLocation]);
@@ -6209,7 +6209,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contents = [];
 
         foreach ($contentNames as $contentName) {
-            $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+            $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
             $contentCreate->setField('name', $contentName);
 
             $content = $this->contentService->createContent($contentCreate, [$parentLocation]);
@@ -6268,7 +6268,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate->setField('name', 'Parent');
 
         $content = $this->contentService->createContent(
@@ -6286,7 +6286,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $locations = iterator_to_array($this->locationService->loadLocations($publishedContent->contentInfo));
 
-        $childContentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $childContentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $childContentCreate->setField('name', 'Child');
 
         $childContent = $this->contentService->createContent(
@@ -6357,7 +6357,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $updatedContent = $this->contentService->loadContent($deContent->id, null, $deContent->versionInfo->versionNo);
         self::assertEquals(
             [
-                self::ENG_US => 'Folder US',
+                self::ENG_GB => 'Folder US',
                 self::GER_DE => 'Folder GER',
             ],
             $updatedContent->fields['name']
@@ -6366,19 +6366,19 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $gbDraft = $this->contentService->createContentDraft($publishedContent->contentInfo);
 
         $contentUpdateStruct = new ContentUpdateStruct([
-            'initialLanguageCode' => self::ENG_GB,
+            'initialLanguageCode' => self::ENG_US,
             'fields' => $contentDraft->getFields(),
         ]);
 
-        $contentUpdateStruct->setField('name', 'Folder GB', self::ENG_GB);
+        $contentUpdateStruct->setField('name', 'Folder GB', self::ENG_US);
 
         $gbContent = $this->contentService->updateContent($gbDraft->versionInfo, $contentUpdateStruct);
         $this->contentService->publishVersion($gbDraft->versionInfo);
         $updatedContent = $this->contentService->loadContent($gbContent->id, null, $gbContent->versionInfo->versionNo);
         self::assertEquals(
             [
-                self::ENG_US => 'Folder US',
-                self::ENG_GB => 'Folder GB',
+                self::ENG_GB => 'Folder US',
+                self::ENG_US => 'Folder GB',
             ],
             $updatedContent->fields['name']
         );
@@ -6386,9 +6386,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $dePublished = $this->contentService->publishVersion($deDraft->versionInfo);
         self::assertEquals(
             [
-                self::ENG_US => 'Folder US',
+                self::ENG_GB => 'Folder US',
                 self::GER_DE => 'Folder GER',
-                self::ENG_GB => 'Folder GB',
+                self::ENG_US => 'Folder GB',
             ],
             $dePublished->fields['name']
         );
@@ -6400,8 +6400,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         // Create content type for testing
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('test_copy_translation');
-        $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
-        $contentTypeCreateStruct->names = ['eng-US' => 'Test content type for Copy Translations'];
+        $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
+        $contentTypeCreateStruct->names = ['eng-GB' => 'Test content type for Copy Translations'];
         $fieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ibexa_string');
         $fieldDefinition->position = 1;
         $fieldDefinition->isTranslatable = true;
@@ -6437,9 +6437,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // Update published version, as copying is only done when there is a diff between published and draft
         $gbDraft = $this->contentService->createContentDraft($publishedContent->contentInfo);
         $contentUpdateStruct = new ContentUpdateStruct([
-            'initialLanguageCode' => self::ENG_US,
+            'initialLanguageCode' => self::ENG_GB,
         ]);
-        $contentUpdateStruct->setField('name', 'Folder US 2', self::ENG_US);
+        $contentUpdateStruct->setField('name', 'Folder US 2', self::ENG_GB);
 
         $gbContent = $this->contentService->updateContent($gbDraft->versionInfo, $contentUpdateStruct);
         $this->contentService->publishVersion($gbContent->versionInfo);
@@ -6453,7 +6453,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeService->addFieldDefinition($contentTypeDraft, $fieldDefinition);
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
 
-        // Reload previous german draft, it is now in invalid state for both ENG_US and GER_DE
+        // Reload previous german draft, it is now in invalid state for both ENG_GB and GER_DE
         $invalidContentDraft = $this->contentService->loadContent($deContent->id, null, $deContent->versionInfo->versionNo);
         $contentUpdateStruct = new ContentUpdateStruct([
             'initialLanguageCode' => self::GER_DE,
@@ -6468,7 +6468,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         self::assertEquals(
             [
                 self::GER_DE => 'Folder GER',
-                self::ENG_US => 'Folder US 2',
+                self::ENG_GB => 'Folder US 2',
             ],
             $publishedContent->fields['name']
         );
@@ -6476,7 +6476,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         self::assertEquals(
             [
                 self::GER_DE => 'Required field DE',
-                self::ENG_US => 'Required field DE',
+                self::ENG_GB => 'Required field DE',
             ],
             $publishedContent->fields['req_field']
         );
@@ -6496,9 +6496,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
     private function createParentLocationsForHideReveal(int $parentLocationId): array
     {
         $parentFoldersLocationsIds = [
-            $this->createFolder([self::ENG_US => 'P1'], $parentLocationId)->contentInfo->mainLocationId,
-            $this->createFolder([self::ENG_US => 'P2'], $parentLocationId)->contentInfo->mainLocationId,
-            $this->createFolder([self::ENG_US => 'P3'], $parentLocationId)->contentInfo->mainLocationId,
+            $this->createFolder([self::ENG_GB => 'P1'], $parentLocationId)->contentInfo->mainLocationId,
+            $this->createFolder([self::ENG_GB => 'P2'], $parentLocationId)->contentInfo->mainLocationId,
+            $this->createFolder([self::ENG_GB => 'P3'], $parentLocationId)->contentInfo->mainLocationId,
         ];
 
         return array_values([...$this->locationService->loadLocationList($parentFoldersLocationsIds)]);
@@ -6527,7 +6527,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $publishedContent = $this->createFolder(
             [
-                self::ENG_US => 'Published US',
+                self::ENG_GB => 'Published US',
                 self::GER_DE => 'Published DE',
             ],
             $this->generateId('location', 2)
@@ -6535,9 +6535,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         $draft = $this->contentService->createContentDraft($publishedContent->contentInfo);
         $contentUpdateStruct = new ContentUpdateStruct([
-            'initialLanguageCode' => self::ENG_US,
+            'initialLanguageCode' => self::ENG_GB,
         ]);
-        $contentUpdateStruct->setField('name', 'Draft 1 US', self::ENG_US);
+        $contentUpdateStruct->setField('name', 'Draft 1 US', self::ENG_GB);
         $contentUpdateStruct->setField('name', 'Draft 1 DE', self::GER_DE);
 
         $this->contentService->updateContent($draft->versionInfo, $contentUpdateStruct);
@@ -6546,7 +6546,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         self::assertEquals(
             [
-                self::ENG_US => 'Published US',
+                self::ENG_GB => 'Published US',
                 self::GER_DE => 'Draft 1 DE',
             ],
             $content->fields['name']
@@ -6558,7 +6558,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $baseName = 'ȘșțȚdfdf';
         $expectedPath = '/SstTdfdf';
 
-        $this->createFolder([self::ENG_US => $baseName], 2);
+        $this->createFolder([self::ENG_GB => $baseName], 2);
 
         $urlAliasService = $this->getRepository()->getURLAliasService();
         $urlAlias = $urlAliasService->lookup($expectedPath);
@@ -6685,7 +6685,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeService = $repository->getContentTypeService();
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
-        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_GB);
         $contentCreate->modificationDate = new \DateTime('2025-04-01 14:00:00');
         $contentCreate->setField('name', 'My awesome Folder');
 
@@ -6694,7 +6694,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $unPublishedVersionOneContent = $this->contentService->publishVersion($content->getVersionInfo());
 
         $this->contentService->publishVersion(
-            $this->updateFolder($content, [self::ENG_US => 'Updated Name'])->getVersionInfo()
+            $this->updateFolder($content, [self::ENG_GB => 'Updated Name'])->getVersionInfo()
         );
 
         $anonymousUserId = $this->generateId('user', 10);

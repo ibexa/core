@@ -153,19 +153,19 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         $contentService = $repository->getContentService();
 
         $shallowParent = $this->createFolder(
-            ['eng-GB' => 'Shallow Parent'],
+            ['eng-US' => 'Shallow Parent'],
             2
         );
         $referenceContent = $this->createFolder(
-            ['eng-GB' => 'Reference folder'],
+            ['eng-US' => 'Reference folder'],
             $shallowParent->getContentInfo()->getMainLocationId()
         );
         $deepParent = $this->createFolder(
-            ['eng-GB' => 'Deep Parent'],
+            ['eng-US' => 'Deep Parent'],
             $referenceContent->getContentInfo()->getMainLocationId()
         );
         $contentWithAdditionalLocation = $this->createFolder(
-            ['eng-GB' => 'Folder with extra location'],
+            ['eng-US' => 'Folder with extra location'],
             $deepParent->getContentInfo()->getMainLocationId()
         );
         $locationService->createLocation(
@@ -220,23 +220,23 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         $contentService = $repository->getContentService();
 
         $shallowParent = $this->createFolder(
-            ['eng-GB' => 'Complex Root'],
+            ['eng-US' => 'Complex Root'],
             2
         );
         $referenceContent = $this->createFolder(
-            ['eng-GB' => 'Ref folder'],
+            ['eng-US' => 'Ref folder'],
             $shallowParent->getContentInfo()->getMainLocationId()
         );
         $middleContent = $this->createFolder(
-            ['eng-GB' => 'Middle folder'],
+            ['eng-US' => 'Middle folder'],
             $referenceContent->getContentInfo()->getMainLocationId()
         );
         $deepParent = $this->createFolder(
-            ['eng-GB' => 'Deep intermediate'],
+            ['eng-US' => 'Deep intermediate'],
             $middleContent->getContentInfo()->getMainLocationId()
         );
         $contentWithAdditionalLocation = $this->createFolder(
-            ['eng-GB' => 'Folder with randomizing location'],
+            ['eng-US' => 'Folder with randomizing location'],
             $deepParent->getContentInfo()->getMainLocationId()
         );
         $locationService->createLocation(
@@ -366,12 +366,12 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
      */
     private function createMultiplePagesOfContentItems(int $pageSize, int $noOfPages): int
     {
-        $parentFolder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
+        $parentFolder = $this->createFolder(['eng-US' => 'Parent Folder'], 2);
         $parentFolderMainLocationId = $parentFolder->getContentInfo()->getMainLocationId();
 
         $noOfItems = $pageSize * $noOfPages;
         for ($itemNo = 1; $itemNo <= $noOfItems; ++$itemNo) {
-            $this->createFolder(['eng-GB' => "Child no #{$itemNo}"], $parentFolderMainLocationId);
+            $this->createFolder(['eng-US' => "Child no #{$itemNo}"], $parentFolderMainLocationId);
         }
 
         return $parentFolderMainLocationId;
@@ -424,7 +424,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         $blogType = $contentTypeService->loadContentTypeByIdentifier('blog');
-        $contentCreate = $contentService->newContentCreateStruct($blogType, 'eng-GB');
+        $contentCreate = $contentService->newContentCreateStruct($blogType, 'eng-US');
         $contentCreate->setField('name', 'British Blog');
         $contentCreate->setField('tags', new Keyword\Value(['British', 'posts']));
         $contentDraft = $contentService->createContent($contentCreate);
@@ -559,24 +559,24 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         // Create additional Object States
         $objectStateGroupStruct = new ObjectStateGroupCreateStruct();
         $objectStateGroupStruct->identifier = 'domain';
-        $objectStateGroupStruct->names = ['eng-GB' => 'Domain'];
-        $objectStateGroupStruct->defaultLanguageCode = 'eng-GB';
+        $objectStateGroupStruct->names = ['eng-US' => 'Domain'];
+        $objectStateGroupStruct->defaultLanguageCode = 'eng-US';
         $objectStateGroup = $objectStateService->createObjectStateGroup($objectStateGroupStruct);
 
         $objectStateCreateStruct = new ObjectStateCreateStruct();
         $objectStateCreateStruct->identifier = 'public';
-        $objectStateCreateStruct->names = ['eng-GB' => 'Public'];
-        $objectStateCreateStruct->defaultLanguageCode = 'eng-GB';
+        $objectStateCreateStruct->names = ['eng-US' => 'Public'];
+        $objectStateCreateStruct->defaultLanguageCode = 'eng-US';
         $objectStateService->createObjectState($objectStateGroup, $objectStateCreateStruct);
 
         $objectStateCreateStruct->identifier = 'private';
-        $objectStateCreateStruct->names = ['eng-GB' => 'Private'];
+        $objectStateCreateStruct->names = ['eng-US' => 'Private'];
         $objectStatePrivate = $objectStateService->createObjectState($objectStateGroup, $objectStateCreateStruct);
 
         // Create a new content object and assign object state "Private" to it:
         $contentCreate = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
         $contentCreate->setField('name', 'Private Folder');
         $content = $contentService->createContent(

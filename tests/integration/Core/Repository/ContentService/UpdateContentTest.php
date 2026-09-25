@@ -33,7 +33,7 @@ final class UpdateContentTest extends RepositoryTestCase
 
         $privateSection = $this->createPrivateSection();
 
-        $folderPrivate = $this->createFolder(['eng-GB' => 'Private Folder'], 2);
+        $folderPrivate = $this->createFolder(['eng-US' => 'Private Folder'], 2);
         $sectionService->assignSection($folderPrivate->getContentInfo(), $privateSection);
 
         // Create folder with relation to 'Private Folder'
@@ -64,7 +64,7 @@ final class UpdateContentTest extends RepositoryTestCase
             'relations',
             'ibexa_object_relation_list'
         );
-        $relationsFieldCreateStruct->names = ['eng-GB' => 'Relations'];
+        $relationsFieldCreateStruct->names = ['eng-US' => 'Relations'];
         $contentTypeService->addFieldDefinition($folderTypeDraft, $relationsFieldCreateStruct);
         $contentTypeService->publishContentTypeDraft($folderTypeDraft);
     }
@@ -93,7 +93,7 @@ final class UpdateContentTest extends RepositoryTestCase
     {
         $contentService = $this->getIbexaTestCore()->getContentService();
 
-        $folder = $this->createFolder(['eng-GB' => 'Folder with private relation'], 2);
+        $folder = $this->createFolder(['eng-US' => 'Folder with private relation'], 2);
         $folderDraft = $contentService->createContentDraft($folder->getContentInfo());
         $folderUpdateStruct = $contentService->newContentUpdateStruct();
         $folderUpdateStruct->setField('relations', $relationListTarget);

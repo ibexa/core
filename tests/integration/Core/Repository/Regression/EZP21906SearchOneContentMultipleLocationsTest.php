@@ -31,7 +31,7 @@ class EZP21906SearchOneContentMultipleLocationsTest extends BaseTestCase
         // We first need to create "containers" since only one location of a content can exist at a time under the same parent.
         $contentCreateStruct1 = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
         $contentCreateStruct1->setField('name', 'EZP-21906-1');
         $draft1 = $contentService->createContent(
@@ -43,7 +43,7 @@ class EZP21906SearchOneContentMultipleLocationsTest extends BaseTestCase
 
         $contentCreateStruct2 = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
         $contentCreateStruct2->setField('name', 'EZP-21906-2');
         $draft2 = $contentService->createContent(

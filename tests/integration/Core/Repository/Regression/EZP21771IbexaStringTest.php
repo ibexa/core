@@ -32,7 +32,7 @@ class EZP21771IbexaStringTest extends BaseTestCase
         // create content
         $createStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
-            'eng-GB'
+            'eng-US'
         );
         $createStruct->setField('name', '12345678901');
 
@@ -51,7 +51,7 @@ class EZP21771IbexaStringTest extends BaseTestCase
         // finaly test if the value is done right
         self::assertEquals(
             $content->versionInfo->names,
-            ['eng-GB' => '12345678901']
+            ['eng-US' => '12345678901']
         );
     }
 }
