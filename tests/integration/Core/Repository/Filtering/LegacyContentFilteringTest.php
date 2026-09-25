@@ -80,8 +80,8 @@ final class LegacyContentFilteringTest extends RepositoryTestCase
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $folderType */
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $createStruct = $contentService->newContentCreateStruct($folderType, 'eng-GB');
-        $createStruct->setField('name', $name, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($folderType, 'eng-US');
+        $createStruct->setField('name', $name, 'eng-US');
         $createStruct->remoteId = $remoteId;
 
         $locationCreateStruct = $locationService->newLocationCreateStruct($parentLocationId);

@@ -165,7 +165,7 @@ class SearchEngineIndexingTest extends BaseTest
             $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
         }
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
 
         $contentCreateStruct->setField('name', $searchText);
         $contentCreateStruct->setField('short_name', 'hello world');
@@ -293,7 +293,7 @@ class SearchEngineIndexingTest extends BaseTest
             'user',
             'user@example.com',
             'secret',
-            'eng-US'
+            'eng-GB'
         );
         $userCreate->enabled = true;
         $userCreate->setField('first_name', 'Example');
@@ -358,7 +358,7 @@ class SearchEngineIndexingTest extends BaseTest
         $mainGroupId = $this->generateId('group', 4);
 
         $parentUserGroup = $userService->loadUserGroup($mainGroupId);
-        $userGroupCreateStruct = $userService->newUserGroupCreateStruct('eng-GB');
+        $userGroupCreateStruct = $userService->newUserGroupCreateStruct('eng-US');
         $userGroupCreateStruct->setField('name', 'Example Group');
 
         // Create a new user group
@@ -578,8 +578,8 @@ class SearchEngineIndexingTest extends BaseTest
         $searchService = $repository->getSearchService();
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('test-type');
-        $createStruct->mainLanguageCode = 'eng-GB';
-        $createStruct->names = ['eng-GB' => 'Test type'];
+        $createStruct->mainLanguageCode = 'eng-US';
+        $createStruct->names = ['eng-US' => 'Test type'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new DateTime();
 
@@ -587,7 +587,7 @@ class SearchEngineIndexingTest extends BaseTest
             'integer',
             'ezinteger'
         );
-        $translatableFieldCreate->names = ['eng-GB' => 'Simple translatable integer field'];
+        $translatableFieldCreate->names = ['eng-US' => 'Simple translatable integer field'];
         $translatableFieldCreate->fieldGroup = 'main';
         $translatableFieldCreate->position = 1;
         $translatableFieldCreate->isTranslatable = true;
@@ -603,9 +603,9 @@ class SearchEngineIndexingTest extends BaseTest
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         $contentType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
-        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-US');
         $createStruct->alwaysAvailable = false;
-        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->mainLanguageCode = 'eng-US';
 
         $draft = $contentService->createContent($createStruct);
         $content = $contentService->publishVersion($draft->getVersionInfo());
@@ -1079,7 +1079,7 @@ class SearchEngineIndexingTest extends BaseTest
         $locationService = $repository->getLocationService();
 
         $testableContentType = $this->createTestContentType();
-        $rootContentStruct = $contentService->newContentCreateStruct($testableContentType, 'eng-GB');
+        $rootContentStruct = $contentService->newContentCreateStruct($testableContentType, 'eng-US');
         $rootContentStruct->setField('name', 'TestUpdatingContentDraftMetadata');
 
         $contentDraft = $contentService->createContent($rootContentStruct, [$locationService->newLocationCreateStruct(2)]);
@@ -1129,21 +1129,21 @@ class SearchEngineIndexingTest extends BaseTest
 
         $content = $this->createMultiLanguageContent(
             [
-                'eng-US' => 'AmE Name',
-                'eng-GB' => 'BrE Name',
+                'eng-GB' => 'AmE Name',
+                'eng-US' => 'BrE Name',
             ],
             2,
             false
         );
 
-        $contentService->deleteTranslation($content->contentInfo, 'eng-GB');
+        $contentService->deleteTranslation($content->contentInfo, 'eng-US');
 
         $this->refreshSearch($repository);
 
         // Test ContentId search returns Content without removed Translation
         $query = new Query([
             'query' => new Criterion\ContentId($content->contentInfo->id),
-            'filter' => new Criterion\LanguageCode('eng-GB', false),
+            'filter' => new Criterion\LanguageCode('eng-US', false),
         ]);
         $result = $searchService->findContent($query);
         self::assertEquals(0, $result->totalCount);
@@ -1189,10 +1189,10 @@ class SearchEngineIndexingTest extends BaseTest
         $nameField->isRequired = true;
 
         $contentTypeStruct = $contentTypeService->newContentTypeCreateStruct($contentTypeIdentifier);
-        $contentTypeStruct->mainLanguageCode = 'eng-GB';
+        $contentTypeStruct->mainLanguageCode = 'eng-US';
         $contentTypeStruct->creatorId = 14;
         $contentTypeStruct->creationDate = new DateTime();
-        $contentTypeStruct->names = ['eng-GB' => 'Test content type'];
+        $contentTypeStruct->names = ['eng-US' => 'Test content type'];
         $contentTypeStruct->addFieldDefinition($nameField);
 
         $contentTypeGroup = $contentTypeService->loadContentTypeGroupByIdentifier('Content');
@@ -1245,7 +1245,7 @@ class SearchEngineIndexingTest extends BaseTest
         $contentService = $this->getRepository()->getContentService();
         $locationService = $this->getRepository()->getLocationService();
 
-        $rootContentStruct = $contentService->newContentCreateStruct($testableContentType, 'eng-GB');
+        $rootContentStruct = $contentService->newContentCreateStruct($testableContentType, 'eng-US');
         $rootContentStruct->setField($fieldDefIdentifier, $contentName);
 
         $parentLocationList = [];

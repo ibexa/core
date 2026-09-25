@@ -74,7 +74,7 @@ abstract class BaseURLServiceTest extends BaseTest
     protected function createContentWithLink(
         string $name,
         string $url,
-        string $languageCode = 'eng-GB',
+        string $languageCode = 'eng-US',
         int $parentLocationId = 2
     ): Content {
         $repository = $this->getRepository(false);
@@ -107,14 +107,14 @@ abstract class BaseURLServiceTest extends BaseTest
         $contentTypeService = $repository->getContentTypeService();
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct(self::URL_CONTENT_TYPE_IDENTIFIER);
-        $typeCreate->mainLanguageCode = 'eng-GB';
+        $typeCreate->mainLanguageCode = 'eng-US';
         $typeCreate->urlAliasSchema = 'url|scheme';
         $typeCreate->nameSchema = 'name|scheme';
         $typeCreate->names = [
-            'eng-GB' => 'URL: ' . self::URL_CONTENT_TYPE_IDENTIFIER,
+            'eng-US' => 'URL: ' . self::URL_CONTENT_TYPE_IDENTIFIER,
         ];
         $typeCreate->descriptions = [
-            'eng-GB' => '',
+            'eng-US' => '',
         ];
         $typeCreate->creatorId = $this->generateId('user', $repository->getPermissionResolver()->getCurrentUserReference()->getUserId());
         $typeCreate->creationDate = $this->createDateTime();
@@ -134,10 +134,10 @@ abstract class BaseURLServiceTest extends BaseTest
     {
         $nameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
         $nameFieldCreate->names = [
-            'eng-GB' => 'Name',
+            'eng-US' => 'Name',
         ];
         $nameFieldCreate->descriptions = [
-            'eng-GB' => '',
+            'eng-US' => '',
         ];
         $nameFieldCreate->fieldGroup = 'default';
         $nameFieldCreate->position = 1;
@@ -161,10 +161,10 @@ abstract class BaseURLServiceTest extends BaseTest
     {
         $urlFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('url', 'ezurl');
         $urlFieldCreate->names = [
-            'eng-GB' => 'URL',
+            'eng-US' => 'URL',
         ];
         $urlFieldCreate->descriptions = [
-            'eng-GB' => '',
+            'eng-US' => '',
         ];
         $urlFieldCreate->fieldGroup = 'default';
         $urlFieldCreate->position = 2;

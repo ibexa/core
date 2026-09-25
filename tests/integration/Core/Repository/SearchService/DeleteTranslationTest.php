@@ -43,7 +43,7 @@ final class DeleteTranslationTest extends BaseTest
         $contentTypeArticle = $contentTypeService->loadContentTypeByIdentifier('article');
         $contentCreateStructArticle = $contentService->newContentCreateStruct(
             $contentTypeArticle,
-            'eng-GB'
+            'eng-US'
         );
 
         foreach ($languages as $langCode => $title) {
@@ -90,8 +90,8 @@ final class DeleteTranslationTest extends BaseTest
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $testContent = $this->createFolder(['eng-GB' => 'Contact', 'ger-DE' => 'Kontakt'], 2);
-        $this->createFolder(['eng-GB' => 'OtherEngContent', 'ger-DE' => 'OtherGerContent'], 2);
+        $testContent = $this->createFolder(['eng-US' => 'Contact', 'ger-DE' => 'Kontakt'], 2);
+        $this->createFolder(['eng-US' => 'OtherEngContent', 'ger-DE' => 'OtherGerContent'], 2);
         $this->refreshSearch($repository);
 
         $searchResult = $this->findContent('Kontakt', 'ger-DE');
@@ -121,7 +121,7 @@ final class DeleteTranslationTest extends BaseTest
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        $testContent = $this->createFolder(['eng-GB' => 'Contact', 'ger-DE' => 'Kontakt'], 2);
+        $testContent = $this->createFolder(['eng-US' => 'Contact', 'ger-DE' => 'Kontakt'], 2);
         $this->refreshSearch($repository);
 
         $user = $this->provideUserWithContentRemovePolicies();
@@ -149,9 +149,9 @@ final class DeleteTranslationTest extends BaseTest
 
         $testContent = $this->createFolder(
             [
-                'eng-GB' => 'Contact',
-                'ger-DE' => 'Kontakt',
                 'eng-US' => 'Contact',
+                'ger-DE' => 'Kontakt',
+                'eng-GB' => 'Contact',
             ],
             2
         );
@@ -161,7 +161,7 @@ final class DeleteTranslationTest extends BaseTest
 
         $this->expectException(UnauthorizedException::class);
 
-        $contentService->deleteTranslation($testContent->contentInfo, 'eng-US');
+        $contentService->deleteTranslation($testContent->contentInfo, 'eng-GB');
     }
 
     public function provideUserWithContentRemovePolicies(): User

@@ -40,15 +40,15 @@ class EZP21089Test extends BaseTest
             'new-type'
         );
         $typeCreateStruct->names = [
-            'eng-GB' => 'title',
+            'eng-US' => 'title',
         ];
         $typeCreateStruct->descriptions = [
-            'eng-GB' => 'description',
+            'eng-US' => 'description',
         ];
         $typeCreateStruct->remoteId = 'new-remoteid';
         $typeCreateStruct->creatorId = $creatorId;
         $typeCreateStruct->creationDate = $creationDate;
-        $typeCreateStruct->mainLanguageCode = 'eng-GB';
+        $typeCreateStruct->mainLanguageCode = 'eng-US';
         $typeCreateStruct->nameSchema = '<title>';
         $typeCreateStruct->urlAliasSchema = '<title>';
 
@@ -57,10 +57,10 @@ class EZP21089Test extends BaseTest
             'ezstring'
         );
         $titleFieldCreate->names = [
-            'eng-GB' => 'title',
+            'eng-US' => 'title',
         ];
         $titleFieldCreate->descriptions = [
-            'eng-GB' => 'title description',
+            'eng-US' => 'title description',
         ];
         $titleFieldCreate->fieldGroup = 'blog-content';
         $titleFieldCreate->position = 1;
@@ -76,10 +76,10 @@ class EZP21089Test extends BaseTest
             'ezobjectrelation'
         );
         $objectRelationFieldCreate->names = [
-            'eng-GB' => 'object relation',
+            'eng-US' => 'object relation',
         ];
         $objectRelationFieldCreate->descriptions = [
-            'eng-GB' => 'object relation description',
+            'eng-US' => 'object relation description',
         ];
         $objectRelationFieldCreate->fieldGroup = 'blog-content';
         $objectRelationFieldCreate->position = 2;
@@ -114,7 +114,7 @@ class EZP21089Test extends BaseTest
 
         $contentCreateStruct = $contentService->newContentCreateStruct(
             $this->contentType,
-            'eng-GB'
+            'eng-US'
         );
         $contentCreateStruct->setField('title', 'Test');
         $contentService->createContent(

@@ -34,11 +34,11 @@ final class UserGroupLimitationTest extends BaseLimitationIntegrationTest
         $repository->getPermissionResolver()->setCurrentUserReference($user);
 
         $parentFolder = $this->createFolder(
-            ['eng-US' => 'Parent folder'],
+            ['eng-GB' => 'Parent folder'],
             2
         );
         $childFolder = $this->createFolder(
-            ['eng-US' => 'Child folder'],
+            ['eng-GB' => 'Child folder'],
             $parentFolder->contentInfo->getMainLocationId()
         );
 

@@ -40,7 +40,7 @@ class EZP22612URLAliasTranslations extends BaseTest
             $this->getRepository()->getContentTypeService()->loadContentTypeByIdentifier('folder'),
             'ger-DE'
         );
-        $createStruct->setField('name', $name, 'eng-GB');
+        $createStruct->setField('name', $name, 'eng-US');
         $createStruct->setField('name', $name, 'ger-DE');
 
         return $createStruct;

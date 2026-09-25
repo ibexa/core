@@ -46,7 +46,7 @@ class EZP21798Test extends BaseTest
 
         // Create a new folder
         $contentTypeFolder = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $contentCreateStructFolder = $contentService->newContentCreateStruct($contentTypeFolder, 'eng-GB');
+        $contentCreateStructFolder = $contentService->newContentCreateStruct($contentTypeFolder, 'eng-US');
 
         $contentCreateStructFolder->setField('name', 'News');
 
@@ -56,7 +56,7 @@ class EZP21798Test extends BaseTest
 
         // Create a new article, inside the folder
         $contentTypeArticle = $contentTypeService->loadContentTypeByIdentifier('article');
-        $contentCreateStructArticle = $contentService->newContentCreateStruct($contentTypeArticle, 'eng-GB');
+        $contentCreateStructArticle = $contentService->newContentCreateStruct($contentTypeArticle, 'eng-US');
 
         $contentCreateStructArticle->setField('title', 'Article 1');
 

@@ -53,7 +53,7 @@ class EZP21109EzIntegerTest extends BaseTest
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
 
-        $contentCreateStruct = $contentService->newContentCreateStruct($this->contentType, 'eng-GB');
+        $contentCreateStruct = $contentService->newContentCreateStruct($this->contentType, 'eng-US');
         $contentCreateStruct->setField('test', $integerValue);
 
         $location = $locationService->newLocationCreateStruct(2);
@@ -101,9 +101,9 @@ class EZP21109EzIntegerTest extends BaseTest
 
         $contentType = $contentTypeService->newContentTypeCreateStruct($this->classShortName);
         $contentType->creatorId = $permissionResolver->getCurrentUserReference()->getUserId();
-        $contentType->mainLanguageCode = 'eng-GB';
+        $contentType->mainLanguageCode = 'eng-US';
         $contentType->names = [
-            'eng-GB' => $this->classShortName,
+            'eng-US' => $this->classShortName,
         ];
         $contentType->nameSchema = '<test>';
         $contentType->urlAliasSchema = '<test>';
@@ -113,7 +113,7 @@ class EZP21109EzIntegerTest extends BaseTest
         // Field: IntegerTest
         $field = $contentTypeService->newFieldDefinitionCreateStruct('test', 'ezinteger');
         $field->names = [
-            'eng-GB' => 'Test',
+            'eng-US' => 'Test',
         ];
         $field->position = 10;
         $contentType->addFieldDefinition($field);

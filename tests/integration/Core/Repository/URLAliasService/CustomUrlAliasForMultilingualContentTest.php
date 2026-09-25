@@ -29,9 +29,9 @@ final class CustomUrlAliasForMultilingualContentTest extends BaseTest
         $language = 'ger-DE';
 
         $names = [
-            'eng-GB' => 'Contact',
-            'ger-DE' => 'Kontakt',
             'eng-US' => 'Contact',
+            'ger-DE' => 'Kontakt',
+            'eng-GB' => 'Contact',
         ];
         $contactFolder = $this->createFolder(
             $names,

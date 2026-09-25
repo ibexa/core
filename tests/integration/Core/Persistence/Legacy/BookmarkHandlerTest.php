@@ -71,7 +71,7 @@ final class BookmarkHandlerTest extends RepositoryTestCase
     private function createTestContent(): Content
     {
         return $this->createFolder(
-            ['eng-GB' => 'Foo']
+            ['eng-US' => 'Foo']
         );
     }
 

@@ -240,7 +240,7 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $userService = $repository->getUserService();
 
-        $groupCreate = $userService->newUserGroupCreateStruct('eng-US');
+        $groupCreate = $userService->newUserGroupCreateStruct('eng-GB');
         /* END: Use Case */
 
         self::assertInstanceOf(
@@ -261,7 +261,7 @@ class UserServiceTest extends BaseTest
      */
     public function testNewUserGroupCreateStructSetsMainLanguageCode($groupCreate)
     {
-        $this->assertEquals('eng-US', $groupCreate->mainLanguageCode);
+        $this->assertEquals('eng-GB', $groupCreate->mainLanguageCode);
     }
 
     /**
@@ -299,7 +299,7 @@ class UserServiceTest extends BaseTest
 
         // Instantiate a new group create struct
         $groupCreate = $userService->newUserGroupCreateStruct(
-            'eng-US',
+            'eng-GB',
             $groupType
         );
         /* END: Use Case */
@@ -377,7 +377,7 @@ class UserServiceTest extends BaseTest
         $parentUserGroup = $userService->loadUserGroup($mainGroupId);
 
         // Instantiate a new create struct
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
         $userGroupCreate->setField('name', 'Example Group');
         $userGroupCreate->remoteId = '5f7f0bdb3381d6a461d8c29ff53d908f';
 
@@ -412,7 +412,7 @@ class UserServiceTest extends BaseTest
         $parentUserGroup = $userService->loadUserGroup($mainGroupId);
 
         // Instantiate a new create struct
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
         $userGroupCreate->setField('name', new \stdClass());
 
         // This call will fail with an "InvalidArgumentException", because the
@@ -446,7 +446,7 @@ class UserServiceTest extends BaseTest
         $parentUserGroup = $userService->loadUserGroup($mainGroupId);
 
         // Instantiate a new create struct
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
 
         // This call will fail with a "ContentFieldValidationException", because the
         // only mandatory field "name" is not set.
@@ -478,7 +478,7 @@ class UserServiceTest extends BaseTest
             $parentUserGroup = $userService->loadUserGroup($mainGroupId);
 
             // Instantiate a new create struct
-            $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
+            $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
             $userGroupCreate->setField('name', 'Example Group');
 
             // Create the new user group
@@ -718,7 +718,7 @@ class UserServiceTest extends BaseTest
 
         // Create a content update struct and update the group name
         $contentUpdate = $contentService->newContentUpdateStruct();
-        $contentUpdate->setField('name', 'Sindelfingen', 'eng-US');
+        $contentUpdate->setField('name', 'Sindelfingen', 'eng-GB');
 
         // Create a group update struct and set content update struct
         $groupUpdate = $userService->newUserGroupUpdateStruct();
@@ -731,7 +731,7 @@ class UserServiceTest extends BaseTest
         );
         /* END: Use Case */
 
-        $this->assertEquals('Sindelfingen', $userGroup->getFieldValue('name', 'eng-US'));
+        $this->assertEquals('Sindelfingen', $userGroup->getFieldValue('name', 'eng-GB'));
 
         $versionInfo = $userGroup->getVersionInfo();
 
@@ -804,7 +804,7 @@ class UserServiceTest extends BaseTest
         // Create a content update struct and update the group name
         $contentUpdate = $contentService->newContentUpdateStruct();
         // An object of stdClass is not accepted as a value by the field "name"
-        $contentUpdate->setField('name', new \stdClass(), 'eng-US');
+        $contentUpdate->setField('name', new \stdClass(), 'eng-GB');
 
         // Create a group update struct and set content update struct
         $groupUpdate = $userService->newUserGroupUpdateStruct();
@@ -832,7 +832,7 @@ class UserServiceTest extends BaseTest
             'user',
             'user@example.com',
             'secret',
-            'eng-US'
+            'eng-GB'
         );
         /* END: Use Case */
 
@@ -860,7 +860,7 @@ class UserServiceTest extends BaseTest
         $userGroup = $userService->loadUserGroup(42);
         $userGroupUpdateStruct = $userService->newUserGroupUpdateStruct();
         $userGroupUpdateStruct->contentUpdateStruct = $contentService->newContentUpdateStruct();
-        $userGroupUpdateStruct->contentUpdateStruct->setField('name', '', 'eng-US');
+        $userGroupUpdateStruct->contentUpdateStruct->setField('name', '', 'eng-GB');
 
         $userService->updateUserGroup($userGroup, $userGroupUpdateStruct);
     }
@@ -880,7 +880,7 @@ class UserServiceTest extends BaseTest
                 'login' => 'user',
                 'email' => 'user@example.com',
                 'password' => 'secret',
-                'mainLanguageCode' => 'eng-US',
+                'mainLanguageCode' => 'eng-GB',
             ],
             [
                 'login' => $userCreate->login,
@@ -911,7 +911,7 @@ class UserServiceTest extends BaseTest
             'user',
             'user@example.com',
             'secret',
-            'eng-US',
+            'eng-GB',
             $userType
         );
         /* END: Use Case */
@@ -969,7 +969,7 @@ class UserServiceTest extends BaseTest
             [
                 'login' => 'user',
                 'email' => 'user@example.com',
-                'mainLanguageCode' => 'eng-US',
+                'mainLanguageCode' => 'eng-GB',
             ],
             [
                 'login' => $user->login,
@@ -1003,7 +1003,7 @@ class UserServiceTest extends BaseTest
             'user',
             'user@example.com',
             'secret',
-            'eng-US'
+            'eng-GB'
         );
 
         // Do not set the mandatory fields "first_name" and "last_name"
@@ -1043,7 +1043,7 @@ class UserServiceTest extends BaseTest
             'user',
             'user@example.com',
             'secret',
-            'eng-US'
+            'eng-GB'
         );
 
         // An object of stdClass is not a valid value for the field first_name
@@ -1082,7 +1082,7 @@ class UserServiceTest extends BaseTest
             'admin',
             'user@example.com',
             'secret',
-            'eng-US'
+            'eng-GB'
         );
 
         $userCreate->setField('first_name', 'Example');
@@ -1140,7 +1140,7 @@ class UserServiceTest extends BaseTest
             // email is already taken
             'unique@email.com',
             'VerySecure@Password.1234',
-            'eng-US',
+            'eng-GB',
             $userContentType
         );
 
@@ -1191,7 +1191,7 @@ class UserServiceTest extends BaseTest
             'invalid@user',
             'unique@email.com',
             'VerySecure@Password.1234',
-            'eng-US',
+            'eng-GB',
             $userContentType
         );
 
@@ -1263,7 +1263,7 @@ class UserServiceTest extends BaseTest
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
-        $userCreateStruct = $userService->newUserCreateStruct('new_user', 'new_user@ibexa.co', 'password', 'eng-GB');
+        $userCreateStruct = $userService->newUserCreateStruct('new_user', 'new_user@ibexa.co', 'password', 'eng-US');
         $userCreateStruct->setField('first_name', 'New');
         $userCreateStruct->setField('last_name', 'User');
 
@@ -1898,8 +1898,8 @@ class UserServiceTest extends BaseTest
 
         // Create a content update struct and change the remote id.
         $contentUpdate = $contentService->newContentUpdateStruct();
-        $contentUpdate->setField('first_name', 'Hello', 'eng-US');
-        $contentUpdate->setField('last_name', 'World', 'eng-US');
+        $contentUpdate->setField('first_name', 'Hello', 'eng-GB');
+        $contentUpdate->setField('last_name', 'World', 'eng-GB');
 
         // Create a new update struct instance
         $userUpdate = $userService->newUserUpdateStruct();
@@ -1942,7 +1942,7 @@ class UserServiceTest extends BaseTest
 
         // Create a content update struct and change the remote id.
         $contentUpdate = $contentService->newContentUpdateStruct();
-        $contentUpdate->setField('first_name', null, 'eng-US');
+        $contentUpdate->setField('first_name', null, 'eng-GB');
 
         // Create a new update struct instance
         $userUpdate = $userService->newUserUpdateStruct();
@@ -1979,7 +1979,7 @@ class UserServiceTest extends BaseTest
 
         $contentUpdate = $contentService->newContentUpdateStruct();
         // An object of stdClass is not valid for the field first_name
-        $contentUpdate->setField('first_name', new \stdClass(), 'eng-US');
+        $contentUpdate->setField('first_name', new \stdClass(), 'eng-GB');
 
         // Create a new update struct instance
         $userUpdate = $userService->newUserUpdateStruct();
@@ -2487,11 +2487,11 @@ class UserServiceTest extends BaseTest
 
         $userGroupUpdateStruct = $userService->newUserGroupUpdateStruct();
         $userGroupUpdateStruct->contentMetadataUpdateStruct = $contentService->newContentMetadataUpdateStruct();
-        $userGroupUpdateStruct->contentMetadataUpdateStruct->mainLanguageCode = 'eng-GB';
+        $userGroupUpdateStruct->contentMetadataUpdateStruct->mainLanguageCode = 'eng-US';
         $userService->updateUserGroup($userGroup, $userGroupUpdateStruct);
 
         if ($expectedLanguageCode === null) {
-            $expectedLanguageCode = 'eng-GB';
+            $expectedLanguageCode = 'eng-US';
         }
 
         $loadedUserGroup = $userService->loadUserGroup($userGroup->id, $prioritizedLanguages);
@@ -2603,14 +2603,14 @@ class UserServiceTest extends BaseTest
 
         $user = $this->createMultiLanguageUser();
         // sanity check
-        self::assertEquals($user->contentInfo->mainLanguageCode, 'eng-US');
+        self::assertEquals($user->contentInfo->mainLanguageCode, 'eng-GB');
 
         $userUpdateStruct = $userService->newUserUpdateStruct();
         $userUpdateStruct->contentMetadataUpdateStruct = $contentService->newContentMetadataUpdateStruct();
-        $userUpdateStruct->contentMetadataUpdateStruct->mainLanguageCode = 'eng-GB';
+        $userUpdateStruct->contentMetadataUpdateStruct->mainLanguageCode = 'eng-US';
         $userService->updateUser($user, $userUpdateStruct);
         if ($expectedLanguageCode === null) {
-            $expectedLanguageCode = 'eng-GB';
+            $expectedLanguageCode = 'eng-US';
         }
 
         $loadedUser = $userService->loadUser($user->id, $prioritizedLanguages);
@@ -2793,13 +2793,13 @@ class UserServiceTest extends BaseTest
     {
         return [
             [[], null],
-            [['eng-US'], 'eng-US'],
             [['eng-GB'], 'eng-GB'],
-            [['eng-US', 'eng-GB'], 'eng-US'],
+            [['eng-US'], 'eng-US'],
             [['eng-GB', 'eng-US'], 'eng-GB'],
+            [['eng-US', 'eng-GB'], 'eng-US'],
             // use non-existent group as the first one
             [['ger-DE'], null],
-            [['ger-DE', 'eng-GB'], 'eng-GB'],
+            [['ger-DE', 'eng-US'], 'eng-US'],
         ];
     }
 
@@ -2817,11 +2817,11 @@ class UserServiceTest extends BaseTest
         $parentGroupId = $this->generateId('group', $parentGroupId);
         $parentGroup = $userService->loadUserGroup($parentGroupId);
 
-        $userGroupCreateStruct = $userService->newUserGroupCreateStruct('eng-US');
-        $userGroupCreateStruct->setField('name', 'US user group', 'eng-US');
-        $userGroupCreateStruct->setField('name', 'GB user group', 'eng-GB');
-        $userGroupCreateStruct->setField('description', 'US user group description', 'eng-US');
-        $userGroupCreateStruct->setField('description', 'GB user group description', 'eng-GB');
+        $userGroupCreateStruct = $userService->newUserGroupCreateStruct('eng-GB');
+        $userGroupCreateStruct->setField('name', 'US user group', 'eng-GB');
+        $userGroupCreateStruct->setField('name', 'GB user group', 'eng-US');
+        $userGroupCreateStruct->setField('description', 'US user group description', 'eng-GB');
+        $userGroupCreateStruct->setField('description', 'GB user group description', 'eng-US');
         $userGroupCreateStruct->alwaysAvailable = true;
 
         return $userService->createUserGroup($userGroupCreateStruct, $parentGroup);
@@ -2846,7 +2846,7 @@ class UserServiceTest extends BaseTest
         $parentUserGroup = $userService->loadUserGroup($mainGroupId);
 
         // Instantiate a new create struct
-        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-US');
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
         $userGroupCreate->setField('name', 'Example Group');
 
         // Create the new user group
@@ -2877,13 +2877,13 @@ class UserServiceTest extends BaseTest
             $randomLogin,
             "{$randomLogin}@example.com",
             'secret',
-            'eng-US'
+            'eng-GB'
         );
         $userCreateStruct->enabled = true;
         $userCreateStruct->alwaysAvailable = true;
 
         // set field for each language
-        foreach (['eng-US', 'eng-GB'] as $languageCode) {
+        foreach (['eng-GB', 'eng-US'] as $languageCode) {
             $userCreateStruct->setField('first_name', "{$languageCode} Example", $languageCode);
             $userCreateStruct->setField('last_name', "{$languageCode} User", $languageCode);
             $userCreateStruct->setField('signature', "{$languageCode} signature", $languageCode);
@@ -2911,7 +2911,7 @@ class UserServiceTest extends BaseTest
             'user',
             'user@example.com',
             'secret',
-            'eng-US'
+            'eng-GB'
         );
 
         // Set some fields required by the user ContentType.
@@ -3279,7 +3279,7 @@ class UserServiceTest extends BaseTest
             'johndoe',
             'johndoe@example.com',
             $password,
-            'eng-US',
+            'eng-GB',
             $contentType
         );
         $userCreate->enabled = true;
@@ -3331,24 +3331,24 @@ class UserServiceTest extends BaseTest
         $permissionResolver = $repository->getPermissionResolver();
 
         $typeCreate = $contentTypeService->newContentTypeCreateStruct($identifier);
-        $typeCreate->mainLanguageCode = 'eng-GB';
+        $typeCreate->mainLanguageCode = 'eng-US';
         $typeCreate->urlAliasSchema = 'url|scheme';
         $typeCreate->nameSchema = 'name|scheme';
         $typeCreate->names = [
-            'eng-GB' => 'User: ' . $identifier,
+            'eng-US' => 'User: ' . $identifier,
         ];
         $typeCreate->descriptions = [
-            'eng-GB' => '',
+            'eng-US' => '',
         ];
         $typeCreate->creatorId = $this->generateId('user', $permissionResolver->getCurrentUserReference()->getUserId());
         $typeCreate->creationDate = $this->createDateTime();
 
         $firstNameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('first_name', 'ezstring');
         $firstNameFieldCreate->names = [
-            'eng-GB' => 'First name',
+            'eng-US' => 'First name',
         ];
         $firstNameFieldCreate->descriptions = [
-            'eng-GB' => '',
+            'eng-US' => '',
         ];
         $firstNameFieldCreate->fieldGroup = 'default';
         $firstNameFieldCreate->position = 1;
@@ -3369,10 +3369,10 @@ class UserServiceTest extends BaseTest
 
         $lastNameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('last_name', 'ezstring');
         $lastNameFieldCreate->names = [
-            'eng-GB' => 'Last name',
+            'eng-US' => 'Last name',
         ];
         $lastNameFieldCreate->descriptions = [
-            'eng-GB' => '',
+            'eng-US' => '',
         ];
         $lastNameFieldCreate->fieldGroup = 'default';
         $lastNameFieldCreate->position = 2;
@@ -3393,10 +3393,10 @@ class UserServiceTest extends BaseTest
 
         $accountFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('user_account', 'ezuser');
         $accountFieldCreateStruct->names = [
-            'eng-GB' => 'User account',
+            'eng-US' => 'User account',
         ];
         $accountFieldCreateStruct->descriptions = [
-            'eng-GB' => '',
+            'eng-US' => '',
         ];
         $accountFieldCreateStruct->fieldGroup = 'default';
         $accountFieldCreateStruct->position = 3;

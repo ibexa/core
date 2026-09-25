@@ -299,14 +299,14 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         $trashService = $repository->getTrashService();
         $locationService = $repository->getLocationService();
         $objectStateService = $repository->getObjectStateService();
-        $parentContent = $this->createFolder(['eng-US' => 'Parent Folder'], 2);
+        $parentContent = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
         $objectStateService->setContentState(
             $parentContent->contentInfo,
             $objectStateService->loadObjectStateGroup(2),
             $objectStateService->loadObjectState(2)
         );
         $parentLocation = $locationService->loadLocations($parentContent->contentInfo)[0];
-        $childContent = $this->createFolder(['eng-US' => 'Child Folder'], $parentLocation->id);
+        $childContent = $this->createFolder(['eng-GB' => 'Child Folder'], $parentLocation->id);
 
         $this->refreshSearch($repository);
         $this->expectException(UnauthorizedException::class);

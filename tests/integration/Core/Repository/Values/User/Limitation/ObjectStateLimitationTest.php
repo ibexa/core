@@ -121,8 +121,8 @@ class ObjectStateLimitationTest extends BaseLimitationTest
         $objectStateService = $this->getRepository()->getObjectStateService();
 
         $objectStateGroupCreateStruct = $objectStateService->newObjectStateGroupCreateStruct('second_group');
-        $objectStateGroupCreateStruct->defaultLanguageCode = 'eng-US';
-        $objectStateGroupCreateStruct->names = ['eng-US' => 'Second Group'];
+        $objectStateGroupCreateStruct->defaultLanguageCode = 'eng-GB';
+        $objectStateGroupCreateStruct->names = ['eng-GB' => 'Second Group'];
 
         return $objectStateService->createObjectStateGroup($objectStateGroupCreateStruct);
     }
@@ -138,8 +138,8 @@ class ObjectStateLimitationTest extends BaseLimitationTest
         $objectStateService = $this->getRepository()->getObjectStateService();
 
         $objectStateCreateStruct = $objectStateService->newObjectStateCreateStruct('default_state');
-        $objectStateCreateStruct->defaultLanguageCode = 'eng-US';
-        $objectStateCreateStruct->names = ['eng-US' => 'Default state'];
+        $objectStateCreateStruct->defaultLanguageCode = 'eng-GB';
+        $objectStateCreateStruct->names = ['eng-GB' => 'Default state'];
 
         return $objectStateService->createObjectState($objectStateGroup, $objectStateCreateStruct);
     }

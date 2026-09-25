@@ -43,7 +43,7 @@ final class SerializationTest extends RepositoryTestCase
                     "maxLogin": 10,
                     "plainPassword": null
                 },
-                "languageCode": "eng-US",
+                "languageCode": "eng-GB",
                 "fieldTypeIdentifier": "ezuser",
                 "fieldDefinitionIdentifier": "user_account",
                 "virtual": false
