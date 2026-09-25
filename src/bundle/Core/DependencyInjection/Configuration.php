@@ -58,6 +58,7 @@ class Configuration extends SiteAccessConfiguration
         $this->addUrlWildcardsSection($rootNode);
         $this->addOrmSection($rootNode);
         $this->addUITranslationsSection($rootNode);
+        $this->addInstallerSection($rootNode);
 
         // Delegate SiteAccess config to configuration parsers
         $this->mainSiteAccessConfigParser->addSemanticConfig($this->generateScopeBaseNode($rootNode));
@@ -558,6 +559,44 @@ EOT;
                                 ->booleanNode('enabled')
                                     ->defaultFalse()
                                     ->info('When enabled UI will be translated based on translations from i18n package')
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
+
+    /**
+     * Defines configuration for the "ibexa:install" installer.
+     *
+     * The configuration is available at:
+     * <code>
+     * ibexa:
+     *     installer:
+     *         schema_builder_event:
+     *             enabled: true
+     * </code>
+     *
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     */
+    private function addInstallerSection(ArrayNodeDefinition $rootNode): ArrayNodeDefinition
+    {
+        return $rootNode
+            ->children()
+                ->arrayNode('installer')
+                    ->children()
+                        ->arrayNode('schema_builder_event')
+                            ->info('Configuration of the legacy, event-driven database schema building mechanism used by the "ibexa:install" command')
+                            ->children()
+                                ->booleanNode('enabled')
+                                    ->defaultTrue()
+                                    ->info(
+                                        'Whether "ibexa:install" dispatches Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent ' .
+                                        'to let packages contribute their database schema via an event subscriber, as opposed to ' .
+                                        'the schema being installed from static SQL migrations. ' .
+                                        'Disable once all installed packages have migrated away from the event-driven mechanism.'
+                                    )
                                 ->end()
                             ->end()
                         ->end()
