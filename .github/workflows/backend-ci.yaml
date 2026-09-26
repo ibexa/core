@@ -219,7 +219,7 @@ jobs:
                 options:
                     --memory=60m
             solr:
-                image: ghcr.io/ibexa/core/solr
+                image: ghcr.io/ibexa/core/solr:6.0
                 ports:
                     - 8983:8983
                 options: >-
@@ -265,3 +265,4 @@ jobs:
                     CUSTOM_CACHE_POOL: singleredis
                     CACHE_HOST: 127.0.0.1
                     CORES_SETUP: single
+                    SOLR_VERSION: 10.0.0
