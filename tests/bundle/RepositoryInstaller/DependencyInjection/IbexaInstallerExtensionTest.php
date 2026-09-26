@@ -34,7 +34,7 @@ class IbexaInstallerExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasServiceDefinitionWithTag(
             CoreInstaller::class,
             'ibexa.installer',
-            ['type' => 'clean']
+            ['type' => 'ibexa-oss']
         );
     }
 
