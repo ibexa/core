@@ -33,7 +33,7 @@ class IbexaInstallerExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasServiceDefinitionWithTag(
             CoreInstaller::class,
             InstallerTagPass::INSTALLER_TAG,
-            ['type' => 'clean']
+            ['type' => 'ibexa-oss']
         );
     }
 
