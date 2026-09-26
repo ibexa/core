@@ -38,6 +38,7 @@ return [
     'ezcontentobject_attribute_sort_key_string' => '',
     'ezcontentobject_tree_main_node_id' => '12',
     'ezcontentobject_is_hidden' => '0',
+    'content_type_identifier' => 'user_group',
   ],
   1 => [
     'ezcontentobject_id' => '11',
@@ -72,6 +73,7 @@ return [
     'ezcontentobject_attribute_sort_key_string' => '',
     'ezcontentobject_tree_main_node_id' => '12',
     'ezcontentobject_is_hidden' => '0',
+    'content_type_identifier' => 'user_group',
   ],
   2 => [
     'ezcontentobject_id' => '11',
@@ -106,6 +108,7 @@ return [
     'ezcontentobject_attribute_sort_key_string' => 'members',
     'ezcontentobject_tree_main_node_id' => '12',
     'ezcontentobject_is_hidden' => '0',
+    'content_type_identifier' => 'user_group',
   ],
   3 => [
     'ezcontentobject_id' => '11',
@@ -140,5 +143,6 @@ return [
     'ezcontentobject_attribute_sort_key_string' => '',
     'ezcontentobject_tree_main_node_id' => '12',
     'ezcontentobject_is_hidden' => '0',
+    'content_type_identifier' => 'user_group',
   ],
 ];

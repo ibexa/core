@@ -40,6 +40,7 @@ $versionInfo->contentInfo->mainLanguageCode = 'eng-US';
 $versionInfo->contentInfo->name = 'Something';
 $versionInfo->contentInfo->mainLocationId = 228;
 $versionInfo->contentInfo->status = 1;
+$versionInfo->contentInfo->contentTypeIdentifier = 'article';
 
 $content->versionInfo = $versionInfo;
 
