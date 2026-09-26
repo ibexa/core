@@ -42,7 +42,8 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
     public function __construct(
         private EntityManagerInterface $entityManager,
         private array $entityClasses
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
