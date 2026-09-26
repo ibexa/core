@@ -34,20 +34,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * Tables already present in the schema are left as they are.
  */
-final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
+final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    /** @var list<class-string> */
-    private array $entityClasses;
-
     /**
      * @param list<class-string> $entityClasses
      */
-    public function __construct(EntityManagerInterface $entityManager, array $entityClasses)
-    {
-        $this->entityManager = $entityManager;
-        $this->entityClasses = $entityClasses;
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private array $entityClasses
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -61,9 +56,7 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
     {
         $metadataFactory = $this->entityManager->getMetadataFactory();
         $classMetadata = array_map(
-            static function (string $class) use ($metadataFactory) {
-                return $metadataFactory->getMetadataFor($class);
-            },
+            static fn (string $class) => $metadataFactory->getMetadataFor($class),
             $this->entityClasses,
         );
 
@@ -76,9 +69,7 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
         // own table, regardless of which classes were actually requested here. Only transplant the
         // tables that genuinely belong to the requested entities.
         $ownTableNames = array_map(
-            static function ($metadata) {
-                return $metadata->getTableName();
-            },
+            static fn ($metadata) => $metadata->getTableName(),
             $classMetadata,
         );
 
@@ -96,11 +87,7 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
         }
 
         $ownSequenceNames = array_filter(array_map(
-            static function ($metadata) {
-                return isset($metadata->sequenceGeneratorDefinition['sequenceName'])
-                    ? $metadata->sequenceGeneratorDefinition['sequenceName']
-                    : null;
-            },
+            static fn ($metadata) => $metadata->sequenceGeneratorDefinition['sequenceName'] ?? null,
             $classMetadata,
         ));
 
@@ -128,8 +115,10 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
      * SchemaImporter uses when building a table from a parsed Yaml array, just reading from an
      * already-built Table here instead.
      */
-    private function copyTable(Table $source, Table $target): void
-    {
+    private function copyTable(
+        Table $source,
+        Table $target
+    ): void {
         foreach ($source->getColumns() as $column) {
             $options = [
                 'length' => $column->getLength(),
@@ -169,8 +158,8 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
         foreach ($source->getForeignKeys() as $foreignKey) {
             $target->addForeignKeyConstraint(
                 $foreignKey->getForeignTableName(),
-                $foreignKey->getUnquotedLocalColumns(),
-                $foreignKey->getUnquotedForeignColumns(),
+                array_values($foreignKey->getUnquotedLocalColumns()),
+                array_values($foreignKey->getUnquotedForeignColumns()),
                 $foreignKey->getOptions(),
                 $foreignKey->getName(),
             );

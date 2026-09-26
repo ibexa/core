@@ -11,13 +11,11 @@ namespace Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\MySQL57Platform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Sequence;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,9 +47,10 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
     protected function setUp(): void
     {
         $configuration = new Configuration();
-        $configuration->setMetadataDriverImpl(new SimplifiedXmlDriver([
-            __DIR__ . '/Fixtures/orm' => 'Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Fixtures\Entity',
-        ]));
+        $configuration->setMetadataDriverImpl(new SimplifiedXmlDriver(
+            [__DIR__ . '/Fixtures/orm' => 'Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Fixtures\Entity'],
+            isXsdValidationEnabled: true,
+        ));
         $configuration->setProxyDir(sys_get_temp_dir());
         $configuration->setProxyNamespace('Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Proxies');
 
@@ -77,13 +76,14 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Doctrine\DBAL\Platforms\AbstractPlatform}>
+     * @return iterable<string, array{AbstractPlatform}>
      */
     public static function providePlatforms(): iterable
     {
-        yield 'MySQL' => [new MySQL57Platform()];
-        yield 'PostgreSQL' => [new PostgreSQL94Platform()];
-        yield 'SQLite' => [new SqlitePlatform()];
+        yield 'MySQL' => [new MySQLPlatform()];
+        yield 'PostgreSQL' => [new PostgreSQLPlatform()];
+        // The SQLite platform class was renamed between DBAL 3 and 4 - let DBAL pick it.
+        yield 'SQLite' => [DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true])->getDatabasePlatform()];
     }
 
     public function testAddsSequencesOfListedEntitiesAsSchemaToolGeneratesThem(): void
@@ -123,9 +123,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
         $schema = $this->dispatch($schema);
 
         $columnNames = array_map(
-            static function (Column $column): string {
-                return $column->getName();
-            },
+            static fn (Column $column): string => $column->getName(),
             array_values($schema->getTable('test_orm_category')->getColumns()),
         );
 
@@ -138,27 +136,19 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
         $metadataFactory = $this->entityManager->getMetadataFactory();
 
         return (new SchemaTool($this->entityManager))->getSchemaFromMetadata(array_map(
-            static function (string $class) use ($metadataFactory) {
-                return $metadataFactory->getMetadataFor($class);
-            },
+            static fn (string $class) => $metadataFactory->getMetadataFor($class),
             self::ENTITY_CLASSES,
         ));
     }
 
     /**
-     * @return array<string, array<string>>
+     * @return list<string>
      */
-    private function getCreateTablesSql(Schema $schema, AbstractPlatform $platform): array
-    {
-        return array_map(
-            static function (Table $table) use ($platform): array {
-                return $platform->getCreateTableSQL(
-                    $table,
-                    AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS,
-                );
-            },
-            $schema->getTables(),
-        );
+    private function getCreateTablesSql(
+        Schema $schema,
+        AbstractPlatform $platform
+    ): array {
+        return $platform->getCreateTablesSQL($schema->getTables());
     }
 
     /**
@@ -168,12 +158,10 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
      */
     private function getCreateSequencesSql(Schema $schema): array
     {
-        $platform = new PostgreSQL94Platform();
+        $platform = new PostgreSQLPlatform();
 
         return array_map(
-            static function (Sequence $sequence) use ($platform): string {
-                return $platform->getCreateSequenceSQL($sequence);
-            },
+            static fn (Sequence $sequence): string => $platform->getCreateSequenceSQL($sequence),
             $schema->getSequences(),
         );
     }
