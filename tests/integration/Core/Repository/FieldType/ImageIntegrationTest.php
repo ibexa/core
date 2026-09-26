@@ -842,6 +842,44 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         // Expect no League\Flysystem\CorruptedPathDetected thrown
     }
 
+    public function testDeleteContentRemovesImageStoredUnderLegacyFieldTypeIdentifier(): void
+    {
+        $ioService = $this->getSetupFactory()->getServiceContainer()->get(LegacyIOService::class);
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        self::assertInstanceOf(IOServiceInterface::class, $ioService);
+
+        $content = $this->publishNewImage(
+            __METHOD__,
+            new ImageValue(
+                [
+                    'inputUri' => __DIR__ . '/_fixtures/image.jpg',
+                    'fileName' => 'image.jpg',
+                    'fileSize' => filesize(__DIR__ . '/_fixtures/image.jpg'),
+                    'alternativeText' => 'Alternative',
+                ]
+            ),
+            [2]
+        );
+
+        $imageFieldDefinition = $content->getContentType()->getFieldDefinition('image');
+        self::assertNotNull($imageFieldDefinition);
+
+        $this->assertImageExists(true, $ioService, $content);
+
+        $this->downgradeFieldTypeIdentifierToLegacyAlias(
+            'ezimage',
+            $content->id,
+            $content->getVersionInfo()->versionNo,
+            $imageFieldDefinition->id
+        );
+
+        $contentService->deleteContent($content->getVersionInfo()->getContentInfo());
+
+        $this->assertImageExists(false, $ioService, $content);
+    }
+
     /**
      * @return array<string,mixed>
      *
