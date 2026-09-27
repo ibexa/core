@@ -50,6 +50,9 @@ final class InstallPlatformCommand extends Command
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
+    /**
+     * @param \Symfony\Component\DependencyInjection\ServiceLocator<\Ibexa\Bundle\RepositoryInstaller\Installer\Installer> $installers
+     */
     public function __construct(
         Connection $connection,
         ServiceLocator $installers,
