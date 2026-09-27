@@ -14,6 +14,7 @@ use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\Version\MigrationPlanCalculator;
 use Ibexa\Bundle\RepositoryInstaller\Bootstrapper\DoctrineMigrationsSchemaHook;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
+use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -70,7 +71,7 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
         $dependencyFactory->method('getMetadataStorage')->willReturn($metadataStorage);
         $dependencyFactory->method('getMigrationPlanCalculator')->willReturn($planCalculator);
 
-        return new TaggedMigrationsRunner($dependencyFactory);
+        return new TaggedMigrationsRunner($dependencyFactory, new SchemaAssetsFilterBypass());
     }
 
     /**

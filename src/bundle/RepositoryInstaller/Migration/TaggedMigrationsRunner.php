@@ -10,11 +10,13 @@ namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\MigrationPlan;
 use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\Version\ExecutionResult;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 
 /**
  * Runs every not-yet-executed migration tagged with
@@ -44,9 +46,14 @@ final class TaggedMigrationsRunner
 {
     private DependencyFactory $dependencyFactory;
 
-    public function __construct(DependencyFactory $dependencyFactory)
-    {
+    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
+
+    public function __construct(
+        DependencyFactory $dependencyFactory,
+        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
+    ) {
         $this->dependencyFactory = $dependencyFactory;
+        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
     }
 
     /**
@@ -95,8 +102,13 @@ final class TaggedMigrationsRunner
         // check inside a migration see nothing at all, regardless of what previous migrations
         // in this same run (or a prior run) actually created -- introspect the live database
         // instead, same as what "doctrine:migrations:migrate" itself does via
-        // DBALSchemaDiffProvider::createFromSchema().
-        $migration->up($connection->createSchemaManager()->introspectSchema());
+        // DBALSchemaDiffProvider::createFromSchema(). With the connection's schema assets filter
+        // lifted: it hides every table without an ORM entity behind it (i.e. nearly all of them)
+        // from introspection, which would make those guards think the tables don't exist.
+        $migration->up($this->schemaAssetsFilterBypass->call(
+            $connection,
+            static fn (): Schema => $connection->createSchemaManager()->introspectSchema()
+        ));
         $queries = $migration->getSql();
 
         foreach ($queries as $query) {
