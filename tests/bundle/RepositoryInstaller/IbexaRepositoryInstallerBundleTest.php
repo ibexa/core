@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\RepositoryInstaller;
 
 use Ibexa\Bundle\DoctrineSchema\DependencyInjection\DoctrineSchemaExtension;
-use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass;
+use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RegisterSchemaBuilderEventSchemaProviderPass;
 use Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -33,12 +33,12 @@ class IbexaRepositoryInstallerBundleTest extends TestCase
         $container->registerExtension(new DoctrineSchemaExtension());
         $this->bundle->build($container);
 
-        // check if InstallerTagPass was added
+        // check if RegisterSchemaBuilderEventSchemaProviderPass was added
         self::assertNotEmpty(
             array_filter(
                 $container->getCompilerPassConfig()->getPasses(),
                 static function (CompilerPassInterface $compilerPass): bool {
-                    return $compilerPass instanceof InstallerTagPass;
+                    return $compilerPass instanceof RegisterSchemaBuilderEventSchemaProviderPass;
                 }
             )
         );

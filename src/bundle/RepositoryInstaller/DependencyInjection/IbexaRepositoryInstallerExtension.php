@@ -7,6 +7,7 @@
 
 namespace Ibexa\Bundle\RepositoryInstaller\DependencyInjection;
 
+use Ibexa\Contracts\Test\Core\Bootstrapper\HookInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -21,5 +22,20 @@ class IbexaRepositoryInstallerExtension extends Extension
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
+
+        if ($this->shouldRegisterBootstrapperHook($container)) {
+            $loader->load('bootstrapper.yml');
+        }
+    }
+
+    /**
+     * "ibexa/test-core" is a dev dependency, so its HookInterface is absent from a production
+     * install - and even where it is present, integration-test bootstrap services have no business
+     * being built outside the "test" environment.
+     */
+    private function shouldRegisterBootstrapperHook(ContainerBuilder $container): bool
+    {
+        return 'test' === $container->getParameter('kernel.environment')
+            && interface_exists(HookInterface::class);
     }
 }

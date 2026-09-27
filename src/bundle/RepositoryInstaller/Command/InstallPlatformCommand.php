@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -45,16 +46,19 @@ final class InstallPlatformCommand extends Command
     /** @var string */
     private $environment;
 
-    /** @var \Ibexa\Bundle\RepositoryInstaller\Installer\Installer[] */
-    private $installers = [];
+    /** @var \Symfony\Component\DependencyInjection\ServiceLocator<\Ibexa\Bundle\RepositoryInstaller\Installer\Installer> */
+    private ServiceLocator $installers;
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
     private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
 
+    /**
+     * @param \Symfony\Component\DependencyInjection\ServiceLocator<\Ibexa\Bundle\RepositoryInstaller\Installer\Installer> $installers
+     */
     public function __construct(
         Connection $connection,
-        array $installers,
+        ServiceLocator $installers,
         CacheItemPoolInterface $cachePool,
         string $environment,
         RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
@@ -74,7 +78,7 @@ final class InstallPlatformCommand extends Command
         $this->addArgument(
             'type',
             InputArgument::OPTIONAL,
-            'The type of install. Available options: ' . implode(', ', array_keys($this->installers)),
+            'The type of install. Available options: ' . implode(', ', array_keys($this->installers->getProvidedServices())),
             'ibexa-oss'
         );
         $this->addOption(
@@ -104,7 +108,7 @@ final class InstallPlatformCommand extends Command
         if ($installer === false) {
             $output->writeln(
                 "Unknown install type '$type', available options in currently installed Ibexa package: " .
-                implode(', ', array_keys($this->installers))
+                implode(', ', array_keys($this->installers->getProvidedServices()))
             );
             exit(self::EXIT_UNKNOWN_INSTALL_TYPE);
         }
@@ -235,11 +239,11 @@ final class InstallPlatformCommand extends Command
      */
     private function getInstaller($type)
     {
-        if (!isset($this->installers[$type])) {
+        if (!$this->installers->has($type)) {
             return false;
         }
 
-        return $this->installers[$type];
+        return $this->installers->get($type);
     }
 
     /**
