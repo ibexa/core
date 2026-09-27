@@ -96,7 +96,7 @@ final class TaggedMigrationsRunner
         // in this same run (or a prior run) actually created -- introspect the live database
         // instead, same as what "doctrine:migrations:migrate" itself does via
         // DBALSchemaDiffProvider::createFromSchema().
-        $migration->up($connection->getSchemaManager()->createSchema());
+        $migration->up($connection->createSchemaManager()->introspectSchema());
         $queries = $migration->getSql();
 
         foreach ($queries as $query) {

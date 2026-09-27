@@ -14,6 +14,7 @@ use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\Version\MigrationPlanCalculator;
 use Ibexa\Bundle\RepositoryInstaller\Bootstrapper\DoctrineMigrationsSchemaHook;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,9 +23,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * TaggedMigrationsRunner is final, so the seam this asserts on is one level down: the runner
  * unconditionally calls MetadataStorage::ensureInitialized() before doing anything else, so whether
  * that happens is exactly "did the hook run the migrations or not".
- *
- * @covers \Ibexa\Bundle\RepositoryInstaller\Bootstrapper\DoctrineMigrationsSchemaHook
  */
+#[CoversClass(DoctrineMigrationsSchemaHook::class)]
 final class DoctrineMigrationsSchemaHookTest extends TestCase
 {
     public function testInstallSchemaOptionDefaultsToFalse(): void
@@ -63,10 +63,10 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     {
         // An empty migration list makes run() stop right after ensureInitialized(), so no
         // connection, executor or plan is needed to tell "ran" from "didn't run" apart.
-        $planCalculator = $this->createStub(MigrationPlanCalculator::class);
+        $planCalculator = self::createStub(MigrationPlanCalculator::class);
         $planCalculator->method('getMigrations')->willReturn(new AvailableMigrationsList([]));
 
-        $dependencyFactory = $this->createStub(DependencyFactory::class);
+        $dependencyFactory = self::createStub(DependencyFactory::class);
         $dependencyFactory->method('getMetadataStorage')->willReturn($metadataStorage);
         $dependencyFactory->method('getMigrationPlanCalculator')->willReturn($planCalculator);
 
