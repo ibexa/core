@@ -11,8 +11,8 @@ namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\MigrationPlanList;
 use Doctrine\Migrations\MigratorConfiguration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
-use RuntimeException;
 use Throwable;
 
 /**
@@ -53,7 +53,7 @@ final class TaggedMigrationsRunner
     /**
      * @return \Doctrine\Migrations\Query\Query[] All SQL statements that were executed, across all migrations run
      *
-     * @throws \RuntimeException naming the migration that failed, with the original error as its previous exception
+     * @throws \Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException naming the migration that failed, with the original error as its previous exception
      */
     public function run(): array
     {
@@ -84,11 +84,7 @@ final class TaggedMigrationsRunner
                     $migratorConfiguration
                 );
             } catch (Throwable $e) {
-                throw new RuntimeException(
-                    sprintf('Migration "%s" failed: %s', (string)$migrationPlan->getVersion(), $e->getMessage()),
-                    0,
-                    $e
-                );
+                throw new MigrationFailedException((string)$migrationPlan->getVersion(), $e);
             }
 
             foreach ($queriesByVersion as $queries) {
