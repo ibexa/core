@@ -15,7 +15,6 @@ use Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProvider;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Yaml\Yaml;
@@ -53,12 +52,9 @@ final class UserLanguagePreferenceProviderTest extends TestCase
     #[DataProvider('providerForTestGetPreferredLanguages')]
     public function testGetPreferredLanguagesWithoutUserLanguage(array $userLanguages, array $expectedEzLanguageCodes): void
     {
-        $request = new Request();
-        $request->headers = new HeaderBag(
-            [
-                'Accept-Language' => implode(', ', $userLanguages),
-            ]
-        );
+        $request = new Request(server: [
+            'HTTP_ACCEPT_LANGUAGE' => implode(', ', $userLanguages),
+        ]);
         $this
             ->requestStackMock
             ->expects(self::once())
@@ -93,12 +89,9 @@ final class UserLanguagePreferenceProviderTest extends TestCase
         array $userLanguages,
         array $expectedEzLanguageCodes
     ): void {
-        $request = new Request();
-        $request->headers = new HeaderBag(
-            [
-                'Accept-Language' => implode(', ', $userLanguages),
-            ]
-        );
+        $request = new Request(server: [
+            'HTTP_ACCEPT_LANGUAGE' => implode(', ', $userLanguages),
+        ]);
         $this
             ->requestStackMock
             ->expects(self::once())
@@ -120,12 +113,9 @@ final class UserLanguagePreferenceProviderTest extends TestCase
 
     public function testGetPreferredLocalesExcludesAcceptLanguageWildcard(): void
     {
-        $request = new Request();
-        $request->headers = new HeaderBag(
-            [
-                'Accept-Language' => '*',
-            ]
-        );
+        $request = new Request(server: [
+            'HTTP_ACCEPT_LANGUAGE' => '*',
+        ]);
         $this
             ->requestStackMock
             ->expects(self::once())
