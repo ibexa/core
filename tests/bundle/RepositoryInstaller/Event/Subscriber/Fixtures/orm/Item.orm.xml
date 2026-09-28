@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Fixtures\Entity\Item" table="test_orm_item">
+        <indexes>
+            <index name="test_orm_item_name_idx" columns="name"/>
+        </indexes>
+        <id name="id" type="integer">
+            <generator strategy="SEQUENCE"/>
+            <sequence-generator sequence-name="test_orm_item_id_seq" allocation-size="1" initial-value="1"/>
+        </id>
+        <field name="name" type="string" length="255"/>
+        <many-to-one field="category" target-entity="Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Fixtures\Entity\Category">
+            <join-column name="category_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>
