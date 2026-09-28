@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Composer\InstalledVersions;
+
 return static function (ContainerConfigurator $container): void {
     if (!isset($_ENV['DATABASE_URL'])) {
         $_ENV['DATABASE_URL'] = 'sqlite://:memory:';
@@ -18,9 +20,12 @@ return static function (ContainerConfigurator $container): void {
             'url' => '%env(DATABASE_URL)%',
             'logging' => false,
         ],
-        'orm' => array_filter([
-            'controller_resolver' => ['auto_mapping' => false],
-            'enable_native_lazy_objects' => \PHP_VERSION_ID >= 80400 ? true : null,
-        ], static fn ($v): bool => $v !== null),
+        // DoctrineBundle 3 makes both settings the only allowed value and deprecates setting them
+        'orm' => version_compare((string) InstalledVersions::getVersion('doctrine/doctrine-bundle'), '3.0.0', '>=')
+            ? []
+            : array_filter([
+                'controller_resolver' => ['auto_mapping' => false],
+                'enable_native_lazy_objects' => \PHP_VERSION_ID >= 80400 ? true : null,
+            ], static fn ($v): bool => $v !== null),
     ]);
 };
