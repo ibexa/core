@@ -45,8 +45,7 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
                 $metadataDriverServiceName = "doctrine.orm.{$entityManagerName}_{$driverType}_metadata_driver";
                 $metadataDriverDefinition = $this->createMetadataDriverDefinition($driverType, $driverPaths);
 
-                $class = $metadataDriverDefinition->getClass();
-                if (null !== $class && (str_contains($class, 'yml') || str_contains($class, 'xml'))) {
+                if (str_contains($driverType, 'yml') || str_contains($driverType, 'xml')) {
                     $metadataDriverDefinition->setArguments([array_flip($driverPaths)]);
                     $metadataDriverDefinition->addMethodCall('setGlobalBasename', ['mapping']);
                 }
