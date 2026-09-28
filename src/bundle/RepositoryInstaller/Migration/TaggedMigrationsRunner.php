@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\MigrationPlanList;
 use Doctrine\Migrations\MigratorConfiguration;
@@ -84,8 +85,16 @@ final class TaggedMigrationsRunner
                     $migratorConfiguration
                 );
             } catch (Throwable $e) {
+                // Unlike DBAL 2, DBAL 3+ leaves the failing statement out of its message.
+                $query = $e instanceof DriverException ? $e->getQuery() : null;
+
                 throw new RuntimeException(
-                    sprintf('Migration "%s" failed: %s', (string)$migrationPlan->getVersion(), $e->getMessage()),
+                    sprintf(
+                        'Migration "%s" failed%s: %s',
+                        (string)$migrationPlan->getVersion(),
+                        $query !== null ? sprintf(' while executing "%s"', $query->getSQL()) : '',
+                        $e->getMessage()
+                    ),
                     0,
                     $e
                 );

@@ -75,7 +75,10 @@ final class TaggedMigrationsRunnerTest extends TestCase
             self::fail('Expected the failing migration to throw.');
         } catch (RuntimeException $e) {
             self::assertStringStartsWith(
-                sprintf('Migration "%s" failed: ', Migration3Failing::class),
+                sprintf(
+                    'Migration "%s" failed while executing "INSERT INTO runner_test_missing (id) VALUES (1)": ',
+                    Migration3Failing::class
+                ),
                 $e->getMessage()
             );
             self::assertNotNull($e->getPrevious());
