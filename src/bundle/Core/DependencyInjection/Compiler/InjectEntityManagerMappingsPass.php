@@ -8,7 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
+use Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver;
 use Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter;
+use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -101,13 +104,29 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
 
     private function createMetadataDriverDefinition($driverType, $driverPaths): Definition
     {
-        $metadataDriver = new Definition("%doctrine.orm.metadata.{$driverType}.class%");
+        $metadataDriver = new Definition($this->getMetadataDriverClass($driverType));
         $arguments = [array_values($driverPaths)];
 
         $metadataDriver->setArguments($arguments);
         $metadataDriver->setPublic(false);
 
         return $metadataDriver;
+    }
+
+    /**
+     * Maps a mapping driver type to its class, mirroring
+     * DoctrineExtension::getMetadataDriverClass() (limited to the driver types Ibexa's own
+     * "entity_mappings" configuration allows). DoctrineBundle 3 stopped exposing this mapping
+     * as "doctrine.orm.metadata.<type>.class" container parameters, so it can no longer be
+     * resolved through a parameter placeholder and is hardcoded here instead.
+     */
+    private function getMetadataDriverClass(string $driverType): string
+    {
+        return match ($driverType) {
+            'attribute' => AttributeDriver::class,
+            'xml' => SimplifiedXmlDriver::class,
+            default => throw new LogicException(sprintf('Unknown "%s" metadata driver type.', $driverType)),
+        };
     }
 
     private function prepareMappingDriverConfig(array $entityManagerConfig, ContainerBuilder $container): array
