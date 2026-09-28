@@ -8,12 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
-use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\MigrationPlanList;
 use Doctrine\Migrations\MigratorConfiguration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
-use RuntimeException;
 use Throwable;
 
 /**
@@ -54,7 +53,7 @@ final class TaggedMigrationsRunner
     /**
      * @return \Doctrine\Migrations\Query\Query[] All SQL statements that were executed, across all migrations run
      *
-     * @throws \RuntimeException naming the migration that failed, with the original error as its previous exception
+     * @throws \Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException naming the migration that failed, with the original error as its previous exception
      */
     public function run(): array
     {
@@ -85,19 +84,7 @@ final class TaggedMigrationsRunner
                     $migratorConfiguration
                 );
             } catch (Throwable $e) {
-                // Unlike DBAL 2, DBAL 3+ leaves the failing statement out of its message.
-                $query = $e instanceof DriverException ? $e->getQuery() : null;
-
-                throw new RuntimeException(
-                    sprintf(
-                        'Migration "%s" failed%s: %s',
-                        (string)$migrationPlan->getVersion(),
-                        $query !== null ? sprintf(' while executing "%s"', $query->getSQL()) : '',
-                        $e->getMessage()
-                    ),
-                    0,
-                    $e
-                );
+                throw new MigrationFailedException((string)$migrationPlan->getVersion(), $e);
             }
 
             foreach ($queriesByVersion as $queries) {
