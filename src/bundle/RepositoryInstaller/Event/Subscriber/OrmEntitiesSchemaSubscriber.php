@@ -11,6 +11,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Event\Subscriber;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Tools\SchemaTool;
 use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
 use Ibexa\Contracts\DoctrineSchema\SchemaBuilderEvents;
@@ -61,7 +62,7 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
     {
         $metadataFactory = $this->entityManager->getMetadataFactory();
         $classMetadata = array_map(
-            static function (string $class) use ($metadataFactory) {
+            static function (string $class) use ($metadataFactory): ClassMetadata {
                 return $metadataFactory->getMetadataFor($class);
             },
             $this->entityClasses,
@@ -76,7 +77,7 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
         // own table, regardless of which classes were actually requested here. Only transplant the
         // tables that genuinely belong to the requested entities.
         $ownTableNames = array_map(
-            static function ($metadata) {
+            static function (ClassMetadata $metadata): string {
                 return $metadata->getTableName();
             },
             $classMetadata,
@@ -96,7 +97,7 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
         }
 
         $ownSequenceNames = array_filter(array_map(
-            static function ($metadata) {
+            static function (ClassMetadata $metadata): ?string {
                 return isset($metadata->sequenceGeneratorDefinition['sequenceName'])
                     ? $metadata->sequenceGeneratorDefinition['sequenceName']
                     : null;
