@@ -15,6 +15,7 @@ use Doctrine\Migrations\Configuration\Connection\ExistingConnection;
 use Doctrine\Migrations\Configuration\Migration\ExistingConfiguration;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\Storage\TableMetadataStorageConfiguration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
 use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Bundle\RepositoryInstaller\Migration\Fixtures\Migration1CreateTable;
@@ -23,7 +24,6 @@ use Ibexa\Tests\Bundle\RepositoryInstaller\Migration\Fixtures\Migration3Failing;
 use Ibexa\Tests\Bundle\RepositoryInstaller\Migration\Fixtures\Migration4RequiresVisibleTable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 /**
  * Runs real migrations through a real DependencyFactory on in-memory SQLite, which has
@@ -75,7 +75,8 @@ final class TaggedMigrationsRunnerTest extends TestCase
         try {
             (new TaggedMigrationsRunner($dependencyFactory, new SchemaAssetsFilterBypass()))->run();
             self::fail('Expected the failing migration to throw.');
-        } catch (RuntimeException $e) {
+        } catch (MigrationFailedException $e) {
+            self::assertSame(Migration3Failing::class, $e->getVersion());
             self::assertStringStartsWith(
                 sprintf(
                     'Migration "%s" failed while executing "INSERT INTO runner_test_missing (id) VALUES (1)": ',
