@@ -16,12 +16,14 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\Routing\Router as FrameworkRouter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 #[CoversClass(DefaultRouter::class)]
 final class DefaultRouterTest extends TestCase
@@ -253,7 +255,11 @@ final class DefaultRouterTest extends TestCase
 
     public function testWarmUpDelegatesToInnerRouter(): void
     {
-        $innerRouter = $this->createMock(FrameworkRouter::class);
+        // Symfony 8 made Symfony\Bundle\FrameworkBundle\Routing\Router final, so it can no
+        // longer be mocked directly. WarmableRouter below still exercises the same
+        // "RouterInterface & RequestMatcherInterface & WarmableInterface" contract DefaultRouter
+        // checks for via instanceof.
+        $innerRouter = $this->createMock(WarmableRouter::class);
         $innerRouter
             ->expects(self::once())
             ->method('warmUp')
@@ -295,4 +301,11 @@ final class DefaultRouterTest extends TestCase
                 $contexts[] = $context;
             });
     }
+}
+
+/**
+ * @internal For use with tests only
+ */
+interface WarmableRouter extends RouterInterface, RequestMatcherInterface, WarmableInterface
+{
 }
