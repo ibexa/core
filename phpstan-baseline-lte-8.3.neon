@@ -45,3 +45,9 @@ parameters:
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Parameter \#1 \$env of method Symfony\\Component\\Process\\Process\:\:setEnv\(\) expects array\<string\|Stringable\>, array\<string, int\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/bundle/Core/Command/UpdateTimestampsToUTCCommand.php

@@ -77,3 +77,15 @@ parameters:
 			identifier: unset.possiblyHookedProperty
 			count: 3
 			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
+
+		-
+			message: '#^Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array\<string\>, list\<int, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/bundle/Core/Command/UpdateTimestampsToUTCCommand.php
+
+		-
+			message: '#^Parameter \#1 \$env of method Symfony\\Component\\Process\\Process\:\:setEnv\(\) expects array\<string, string\|Stringable\|false\>, array\{INNER_CALL\: 1\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/bundle/Core/Command/UpdateTimestampsToUTCCommand.php
