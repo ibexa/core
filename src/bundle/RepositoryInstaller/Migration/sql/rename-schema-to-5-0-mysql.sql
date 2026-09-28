@@ -48,6 +48,8 @@ ALTER TABLE ezcontentclass_attribute_ml RENAME TO ibexa_content_type_field_defin
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_type_field_definition_ml DROP FOREIGN KEY ezcontentclass_attribute_ml_lang_fk;
 -- ibexa:sql-statement-separator
+ALTER TABLE ibexa_content_type_field_definition_ml RENAME INDEX ezcontentclass_attribute_ml_lang_fk TO ibexa_content_type_field_definition_ml_lang_fk;
+-- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_type_field_definition_ml ADD CONSTRAINT ibexa_content_type_field_definition_ml_lang_fk FOREIGN KEY (language_id) REFERENCES ibexa_content_language(id) ON DELETE CASCADE ON UPDATE CASCADE;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentclass_classgroup RENAME TO ibexa_content_type_group_assignment;
