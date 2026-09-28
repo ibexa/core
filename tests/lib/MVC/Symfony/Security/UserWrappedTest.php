@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface;
 use Ibexa\Core\MVC\Symfony\Security\UserWrapped;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -48,12 +49,14 @@ final class UserWrappedTest extends TestCase
         self::assertSame($newWrappedUser, $userWrapped->getWrappedUser());
     }
 
+    #[IgnoreDeprecations]
     public function testRegularUser(): void
     {
         // Symfony 8 removed UserInterface::eraseCredentials(), so a plain
         // SymfonyUserInterface mock no longer has it to configure. UserWrapped::eraseCredentials()
         // still calls it via reflection when the wrapped user implements it (legacy/BC support),
-        // so mock a user that still declares the method to exercise that path.
+        // so mock a user that still declares the method to exercise that path. Calling it here
+        // is itself deprecated (see UserWrapped::eraseCredentials()); that is expected and ignored.
         $originalUser = $this->createMock(LegacyEraseCredentialsUserInterface::class);
         $user = new UserWrapped($originalUser, $this->apiUser);
 
