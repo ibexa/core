@@ -24,7 +24,7 @@ class IbexaRepositoryInstallerExtension extends Extension
         $loader->load('services.yml');
 
         if ($this->shouldRegisterBootstrapperHook($container)) {
-            $loader->load('bootstrapper.yml');
+            $loader->load('bootstrapper.yaml');
         }
     }
 
