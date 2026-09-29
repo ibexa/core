@@ -20,9 +20,11 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigra
 use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
+use Ibexa\Contracts\DoctrineSchema\Database\DefaultTableOptions;
 use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Log\NullLogger;
 
 /**
@@ -32,15 +34,14 @@ use Psr\Log\NullLogger;
  * power-of-two language ids), runs every migration in the sequence in order exactly as
  * `doctrine:migrations:migrate` would, and asserts the final relational data matches what the mask
  * data originally encoded.
- *
- * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddContentAlwaysAvailableColumnsMigration
- * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddLanguageTranslationTablesMigration
- * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration
- * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration
- * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration
- * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration
- * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration
  */
+#[CoversClass(AddContentAlwaysAvailableColumnsMigration::class)]
+#[CoversClass(AddLanguageTranslationTablesMigration::class)]
+#[CoversClass(BackfillLanguageTranslationsMigration::class)]
+#[CoversClass(AddSearchObjectWordLinkLanguageIdColumnsMigration::class)]
+#[CoversClass(AddUrlAliasAlwaysAvailableColumnMigration::class)]
+#[CoversClass(DropLanguageBitmaskColumnsMigration::class)]
+#[CoversClass(NarrowLanguageIdColumnTypesMigration::class)]
 final class LanguageBitmaskUpgradeSequenceTest extends TestCase
 {
     private const ENG_US = 2;
@@ -60,7 +61,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         // needing its own separate, disconnected declaration of the language table.
         $this->getDatabaseConnection()->executeStatement('ALTER TABLE ibexa_language RENAME TO ibexa_content_language');
 
-        $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
+        $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass(), DefaultTableOptions::AS_ARRAY);
         $schemaImporter->importSchema(
             __DIR__ . '/_fixtures/pre_language_bitmask_migration_schema.yaml'
         );
