@@ -14,9 +14,11 @@ use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\BookmarkService;
 use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Test\IbexaTestKernel;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Ibexa\Contracts\Test\Core\IbexaTestKernel as BaseIbexaTestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Loads the same fixture set {@see IbexaTestKernel} (the package-internal
@@ -41,6 +43,17 @@ final class TestKernel extends BaseIbexaTestKernel
         $loader->load(static function (ContainerBuilder $container): void {
             $container->setParameter('ibexa.test.fixture_files', [
                 __DIR__ . '/Repository/_fixtures/Legacy/data/test_data.yaml',
+            ]);
+        });
+
+        $loader->load(static function (ContainerBuilder $container): void {
+            // ibexa/test-core's own fixture-services.yaml only passes a Connection to
+            // FixtureImporter - it predates the SchemaAssetsFilterBypassInterface argument this
+            // package's FixtureImporter gained for the language join-table backfill. Re-wire the
+            // shared definition here rather than waiting for it to catch up.
+            $container->getDefinition('test.ibexa.fixture_importer')->setArguments([
+                new Reference('ibexa.persistence.connection'),
+                new Reference(SchemaAssetsFilterBypassInterface::class),
             ]);
         });
     }
