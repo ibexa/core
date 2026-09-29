@@ -55,6 +55,10 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
         ));
         $configuration->setProxyDir(sys_get_temp_dir());
         $configuration->setProxyNamespace('Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Proxies');
+        if (\PHP_VERSION_ID >= 80400) {
+            // symfony/var-exporter 8 no longer ships the LazyGhost proxies ORM falls back to
+            $configuration->enableNativeLazyObjects(true);
+        }
 
         $this->eventManager = new EventManager();
         $this->entityManager = new EntityManager(
