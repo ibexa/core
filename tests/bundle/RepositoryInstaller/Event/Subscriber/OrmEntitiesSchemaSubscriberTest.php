@@ -19,6 +19,7 @@ use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -28,14 +29,15 @@ use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
 use Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Fixtures\Entity\Category;
 use Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Fixtures\Entity\Item;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Uses a real (SQLite, in-memory) entity manager over XML-mapped fixture entities, since the
  * subscriber's whole job is to turn real ORM metadata into DBAL schema objects.
- *
- * @covers \Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\OrmEntitiesSchemaSubscriber
  */
+#[CoversClass(OrmEntitiesSchemaSubscriber::class)]
 final class OrmEntitiesSchemaSubscriberTest extends TestCase
 {
     private const ENTITY_CLASSES = [Category::class, Item::class];
@@ -62,9 +64,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider providePlatforms
-     */
+    #[DataProvider('providePlatforms')]
     public function testAddsTablesOfListedEntitiesAsSchemaToolGeneratesThem(AbstractPlatform $platform): void
     {
         $schema = $this->dispatch(new Schema());
@@ -136,7 +136,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
         $metadataFactory = $this->entityManager->getMetadataFactory();
 
         return (new SchemaTool($this->entityManager))->getSchemaFromMetadata(array_map(
-            static fn (string $class) => $metadataFactory->getMetadataFor($class),
+            static fn (string $class): ClassMetadata => $metadataFactory->getMetadataFor($class),
             self::ENTITY_CLASSES,
         ));
     }
@@ -154,7 +154,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
     /**
      * Sequences are compared on PostgreSQL only, as neither MySQL nor SQLite supports them.
      *
-     * @return array<string, string>
+     * @return list<string>
      */
     private function getCreateSequencesSql(Schema $schema): array
     {
@@ -168,7 +168,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
 
     private function dispatch(Schema $schema): Schema
     {
-        $event = new SchemaBuilderEvent($this->createStub(SchemaBuilderInterface::class), $schema);
+        $event = new SchemaBuilderEvent(self::createStub(SchemaBuilderInterface::class), $schema);
 
         (new OrmEntitiesSchemaSubscriber($this->entityManager, self::ENTITY_CLASSES))->onBuildSchema($event);
 
