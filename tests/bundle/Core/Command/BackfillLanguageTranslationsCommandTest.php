@@ -12,12 +12,11 @@ use Doctrine\DBAL\ParameterType;
 use Ibexa\Bundle\Core\Command\BackfillLanguageTranslationsCommand;
 use Ibexa\Bundle\Core\Command\VerifyLanguageTranslationsCommand;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @covers \Ibexa\Bundle\Core\Command\BackfillLanguageTranslationsCommand
- * @covers \Ibexa\Bundle\Core\Command\VerifyLanguageTranslationsCommand
- */
+#[CoversClass(BackfillLanguageTranslationsCommand::class)]
+#[CoversClass(VerifyLanguageTranslationsCommand::class)]
 final class BackfillLanguageTranslationsCommandTest extends TestCase
 {
     protected function setUp(): void
