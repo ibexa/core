@@ -40,20 +40,41 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
 
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
         return [
-            ['createGroup', [new SPITypeGroupCreateStruct()], null, [['content_type_group_list', [], true]], null, ['ibx-ctgl']],
+            [
+                'createGroup',
+                [new SPITypeGroupCreateStruct()],
+                null,
+                [
+                    ['content_type_group_list', [], true],
+                    ['content_type_group_list', [true], true],
+                ],
+                null,
+                ['ibx-ctgl', 'ibx-ctgl-true'],
+            ],
             [
                 'updateGroup',
                 [$groupUpdate],
                 null,
                 [
                     ['content_type_group_list', [], true],
+                    ['content_type_group_list', [true], true],
                     ['content_type_group', [3], true],
                     ['content_type_group_with_id_suffix', ['media'], true],
                 ],
                 null,
-                ['ibx-ctgl', 'ibx-ctg-3', 'ibx-ctg-media-bi'],
+                ['ibx-ctgl', 'ibx-ctgl-true', 'ibx-ctg-3', 'ibx-ctg-media-bi'],
             ],
-            ['deleteGroup', [3], [['type_group', [3], false]], null, ['tg-3']],
+            [
+                'deleteGroup',
+                [3],
+                [['type_group', [3], false]],
+                [
+                    ['content_type_group_list', [], true],
+                    ['content_type_group_list', [true], true],
+                ],
+                ['tg-3'],
+                ['ibx-ctgl', 'ibx-ctgl-true'],
+            ],
             ['loadContentTypes', [3, 1]], // also listed for cached cases in providerForCachedLoadMethods
             ['load', [5, 1]], // also listed for cached case in providerForCachedLoadMethods
             [
@@ -202,7 +223,18 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ['ibx-ctg', 'bi'],
                 $group,
             ],
-            ['loadAllGroups', [], 'ibx-ctgl', null, null, [['content_type_group_list', [], true]], ['ibx-ctgl'], [3 => $group]],
+            [
+                'loadAllGroups',
+                [],
+                'ibx-ctgl',
+                null,
+                null,
+                [
+                    ['content_type_group_list', [false], true],
+                ],
+                ['ibx-ctgl'],
+                [3 => $group],
+            ],
             ['loadContentTypes', [3, 0], 'ibx-ctlbg-3', null, null, [['content_type_list_by_group', [3], true]], ['ibx-ctlbg-3'], [$type]],
             ['loadContentTypesByFieldDefinitionIdentifier', [3, 0], 'ibx-ctlbfdi-3', null, null, [['content_type_list_by_field_definition_identifier', [3], true]], ['ibx-ctlbfdi-3'], [$type]],
             ['loadContentTypeList', [[5]], 'ibx-ct-5', null, null, [['content_type', [], true]], ['ibx-ct'], [5 => $type], true],
@@ -297,7 +329,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['tg-3'],
                 [
-                    ['content_type_group_list', [], true],
+                    ['content_type_group_list', [false], true],
                 ],
                 ['ibx-ctgl'],
                 [3 => $group],
