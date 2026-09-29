@@ -12,7 +12,6 @@ use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProvider\LocaleParameterProvi
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -43,22 +42,12 @@ class LocaleParameterProviderTest extends TestCase
 
     protected function getRequestStackMock($hasLocale)
     {
-        $parameterBagMock = $this->createMock(ParameterBag::class);
+        $request = new Request();
+        if ($hasLocale) {
+            $request->attributes->set('_locale', 'fr_FR');
+        }
 
-        $parameterBagMock->expects(self::any())
-            ->method('has')
-            ->with(self::equalTo('_locale'))
-            ->will(self::returnValue($hasLocale));
-
-        $parameterBagMock->expects(self::any())
-            ->method('get')
-            ->with(self::equalTo('_locale'))
-            ->will(self::returnValue('fr_FR'));
-
-        $requestMock = $this->createMock(Request::class);
-        $requestMock->attributes = $parameterBagMock;
-
-        return new RequestStack([$requestMock]);
+        return new RequestStack([$request]);
     }
 
     protected function getLocaleConverterMock()

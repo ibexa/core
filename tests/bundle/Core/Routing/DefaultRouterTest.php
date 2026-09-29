@@ -16,12 +16,14 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\Routing\Router as FrameworkRouter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 #[CoversClass(DefaultRouter::class)]
 final class DefaultRouterTest extends TestCase
@@ -253,7 +255,11 @@ final class DefaultRouterTest extends TestCase
 
     public function testWarmUpDelegatesToInnerRouter(): void
     {
-        $innerRouter = $this->createMock(FrameworkRouter::class);
+        $innerRouter = $this->createMockForIntersectionOfInterfaces([
+            RouterInterface::class,
+            RequestMatcherInterface::class,
+            WarmableInterface::class,
+        ]);
         $innerRouter
             ->expects(self::once())
             ->method('warmUp')
