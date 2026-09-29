@@ -46,7 +46,14 @@ final class FixtureImporter
     {
         $data = $fixture->load();
 
-        $tablesList = array_keys($data);
+        // Fixtures (e.g. ibexa/test-core's own bundled baseline, which this package doesn't
+        // control) predate tables being renamed/dropped over time (e.g. ibexa_content_language
+        // becoming ibexa_language) - silently skip tables that no longer exist, same as
+        // getExistingColumns() already does for individual columns below.
+        $tablesList = array_values(array_filter(
+            array_keys($data),
+            fn (string $table): bool => $this->tableExists($table)
+        ));
         if (!$fixture instanceof AppendOnlyFixture) {
             // truncate all tables, even the ones initially empty (some tests are affected by this)
             $this->truncateTables(array_reverse($tablesList));
@@ -54,9 +61,8 @@ final class FixtureImporter
 
         $nonEmptyTablesData = array_filter(
             $data,
-            static function ($tableData): bool {
-                return !empty($tableData);
-            }
+            static fn (array $tableData, string $table): bool => !empty($tableData) && in_array($table, $tablesList, true),
+            ARRAY_FILTER_USE_BOTH
         );
         foreach ($nonEmptyTablesData as $table => $rows) {
             // Fixtures predate columns being dropped over time (e.g. the language bitmask
