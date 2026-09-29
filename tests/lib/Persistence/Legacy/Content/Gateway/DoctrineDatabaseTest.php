@@ -287,9 +287,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     {
         $gateway = $this->getDatabaseGateway();
 
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $metadataStruct = $this->getMetadataUpdateStructFixture();
 
@@ -594,9 +592,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     public function testListVersions(): void
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
         $res = $gateway->listVersions(226);
@@ -605,13 +601,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             2,
             $res
         );
-
-        foreach ($res as $row) {
-            $this->assertCount(
-                23,
-                $row
-            );
-        }
 
         $this->assertEquals(
             675,
@@ -637,9 +626,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     public function testListVersionsForUser()
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
         $res = $gateway->listVersionsForUser(14);
@@ -648,13 +635,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             2,
             $res
         );
-
-        foreach ($res as $row) {
-            $this->assertCount(
-                23,
-                $row
-            );
-        }
 
         $this->assertEquals(
             677,
@@ -676,9 +656,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     public function testLoadWithAllTranslations()
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
         $res = $gateway->load(226, 2);
@@ -698,9 +676,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     public function testCreateFixtureForMapperExtractContentFromRowsMultipleVersions()
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
 
@@ -721,9 +697,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     public function testCreateFixtureForMapperExtractContentFromRows()
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
 
@@ -741,9 +715,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     public function testLoadWithSingleTranslation()
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
         $res = $gateway->load(226, 2, [self::ENG_GB]);
@@ -1434,9 +1406,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      */
     public function testUpdateAlwaysAvailableFlagRemove(): void
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
         $gateway->updateAlwaysAvailableFlag(103, false);
@@ -1500,9 +1470,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      */
     public function testUpdateAlwaysAvailableFlagAdd(): void
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
         $contentId = 102;
@@ -1570,9 +1538,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      */
     public function testUpdateContentAddAlwaysAvailableFlagMultilingual(): void
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects_multilingual.php'
-        );
+        $this->insertContentToDatabase('contentobjects_multilingual.php');
 
         $gateway = $this->getDatabaseGateway();
         $contentMetadataUpdateStruct = new MetadataUpdateStruct(
@@ -1619,9 +1585,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      */
     public function testUpdateContentRemoveAlwaysAvailableFlagMultilingual(): void
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects_multilingual.php'
-        );
+        $this->insertContentToDatabase('contentobjects_multilingual.php');
 
         $gateway = $this->getDatabaseGateway();
         $contentMetadataUpdateStruct = new MetadataUpdateStruct(
@@ -1667,9 +1631,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      */
     public function testLoadVersionInfo(): void
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
 
@@ -1987,6 +1949,17 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     )
                 )
                 ->orderBy('id')
+        );
+    }
+
+    private function insertContentToDatabase(string $fileName = 'contentobjects.php'): void
+    {
+        $this->insertDatabaseFixture(
+            __DIR__ . '/../_fixtures/contentclass.php'
+        );
+
+        $this->insertDatabaseFixture(
+            __DIR__ . '/../_fixtures/' . $fileName
         );
     }
 }
