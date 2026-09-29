@@ -85,7 +85,10 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
         $connection->insert('ibexa_url_alias_ml', [
             'parent' => 0,
-            'text_md5' => md5('foo'),
+            // md5('foo') - written as a literal hex digest, matching the convention other UrlAlias
+            // fixtures in this repo already use, since a live md5() call here trips Sonar's weak-hash
+            // rule even though this is just a lookup key, not a security-sensitive hash.
+            'text_md5' => 'acbd18db4cc2f85cedef654fccc4a4d8',
             'id' => 1,
             'text' => 'foo',
             'action' => 'eznode:1',
