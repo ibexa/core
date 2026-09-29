@@ -77,7 +77,7 @@ final class AddLanguageTranslationTablesMigration extends AbstractSqlMigration i
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-08-09 00:00:01');
+        return new DateTimeImmutable('2026-09-29 00:00:01');
     }
 
     public function up(Schema $schema): void

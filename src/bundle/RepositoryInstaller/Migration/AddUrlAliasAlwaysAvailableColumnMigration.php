@@ -49,7 +49,7 @@ final class AddUrlAliasAlwaysAvailableColumnMigration extends AbstractSqlMigrati
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-08-09 00:00:04');
+        return new DateTimeImmutable('2026-09-29 00:00:04');
     }
 
     public function up(Schema $schema): void
