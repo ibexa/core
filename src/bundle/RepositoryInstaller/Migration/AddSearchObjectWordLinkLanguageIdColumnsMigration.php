@@ -57,7 +57,7 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSq
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-08-09 00:00:03');
+        return new DateTimeImmutable('2026-09-29 00:00:03');
     }
 
     public function up(Schema $schema): void

@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Persistence\Doctrine\DatabasePlatformName;
-use Ibexa\Core\Persistence\Doctrine\DatabasePlatformResolver;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -243,10 +243,10 @@ EOT
 
     private function insertIgnoreKeyword(): string
     {
-        return match (DatabasePlatformResolver::resolveName($this->connection->getDatabasePlatform())) {
-            DatabasePlatformName::Mysql => 'IGNORE',
-            DatabasePlatformName::Sqlite => 'OR IGNORE',
-            DatabasePlatformName::Postgresql => '',
+        return match ($this->resolvePlatformName()) {
+            DatabasePlatformName::MySQL => 'IGNORE',
+            DatabasePlatformName::SQLite => 'OR IGNORE',
+            DatabasePlatformName::PostgreSQL => '',
         };
     }
 
@@ -257,10 +257,24 @@ EOT
      */
     private function onConflictClause(): string
     {
-        return match (DatabasePlatformResolver::resolveName($this->connection->getDatabasePlatform())) {
-            DatabasePlatformName::Postgresql => 'ON CONFLICT DO NOTHING',
-            DatabasePlatformName::Sqlite => '', // OR IGNORE is part of the INSERT keyword, not a trailing clause
-            DatabasePlatformName::Mysql => '',
+        return match ($this->resolvePlatformName()) {
+            DatabasePlatformName::PostgreSQL => 'ON CONFLICT DO NOTHING',
+            DatabasePlatformName::SQLite => '', // OR IGNORE is part of the INSERT keyword, not a trailing clause
+            DatabasePlatformName::MySQL => '',
         };
+    }
+
+    private function resolvePlatformName(): DatabasePlatformName
+    {
+        $platform = $this->connection->getDatabasePlatform();
+        $name = DatabasePlatformResolver::resolveName($platform);
+        if ($name === null) {
+            throw new InvalidArgumentException(
+                'platform',
+                sprintf('Unsupported database platform: %s', $platform::class)
+            );
+        }
+
+        return $name;
     }
 }

@@ -55,7 +55,7 @@ class LanguageCode extends CriterionHandler
         if ($missing = array_diff($languageCodes, array_keys($languages))) {
             throw new NotFoundException('Language', implode(', ', $missing));
         }
-        $languageIds = array_map(static fn ($language) => $language->id, array_values($languages));
+        $languageIds = array_map(static fn ($language): int => $language->id, array_values($languages));
 
         $translationSubQuery = $this->connection->createQueryBuilder();
         $translationSubQuery

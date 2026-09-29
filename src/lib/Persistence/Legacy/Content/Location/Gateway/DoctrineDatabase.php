@@ -1437,7 +1437,7 @@ final class DoctrineDatabase extends Gateway
         if (array_diff($translations, array_keys($languages)) !== []) {
             return;
         }
-        $languageIds = array_map(static fn ($language) => $language->id, array_values($languages));
+        $languageIds = array_map(static fn ($language): int => $language->id, array_values($languages));
 
         $queryBuilder->leftJoin(
             't',
