@@ -59,7 +59,7 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-08-09 00:00:02');
+        return new DateTimeImmutable('2026-09-29 00:00:02');
     }
 
     public function isTransactional(): bool
