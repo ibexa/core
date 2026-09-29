@@ -255,11 +255,11 @@ final class DefaultRouterTest extends TestCase
 
     public function testWarmUpDelegatesToInnerRouter(): void
     {
-        // Symfony 8 made Symfony\Bundle\FrameworkBundle\Routing\Router final, so it can no
-        // longer be mocked directly. WarmableRouter below still exercises the same
-        // "RouterInterface & RequestMatcherInterface & WarmableInterface" contract DefaultRouter
-        // checks for via instanceof.
-        $innerRouter = $this->createMock(WarmableRouter::class);
+        $innerRouter = $this->createMockForIntersectionOfInterfaces([
+            RouterInterface::class,
+            RequestMatcherInterface::class,
+            WarmableInterface::class,
+        ]);
         $innerRouter
             ->expects(self::once())
             ->method('warmUp')
@@ -301,11 +301,4 @@ final class DefaultRouterTest extends TestCase
                 $contexts[] = $context;
             });
     }
-}
-
-/**
- * @internal For use with tests only
- */
-interface WarmableRouter extends RouterInterface, RequestMatcherInterface, WarmableInterface
-{
 }
