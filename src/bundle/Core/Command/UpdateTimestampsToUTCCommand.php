@@ -26,11 +26,13 @@ use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 #[AsCommand(
-    name: 'ibexa:timestamps:to-utc',
+    name: self::NAME,
     description: 'Updates ibexa_date and ibexa_datetime timestamps to UTC'
 )]
 class UpdateTimestampsToUTCCommand extends Command
 {
+    private const NAME = 'ibexa:timestamps:to-utc';
+
     public const MAX_TIMESTAMP_VALUE = 2147483647;
 
     public const DEFAULT_ITERATION_COUNT = 100;
@@ -175,7 +177,10 @@ EOT
             $this->to = $this->dateStringToTimestamp($to);
         }
 
-        $consoleScript = $_SERVER['argv'][0];
+        $consoleScript = $_SERVER['argv'][0] ?? null;
+        if (!is_string($consoleScript)) {
+            throw new RuntimeException('Could not determine the console script to run subprocesses with.');
+        }
 
         if (getenv('INNER_CALL')) {
             $this->timezone = $input->getArgument('timezone');
@@ -220,7 +225,7 @@ EOT
                 $processScriptFragments = [
                     $this->getPhpPath(),
                     $consoleScript,
-                    $this->getName(),
+                    self::NAME,
                     $this->timezone,
                     '--mode=' . $this->mode,
                     '--offset=' . $offset,
@@ -239,7 +244,7 @@ EOT
 
                 $process = new Process($processScriptFragments);
 
-                $process->setEnv(['INNER_CALL' => 1]);
+                $process->setEnv(['INNER_CALL' => '1']);
                 $process->run();
 
                 if (!$process->isSuccessful()) {
