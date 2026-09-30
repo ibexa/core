@@ -63,16 +63,6 @@ class FieldHandler
 
     private FieldTypeAliasResolverInterface $fieldTypeAliasResolver;
 
-    /**
-     * Creates a new Field Handler.
-     *
-     * @param Gateway $contentGateway
-     * @param Mapper $mapper
-     * @param StorageHandler $storageHandler
-     * @param LanguageHandler $languageHandler
-     * @param FieldTypeRegistry $fieldTypeRegistry
-     * @param FieldTypeAliasResolverInterface $fieldTypeAliasResolver
-     */
     public function __construct(
         Gateway $contentGateway,
         Mapper $mapper,
