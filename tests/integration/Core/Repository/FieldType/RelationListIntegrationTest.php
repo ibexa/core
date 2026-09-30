@@ -395,4 +395,32 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
     {
         return [13, 14];
     }
+
+    public function testDeleteContentClearsRelationListStoredUnderLegacyFieldTypeIdentifier(): void
+    {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        $target = $this->createFolder(['eng-US' => 'Relation list target'], 2);
+        $referrer = $contentService->publishVersion(
+            $this->createContent(new RelationListValue([$target->getId()]))->getVersionInfo()
+        );
+
+        $fieldDefinition = $referrer->getContentType()->getFieldDefinition('data');
+        self::assertNotNull($fieldDefinition);
+
+        $this->downgradeFieldTypeIdentifierToLegacyAlias(
+            'ezobjectrelationlist',
+            $referrer->getId(),
+            $referrer->getVersionInfo()->getVersionNo(),
+            $fieldDefinition->getId()
+        );
+
+        $contentService->deleteContent($target->getVersionInfo()->getContentInfo());
+
+        $reloaded = $contentService->loadContent($referrer->getId());
+        $value = $reloaded->getFieldValue('data');
+        self::assertInstanceOf(RelationListValue::class, $value);
+        self::assertSame([], $value->destinationContentIds);
+    }
 }
