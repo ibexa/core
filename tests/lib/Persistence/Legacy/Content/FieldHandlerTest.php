@@ -31,7 +31,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
  */
 class FieldHandlerTest extends LanguageAwareTestCase
 {
-    private const EXTERNAL_STORAGE_FIELD_TYPE_ALIASES = [
+    private const array EXTERNAL_STORAGE_FIELD_TYPE_ALIASES = [
         'ezbinaryfile' => 'ibexa_binaryfile',
         'ezgmaplocation' => 'ibexa_gmap_location',
         'ezimage' => 'ibexa_image',
@@ -867,7 +867,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * @return iterable<string, array{string, string}>
      */
-    public function provideLegacyFieldTypeIdentifiers(): iterable
+    public static function provideLegacyFieldTypeIdentifiers(): iterable
     {
         foreach (self::EXTERNAL_STORAGE_FIELD_TYPE_ALIASES as $legacyAlias => $alias) {
             yield $legacyAlias => [$legacyAlias, $alias];
