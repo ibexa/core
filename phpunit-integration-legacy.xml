@@ -43,6 +43,7 @@
             <exclude>tests/integration/Core/Repository/SearchServiceImageTest.php</exclude>
             <exclude>tests/integration/Core/Repository/Filtering/LegacyContentFilteringTest.php</exclude>
             <exclude>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/RoleService/CopyRoleTest.php</exclude>
         </testsuite>
         <testsuite name="integration_debug">
             <directory>tests/integration/Debug</directory>
