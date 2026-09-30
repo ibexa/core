@@ -35,13 +35,7 @@ final class ImageAssetTest extends RepositoryTestCase
         $contentType = $this->createContentTypeWithImageAsset();
         $destinationContent = $this->createImageContent();
 
-        $struct = $this->contentService->newContentCreateStruct($contentType, 'eng-GB');
-        $struct->setField('asset', new AssetValue(
-            $destinationContent->getId(),
-        ));
-        $assetContent = $this->contentService->publishVersion(
-            $this->contentService->createContent($struct)->getVersionInfo()
-        );
+        $assetContent = $this->createAssetContent($contentType, $destinationContent);
 
         self::assertEquals(1, $this->contentService->countRelations($assetContent->getVersionInfo()));
         self::assertEquals(1, $this->contentService->countReverseRelations($destinationContent->getContentInfo()));
@@ -51,6 +45,45 @@ final class ImageAssetTest extends RepositoryTestCase
         self::assertEquals(0, $this->contentService->countRelations($assetContent->getVersionInfo()));
         self::assertEquals(0, $this->contentService->countReverseRelations($destinationContent->getContentInfo()));
 
+        $this->assertAssetRelationIsCleared($assetContent);
+    }
+
+    public function testAssetRelationIsRemovedWhenStoredUnderLegacyFieldTypeIdentifier(): void
+    {
+        $contentType = $this->createContentTypeWithImageAsset();
+        $destinationContent = $this->createImageContent();
+
+        $assetContent = $this->createAssetContent($contentType, $destinationContent);
+
+        $fieldDefinition = $contentType->getFieldDefinition('asset');
+        self::assertNotNull($fieldDefinition);
+
+        $this->downgradeFieldTypeIdentifierToLegacyAlias(
+            'ezimageasset',
+            $assetContent->getId(),
+            $assetContent->getVersionInfo()->getVersionNo(),
+            $fieldDefinition->getId()
+        );
+
+        $this->contentService->deleteContent($destinationContent->getContentInfo());
+
+        $this->assertAssetRelationIsCleared($assetContent);
+    }
+
+    private function createAssetContent(ContentType $contentType, Content $destinationContent): Content
+    {
+        $struct = $this->contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $struct->setField('asset', new AssetValue(
+            $destinationContent->getId(),
+        ));
+
+        return $this->contentService->publishVersion(
+            $this->contentService->createContent($struct)->getVersionInfo()
+        );
+    }
+
+    private function assertAssetRelationIsCleared(Content $assetContent): void
+    {
         $assetContent = $this->contentService->loadContentByContentInfo($assetContent->getContentInfo());
 
         $value = $assetContent->getFieldValue('asset');
