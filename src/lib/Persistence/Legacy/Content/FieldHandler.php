@@ -62,16 +62,6 @@ class FieldHandler
 
     private FieldTypeAliasResolverInterface $fieldTypeAliasResolver;
 
-    /**
-     * Creates a new Field Handler.
-     *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Mapper $mapper
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageHandler $storageHandler
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $languageHandler
-     * @param \Ibexa\Core\Persistence\FieldTypeRegistry $fieldTypeRegistry
-     * @param \Ibexa\Core\FieldType\FieldTypeAliasResolverInterface $fieldTypeAliasResolver
-     */
     public function __construct(
         Gateway $contentGateway,
         Mapper $mapper,

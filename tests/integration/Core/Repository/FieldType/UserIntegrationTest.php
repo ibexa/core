@@ -532,7 +532,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
             'ezuser',
             $contentInfo->getId(),
             $contentInfo->currentVersionNo,
-            $userFieldDefinition->id
+            $userFieldDefinition->getId()
         );
 
         $contentService->deleteContent($contentInfo);
