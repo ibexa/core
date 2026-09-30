@@ -31,6 +31,7 @@ use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
@@ -60,7 +61,8 @@ final class DoctrineDatabase extends Gateway
         private readonly SharedGateway $sharedGateway,
         protected QueryBuilder $queryBuilder,
         protected LanguageHandler $languageHandler,
-        protected LanguageMaskGenerator $languageMaskGenerator
+        protected LanguageMaskGenerator $languageMaskGenerator,
+        private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
     }
 
@@ -1150,15 +1152,19 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->executeQuery();
 
         while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
-            if ($row['data_type_string'] === 'ibexa_object_relation') {
+            $fieldTypeIdentifier = $this->fieldTypeAliasResolver->resolveIdentifier(
+                $row['data_type_string']
+            );
+
+            if ($fieldTypeIdentifier === 'ibexa_object_relation') {
                 $this->removeRelationFromRelationField($row);
             }
 
-            if ($row['data_type_string'] === 'ibexa_object_relation_list') {
+            if ($fieldTypeIdentifier === 'ibexa_object_relation_list') {
                 $this->removeRelationFromRelationListField($contentId, $row);
             }
 
-            if ($row['data_type_string'] === 'ibexa_image_asset') {
+            if ($fieldTypeIdentifier === 'ibexa_image_asset') {
                 $this->removeRelationFromAssetField($row);
             }
         }
