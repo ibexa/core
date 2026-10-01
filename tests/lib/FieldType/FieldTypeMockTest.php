@@ -251,7 +251,7 @@ class FieldTypeMockTest extends TestCase
 
     /**
      * @return iterable<array{
-     *     null|array<string, mixed>,
+     *     array<string, mixed>|null,
      *     array<string, mixed>
      * }>
      */
