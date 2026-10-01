@@ -1,5 +1,14 @@
 <?xml version="1.0"?>
 <files version="1">
+ <file path="vendor/symfony/deprecation-contracts/function.php">
+  <line number="25" hash="c6af5d66288d0667e424978000f29571e4954b81">
+   <issue><![CDATA[Since symfony/http-kernel 8.1: The "Symfony\Component\HttpKernel\DependencyInjection\Extension" class is deprecated, use "Symfony\Component\DependencyInjection\Extension\Extension" instead.]]></issue>
+   <issue><![CDATA[Since symfony/http-kernel 8.1: The "Symfony\Component\HttpKernel\DependencyInjection\ResettableServicePass" class is deprecated, use "Symfony\Component\DependencyInjection\Compiler\ResettableServicePass" from the DependencyInjection component instead.]]></issue>
+   <issue><![CDATA[Since symfony/http-kernel 8.1: The "Symfony\Component\HttpKernel\Config\FileLocator" class is deprecated, use "Symfony\Component\DependencyInjection\Kernel\FileLocator" instead.]]></issue>
+   <issue><![CDATA[Since symfony/http-kernel 8.1: The "Symfony\Component\HttpKernel\DependencyInjection\ServicesResetter" class is deprecated, use "Symfony\Component\DependencyInjection\ServicesResetter" from the DependencyInjection component instead.]]></issue>
+   <issue><![CDATA[Since symfony/http-kernel 8.1: The "Symfony\Component\HttpKernel\DependencyInjection\ServicesResetterInterface" interface is deprecated, use "Symfony\Component\DependencyInjection\ServicesResetterInterface" from the DependencyInjection component instead.]]></issue>
+  </line>
+ </file>
  <file path="vendor/league/flysystem-memory/InMemoryFilesystemAdapter.php">
   <line number="39" hash="e01d94d4fe594d9dca588d9fe70212b4c6809588">
    <issue><![CDATA[League\Flysystem\InMemory\InMemoryFilesystemAdapter::__construct(): Implicitly marking parameter $mimeTypeDetector as nullable is deprecated, the explicit nullable type must be used instead]]></issue>
