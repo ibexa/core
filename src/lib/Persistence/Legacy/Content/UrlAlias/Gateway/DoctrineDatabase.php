@@ -15,6 +15,8 @@ use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use RuntimeException;
 
 /**
@@ -62,15 +64,20 @@ final class DoctrineDatabase extends Gateway
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $dbPlatform;
 
+    /** @var \Psr\Log\LoggerInterface */
+    private $logger;
+
     /**
      * @throws \Doctrine\DBAL\DBALException
      */
     public function __construct(
         Connection $connection,
-        LanguageMaskGenerator $languageMaskGenerator
+        LanguageMaskGenerator $languageMaskGenerator,
+        ?LoggerInterface $logger = null
     ) {
         $this->connection = $connection;
         $this->languageMaskGenerator = $languageMaskGenerator;
+        $this->logger = $logger ?? new NullLogger();
         $this->table = static::TABLE;
         $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
@@ -577,6 +584,28 @@ final class DoctrineDatabase extends Gateway
     }
 
     public function insertRow(array $values): int
+    {
+        $this->connection->beginTransaction();
+        try {
+            $id = $this->doInsertRow($values);
+            $this->connection->commit();
+
+            return $id;
+        } catch (\Throwable $e) {
+            $this->logger->warning(
+                'Failed to insert URL alias row, rolling back',
+                ['exception' => $e]
+            );
+            $this->connection->rollBack();
+
+            throw $e;
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     */
+    private function doInsertRow(array $values): int
     {
         if (!isset($values['id'])) {
             $values['id'] = $this->getNextId();
