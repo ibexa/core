@@ -670,10 +670,17 @@ CREATE TABLE ibexa_token (
     PRIMARY KEY(id)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_520_ci` ENGINE = InnoDB;
 -- ibexa:sql-statement-separator
-ALTER TABLE ezcontentbrowsebookmark ADD CONSTRAINT ezcontentbrowsebookmark_location_fk FOREIGN KEY (node_id) REFERENCES ezcontentobject_tree (node_id) ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE ezcontentbrowsebookmark
+    ADD CONSTRAINT ezcontentbrowsebookmark_location_fk FOREIGN KEY (node_id)
+        REFERENCES ezcontentobject_tree (node_id) ON UPDATE NO ACTION ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
-ALTER TABLE ezcontentbrowsebookmark ADD CONSTRAINT ezcontentbrowsebookmark_user_fk FOREIGN KEY (user_id) REFERENCES ezuser (contentobject_id) ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE ezcontentbrowsebookmark
+    ADD CONSTRAINT ezcontentbrowsebookmark_user_fk FOREIGN KEY (user_id)
+        REFERENCES ezuser (contentobject_id) ON UPDATE NO ACTION ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
-ALTER TABLE ezcontentclass_attribute_ml ADD CONSTRAINT ezcontentclass_attribute_ml_lang_fk FOREIGN KEY (language_id) REFERENCES ezcontent_language (id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ezcontentclass_attribute_ml
+    ADD CONSTRAINT ezcontentclass_attribute_ml_lang_fk FOREIGN KEY (language_id)
+        REFERENCES ezcontent_language (id) ON UPDATE CASCADE ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_token ADD CONSTRAINT ibexa_token_type_id_fk FOREIGN KEY (type_id) REFERENCES ibexa_token_type (id) ON DELETE CASCADE;
+ALTER TABLE ibexa_token
+    ADD CONSTRAINT ibexa_token_type_id_fk FOREIGN KEY (type_id) REFERENCES ibexa_token_type (id) ON DELETE CASCADE;
