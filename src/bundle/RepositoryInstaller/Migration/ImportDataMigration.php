@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
-use Ibexa\DoctrineMigrations\Migration\SqlPlatform;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
 
 final class ImportDataMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
@@ -33,7 +33,7 @@ final class ImportDataMigration extends AbstractSqlMigration implements IbexaMig
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MYSQL, DatabasePlatformName::POSTGRESQL, DatabasePlatformName::SQLITE);
 
         // This migration inserts into "ezcontentobject" (the pre-rename name) since it runs
         // before the 5.0.0 rename. Migrations execute in a strict, deterministic order, so if
