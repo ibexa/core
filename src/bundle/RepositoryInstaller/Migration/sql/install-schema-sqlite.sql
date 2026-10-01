@@ -119,8 +119,10 @@ CREATE TABLE ezcontentbrowsebookmark (
     node_id INTEGER DEFAULT 0 NOT NULL,
     user_id INTEGER DEFAULT 0 NOT NULL,
     name VARCHAR(255) DEFAULT '' NOT NULL,
-    CONSTRAINT ezcontentbrowsebookmark_location_fk FOREIGN KEY (node_id) REFERENCES ezcontentobject_tree (node_id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE,
-    CONSTRAINT ezcontentbrowsebookmark_user_fk FOREIGN KEY (user_id) REFERENCES ezuser (contentobject_id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
+    CONSTRAINT ezcontentbrowsebookmark_location_fk FOREIGN KEY (node_id)
+        REFERENCES ezcontentobject_tree (node_id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT ezcontentbrowsebookmark_user_fk FOREIGN KEY (user_id)
+        REFERENCES ezuser (contentobject_id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
 );
 -- ibexa:sql-statement-separator
 CREATE INDEX ezcontentbrowsebookmark_location ON ezcontentbrowsebookmark (node_id);
@@ -200,7 +202,8 @@ CREATE TABLE ezcontentclass_attribute_ml (
     data_text CLOB DEFAULT NULL,
     data_json CLOB DEFAULT NULL,
     PRIMARY KEY(contentclass_attribute_id, version, language_id),
-    CONSTRAINT ezcontentclass_attribute_ml_lang_fk FOREIGN KEY (language_id) REFERENCES ezcontent_language (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
+    CONSTRAINT ezcontentclass_attribute_ml_lang_fk FOREIGN KEY (language_id)
+        REFERENCES ezcontent_language (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
 );
 -- ibexa:sql-statement-separator
 CREATE INDEX ezcontentclass_attribute_ml_lang_fk ON ezcontentclass_attribute_ml (language_id);
@@ -281,7 +284,8 @@ CREATE TABLE ezcontentobject_attribute (
     PRIMARY KEY(id, version)
 );
 -- ibexa:sql-statement-separator
-CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute (contentobject_id, version, language_code);
+CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code
+    ON ezcontentobject_attribute (contentobject_id, version, language_code);
 -- ibexa:sql-statement-separator
 CREATE INDEX ezcontentobject_classattr_id ON ezcontentobject_attribute (contentclassattribute_id);
 -- ibexa:sql-statement-separator
@@ -304,7 +308,8 @@ CREATE TABLE ezcontentobject_link (
 -- ibexa:sql-statement-separator
 CREATE INDEX ezco_link_to_co_id ON ezcontentobject_link (to_contentobject_id);
 -- ibexa:sql-statement-separator
-CREATE INDEX ezco_link_from ON ezcontentobject_link (from_contentobject_id, from_contentobject_version, contentclassattribute_id);
+CREATE INDEX ezco_link_from
+    ON ezcontentobject_link (from_contentobject_id, from_contentobject_version, contentclassattribute_id);
 -- ibexa:sql-statement-separator
 CREATE INDEX ezco_link_cca_id ON ezcontentobject_link (contentclassattribute_id);
 -- ibexa:sql-statement-separator
@@ -747,7 +752,8 @@ CREATE TABLE ibexa_token (
     created INTEGER DEFAULT 0 NOT NULL,
     expires INTEGER DEFAULT 0 NOT NULL,
     revoked BOOLEAN DEFAULT '0' NOT NULL,
-    CONSTRAINT ibexa_token_type_id_fk FOREIGN KEY (type_id) REFERENCES ibexa_token_type (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
+    CONSTRAINT ibexa_token_type_id_fk FOREIGN KEY (type_id)
+        REFERENCES ibexa_token_type (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
 );
 -- ibexa:sql-statement-separator
 CREATE INDEX IDX_B5412887C54C8C93 ON ibexa_token (type_id);

@@ -50,7 +50,9 @@ ALTER TABLE ibexa_content_type_field_definition_ml DROP CONSTRAINT ezcontentclas
 -- ibexa:sql-statement-separator
 ALTER INDEX ezcontentclass_attribute_ml_lang_fk RENAME TO ibexa_content_type_field_definition_ml_lang_fk;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_type_field_definition_ml ADD CONSTRAINT ibexa_content_type_field_definition_ml_lang_fk FOREIGN KEY (language_id) REFERENCES ibexa_content_language(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE ibexa_content_type_field_definition_ml
+    ADD CONSTRAINT ibexa_content_type_field_definition_ml_lang_fk FOREIGN KEY (language_id)
+        REFERENCES ibexa_content_language(id) ON DELETE CASCADE ON UPDATE CASCADE;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentclass_classgroup RENAME TO ibexa_content_type_group_assignment;
 -- ibexa:sql-statement-separator
@@ -78,7 +80,9 @@ ALTER INDEX ezcontentobject_tree_remote_id RENAME TO ibexa_content_tree_remote_i
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_bookmark DROP CONSTRAINT ezcontentbrowsebookmark_location_fk;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_bookmark ADD CONSTRAINT ibexa_content_bookmark_location_fk FOREIGN KEY (node_id) REFERENCES ibexa_content_tree(node_id) ON DELETE CASCADE;
+ALTER TABLE ibexa_content_bookmark
+    ADD CONSTRAINT ibexa_content_bookmark_location_fk FOREIGN KEY (node_id)
+        REFERENCES ibexa_content_tree(node_id) ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentobject RENAME TO ibexa_content;
 -- ibexa:sql-statement-separator
@@ -312,7 +316,9 @@ ALTER TABLE ezuser_setting RENAME TO ibexa_user_setting;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_bookmark DROP CONSTRAINT ezcontentbrowsebookmark_user_fk;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_bookmark ADD CONSTRAINT ibexa_content_bookmark_user_fk FOREIGN KEY (user_id) REFERENCES ibexa_user(contentobject_id) ON DELETE CASCADE;
+ALTER TABLE ibexa_content_bookmark
+    ADD CONSTRAINT ibexa_content_bookmark_user_fk FOREIGN KEY (user_id)
+        REFERENCES ibexa_user(contentobject_id) ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_type_field_definition RENAME COLUMN contentclass_id TO content_type_id;
 -- ibexa:sql-statement-separator
@@ -336,7 +342,8 @@ ALTER TABLE ibexa_content_type_group_assignment RENAME COLUMN contentclass_versi
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_type_name RENAME COLUMN contentclass_version TO content_type_status;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_type_field_definition_ml RENAME COLUMN contentclass_attribute_id TO content_type_field_definition_id;
+ALTER TABLE ibexa_content_type_field_definition_ml
+    RENAME COLUMN contentclass_attribute_id TO content_type_field_definition_id;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_field RENAME COLUMN contentclassattribute_id TO content_type_field_definition_id;
 -- ibexa:sql-statement-separator
