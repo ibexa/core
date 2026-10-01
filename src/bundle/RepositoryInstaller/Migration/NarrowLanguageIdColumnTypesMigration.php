@@ -13,8 +13,8 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\BigIntType;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
-use Ibexa\DoctrineMigrations\Migration\SqlPlatform;
 
 /**
  * Renames "ibexa_content_language" to "ibexa_language" - the table holds every language in the
@@ -76,7 +76,7 @@ final class NarrowLanguageIdColumnTypesMigration extends AbstractSqlMigration im
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MySQL, DatabasePlatformName::PostgreSQL, DatabasePlatformName::SQLite);
 
         $schemaManager = $this->connection->createSchemaManager();
 
