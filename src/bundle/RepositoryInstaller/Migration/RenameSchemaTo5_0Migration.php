@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
-use Ibexa\DoctrineMigrations\Migration\SqlPlatform;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
 
 /**
  * Renames the legacy eZ Publish-style core database schema (ez*) to the Ibexa naming
@@ -39,7 +39,7 @@ final class RenameSchemaTo5_0Migration extends AbstractSqlMigration implements I
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MySQL, DatabasePlatformName::PostgreSQL, DatabasePlatformName::SQLite);
 
         if ($schema->hasTable('ibexa_content')) {
             return;
