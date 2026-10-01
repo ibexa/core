@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
-use Ibexa\DoctrineMigrations\Migration\SqlPlatform;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
 
 /**
  * Adds an "is_always_available" boolean column to "ibexa_url_alias_ml", backfilled from bit 0 of
@@ -54,7 +54,7 @@ final class AddUrlAliasAlwaysAvailableColumnMigration extends AbstractSqlMigrati
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MySQL, DatabasePlatformName::PostgreSQL, DatabasePlatformName::SQLite);
 
         $schemaManager = $this->connection->createSchemaManager();
 
