@@ -176,7 +176,8 @@ CREATE INDEX ibexa_content_relation_to_co_id ON ibexa_content_relation (to_conte
 -- ibexa:sql-statement-separator
 DROP INDEX ezco_link_from;
 -- ibexa:sql-statement-separator
-CREATE INDEX ibexa_content_relation_from ON ibexa_content_relation (from_contentobject_id, from_contentobject_version, contentclassattribute_id);
+CREATE INDEX ibexa_content_relation_from
+    ON ibexa_content_relation (from_contentobject_id, from_contentobject_version, contentclassattribute_id);
 -- ibexa:sql-statement-separator
 DROP INDEX ezco_link_cca_id;
 -- ibexa:sql-statement-separator
@@ -422,7 +423,8 @@ CREATE INDEX ibexa_url_ol_coa_version ON ibexa_url_content_link (contentobject_a
 -- ibexa:sql-statement-separator
 DROP INDEX ezurl_ol_coa_id_cav;
 -- ibexa:sql-statement-separator
-CREATE INDEX ibexa_url_ol_coa_id_cav ON ibexa_url_content_link (contentobject_attribute_id, contentobject_attribute_version);
+CREATE INDEX ibexa_url_ol_coa_id_cav
+    ON ibexa_url_content_link (contentobject_attribute_id, contentobject_attribute_version);
 -- ibexa:sql-statement-separator
 ALTER TABLE ezurlalias RENAME TO ibexa_url_alias;
 -- ibexa:sql-statement-separator
@@ -532,7 +534,8 @@ ALTER TABLE ibexa_content_type_group_assignment RENAME COLUMN contentclass_versi
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_type_name RENAME COLUMN contentclass_version TO content_type_status;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_type_field_definition_ml RENAME COLUMN contentclass_attribute_id TO content_type_field_definition_id;
+ALTER TABLE ibexa_content_type_field_definition_ml
+    RENAME COLUMN contentclass_attribute_id TO content_type_field_definition_id;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_field RENAME COLUMN contentclassattribute_id TO content_type_field_definition_id;
 -- ibexa:sql-statement-separator
