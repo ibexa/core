@@ -30,7 +30,8 @@ ALTER TABLE ibexa_content_bookmark RENAME INDEX ezcontentbrowsebookmark_location
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_bookmark RENAME INDEX ezcontentbrowsebookmark_user TO ibexa_content_bookmark_user;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_bookmark RENAME INDEX ezcontentbrowsebookmark_user_location TO ibexa_content_bookmark_user_location;
+ALTER TABLE ibexa_content_bookmark
+    RENAME INDEX ezcontentbrowsebookmark_user_location TO ibexa_content_bookmark_user_location;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentclass RENAME TO ibexa_content_type;
 -- ibexa:sql-statement-separator
@@ -40,17 +41,22 @@ ALTER TABLE ibexa_content_type RENAME INDEX ezcontentclass_identifier TO ibexa_c
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentclass_attribute RENAME TO ibexa_content_type_field_definition;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_type_field_definition RENAME INDEX ezcontentclass_attr_ccid TO ibexa_content_type_field_definition_ctid;
+ALTER TABLE ibexa_content_type_field_definition
+    RENAME INDEX ezcontentclass_attr_ccid TO ibexa_content_type_field_definition_ctid;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_type_field_definition RENAME INDEX ezcontentclass_attr_dts TO ibexa_content_type_field_definition_dts;
+ALTER TABLE ibexa_content_type_field_definition
+    RENAME INDEX ezcontentclass_attr_dts TO ibexa_content_type_field_definition_dts;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentclass_attribute_ml RENAME TO ibexa_content_type_field_definition_ml;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_type_field_definition_ml DROP FOREIGN KEY ezcontentclass_attribute_ml_lang_fk;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_type_field_definition_ml RENAME INDEX ezcontentclass_attribute_ml_lang_fk TO ibexa_content_type_field_definition_ml_lang_fk;
+ALTER TABLE ibexa_content_type_field_definition_ml
+    RENAME INDEX ezcontentclass_attribute_ml_lang_fk TO ibexa_content_type_field_definition_ml_lang_fk;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_type_field_definition_ml ADD CONSTRAINT ibexa_content_type_field_definition_ml_lang_fk FOREIGN KEY (language_id) REFERENCES ibexa_content_language(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE ibexa_content_type_field_definition_ml
+    ADD CONSTRAINT ibexa_content_type_field_definition_ml_lang_fk FOREIGN KEY (language_id)
+        REFERENCES ibexa_content_language(id) ON DELETE CASCADE ON UPDATE CASCADE;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentclass_classgroup RENAME TO ibexa_content_type_group_assignment;
 -- ibexa:sql-statement-separator
@@ -64,7 +70,8 @@ ALTER TABLE ibexa_content_tree RENAME INDEX ezcontentobject_tree_p_node_id TO ib
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_tree RENAME INDEX ezcontentobject_tree_path_ident TO ibexa_content_tree_path_ident;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_tree RENAME INDEX ezcontentobject_tree_contentobject_id_path_string TO ibexa_content_tree_contentobject_id_path_string;
+ALTER TABLE ibexa_content_tree
+    RENAME INDEX ezcontentobject_tree_contentobject_id_path_string TO ibexa_content_tree_contentobject_id_path_string;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_tree RENAME INDEX ezcontentobject_tree_co_id TO ibexa_content_tree_co_id;
 -- ibexa:sql-statement-separator
@@ -78,7 +85,9 @@ ALTER TABLE ibexa_content_tree RENAME INDEX ezcontentobject_tree_remote_id TO ib
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_bookmark DROP FOREIGN KEY ezcontentbrowsebookmark_location_fk;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_bookmark ADD CONSTRAINT ibexa_content_bookmark_location_fk FOREIGN KEY (node_id) REFERENCES ibexa_content_tree(node_id) ON DELETE CASCADE;
+ALTER TABLE ibexa_content_bookmark
+    ADD CONSTRAINT ibexa_content_bookmark_location_fk FOREIGN KEY (node_id)
+        REFERENCES ibexa_content_tree(node_id) ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentobject RENAME TO ibexa_content;
 -- ibexa:sql-statement-separator
@@ -100,11 +109,13 @@ ALTER TABLE ibexa_content RENAME INDEX ezcontentobject_remote_id TO ibexa_conten
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentobject_attribute RENAME TO ibexa_content_field;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_field RENAME INDEX ezcontentobject_attribute_co_id_ver_lang_code TO ibexa_content_field_co_id_ver_lang_code;
+ALTER TABLE ibexa_content_field
+    RENAME INDEX ezcontentobject_attribute_co_id_ver_lang_code TO ibexa_content_field_co_id_ver_lang_code;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_field RENAME INDEX ezcontentobject_classattr_id TO ibexa_content_field_classattr_id;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_field RENAME INDEX ezcontentobject_attribute_language_code TO ibexa_content_field_language_code;
+ALTER TABLE ibexa_content_field
+    RENAME INDEX ezcontentobject_attribute_language_code TO ibexa_content_field_language_code;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_field RENAME INDEX ezcontentobject_attribute_co_id_ver TO ibexa_content_field_co_id_ver;
 -- ibexa:sql-statement-separator
@@ -212,9 +223,11 @@ ALTER TABLE ibexa_policy_limitation RENAME INDEX policy_id TO ibexa_policy_id;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezpolicy_limitation_value RENAME TO ibexa_policy_limitation_value;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_policy_limitation_value RENAME INDEX ezpolicy_limit_value_limit_id TO ibexa_policy_limit_value_limit_id;
+ALTER TABLE ibexa_policy_limitation_value
+    RENAME INDEX ezpolicy_limit_value_limit_id TO ibexa_policy_limit_value_limit_id;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_policy_limitation_value RENAME INDEX ezpolicy_limitation_value_val TO ibexa_policy_limitation_value_val;
+ALTER TABLE ibexa_policy_limitation_value
+    RENAME INDEX ezpolicy_limitation_value_val TO ibexa_policy_limitation_value_val;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezpreferences RENAME TO ibexa_user_preference;
 -- ibexa:sql-statement-separator
@@ -226,15 +239,20 @@ ALTER TABLE ezrole RENAME TO ibexa_role;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezsearch_object_word_link RENAME TO ibexa_search_object_word_link;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_search_object_word_link RENAME INDEX ezsearch_object_word_link_object TO ibexa_search_object_word_link_object;
+ALTER TABLE ibexa_search_object_word_link
+    RENAME INDEX ezsearch_object_word_link_object TO ibexa_search_object_word_link_object;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_search_object_word_link RENAME INDEX ezsearch_object_word_link_identifier TO ibexa_search_object_word_link_identifier;
+ALTER TABLE ibexa_search_object_word_link
+    RENAME INDEX ezsearch_object_word_link_identifier TO ibexa_search_object_word_link_identifier;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_search_object_word_link RENAME INDEX ezsearch_object_word_link_integer_value TO ibexa_search_object_word_link_integer_value;
+ALTER TABLE ibexa_search_object_word_link
+    RENAME INDEX ezsearch_object_word_link_integer_value TO ibexa_search_object_word_link_integer_value;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_search_object_word_link RENAME INDEX ezsearch_object_word_link_word TO ibexa_search_object_word_link_word;
+ALTER TABLE ibexa_search_object_word_link
+    RENAME INDEX ezsearch_object_word_link_word TO ibexa_search_object_word_link_word;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_search_object_word_link RENAME INDEX ezsearch_object_word_link_frequency TO ibexa_search_object_word_link_frequency;
+ALTER TABLE ibexa_search_object_word_link
+    RENAME INDEX ezsearch_object_word_link_frequency TO ibexa_search_object_word_link_frequency;
 -- ibexa:sql-statement-separator
 ALTER TABLE ezsearch_word RENAME TO ibexa_search_word;
 -- ibexa:sql-statement-separator
@@ -312,7 +330,9 @@ ALTER TABLE ezuser_setting RENAME TO ibexa_user_setting;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_bookmark DROP FOREIGN KEY ezcontentbrowsebookmark_user_fk;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_bookmark ADD CONSTRAINT ibexa_content_bookmark_user_fk FOREIGN KEY (user_id) REFERENCES ibexa_user(contentobject_id) ON DELETE CASCADE;
+ALTER TABLE ibexa_content_bookmark
+    ADD CONSTRAINT ibexa_content_bookmark_user_fk FOREIGN KEY (user_id)
+        REFERENCES ibexa_user(contentobject_id) ON DELETE CASCADE;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_type_field_definition RENAME COLUMN contentclass_id TO content_type_id;
 -- ibexa:sql-statement-separator
@@ -336,11 +356,13 @@ ALTER TABLE ibexa_content_type_group_assignment RENAME COLUMN contentclass_versi
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_type_name RENAME COLUMN contentclass_version TO content_type_status;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_type_field_definition_ml RENAME COLUMN contentclass_attribute_id TO content_type_field_definition_id;
+ALTER TABLE ibexa_content_type_field_definition_ml
+    RENAME COLUMN contentclass_attribute_id TO content_type_field_definition_id;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_field RENAME COLUMN contentclassattribute_id TO content_type_field_definition_id;
 -- ibexa:sql-statement-separator
-ALTER TABLE ibexa_content_field RENAME INDEX ibexa_content_field_classattr_id TO ibexa_content_field_field_definition_id;
+ALTER TABLE ibexa_content_field
+    RENAME INDEX ibexa_content_field_classattr_id TO ibexa_content_field_field_definition_id;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_content_relation RENAME COLUMN contentclassattribute_id TO content_type_field_definition_id;
 -- ibexa:sql-statement-separator
