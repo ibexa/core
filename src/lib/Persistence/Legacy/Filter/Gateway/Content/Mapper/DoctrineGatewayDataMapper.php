@@ -17,7 +17,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
 
@@ -29,9 +28,6 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry */
     private $converterRegistry;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
-
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
     private $languageHandler;
 
@@ -40,12 +36,10 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
 
     public function __construct(
         LanguageHandler $languageHandler,
-        MaskGenerator $languageMaskGenerator,
         ContentTypeHandler $contentTypeHandler,
         ConverterRegistry $converterRegistry,
         private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
-        $this->languageMaskGenerator = $languageMaskGenerator;
         $this->languageHandler = $languageHandler;
         $this->contentTypeHandler = $contentTypeHandler;
         $this->converterRegistry = $converterRegistry;
@@ -105,9 +99,12 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         $versionInfo->status = (int)$row['content_version_status'];
         $versionInfo->names = $row['content_version_names'];
 
-        // Map language codes
-        $versionInfo->languageCodes = $this->languageMaskGenerator->extractLanguageCodesFromMask(
-            (int)$row['content_version_language_mask']
+        // Map language codes - "content_version_translations" is bulk-fetched once for the whole
+        // result page by DoctrineGateway::find(), not queried per row here, to avoid an N+1.
+        $languageIds = $row['content_version_translations'];
+        $versionInfo->languageCodes = array_map(
+            fn (int $languageId): string => $this->languageHandler->load($languageId)->languageCode,
+            $languageIds
         );
         $versionInfo->initialLanguageCode = $this->languageHandler->load(
             (int)$row['content_version_initial_language_id']
@@ -194,7 +191,7 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         $contentInfo->ownerId = (int)$row['content_owner_id'];
         $contentInfo->publicationDate = (int)$row['content_published'];
         $contentInfo->modificationDate = (int)$row['content_modified'];
-        $contentInfo->alwaysAvailable = 1 === ($row['content_language_mask'] & 1);
+        $contentInfo->alwaysAvailable = (bool)$row['content_always_available'];
         $contentInfo->mainLanguageCode = $mainLanguage->languageCode;
         $contentInfo->remoteId = $row['content_remote_id'];
         $contentInfo->mainLocationId = $row['content_main_location_id'] !== null

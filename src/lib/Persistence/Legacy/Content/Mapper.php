@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -69,18 +70,22 @@ class Mapper
 
     private FieldTypeAliasResolverInterface $fieldTypeAliasResolver;
 
+    private LanguageGateway $languageGateway;
+
     public function __construct(
         Registry $converterRegistry,
         LanguageHandler $languageHandler,
         ContentTypeHandler $contentTypeHandler,
         EventDispatcherInterface $eventDispatcher,
-        FieldTypeAliasResolverInterface $fieldTypeAliasResolver
+        FieldTypeAliasResolverInterface $fieldTypeAliasResolver,
+        LanguageGateway $languageGateway
     ) {
         $this->converterRegistry = $converterRegistry;
         $this->languageHandler = $languageHandler;
         $this->contentTypeHandler = $contentTypeHandler;
         $this->eventDispatcher = $eventDispatcher;
         $this->fieldTypeAliasResolver = $fieldTypeAliasResolver;
+        $this->languageGateway = $languageGateway;
     }
 
     /**
@@ -229,10 +234,15 @@ class Mapper
         $versionInfos = [];
         $fields = [];
 
+        $versionLanguageIds = $this->languageGateway->loadVersionTranslations(
+            array_unique(array_map(static fn (array $row): int => (int)$row["{$prefix}version_id"], $rows))
+        );
+
         $fieldDefinitions = $this->loadCachedVersionFieldDefinitionsPerLanguage(
             $rows,
             $prefix,
-            $translations
+            $translations,
+            $versionLanguageIds
         );
 
         foreach ($rows as $row) {
@@ -248,7 +258,11 @@ class Mapper
             }
 
             if (!isset($versionInfos[$contentId][$versionId])) {
-                $versionInfos[$contentId][$versionId] = $this->extractVersionInfoFromRow($row);
+                $versionInfos[$contentId][$versionId] = $this->extractVersionInfoFromRow(
+                    $row,
+                    [],
+                    $versionLanguageIds[$versionId] ?? []
+                );
             }
 
             $fieldId = (int)$row["{$prefix}field_id"];
@@ -332,6 +346,8 @@ class Mapper
      * @phpstan-param TRawContentRow[] $rows
      *
      * @param string[]|null $translations
+     * @param array<int, int[]> $versionLanguageIds Version id => language ids, as returned by
+     *        {@see \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::loadVersionTranslations()}
      *
      * @phpstan-return TVersionedLanguageFieldDefinitionsMap
      *
@@ -340,7 +356,8 @@ class Mapper
     private function loadCachedVersionFieldDefinitionsPerLanguage(
         array $rows,
         string $prefix,
-        ?array $translations = null
+        ?array $translations,
+        array $versionLanguageIds
     ): array {
         $fieldDefinitions = [];
         $contentTypes = [];
@@ -350,13 +367,12 @@ class Mapper
             $contentId = (int)$row["{$prefix}id"];
             $versionId = (int)$row["{$prefix}version_id"];
             $contentTypeId = (int)$row["{$prefix}content_type_id"];
-            $languageMask = (int)$row["{$prefix}version_language_mask"];
 
             if (isset($fieldDefinitions[$contentId][$versionId])) {
                 continue;
             }
 
-            $allLanguagesCodes = $this->extractLanguageCodesFromMask($languageMask, $allLanguages);
+            $allLanguagesCodes = $this->mapLanguageIdsToCodes($versionLanguageIds[$versionId] ?? [], $allLanguages);
             $languageCodes = empty($translations) ? $allLanguagesCodes : array_intersect($translations, $allLanguagesCodes);
             $contentTypes[$contentTypeId] = $contentTypes[$contentTypeId] ?? $this->contentTypeHandler->load($contentTypeId);
             $contentType = $contentTypes[$contentTypeId];
@@ -393,7 +409,7 @@ class Mapper
         $contentInfo->ownerId = (int)$row["{$prefix}owner_id"];
         $contentInfo->publicationDate = (int)$row["{$prefix}published"];
         $contentInfo->modificationDate = (int)$row["{$prefix}modified"];
-        $contentInfo->alwaysAvailable = 1 === ((int)$row["{$prefix}language_mask"] & 1);
+        $contentInfo->alwaysAvailable = (bool)$row["{$prefix}always_available"];
         $contentInfo->mainLanguageCode = $this->languageHandler->load($row["{$prefix}initial_language_id"])->languageCode;
         $contentInfo->remoteId = (string)$row["{$prefix}remote_id"];
         $contentInfo->mainLocationId = ($row["{$treePrefix}main_node_id"] !== null ? (int)$row["{$treePrefix}main_node_id"] : null);
@@ -430,10 +446,12 @@ class Mapper
      *
      * @param array $row
      * @param array $names
+     * @param int[] $languageIds Language ids this version is translated into, as returned by
+     *        {@see \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::loadVersionTranslations()}
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
      */
-    private function extractVersionInfoFromRow(array $row, array $names = [])
+    private function extractVersionInfoFromRow(array $row, array $names, array $languageIds)
     {
         $versionInfo = new VersionInfo();
         $versionInfo->id = (int)$row['content_version_id'];
@@ -447,11 +465,7 @@ class Mapper
 
         // Map language codes
         $allLanguages = $this->loadAllLanguagesWithIdKey();
-        $versionInfo->languageCodes = $this->extractLanguageCodesFromMask(
-            (int)$row['content_version_language_mask'],
-            $allLanguages,
-            $missing
-        );
+        $versionInfo->languageCodes = $this->mapLanguageIdsToCodes($languageIds, $allLanguages, $missing);
         $initialLanguageId = (int)$row['content_version_initial_language_id'];
         if (isset($allLanguages[$initialLanguageId])) {
             $versionInfo->initialLanguageCode = $allLanguages[$initialLanguageId]->languageCode;
@@ -486,6 +500,9 @@ class Mapper
         }
 
         $allLanguages = $this->loadAllLanguagesWithIdKey();
+        $versionLanguageIds = $this->languageGateway->loadVersionTranslations(
+            array_unique(array_map(static fn (array $row): int => (int)$row['content_version_id'], $rows))
+        );
         $versionInfoList = [];
         foreach ($rows as $row) {
             $versionId = $row['content_id'] . '_' . $row['content_version_version'];
@@ -500,8 +517,8 @@ class Mapper
                 $versionInfo->status = (int)$row['content_version_status'];
                 $versionInfo->names = $nameData[$versionId];
                 $versionInfoList[$versionId] = $versionInfo;
-                $versionInfo->languageCodes = $this->extractLanguageCodesFromMask(
-                    (int)$row['content_version_language_mask'],
+                $versionInfo->languageCodes = $this->mapLanguageIdsToCodes(
+                    $versionLanguageIds[$versionInfo->id] ?? [],
                     $allLanguages,
                     $missing
                 );
@@ -525,29 +542,21 @@ class Mapper
     }
 
     /**
-     * @param int $languageMask
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language[] $allLanguages
+     * @param int[] $languageIds
+     * @param \Ibexa\Contracts\Core\Persistence\Content\Language[] $allLanguages Keyed by language id
      * @param int[] &$missing
      *
      * @return string[]
      */
-    private function extractLanguageCodesFromMask(int $languageMask, array $allLanguages, &$missing = [])
+    private function mapLanguageIdsToCodes(array $languageIds, array $allLanguages, &$missing = [])
     {
-        $exp = 2;
         $result = [];
-
-        // Decomposition of $languageMask into its binary components to extract language codes
-        // check if $exp has not overflown and became float (happens for the last possible language in the mask)
-        while (is_int($exp) && $exp <= $languageMask) {
-            if ($languageMask & $exp) {
-                if (isset($allLanguages[$exp])) {
-                    $result[] = $allLanguages[$exp]->languageCode;
-                } else {
-                    $missing[] = $exp;
-                }
+        foreach ($languageIds as $languageId) {
+            if (isset($allLanguages[$languageId])) {
+                $result[] = $allLanguages[$languageId]->languageCode;
+            } else {
+                $missing[] = $languageId;
             }
-
-            $exp *= 2;
         }
 
         return $result;

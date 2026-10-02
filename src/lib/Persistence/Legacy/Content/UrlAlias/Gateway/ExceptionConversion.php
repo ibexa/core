@@ -88,10 +88,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function historizeBeforeSwap(string $action, int $languageMask): void
+    public function historizeBeforeSwap(string $action, array $languageIds): void
     {
         try {
-            $this->innerGateway->historizeBeforeSwap($action, $languageMask);
+            $this->innerGateway->historizeBeforeSwap($action, $languageIds);
         } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
@@ -194,6 +194,15 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadPathData($id);
+        } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function loadTranslationLanguageIds(int $parent, string $textMD5): array
+    {
+        try {
+            return $this->innerGateway->loadTranslationLanguageIds($parent, $textMD5);
         } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }

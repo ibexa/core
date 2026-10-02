@@ -38,6 +38,7 @@ services:
         arguments:
             $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
             $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $languagePriorityConditionBuilder: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder'
         tags:
             - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
             - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}

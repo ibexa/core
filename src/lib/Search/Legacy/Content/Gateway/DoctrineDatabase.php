@@ -7,8 +7,8 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
@@ -28,9 +28,6 @@ final class DoctrineDatabase extends Gateway
 {
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
 
     /**
      * Criteria converter.
@@ -53,9 +50,6 @@ final class DoctrineDatabase extends Gateway
      */
     private $languageHandler;
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
         Connection $connection,
         CriteriaConverter $criteriaConverter,
@@ -63,7 +57,6 @@ final class DoctrineDatabase extends Gateway
         LanguageHandler $languageHandler
     ) {
         $this->connection = $connection;
-        $this->dbPlatform = $connection->getDatabasePlatform();
         $this->criteriaConverter = $criteriaConverter;
         $this->sortClauseConverter = $sortClauseConverter;
         $this->languageHandler = $languageHandler;
@@ -96,29 +89,6 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Generates a language mask from the given $languageSettings.
-     *
-     * @param array $languageSettings
-     *
-     * @return int
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     */
-    private function getLanguageMask(array $languageSettings): int
-    {
-        $mask = 0;
-        if ($languageSettings['useAlwaysAvailable']) {
-            $mask |= 1;
-        }
-
-        foreach ($languageSettings['languages'] as $languageCode) {
-            $mask |= $this->languageHandler->loadByLanguageCode($languageCode)->id;
-        }
-
-        return $mask;
-    }
-
-    /**
      * @param array $languageFilter
      *
      * @return string
@@ -145,20 +115,32 @@ final class DoctrineDatabase extends Gateway
 
         // If not main-languages query
         if (!empty($languageFilter['languages'])) {
-            $condition = $expr->and(
-                $condition,
-                $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
-                        'c.language_mask',
-                        $query->createNamedParameter(
-                            $this->getLanguageMask($languageFilter),
-                            ParameterType::INTEGER,
-                            ':language_mask'
-                        )
-                    ),
-                    $query->createNamedParameter(0, ParameterType::INTEGER, ':zero')
-                )
+            $languageIds = array_map(
+                fn (string $languageCode): int => $this->languageHandler->loadByLanguageCode($languageCode)->id,
+                $languageFilter['languages']
             );
+
+            $translationExistsSubQuery = $this->connection->createQueryBuilder();
+            $translationExistsSubQuery
+                ->select('1')
+                ->from('ibexa_content_translation', 'ct')
+                ->where(
+                    $translationExistsSubQuery->expr()->and(
+                        'ct.content_id = c.id',
+                        $translationExistsSubQuery->expr()->in(
+                            'ct.language_id',
+                            $query->createNamedParameter($languageIds, ArrayParameterType::INTEGER)
+                        )
+                    )
+                );
+
+            $languageCondition = sprintf('EXISTS (%s)', $translationExistsSubQuery->getSQL());
+
+            if (!empty($languageFilter['useAlwaysAvailable'])) {
+                $languageCondition = $expr->or($languageCondition, 'c.always_available');
+            }
+
+            $condition = $expr->and($condition, $languageCondition);
         }
 
         return $condition;
