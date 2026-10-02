@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
-use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 /**
  * Fixes 3 stale legacy identifier values ("ez_lock"/"ezstring") left over from before the
@@ -45,9 +45,9 @@ final class FixLegacyIdentifiersMigration extends AbstractSqlMigration implement
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MySQL, DatabasePlatformName::PostgreSQL, DatabasePlatformName::SQLite);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
-        if ($this->isMySQL()) {
+        if ($this->isMySQL() || $this->isMariaDB()) {
             $this->addSqlFile(__DIR__ . '/sql/fix-legacy-identifiers-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
             $this->addSqlFile(__DIR__ . '/sql/fix-legacy-identifiers-postgresql.sql');

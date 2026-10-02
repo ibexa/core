@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
-use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 final class ImportDataMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
@@ -33,7 +33,7 @@ final class ImportDataMigration extends AbstractSqlMigration implements IbexaMig
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MySQL, DatabasePlatformName::PostgreSQL, DatabasePlatformName::SQLite);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         // This migration inserts into "ezcontentobject" (the pre-rename name) since it runs
         // before the 5.0.0 rename. Migrations execute in a strict, deterministic order, so if
@@ -51,7 +51,7 @@ final class ImportDataMigration extends AbstractSqlMigration implements IbexaMig
             return;
         }
 
-        if ($this->isMySQL()) {
+        if ($this->isMySQL() || $this->isMariaDB()) {
             $this->addSqlFile(__DIR__ . '/sql/import-data-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
             $this->addSqlFile(__DIR__ . '/sql/import-data-postgresql.sql');
