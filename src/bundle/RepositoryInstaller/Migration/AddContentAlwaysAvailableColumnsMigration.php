@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
-use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 /**
  * Adds "always_available" boolean columns to "ibexa_content" and "ibexa_content_version",
@@ -56,7 +56,7 @@ final class AddContentAlwaysAvailableColumnsMigration extends AbstractSqlMigrati
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MySQL, DatabasePlatformName::PostgreSQL, DatabasePlatformName::SQLite);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         $schemaManager = $this->connection->createSchemaManager();
 

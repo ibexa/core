@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
-use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 final class InstallSchemaMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
@@ -33,7 +33,7 @@ final class InstallSchemaMigration extends AbstractSqlMigration implements Ibexa
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MySQL, DatabasePlatformName::PostgreSQL, DatabasePlatformName::SQLite);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         // Checks the final, post-rename table name (not "ezcontentobject", which this
         // migration creates): an install that built its schema via schema.yaml (rather than

@@ -13,7 +13,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
-use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 /**
  * Backfills "ibexa_content_translation", "ibexa_content_version_translation" and
@@ -69,7 +69,7 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MySQL, DatabasePlatformName::PostgreSQL, DatabasePlatformName::SQLite);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         if (!$this->connection->createSchemaManager()->tablesExist(['ibexa_content_translation'])) {
             // AddLanguageTranslationTablesMigration hasn't run yet (or "ibexa_content" itself
