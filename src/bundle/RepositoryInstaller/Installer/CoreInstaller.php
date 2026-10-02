@@ -199,5 +199,4 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     public function importBinaries()
     {
     }
-
 }
