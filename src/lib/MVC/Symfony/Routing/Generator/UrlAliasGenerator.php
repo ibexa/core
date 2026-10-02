@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\Generator;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -53,8 +54,11 @@ class UrlAliasGenerator extends Generator
         Repository $repository,
         RouterInterface $defaultRouter,
         ConfigResolverInterface $configResolver,
+        SiteAccessServiceInterface $siteAccessService,
         array $unsafeCharMap = []
     ) {
+        parent::__construct($siteAccessService);
+
         $this->repository = $repository;
         $this->defaultRouter = $defaultRouter;
         $this->configResolver = $configResolver;

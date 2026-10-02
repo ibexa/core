@@ -16,9 +16,9 @@ services:
         arguments: ['@Ibexa\Core\Helper\TranslationHelper', '@ibexa.api.service.field_type']
 
     Ibexa\Core\Helper\ContentPreviewHelper:
-        arguments: ["@event_dispatcher", '@Ibexa\Core\MVC\Symfony\SiteAccess\Router']
-        calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+        arguments:
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
 
     Ibexa\Bundle\Core\EventListener\ConfigScopeListener:
         arguments:
@@ -50,7 +50,7 @@ services:
     Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor:
         arguments:
             $configResolver: '@ibexa.config.resolver'
-            $siteAccessService: '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
+            $siteAccessService: '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
 
     Ibexa\Contracts\Core\SiteAccess\ConfigProcessor:
         alias: Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor
