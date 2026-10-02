@@ -93,4 +93,32 @@ interface PermissionResolver
         array $targets = [],
         array $limitationsIdentifiers = []
     ): LookupLimitationResult;
+
+    /**
+     * Executes the given callback with elevated permissions, bypassing the current user's limitations.
+     *
+     * Example usage:
+     * ```
+     * $content = $permissionResolver->sudo(
+     *      function () use ($contentId): Content {
+     *          return $this->contentService->loadContent($contentId);
+     *      }
+     * );
+     * ```
+     * or:
+     * ```
+     *  $content = $permissionResolver->sudo(
+     *       static fn (): Content => $contentService->loadContent($contentId);
+     *  );
+     * ```
+     *
+     * @phpstan-template T
+     *
+     * @phpstan-param callable(): T $callback
+     *
+     * @phpstan-return T
+     *
+     * @throws \Throwable
+     */
+    public function sudo(callable $callback): mixed;
 }
