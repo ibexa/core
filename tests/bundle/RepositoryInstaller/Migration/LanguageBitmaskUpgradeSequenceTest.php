@@ -19,8 +19,11 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnM
 use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\StripAlwaysAvailableBitFromLanguageIdsMigration;
+use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineSchema\Database\DefaultTableOptions;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
 use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
@@ -42,6 +45,7 @@ use Psr\Log\NullLogger;
 #[CoversClass(AddUrlAliasAlwaysAvailableColumnMigration::class)]
 #[CoversClass(DropLanguageBitmaskColumnsMigration::class)]
 #[CoversClass(NarrowLanguageIdColumnTypesMigration::class)]
+#[CoversClass(StripAlwaysAvailableBitFromLanguageIdsMigration::class)]
 final class LanguageBitmaskUpgradeSequenceTest extends TestCase
 {
     private const ENG_US = 2;
@@ -100,6 +104,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         // The column-narrowing half of this same migration is MySQL/PostgreSQL-only (SQLite has no
         // ALTER COLUMN TYPE) and is verified against real databases, not here.
         $this->runMigration(new NarrowLanguageIdColumnTypesMigration($connection, new NullLogger()));
+        $this->runMigration(new StripAlwaysAvailableBitFromLanguageIdsMigration($connection, new NullLogger()));
 
         $schemaManager = $connection->createSchemaManager();
         self::assertFalse($schemaManager->tablesExist(['ibexa_content_language']));
@@ -158,6 +163,54 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         self::assertIsArray($wordLinkRow);
         self::assertEquals(self::ENG_GB, $wordLinkRow['language_id']);
         self::assertEquals(1, $wordLinkRow['is_main_and_always_available']);
+
+        // Always-available bit stripped from every "language_id" column it was folded into,
+        // genuine (even) ids left untouched.
+        self::assertSame(
+            [1 => self::ENG_US, 2 => self::ENG_GB, 3 => self::GER_DE],
+            $this->fetchLanguageIdMap($connection, 'SELECT id AS k, language_id FROM ibexa_content_field')
+        );
+        self::assertSame(
+            ['eng-GB' => self::ENG_GB, 'eng-US' => self::ENG_US, 'ger-DE' => self::GER_DE],
+            $this->fetchLanguageIdMap($connection, 'SELECT content_translation AS k, language_id FROM ibexa_content_name')
+        );
+        self::assertSame(
+            ['eng-GB' => self::ENG_GB, 'eng-US' => self::ENG_US],
+            $this->fetchLanguageIdMap($connection, 'SELECT language_locale AS k, language_id FROM ibexa_content_type_name')
+        );
+        self::assertSame(
+            ['default' => self::ENG_GB, 'other' => self::GER_DE],
+            $this->fetchLanguageIdMap($connection, 'SELECT name AS k, language_id FROM ibexa_object_state_language')
+        );
+        self::assertSame(
+            ['default' => self::ENG_GB, 'other' => self::GER_DE],
+            $this->fetchLanguageIdMap(
+                $connection,
+                'SELECT name AS k, language_id FROM ibexa_object_state_group_language WHERE language_id = real_language_id'
+            )
+        );
+
+        // The first language created after the upgrade gets MAX(id) + 1 - exactly the tainted value
+        // of the highest legacy language - and must not inherit any of that language's rows.
+        $newLanguageId = (new LanguageGateway($connection))->insertLanguage(
+            new Language(['languageCode' => 'fre-FR', 'name' => 'French', 'isEnabled' => true])
+        );
+        self::assertSame(self::ENG_GB | 1, $newLanguageId);
+        foreach (
+            [
+                'ibexa_content_field',
+                'ibexa_content_name',
+                'ibexa_content_type_name',
+                'ibexa_object_state_language',
+                'ibexa_object_state_group_language',
+            ] as $table
+        ) {
+            self::assertEquals(
+                0,
+                $connection->fetchOne("SELECT COUNT(*) FROM {$table} WHERE language_id = ?", [$newLanguageId]),
+                "\"{$table}\" still has rows pointing at the newly created language"
+            );
+        }
     }
 
     public function testDropMigrationAbortsIfBackfillWasSkipped(): void
@@ -435,6 +488,71 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
             'identifier' => 'foo',
             'language_mask' => self::ENG_GB | 1,
         ]);
+
+        // Legacy folded the always-available bit into these "language_id" columns too: for the
+        // main-language fields/names of always-available content (Content 2), for always-available
+        // content type names, and for the default-language row of object states and groups.
+        foreach (
+            [
+                [1, 1, 'eng-US', self::ENG_US],
+                [2, 1, 'eng-GB', self::ENG_GB],
+                [3, 2, 'ger-DE', self::GER_DE | 1],
+            ] as [$fieldId, $contentId, $languageCode, $languageId]
+        ) {
+            $connection->insert('ibexa_content_field', [
+                'id' => $fieldId,
+                'contentobject_id' => $contentId,
+                'version' => 1,
+                'language_code' => $languageCode,
+                'language_id' => $languageId,
+            ]);
+            $connection->insert('ibexa_content_name', [
+                'contentobject_id' => $contentId,
+                'content_version' => 1,
+                'content_translation' => $languageCode,
+                'real_translation' => $languageCode,
+                'language_id' => $languageId,
+                'name' => $languageCode,
+            ]);
+        }
+
+        foreach ([['eng-GB', self::ENG_GB | 1], ['eng-US', self::ENG_US]] as [$locale, $languageId]) {
+            $connection->insert('ibexa_content_type_name', [
+                'content_type_id' => 1,
+                'content_type_status' => 0,
+                'language_locale' => $locale,
+                'language_id' => $languageId,
+                'name' => $locale,
+            ]);
+        }
+
+        foreach ([['default', self::ENG_GB], ['other', self::GER_DE]] as [$name, $realLanguageId]) {
+            $storedLanguageId = $name === 'default' ? $realLanguageId | 1 : $realLanguageId;
+            $connection->insert('ibexa_object_state_language', [
+                'contentobject_state_id' => 1,
+                'language_id' => $storedLanguageId,
+                'name' => $name,
+                'description' => '',
+            ]);
+            $connection->insert('ibexa_object_state_group_language', [
+                'contentobject_state_group_id' => 1,
+                'language_id' => $storedLanguageId,
+                'real_language_id' => $realLanguageId,
+                'name' => $name,
+                'description' => '',
+            ]);
+        }
+    }
+
+    /**
+     * @return array<int|string, int>
+     */
+    private function fetchLanguageIdMap(Connection $connection, string $sql): array
+    {
+        $map = array_map('intval', $connection->fetchAllKeyValue($sql));
+        ksort($map);
+
+        return $map;
     }
 
     /**

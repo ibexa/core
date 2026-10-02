@@ -154,13 +154,11 @@ final class DoctrineDatabase extends Gateway
 
     public function canDeleteLanguage(int $id): bool
     {
-        $candidateIds = $this->getLegacyTaintToleranceCandidateIds($id);
-
-        if ($this->existsWithColumnValue($candidateIds, 'ibexa_content_translation', 'language_id')) {
+        if ($this->existsWithColumnValue($id, 'ibexa_content_translation', 'language_id')) {
             return false;
         }
 
-        if ($this->existsWithColumnValue($candidateIds, 'ibexa_content_version_translation', 'language_id')) {
+        if ($this->existsWithColumnValue($id, 'ibexa_content_version_translation', 'language_id')) {
             return false;
         }
 
@@ -168,25 +166,25 @@ final class DoctrineDatabase extends Gateway
         // their "initial_language_id" (main language), even without a matching translation row -
         // e.g. right after ContentService::updateContentMetadata() changes the main language code
         // without publishing a new version for it.
-        if ($this->existsWithColumnValue($candidateIds, ContentGateway::CONTENT_ITEM_TABLE, 'initial_language_id')) {
+        if ($this->existsWithColumnValue($id, ContentGateway::CONTENT_ITEM_TABLE, 'initial_language_id')) {
             return false;
         }
 
-        if ($this->existsWithColumnValue($candidateIds, ContentGateway::CONTENT_VERSION_TABLE, 'initial_language_id')) {
+        if ($this->existsWithColumnValue($id, ContentGateway::CONTENT_VERSION_TABLE, 'initial_language_id')) {
             return false;
         }
 
-        if ($this->existsWithColumnValue($candidateIds, 'ibexa_url_alias_ml_translation', 'language_id')) {
+        if ($this->existsWithColumnValue($id, 'ibexa_url_alias_ml_translation', 'language_id')) {
             return false;
         }
 
-        if ($this->existsWithColumnValue($candidateIds, 'ibexa_search_object_word_link', 'language_id')) {
+        if ($this->existsWithColumnValue($id, 'ibexa_search_object_word_link', 'language_id')) {
             return false;
         }
 
         // note: at some point this should be delegated to specific gateways
         foreach (self::MULTILINGUAL_TABLES_COLUMNS as $tableName => $columns) {
-            if ($this->existsWithColumnValue($candidateIds, $tableName, $columns[0])) {
+            if ($this->existsWithColumnValue($id, $tableName, $columns[0])) {
                 return false;
             }
         }
@@ -195,63 +193,18 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Determines which column values would count as "this language is in use", tolerating the
-     * legacy "always available" bit 0 folded into indicator columns on rows written before
-     * always_available became a plain column (for real installs upgrading from that scheme and
-     * long-lived test fixtures captured from it).
-     *
-     * Only a genuine legacy power-of-two id could ever have been tainted this way - the old bitmask
-     * scheme only ever allocated powers of two, and only ORs in bit 0 for even ids - so a
-     * newly-allocated id (sequential post-migration, essentially never a power of two) never
-     * qualifies. Even for a power-of-two id, $languageId+1 is only treated as a tainted stand-in for
-     * $languageId when $languageId+1 isn't itself a real, independently-existing language: two
-     * sequentially-allocated ids are commonly adjacent post-migration, and treating a distinct
-     * language's own genuine usage as evidence that $languageId is "in use" would incorrectly block
-     * deleting an otherwise-unused $languageId (e.g. languages 64 and 65 both existing and 65 being
-     * in use must never make unrelated, unused 64 look undeletable).
-     *
-     * @return int[]
+     * Checks whether $tableName has a row with $columnName equal to $languageId.
      */
-    private function getLegacyTaintToleranceCandidateIds(int $languageId): array
-    {
-        $isLegacyPowerOfTwoId = $languageId % 2 === 0 && ($languageId & ($languageId - 1)) === 0;
-
-        if (!$isLegacyPowerOfTwoId || $this->languageExists($languageId + 1)) {
-            return [$languageId];
-        }
-
-        return [$languageId, $languageId + 1];
-    }
-
-    private function languageExists(int $id): bool
-    {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->select('1')
-            ->from(self::CONTENT_LANGUAGE_TABLE)
-            ->where(
-                $query->expr()->eq('id', $query->createPositionalParameter($id, ParameterType::INTEGER))
-            )
-            ->setMaxResults(1);
-
-        return $query->executeQuery()->fetchOne() !== false;
-    }
-
-    /**
-     * Checks whether $tableName has a row with $columnName equal to one of $candidateIds.
-     *
-     * @param int[] $candidateIds
-     */
-    private function existsWithColumnValue(array $candidateIds, string $tableName, string $columnName): bool
+    private function existsWithColumnValue(int $languageId, string $tableName, string $columnName): bool
     {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('1')
             ->from($tableName)
             ->where(
-                $query->expr()->in(
+                $query->expr()->eq(
                     $columnName,
-                    $query->createPositionalParameter($candidateIds, ArrayParameterType::INTEGER)
+                    $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                 )
             )
             ->setMaxResults(1);
