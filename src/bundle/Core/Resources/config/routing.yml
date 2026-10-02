@@ -20,8 +20,7 @@ services:
             $siteAccessRouter: '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
             $nonSiteAccessAwareRoutes: '%ibexa.default_router.non_site_access_aware_routes%'
             $logger: '@?logger'
-        calls:
-            - [setSiteAccess, ['@?Ibexa\Core\MVC\Symfony\SiteAccess']]
+            $siteAccessService: '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
         tags:
             - { name: monolog.logger, channel: router }
 
@@ -37,6 +36,7 @@ services:
             $siteAccessRouter: '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
             $eventDispatcher: '@event_dispatcher'
             $serializer: '@ibexa.core.mvc.serializer'
+            $siteAccessService: '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -45,6 +45,7 @@ services:
         arguments:
             $requestStack: '@request_stack'
             $eventDispatcher: '@event_dispatcher'
+            $siteAccessService: '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -53,7 +54,6 @@ services:
         abstract: true
         calls:
             - [setRequestContext, ["@router.request_context"]]
-            - [setSiteAccess, ['@?Ibexa\Core\MVC\Symfony\SiteAccess']]
             - [setSiteAccessRouter, ['@Ibexa\Core\MVC\Symfony\SiteAccess\Router']]
             - [setLogger, ["@?logger"]]
 
@@ -77,6 +77,7 @@ services:
             - '@ibexa.api.repository'
             - "@router.default"
             - '@ibexa.config.resolver'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
             - '%ibexa.urlalias_generator.charmap%'
         parent: Ibexa\Core\MVC\Symfony\Routing\Generator
 
@@ -110,8 +111,7 @@ services:
         arguments:
             - '@ibexa.siteaccess.provider'
             - '@ibexa.config.resolver'
-        calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - '@event_dispatcher'
         tags:
             - { name: kernel.event_subscriber }
 

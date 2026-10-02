@@ -27,6 +27,7 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -53,6 +54,8 @@ final class SiteAccessMatchListenerTest extends TestCase
 
     private SiteAccessMatcherRegistryInterface & MockObject $registry;
 
+    private SiteAccessServiceInterface & MockObject $siteAccessService;
+
     private SiteAccessMatchListener $listener;
 
     protected function setUp(): void
@@ -61,10 +64,12 @@ final class SiteAccessMatchListenerTest extends TestCase
         $this->saRouter = $this->createMock(Router::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->registry = $this->createMock(SiteAccessMatcherRegistryInterface::class);
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
         $this->listener = new SiteAccessMatchListener(
             $this->saRouter,
             $this->eventDispatcher,
-            $this->getSerializer()
+            $this->getSerializer(),
+            $this->siteAccessService
         );
     }
 
@@ -231,6 +236,21 @@ final class SiteAccessMatchListenerTest extends TestCase
         $this->assertRequestHasSiteAccess($request, $originalRequest, $siteAccess);
     }
 
+    /**
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
+     */
+    public function testOnKernelRequestSubRequestPushesToSiteAccessService(): void
+    {
+        $siteAccess = new SiteAccess('test');
+        $scheme = 'https';
+        $host = 'phoenix-rises.fm';
+        $port = 1234;
+        $path = '/foo/bar';
+        $request = Request::create(sprintf('%s://%s:%d%s', $scheme, $host, $port, $path));
+        $this->assertRequestHasSiteAccess($request, null, $siteAccess, HttpKernelInterface::SUB_REQUEST);
+    }
+
     private function serializeSiteAccess(SiteAccess $siteAccess): string
     {
         return $this->getSerializer()->serialize($siteAccess, 'json');
@@ -243,13 +263,14 @@ final class SiteAccessMatchListenerTest extends TestCase
     private function assertRequestHasSiteAccess(
         Request $request,
         ?Request $originalRequest,
-        SiteAccess $siteAccess
+        SiteAccess $siteAccess,
+        int $requestType = HttpKernelInterface::MAIN_REQUEST
     ): void {
         $originalRequest ??= $request;
         $event = new RequestEvent(
             self::createStub(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MAIN_REQUEST
+            $requestType
         );
 
         $simplifiedRequest = new SimplifiedRequest(
@@ -275,6 +296,17 @@ final class SiteAccessMatchListenerTest extends TestCase
             ->method('dispatch')
             ->with(self::equalTo($postSAMatchEvent), MVCEvents::SITEACCESS)
         ;
+
+        if ($requestType === HttpKernelInterface::SUB_REQUEST) {
+            $this->siteAccessService
+                ->expects($this->once())
+                ->method('changeSiteAccess')
+                ->with($siteAccess);
+        } else {
+            $this->siteAccessService
+                ->expects($this->never())
+                ->method('changeSiteAccess');
+        }
 
         $this->listener->onKernelRequest($event);
         self::assertSame($siteAccess, $request->attributes->get('siteaccess'));
@@ -303,6 +335,10 @@ final class SiteAccessMatchListenerTest extends TestCase
             ->expects($this->once())
             ->method('dispatch')
             ->with($postSAMatchEvent, MVCEvents::SITEACCESS);
+
+        $this->siteAccessService
+            ->expects($this->never())
+            ->method('changeSiteAccess');
 
         $this->listener->onKernelRequest($event);
     }

@@ -106,13 +106,15 @@ services:
     Ibexa\Core\MVC\Symfony\SiteAccess:
         arguments: ['default', !php/const Ibexa\Core\MVC\Symfony\SiteAccess::MATCHING_TYPE_UNINITIALIZED]
 
+    event_dispatcher:
+        class: Symfony\Component\EventDispatcher\EventDispatcher
+
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService:
         class: Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService
         arguments:
             - '@ibexa.siteaccess.provider'
             - '@ibexa.config.resolver'
-        calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - '@event_dispatcher'
 
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface:
         alias: 'Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'

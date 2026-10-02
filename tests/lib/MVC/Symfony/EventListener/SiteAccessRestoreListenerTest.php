@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\EventListener\SiteAccessRestoreListener;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -33,6 +34,8 @@ final class SiteAccessRestoreListenerTest extends TestCase
 
     private RequestStack $requestStack;
 
+    private SiteAccessServiceInterface & MockObject $siteAccessService;
+
     private SiteAccessRestoreListener $listener;
 
     protected function setUp(): void
@@ -41,9 +44,11 @@ final class SiteAccessRestoreListenerTest extends TestCase
         $this->kernel = self::createStub(HttpKernelInterface::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->requestStack = new RequestStack();
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
         $this->listener = new SiteAccessRestoreListener(
             $this->requestStack,
-            $this->eventDispatcher
+            $this->eventDispatcher,
+            $this->siteAccessService
         );
     }
 
@@ -78,6 +83,10 @@ final class SiteAccessRestoreListenerTest extends TestCase
                 MVCEvents::SITEACCESS
             );
 
+        $this->siteAccessService
+            ->expects($this->once())
+            ->method('restoreSiteAccess');
+
         $this->listener->onKernelFinishRequest(
             new FinishRequestEvent($this->kernel, $subRequest, HttpKernelInterface::SUB_REQUEST)
         );
@@ -99,9 +108,23 @@ final class SiteAccessRestoreListenerTest extends TestCase
         self::assertNotNull($finishingRequest);
 
         $this->eventDispatcher->expects($this->never())->method('dispatch');
+        $this->siteAccessService->expects($this->never())->method('restoreSiteAccess');
 
         $this->listener->onKernelFinishRequest(
             new FinishRequestEvent($this->kernel, $finishingRequest, $requestType)
+        );
+    }
+
+    public function testRestoresSiteAccessServiceWithoutDispatchingWhenNoParentRequest(): void
+    {
+        $subRequest = self::createRequestWithSiteAccess(new SiteAccess('admin', 'uri:element'));
+        $this->requestStack->push($subRequest);
+
+        $this->eventDispatcher->expects($this->never())->method('dispatch');
+        $this->siteAccessService->expects($this->once())->method('restoreSiteAccess');
+
+        $this->listener->onKernelFinishRequest(
+            new FinishRequestEvent($this->kernel, $subRequest, HttpKernelInterface::SUB_REQUEST)
         );
     }
 
