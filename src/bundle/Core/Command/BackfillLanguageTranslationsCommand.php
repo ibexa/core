@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -130,33 +132,49 @@ EOT
 
     private function backfillTable(string $table, int $batchSize, bool $dryRun, OutputInterface $output): void
     {
-        [$sourceTable, $pkColumn, $insertSql] = match ($table) {
+        [$sourceTable, $pkColumn, $maskColumn, $insertSql] = match ($table) {
             self::TABLE_CONTENT => [
                 'ibexa_content',
                 'id',
+                'language_mask',
                 'INSERT %s INTO ibexa_content_translation (content_id, language_id)
                  SELECT c.id, l.id FROM ibexa_content c
-                 JOIN ibexa_content_language l ON (c.language_mask & l.id) = l.id
+                 JOIN %s l ON (c.language_mask & l.id) = l.id
                  WHERE c.id BETWEEN :from AND :to %s',
             ],
             self::TABLE_CONTENT_VERSION => [
                 'ibexa_content_version',
                 'id',
+                'language_mask',
                 'INSERT %s INTO ibexa_content_version_translation (content_version_id, language_id)
                  SELECT v.id, l.id FROM ibexa_content_version v
-                 JOIN ibexa_content_language l ON (v.language_mask & l.id) = l.id
+                 JOIN %s l ON (v.language_mask & l.id) = l.id
                  WHERE v.id BETWEEN :from AND :to %s',
             ],
             self::TABLE_URL_ALIAS => [
                 'ibexa_url_alias_ml',
                 'parent',
+                'lang_mask',
                 'INSERT %s INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
                  SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
-                 JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id
+                 JOIN %s l ON (u.lang_mask & l.id) = l.id
                  WHERE u.parent BETWEEN :from AND :to %s',
             ],
             default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
         };
+
+        // The mask column is dropped once a schema has fully completed the language bitmask
+        // migration (DropLanguageBitmaskColumnsMigration), and a fresh install's schema.yaml never
+        // had it to begin with - in both cases there is nothing left to backfill, and the mask-based
+        // queries below would otherwise fail outright with "no such column"/"undefined column".
+        $schemaManager = $this->connection->createSchemaManager();
+        if (!$schemaManager->introspectTable($sourceTable)->hasColumn($maskColumn)) {
+            $output->writeln("<info>{$sourceTable} has no \"{$maskColumn}\" column - already migrated, nothing to backfill.</info>");
+
+            return;
+        }
+
+        $languageTable = $this->resolveLanguageTableName($schemaManager);
 
         // MIN()/MAX() rather than COUNT()-based emptiness + a hardcoded lower bound of 1: some of
         // these tables (e.g. "ibexa_url_alias_ml" for root-level aliases) legitimately use 0 as a
@@ -175,7 +193,7 @@ EOT
 
         $output->writeln("<info>Backfilling {$sourceTable} ({$pkColumn} {$minId}..{$maxId}, batch size {$batchSize})...</info>");
 
-        $insertSql = sprintf($insertSql, $this->insertIgnoreKeyword(), $this->onConflictClause());
+        $insertSql = sprintf($insertSql, $this->insertIgnoreKeyword(), $languageTable, $this->onConflictClause());
         $totalInserted = 0;
 
         for ($from = $minId; $from <= $maxId; $from += $batchSize) {
@@ -183,7 +201,7 @@ EOT
 
             if ($dryRun) {
                 $inserted = (int)$this->connection->fetchOne(
-                    $this->buildDryRunCountSql($table),
+                    $this->buildDryRunCountSql($table, $languageTable),
                     ['from' => $from, 'to' => $to]
                 );
             } else {
@@ -213,32 +231,48 @@ EOT
      * again, including ones already present, and report them as "would be inserted" when a real run
      * would actually leave them untouched.
      */
-    private function buildDryRunCountSql(string $table): string
+    private function buildDryRunCountSql(string $table, string $languageTable): string
     {
         return match ($table) {
-            self::TABLE_CONTENT => 'SELECT COUNT(*) FROM ibexa_content c
-                 JOIN ibexa_content_language l ON (c.language_mask & l.id) = l.id
+            self::TABLE_CONTENT => "SELECT COUNT(*) FROM ibexa_content c
+                 JOIN {$languageTable} l ON (c.language_mask & l.id) = l.id
                  WHERE c.id BETWEEN :from AND :to
                  AND NOT EXISTS (
                      SELECT 1 FROM ibexa_content_translation t
                      WHERE t.content_id = c.id AND t.language_id = l.id
-                 )',
-            self::TABLE_CONTENT_VERSION => 'SELECT COUNT(*) FROM ibexa_content_version v
-                 JOIN ibexa_content_language l ON (v.language_mask & l.id) = l.id
+                 )",
+            self::TABLE_CONTENT_VERSION => "SELECT COUNT(*) FROM ibexa_content_version v
+                 JOIN {$languageTable} l ON (v.language_mask & l.id) = l.id
                  WHERE v.id BETWEEN :from AND :to
                  AND NOT EXISTS (
                      SELECT 1 FROM ibexa_content_version_translation t
                      WHERE t.content_version_id = v.id AND t.language_id = l.id
-                 )',
-            self::TABLE_URL_ALIAS => 'SELECT COUNT(*) FROM ibexa_url_alias_ml u
-                 JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id
+                 )",
+            self::TABLE_URL_ALIAS => "SELECT COUNT(*) FROM ibexa_url_alias_ml u
+                 JOIN {$languageTable} l ON (u.lang_mask & l.id) = l.id
                  WHERE u.parent BETWEEN :from AND :to
                  AND NOT EXISTS (
                      SELECT 1 FROM ibexa_url_alias_ml_translation t
                      WHERE t.parent = u.parent AND t.text_md5 = u.text_md5 AND t.language_id = l.id
-                 )',
+                 )",
             default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
         };
+    }
+
+    /**
+     * Not yet renamed to "ibexa_language" at the point in the real migration sequence where this
+     * command's logic normally runs (as part of BackfillLanguageTranslationsMigration) - that
+     * rename happens later, in NarrowLanguageIdColumnTypesMigration. When run manually/standalone
+     * after the full sequence (or against a fresh install, which starts from the renamed schema),
+     * the table is already "ibexa_language".
+     *
+     * @param AbstractSchemaManager<AbstractPlatform> $schemaManager
+     */
+    private function resolveLanguageTableName(AbstractSchemaManager $schemaManager): string
+    {
+        return $schemaManager->tablesExist(['ibexa_content_language'])
+            ? 'ibexa_content_language'
+            : 'ibexa_language';
     }
 
     private function insertIgnoreKeyword(): string

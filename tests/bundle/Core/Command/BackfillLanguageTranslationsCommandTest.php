@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Command;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Bundle\Core\Command\BackfillLanguageTranslationsCommand;
 use Ibexa\Bundle\Core\Command\VerifyLanguageTranslationsCommand;
@@ -209,6 +210,73 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
             [[1, 2], [2, 2], [2, 4]],
             $this->fetchPairs('ibexa_content_translation', 'content_id')
         );
+    }
+
+    /**
+     * Both commands are explicitly documented as usable standalone, outside of a migration run -
+     * but a schema that already completed the language bitmask migration (or a fresh install,
+     * which starts from that same final state) has neither the "ibexa_content_language" name nor
+     * the mask columns these commands' queries otherwise assume. Without a guard, that crashes with
+     * a raw "no such table"/"no such column" DB exception instead of reporting there is nothing to
+     * do.
+     */
+    public function testBackfillReportsNothingToDoOnAnAlreadyMigratedSchema(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->simulateFullyMigratedSchema($connection);
+
+        try {
+            $tester = new CommandTester(new BackfillLanguageTranslationsCommand($connection));
+            $exitCode = $tester->execute(['--table' => 'all']);
+
+            self::assertSame(0, $exitCode);
+            self::assertStringContainsString('already migrated, nothing to backfill', $tester->getDisplay());
+        } finally {
+            $this->restorePreMigrationSchema($connection);
+        }
+    }
+
+    public function testVerifyReportsNothingToDoOnAnAlreadyMigratedSchema(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->simulateFullyMigratedSchema($connection);
+
+        try {
+            $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection));
+            $exitCode = $tester->execute(['--table' => 'all']);
+
+            self::assertSame(0, $exitCode);
+            self::assertStringContainsString('already migrated, nothing to verify', $tester->getDisplay());
+        } finally {
+            $this->restorePreMigrationSchema($connection);
+        }
+    }
+
+    /**
+     * Undoes setUp()'s pre-migration simulation: renames the language table to its final name and
+     * drops the mask columns, matching the state a schema is in once DropLanguageBitmaskColumnsMigration
+     * and NarrowLanguageIdColumnTypesMigration have both run (or a fresh install, which never had
+     * them at all).
+     */
+    private function simulateFullyMigratedSchema(Connection $connection): void
+    {
+        $connection->executeStatement('ALTER TABLE ibexa_content_language RENAME TO ibexa_language');
+        $connection->executeStatement('ALTER TABLE ibexa_content DROP COLUMN language_mask');
+        $connection->executeStatement('ALTER TABLE ibexa_content_version DROP COLUMN language_mask');
+        $connection->executeStatement('ALTER TABLE ibexa_url_alias_ml DROP COLUMN lang_mask');
+    }
+
+    /**
+     * Mirror image of simulateFullyMigratedSchema(): restores the pre-migration state this class's
+     * own tearDown() (and the next test's setUp(), via the shared SQLite connection pool) expect to
+     * find.
+     */
+    private function restorePreMigrationSchema(Connection $connection): void
+    {
+        $connection->executeStatement('ALTER TABLE ibexa_language RENAME TO ibexa_content_language');
+        $connection->executeStatement('ALTER TABLE ibexa_content ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
+        $connection->executeStatement('ALTER TABLE ibexa_content_version ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
+        $connection->executeStatement('ALTER TABLE ibexa_url_alias_ml ADD COLUMN lang_mask INTEGER DEFAULT 0 NOT NULL');
     }
 
     /**
