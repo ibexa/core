@@ -30,6 +30,20 @@ interface SiteAccessServiceInterface
     public function getCurrent(): ?SiteAccess;
 
     /**
+     * Switches the current SiteAccess to $siteAccess, remembering the previous one so it can be
+     * restored later via restoreSiteAccess(). Dispatches a ScopeChangeEvent under
+     * MVCEvents::CONFIG_SCOPE_CHANGE. This is the supported way to change the current SiteAccess —
+     * do not dispatch that event manually.
+     */
+    public function changeSiteAccess(SiteAccess $siteAccess): SiteAccess;
+
+    /**
+     * Restores the SiteAccess that was current before the last changeSiteAccess() call.
+     * Dispatches a ScopeChangeEvent under MVCEvents::CONFIG_SCOPE_RESTORE.
+     */
+    public function restoreSiteAccess(): ?SiteAccess;
+
+    /**
      * Handles relation between SiteAccesses. Related SiteAccesses share the same repository and root location id.
      *
      * @return string[]

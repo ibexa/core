@@ -12,6 +12,7 @@ use Ibexa\Bundle\Core\Routing\DefaultRouter;
 use Ibexa\Bundle\Core\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -34,6 +35,8 @@ final class DefaultRouterTest extends TestCase
 
     private SiteAccess\SiteAccessRouterInterface&MockObject $siteAccessRouter;
 
+    private SiteAccessServiceInterface&MockObject $siteAccessService;
+
     private RequestContext $requestContext;
 
     protected function setUp(): void
@@ -41,13 +44,14 @@ final class DefaultRouterTest extends TestCase
         parent::setUp();
         $this->innerRouter = $this->createMock(Router::class);
         $this->siteAccessRouter = $this->createMock(SiteAccess\SiteAccessRouterInterface::class);
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
         $this->requestContext = new RequestContext();
         $this->innerRouter->method('getContext')->willReturnCallback(fn (): RequestContext => $this->requestContext);
     }
 
     private function createRouter(): DefaultRouter
     {
-        return new DefaultRouter($this->innerRouter, $this->siteAccessRouter, self::NON_SITEACCESS_AWARE_ROUTES);
+        return new DefaultRouter($this->innerRouter, $this->siteAccessRouter, $this->siteAccessService, self::NON_SITEACCESS_AWARE_ROUTES);
     }
 
     public function testMatchRequestWithSemanticPathinfo(): void
@@ -169,8 +173,8 @@ final class DefaultRouterTest extends TestCase
             substr($urlComponents['path'], 0, strpos($urlComponents['path'], $relevantUri))
         );
 
+        $this->siteAccessService->method('getCurrent')->willReturn(new SiteAccess($saName, 'test', $matcher));
         $router = $this->createRouter();
-        $router->setSiteAccess(new SiteAccess($saName, 'test', $matcher));
 
         self::assertSame($expectedUrl, $router->generate($routeName, [], $referenceType));
     }
@@ -214,8 +218,8 @@ final class DefaultRouterTest extends TestCase
             ->with($routeName, [])
             ->willReturn($urlGenerated);
 
+        $this->siteAccessService->method('getCurrent')->willReturn(new SiteAccess('test', 'test', $this->createMock(Matcher::class)));
         $router = $this->createRouter();
-        $router->setSiteAccess(new SiteAccess('test', 'test', $this->createMock(Matcher::class)));
 
         self::assertSame(
             $urlGenerated,
@@ -266,7 +270,7 @@ final class DefaultRouterTest extends TestCase
             ->with('/cache', '/build')
             ->willReturn(['/cache/routes.php']);
 
-        $router = new DefaultRouter($innerRouter, $this->siteAccessRouter);
+        $router = new DefaultRouter($innerRouter, $this->siteAccessRouter, $this->siteAccessService);
 
         self::assertSame(['/cache/routes.php'], $router->warmUp('/cache', '/build'));
     }

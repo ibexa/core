@@ -11,8 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Routing\RequestContext;
@@ -20,7 +19,7 @@ use Symfony\Component\Routing\RequestContext;
 /**
  * Persistence Cache layer for AliasGenerator.
  */
-class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
+class AliasGeneratorDecorator implements VariationHandler
 {
     private const IMAGE_VARIATION_IDENTIFIER = 'image_variation';
     private const IMAGE_VARIATION_SITEACCESS_IDENTIFIER = 'image_variation_siteaccess';
@@ -36,14 +35,13 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
     /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
     private $cache;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
-
     /** @var \Symfony\Component\Routing\RequestContext */
     private $requestContext;
 
     /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
     private $cacheIdentifierGenerator;
+
+    private SiteAccessServiceInterface $siteAccessService;
 
     /**
      * @param \Ibexa\Contracts\Core\Variation\VariationHandler $aliasGenerator
@@ -55,12 +53,14 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
         VariationHandler $aliasGenerator,
         TagAwareAdapterInterface $cache,
         RequestContext $requestContext,
-        CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
+        CacheIdentifierGeneratorInterface $cacheIdentifierGenerator,
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->aliasGenerator = $aliasGenerator;
         $this->cache = $cache;
         $this->requestContext = $requestContext;
         $this->cacheIdentifierGenerator = $cacheIdentifierGenerator;
+        $this->siteAccessService = $siteAccessService;
     }
 
     /**
@@ -88,14 +88,6 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
-     */
-    public function setSiteAccess(?SiteAccess $siteAccess = null)
-    {
-        $this->siteAccess = $siteAccess;
-    }
-
-    /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      * @param string $variationName
@@ -104,9 +96,11 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
      */
     private function getCacheKey(Field $field, VersionInfo $versionInfo, $variationName): string
     {
+        $siteAccess = $this->siteAccessService->getCurrent();
+
         return sprintf(
             $this->cacheIdentifierGenerator->generateKey(self::IMAGE_VARIATION_IDENTIFIER, [], true) . '-%s-%s-%s-%d-%d-%d-%s-%s',
-            $this->siteAccess->name ?? 'default',
+            $siteAccess !== null ? $siteAccess->name : 'default',
             $this->requestContext->getScheme(),
             $this->requestContext->getHost(),
             $this->requestContext->getScheme() === 'https' ? $this->requestContext->getHttpsPort() : $this->requestContext->getHttpPort(),
@@ -120,11 +114,12 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
     private function getTagsForVariation(Field $field, VersionInfo $versionInfo, string $variationName): array
     {
         $contentId = $versionInfo->getContentInfo()->id;
+        $siteAccess = $this->siteAccessService->getCurrent();
 
         return [
             $this->cacheIdentifierGenerator->generateTag(self::IMAGE_VARIATION_IDENTIFIER),
             $this->cacheIdentifierGenerator->generateTag(self::IMAGE_VARIATION_NAME_IDENTIFIER, [$variationName]),
-            $this->cacheIdentifierGenerator->generateTag(self::IMAGE_VARIATION_SITEACCESS_IDENTIFIER, [$this->siteAccess->name ?? 'default']),
+            $this->cacheIdentifierGenerator->generateTag(self::IMAGE_VARIATION_SITEACCESS_IDENTIFIER, [$siteAccess !== null ? $siteAccess->name : 'default']),
             $this->cacheIdentifierGenerator->generateTag(self::IMAGE_VARIATION_CONTENT_IDENTIFIER, [$contentId]),
             $this->cacheIdentifierGenerator->generateTag(self::IMAGE_VARIATION_FIELD_IDENTIFIER, [$field->id]),
             $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$contentId]),
