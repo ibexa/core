@@ -12,14 +12,13 @@ use Doctrine\Migrations\Provider\SchemaProvider;
 use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RegisterSchemaBuilderEventSchemaProviderPass;
 use Ibexa\Bundle\RepositoryInstaller\Migration\SchemaBuilderEventSchemaProvider;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RegisterSchemaBuilderEventSchemaProviderPass
- */
+#[CoversClass(RegisterSchemaBuilderEventSchemaProviderPass::class)]
 final class RegisterSchemaBuilderEventSchemaProviderPassTest extends TestCase
 {
     public function testWiresSchemaProviderOntoIbexaOnlyDependencyFactory(): void

@@ -43,9 +43,6 @@ class IbexaInstallerExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\IbexaRepositoryInstallerExtension::load
-     */
     public function testLoadRegistersTaggedDoctrineMigrationsSchemaHookInTestEnvironment(): void
     {
         $this->container->setParameter('kernel.environment', 'test');
@@ -59,9 +56,6 @@ class IbexaInstallerExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\IbexaRepositoryInstallerExtension::load
-     */
     public function testLoadSkipsDoctrineMigrationsSchemaHookOutsideTestEnvironment(): void
     {
         $this->load();

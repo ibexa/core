@@ -13,6 +13,7 @@ use Doctrine\Migrations\Metadata\MigrationPlanList;
 use Doctrine\Migrations\MigratorConfiguration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Throwable;
 
 /**
@@ -45,9 +46,14 @@ final class TaggedMigrationsRunner
 {
     private DependencyFactory $dependencyFactory;
 
-    public function __construct(DependencyFactory $dependencyFactory)
-    {
+    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
+
+    public function __construct(
+        DependencyFactory $dependencyFactory,
+        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
+    ) {
         $this->dependencyFactory = $dependencyFactory;
+        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
     }
 
     /**
@@ -71,6 +77,7 @@ final class TaggedMigrationsRunner
         $latestVersion = end($availableMigrations)->getVersion();
         $plan = $planCalculator->getPlanUntilVersion($latestVersion);
 
+        $connection = $this->dependencyFactory->getConnection();
         $migrator = $this->dependencyFactory->getMigrator();
         $migratorConfiguration = new MigratorConfiguration();
 
@@ -79,9 +86,16 @@ final class TaggedMigrationsRunner
             // One migration per migrate() call, so that a failure can name the migration it came
             // from - Doctrine's executor logs it, but rethrows the original error as it was.
             try {
-                $queriesByVersion = $migrator->migrate(
-                    new MigrationPlanList([$migrationPlan], $plan->getDirection()),
-                    $migratorConfiguration
+                // With the connection's schema assets filter lifted: it hides every table without an
+                // ORM entity behind it (i.e. nearly all of them) from the schema the executor
+                // introspects, which would make migrations' hasTable() guards think they don't exist.
+                /** @var array<string, \Doctrine\Migrations\Query\Query[]> $queriesByVersion */
+                $queriesByVersion = $this->schemaAssetsFilterBypass->call(
+                    $connection,
+                    static fn (): array => $migrator->migrate(
+                        new MigrationPlanList([$migrationPlan], $plan->getDirection()),
+                        $migratorConfiguration
+                    )
                 );
             } catch (Throwable $e) {
                 throw new MigrationFailedException((string)$migrationPlan->getVersion(), $e);

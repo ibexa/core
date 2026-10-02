@@ -12,13 +12,12 @@ use Ibexa\Bundle\RepositoryInstaller\Bootstrapper\DoctrineMigrationsSchemaHook;
 use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RemoveTaggedMigrationsRunnerPass;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-/**
- * @covers \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RemoveTaggedMigrationsRunnerPass
- */
+#[CoversClass(RemoveTaggedMigrationsRunnerPass::class)]
 final class RemoveTaggedMigrationsRunnerPassTest extends TestCase
 {
     public function testRemovesRunnerAndItsDependentsWhenDependencyFactoryIsMissing(): void

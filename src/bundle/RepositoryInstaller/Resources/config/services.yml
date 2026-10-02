@@ -13,6 +13,7 @@ services:
             # Not defined here, since it belongs to that package, not this one.
             # Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory::SERVICE_ID
             $dependencyFactory: '@ibexa.doctrine_migrations.dependency_factory.ibexa_migrations_only'
+            $schemaAssetsFilterBypass: '@Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
 
     Ibexa\Bundle\RepositoryInstaller\Migration\SchemaBuilderEventSchemaProvider:
         autowire: true
