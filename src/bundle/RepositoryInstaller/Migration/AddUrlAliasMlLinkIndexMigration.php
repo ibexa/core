@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
-use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 /**
  * Adds the missing "link" index to "ezurlalias_ml" (IBX-8125, originally shipped via installer's
@@ -30,7 +30,7 @@ final class AddUrlAliasMlLinkIndexMigration extends AbstractSqlMigration impleme
 
     public static function getTargetVersion(): string
     {
-        return '4.6.0';
+        return '4.6.21';
     }
 
     public static function getCreationDate(): DateTimeImmutable
@@ -40,13 +40,13 @@ final class AddUrlAliasMlLinkIndexMigration extends AbstractSqlMigration impleme
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(DatabasePlatformName::MySQL, DatabasePlatformName::PostgreSQL, DatabasePlatformName::SQLite);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         if (!$schema->hasTable('ezurlalias_ml') || $schema->getTable('ezurlalias_ml')->hasIndex('ezurlalias_ml_link')) {
             return;
         }
 
-        if ($this->isMySQL()) {
+        if ($this->isMySQL() || $this->isMariaDB()) {
             $this->addSqlFile(__DIR__ . '/sql/add-urlalias-ml-link-index-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
             $this->addSqlFile(__DIR__ . '/sql/add-urlalias-ml-link-index-postgresql.sql');
