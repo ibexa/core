@@ -30,7 +30,7 @@ final class AddUrlAliasMlLinkIndexMigration extends AbstractSqlMigration impleme
 
     public static function getTargetVersion(): string
     {
-        return '4.6.0';
+        return '4.6.21';
     }
 
     public static function getCreationDate(): DateTimeImmutable
