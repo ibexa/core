@@ -126,6 +126,9 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "*": false
+        },
+        "audit": {
+            "ignore": ["PKSA-w9tt-7782-78jx"]
         }
     },
     "scripts": {

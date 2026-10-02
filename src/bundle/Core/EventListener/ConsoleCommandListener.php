@@ -8,16 +8,13 @@
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
-use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
-use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAware
+class ConsoleCommandListener implements EventSubscriberInterface
 {
     /** @var string */
     private $defaultSiteAccessName;
@@ -25,11 +22,7 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
     private $siteAccessProvider;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess|null */
-    private $siteAccess;
+    private SiteAccessServiceInterface $siteAccessService;
 
     /** @var bool */
     private $debug;
@@ -37,12 +30,12 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
     public function __construct(
         string $defaultSiteAccessName,
         SiteAccess\SiteAccessProviderInterface $siteAccessProvider,
-        EventDispatcherInterface $eventDispatcher,
+        SiteAccessServiceInterface $siteAccessService,
         bool $debug = false
     ) {
         $this->defaultSiteAccessName = $defaultSiteAccessName;
         $this->siteAccessProvider = $siteAccessProvider;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->siteAccessService = $siteAccessService;
         $this->debug = $debug;
     }
 
@@ -57,24 +50,19 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
 
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
-        $this->siteAccess->name = $event->getInput()->getParameterOption('--siteaccess', $this->defaultSiteAccessName);
-        $this->siteAccess->matchingType = 'cli';
+        $siteAccessName = $event->getInput()->getParameterOption('--siteaccess', $this->defaultSiteAccessName);
+        $siteAccess = new SiteAccess($siteAccessName, 'cli');
 
-        if (!$this->siteAccessProvider->isDefined($this->siteAccess->name)) {
+        if (!$this->siteAccessProvider->isDefined($siteAccess->name)) {
             throw new InvalidSiteAccessException(
-                $this->siteAccess->name,
+                $siteAccess->name,
                 $this->siteAccessProvider,
-                $this->siteAccess->matchingType,
+                $siteAccess->matchingType,
                 $this->debug
             );
         }
 
-        $this->eventDispatcher->dispatch(new ScopeChangeEvent($this->siteAccess), MVCEvents::CONFIG_SCOPE_CHANGE);
-    }
-
-    public function setSiteAccess(?SiteAccess $siteAccess = null)
-    {
-        $this->siteAccess = $siteAccess;
+        $this->siteAccessService->changeSiteAccess($siteAccess);
     }
 
     public function setDebug($debug = false)
