@@ -6,11 +6,11 @@ INSERT INTO "ibexa_object_state_group" ("default_language_id", "id", "identifier
 VALUES (2, 2, 'ibexa_lock');
 
 INSERT INTO "ibexa_object_state_group_language" ("contentobject_state_group_id", "description","language_id", "name", "real_language_id")
-VALUES (2, '', 3, 'Lock', 2);
+VALUES (2, '', 2, 'Lock', 2);
 
 INSERT INTO "ibexa_object_state_language" ("contentobject_state_id", "description", "language_id", "name")
-VALUES (1,'',3,'Not locked'),
-       (2,'',3,'Locked');
+VALUES (1,'',2,'Not locked'),
+       (2,'',2,'Locked');
 
 INSERT INTO "ibexa_object_state_link" ("contentobject_id", "contentobject_state_id")
 VALUES ( 1, 1),
@@ -73,11 +73,11 @@ VALUES (1,0,1,'Content'),
 
 INSERT INTO "ibexa_content_type_name" ("content_type_id", "content_type_status", "language_id", "language_locale", "name")
 VALUES (1,0,2,'eng-GB','Folder'),
-       (2,0,3,'eng-GB','Article'),
-       (3,0,3,'eng-GB','User group'),
-       (4,0,3,'eng-GB','User'),
-       (5,0,3,'eng-GB','Image'),
-       (12,0,3,'eng-GB','File');
+       (2,0,2,'eng-GB','Article'),
+       (3,0,2,'eng-GB','User group'),
+       (4,0,2,'eng-GB','User'),
+       (5,0,2,'eng-GB','Image'),
+       (12,0,2,'eng-GB','File');
 
 INSERT INTO "ibexa_content_type_group" ("created", "creator_id", "id", "modified", "modifier_id", "name")
 VALUES (1031216928, 14, 1, 1033922106, 14, 'Content'),
@@ -113,60 +113,60 @@ VALUES (1,2),
        (51,2);
 
 INSERT INTO "ibexa_content_field" ("attribute_original_id", "content_type_field_definition_id", "contentobject_id", "data_float", "data_int", "data_text", "data_type_string", "id", "language_code", "language_id", "sort_key_int", "sort_key_string", "version")
-VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ibexa_string',1,'eng-GB',3,0,'ibexa platform',9),
-       (0,119,1,NULL,NULL,E'<?xml version="1.0" encoding="UTF-8"?><section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"><para><emphasis role="strong">You are now ready to start your project.</emphasis></para></section>','ibexa_richtext',2,'eng-GB',3,0,'',9),
-       (0,7,4,NULL,NULL,'Main group','ibexa_string',7,'eng-GB',3,0,'',1),
-       (0,6,4,NULL,NULL,'Users','ibexa_string',8,'eng-GB',3,0,'',1),
-       (0,8,10,0,0,'Anonymous','ibexa_string',19,'eng-GB',3,0,'anonymous',2),
-       (0,9,10,0,0,'User','ibexa_string',20,'eng-GB',3,0,'user',2),
-       (0,12,10,0,0,'','ibexa_user',21,'eng-GB',3,0,'',2),
-       (0,6,11,0,0,'Guest accounts','ibexa_string',22,'eng-GB',3,0,'',1),
-       (0,7,11,0,0,'','ibexa_string',23,'eng-GB',3,0,'',1),
-       (0,6,12,0,0,'Administrator users','ibexa_string',24,'eng-GB',3,0,'',1),
-       (0,7,12,0,0,'','ibexa_string',25,'eng-GB',3,0,'',1),
-       (0,6,13,0,0,'Editors','ibexa_string',26,'eng-GB',3,0,'',1),
-       (0,7,13,0,0,'','ibexa_string',27,'eng-GB',3,0,'',1),
-       (0,8,14,0,0,'Administrator','ibexa_string',28,'eng-GB',3,0,'administrator',3),
-       (0,9,14,0,0,'User','ibexa_string',29,'eng-GB',3,0,'user',3),
-       (30,12,14,0,0,'','ibexa_user',30,'eng-GB',3,0,'',3),
-       (0,4,41,0,0,'Media','ibexa_string',98,'eng-GB',3,0,'',1),
-       (0,119,41,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',99,'eng-GB',3,0,'',1),
-       (0,6,42,0,0,'Anonymous users','ibexa_string',100,'eng-GB',3,0,'anonymous users',1),
-       (0,7,42,0,0,'User group for the anonymous user','ibexa_string',101,'eng-GB',3,0,'user group for the anonymous user',1),
-       (0,155,1,NULL,NULL,'Ibexa Platform','ibexa_string',102,'eng-GB',3,0,'ibexa platform',9),
-       (0,155,41,0,0,'','ibexa_string',103,'eng-GB',3,0,'',1),
-       (0,156,1,NULL,NULL,E'<?xml version="1.0" encoding="UTF-8"?><section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"><para>This is the clean installation coming with Ibexa Platform.</para><para>It''s a bare-bones setup of the Platform, an excellent foundation to build upon if you want to start your project from scratch.</para></section>','ibexa_richtext',104,'eng-GB',3,0,'',9),
-       (0,156,41,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',105,'eng-GB',3,0,'',1),
-       (0,4,49,0,0,'Images','ibexa_string',142,'eng-GB',3,0,'images',1),
-       (0,155,49,0,0,'','ibexa_string',143,'eng-GB',3,0,'',1),
-       (0,119,49,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',144,'eng-GB',3,0,'',1),
-       (0,156,49,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',145,'eng-GB',3,0,'',1),
-       (0,4,50,0,0,'Files','ibexa_string',147,'eng-GB',3,0,'files',1),
-       (0,155,50,0,0,'','ibexa_string',148,'eng-GB',3,0,'',1),
-       (0,119,50,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',149,'eng-GB',3,0,'',1),
-       (0,156,50,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',150,'eng-GB',3,0,'',1),
-       (0,4,51,0,0,'Multimedia','ibexa_string',152,'eng-GB',3,0,'multimedia',1),
-       (0,155,51,0,0,'','ibexa_string',153,'eng-GB',3,0,'',1),
-       (0,119,51,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',154,'eng-GB',3,0,'',1),
-       (0,156,51,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',155,'eng-GB',3,0,'',1),
-       (0,179,10,0,0,'','ibexa_text',177,'eng-GB',3,0,'',2),
-       (0,179,14,0,0,'','ibexa_text',178,'eng-GB',3,0,'',3),
-       (0,180,10,0,0,'','ibexa_image',179,'eng-GB',3,0,'',2),
-       (0,180,14,0,0,E'<?xml version="1.0" encoding="utf-8"?>\n<ezimage serial_number="1" is_valid="" filename="" suffix="" basename="" dirpath="" url="" original_filename="" mime_type="" width="" height="" alternative_text="" alias_key="1293033771" timestamp="1301057722"><original attribute_id="180" attribute_version="3" attribute_language="eng-GB"/></ezimage>\n','ibexa_image',180,'eng-GB',3,0,'',3);
+VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ibexa_string',1,'eng-GB',2,0,'ibexa platform',9),
+       (0,119,1,NULL,NULL,E'<?xml version="1.0" encoding="UTF-8"?><section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"><para><emphasis role="strong">You are now ready to start your project.</emphasis></para></section>','ibexa_richtext',2,'eng-GB',2,0,'',9),
+       (0,7,4,NULL,NULL,'Main group','ibexa_string',7,'eng-GB',2,0,'',1),
+       (0,6,4,NULL,NULL,'Users','ibexa_string',8,'eng-GB',2,0,'',1),
+       (0,8,10,0,0,'Anonymous','ibexa_string',19,'eng-GB',2,0,'anonymous',2),
+       (0,9,10,0,0,'User','ibexa_string',20,'eng-GB',2,0,'user',2),
+       (0,12,10,0,0,'','ibexa_user',21,'eng-GB',2,0,'',2),
+       (0,6,11,0,0,'Guest accounts','ibexa_string',22,'eng-GB',2,0,'',1),
+       (0,7,11,0,0,'','ibexa_string',23,'eng-GB',2,0,'',1),
+       (0,6,12,0,0,'Administrator users','ibexa_string',24,'eng-GB',2,0,'',1),
+       (0,7,12,0,0,'','ibexa_string',25,'eng-GB',2,0,'',1),
+       (0,6,13,0,0,'Editors','ibexa_string',26,'eng-GB',2,0,'',1),
+       (0,7,13,0,0,'','ibexa_string',27,'eng-GB',2,0,'',1),
+       (0,8,14,0,0,'Administrator','ibexa_string',28,'eng-GB',2,0,'administrator',3),
+       (0,9,14,0,0,'User','ibexa_string',29,'eng-GB',2,0,'user',3),
+       (30,12,14,0,0,'','ibexa_user',30,'eng-GB',2,0,'',3),
+       (0,4,41,0,0,'Media','ibexa_string',98,'eng-GB',2,0,'',1),
+       (0,119,41,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',99,'eng-GB',2,0,'',1),
+       (0,6,42,0,0,'Anonymous users','ibexa_string',100,'eng-GB',2,0,'anonymous users',1),
+       (0,7,42,0,0,'User group for the anonymous user','ibexa_string',101,'eng-GB',2,0,'user group for the anonymous user',1),
+       (0,155,1,NULL,NULL,'Ibexa Platform','ibexa_string',102,'eng-GB',2,0,'ibexa platform',9),
+       (0,155,41,0,0,'','ibexa_string',103,'eng-GB',2,0,'',1),
+       (0,156,1,NULL,NULL,E'<?xml version="1.0" encoding="UTF-8"?><section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"><para>This is the clean installation coming with Ibexa Platform.</para><para>It''s a bare-bones setup of the Platform, an excellent foundation to build upon if you want to start your project from scratch.</para></section>','ibexa_richtext',104,'eng-GB',2,0,'',9),
+       (0,156,41,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',105,'eng-GB',2,0,'',1),
+       (0,4,49,0,0,'Images','ibexa_string',142,'eng-GB',2,0,'images',1),
+       (0,155,49,0,0,'','ibexa_string',143,'eng-GB',2,0,'',1),
+       (0,119,49,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',144,'eng-GB',2,0,'',1),
+       (0,156,49,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',145,'eng-GB',2,0,'',1),
+       (0,4,50,0,0,'Files','ibexa_string',147,'eng-GB',2,0,'files',1),
+       (0,155,50,0,0,'','ibexa_string',148,'eng-GB',2,0,'',1),
+       (0,119,50,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',149,'eng-GB',2,0,'',1),
+       (0,156,50,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',150,'eng-GB',2,0,'',1),
+       (0,4,51,0,0,'Multimedia','ibexa_string',152,'eng-GB',2,0,'multimedia',1),
+       (0,155,51,0,0,'','ibexa_string',153,'eng-GB',2,0,'',1),
+       (0,119,51,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',154,'eng-GB',2,0,'',1),
+       (0,156,51,0,1045487555,E'<?xml version="1.0" encoding="UTF-8"?>\n<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"/>\n','ibexa_richtext',155,'eng-GB',2,0,'',1),
+       (0,179,10,0,0,'','ibexa_text',177,'eng-GB',2,0,'',2),
+       (0,179,14,0,0,'','ibexa_text',178,'eng-GB',2,0,'',3),
+       (0,180,10,0,0,'','ibexa_image',179,'eng-GB',2,0,'',2),
+       (0,180,14,0,0,E'<?xml version="1.0" encoding="utf-8"?>\n<ezimage serial_number="1" is_valid="" filename="" suffix="" basename="" dirpath="" url="" original_filename="" mime_type="" width="" height="" alternative_text="" alias_key="1293033771" timestamp="1301057722"><original attribute_id="180" attribute_version="3" attribute_language="eng-GB"/></ezimage>\n','ibexa_image',180,'eng-GB',2,0,'',3);
 
 INSERT INTO "ibexa_content_name" ("content_translation", "content_version", "contentobject_id", "language_id", "name", "real_translation")
 VALUES ('eng-GB',9,1,2,'Ibexa Platform','eng-GB'),
-       ('eng-GB',1,4,3,'Users','eng-GB'),
-       ('eng-GB',2,10,3,'Anonymous User','eng-GB'),
-       ('eng-GB',1,11,3,'Guest accounts','eng-GB'),
-       ('eng-GB',1,12,3,'Administrator users','eng-GB'),
-       ('eng-GB',1,13,3,'Editors','eng-GB'),
-       ('eng-GB',3,14,3,'Administrator User','eng-GB'),
-       ('eng-GB',1,41,3,'Media','eng-GB'),
-       ('eng-GB',1,42,3,'Anonymous users','eng-GB'),
-       ('eng-GB',1,49,3,'Images','eng-GB'),
-       ('eng-GB',1,50,3,'Files','eng-GB'),
-       ('eng-GB',1,51,3,'Multimedia','eng-GB');
+       ('eng-GB',1,4,2,'Users','eng-GB'),
+       ('eng-GB',2,10,2,'Anonymous User','eng-GB'),
+       ('eng-GB',1,11,2,'Guest accounts','eng-GB'),
+       ('eng-GB',1,12,2,'Administrator users','eng-GB'),
+       ('eng-GB',1,13,2,'Editors','eng-GB'),
+       ('eng-GB',3,14,2,'Administrator User','eng-GB'),
+       ('eng-GB',1,41,2,'Media','eng-GB'),
+       ('eng-GB',1,42,2,'Anonymous users','eng-GB'),
+       ('eng-GB',1,49,2,'Images','eng-GB'),
+       ('eng-GB',1,50,2,'Files','eng-GB'),
+       ('eng-GB',1,51,2,'Multimedia','eng-GB');
 
 INSERT INTO "ibexa_content_tree" ("contentobject_id", "contentobject_is_published", "contentobject_version", "depth", "is_hidden", "is_invisible", "main_node_id", "modified_subnode", "node_id", "parent_node_id", "path_identification_string", "path_string", "priority", "remote_id", "sort_field", "sort_order")
 VALUES (0,1,1,0,0,0,1,1448999778,1,1,'','/1/',0,'629709ba256fe317c3ddcee35453a96a',1,1),

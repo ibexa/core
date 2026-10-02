@@ -47,12 +47,7 @@ class Mapper
 
         $languageIds = [(int)$data[0]['ibexa_object_state_default_language_id']];
         foreach ($data as $stateTranslation) {
-            $rawLanguageId = (int)$stateTranslation['ibexa_object_state_language_language_id'];
-            $languageIds[] = $rawLanguageId;
-            // Fixtures predating always_available becoming a plain column may still carry the
-            // legacy "always available" bit 0 folded into this id - load both forms and prefer
-            // whichever actually resolves (see resolveLanguageId()).
-            $languageIds[] = $rawLanguageId & ~1;
+            $languageIds[] = (int)$stateTranslation['ibexa_object_state_language_language_id'];
         }
         $languages = iterator_to_array($this->languageHandler->loadList(array_unique($languageIds)));
 
@@ -67,24 +62,13 @@ class Mapper
         $objectState->description = [];
 
         foreach ($data as $stateTranslation) {
-            $languageCode = $languages[$this->resolveLanguageId(
-                (int)$stateTranslation['ibexa_object_state_language_language_id'],
-                $languages
-            )]->languageCode;
+            $languageCode = $languages[(int)$stateTranslation['ibexa_object_state_language_language_id']]->languageCode;
             $objectState->languageCodes[] = $languageCode;
             $objectState->name[$languageCode] = $stateTranslation['ibexa_object_state_language_name'];
             $objectState->description[$languageCode] = $stateTranslation['ibexa_object_state_language_description'];
         }
 
         return $objectState;
-    }
-
-    /**
-     * @param array<int, \Ibexa\Contracts\Core\Persistence\Content\Language> $languages
-     */
-    private function resolveLanguageId(int $rawLanguageId, array $languages): int
-    {
-        return isset($languages[$rawLanguageId]) ? $rawLanguageId : ($rawLanguageId & ~1);
     }
 
     /**

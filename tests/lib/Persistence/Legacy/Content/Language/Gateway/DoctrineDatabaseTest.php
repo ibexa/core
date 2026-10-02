@@ -196,26 +196,6 @@ class DoctrineDatabaseTest extends TestCase
         self::assertFalse($gateway->canDeleteLanguage(65));
     }
 
-    public function testCanDeleteLanguageDetectsLegacyAlwaysAvailableTaintedValue(): void
-    {
-        $gateway = $this->getDatabaseGateway();
-        $connection = $this->getDatabaseConnection();
-
-        // Only language 64 is real; no language 65 exists. A row carrying value 65 in an indicator
-        // column can only be legacy data where 64's always-available bit was folded in (64|1 = 65),
-        // so it must still count as "language 64 is in use".
-        $connection->insert(
-            Gateway::CONTENT_LANGUAGE_TABLE,
-            ['id' => 64, 'locale' => 'fr-FR', 'name' => 'Francais (France)', 'disabled' => 0]
-        );
-        $connection->insert(
-            'ibexa_object_state_language',
-            ['contentobject_state_id' => 1, 'language_id' => 65, 'description' => '', 'name' => 'x']
-        );
-
-        self::assertFalse($gateway->canDeleteLanguage(64));
-    }
-
     /**
      * Return a ready to test DoctrineDatabase gateway.
      */
