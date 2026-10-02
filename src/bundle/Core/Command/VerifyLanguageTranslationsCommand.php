@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -50,93 +52,108 @@ final class VerifyLanguageTranslationsCommand extends Command
     ];
 
     /**
-     * @var array<string, array{missing: string, orphaned: string, fixMissing: string, fixOrphaned: string}>
+     * Table => [source table carrying the legacy mask, mask column].
+     *
+     * @var array<string, array{0: string, 1: string}>
      */
-    private const QUERIES = [
-        self::TABLE_CONTENT => [
-            'missing' => 'SELECT COUNT(*) FROM ibexa_content c
-                JOIN ibexa_content_language l ON (c.language_mask & l.id) = l.id
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_content_translation ct
-                    WHERE ct.content_id = c.id AND ct.language_id = l.id
-                )',
-            'orphaned' => 'SELECT COUNT(*) FROM ibexa_content_translation ct
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_content c
-                    WHERE c.id = ct.content_id AND (c.language_mask & ct.language_id) = ct.language_id
-                )',
-            'fixMissing' => 'INSERT INTO ibexa_content_translation (content_id, language_id)
-                SELECT c.id, l.id FROM ibexa_content c
-                JOIN ibexa_content_language l ON (c.language_mask & l.id) = l.id
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_content_translation ct
-                    WHERE ct.content_id = c.id AND ct.language_id = l.id
-                )',
-            // No alias on the DELETE target: SQLite's DELETE FROM does not accept one.
-            'fixOrphaned' => 'DELETE FROM ibexa_content_translation
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_content c
-                    WHERE c.id = ibexa_content_translation.content_id
-                        AND (c.language_mask & ibexa_content_translation.language_id) = ibexa_content_translation.language_id
-                )',
-        ],
-        self::TABLE_CONTENT_VERSION => [
-            'missing' => 'SELECT COUNT(*) FROM ibexa_content_version v
-                JOIN ibexa_content_language l ON (v.language_mask & l.id) = l.id
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_content_version_translation vt
-                    WHERE vt.content_version_id = v.id AND vt.language_id = l.id
-                )',
-            'orphaned' => 'SELECT COUNT(*) FROM ibexa_content_version_translation vt
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_content_version v
-                    WHERE v.id = vt.content_version_id AND (v.language_mask & vt.language_id) = vt.language_id
-                )',
-            'fixMissing' => 'INSERT INTO ibexa_content_version_translation (content_version_id, language_id)
-                SELECT v.id, l.id FROM ibexa_content_version v
-                JOIN ibexa_content_language l ON (v.language_mask & l.id) = l.id
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_content_version_translation vt
-                    WHERE vt.content_version_id = v.id AND vt.language_id = l.id
-                )',
-            // No alias on the DELETE target: SQLite's DELETE FROM does not accept one.
-            'fixOrphaned' => 'DELETE FROM ibexa_content_version_translation
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_content_version v
-                    WHERE v.id = ibexa_content_version_translation.content_version_id
-                        AND (v.language_mask & ibexa_content_version_translation.language_id) = ibexa_content_version_translation.language_id
-                )',
-        ],
-        self::TABLE_URL_ALIAS => [
-            'missing' => 'SELECT COUNT(*) FROM ibexa_url_alias_ml u
-                JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_url_alias_ml_translation ut
-                    WHERE ut.parent = u.parent AND ut.text_md5 = u.text_md5 AND ut.language_id = l.id
-                )',
-            'orphaned' => 'SELECT COUNT(*) FROM ibexa_url_alias_ml_translation ut
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_url_alias_ml u
-                    WHERE u.parent = ut.parent AND u.text_md5 = ut.text_md5
-                        AND (u.lang_mask & ut.language_id) = ut.language_id
-                )',
-            'fixMissing' => 'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
-                SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
-                JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_url_alias_ml_translation ut
-                    WHERE ut.parent = u.parent AND ut.text_md5 = u.text_md5 AND ut.language_id = l.id
-                )',
-            // No alias on the DELETE target: SQLite's DELETE FROM does not accept one.
-            'fixOrphaned' => 'DELETE FROM ibexa_url_alias_ml_translation
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM ibexa_url_alias_ml u
-                    WHERE u.parent = ibexa_url_alias_ml_translation.parent
-                        AND u.text_md5 = ibexa_url_alias_ml_translation.text_md5
-                        AND (u.lang_mask & ibexa_url_alias_ml_translation.language_id) = ibexa_url_alias_ml_translation.language_id
-                )',
-        ],
+    private const SOURCE_TABLES = [
+        self::TABLE_CONTENT => ['ibexa_content', 'language_mask'],
+        self::TABLE_CONTENT_VERSION => ['ibexa_content_version', 'language_mask'],
+        self::TABLE_URL_ALIAS => ['ibexa_url_alias_ml', 'lang_mask'],
     ];
+
+    /**
+     * @return array{missing: string, orphaned: string, fixMissing: string, fixOrphaned: string}
+     */
+    private function buildQueries(string $table, string $languageTable): array
+    {
+        return match ($table) {
+            self::TABLE_CONTENT => [
+                'missing' => "SELECT COUNT(*) FROM ibexa_content c
+                    JOIN {$languageTable} l ON (c.language_mask & l.id) = l.id
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_content_translation ct
+                        WHERE ct.content_id = c.id AND ct.language_id = l.id
+                    )",
+                'orphaned' => 'SELECT COUNT(*) FROM ibexa_content_translation ct
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_content c
+                        WHERE c.id = ct.content_id AND (c.language_mask & ct.language_id) = ct.language_id
+                    )',
+                'fixMissing' => "INSERT INTO ibexa_content_translation (content_id, language_id)
+                    SELECT c.id, l.id FROM ibexa_content c
+                    JOIN {$languageTable} l ON (c.language_mask & l.id) = l.id
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_content_translation ct
+                        WHERE ct.content_id = c.id AND ct.language_id = l.id
+                    )",
+                // No alias on the DELETE target: SQLite's DELETE FROM does not accept one.
+                'fixOrphaned' => 'DELETE FROM ibexa_content_translation
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_content c
+                        WHERE c.id = ibexa_content_translation.content_id
+                            AND (c.language_mask & ibexa_content_translation.language_id) = ibexa_content_translation.language_id
+                    )',
+            ],
+            self::TABLE_CONTENT_VERSION => [
+                'missing' => "SELECT COUNT(*) FROM ibexa_content_version v
+                    JOIN {$languageTable} l ON (v.language_mask & l.id) = l.id
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_content_version_translation vt
+                        WHERE vt.content_version_id = v.id AND vt.language_id = l.id
+                    )",
+                'orphaned' => 'SELECT COUNT(*) FROM ibexa_content_version_translation vt
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_content_version v
+                        WHERE v.id = vt.content_version_id AND (v.language_mask & vt.language_id) = vt.language_id
+                    )',
+                'fixMissing' => "INSERT INTO ibexa_content_version_translation (content_version_id, language_id)
+                    SELECT v.id, l.id FROM ibexa_content_version v
+                    JOIN {$languageTable} l ON (v.language_mask & l.id) = l.id
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_content_version_translation vt
+                        WHERE vt.content_version_id = v.id AND vt.language_id = l.id
+                    )",
+                // No alias on the DELETE target: SQLite's DELETE FROM does not accept one.
+                'fixOrphaned' => 'DELETE FROM ibexa_content_version_translation
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_content_version v
+                        WHERE v.id = ibexa_content_version_translation.content_version_id
+                            AND (v.language_mask & ibexa_content_version_translation.language_id) = ibexa_content_version_translation.language_id
+                    )',
+            ],
+            self::TABLE_URL_ALIAS => [
+                'missing' => "SELECT COUNT(*) FROM ibexa_url_alias_ml u
+                    JOIN {$languageTable} l ON (u.lang_mask & l.id) = l.id
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_url_alias_ml_translation ut
+                        WHERE ut.parent = u.parent AND ut.text_md5 = u.text_md5 AND ut.language_id = l.id
+                    )",
+                'orphaned' => 'SELECT COUNT(*) FROM ibexa_url_alias_ml_translation ut
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_url_alias_ml u
+                        WHERE u.parent = ut.parent AND u.text_md5 = ut.text_md5
+                            AND (u.lang_mask & ut.language_id) = ut.language_id
+                    )',
+                'fixMissing' => "INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
+                    SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
+                    JOIN {$languageTable} l ON (u.lang_mask & l.id) = l.id
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_url_alias_ml_translation ut
+                        WHERE ut.parent = u.parent AND ut.text_md5 = u.text_md5 AND ut.language_id = l.id
+                    )",
+                // No alias on the DELETE target: SQLite's DELETE FROM does not accept one.
+                'fixOrphaned' => 'DELETE FROM ibexa_url_alias_ml_translation
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM ibexa_url_alias_ml u
+                        WHERE u.parent = ibexa_url_alias_ml_translation.parent
+                            AND u.text_md5 = ibexa_url_alias_ml_translation.text_md5
+                            AND (u.lang_mask & ibexa_url_alias_ml_translation.language_id) = ibexa_url_alias_ml_translation.language_id
+                    )',
+            ],
+            default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
+        };
+    }
 
     public function __construct(private readonly Connection $connection)
     {
@@ -185,7 +202,7 @@ EOT
 
         $tables = $table === self::TABLE_ALL ? self::VALID_TABLES : [$table];
         foreach ($tables as $singleTable) {
-            if (!isset(self::QUERIES[$singleTable])) {
+            if (!isset(self::SOURCE_TABLES[$singleTable])) {
                 throw new InvalidArgumentException(
                     'table',
                     sprintf(
@@ -222,7 +239,21 @@ EOT
 
     private function verifyTable(string $table, bool $fix, OutputInterface $output): bool
     {
-        $queries = self::QUERIES[$table];
+        [$sourceTable, $maskColumn] = self::SOURCE_TABLES[$table];
+
+        // The mask column is dropped once a schema has fully completed the language bitmask
+        // migration (DropLanguageBitmaskColumnsMigration), and a fresh install's schema.yaml never
+        // had it to begin with - in both cases there is nothing left to verify, and the mask-based
+        // queries below would otherwise fail outright with "no such column"/"undefined column".
+        $schemaManager = $this->connection->createSchemaManager();
+        if (!$schemaManager->introspectTable($sourceTable)->hasColumn($maskColumn)) {
+            $output->writeln("<info>{$table}: {$sourceTable} has no \"{$maskColumn}\" column - already migrated, nothing to verify.</info>");
+
+            return true;
+        }
+
+        $languageTable = $this->resolveLanguageTableName($schemaManager);
+        $queries = $this->buildQueries($table, $languageTable);
 
         $missing = (int)$this->connection->fetchOne($queries['missing']);
         $orphaned = (int)$this->connection->fetchOne($queries['orphaned']);
@@ -255,5 +286,22 @@ EOT
         }
 
         return true;
+    }
+
+    /**
+     * Not yet renamed to "ibexa_language" at the point in the real migration sequence where this
+     * command's logic normally runs (as part of BackfillLanguageTranslationsMigration/
+     * DropLanguageBitmaskColumnsMigration) - that rename happens later, in
+     * NarrowLanguageIdColumnTypesMigration. When run manually/standalone after the full sequence
+     * (or against a fresh install, which starts from the renamed schema), the table is already
+     * "ibexa_language".
+     *
+     * @param AbstractSchemaManager<AbstractPlatform> $schemaManager
+     */
+    private function resolveLanguageTableName(AbstractSchemaManager $schemaManager): string
+    {
+        return $schemaManager->tablesExist(['ibexa_content_language'])
+            ? 'ibexa_content_language'
+            : 'ibexa_language';
     }
 }
