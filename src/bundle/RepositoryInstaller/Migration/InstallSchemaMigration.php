@@ -43,7 +43,12 @@ final class InstallSchemaMigration extends AbstractSqlMigration implements Ibexa
             return;
         }
 
-        if ($this->isMySQL() || $this->isMariaDB()) {
+        if ($this->isMariaDB()) {
+            // Doctrine DBAL creates JSON columns on MariaDB as LONGTEXT with a type comment
+            $this->addSqlFile(__DIR__ . '/sql/install-schema-json-tables.mariadb.sql');
+            $this->addSqlFile(__DIR__ . '/sql/install-schema-mysql.sql');
+        } elseif ($this->isMySQL()) {
+            $this->addSqlFile(__DIR__ . '/sql/install-schema-json-tables.mysql.sql');
             $this->addSqlFile(__DIR__ . '/sql/install-schema-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
             $this->addSqlFile(__DIR__ . '/sql/install-schema-postgresql.sql');
