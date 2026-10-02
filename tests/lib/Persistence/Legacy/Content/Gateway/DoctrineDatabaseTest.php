@@ -1520,7 +1520,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             4,
             2,
             [
-                ['id' => '7', 'language_id' => 3],
+                ['id' => '7', 'language_id' => 2],
                 ['id' => '8', 'language_id' => 4],
             ]
         );
@@ -1530,7 +1530,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             1,
             [
                 ['id' => '7', 'language_id' => 2],
-                ['id' => '8', 'language_id' => 5],
+                ['id' => '8', 'language_id' => 4],
             ]
         );
     }
@@ -1571,7 +1571,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             4,
             2,
             [
-                ['id' => '7', 'language_id' => 3],
+                ['id' => '7', 'language_id' => 2],
                 ['id' => '8', 'language_id' => 4],
             ]
         );
@@ -1581,7 +1581,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             1,
             [
                 ['id' => '7', 'language_id' => 2],
-                ['id' => '8', 'language_id' => 5],
+                ['id' => '8', 'language_id' => 4],
             ]
         );
     }
