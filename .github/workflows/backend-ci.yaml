@@ -242,3 +242,115 @@ jobs:
                     CUSTOM_CACHE_POOL: singleredis
                     CACHE_HOST: 127.0.0.1
                     CORES_SETUP: single
+
+    # The schema parity test runs the Doctrine Migrations from an empty database, from a legacy install
+    # and from every older schema.yaml at the release tags, and compares the result with the schema path.
+    # It creates databases of its own, hence root on MySQL/MariaDB.
+    schema-parity-sqlite:
+        name: "Schema parity (SQLite)"
+        needs: tests
+        runs-on: "ubuntu-26.04"
+        timeout-minutes: 20
+        steps:
+            -   uses: actions/checkout@v7
+
+            -   name: Fetch the release tags the upgrade scenarios start from
+                run: git fetch --no-tags --depth=1 origin '+refs/tags/v4.6.*:refs/tags/v4.6.*'
+
+            -   uses: ibexa/gh-workflows/actions/composer-install@main
+                with:
+                    php-version: '8.3'
+                    gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                    gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                    satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                    satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+
+            -   name: Run the schema parity test
+                run: composer run-script --timeout=0 test-schema-parity -- --testdox
+                env:
+                    IBEXA_SCHEMA_PARITY_STRICT: '1'
+
+    schema-parity-mysql:
+        name: "Schema parity (${{ matrix.image }})"
+        needs: tests
+        services:
+            mysql:
+                image: ${{ matrix.image }}
+                ports:
+                    - 3306/tcp
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                    MYSQL_DATABASE: testdb
+                options: >-
+                    --health-cmd="mysqladmin ping -proot || mariadb-admin ping -proot"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=10
+                    --tmpfs=/var/lib/mysql
+        runs-on: "ubuntu-26.04"
+        timeout-minutes: 20
+
+        strategy:
+            fail-fast: false
+            matrix:
+                image:
+                    - 'ghcr.io/ibexa/core/mysql'
+                    - 'mariadb:10.11'
+        steps:
+            -   uses: actions/checkout@v7
+
+            -   name: Fetch the release tags the upgrade scenarios start from
+                run: git fetch --no-tags --depth=1 origin '+refs/tags/v4.6.*:refs/tags/v4.6.*'
+
+            -   uses: ibexa/gh-workflows/actions/composer-install@main
+                with:
+                    php-version: '8.3'
+                    gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                    gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                    satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                    satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+
+            -   name: Run the schema parity test
+                run: composer run-script --timeout=0 test-schema-parity -- --testdox
+                env:
+                    IBEXA_SCHEMA_PARITY_STRICT: '1'
+                    DATABASE_URL: "mysql://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+
+    schema-parity-postgres:
+        name: "Schema parity (PostgreSQL)"
+        needs: tests
+        services:
+            postgres:
+                image: postgres:14
+                ports:
+                    - 5432
+                env:
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: testdb
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+                    --tmpfs /var/lib/postgres
+        runs-on: "ubuntu-26.04"
+        timeout-minutes: 20
+        steps:
+            -   uses: actions/checkout@v7
+
+            -   name: Fetch the release tags the upgrade scenarios start from
+                run: git fetch --no-tags --depth=1 origin '+refs/tags/v4.6.*:refs/tags/v4.6.*'
+
+            -   uses: ibexa/gh-workflows/actions/composer-install@main
+                with:
+                    php-version: '8.3'
+                    gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                    gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                    satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                    satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+
+            -   name: Run the schema parity test
+                run: composer run-script --timeout=0 test-schema-parity -- --testdox
+                env:
+                    IBEXA_SCHEMA_PARITY_STRICT: '1'
+                    DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=14"
