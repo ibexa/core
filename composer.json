@@ -78,7 +78,8 @@
         "symfony/runtime": "^5.3.0",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",
-        "phpstan/phpstan-phpunit": "^2.0"
+        "phpstan/phpstan-phpunit": "^2.0",
+        "doctrine/doctrine-migrations-bundle": "^3.2"
     },
     "conflict": {
         "friendsofphp/php-cs-fixer": "3.5.0",
@@ -132,7 +133,8 @@
             "Ibexa\\Tests\\Integration\\IO\\": "tests/integration/IO",
             "Ibexa\\Tests\\Integration\\RepositoryInstaller\\": "tests/integration/RepositoryInstaller",
             "Ibexa\\Tests\\Integration\\LegacySearchEngine\\": "tests/integration/LegacySearchEngine",
-            "Ibexa\\Tests\\Core\\": "tests/lib"
+            "Ibexa\\Tests\\Core\\": "tests/lib",
+            "Ibexa\\Tests\\SchemaParity\\Core\\": "tests/schema-parity/"
         }
     },
     "config": {
@@ -153,6 +155,7 @@
             "phpunit -c phpunit-integration.xml"
         ],
         "test-integration-solr": "phpunit -c phpunit-integration-legacy-solr.xml",
+        "test-schema-parity": "phpunit -c phpunit-schema-parity.xml",
         "test": [
             "@unit",
             "@integration"

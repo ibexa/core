@@ -1,0 +1,23 @@
+<?xml version = '1.0' encoding = 'utf-8'?>
+<!--
+    The schema parity test creates databases of its own next to DATABASE_URL's ("<name>_parity_<scenario>"),
+    so it doesn't run with the other suites. See AbstractSchemaParityTestCase.
+-->
+<phpunit backupGlobals="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         failOnWarning="true"
+         >
+    <php>
+        <env name="IBEXA_SCHEMA_PARITY" value="1"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+        <env name="DATABASE_URL" value="sqlite://i@i/var/test.db" />
+        <env name="KERNEL_CLASS" value="Ibexa\Tests\SchemaParity\Core\SchemaParityTestKernel"/>
+        <env name="SEARCH_ENGINE" value="legacy"/>
+    </php>
+    <testsuites>
+        <testsuite name="schema-parity">
+            <directory>tests/schema-parity</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
