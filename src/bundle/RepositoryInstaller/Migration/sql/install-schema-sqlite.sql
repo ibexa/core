@@ -203,7 +203,7 @@ CREATE TABLE ezcontentclass_attribute_ml (
     data_json CLOB DEFAULT NULL,
     PRIMARY KEY(contentclass_attribute_id, version, language_id),
     CONSTRAINT ezcontentclass_attribute_ml_lang_fk FOREIGN KEY (language_id)
-        REFERENCES ezcontent_language (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
+        REFERENCES ezcontent_language (id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
 );
 -- ibexa:sql-statement-separator
 CREATE INDEX ezcontentclass_attribute_ml_lang_fk ON ezcontentclass_attribute_ml (language_id);
