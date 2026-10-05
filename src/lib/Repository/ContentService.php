@@ -1902,20 +1902,22 @@ class ContentService implements ContentServiceInterface
             );
         }
 
-        if (!$this->permissionResolver->canUser('content', 'versionremove', $versionInfo)) {
-            throw new UnauthorizedException(
-                'content',
-                'versionremove',
-                ['contentId' => $versionInfo->contentInfo->id, 'versionNo' => $versionInfo->versionNo]
-            );
-        }
-
         $versionList = $contentHandler->listVersions(
             $versionInfo->contentInfo->id,
             null,
             2
         );
         $versionsCount = count($versionList);
+
+        // Removing the last Version removes the whole Content item, so it's not a plain Version removal
+        $targets = $versionsCount > 1 ? [new Target\VersionRemoval()] : [];
+        if (!$this->permissionResolver->canUser('content', 'versionremove', $versionInfo, $targets)) {
+            throw new UnauthorizedException(
+                'content',
+                'versionremove',
+                ['contentId' => $versionInfo->contentInfo->id, 'versionNo' => $versionInfo->versionNo]
+            );
+        }
 
         if ($versionsCount === 1 && !$versionInfo->isDraft()) {
             throw new BadStateException(

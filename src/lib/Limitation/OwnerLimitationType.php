@@ -7,7 +7,8 @@
 
 namespace Ibexa\Core\Limitation;
 
-use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
+use Ibexa\Contracts\Core\Limitation\Target;
+use Ibexa\Contracts\Core\Limitation\TargetAwareType;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
@@ -27,7 +28,7 @@ use Ibexa\Core\FieldType\ValidationError;
 /**
  * OwnerLimitation is a Content limitation.
  */
-class OwnerLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
+class OwnerLimitationType extends AbstractPersistenceLimitationType implements TargetAwareType
 {
     /**
      * Accepts a Limitation value and checks for structural validity.
@@ -107,7 +108,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
      * @param APILimitationValue $value
      * @param APIUserReference $currentUser
      * @param ValueObject $object
-     * @param ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
+     * @param Target[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
      * @return bool
      *
@@ -118,7 +119,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
         APIUserReference $currentUser,
         ValueObject $object,
         ?array $targets = null
-    ) {
+    ): ?bool {
         if (!$value instanceof APIOwnerLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIOwnerLimitation');
         }
@@ -130,12 +131,18 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
             );
         }
 
-        $versionCreatorId = null;
+        $userId = $currentUser->getUserId();
+
+        // Creator of a draft is allowed to remove it, as long as it's not the last Version of the Content item
+        if ($object instanceof VersionInfo && $object->isDraft() && $object->creatorId === $userId
+            && $this->hasVersionRemovalTarget($targets ?? [])
+        ) {
+            return true;
+        }
+
         if ($object instanceof Content) {
-            $versionCreatorId = $object->getVersionInfo()->creatorId;
             $object = $object->getVersionInfo()->getContentInfo();
         } elseif ($object instanceof VersionInfo) {
-            $versionCreatorId = $object->creatorId;
             $object = $object->getContentInfo();
         } elseif (!$object instanceof ContentInfo && !$object instanceof ContentCreateStruct) {
             throw new InvalidArgumentException(
@@ -144,16 +151,27 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
             );
         }
 
-        $userId = $currentUser->getUserId();
-
         /*
          * @var $object ContentInfo
          */
         $isOwner = $object->ownerId === $userId;
-        $isVersionCreator = $versionCreatorId !== null && $versionCreatorId === $userId;
         $isSelf = $object instanceof ContentInfo && $object->id === $userId;
 
-        return $isOwner || $isVersionCreator || $isSelf;
+        return $isOwner || $isSelf;
+    }
+
+    /**
+     * @param \Ibexa\Contracts\Core\Limitation\Target[] $targets
+     */
+    private function hasVersionRemovalTarget(array $targets): bool
+    {
+        foreach ($targets as $target) {
+            if ($target instanceof Target\VersionRemoval) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
