@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation
+ * @covers \Ibexa\Core\Limitation\OwnerLimitationType::evaluate
  *
  * @group integration
  * @group limitation
@@ -146,9 +147,6 @@ class OwnerLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 
-    /**
-     * @covers \Ibexa\Core\Limitation\OwnerLimitationType::evaluate
-     */
     public function testOwnerLimitationAllowsVersionRemoveForOwnDraftOfContentOwnedByAnotherUser(): void
     {
         $repository = $this->getRepository();
@@ -174,9 +172,6 @@ class OwnerLimitationTest extends BaseLimitationTest
         $this->expectNotToPerformAssertions();
     }
 
-    /**
-     * @covers \Ibexa\Core\Limitation\OwnerLimitationType::evaluate
-     */
     public function testOwnerLimitationForbidsVersionRemoveForDraftCreatedByAnotherUser(): void
     {
         $this->expectException(UnauthorizedException::class);
@@ -225,7 +220,7 @@ class OwnerLimitationTest extends BaseLimitationTest
         }
 
         if (null === $versionRemovePolicy) {
-            throw new \ErrorException('No content:versionremove policy found.');
+            self::fail('No content:versionremove policy found.');
         }
 
         // Only allow version removal for versions the current user created themselves
