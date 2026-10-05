@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Command;
 use Doctrine\DBAL\Connection;
 use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
+use Ibexa\Bundle\RepositoryInstaller\Installer\Installer;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,28 +18,25 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 final class InstallPlatformCommand extends Command implements BackwardCompatibleCommand
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    protected static $defaultName = 'ibexa:install';
 
-    /** @var \Symfony\Component\Console\Output\OutputInterface */
-    private $output;
+    private Connection $connection;
 
-    /** @var \Psr\Cache\CacheItemPoolInterface */
-    private $cachePool;
+    private OutputInterface $output;
 
-    /** @var string */
-    private $environment;
+    private CacheItemPoolInterface $cachePool;
 
-    /** @var \Ibexa\Bundle\RepositoryInstaller\Installer\Installer[] */
-    private $installers = [];
+    private string $environment;
 
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    private $repositoryConfigurationProvider;
+    private ServiceLocator $installers;
+
+    private RepositoryConfigurationProvider $repositoryConfigurationProvider;
 
     public const EXIT_GENERAL_DATABASE_ERROR = 4;
     public const EXIT_PARAMETERS_NOT_FOUND = 5;
@@ -47,7 +45,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
 
     public function __construct(
         Connection $connection,
-        array $installers,
+        ServiceLocator $installers,
         CacheItemPoolInterface $cachePool,
         string $environment,
         RepositoryConfigurationProvider $repositoryConfigurationProvider
@@ -60,14 +58,13 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
-        $this->setName('ibexa:install');
         $this->setAliases($this->getDeprecatedAliases());
         $this->addArgument(
             'type',
             InputArgument::OPTIONAL,
-            'The type of install. Available options: ' . implode(', ', array_keys($this->installers)),
+            'The type of install. Available options: ' . implode(', ', array_keys($this->installers->getProvidedServices())),
             'ibexa-oss'
         );
         $this->addOption(
@@ -82,43 +79,35 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
     {
         $this->output = $output;
         $this->checkPermissions();
-        $this->checkParameters();
         $this->checkCreateDatabase($output);
 
         $schemaManager = $this->connection->getSchemaManager();
         if (!empty($schemaManager->listTables())) {
             $io = new SymfonyStyle($input, $output);
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?', )) {
-                return 0;
+                return self::SUCCESS;
             }
         }
 
         $type = $input->getArgument('type');
         $siteaccess = $input->getOption('siteaccess');
-        $installer = $this->getInstaller($type);
-        if ($installer === false) {
-            $output->writeln(
-                "Unknown install type '$type', available options in currently installed Ibexa package: " .
-                implode(', ', array_keys($this->installers))
-            );
-            exit(self::EXIT_UNKNOWN_INSTALL_TYPE);
-        }
+        $installer = $this->getInstaller($type, $output);
 
         $installer->setOutput($output);
 
         $installer->importSchema();
         $installer->importData();
         $installer->importBinaries();
-        $this->cacheClear($output);
+        $this->cacheClear();
 
         if (!$input->getOption('skip-indexing')) {
             $this->indexData($output, $siteaccess);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
-    private function checkPermissions()
+    private function checkPermissions(): void
     {
         // @todo should take var-dir etc. from composer config or fallback to flex directory scheme
         if (!is_writable('public') && !is_writable('public/var')) {
@@ -127,18 +116,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         }
     }
 
-    private function checkParameters()
-    {
-        // @todo doesn't make sense to check for parameters.yml in sf4 and flex
-        return;
-        $parametersFile = 'app/config/parameters.yml';
-        if (!is_file($parametersFile)) {
-            $this->output->writeln("Required configuration file '$parametersFile' not found");
-            exit(self::EXIT_PARAMETERS_NOT_FOUND);
-        }
-    }
-
-    private function checkCreateDatabase(OutputInterface $output)
+    private function checkCreateDatabase(OutputInterface $output): void
     {
         $output->writeln(
             sprintf(
@@ -167,10 +145,8 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
 
     /**
      * Clear all content related cache (persistence cache).
-     *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    private function cacheClear(OutputInterface $output)
+    private function cacheClear(): void
     {
         $this->cachePool->clear();
     }
@@ -183,11 +159,8 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
      *       This is done after cache clearing to make sure no cached data from before sql import is used.
      *
      * IMPORTANT: This is done using a command because config has change, so container and all services are different.
-     *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param string|null $siteaccess
      */
-    private function indexData(OutputInterface $output, $siteaccess = null)
+    private function indexData(OutputInterface $output, ?string $siteaccess = null): void
     {
         $output->writeln(
             sprintf('Search engine re-indexing, executing command ibexa:reindex')
@@ -202,17 +175,19 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
     }
 
     /**
-     * @param $type
-     *
      * @return \Ibexa\Bundle\RepositoryInstaller\Installer\Installer
      */
-    private function getInstaller($type)
+    private function getInstaller(string $type, OutputInterface $output): Installer
     {
-        if (!isset($this->installers[$type])) {
-            return false;
+        if (!$this->installers->has($type)) {
+            $output->writeln(
+                "Unknown install type '$type', available options in currently installed Ibexa package: " .
+                implode(', ', array_keys($this->installers->getProvidedServices()))
+            );
+            exit(self::EXIT_UNKNOWN_INSTALL_TYPE);
         }
 
-        return $this->installers[$type];
+        return $this->installers->get($type);
     }
 
     /**
@@ -227,7 +202,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
      *               Escape any user provided arguments, like: 'assets:install '.escapeshellarg($webDir)
      * @param int $timeout
      */
-    private function executeCommand(OutputInterface $output, $cmd, $timeout = 300)
+    private function executeCommand(OutputInterface $output, $cmd, $timeout = 300): void
     {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find(false)) {
