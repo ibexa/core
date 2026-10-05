@@ -33,7 +33,7 @@ jobs:
                     composer run-script check-cs -- --format=checkstyle | cs2pr
 
     tests:
-        name: Unit tests & SQLite integration tests
+        name: Unit tests & SQLite integration tests (${{ matrix.php }}${{ !matrix.schema_builder_event && ', Doctrine Migrations' || '' }})
         runs-on: "ubuntu-26.04"
         timeout-minutes: 15
 
@@ -44,6 +44,13 @@ jobs:
                     - '7.4'
                     - '8.3'
                     - '8.4'
+                # true = legacy, event-driven SchemaBuilderEvent path; false = the coexisting
+                # Doctrine Migrations path, run once, on the newest PHP.
+                schema_builder_event:
+                    - true
+                include:
+                    -   php: '8.4'
+                        schema_builder_event: false
 
         steps:
             -   uses: actions/checkout@v7
@@ -60,16 +67,27 @@ jobs:
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Run PHPStan analysis
+                if: matrix.schema_builder_event
                 run: composer run-script phpstan
 
             -   name: Run unit test suite
+                if: matrix.schema_builder_event
                 run: composer run-script unit
 
             -   name: Run integration test suite
+                if: matrix.schema_builder_event
                 run: composer run-script integration
 
+            # Only the suite tests/integration/bootstrap.php installs the schema for: the legacy one
+            # installs its own, whatever the path.
+            -   name: Run integration test suite on the Doctrine Migrations path
+                if: ${{ !matrix.schema_builder_event }}
+                run: vendor/bin/phpunit -c phpunit-integration.xml
+                env:
+                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: '0'
+
     integration-tests-postgres:
-        name: PostgreSQL integration tests
+        name: PostgreSQL integration tests (${{ matrix.php }}, ${{ matrix.doctrine-persistence }}, ${{ matrix.image }}${{ !matrix.schema_builder_event && ', Doctrine Migrations' || '' }})
         needs: tests
         services:
             postgres:
@@ -101,6 +119,15 @@ jobs:
                 image:
                     - 'postgres:14'
                     - 'postgres:18'
+                # true = legacy, event-driven SchemaBuilderEvent path; false = the coexisting
+                # Doctrine Migrations path, run once, on the newest PHP and the oldest PostgreSQL.
+                schema_builder_event:
+                    - true
+                include:
+                    -   php: '8.4'
+                        doctrine-persistence: 'doctrine/persistence:^3.0'
+                        image: 'postgres:14'
+                        schema_builder_event: false
 
         steps:
             -   uses: actions/checkout@v7
@@ -118,14 +145,24 @@ jobs:
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Run integration test suite vs Postgresql
+                if: matrix.schema_builder_event
                 run: composer run-script integration
                 env:
                     DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
                     # Required by old repository tests
                     DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
 
+            # Only the suite tests/integration/bootstrap.php installs the schema for: the legacy one
+            # installs its own, whatever the path.
+            -   name: Run integration test suite vs Postgresql on the Doctrine Migrations path
+                if: ${{ !matrix.schema_builder_event }}
+                run: vendor/bin/phpunit -c phpunit-integration.xml
+                env:
+                    DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
+                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: '0'
+
     integration-tests-mysql:
-        name: MySQL integration tests
+        name: MySQL integration tests (${{ matrix.php }}, ${{ matrix.doctrine-persistence }}, ${{ matrix.image }}${{ !matrix.schema_builder_event && ', Doctrine Migrations' || '' }})
         needs: tests
         services:
             mysql:
@@ -159,6 +196,15 @@ jobs:
                 image:
                     - 'mysql:8.0'
                     - 'mysql:8.4'
+                # true = legacy, event-driven SchemaBuilderEvent path; false = the coexisting
+                # Doctrine Migrations path, run once, on the newest PHP and the oldest MySQL.
+                schema_builder_event:
+                    - true
+                include:
+                    -   php: '8.4'
+                        doctrine-persistence: 'doctrine/persistence:^3.0'
+                        image: 'mysql:8.0'
+                        schema_builder_event: false
 
         steps:
             -   uses: actions/checkout@v7
@@ -176,10 +222,20 @@ jobs:
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Run integration test suite vs MySQL
+                if: matrix.schema_builder_event
                 run: composer run-script integration
                 env:
                     DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+
+            # Only the suite tests/integration/bootstrap.php installs the schema for: the legacy one
+            # installs its own, whatever the path.
+            -   name: Run integration test suite vs MySQL on the Doctrine Migrations path
+                if: ${{ !matrix.schema_builder_event }}
+                run: vendor/bin/phpunit -c phpunit-integration.xml
+                env:
+                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: '0'
 
     solr-integration:
         name: "Solr integration tests"
