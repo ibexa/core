@@ -67,24 +67,15 @@ jobs:
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Run PHPStan analysis
-                if: matrix.schema_builder_event
                 run: composer run-script phpstan
 
             -   name: Run unit test suite
-                if: matrix.schema_builder_event
                 run: composer run-script unit
 
             -   name: Run integration test suite
-                if: matrix.schema_builder_event
                 run: composer run-script integration
-
-            # Only the suite tests/integration/bootstrap.php installs the schema for: the legacy one
-            # installs its own, whatever the path.
-            -   name: Run integration test suite on the Doctrine Migrations path
-                if: ${{ !matrix.schema_builder_event }}
-                run: vendor/bin/phpunit -c phpunit-integration.xml
                 env:
-                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: '0'
+                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: ${{ matrix.schema_builder_event && '1' || '0' }}
 
     integration-tests-postgres:
         name: PostgreSQL integration tests (${{ matrix.php }}, ${{ matrix.doctrine-persistence }}, ${{ matrix.image }}${{ !matrix.schema_builder_event && ', Doctrine Migrations' || '' }})
@@ -145,21 +136,12 @@ jobs:
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Run integration test suite vs Postgresql
-                if: matrix.schema_builder_event
                 run: composer run-script integration
                 env:
                     DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
                     # Required by old repository tests
                     DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
-
-            # Only the suite tests/integration/bootstrap.php installs the schema for: the legacy one
-            # installs its own, whatever the path.
-            -   name: Run integration test suite vs Postgresql on the Doctrine Migrations path
-                if: ${{ !matrix.schema_builder_event }}
-                run: vendor/bin/phpunit -c phpunit-integration.xml
-                env:
-                    DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
-                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: '0'
+                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: ${{ matrix.schema_builder_event && '1' || '0' }}
 
     integration-tests-mysql:
         name: MySQL integration tests (${{ matrix.php }}, ${{ matrix.doctrine-persistence }}, ${{ matrix.image }}${{ !matrix.schema_builder_event && ', Doctrine Migrations' || '' }})
@@ -222,20 +204,11 @@ jobs:
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             -   name: Run integration test suite vs MySQL
-                if: matrix.schema_builder_event
                 run: composer run-script integration
                 env:
                     DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-
-            # Only the suite tests/integration/bootstrap.php installs the schema for: the legacy one
-            # installs its own, whatever the path.
-            -   name: Run integration test suite vs MySQL on the Doctrine Migrations path
-                if: ${{ !matrix.schema_builder_event }}
-                run: vendor/bin/phpunit -c phpunit-integration.xml
-                env:
-                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: '0'
+                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: ${{ matrix.schema_builder_event && '1' || '0' }}
 
     solr-integration:
         name: "Solr integration tests"
