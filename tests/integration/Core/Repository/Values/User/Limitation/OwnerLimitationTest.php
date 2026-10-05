@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 
@@ -209,7 +210,7 @@ class OwnerLimitationTest extends BaseLimitationTest
         /* BEGIN: Use Case */
         // $user creates a never published Content item
         $permissionResolver->setCurrentUserReference($user);
-        $draft = $repository->sudo(function () use ($contentService): \Ibexa\Contracts\Core\Repository\Values\Content\Content {
+        $draft = $repository->sudo(function () use ($contentService): Content {
             return $contentService->createContent(
                 $this->createWikiPageContentCreateStruct(),
                 [$this->createWikiPageLocationCreateStruct($this->generateId('location', 60))]

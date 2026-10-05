@@ -110,7 +110,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements T
      * @param ValueObject $object
      * @param Target[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
-     * @return bool
+     * @return bool|null
      *
      * @todo Add support for $limitationValues[0] == 2 when session values can be injected somehow, or deprecate
      */
