@@ -18,7 +18,7 @@ jobs:
         runs-on: "ubuntu-26.04"
         strategy:
             matrix:
-                php-version: [8.4]
+                php-version: [8.5]
         permissions:
             packages: write
         services:
@@ -73,5 +73,5 @@ jobs:
                 password: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Push image
-              if: ${{ matrix.php-version == '8.4' }}
+              if: ${{ matrix.php-version == '8.5' }}
               run: docker push "$IMAGE_NAME"
