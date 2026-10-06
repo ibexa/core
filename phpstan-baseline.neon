@@ -25309,12 +25309,6 @@ parameters:
 			path: src/lib/Repository/URLService.php
 
 		-
-			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 2
-			path: src/lib/Repository/URLWildcardService.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\URLWildcardService\:\:__construct\(\) has parameter \$settings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -60665,18 +60659,6 @@ parameters:
 			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldHandlerTest\:\:\$storageHandlerMock \(Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageHandler\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
-
-		-
-			message: '#^Variable \$copyField might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
-
-		-
-			message: '#^Variable \$originalField might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
 			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
 
 		-

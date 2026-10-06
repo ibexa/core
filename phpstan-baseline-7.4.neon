@@ -13,12 +13,6 @@ parameters:
 			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Compiler\\InjectEntityManagerMappingsPass\:\:getEntityMapForConfigurationService\(\) should return array but returns array\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/InjectEntityManagerMappingsPass.php
-
-		-
 			message: '#^Parameter \#2 \.\.\.\$args of function array_merge expects array, Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface given\.$#'
 			identifier: argument.type
 			count: 1
@@ -197,12 +191,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabase\:\:filterOriginalAliases\(\) should return array but returns array\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
 
 		-
 			message: '#^Parameter \#1 \$string of function strlen expects string, string\|false\|null given\.$#'
