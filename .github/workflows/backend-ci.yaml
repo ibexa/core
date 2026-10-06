@@ -14,7 +14,7 @@ jobs:
         strategy:
             matrix:
                 php:
-                    - '8.4'
+                    - '8.5'
         steps:
             -   uses: actions/checkout@v7
 
@@ -43,7 +43,7 @@ jobs:
             fail-fast: false
             matrix:
                 php:
-                    - '8.4'
+                    - '8.5'
         steps:
             -   uses: actions/checkout@v7
             -   uses: ibexa/gh-workflows/actions/setup-composer-root-version@main
@@ -67,7 +67,7 @@ jobs:
             fail-fast: false
             matrix:
                 php:
-                    - '8.4'
+                    - '8.5'
 
         steps:
             -   uses: actions/checkout@v7
@@ -118,7 +118,7 @@ jobs:
             fail-fast: false
             matrix:
                 php:
-                    - '8.4'
+                    - '8.5'
                 postgres_version:
                     - '14'
                     - '18'
@@ -172,7 +172,7 @@ jobs:
             fail-fast: false
             matrix:
                 php:
-                    - '8.4'
+                    - '8.5'
                 image:
                     - 'mysql:8.0'
                     - 'mysql:8.4'
@@ -231,7 +231,7 @@ jobs:
             fail-fast: false
             matrix:
                 php:
-                    - '8.4'
+                    - '8.5'
         steps:
             -   uses: actions/checkout@v7
                 with:
