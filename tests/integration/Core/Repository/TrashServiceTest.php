@@ -1011,8 +1011,8 @@ class TrashServiceTest extends BaseTrashServiceTestCase
         self::assertSame(
             [
                 $folderLocation->id => $folder1->id,
-                $folder2->contentInfo->getMainLocationId() => $folder2->id,
-                $folder3->contentInfo->getMainLocationId() => $folder3->id,
+                $folder2->contentInfo->getMainLocationId() ?? 0 => $folder2->id,
+                $folder3->contentInfo->getMainLocationId() ?? 0 => $folder3->id,
             ],
             $removedLocationContentMap,
         );

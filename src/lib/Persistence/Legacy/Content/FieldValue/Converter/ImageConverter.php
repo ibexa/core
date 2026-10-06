@@ -285,7 +285,7 @@ EOT;
                         sprintf('ImageConverter: Failed to get "%s" key from "%s" node', 'key', $datum->getNodePath())
                     );
                 }
-                $extractedData['additionalData'][$domNode->nodeValue] = $datum->nodeValue;
+                $extractedData['additionalData'][$domNode->nodeValue ?? ''] = $datum->nodeValue;
             }
         }
 

@@ -572,8 +572,8 @@ class ContentTypeService implements ContentTypeServiceInterface
         $fieldDefinitionPositionSet = [];
         foreach ($contentTypeCreateStruct->fieldDefinitions as $fieldDefinitionCreateStruct) {
             // Check for duplicate identifiers
-            if (!isset($fieldDefinitionIdentifierSet[$fieldDefinitionCreateStruct->identifier])) {
-                $fieldDefinitionIdentifierSet[$fieldDefinitionCreateStruct->identifier] = true;
+            if (!isset($fieldDefinitionIdentifierSet[$fieldDefinitionCreateStruct->identifier ?? ''])) {
+                $fieldDefinitionIdentifierSet[$fieldDefinitionCreateStruct->identifier ?? ''] = true;
             } else {
                 throw new InvalidArgumentException(
                     '$contentTypeCreateStruct',
@@ -582,8 +582,8 @@ class ContentTypeService implements ContentTypeServiceInterface
             }
 
             // Check for duplicate positions
-            if (!isset($fieldDefinitionPositionSet[$fieldDefinitionCreateStruct->position])) {
-                $fieldDefinitionPositionSet[$fieldDefinitionCreateStruct->position] = true;
+            if (!isset($fieldDefinitionPositionSet[$fieldDefinitionCreateStruct->position ?? 0])) {
+                $fieldDefinitionPositionSet[$fieldDefinitionCreateStruct->position ?? 0] = true;
             } else {
                 throw new InvalidArgumentException(
                     '$contentTypeCreateStruct',
@@ -601,14 +601,14 @@ class ContentTypeService implements ContentTypeServiceInterface
                 $fieldDefinitionCreateStruct->fieldTypeIdentifier
             );
 
-            if ($fieldType->isSingular() && isset($fieldTypeIdentifierSet[$fieldDefinitionCreateStruct->fieldTypeIdentifier])) {
+            if ($fieldType->isSingular() && isset($fieldTypeIdentifierSet[$fieldDefinitionCreateStruct->fieldTypeIdentifier ?? ''])) {
                 throw new ContentTypeValidationException(
                     "Field Type '%identifier%' is singular and cannot be used more than once in a content type",
                     ['%identifier%' => $fieldDefinitionCreateStruct->fieldTypeIdentifier]
                 );
             }
 
-            $fieldTypeIdentifierSet[$fieldDefinitionCreateStruct->fieldTypeIdentifier] = true;
+            $fieldTypeIdentifierSet[$fieldDefinitionCreateStruct->fieldTypeIdentifier ?? ''] = true;
 
             $fieldType->applyDefaultSettings($fieldDefinitionCreateStruct->fieldSettings);
             $fieldType->applyDefaultValidatorConfiguration($fieldDefinitionCreateStruct->validatorConfiguration);
@@ -618,7 +618,7 @@ class ContentTypeService implements ContentTypeServiceInterface
             );
 
             if (!empty($validationErrors)) {
-                $allValidationErrors[$fieldDefinitionCreateStruct->identifier] = $validationErrors;
+                $allValidationErrors[$fieldDefinitionCreateStruct->identifier ?? ''] = $validationErrors;
             }
 
             if (!empty($allValidationErrors)) {
@@ -1177,7 +1177,7 @@ class ContentTypeService implements ContentTypeServiceInterface
         $fieldType->applyDefaultValidatorConfiguration($fieldDefinitionCreateStruct->validatorConfiguration);
         $validationErrors = $this->validateFieldDefinitionCreateStruct($fieldDefinitionCreateStruct, $fieldType);
         if (!empty($validationErrors)) {
-            $validationErrors = [$fieldDefinitionCreateStruct->identifier => $validationErrors];
+            $validationErrors = [$fieldDefinitionCreateStruct->identifier ?? '' => $validationErrors];
             throw new ContentTypeFieldDefinitionValidationException($validationErrors);
         }
 

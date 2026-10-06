@@ -47,7 +47,7 @@ class YamlConfigurationContext implements Context
                 throw new RuntimeException(sprintf(
                     'Unable to create the configuration directory "%s": %s',
                     $configurationDir,
-                    $error['message']
+                    $error['message'] ?? 'unknown error'
                 ));
             }
         }

@@ -275,7 +275,7 @@ class ResizeOriginalImagesCommand extends Command
             $output->writeln(
                 sprintf(
                     '<error>Cannot resize image ID: %s, error message: %s.</error>',
-                    $field->imageId,
+                    $field->imageId ?? '',
                     $e->getMessage()
                 )
             );

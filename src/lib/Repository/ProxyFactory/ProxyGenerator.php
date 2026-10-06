@@ -64,7 +64,7 @@ final class ProxyGenerator implements ProxyGeneratorInterface
                     throw new RuntimeException(sprintf(
                         'Unable to create the Repository Proxy directory "%s": %s',
                         $this->proxyCacheDir,
-                        $error['message']
+                        $error['message'] ?? 'unknown error'
                     ));
                 }
             }

@@ -31,7 +31,7 @@ class Utf8Converter
                 $char = chr(0);
                 break;
             case !($charCode & 0xffffff80): // 7 bit
-                $char = chr($charCode);
+                $char = chr($charCode & 0x7F);
                 break;
             case !($charCode & 0xfffff800): // 11 bit
                 $char = (

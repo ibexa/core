@@ -265,7 +265,7 @@ class PcreCompiler
                 return Utf8Converter::toUTF8Character((int)hexdec(substr($char, 2)));
 
             case preg_match('(^[0-9a-fA-F]{2}$)', $char):
-                return chr(hexdec($char));
+                return chr((int)hexdec($char) & 0xFF);
 
             default:
                 throw new RuntimeException("Invalid character definition: $char");
