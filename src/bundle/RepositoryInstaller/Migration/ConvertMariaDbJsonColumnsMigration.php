@@ -21,16 +21,11 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  * does, and 5.0's as JSON, as DBAL 3 does: MariaDB stores that as LONGTEXT in utf8mb4_bin, with a
  * json_valid() check. It's the same migration, so it doesn't run again on a 4.6 database upgraded
  * to 5.0. ibexa/installer's 4.6 to 5.0 upgrade script doesn't convert these columns either.
+ *
+ * The statements are in sql/convert-json-columns-mariadb.sql.
  */
 final class ConvertMariaDbJsonColumnsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    /**
-     * Each column's definition in 5.0's install-schema-json-tables.mariadb.sql.
-     */
-    private const COLUMNS = [
-        'ibexa_setting' => ['value' => "JSON NOT NULL COMMENT '(DC2Type:json)'"],
-    ];
-
     public function getDescription(): string
     {
         return 'Converts the core JSON columns a 4.6 install created as LONGTEXT on MariaDB to JSON';
@@ -54,25 +49,15 @@ final class ConvertMariaDbJsonColumnsMigration extends AbstractSqlMigration impl
             return;
         }
 
-        foreach (self::COLUMNS as $table => $columns) {
-            foreach ($columns as $column => $definition) {
-                if (!$this->isJsonColumn($table, $column)) {
-                    $this->addSql(sprintf('ALTER TABLE %s MODIFY %s %s', $table, $column, $definition));
-                }
-            }
-        }
-    }
-
-    /**
-     * MariaDB stores a JSON column as LONGTEXT, with a json_valid() check named after the column.
-     */
-    private function isJsonColumn(string $table, string $column): bool
-    {
-        return $this->connection->fetchOne(
-            'SELECT 1 FROM information_schema.CHECK_CONSTRAINTS'
-            . ' WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = ? AND CONSTRAINT_NAME = ?'
-            . " AND CHECK_CLAUSE LIKE 'json_valid(%'",
-            [$table, $column]
+        // MariaDB stores a JSON column as LONGTEXT, with a json_valid() check named after the column.
+        // The statements run in order, so once the last column is converted, all are.
+        $isConverted = $this->connection->fetchOne(
+            'SELECT 1 FROM information_schema.CHECK_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE()'
+            . " AND TABLE_NAME = 'ibexa_setting'"
+            . " AND CONSTRAINT_NAME = 'value' AND CHECK_CLAUSE LIKE 'json_valid(%'"
         ) !== false;
+        if (!$isConverted) {
+            $this->addSqlFile(__DIR__ . '/sql/convert-json-columns-mariadb.sql');
+        }
     }
 }
