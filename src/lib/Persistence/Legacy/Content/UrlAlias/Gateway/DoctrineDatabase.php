@@ -1353,10 +1353,7 @@ final class DoctrineDatabase extends Gateway
         );
 
         // return language_mask-indexed array
-        return array_combine(
-            array_column($originalUrlAliases, 'lang_mask'),
-            $originalUrlAliases
-        );
+        return array_column($originalUrlAliases, null, 'lang_mask');
     }
 
     /**
