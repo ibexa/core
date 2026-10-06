@@ -34,7 +34,6 @@ class FragmentListenerFactoryTest extends TestCase
 
         $refListener = new ReflectionObject($listener);
         $refFragmentPath = $refListener->getProperty('fragmentPath');
-        $refFragmentPath->setAccessible(true);
         if ($isFragmentCandidate) {
             self::assertSame($requestUri, $refFragmentPath->getValue($listener));
         } else {

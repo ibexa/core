@@ -258,7 +258,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         $fields = [];
         foreach ($spiFields as $spiField) {
             // We ignore fields in content not part of the content type
-            if (!isset($fieldDefinitionsMap[$spiField->fieldDefinitionId])) {
+            if (null === $spiField->fieldDefinitionId || !isset($fieldDefinitionsMap[$spiField->fieldDefinitionId])) {
                 continue;
             }
 

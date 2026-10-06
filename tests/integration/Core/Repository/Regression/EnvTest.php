@@ -28,13 +28,11 @@ class EnvTest extends BaseTestCase
         self::assertInstanceOf(TransactionalInMemoryCacheAdapter::class, $pool);
 
         $reflectionDecoratedPool = new \ReflectionProperty($pool, 'sharedPool');
-        $reflectionDecoratedPool->setAccessible(true);
         $pool = $reflectionDecoratedPool->getValue($pool);
 
         self::assertInstanceOf(TagAwareAdapter::class, $pool);
 
         $reflectionPool = new \ReflectionProperty($pool, 'pool');
-        $reflectionPool->setAccessible(true);
         $innerPool = $reflectionPool->getValue($pool);
 
         if (getenv('CUSTOM_CACHE_POOL') === 'singleredis') {

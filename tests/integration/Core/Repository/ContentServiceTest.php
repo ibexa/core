@@ -6740,13 +6740,11 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $reflection = new ReflectionClass($this->contentService);
         $serviceProperty = $reflection->getProperty('service');
-        $serviceProperty->setAccessible(true);
 
         $service = $serviceProperty->getValue($this->contentService);
 
         $serviceReflection = new ReflectionClass($service);
         $innerServiceProperty = $serviceReflection->getProperty('innerService');
-        $innerServiceProperty->setAccessible(true);
 
         return $innerServiceProperty->getValue($service);
     }
@@ -6755,7 +6753,6 @@ class ContentServiceTest extends BaseContentServiceTestCase
     {
         $innerServiceReflection = new ReflectionClass($this->getInnerContentService());
         $settingsProperty = $innerServiceReflection->getProperty('settings');
-        $settingsProperty->setAccessible(true);
 
         return $settingsProperty;
     }

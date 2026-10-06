@@ -544,12 +544,10 @@ abstract class BaseTestCase extends TestCase
             }
 
             $repositoryProperty = $repositoryReflection->getProperty('repository');
-            $repositoryProperty->setAccessible(true);
             $repository = $repositoryProperty->getValue($repository);
         }
 
         $searchHandlerProperty = new \ReflectionProperty($repository, 'searchHandler');
-        $searchHandlerProperty->setAccessible(true);
 
         /** @var \Ibexa\Solr\Handler $searchHandler */
         $searchHandler = $searchHandlerProperty->getValue($repository);

@@ -1359,14 +1359,12 @@ class SearchServiceLocationTest extends BaseTestCase
                 $resultClass = get_class($result);
                 self::assertIsString($resultClass);
                 $property = new \ReflectionProperty($resultClass, 'maxScore');
-                $property->setAccessible(true);
                 $property->setValue($result, 0.0);
 
                 foreach ($result->searchHits as $hit) {
                     $hitClass = get_class($hit);
                     self::assertIsString($hitClass);
                     $property = new \ReflectionProperty($hitClass, 'score');
-                    $property->setAccessible(true);
                     $property->setValue($hit, 0.0);
                 }
             }
@@ -1378,11 +1376,9 @@ class SearchServiceLocationTest extends BaseTestCase
                 self::assertIsString($hitClass);
 
                 $property = new \ReflectionProperty($hitClass, 'index');
-                $property->setAccessible(true);
                 $property->setValue($hit, null);
 
                 $property = new \ReflectionProperty($hitClass, 'matchedTranslation');
-                $property->setAccessible(true);
                 $property->setValue($hit, null);
             }
         }

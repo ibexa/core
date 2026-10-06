@@ -3496,7 +3496,6 @@ class UrlAliasTest extends BaseServiceMockTest
     {
         $refObject = new \ReflectionObject($urlAliasService);
         $refProperty = $refObject->getProperty('settings');
-        $refProperty->setAccessible(true);
         $refProperty->setValue(
             $urlAliasService,
             $configuration
