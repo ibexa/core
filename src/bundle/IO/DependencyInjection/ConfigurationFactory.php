@@ -8,7 +8,6 @@
 namespace Ibexa\Bundle\IO\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Definition as ServiceDefinition;
 
 /**
@@ -54,7 +53,7 @@ interface ConfigurationFactory
      *
      * Note: if the factory implements ContainerAwareInterface, the ContainerBuilder will be made available as $this->container.
      *
-     * @param Definition $serviceDefinition
+     * @param ServiceDefinition $serviceDefinition
      * @param array $config
      */
     public function configureHandler(

@@ -8,41 +8,24 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Event;
 
-use Ibexa\Contracts\Core\Repository\BookmarkService;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentService as ContentServiceInterface;
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInterface;
-use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\FieldTypeService as FieldTypeServiceInterface;
-use Ibexa\Contracts\Core\Repository\LanguageService;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
-use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
-use Ibexa\Contracts\Core\Repository\NotificationService;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
-use Ibexa\Contracts\Core\Repository\ObjectStateService;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
-use Ibexa\Contracts\Core\Repository\RoleService;
 use Ibexa\Contracts\Core\Repository\RoleService as RoleServiceInterface;
-use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\SearchService as SearchServiceInterface;
-use Ibexa\Contracts\Core\Repository\SectionService;
 use Ibexa\Contracts\Core\Repository\SectionService as SectionServiceInterface;
-use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Repository\TrashService as TrashServiceInterface;
-use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
-use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
-use Ibexa\Contracts\Core\Repository\URLWildcardService;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
-use Ibexa\Contracts\Core\Repository\UserPreferenceService;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
-use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 
 final class Repository implements RepositoryInterface
@@ -50,55 +33,55 @@ final class Repository implements RepositoryInterface
     /** @var RepositoryInterface */
     private $repository;
 
-    /** @var BookmarkService */
+    /** @var BookmarkServiceInterface */
     private $bookmarkService;
 
-    /** @var ContentService */
+    /** @var ContentServiceInterface */
     private $contentService;
 
-    /** @var ContentTypeService */
+    /** @var ContentTypeServiceInterface */
     private $contentTypeService;
 
-    /** @var FieldTypeService */
+    /** @var FieldTypeServiceInterface */
     private $fieldTypeService;
 
-    /** @var LanguageService */
+    /** @var LanguageServiceInterface */
     private $languageService;
 
-    /** @var LocationService */
+    /** @var LocationServiceInterface */
     private $locationService;
 
-    /** @var NotificationService */
+    /** @var NotificationServiceInterface */
     private $notificationService;
 
-    /** @var ObjectStateService */
+    /** @var ObjectStateServiceInterface */
     private $objectStateService;
 
-    /** @var RoleService */
+    /** @var RoleServiceInterface */
     private $roleService;
 
-    /** @var SearchService */
+    /** @var SearchServiceInterface */
     private $searchService;
 
-    /** @var SectionService */
+    /** @var SectionServiceInterface */
     private $sectionService;
 
-    /** @var TrashService */
+    /** @var TrashServiceInterface */
     private $trashService;
 
-    /** @var URLAliasService */
+    /** @var URLAliasServiceInterface */
     private $urlAliasService;
 
-    /** @var URLService */
+    /** @var URLServiceInterface */
     private $urlService;
 
-    /** @var URLWildcardService */
+    /** @var URLWildcardServiceInterface */
     private $urlWildcardService;
 
-    /** @var UserPreferenceService */
+    /** @var UserPreferenceServiceInterface */
     private $userPreferenceService;
 
-    /** @var UserService */
+    /** @var UserServiceInterface */
     private $userService;
 
     public function __construct(

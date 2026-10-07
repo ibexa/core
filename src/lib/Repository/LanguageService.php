@@ -11,11 +11,9 @@ use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\Language as SPILanguage;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
@@ -29,7 +27,7 @@ use LogicException;
  */
 class LanguageService implements LanguageServiceInterface
 {
-    /** @var Repository */
+    /** @var RepositoryInterface */
     protected $repository;
 
     /** @var Handler */
@@ -44,7 +42,7 @@ class LanguageService implements LanguageServiceInterface
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param Repository $repository
+     * @param RepositoryInterface $repository
      * @param Handler $languageHandler
      * @param array $settings
      */
@@ -254,7 +252,7 @@ class LanguageService implements LanguageServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if languageCode argument
      *         is not string
-     * @throws NotFoundException if language could not be found
+     * @throws APINotFoundException if language could not be found
      */
     public function loadLanguage(string $languageCode): Language
     {
@@ -291,7 +289,7 @@ class LanguageService implements LanguageServiceInterface
      *
      * @return Language
      *
-     * @throws NotFoundException if language could not be found
+     * @throws APINotFoundException if language could not be found
      */
     public function loadLanguageById(int $languageId): Language
     {

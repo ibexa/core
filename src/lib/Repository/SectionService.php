@@ -11,13 +11,10 @@ namespace Ibexa\Core\Repository;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Section as SPISection;
-use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SectionHandler;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\SectionService as SectionServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -42,7 +39,7 @@ use function array_filter;
  */
 class SectionService implements SectionServiceInterface
 {
-    /** @var Repository */
+    /** @var RepositoryInterface */
     protected $repository;
 
     /** @var PermissionResolver */
@@ -51,7 +48,7 @@ class SectionService implements SectionServiceInterface
     /** @var PermissionCriterionResolver */
     protected $permissionCriterionResolver;
 
-    /** @var Handler */
+    /** @var SectionHandler */
     protected $sectionHandler;
 
     /** @var LocationHandler */
@@ -63,8 +60,8 @@ class SectionService implements SectionServiceInterface
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param Repository $repository
-     * @param Handler $sectionHandler
+     * @param RepositoryInterface $repository
+     * @param SectionHandler $sectionHandler
      * @param LocationHandler $locationHandler
      * @param PermissionCriterionResolver $permissionCriterionResolver
      * @param array $settings
@@ -196,7 +193,7 @@ class SectionService implements SectionServiceInterface
     /**
      * Loads a Section from its id ($sectionId).
      *
-     * @throws NotFoundException if section could not be found
+     * @throws APINotFoundException if section could not be found
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to read a section
      *
      * @param int $sectionId
@@ -235,7 +232,7 @@ class SectionService implements SectionServiceInterface
     /**
      * Loads a Section from its identifier ($sectionIdentifier).
      *
-     * @throws NotFoundException if section could not be found
+     * @throws APINotFoundException if section could not be found
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to read a section
      *
      * @param string $sectionIdentifier
@@ -401,7 +398,7 @@ class SectionService implements SectionServiceInterface
     /**
      * Deletes $section from content repository.
      *
-     * @throws NotFoundException If the specified section is not found
+     * @throws APINotFoundException If the specified section is not found
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete a section
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If section can not be deleted
      *         because it is still assigned to some contents,

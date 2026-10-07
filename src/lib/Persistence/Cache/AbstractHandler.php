@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Persistence\Cache;
 
-use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer;
@@ -24,7 +23,7 @@ abstract class AbstractHandler
     /** @var TagAwareAdapterInterface */
     protected $cache;
 
-    /** @var Handler */
+    /** @var PersistenceHandler */
     protected $persistenceHandler;
 
     /** @var PersistenceLogger */
@@ -43,7 +42,7 @@ abstract class AbstractHandler
      * Setups current handler with everything needed.
      *
      * @param TagAwareAdapterInterface $cache
-     * @param Handler $persistenceHandler
+     * @param PersistenceHandler $persistenceHandler
      * @param PersistenceLogger $logger
      * @param CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
      * @param CacheIdentifierSanitizer $cacheIdentifierSanitizer

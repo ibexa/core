@@ -7,13 +7,12 @@
 
 namespace Ibexa\Tests\Core\IO\MimeTypeDetector;
 
-use Ibexa\Core\IO\MimeTypeDetector\FileInfo;
 use Ibexa\Core\IO\MimeTypeDetector\FileInfo as MimeTypeDetector;
 use PHPUnit\Framework\TestCase;
 
 class FileInfoTest extends TestCase
 {
-    /** @var FileInfo */
+    /** @var MimeTypeDetector */
     protected $mimeTypeDetector;
 
     protected function setUp(): void

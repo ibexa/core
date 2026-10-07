@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
-use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as SPIHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
@@ -26,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ObjectStateLimitationTypeTest extends Base
 {
-    /** @var Handler|MockObject */
+    /** @var SPIHandler|MockObject */
     private $objectStateHandlerMock;
 
     /** @var Group[] */

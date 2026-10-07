@@ -9,11 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
-use Ibexa\Contracts\Core\Persistence\UserPreference\Handler;
 use Ibexa\Contracts\Core\Persistence\UserPreference\Handler as UserPreferenceHandler;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
-use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference as APIUserPreference;
@@ -22,15 +20,15 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 class UserPreferenceService implements UserPreferenceServiceInterface
 {
-    /** @var Repository */
+    /** @var RepositoryInterface */
     private $repository;
 
-    /** @var Handler */
+    /** @var UserPreferenceHandler */
     private $userPreferenceHandler;
 
     /**
-     * @param Repository $repository
-     * @param Handler $userPreferenceHandler
+     * @param RepositoryInterface $repository
+     * @param UserPreferenceHandler $userPreferenceHandler
      */
     public function __construct(
         RepositoryInterface $repository,

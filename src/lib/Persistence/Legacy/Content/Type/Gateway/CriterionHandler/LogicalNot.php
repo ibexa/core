@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot>
+ * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<LogicalNotCriterion>
  */
 final class LogicalNot implements CriterionHandlerInterface
 {

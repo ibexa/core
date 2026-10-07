@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldTypeInterface;
 use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\FieldType as FieldTypeInterface;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 
 /**
@@ -292,7 +291,7 @@ class FieldType implements FieldTypeInterface
     /**
      * Validates a field value based on the validator configuration in the field definition.
      *
-     * @param FieldDefinition $fieldDef The field definition of the field
+     * @param APIFieldDefinition $fieldDef The field definition of the field
      * @param Value $value The field value for which an action is performed
      *
      * @return ValidationError[]

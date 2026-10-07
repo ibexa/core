@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 use DateTime;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
-use Ibexa\Core\FieldType\Time\Value;
 use Ibexa\Core\FieldType\Time\Value as TimeValue;
 
 /**
@@ -170,7 +169,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
     /**
      * Get update field externals data.
      *
-     * @return Value
+     * @return TimeValue
      */
     public function getValidUpdateFieldData()
     {

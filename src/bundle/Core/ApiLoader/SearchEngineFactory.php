@@ -8,7 +8,6 @@
 namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngine;
-use Ibexa\Contracts\Core\Search\Handler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 
 /**
@@ -23,7 +22,7 @@ class SearchEngineFactory
      * Hash of registered search engines.
      * Key is the search engine identifier, value search handler itself.
      *
-     * @var Handler[]
+     * @var SearchHandler[]
      */
     protected $searchEngines = [];
 
@@ -37,7 +36,7 @@ class SearchEngineFactory
      *
      * Note It is strongly recommended to register a lazy persistent handler.
      *
-     * @param Handler $searchHandler
+     * @param SearchHandler $searchHandler
      * @param string $searchEngineIdentifier
      */
     public function registerSearchEngine(
@@ -50,7 +49,7 @@ class SearchEngineFactory
     /**
      * Returns registered search engines.
      *
-     * @return Handler[]
+     * @return SearchHandler[]
      */
     public function getSearchEngines()
     {

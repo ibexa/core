@@ -9,11 +9,8 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
-use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
-use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
@@ -26,14 +23,14 @@ class ContentUpdater
     /**
      * Content gateway.
      *
-     * @var Gateway
+     * @var ContentGateway
      */
     protected $contentGateway;
 
     /**
      * FieldValue converter registry.
      *
-     * @var ConverterRegistry
+     * @var Registry
      */
     protected $converterRegistry;
 
@@ -44,16 +41,16 @@ class ContentUpdater
      */
     protected $storageHandler;
 
-    /** @var Mapper */
+    /** @var ContentMapper */
     protected $contentMapper;
 
     /**
      * Creates a new content updater.
      *
-     * @param Gateway $contentGateway
-     * @param ConverterRegistry $converterRegistry
+     * @param ContentGateway $contentGateway
+     * @param Registry $converterRegistry
      * @param StorageHandler $storageHandler
-     * @param Mapper $contentMapper
+     * @param ContentMapper $contentMapper
      */
     public function __construct(
         ContentGateway $contentGateway,

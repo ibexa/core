@@ -10,7 +10,7 @@ namespace Ibexa\Bundle\Core\Imagine;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator as VariationPathGeneratorContract;
 
 /**
- * @deprecated 4.4.0 Use \Ibexa\Contracts\Core\Variation\VariationPathGenerator instead.
+ * @deprecated 4.4.0 Use VariationPathGeneratorContract instead.
  */
 interface VariationPathGenerator extends VariationPathGeneratorContract {}
 

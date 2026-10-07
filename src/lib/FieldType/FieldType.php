@@ -10,7 +10,6 @@ namespace Ibexa\Core\FieldType;
 use Ibexa\Contracts\Core\FieldType\Comparable;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -283,7 +282,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @param Value $value
      *
-     * @return FieldValue
+     * @return PersistenceValue
      */
     public function toPersistenceValue(SPIValue $value)
     {
@@ -302,7 +301,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
     /**
      * Converts a persistence $fieldValue to a Value.
      *
-     * @param FieldValue $fieldValue
+     * @param PersistenceValue $fieldValue
      *
      * @return Value
      */

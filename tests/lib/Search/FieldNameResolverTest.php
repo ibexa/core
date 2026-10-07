@@ -9,14 +9,10 @@ namespace Ibexa\Tests\Core\Search;
 
 use ArrayObject;
 use Ibexa\Contracts\Core\FieldType\Indexable;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as APICriterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause as APISortClause;
-use Ibexa\Contracts\Core\Search\FieldType;
 use Ibexa\Contracts\Core\Search\FieldType as SPIFieldType;
 use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldNameResolver;
@@ -813,18 +809,18 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return FieldType|MockObject
+     * @return SPIFieldType|MockObject
      */
     protected function getSearchFieldTypeMock()
     {
         return $this->createMock(SPIFieldType::class);
     }
 
-    /** @var Handler|MockObject */
+    /** @var SPIContentTypeHandler|MockObject */
     protected $contentTypeHandlerMock;
 
     /**
-     * @return Handler|MockObject
+     * @return SPIContentTypeHandler|MockObject
      */
     protected function getContentTypeHandlerMock()
     {
@@ -851,7 +847,7 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return Criterion|MockObject
+     * @return APICriterion|MockObject
      */
     protected function getCriterionMock()
     {
@@ -859,7 +855,7 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return SortClause|MockObject
+     * @return APISortClause|MockObject
      */
     protected function getSortClauseMock()
     {

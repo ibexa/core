@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
@@ -34,7 +33,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class SubtreeLimitationTypeTest extends Base
 {
-    /** @var Handler|MockObject */
+    /** @var SPILocationHandler|MockObject */
     private $locationHandlerMock;
 
     /**

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
-use Ibexa\Contracts\Core\Persistence\Setting\Handler;
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandler;
 use Ibexa\Contracts\Core\Persistence\Setting\Setting as SPISetting;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
@@ -22,7 +21,7 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 
 final class SettingService implements SettingServiceInterface
 {
-    /** @var Handler */
+    /** @var SettingHandler */
     private $settingHandler;
 
     /** @var PermissionResolver */

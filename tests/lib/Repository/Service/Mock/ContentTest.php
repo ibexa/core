@@ -23,13 +23,11 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group as SPIObjectState
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct as SPIContentUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
 use Ibexa\Contracts\Core\Persistence\Handler;
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService as APIContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\LocationService as APILocationService;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -1044,7 +1042,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(42)
             ->will($this->returnValue(['version']));
 
-        /* @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo */
+        /* @var APIVersionInfo $versionInfo */
         $contentService->deleteVersion($versionInfo);
     }
 
@@ -5822,7 +5820,7 @@ class ContentTest extends BaseServiceMockTest
             ->with($spiVersionInfo)
             ->will(self::returnValue($versionInfoMock));
 
-        /* @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfoMock */
+        /* @var APIVersionInfo $versionInfoMock */
         $content = $this->mockPublishVersion(123456, 126666, true);
         $locationServiceMock->expects(self::once())
             ->method('createLocation')
@@ -5954,7 +5952,7 @@ class ContentTest extends BaseServiceMockTest
             ->with($spiVersionInfo)
             ->will($this->returnValue($versionInfoMock));
 
-        /* @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfoMock */
+        /* @var APIVersionInfo $versionInfoMock */
         $content = $this->mockPublishVersion(123456, 126666, true);
         $locationServiceMock->expects($this->once())
             ->method('createLocation')
@@ -6237,7 +6235,7 @@ class ContentTest extends BaseServiceMockTest
             )
             ->will($this->returnValue($spiContent));
 
-        /* @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentMock */
+        /* @var APIContent $contentMock */
         $this->mockPublishUrlAliasesForContent($contentMock);
 
         return $contentMock;
@@ -6329,7 +6327,7 @@ class ContentTest extends BaseServiceMockTest
     protected $contentTypeServiceMock;
 
     /**
-     * @return MockObject|ContentTypeService
+     * @return MockObject|APIContentTypeService
      */
     protected function getContentTypeServiceMock()
     {
@@ -6343,7 +6341,7 @@ class ContentTest extends BaseServiceMockTest
     protected $locationServiceMock;
 
     /**
-     * @return MockObject|LocationService
+     * @return MockObject|APILocationService
      */
     protected function getLocationServiceMock()
     {

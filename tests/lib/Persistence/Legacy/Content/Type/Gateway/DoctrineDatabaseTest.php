@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase;
@@ -171,7 +170,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a Group update struct fixture.
      *
-     * @return UpdateStruct
+     * @return GroupUpdateStruct
      */
     protected function getGroupUpdateStructFixture()
     {

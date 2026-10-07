@@ -19,7 +19,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
-use Ibexa\Core\FieldType\Checkbox\Value;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
 
 /**
@@ -353,7 +352,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
         $contentItem = $searchResult->searchHits[0]->valueObject;
         /** @var Content $contentItem */
         $value = $contentItem->getField('is_active')->value;
-        /** @var Value $value */
+        /** @var CheckboxValue $value */
         self::assertSame($isActive, $value->bool);
     }
 

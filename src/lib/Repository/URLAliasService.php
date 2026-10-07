@@ -16,7 +16,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -26,11 +25,11 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 
 /**
- * @internal Type-hint \Ibexa\Contracts\Core\Repository\URLAliasService instead.
+ * @internal Type-hint URLAliasServiceInterface instead.
  */
 class URLAliasService implements URLAliasServiceInterface
 {
-    /** @var Repository */
+    /** @var RepositoryInterface */
     protected $repository;
 
     /** @var Handler */

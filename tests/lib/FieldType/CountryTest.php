@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Country\Exception\InvalidValue;
 use Ibexa\Core\FieldType\Country\Type as Country;
-use Ibexa\Core\FieldType\Country\Value;
 use Ibexa\Core\FieldType\Country\Value as CountryValue;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
@@ -112,7 +111,7 @@ class CountryTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return Value
+     * @return CountryValue
      */
     protected function getEmptyValueExpectation()
     {

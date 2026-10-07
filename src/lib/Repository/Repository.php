@@ -11,7 +11,6 @@ namespace Ibexa\Core\Repository;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
-use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
 use Ibexa\Contracts\Core\Repository\ContentService as ContentServiceInterface;
@@ -66,7 +65,7 @@ class Repository implements RepositoryInterface
     /**
      * Repository Handler object.
      *
-     * @var Handler
+     * @var PersistenceHandler
      */
     protected $persistenceHandler;
 

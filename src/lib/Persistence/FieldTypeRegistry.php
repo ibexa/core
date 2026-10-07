@@ -18,7 +18,7 @@ class FieldTypeRegistry
 {
     /**
      * Map of FieldTypes where key is field type identifier and value is FieldType object complying
-     * to {@link \Ibexa\Contracts\Core\FieldType\FieldType} interface.
+     * to {@link SPIFieldType} interface.
      *
      * @var SPIFieldType[]
      */
@@ -35,7 +35,7 @@ class FieldTypeRegistry
      * Creates FieldType registry.
      *
      * In $fieldTypes a mapping of field type identifier to object is expected.
-     * The FieldType object must comply to the {@link \Ibexa\Contracts\Core\FieldType\FieldType} interface.
+     * The FieldType object must comply to the {@link SPIFieldType} interface.
      *
      * @param FieldType[] $coreFieldTypes
      * @param SPIFieldType[] $fieldTypes A map where key is field type identifier and value is

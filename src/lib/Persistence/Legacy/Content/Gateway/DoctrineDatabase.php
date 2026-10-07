@@ -36,7 +36,6 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
@@ -84,7 +83,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * Language mask generator.
      *
-     * @var MaskGenerator
+     * @var LanguageMaskGenerator
      */
     protected $languageMaskGenerator;
 

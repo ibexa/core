@@ -11,14 +11,11 @@ namespace Ibexa\Core\Repository\Permission;
 use Exception;
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\TargetAwareType;
-use Ibexa\Contracts\Core\Limitation\Type;
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
-use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
-use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
@@ -49,7 +46,7 @@ class PermissionResolver implements PermissionResolverInterface
     /** @var LimitationService */
     private $limitationService;
 
-    /** @var Handler */
+    /** @var UserHandler */
     private $userHandler;
 
     /**
@@ -418,8 +415,8 @@ class PermissionResolver implements PermissionResolverInterface
      *         }
      *     );
      *
-     * @param callable(Repository): mixed $callback
-     * @param Repository $outerRepository
+     * @param callable(RepositoryInterface): mixed $callback
+     * @param RepositoryInterface $outerRepository
      *
      * @throws \RuntimeException Thrown on recursive sudo() use.
      * @throws Exception Re throws exceptions thrown inside $callback
@@ -447,7 +444,7 @@ class PermissionResolver implements PermissionResolverInterface
      * Prepare list of targets for the given Type keeping BC.
      *
      * @param array|null $targets
-     * @param Type $type
+     * @param LimitationType $type
      *
      * @return array|null
      */

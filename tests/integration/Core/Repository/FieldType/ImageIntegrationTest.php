@@ -19,7 +19,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\FieldType\Image\IO\Legacy as LegacyIOService;
-use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -489,7 +488,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
     /**
      * @return array<array{
-     *     Value
+     *     ImageValue
      * }>
      */
     public function providerForTestIsEmptyValue(): array
@@ -501,7 +500,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
     /**
      * @return array<array{
-     *     Value
+     *     ImageValue
      * }>
      */
     public function providerForTestIsNotEmptyValue(): array
@@ -529,7 +528,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
         $draft = $this->createContent($this->getValidCreationFieldData(), $type);
 
-        /** @var Value $imageFieldValue */
+        /** @var ImageValue $imageFieldValue */
         $imageFieldValue = $draft->getFieldValue('data');
         $initialValueImageUri = $imageFieldValue->uri;
 
@@ -539,7 +538,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         $updateStruct->setField('data', $imageFieldValue);
         $updatedDraft = $contentService->updateContent($draft->versionInfo, $updateStruct);
 
-        /** @var Value $updatedImageValue */
+        /** @var ImageValue $updatedImageValue */
         $updatedImageValue = $updatedDraft->getFieldValue('data');
 
         self::assertEquals($initialValueImageUri, $updatedImageValue->uri);
@@ -615,7 +614,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             [2]
         );
 
-        /** @var Value $imageField */
+        /** @var ImageValue $imageField */
         $imageField = $content->getFieldValue('image');
         $updatedAlternativeText = 'Updated alternative text';
         $imageField->alternativeText = $updatedAlternativeText;
@@ -997,7 +996,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         $imageField = $content->getField('image');
         self::assertNotNull($imageField, 'Image field not found');
 
-        /** @var Value $imageFieldValue */
+        /** @var ImageValue $imageFieldValue */
         $imageFieldValue = $imageField->value;
         self::assertSame($expectExists, $ioService->exists($imageFieldValue->id));
     }

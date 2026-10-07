@@ -9,7 +9,6 @@ namespace Ibexa\Core\Search\Legacy\Content\Mapper;
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Field;
@@ -34,13 +33,13 @@ class FullTextMapper
     /**
      * Content type handler.
      *
-     * @var Handler
+     * @var ContentTypeHandler
      */
     protected $contentTypeHandler;
 
     /**
      * @param FieldRegistry $fieldRegistry
-     * @param Handler $contentTypeHandler
+     * @param ContentTypeHandler $contentTypeHandler
      */
     public function __construct(
         FieldRegistry $fieldRegistry,

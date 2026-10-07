@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezbinaryfile
  *
- * @covers \Ibexa\Core\FieldType\BinaryFile\Type
+ * @covers \BinaryFileType
  */
 class BinaryFileTest extends BinaryBaseTest
 {

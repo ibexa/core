@@ -67,7 +67,7 @@ class SectionTest extends BaseTest
     /**
      * @dataProvider matchSectionProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section::matchLocation
+     * @covers \SectionIdentifierMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *
@@ -128,7 +128,7 @@ class SectionTest extends BaseTest
     /**
      * @dataProvider matchSectionProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section::matchLocation
+     * @covers \SectionIdentifierMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *

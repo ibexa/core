@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -39,7 +38,7 @@ class ImageAssetTest extends FieldTypeTest
     /** @var AssetMapper|MockObject */
     private $assetMapperMock;
 
-    /** @var Handler|MockObject */
+    /** @var SPIContentHandler|MockObject */
     private $contentHandlerMock;
 
     /**

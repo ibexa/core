@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Mapper\ContentLocationMapper;
 
-use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\LocationService as ApiLocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
@@ -22,7 +21,7 @@ class DecoratedLocationServiceTest extends TestCase
     /** @var DecoratedLocationService */
     private $locationService;
 
-    /** @var LocationService */
+    /** @var ApiLocationService */
     private $innerLocationService;
 
     /** @var ContentLocationMapper */

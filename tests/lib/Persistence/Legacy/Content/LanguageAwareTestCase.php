@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Core\Persistence;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 use Ibexa\Core\Search\Common\FieldNameGenerator;
@@ -35,7 +34,7 @@ abstract class LanguageAwareTestCase extends TestCase
     /**
      * Language mask generator.
      *
-     * @var MaskGenerator
+     * @var LanguageMaskGenerator
      */
     protected $languageMaskGenerator;
 
@@ -58,7 +57,7 @@ abstract class LanguageAwareTestCase extends TestCase
     /**
      * Returns a language mask generator.
      *
-     * @return MaskGenerator
+     * @return LanguageMaskGenerator
      */
     protected function getLanguageMaskGenerator()
     {

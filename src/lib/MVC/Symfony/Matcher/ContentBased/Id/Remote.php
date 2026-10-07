@@ -8,7 +8,6 @@
 namespace Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Core\MVC\Symfony\View\ContentValueView;
@@ -19,7 +18,7 @@ class Remote extends MultipleValued
     /**
      * Checks if a Location object matches.
      *
-     * @param Location $location
+     * @param APILocation $location
      *
      * @return bool
      */

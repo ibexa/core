@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\Author\Author;
 use Ibexa\Core\FieldType\Author\AuthorCollection;
 use Ibexa\Core\FieldType\Author\Type;
-use Ibexa\Core\FieldType\Author\Value;
 use Ibexa\Core\FieldType\Author\Value as AuthorValue;
 
 /**
@@ -107,7 +106,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     /**
      * Get initial field data for valid object creation.
      *
-     * @return Value
+     * @return AuthorValue
      */
     public function getValidCreationFieldData()
     {
@@ -199,7 +198,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     /**
      * Get update field externals data.
      *
-     * @return Value
+     * @return AuthorValue
      */
     public function getValidUpdateFieldData()
     {

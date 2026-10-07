@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\FieldType\ImageAsset;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -36,7 +35,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /** @var AssetMapper */
     private $assetMapper;
 
-    /** @var Handler */
+    /** @var SPIContentHandler */
     private $handler;
 
     public function __construct(

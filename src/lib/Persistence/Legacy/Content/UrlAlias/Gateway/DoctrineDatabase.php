@@ -16,7 +16,6 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler;
 use Ibexa\Core\Base\Exceptions\BadStateException;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use Psr\Log\LoggerInterface;
@@ -52,7 +51,7 @@ final class DoctrineDatabase extends Gateway
         'text_md5' => ParameterType::STRING,
     ];
 
-    /** @var MaskGenerator */
+    /** @var LanguageMaskGenerator */
     private $languageMaskGenerator;
 
     /**

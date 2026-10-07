@@ -46,7 +46,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\RelationListItem;
@@ -2087,7 +2086,7 @@ class ContentService implements ContentServiceInterface
      *
      * @throws APINotFoundException
      *
-     * @return Relation[]
+     * @return APIRelation[]
      */
     protected function internalLoadRelations(APIVersionInfo $versionInfo): array
     {
@@ -2097,7 +2096,7 @@ class ContentService implements ContentServiceInterface
             $versionInfo->versionNo
         );
 
-        /** @var $relations \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] */
+        /** @var $relations APIRelation[] */
         $relations = [];
         foreach ($spiRelations as $spiRelation) {
             $destinationContentInfo = $this->internalLoadContentInfoById($spiRelation->destinationContentId);
@@ -2211,7 +2210,7 @@ class ContentService implements ContentServiceInterface
      *
      * @param ContentInfo $contentInfo
      *
-     * @return Relation[]
+     * @return APIRelation[]
      */
     public function loadReverseRelations(ContentInfo $contentInfo): iterable
     {
@@ -2296,7 +2295,7 @@ class ContentService implements ContentServiceInterface
      * @param APIVersionInfo $sourceVersion
      * @param ContentInfo $destinationContent the destination of the relation
      *
-     * @return Relation the newly created relation
+     * @return APIRelation the newly created relation
      */
     public function addRelation(
         APIVersionInfo $sourceVersion,

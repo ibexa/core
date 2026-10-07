@@ -9,14 +9,13 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Section;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Section as SectionIdMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SectionTest extends BaseTest
 {
-    /** @var Section */
+    /** @var SectionIdMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -95,7 +94,7 @@ class SectionTest extends BaseTest
     /**
      * @dataProvider matchContentInfoProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Section::matchContentInfo
+     * @covers \SectionIdMatcher::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig

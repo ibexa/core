@@ -11,9 +11,7 @@ use DateTime;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception;
-use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
-use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -52,12 +50,12 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @since 6.10 The mtime of the $binaryFileCreateStruct must be a DateTime, as specified in the struct doc.
      *
-     * @param BinaryFileCreateStruct $binaryFileCreateStruct
+     * @param SPIBinaryFileCreateStruct $binaryFileCreateStruct
      *
      * @throws InvalidArgumentException if the $binaryFileCreateStruct is invalid
      * @throws \RuntimeException if a DBAL error occurs
      *
-     * @return BinaryFile
+     * @return SPIBinaryFile
      */
     public function create(SPIBinaryFileCreateStruct $binaryFileCreateStruct)
     {
@@ -119,7 +117,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @param string $spiBinaryFileId
      *
-     * @return BinaryFile
+     * @return SPIBinaryFile
      *
      * @throws BinaryFileNotFoundException if no row is found for $spiBinaryFileId
      * @throws DBALException Any unhandled DBAL exception
@@ -197,7 +195,7 @@ class LegacyDFSCluster implements IOMetadataHandler
     }
 
     /**
-     * @param BinaryFileCreateStruct $binaryFileCreateStruct
+     * @param SPIBinaryFileCreateStruct $binaryFileCreateStruct
      *
      * @return mixed
      */
@@ -212,7 +210,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      * Note that this is slightly incorrect, as it will return binaryfile for media files as well. It is a bit
      * of an issue, but shouldn't be a blocker given that this meta field isn't used that much.
      *
-     * @param BinaryFileCreateStruct $binaryFileCreateStruct
+     * @param SPIBinaryFileCreateStruct $binaryFileCreateStruct
      *
      * @return string
      */
@@ -303,7 +301,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @param array $properties database properties array
      *
-     * @return BinaryFile
+     * @return SPIBinaryFile
      */
     protected function mapArrayToSPIBinaryFile(array $properties)
     {
@@ -317,9 +315,9 @@ class LegacyDFSCluster implements IOMetadataHandler
     }
 
     /**
-     * @param BinaryFileCreateStruct $binaryFileCreateStruct
+     * @param SPIBinaryFileCreateStruct $binaryFileCreateStruct
      *
-     * @return BinaryFile
+     * @return SPIBinaryFile
      */
     protected function mapSPIBinaryFileCreateStructToSPIBinaryFile(SPIBinaryFileCreateStruct $binaryFileCreateStruct)
     {

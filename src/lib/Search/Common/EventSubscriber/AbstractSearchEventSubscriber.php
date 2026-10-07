@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Search\Common\EventSubscriber;
 
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
-use Ibexa\Contracts\Core\Search\Handler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 
 /**
@@ -16,7 +15,7 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
  */
 abstract class AbstractSearchEventSubscriber
 {
-    /** @var Handler */
+    /** @var SearchHandler */
     protected $searchHandler;
 
     /** @var PersistenceHandler */

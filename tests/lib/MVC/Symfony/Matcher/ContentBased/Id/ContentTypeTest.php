@@ -9,14 +9,13 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType as ContentTypeIdMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ContentTypeTest extends BaseTest
 {
-    /** @var ContentType */
+    /** @var ContentTypeIdMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -28,7 +27,7 @@ class ContentTypeTest extends BaseTest
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType::matchLocation
+     * @covers \ContentTypeIdMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig
@@ -112,7 +111,7 @@ class ContentTypeTest extends BaseTest
     /**
      * @dataProvider matchContentInfoProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType::matchContentInfo
+     * @covers \ContentTypeIdMatcher::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig

@@ -10,7 +10,6 @@ namespace Ibexa\Core\Search\Common;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
-use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -26,7 +25,7 @@ abstract class Indexer
     /** @var LoggerInterface */
     protected $logger;
 
-    /** @var Handler */
+    /** @var PersistenceHandler */
     protected $persistenceHandler;
 
     /** @var Connection */

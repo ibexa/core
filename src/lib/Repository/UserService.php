@@ -20,10 +20,8 @@ use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
-use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -68,7 +66,7 @@ class UserService implements UserServiceInterface
 {
     private const USER_FIELD_TYPE_NAME = 'ezuser';
 
-    /** @var Repository */
+    /** @var RepositoryInterface */
     protected $repository;
 
     /** @var Handler */
@@ -500,7 +498,7 @@ class UserService implements UserServiceInterface
         int $userId,
         array $prioritizedLanguages = []
     ): APIUser {
-        /** @var Content $content */
+        /** @var APIContent $content */
         $content = $this->repository->getContentService()->internalLoadContentById($userId, $prioritizedLanguages);
         // Get spiUser value from Field Value
         foreach ($content->getFields() as $field) {
@@ -1307,7 +1305,7 @@ class UserService implements UserServiceInterface
     /**
      * Builds the domain UserGroup object from provided Content object.
      *
-     * @param Content $content
+     * @param APIContent $content
      *
      * @return APIUserGroup
      */
@@ -1334,7 +1332,7 @@ class UserService implements UserServiceInterface
      * Builds the domain user object from provided persistence user object.
      *
      * @param SPIUser $spiUser
-     * @param Content|null $content
+     * @param APIContent|null $content
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
      * @return APIUser

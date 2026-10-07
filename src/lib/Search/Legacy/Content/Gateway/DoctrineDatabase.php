@@ -14,7 +14,6 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -55,7 +54,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * Language handler.
      *
-     * @var Handler
+     * @var LanguageHandler
      */
     private $languageHandler;
 

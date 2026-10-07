@@ -7,13 +7,11 @@
 
 namespace Ibexa\Core\Helper;
 
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as PersistenceLocationHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
-use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
 use Ibexa\Core\Repository\Values\Content\Location;
@@ -29,13 +27,13 @@ class PreviewLocationProvider
     /** @var ContentService */
     private $contentService;
 
-    /** @var Handler */
+    /** @var PersistenceLocationHandler */
     private $locationHandler;
 
     /**
      * @param LocationService $locationService
      * @param ContentService $contentService
-     * @param Handler $locationHandler
+     * @param PersistenceLocationHandler $locationHandler
      */
     public function __construct(
         LocationService $locationService,
@@ -80,7 +78,7 @@ class PreviewLocationProvider
      *
      * If the content doesn't have a location nor a location draft, null is returned.
      *
-     * @param Content $content
+     * @param APIContent $content
      *
      * @return APILocation|null
      */

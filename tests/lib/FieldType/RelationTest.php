@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\FieldType\Relation\Type;
 use Ibexa\Core\FieldType\Relation\Type as RelationType;
 use Ibexa\Core\FieldType\Relation\Value;
 use Ibexa\Core\FieldType\ValidationError;
@@ -73,7 +72,7 @@ class RelationTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return Type
+     * @return RelationType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -380,7 +379,7 @@ class RelationTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Relation\Type::getRelations
+     * @covers \RelationType::getRelations
      */
     public function testGetRelations()
     {

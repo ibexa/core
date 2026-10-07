@@ -12,7 +12,6 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -26,7 +25,7 @@ abstract class FieldBase extends CriterionHandler
     /**
      * Content type handler.
      *
-     * @var Handler
+     * @var ContentTypeHandler
      */
     protected $contentTypeHandler;
 

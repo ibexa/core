@@ -8,9 +8,7 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
-use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
@@ -34,16 +32,16 @@ class RemoveField extends Action
      */
     protected $storageHandler;
 
-    /** @var Mapper */
+    /** @var ContentMapper */
     protected $contentMapper;
 
     /**
      * Creates a new action.
      *
-     * @param Gateway $contentGateway
+     * @param ContentGateway $contentGateway
      * @param FieldDefinition $fieldDef
      * @param StorageHandler $storageHandler
-     * @param Mapper $contentMapper
+     * @param ContentMapper $contentMapper
      */
     public function __construct(
         ContentGateway $contentGateway,

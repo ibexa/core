@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Plural;
-use Ibexa\Core\FieldType\BinaryFile\Value;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\FileSizeValidator;
@@ -161,7 +160,7 @@ class FileSizeValidatorTest extends TestCase
     /**
      * @param int $size
      *
-     * @return Value
+     * @return BinaryFileValue
      */
     protected function getBinaryFileValue($size)
     {

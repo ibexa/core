@@ -10,13 +10,12 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth as DepthMatcher;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class DepthTest extends BaseTest
 {
-    /** @var Depth */
+    /** @var DepthMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -28,7 +27,7 @@ class DepthTest extends BaseTest
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth::matchLocation
+     * @covers \DepthMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig
@@ -83,7 +82,7 @@ class DepthTest extends BaseTest
     /**
      * @dataProvider matchContentInfoProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth::matchContentInfo
+     * @covers \DepthMatcher::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *

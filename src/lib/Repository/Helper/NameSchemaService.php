@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Repository\Helper;
 
 use Ibexa\Contracts\Core\FieldType\Value;
-use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
@@ -146,7 +145,7 @@ class NameSchemaService extends NativeNameSchemaService
      * an array of their current title value.
      *
      * @param array<string> $schemaIdentifiers
-     * @param Type|ContentType $contentType
+     * @param SPIContentType|ContentType $contentType
      * @param array<int|string, array<string, Value>>  $fieldMap
      * @param string $languageCode
      *

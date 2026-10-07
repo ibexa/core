@@ -11,7 +11,6 @@ namespace Ibexa\Bundle\Core\Command;
 use Doctrine\DBAL\Driver\Connection;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway as ImageStorageGateway;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
@@ -42,7 +41,7 @@ EOT;
 
     protected static $defaultName = 'ibexa:images:normalize-paths';
 
-    /** @var Gateway */
+    /** @var ImageStorageGateway */
     private $imageGateway;
 
     /** @var FilePathNormalizerInterface */

@@ -13,11 +13,8 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
-use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
-use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject as APIValueObject;
 
 /**
@@ -85,7 +82,7 @@ interface Type
      *
      * @throws InvalidArgumentException If the value does not match the expected type/structure
      *
-     * @param Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      */
     public function acceptValue(APILimitationValue $limitationValue);
 
@@ -94,7 +91,7 @@ interface Type
      *
      * Make sure {@see Type::acceptValue()} is checked first.
      *
-     * @param Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      * @return array<int, ValidationError>
      */
@@ -108,7 +105,7 @@ interface Type
      *
      * @param array<int, mixed> $limitationValues
      *
-     * @return Limitation
+     * @return APILimitationValue
      */
     public function buildValue(array $limitationValues);
 
@@ -121,10 +118,10 @@ interface Type
      * @throws BadStateException If value of the LimitationValue is unsupported
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
-     * @param Limitation $value
-     * @param UserReference $currentUser
-     * @param ValueObject $object
-     * @param array<int, ValueObject>|null $targets An array of location, parent or "assignment"
+     * @param APILimitationValue $value
+     * @param APIUserReference $currentUser
+     * @param APIValueObject $object
+     * @param array<int, APIValueObject>|null $targets An array of location, parent or "assignment"
      *                                                                 objects, if null: none where provided by caller
      *
      * @return bool|null Returns one of ACCESS_* constants, {@see Type::ACCESS_GRANTED}, {@see Type::ACCESS_ABSTAIN}, or {@see Type::ACCESS_DENIED}.
@@ -142,8 +139,8 @@ interface Type
      * @throws NotImplementedException If the limitation does not support
      *         being used as a Criterion.
      *
-     * @param Limitation $value
-     * @param UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param APIUserReference $currentUser
      *
      * @return CriterionInterface|LogicalOperator
      */

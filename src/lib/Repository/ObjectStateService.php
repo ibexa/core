@@ -9,14 +9,12 @@ namespace Ibexa\Core\Repository;
 
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState as SPIObjectState;
-use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group as SPIObjectStateGroup;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState as APIObjectState;
@@ -37,7 +35,7 @@ use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
  */
 class ObjectStateService implements ObjectStateServiceInterface
 {
-    /** @var Repository */
+    /** @var RepositoryInterface */
     protected $repository;
 
     /** @var Handler */
@@ -52,7 +50,7 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param Repository $repository
+     * @param RepositoryInterface $repository
      * @param Handler $objectStateHandler
      * @param array $settings
      */
@@ -633,7 +631,7 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * Converts the object state group SPI value object to API value object.
      *
-     * @param Group $spiObjectStateGroup
+     * @param SPIObjectStateGroup $spiObjectStateGroup
      * @param array $prioritizedLanguages
      *
      * @return APIObjectStateGroup

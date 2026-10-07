@@ -18,7 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId>
+ * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<ContainsFieldDefinitionIdCriterion>
  */
 final class ContainsFieldDefinitionId implements CriterionHandlerInterface
 {

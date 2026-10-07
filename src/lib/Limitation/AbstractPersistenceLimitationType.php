@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Limitation;
 
-use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as SPIPersistenceHandler;
 
 /**
@@ -15,11 +14,11 @@ use Ibexa\Contracts\Core\Persistence\Handler as SPIPersistenceHandler;
  */
 class AbstractPersistenceLimitationType
 {
-    /** @var Handler */
+    /** @var SPIPersistenceHandler */
     protected $persistence;
 
     /**
-     * @param Handler $persistence
+     * @param SPIPersistenceHandler $persistence
      */
     public function __construct(SPIPersistenceHandler $persistence)
     {

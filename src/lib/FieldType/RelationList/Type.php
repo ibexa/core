@@ -8,7 +8,6 @@
 namespace Ibexa\Core\FieldType\RelationList;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -73,7 +72,7 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var Handler */
+    /** @var SPIContentHandler */
     private $handler;
 
     /** @var TargetContentValidatorInterface */

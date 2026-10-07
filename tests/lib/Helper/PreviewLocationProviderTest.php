@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\Helper;
 
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -28,7 +27,7 @@ class PreviewLocationProviderTest extends TestCase
     /** @var LocationService|MockObject */
     private $locationService;
 
-    /** @var Handler|MockObject */
+    /** @var SPILocationHandler|MockObject */
     private $locationHandler;
 
     /** @var PreviewLocationProvider */

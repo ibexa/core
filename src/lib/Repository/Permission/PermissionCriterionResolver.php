@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Permission;
 
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver as APIPermissionCriterionResolver;
-use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
@@ -27,7 +26,7 @@ use RuntimeException;
  */
 class PermissionCriterionResolver implements APIPermissionCriterionResolver
 {
-    /** @var PermissionResolver */
+    /** @var PermissionResolverInterface */
     private $innerPermissionResolver;
 
     /** @var LimitationService */
@@ -36,7 +35,7 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
     /**
      * Constructor.
      *
-     * @param PermissionResolver $innerPermissionResolver
+     * @param PermissionResolverInterface $innerPermissionResolver
      * @param LimitationService $limitationService
      */
     public function __construct(
@@ -50,8 +49,8 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
     /**
      * Get permission criteria if needed and return false if no access at all.
      *
-     * @uses \Ibexa\Contracts\Core\Repository\PermissionResolver::getCurrentUserReference()
-     * @uses \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
+     * @uses PermissionResolverInterface::getCurrentUserReference()
+     * @uses PermissionResolverInterface::hasAccess()
      *
      * @param string $module
      * @param string $function

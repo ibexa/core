@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\TextLine\Type as TextLineType;
-use Ibexa\Core\FieldType\TextLine\Value;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -73,7 +72,7 @@ class TextLineTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return Value
+     * @return TextLineValue
      */
     protected function getEmptyValueExpectation()
     {

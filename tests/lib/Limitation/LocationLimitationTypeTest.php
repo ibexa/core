@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\Limitation;
 
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPIHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
@@ -31,7 +30,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class LocationLimitationTypeTest extends Base
 {
-    /** @var Handler|MockObject */
+    /** @var SPIHandler|MockObject */
     private $locationHandlerMock;
 
     /**

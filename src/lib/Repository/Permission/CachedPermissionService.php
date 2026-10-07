@@ -9,9 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Permission;
 
 use Exception;
-use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver as APIPermissionCriterionResolver;
-use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as APIPermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
@@ -33,10 +31,10 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 class CachedPermissionService implements PermissionService
 {
-    /** @var PermissionResolver */
+    /** @var APIPermissionResolver */
     private $innerPermissionResolver;
 
-    /** @var PermissionCriterionResolver */
+    /** @var APIPermissionCriterionResolver */
     private $permissionCriterionResolver;
 
     /** @var int */
@@ -68,8 +66,8 @@ class CachedPermissionService implements PermissionService
     /**
      * CachedPermissionService constructor.
      *
-     * @param PermissionResolver $innerPermissionResolver
-     * @param PermissionCriterionResolver $permissionCriterionResolver
+     * @param APIPermissionResolver $innerPermissionResolver
+     * @param APIPermissionCriterionResolver $permissionCriterionResolver
      * @param int $cacheTTL By default set to 5 seconds, should be low to avoid to many permission exceptions on long running requests / processes (even if tolerant search service should handle that)
      */
     public function __construct(

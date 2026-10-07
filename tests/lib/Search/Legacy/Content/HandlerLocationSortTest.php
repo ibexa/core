@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
-use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
@@ -110,7 +109,7 @@ class HandlerLocationSortTest extends AbstractTestCase
     /**
      * Returns a location mapper mock.
      *
-     * @return Mapper
+     * @return LocationMapper
      */
     protected function getLocationMapperMock()
     {

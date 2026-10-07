@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPITypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
@@ -37,7 +36,7 @@ class DoctrineDatabase extends Gateway
      *
      * Need this for being able to pick fields that are searchable.
      *
-     * @var Handler
+     * @var SPITypeHandler
      */
     protected $typeHandler;
 

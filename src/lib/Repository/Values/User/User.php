@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
-use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
@@ -34,7 +33,7 @@ class User extends APIUser
     /**
      * Returns the VersionInfo for this version.
      *
-     * @return VersionInfo
+     * @return APIVersionInfo
      */
     public function getVersionInfo(): APIVersionInfo
     {

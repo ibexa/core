@@ -15,7 +15,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
@@ -3703,7 +3702,7 @@ class LocationServiceTest extends BaseTest
     /**
      * Assert generated aliases to expected alias return.
      *
-     * @param URLAliasService $urlAliasService
+     * @param URLAliasServiceInterface $urlAliasService
      * @param array $expectedAliases
      */
     protected function assertGeneratedAliases(
@@ -3717,7 +3716,7 @@ class LocationServiceTest extends BaseTest
     }
 
     /**
-     * @param URLAliasService $urlAliasService
+     * @param URLAliasServiceInterface $urlAliasService
      * @param array $expectedSubItemAliases
      */
     private function assertAliasesBeforeCopy(

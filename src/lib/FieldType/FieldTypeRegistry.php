@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 
@@ -18,14 +17,14 @@ use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
  */
 class FieldTypeRegistry
 {
-    /** @var FieldType[] Hash of SPI FieldTypes where key is identifier */
+    /** @var SPIFieldType[] Hash of SPI FieldTypes where key is identifier */
     protected $fieldTypes;
 
     /** @var string[] */
     private $concreteFieldTypesIdentifiers;
 
     /**
-     * @param FieldType[] $fieldTypes Hash of SPI FieldTypes where key is identifier
+     * @param SPIFieldType[] $fieldTypes Hash of SPI FieldTypes where key is identifier
      */
     public function __construct(array $fieldTypes = [])
     {
@@ -35,7 +34,7 @@ class FieldTypeRegistry
     /**
      * Returns a list of all SPI FieldTypes.
      *
-     * @return FieldType[]
+     * @return SPIFieldType[]
      */
     public function getFieldTypes(): array
     {
@@ -49,7 +48,7 @@ class FieldTypeRegistry
      *
      * @param string $identifier
      *
-     * @return FieldType
+     * @return SPIFieldType
      */
     public function getFieldType($identifier): SPIFieldType
     {

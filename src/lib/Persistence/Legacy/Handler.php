@@ -21,7 +21,6 @@ use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as UrlWildcardH
 use Ibexa\Contracts\Core\Persistence\Handler as HandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Notification\Handler as NotificationHandler;
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandler;
-use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler as SPITransactionHandler;
 use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandler;
 use Ibexa\Contracts\Core\Persistence\UserPreference\Handler as UserPreferenceHandler;
@@ -50,7 +49,7 @@ class Handler implements HandlerInterface
     /** @var SectionHandler */
     protected $sectionHandler;
 
-    /** @var TransactionHandler */
+    /** @var SPITransactionHandler */
     protected $transactionHandler;
 
     /** @var TrashHandler */
@@ -198,7 +197,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @return TransactionHandler
+     * @return SPITransactionHandler
      */
     public function transactionHandler()
     {

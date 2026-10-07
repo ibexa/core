@@ -21,7 +21,6 @@ use Ibexa\Contracts\Core\Search\VersatileHandler as SearchHandlerInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
-use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper;
@@ -74,7 +73,7 @@ class Handler implements SearchHandlerInterface
     /**
      * Content mapper.
      *
-     * @var Mapper
+     * @var ContentMapper
      */
     protected $contentMapper;
 

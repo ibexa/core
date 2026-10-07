@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Values\Content;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem as APITrashItem;
@@ -23,7 +22,7 @@ class TrashItem extends APITrashItem
     /**
      * Content info of the content object of this trash item.
      *
-     * @var ContentInfo
+     * @var APIContentInfo
      */
     protected $contentInfo;
 
@@ -36,7 +35,7 @@ class TrashItem extends APITrashItem
     /**
      * Returns the content info of the content object of this trash item.
      *
-     * @return ContentInfo
+     * @return APIContentInfo
      */
     public function getContentInfo(): APIContentInfo
     {

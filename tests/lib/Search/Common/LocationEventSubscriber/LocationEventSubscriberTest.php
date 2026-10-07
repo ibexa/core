@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
-use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\Events\Location\CreateLocationEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -34,7 +33,7 @@ final class LocationEventSubscriberTest extends TestCase
     /** @var SearchHandler|MockObject */
     private $searchHandler;
 
-    /** @var Handler|MockObject */
+    /** @var PersistenceHandler|MockObject */
     private $persistenceHandler;
 
     /** @var LocationEventSubscriber */

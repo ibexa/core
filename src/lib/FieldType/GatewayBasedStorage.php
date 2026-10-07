@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 /**
  * Storage gateway base class to be used by FieldType storages.
  *
- * @deprecated Since 6.11. Use {@link \Ibexa\Contracts\Core\FieldType\GatewayBasedStorage}
+ * @deprecated Since 6.11. Use {@link SPIGatewayBasedStorage}
  *
  * This class gives a common basis to realized gateway based storage
  * dispatching. It is intended to deal as a base class for FieldType storages,

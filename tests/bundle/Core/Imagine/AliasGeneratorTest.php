@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\AliasGenerator;
 use Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator;
-use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -109,7 +108,7 @@ class AliasGeneratorTest extends TestCase
     /**
      * @dataProvider supportsValueProvider
      *
-     * @param Value $value
+     * @param FieldTypeValue $value
      * @param bool $isSupported
      */
     public function testSupportsValue(

@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Persistence\Cache;
 
-use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
@@ -21,7 +20,7 @@ use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
  */
 abstract class AbstractInMemoryPersistenceHandler extends AbstractInMemoryHandler
 {
-    /** @var Handler */
+    /** @var PersistenceHandler */
     protected $persistenceHandler;
 
     /** @var CacheIdentifierGeneratorInterface */

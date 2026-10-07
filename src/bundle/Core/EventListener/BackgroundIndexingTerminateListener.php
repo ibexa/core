@@ -9,7 +9,6 @@ namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
-use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
@@ -27,7 +26,7 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
 {
     use LoggerAwareTrait;
 
-    /** @var Handler */
+    /** @var PersistenceHandler */
     protected $persistenceHandler;
 
     /** @var SearchHandler */

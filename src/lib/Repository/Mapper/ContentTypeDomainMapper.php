@@ -9,28 +9,21 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Mapper;
 
 use DateTime;
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as SPILanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition as SPIFieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group as SPIContentTypeGroup;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPITypeHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct as SPIContentTypeUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as APIContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft as APIContentTypeDraft;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup as APIContentTypeGroup;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct as APIContentTypeUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct as APIFieldDefinitionCreateStruct;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct as APIFieldDefinitionUpdateStruct;
-use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Core\Base\Exceptions\ContentTypeFieldDefinitionValidationException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
@@ -49,7 +42,7 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
  */
 class ContentTypeDomainMapper extends ProxyAwareDomainMapper
 {
-    /** @var Handler */
+    /** @var SPITypeHandler */
     protected $contentTypeHandler;
 
     /** @var SPILanguageHandler */
@@ -124,10 +117,10 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
      * Builds ContentType update struct for storage layer.
      *
      * @param APIContentTypeDraft $contentTypeDraft
-     * @param ContentTypeUpdateStruct $contentTypeUpdateStruct
-     * @param UserReference $user
+     * @param APIContentTypeUpdateStruct $contentTypeUpdateStruct
+     * @param APIUserReference $user
      *
-     * @return UpdateStruct
+     * @return SPIContentTypeUpdateStruct
      */
     public function buildSPIContentTypeUpdateStruct(
         APIContentTypeDraft $contentTypeDraft,
@@ -235,7 +228,7 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
         $mainLanguageCode,
         array $prioritizedLanguages = []
     ) {
-        /** @var $fieldType \Ibexa\Contracts\Core\FieldType\FieldType */
+        /** @var $fieldType SPIFieldType */
         $fieldType = $this->fieldTypeRegistry->getFieldType($spiFieldDefinition->fieldType);
         $fieldDefinition = new FieldDefinition(
             [
@@ -271,7 +264,7 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException if validator configuration or
      *         field setting do not validate
      *
-     * @param FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
+     * @param APIFieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
      * @param APIFieldDefinition $fieldDefinition
      *
      * @return SPIFieldDefinition
@@ -280,7 +273,7 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
         APIFieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct,
         APIFieldDefinition $fieldDefinition
     ) {
-        /** @var $fieldType \Ibexa\Contracts\Core\FieldType\FieldType */
+        /** @var $fieldType SPIFieldType */
         $fieldType = $this->fieldTypeRegistry->getFieldType(
             $fieldDefinition->fieldTypeIdentifier
         );
@@ -358,7 +351,7 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
     }
 
     /**
-     * @param FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
+     * @param APIFieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
      * @param APIFieldDefinition $fieldDefinition
      * @param string $mainLanguageCode
      *
@@ -372,7 +365,7 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
         APIFieldDefinition $fieldDefinition,
         string $mainLanguageCode
     ): SPIFieldDefinition {
-        /** @var $fieldType \Ibexa\Contracts\Core\FieldType\FieldType */
+        /** @var $fieldType SPIFieldType */
         $fieldType = $this->fieldTypeRegistry->getFieldType(
             $fieldDefinition->fieldTypeIdentifier
         );
@@ -458,8 +451,8 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException if validator configuration or
      *         field setting do not validate
      *
-     * @param FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
-     * @param FieldType $fieldType
+     * @param APIFieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param SPIFieldType $fieldType
      *
      * @return SPIFieldDefinition
      */
@@ -513,8 +506,8 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
     }
 
     /**
-     * @param FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
-     * @param FieldType $fieldType
+     * @param APIFieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param SPIFieldType $fieldType
      * @param string $mainLanguageCode
      *
      * @return SPIFieldDefinition

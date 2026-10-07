@@ -9,7 +9,6 @@ namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -88,7 +87,7 @@ class PreviewController
 
     /**
      * @throws NotImplementedException If Content is missing location as this is not supported in current version
-     * @throws NotFoundException
+     * @throws APINotFoundException
      * @throws UnauthorizedException
      */
     public function previewContentAction(

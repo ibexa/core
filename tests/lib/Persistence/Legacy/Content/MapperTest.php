@@ -19,7 +19,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCr
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation as RelationValue;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
-use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
@@ -41,7 +40,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Value converter registry mock.
      *
-     * @var ConverterRegistry
+     * @var Registry
      */
     protected $valueConverterRegistryMock;
 
@@ -653,7 +652,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns a FieldValue converter registry mock.
      *
-     * @return ConverterRegistry
+     * @return Registry
      */
     protected function getValueConverterRegistryMock()
     {

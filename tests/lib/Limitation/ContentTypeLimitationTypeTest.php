@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -32,7 +31,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ContentTypeLimitationTypeTest extends Base
 {
-    /** @var Handler|MockObject */
+    /** @var SPIHandler|MockObject */
     private $contentTypeHandlerMock;
 
     /**

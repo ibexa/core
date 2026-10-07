@@ -9,7 +9,6 @@ namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Ibexa\Bundle\IO\BinaryStreamResponse;
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as RepositoryNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -48,7 +47,7 @@ class DownloadController extends Controller
      * Download binary file identified by field ID.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field $fieldId can't be found, or the translation can't be found.
-     * @throws NotFoundException If the content is trashed, or can't be found.
+     * @throws RepositoryNotFoundException If the content is trashed, or can't be found.
      * @throws UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
      */
     public function downloadBinaryFileByIdAction(
@@ -98,7 +97,7 @@ class DownloadController extends Controller
      * Download binary file identified by field identifier.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field can't be found, or the translation can't be found.
-     * @throws NotFoundException If the content is trashed, or can't be found.
+     * @throws RepositoryNotFoundException If the content is trashed, or can't be found.
      * @throws UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
      */
     public function downloadBinaryFileAction(

@@ -22,7 +22,6 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation as RelationValue;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
-use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
@@ -54,7 +53,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Gateway mock.
      *
-     * @var Gateway
+     * @var ContentGateway
      */
     protected $gatewayMock;
 
@@ -1663,7 +1662,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a mock object for the Content Gateway.
      *
-     * @return Gateway|MockObject
+     * @return ContentGateway|MockObject
      */
     protected function getGatewayMock()
     {

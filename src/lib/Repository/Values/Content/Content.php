@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
-use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
@@ -23,7 +22,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
  * @property-read ContentInfo $contentInfo convenience getter for $versionInfo->contentInfo
  * @property-read ContentType $contentType convenience getter for $versionInfo->contentInfo->contentType
  * @property-read int $id convenience getter for retrieving the contentId: $versionInfo->content->id
- * @property-read VersionInfo $versionInfo calls getVersionInfo()
+ * @property-read APIVersionInfo $versionInfo calls getVersionInfo()
  * @property-read Field[] $fields Access fields, calls getFields()
  *
  * @internal Meant for internal use by Repository, type hint against API object instead.
@@ -36,7 +35,7 @@ class Content extends APIContent
     /** @var mixed[][] An array of array of field values like[$fieldDefIdentifier][$languageCode] */
     protected $fields;
 
-    /** @var VersionInfo */
+    /** @var APIVersionInfo */
     protected $versionInfo;
 
     /** @var ContentType */

@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\User\Type;
-use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\FieldType\User\Value as UserValue;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProvider;
@@ -139,7 +138,7 @@ class UserIntegrationTest extends BaseIntegrationTest
     /**
      * Get initial field externals data.
      *
-     * @return Value
+     * @return UserValue
      */
     public function getValidCreationFieldData(): UserValue
     {
@@ -207,7 +206,7 @@ class UserIntegrationTest extends BaseIntegrationTest
     /**
      * Get update field externals data.
      *
-     * @return Value
+     * @return UserValue
      */
     public function getValidUpdateFieldData()
     {

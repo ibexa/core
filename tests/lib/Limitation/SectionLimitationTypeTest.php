@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
 use Ibexa\Contracts\Core\Persistence\Content\Section as SPISection;
-use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SPISectionHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -34,7 +33,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class SectionLimitationTypeTest extends Base
 {
-    /** @var Handler|MockObject */
+    /** @var SPISectionHandler|MockObject */
     private $sectionHandlerMock;
 
     /**

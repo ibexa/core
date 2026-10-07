@@ -9,7 +9,6 @@ namespace Ibexa\Core\MVC\Symfony\Security\EventListener;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
-use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\InteractiveLoginEvent;
@@ -151,7 +150,7 @@ class SecurityListener implements EventSubscriberInterface
      * One may want to override this method to use their own user class.
      *
      * @param UserInterface $originalUser
-     * @param User $apiUser
+     * @param APIUser $apiUser
      *
      * @return IbexaUser
      */

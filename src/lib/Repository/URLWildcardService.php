@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
@@ -34,7 +33,7 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
  */
 class URLWildcardService implements URLWildcardServiceInterface
 {
-    /** @var Repository */
+    /** @var RepositoryInterface */
     protected $repository;
 
     /** @var Handler */
@@ -49,7 +48,7 @@ class URLWildcardService implements URLWildcardServiceInterface
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param Repository $repository
+     * @param RepositoryInterface $repository
      * @param Handler $urlWildcardHandler
      * @param PermissionResolver $permissionResolver
      * @param array $settings

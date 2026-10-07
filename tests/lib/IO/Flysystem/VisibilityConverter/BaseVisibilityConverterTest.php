@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\IO\Flysystem\VisibilityConverter;
 
 use Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter;
-use League\Flysystem\UnixVisibility\VisibilityConverter;
 use League\Flysystem\UnixVisibility\VisibilityConverter as FlysystemVisibilityConverter;
 use League\Flysystem\Visibility;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -27,7 +26,7 @@ abstract class BaseVisibilityConverterTest extends TestCase
 
     protected BaseVisibilityConverter $visibilityConverter;
 
-    /** @var VisibilityConverter&MockObject */
+    /** @var FlysystemVisibilityConverter&MockObject */
     protected FlysystemVisibilityConverter $innerVisibilityConverterMock;
 
     abstract protected function buildVisibilityConverter(): BaseVisibilityConverter;

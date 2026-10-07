@@ -19,10 +19,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation as APIParentDepthLimitation;
-use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -40,7 +38,7 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      *
-     * @param Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      */
     public function acceptValue(APILimitationValue $limitationValue)
     {
@@ -65,7 +63,7 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      * @return ValidationError[]
      */
@@ -81,7 +79,7 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @param mixed[] $limitationValues
      *
-     * @return Limitation
+     * @return APILimitationValue
      */
     public function buildValue(array $limitationValues)
     {
@@ -96,8 +94,8 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
      * @throws BadStateException If value of the LimitationValue is unsupported
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
-     * @param Limitation $value
-     * @param UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param APIUserReference $currentUser
      * @param ValueObject $object
      * @param ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
@@ -167,7 +165,7 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $targets does not contain
      *         objects of type LocationCreateStruct
      *
-     * @param Limitation $value
+     * @param APILimitationValue $value
      * @param array|null $targets
      *
      * @return bool
@@ -207,8 +205,8 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param Limitation $value
-     * @param UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param APIUserReference $currentUser
      *
      * @return CriterionInterface
      */

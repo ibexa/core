@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Image\Type as ImageType;
-use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
@@ -152,7 +151,7 @@ class ImageTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return Value
+     * @return ImageValue
      */
     protected function getEmptyValueExpectation()
     {

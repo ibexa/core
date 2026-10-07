@@ -9,13 +9,12 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote as RemoteIdMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
 
 class RemoteTest extends BaseTest
 {
-    /** @var Remote */
+    /** @var RemoteIdMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -27,7 +26,7 @@ class RemoteTest extends BaseTest
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote::matchLocation
+     * @covers \RemoteIdMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string|string[] $matchingConfig
@@ -72,7 +71,7 @@ class RemoteTest extends BaseTest
     /**
      * @dataProvider matchContentInfoProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote::matchContentInfo
+     * @covers \RemoteIdMatcher::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string|string[] $matchingConfig

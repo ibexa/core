@@ -12,7 +12,6 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use RuntimeException;
@@ -27,7 +26,7 @@ class FieldRelation extends FieldBase
      *
      * c_rel: ContentGateway::CONTENT_RELATION_TABLE
      *
-     * @see Gateway::CONTENT_RELATION_TABLE
+     * @see ContentGateway::CONTENT_RELATION_TABLE
      */
     private const CONTENT_ITEM_REL_COLUMN = 'c_rel.to_contentobject_id';
 

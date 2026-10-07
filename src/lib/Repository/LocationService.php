@@ -17,7 +17,6 @@ use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilterin
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
@@ -517,7 +516,7 @@ class LocationService implements LocationServiceInterface
     /**
      * Updates $location in the content repository.
      *
-     * @throws NotFoundException
+     * @throws APINotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the remoteId exists already
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this location
@@ -585,7 +584,7 @@ class LocationService implements LocationServiceInterface
     /**
      * Swaps the contents held by $location1 and $location2.
      *
-     * @throws NotFoundException
+     * @throws APINotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to swap content
@@ -638,7 +637,7 @@ class LocationService implements LocationServiceInterface
     /**
      * Hides the $location and marks invisible all descendants of $location.
      *
-     * @throws NotFoundException
+     * @throws APINotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to hide this location
@@ -673,7 +672,7 @@ class LocationService implements LocationServiceInterface
      * This method and marks visible all descendants of $locations
      * until a hidden location is found.
      *
-     * @throws NotFoundException
+     * @throws APINotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to unhide this location

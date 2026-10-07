@@ -10,15 +10,12 @@ namespace Ibexa\Core\Repository\Mapper;
 use DateTime;
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
-use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
-use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct as SPILocationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
-use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as TypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
@@ -58,7 +55,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     public const MAX_LOCATION_PRIORITY = 2147483647;
     public const MIN_LOCATION_PRIORITY = -2147483648;
 
-    /** @var Handler */
+    /** @var ContentHandler */
     protected $contentHandler;
 
     /** @var LocationHandler */
@@ -160,7 +157,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      * Builds a Content domain object from value object returned from persistence.
      *
      * @param SPIContent $spiContent
-     * @param Type $spiContentType
+     * @param SPIContentType $spiContentType
      * @param string[] $prioritizedLanguages Prioritized language codes to filter fields on
      * @param string|null $fieldAlwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
      *
@@ -224,7 +221,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      * @throws InvalidArgumentType On invalid $contentType
      *
      * @param SPIContent\Field[] $spiFields
-     * @param ContentType|Type $contentType
+     * @param ContentType|SPIContentType $contentType
      * @param string[] $prioritizedLanguages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
      * @param string|null $alwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
@@ -718,7 +715,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      * @param mixed $contentVersionNo
      * @param bool $isContentHidden
      *
-     * @return CreateStruct
+     * @return SPILocationCreateStruct
      */
     public function buildSPILocationCreateStruct(
         $locationCreateStruct,

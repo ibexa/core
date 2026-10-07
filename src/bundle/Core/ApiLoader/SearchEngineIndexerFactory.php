@@ -9,7 +9,6 @@ namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngine;
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngineIndexer;
-use Ibexa\Core\Search\Common\Indexer;
 use Ibexa\Core\Search\Common\Indexer as SearchEngineIndexer;
 
 /**
@@ -24,7 +23,7 @@ class SearchEngineIndexerFactory
      * Hash of registered search engine indexers.
      * Key is the search engine identifier, value indexer itself.
      *
-     * @var Indexer[]
+     * @var SearchEngineIndexer[]
      */
     protected $searchEngineIndexers = [];
 
@@ -38,7 +37,7 @@ class SearchEngineIndexerFactory
      *
      * note: It is strongly recommended to register indexer as a lazy service.
      *
-     * @param Indexer $searchEngineIndexer
+     * @param SearchEngineIndexer $searchEngineIndexer
      * @param string $searchEngineIdentifier
      */
     public function registerSearchEngineIndexer(
@@ -51,7 +50,7 @@ class SearchEngineIndexerFactory
     /**
      * Returns registered search engine indexers.
      *
-     * @return Indexer[]
+     * @return SearchEngineIndexer[]
      */
     public function getSearchEngineIndexers()
     {
@@ -64,7 +63,7 @@ class SearchEngineIndexerFactory
      *
      * @throws InvalidSearchEngineIndexer
      *
-     * @return Indexer
+     * @return SearchEngineIndexer
      */
     public function buildSearchEngineIndexer(): SearchEngineIndexer
     {

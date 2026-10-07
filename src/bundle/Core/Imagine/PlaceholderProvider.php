@@ -7,7 +7,6 @@
 
 namespace Ibexa\Bundle\Core\Imagine;
 
-use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 
 interface PlaceholderProvider
@@ -15,7 +14,7 @@ interface PlaceholderProvider
     /**
      * Provides a placeholder image path for a given Image FieldType value.
      *
-     * @param Value $value
+     * @param ImageValue $value
      * @param array $options
      *
      * @return string Path to placeholder

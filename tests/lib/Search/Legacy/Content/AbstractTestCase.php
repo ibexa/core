@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Doctrine\DBAL\DBALException;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
@@ -39,7 +38,7 @@ class AbstractTestCase extends LanguageAwareTestCase
      */
     private $converterRegistry;
 
-    /** @var Handler */
+    /** @var SPIContentTypeHandler */
     private $contentTypeHandler;
 
     /**

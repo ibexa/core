@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
-use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct as SPILanguageCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as SPILanguageHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
@@ -82,11 +81,11 @@ class CachingLanguageHandlerTest extends TestCase
     /**
      * Returns a Language CreateStruct.
      *
-     * @return CreateStruct
+     * @return SPILanguageCreateStruct
      */
     protected function getCreateStructFixture()
     {
-        return new CreateStruct();
+        return new SPILanguageCreateStruct();
     }
 
     /**

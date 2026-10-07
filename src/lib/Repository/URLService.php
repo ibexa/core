@@ -11,7 +11,6 @@ namespace Ibexa\Core\Repository;
 use DateTime;
 use DateTimeInterface;
 use Exception;
-use Ibexa\Contracts\Core\Persistence\URL\Handler;
 use Ibexa\Contracts\Core\Persistence\URL\Handler as URLHandler;
 use Ibexa\Contracts\Core\Persistence\URL\URL as SPIUrl;
 use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct as SPIUrlUpdateStruct;
@@ -35,7 +34,7 @@ class URLService implements URLServiceInterface
     /** @var Repository */
     protected $repository;
 
-    /** @var Handler */
+    /** @var URLHandler */
     protected $urlHandler;
 
     /** @var PermissionResolver */

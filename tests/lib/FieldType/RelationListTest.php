@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -25,7 +24,7 @@ class RelationListTest extends FieldTypeTest
     private const DESTINATION_CONTENT_ID_14 = 14;
     private const DESTINATION_CONTENT_ID_22 = 22;
 
-    /** @var Handler */
+    /** @var SPIContentHandler */
     private $contentHandler;
 
     /** @var TargetContentValidatorInterface|MockObject */

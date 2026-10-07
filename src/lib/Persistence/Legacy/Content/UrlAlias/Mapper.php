@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 
 /**
@@ -19,14 +18,14 @@ class Mapper
     /**
      * Language mask generator.
      *
-     * @var MaskGenerator
+     * @var LanguageMaskGenerator
      */
     protected $languageMaskGenerator;
 
     /**
      * Creates a new UrlWildcard Handler.
      *
-     * @param MaskGenerator $languageMaskGenerator
+     * @param LanguageMaskGenerator $languageMaskGenerator
      */
     public function __construct(LanguageMaskGenerator $languageMaskGenerator)
     {

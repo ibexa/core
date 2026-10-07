@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReferenc
 use Ibexa\Core\Repository\Values\User\UserReference;
 use InvalidArgumentException;
 use Symfony\Component\Security\Core\User\EquatableInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as CoreUserInterface;
 
 /**
@@ -26,7 +25,7 @@ use Symfony\Component\Security\Core\User\UserInterface as CoreUserInterface;
  */
 class UserWrapped implements ReferenceUserInterface, EquatableInterface
 {
-    /** @var UserInterface */
+    /** @var CoreUserInterface */
     private $wrappedUser;
 
     /** @var APIUser */
@@ -81,7 +80,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @param UserInterface $wrappedUser
+     * @param CoreUserInterface $wrappedUser
      *
      * @throws InvalidArgumentException If $wrappedUser is instance of self or User to avoid duplicated APIUser in
      *     session.
@@ -98,7 +97,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @return UserInterface
+     * @return CoreUserInterface
      */
     public function getWrappedUser()
     {

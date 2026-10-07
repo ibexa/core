@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
-use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType as ParentContentTypeMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -19,7 +18,7 @@ class ParentContentTypeTest extends BaseTest
     private const EXAMPLE_LOCATION_ID = 54;
     private const EXAMPLE_PARENT_LOCATION_ID = 2;
 
-    /** @var ParentContentType */
+    /** @var ParentContentTypeMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -81,7 +80,7 @@ class ParentContentTypeTest extends BaseTest
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType::matchLocation
+     * @covers \ParentContentTypeMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *
@@ -131,7 +130,7 @@ class ParentContentTypeTest extends BaseTest
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType::matchContentInfo
+     * @covers \ParentContentTypeMatcher::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *

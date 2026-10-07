@@ -402,7 +402,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
+     * @covers \AuthorType::acceptValue
      */
     public function testAcceptValueInvalidType()
     {
@@ -413,7 +413,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
+     * @covers \AuthorType::acceptValue
      */
     public function testAcceptValueInvalidFormat()
     {
@@ -426,7 +426,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
+     * @covers \AuthorType::acceptValue
      */
     public function testAcceptValueValidFormat()
     {
@@ -440,7 +440,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Value::__construct
+     * @covers \AuthorValue::__construct
      */
     public function testBuildFieldValueWithoutParam()
     {
@@ -450,7 +450,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Value::__construct
+     * @covers \AuthorValue::__construct
      */
     public function testBuildFieldValueWithParam()
     {
@@ -460,7 +460,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Value::__toString
+     * @covers \AuthorValue::__toString
      */
     public function testFieldValueToString()
     {

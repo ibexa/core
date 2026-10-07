@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\FieldType\Generic\ValidationError;
 
-use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\FieldType\ValidationError as ValidationErrorInterface;
 use Ibexa\Contracts\Core\Repository\Values\Translation;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
@@ -18,7 +17,7 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
  * Constraint violation validation error.
  *
  * Adapts {@see ConstraintViolationInterface} to
- * {@see ValidationError}.
+ * {@see ValidationErrorInterface}.
  */
 final class ConstraintViolationAdapter implements ValidationErrorInterface
 {

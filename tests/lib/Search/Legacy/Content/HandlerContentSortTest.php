@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
-use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Core\Search\Legacy\Content\Handler;
@@ -95,7 +94,7 @@ class HandlerContentSortTest extends AbstractTestCase
     /**
      * Returns a content mapper mock.
      *
-     * @return Mapper
+     * @return ContentMapper
      */
     protected function getContentMapperMock()
     {

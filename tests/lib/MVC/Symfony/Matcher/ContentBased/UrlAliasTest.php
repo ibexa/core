@@ -28,7 +28,7 @@ class UrlAliasTest extends BaseTest
     /**
      * @dataProvider setMatchingConfigProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::setMatchingConfig
+     * @covers \UrlAliasMatcher::setMatchingConfig
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string $matchingConfig
@@ -103,8 +103,8 @@ class UrlAliasTest extends BaseTest
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::setMatchingConfig
+     * @covers \UrlAliasMatcher::matchLocation
+     * @covers \UrlAliasMatcher::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *
      * @param string|string[] $matchingConfig
@@ -156,8 +156,8 @@ class UrlAliasTest extends BaseTest
     }
 
     /**
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::matchContentInfo
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::setMatchingConfig
+     * @covers \UrlAliasMatcher::matchContentInfo
+     * @covers \UrlAliasMatcher::setMatchingConfig
      */
     public function testMatchContentInfo()
     {

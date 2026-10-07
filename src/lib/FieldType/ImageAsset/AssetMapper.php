@@ -17,7 +17,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 
 class AssetMapper
@@ -53,7 +52,7 @@ class AssetMapper
      * Creates an Image Asset.
      *
      * @param string $name
-     * @param Value $image
+     * @param ImageValue $image
      * @param string $languageCode
      *
      * @return Content
@@ -122,7 +121,7 @@ class AssetMapper
      *
      * @param Content $content
      *
-     * @return Value
+     * @return ImageValue
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws NotFoundException

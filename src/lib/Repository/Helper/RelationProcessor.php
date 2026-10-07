@@ -7,9 +7,7 @@
 
 namespace Ibexa\Core\Repository\Helper;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
-use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\FieldType\Value as BaseValue;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as SPIRelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Handler;
@@ -49,8 +47,8 @@ class RelationProcessor
      *
      * @param array $relations
      * @param array $locationIdToContentIdMapping An array with Location Ids as keys and corresponding Content Id as values
-     * @param FieldType $fieldType
-     * @param Value $fieldValue Accepted field value.
+     * @param SPIFieldType $fieldType
+     * @param BaseValue $fieldValue Accepted field value.
      * @param string $fieldDefinitionId
      */
     public function appendFieldRelations(

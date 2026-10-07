@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation as DestinationLocationTarget;
 use Ibexa\Contracts\Core\Limitation\Target\Version;
 use Ibexa\Contracts\Core\Limitation\TargetAwareType as SPITargetAwareLimitationType;
-use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIPersistenceContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as SPIPersistenceLanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
@@ -24,10 +23,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation as APILanguageLimitation;
-use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\BadStateException;
@@ -43,7 +40,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
     /** @var SPIPersistenceLanguageHandler */
     private $persistenceLanguageHandler;
 
-    /** @var Handler */
+    /** @var SPIPersistenceContentHandler */
     private $persistenceContentHandler;
 
     /** @var VersionTargetEvaluator[] */
@@ -51,7 +48,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
 
     /**
      * @param SPIPersistenceLanguageHandler $persistenceLanguageHandler
-     * @param Handler $persistenceContentHandler
+     * @param SPIPersistenceContentHandler $persistenceContentHandler
      * @param VersionTargetEvaluator[] $versionTargetEvaluators
      */
     public function __construct(
@@ -69,7 +66,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @param Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      * @throws InvalidArgumentException If the value does not match the expected type/structure
      */
@@ -105,7 +102,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -137,7 +134,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
      *
      * @param array[] $limitationValues
      *
-     * @return Limitation
+     * @return APILimitationValue
      */
     public function buildValue(array $limitationValues): APILimitationValue
     {
@@ -187,7 +184,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
 
     /**
      * @param ValueObject $object
-     * @param Limitation $value
+     * @param APILimitationValue $value
      *
      * @return bool|null
      */
@@ -236,7 +233,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
      * Evaluate language codes of allowed translations for ContentCreateStruct.
      *
      * @param ContentCreateStruct $object
-     * @param Limitation $value
+     * @param APILimitationValue $value
      *
      * @return bool|null
      */
@@ -256,7 +253,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
      * Evaluate permissions to create new Version.
      *
      * @param Version $version
-     * @param Limitation $value
+     * @param APILimitationValue $value
      *
      * @return bool|null
      */
@@ -313,8 +310,8 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param Limitation $value
-     * @param UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param APIUserReference $currentUser
      *
      * @return CriterionInterface
      *

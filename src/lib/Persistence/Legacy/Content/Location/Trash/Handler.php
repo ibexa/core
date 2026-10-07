@@ -15,10 +15,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Handler as ContentHandler;
-use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Handler as LocationHandler;
-use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 
 /**
@@ -38,14 +36,14 @@ class Handler implements BaseTrashHandler
     /**
      * Gateway for handling location data.
      *
-     * @var Gateway
+     * @var LocationGateway
      */
     protected $locationGateway;
 
     /**
      * Mapper for handling location data.
      *
-     * @var Mapper
+     * @var LocationMapper
      */
     protected $locationMapper;
 

@@ -8,16 +8,13 @@
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
-use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Handler as PersistenceUserHandler;
 use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\UserService as APIUserService;
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -65,7 +62,7 @@ class UserTest extends BaseServiceMockTest
         $repository = $this->getRepositoryMock();
         $userService = $this->getPartlyMockedUserService(['loadUser']);
         $contentService = $this->createMock(APIContentService::class);
-        /* @var \Ibexa\Contracts\Core\Persistence\User\Handler&\PHPUnit\Framework\MockObject\MockObject $userHandler */
+        /* @var PersistenceUserHandler&\PHPUnit\Framework\MockObject\MockObject $userHandler */
         $userHandler = $this->getPersistenceMock()->userHandler();
 
         $user = $this->createMock(APIUser::class);
@@ -114,10 +111,10 @@ class UserTest extends BaseServiceMockTest
     /**
      * @param Repository&MockObject $repository
      * @param APIUserService&MockObject $userService
-     * @param ContentService&MockObject $contentService
+     * @param APIContentService&MockObject $contentService
      * @param APIUser&MockObject $user
-     * @param ContentInfo&MockObject $contentInfo
-     * @param Handler&MockObject $userHandler
+     * @param APIContentInfo&MockObject $contentInfo
+     * @param PersistenceUserHandler&MockObject $userHandler
      */
     private function mockDeleteUserFlow(
         Repository $repository,

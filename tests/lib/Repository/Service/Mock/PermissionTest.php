@@ -341,7 +341,7 @@ class PermissionTest extends BaseServiceMockTest
             }
         }
 
-        /* @var $repositoryMock \Ibexa\Core\Repository\Repository */
+        /* @var $repositoryMock CoreRepository */
         self::assertEquals(
             $permissionSets,
             $permissionResolverMock->hasAccess('dummy-module', 'dummy-function')

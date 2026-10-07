@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -936,7 +935,7 @@ abstract class BaseFieldTypeTest extends TestCase
     ) {
         $fieldType = $this->getFieldTypeUnderTest();
 
-        /** @var FieldDefinition|MockObject $fieldDefinitionMock */
+        /** @var APIFieldDefinition|MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(APIFieldDefinition::class);
 
         foreach ($fieldDefinitionData as $method => $data) {
@@ -957,7 +956,7 @@ abstract class BaseFieldTypeTest extends TestCase
     }
 
     /**
-     * @return FieldDefinition|MockObject
+     * @return APIFieldDefinition|MockObject
      */
     protected function getFieldDefinitionMock(array $fieldSettings)
     {

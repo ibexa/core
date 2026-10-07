@@ -16,7 +16,6 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\User\Type;
 use Ibexa\Core\FieldType\User\Type as UserType;
-use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\FieldType\User\Value as UserValue;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Persistence\Cache\UserHandler;
@@ -347,7 +346,7 @@ class UserTest extends FieldTypeTest
      *
      * @dataProvider providerForTestValidate
      *
-     * @param Value $userValue
+     * @param UserValue $userValue
      * @param array $expectedValidationErrors
      * @param callable|null $loadByLoginBehaviorCallback
      *

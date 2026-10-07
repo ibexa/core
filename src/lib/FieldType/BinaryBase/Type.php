@@ -9,7 +9,6 @@ namespace Ibexa\Core\FieldType\BinaryBase;
 
 use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -241,7 +240,7 @@ abstract class Type extends FieldType
      *
      * This method builds a field type value from the $data and $externalData properties.
      *
-     * @param FieldValue $fieldValue
+     * @param PersistenceValue $fieldValue
      *
      * @return \Ibexa\Core\FieldType\BinaryBase\Value
      */

@@ -11,7 +11,6 @@ use Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
-use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -27,7 +26,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
     /** @var BackgroundIndexingTerminateListener */
     protected $listener;
 
-    /** @var Handler|MockObject */
+    /** @var PersistenceHandler|MockObject */
     protected $persistenceMock;
 
     /** @var SearchHandler|MockObject */

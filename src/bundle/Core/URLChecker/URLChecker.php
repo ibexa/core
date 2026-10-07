@@ -7,7 +7,6 @@
 
 namespace Ibexa\Bundle\Core\URLChecker;
 
-use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\URL\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
@@ -18,7 +17,7 @@ class URLChecker implements URLCheckerInterface
 {
     use LoggerAwareTrait;
 
-    /** @var URLService */
+    /** @var URLServiceInterface */
     protected $urlService;
 
     /** @var URLHandlerRegistryInterface */
@@ -27,7 +26,7 @@ class URLChecker implements URLCheckerInterface
     /**
      * URLChecker constructor.
      *
-     * @param URLService $urlService
+     * @param URLServiceInterface $urlService
      * @param URLHandlerRegistryInterface $handlerRegistry
      */
     public function __construct(

@@ -8,7 +8,6 @@
 namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
-use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException as PropertyNotFound;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 
@@ -124,7 +123,7 @@ abstract class Validator
      *
      * @internal
      *
-     * @throws PropertyNotFoundException
+     * @throws PropertyNotFound
      *
      * @param array $constraints
      */
@@ -152,7 +151,7 @@ abstract class Validator
      *
      * @param string $name
      *
-     * @throws PropertyNotFoundException
+     * @throws PropertyNotFound
      *
      * @return mixed
      */
@@ -172,7 +171,7 @@ abstract class Validator
      * @param string $name
      * @param mixed $value
      *
-     * @throws PropertyNotFoundException
+     * @throws PropertyNotFound
      */
     public function __set(
         $name,

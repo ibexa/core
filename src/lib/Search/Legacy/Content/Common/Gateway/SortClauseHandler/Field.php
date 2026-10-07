@@ -10,7 +10,6 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
@@ -27,7 +26,7 @@ class Field extends SortClauseHandler
     /**
      * Language handler.
      *
-     * @var Handler
+     * @var LanguageHandler
      */
     protected $languageHandler;
 

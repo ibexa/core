@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Float\Type as FloatType;
-use Ibexa\Core\FieldType\Float\Value;
 use Ibexa\Core\FieldType\Float\Value as FloatValue;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -73,7 +72,7 @@ class FloatTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return Value
+     * @return FloatValue
      */
     protected function getEmptyValueExpectation()
     {

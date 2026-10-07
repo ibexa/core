@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Search\Common;
 
 use Ibexa\Contracts\Core\FieldType\Indexable;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
@@ -32,7 +31,7 @@ class FieldNameResolver
     /**
      * Content type handler.
      *
-     * @var Handler
+     * @var ContentTypeHandler
      */
     protected $contentTypeHandler;
 
@@ -47,7 +46,7 @@ class FieldNameResolver
      * Create from search field registry, content type handler and field name generator.
      *
      * @param FieldRegistry $fieldRegistry
-     * @param Handler $contentTypeHandler
+     * @param ContentTypeHandler $contentTypeHandler
      * @param FieldNameGenerator $nameGenerator
      */
     public function __construct(

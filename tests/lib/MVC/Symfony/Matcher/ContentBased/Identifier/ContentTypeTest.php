@@ -28,7 +28,7 @@ class ContentTypeTest extends BaseTest
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
+     * @covers \ContentTypeIdentifierMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string|string[] $matchingConfig
@@ -103,7 +103,7 @@ class ContentTypeTest extends BaseTest
     /**
      * @dataProvider matchContentInfoProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
+     * @covers \ContentTypeIdentifierMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string|string[] $matchingConfig

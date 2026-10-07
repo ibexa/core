@@ -11,7 +11,6 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
-use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -93,7 +92,7 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var Handler */
+    /** @var SPIUserHandler */
     private $userHandler;
 
     /** @var PasswordHashService */

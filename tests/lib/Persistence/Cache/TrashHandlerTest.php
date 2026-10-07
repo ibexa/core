@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
-use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
@@ -228,7 +227,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->method('invalidateTags')
             ->with($tags);
 
-        /** @var Handler $handler */
+        /** @var TrashHandler $handler */
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
         $handler->deleteTrashItem($trashedId);
     }
@@ -292,7 +291,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->method('invalidateTags')
             ->with($tags);
 
-        /** @var Handler $handler */
+        /** @var TrashHandler $handler */
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
         $handler->emptyTrash();
     }

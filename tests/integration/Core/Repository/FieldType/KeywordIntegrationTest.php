@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
-use Ibexa\Core\FieldType\Keyword\Value;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
 
 /**
@@ -363,7 +362,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      * Check that the given Content Object contains proper Keywords.
      *
      * @param int $contentId
-     * @param Value $value
+     * @param KeywordValue $value
      */
     private function assertContentFieldHasCorrectData(
         $contentId,

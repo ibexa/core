@@ -9,7 +9,6 @@ namespace Ibexa\Core\Repository\Mapper;
 
 use Ibexa\Contracts\Core\Persistence\User\Policy as SPIPolicy;
 use Ibexa\Contracts\Core\Persistence\User\Role as SPIRole;
-use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 use Ibexa\Contracts\Core\Persistence\User\RoleAssignment as SPIRoleAssignment;
 use Ibexa\Contracts\Core\Persistence\User\RoleCopyStruct as SPIRoleCopyStruct;
 use Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct as SPIRoleCreateStruct;
@@ -123,7 +122,7 @@ class RoleDomainMapper
     /**
      * Builds the API UserRoleAssignment object from provided SPI RoleAssignment object.
      *
-     * @param RoleAssignment $spiRoleAssignment
+     * @param SPIRoleAssignment $spiRoleAssignment
      * @param User $user
      * @param APIRole $role
      *
@@ -155,7 +154,7 @@ class RoleDomainMapper
     /**
      * Builds the API UserGroupRoleAssignment object from provided SPI RoleAssignment object.
      *
-     * @param RoleAssignment $spiRoleAssignment
+     * @param SPIRoleAssignment $spiRoleAssignment
      * @param UserGroup $userGroup
      * @param APIRole $role
      *

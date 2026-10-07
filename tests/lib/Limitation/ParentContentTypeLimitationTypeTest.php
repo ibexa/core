@@ -8,9 +8,9 @@
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
-use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -33,13 +33,13 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ParentContentTypeLimitationTypeTest extends Base
 {
-    /** @var SPILocation\Handler|MockObject */
+    /** @var Handler|MockObject */
     private $locationHandlerMock;
 
     /** @var SPIContentTypeHandler|MockObject */
     private $contentTypeHandlerMock;
 
-    /** @var Handler|MockObject */
+    /** @var SPIContentHandler|MockObject */
     private $contentHandlerMock;
 
     /**
@@ -48,7 +48,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     protected function setUp(): void
     {
         parent::setUp();
-        $this->locationHandlerMock = $this->createMock(SPILocation\Handler::class);
+        $this->locationHandlerMock = $this->createMock(Handler::class);
         $this->contentTypeHandlerMock = $this->createMock(SPIContentTypeHandler::class);
         $this->contentHandlerMock = $this->createMock(SPIContentHandler::class);
     }

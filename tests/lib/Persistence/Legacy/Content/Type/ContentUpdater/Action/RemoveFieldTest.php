@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
-use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField;
@@ -36,7 +35,7 @@ class RemoveFieldTest extends TestCase
      */
     protected $contentStorageHandlerMock;
 
-    /** @var Mapper */
+    /** @var ContentMapper */
     protected $contentMapperMock;
 
     /**
@@ -312,7 +311,7 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns a Content mapper mock.
      *
-     * @return MockObject|Mapper
+     * @return MockObject|ContentMapper
      */
     protected function getContentMapperMock()
     {

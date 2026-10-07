@@ -31,7 +31,6 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
-use Ibexa\Core\FieldType\TextLine\Value;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 
 /**
@@ -2804,7 +2803,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         $contentType = $contentTypeService->loadContentType($contentType->id, $languageCodes);
 
         $language = isset($languageCodes[0]) ? $languageCodes[0] : 'eng-GB';
-        /** @var Value $nameValue */
+        /** @var TextLineValue $nameValue */
         self::assertEquals(
             $contentType->getName($language),
             $contentType->getName()

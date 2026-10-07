@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\Limitation;
 
-use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as SPIHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -29,7 +28,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class NewObjectStateLimitationTypeTest extends Base
 {
-    /** @var Handler|MockObject */
+    /** @var SPIHandler|MockObject */
     private $objectStateHandlerMock;
 
     /**

@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
-use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
@@ -44,7 +43,7 @@ class AddField extends Action
      */
     protected $fieldValueConverter;
 
-    /** @var Mapper */
+    /** @var ContentMapper */
     protected $contentMapper;
 
     /**
@@ -54,7 +53,7 @@ class AddField extends Action
      * @param FieldDefinition $fieldDef
      * @param Converter $converter
      * @param StorageHandler $storageHandler
-     * @param Mapper $contentMapper
+     * @param ContentMapper $contentMapper
      */
     public function __construct(
         Gateway $contentGateway,

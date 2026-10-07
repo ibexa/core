@@ -9,7 +9,6 @@ namespace Ibexa\Core\MVC\Symfony\Controller;
 
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -129,7 +128,7 @@ abstract class Controller implements ContainerAwareInterface
     /**
      * Checks if current user has granted access to provided attribute.
      *
-     * @param Attribute $attribute
+     * @param AuthorizationAttribute $attribute
      *
      * @return bool
      */

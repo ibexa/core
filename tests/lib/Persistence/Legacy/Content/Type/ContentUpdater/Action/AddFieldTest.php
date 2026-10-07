@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
-use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
@@ -47,7 +46,7 @@ class AddFieldTest extends TestCase
      */
     protected $fieldValueConverterMock;
 
-    /** @var Mapper */
+    /** @var ContentMapper */
     protected $contentMapperMock;
 
     /**
@@ -571,7 +570,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content mapper mock.
      *
-     * @return MockObject|Mapper
+     * @return MockObject|ContentMapper
      */
     protected function getContentMapperMock()
     {
