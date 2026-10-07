@@ -148,9 +148,9 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
 
     private function getEntityMapForConfigurationService(array $entityMappings): array
     {
-        return array_combine(
-            array_keys($entityMappings),
-            array_column($entityMappings, 'prefix')
+        return array_map(
+            static fn (array $entityMapping) => $entityMapping['prefix'],
+            $entityMappings
         );
     }
 }

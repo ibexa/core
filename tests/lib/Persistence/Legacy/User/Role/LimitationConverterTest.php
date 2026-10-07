@@ -137,14 +137,17 @@ class LimitationConverterTest extends TestCase
         ];
         $converter->toSPI($policy);
 
-        self::assertArrayHasKey(Limitation::STATE, $policy->limitations);
+        $limitations = $policy->limitations;
+        self::assertIsArray($limitations);
+        self::assertArrayHasKey(Limitation::STATE, $limitations);
 
         // Don't expect backend to return sorted result, so lets sort values before testing
-        sort($policy->limitations[Limitation::STATE], SORT_NUMERIC);
+        $stateLimitationValues = $limitations[Limitation::STATE];
+        sort($stateLimitationValues, SORT_NUMERIC);
 
         self::assertEquals(
             [1, 2, 5],
-            $policy->limitations[Limitation::STATE],
+            $stateLimitationValues,
             'Expected State limitation to be transformed into StateGroup_ limitations'
         );
     }

@@ -20,6 +20,8 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use RuntimeException;
 
 /**
@@ -53,10 +55,14 @@ final class DoctrineDatabase extends Gateway
 
     private string $table;
 
+    private LoggerInterface $logger;
+
     public function __construct(
         private Connection $connection,
-        private LanguageMaskGenerator $languageMaskGenerator
+        private LanguageMaskGenerator $languageMaskGenerator,
+        ?LoggerInterface $logger = null
     ) {
+        $this->logger = $logger ?? new NullLogger();
         $this->table = static::TABLE;
     }
 
@@ -562,6 +568,28 @@ final class DoctrineDatabase extends Gateway
     }
 
     public function insertRow(array $values): int
+    {
+        $this->connection->beginTransaction();
+        try {
+            $id = $this->doInsertRow($values);
+            $this->connection->commit();
+
+            return $id;
+        } catch (\Throwable $e) {
+            $this->logger->warning(
+                'Failed to insert URL alias row, rolling back',
+                ['exception' => $e]
+            );
+            $this->connection->rollBack();
+
+            throw $e;
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     */
+    private function doInsertRow(array $values): int
     {
         if (!isset($values['id'])) {
             $values['id'] = $this->getNextId();
@@ -1335,10 +1363,7 @@ final class DoctrineDatabase extends Gateway
         );
 
         // return language_mask-indexed array
-        return array_combine(
-            array_column($originalUrlAliases, 'lang_mask'),
-            $originalUrlAliases
-        );
+        return array_column($originalUrlAliases, null, 'lang_mask');
     }
 
     /**
