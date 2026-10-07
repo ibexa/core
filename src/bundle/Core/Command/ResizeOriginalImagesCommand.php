@@ -239,12 +239,14 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
      */
     private function resize(OutputInterface $output, SearchHit $hit, string $imageFieldIdentifier, string $filter): void
     {
+        $imageId = null;
         try {
             /** @var \Ibexa\Core\FieldType\Image\Value $field */
             foreach ($hit->valueObject->fields[$imageFieldIdentifier] as $language => $field) {
                 if (null === $field->id) {
                     continue;
                 }
+                $imageId = $field->imageId;
                 $binaryFile = $this->ioService->loadBinaryFile($field->id);
                 $mimeType = $this->ioService->getMimeType($field->id);
                 $binary = new Binary(
@@ -277,7 +279,7 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
             $output->writeln(
                 sprintf(
                     '<error>Cannot resize image ID: %s, error message: %s.</error>',
-                    $field->imageId,
+                    $imageId,
                     $e->getMessage()
                 )
             );
