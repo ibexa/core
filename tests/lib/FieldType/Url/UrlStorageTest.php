@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType\Url;
 
 use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
@@ -11,6 +12,8 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\Url\UrlStorage;
+use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -211,9 +214,9 @@ class UrlStorageTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
+     * @param StorageGatewayInterface $gateway
      *
-     * @return \Ibexa\Core\FieldType\Url\UrlStorage|\PHPUnit\Framework\MockObject\MockObject
+     * @return UrlStorage|MockObject
      */
     protected function getPartlyMockedStorage(StorageGatewayInterface $gateway)
     {
@@ -236,11 +239,11 @@ class UrlStorageTest extends TestCase
         return ['context'];
     }
 
-    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface|MockObject */
     protected $loggerMock;
 
     /**
-     * @return \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return LoggerInterface|MockObject
      */
     protected function getLoggerMock()
     {
@@ -253,16 +256,16 @@ class UrlStorageTest extends TestCase
         return $this->loggerMock;
     }
 
-    /** @var \Ibexa\Core\FieldType\Url\UrlStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     protected $gatewayMock;
 
     /**
-     * @return \Ibexa\Core\FieldType\Url\UrlStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject
+     * @return Gateway|MockObject
      */
     protected function getGatewayMock()
     {
         if (!isset($this->gatewayMock)) {
-            $this->gatewayMock = $this->createMock(UrlStorage\Gateway::class);
+            $this->gatewayMock = $this->createMock(Gateway::class);
         }
 
         return $this->gatewayMock;

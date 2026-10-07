@@ -10,14 +10,17 @@ namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Provider\SchemaProvider;
+use Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
+use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
 
 /**
  * Bridges Doctrine Migrations' {@see SchemaProvider} to Ibexa's own legacy, event-driven schema
- * builder ({@see SchemaBuilderInterface}, backed by {@see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent}
- * and every installed package's {@see \Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber}).
+ * builder ({@see SchemaBuilderInterface}, backed by {@see SchemaBuilderEvent}
+ * and every installed package's {@see BuildSchemaSubscriber}).
  *
- * Wired onto {@see \Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory} so that
+ * Wired onto {@see IbexaOnlyDependencyFactory} so that
  * "ibexa:doctrine:migrations:diff" (and any other command that needs a target schema) can compare the live
  * database against the schema Ibexa's packages expect, without requiring a Doctrine ORM entity manager.
  */

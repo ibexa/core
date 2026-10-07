@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Ibexa\Contracts\Core\Repository\ContentService as APIService;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentDraftList;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -26,7 +28,7 @@ use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\User\User;
 
 /**
- * @property \Ibexa\Contracts\Core\Repository\ContentService $service
+ * @property APIService $service
  */
 class ContentServiceTest extends AbstractServiceTest
 {
@@ -132,7 +134,7 @@ class ContentServiceTest extends AbstractServiceTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public function providerForLanguagesLookupMethods(): array
     {

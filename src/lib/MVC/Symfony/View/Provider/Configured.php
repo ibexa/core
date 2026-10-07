@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\View\Provider;
 
 use Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface;
@@ -17,11 +18,11 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
  */
 class Configured implements ViewProvider
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface */
+    /** @var MatcherFactoryInterface */
     protected $matcherFactory;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface $matcherFactory
+     * @param MatcherFactoryInterface $matcherFactory
      */
     public function __construct(MatcherFactoryInterface $matcherFactory)
     {
@@ -42,7 +43,7 @@ class Configured implements ViewProvider
      *
      * @param array $viewConfig
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\ContentView
+     * @return ContentView
      */
     protected function buildContentView(array $viewConfig)
     {

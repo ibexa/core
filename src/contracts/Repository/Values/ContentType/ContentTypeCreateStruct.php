@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class is used for creating content types.
  *
- * @property \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct[] $fieldDefinitions the collection of field definitions
+ * @property FieldDefinitionCreateStruct[] $fieldDefinitions the collection of field definitions
  */
 abstract class ContentTypeCreateStruct extends ValueObject
 {
@@ -109,7 +109,7 @@ abstract class ContentTypeCreateStruct extends ValueObject
     /**
      * Adds a new field definition.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDef
+     * @param FieldDefinitionCreateStruct $fieldDef
      */
     abstract public function addFieldDefinition(FieldDefinitionCreateStruct $fieldDef): void;
 

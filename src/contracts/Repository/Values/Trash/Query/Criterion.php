@@ -11,8 +11,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\Trash\Query;
 /**
  * Marker for Content & Location trash Criterion.
  */
-interface Criterion
-{
-}
+interface Criterion {}
 
 class_alias(Criterion::class, 'eZ\Publish\SPI\Repository\Values\Trash\Query\Criterion');

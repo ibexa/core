@@ -13,10 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 final class MoveUserGroupEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $userGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $newParent;
 
     public function __construct(

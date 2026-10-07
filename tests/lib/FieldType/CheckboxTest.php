@@ -4,10 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Checkbox\Type as Checkbox;
+use Ibexa\Core\FieldType\Checkbox\Value;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
 
 /**
@@ -25,7 +28,7 @@ class CheckboxTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -58,7 +61,7 @@ class CheckboxTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return \Ibexa\Core\FieldType\Checkbox\Value
+     * @return Value
      */
     protected function getEmptyValueExpectation()
     {
@@ -287,7 +290,7 @@ class CheckboxTest extends FieldTypeTest
 
     /**
      * @return iterable<array{
-     *     \Ibexa\Core\FieldType\Checkbox\Value,
+     *     Value,
      * }>
      */
     public function provideForValueIsNeverEmpty(): iterable

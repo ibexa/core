@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Common;
 
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter as LegacySlugConverter;
@@ -19,8 +20,10 @@ class SlugConverter extends LegacySlugConverter
      * @param string $key
      * @param string $value
      */
-    public function setConfigurationValue($key, $value)
-    {
+    public function setConfigurationValue(
+        $key,
+        $value
+    ) {
         $this->configuration[$key] = $value;
     }
 }

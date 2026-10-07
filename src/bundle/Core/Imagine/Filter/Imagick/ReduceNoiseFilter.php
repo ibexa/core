@@ -4,17 +4,19 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter\Imagick;
 
 use Ibexa\Bundle\Core\Imagine\Filter\AbstractFilter;
 use Imagine\Image\ImageInterface;
+use Imagine\Imagick\Image;
 
 class ReduceNoiseFilter extends AbstractFilter
 {
     /**
-     * @param \Imagine\Image\ImageInterface|\Imagine\Imagick\Image $image
+     * @param ImageInterface|Image $image
      *
-     * @return \Imagine\Image\ImageInterface
+     * @return ImageInterface
      */
     public function apply(ImageInterface $image)
     {

@@ -27,7 +27,7 @@ class UserPreferenceList extends ValueObject implements IteratorAggregate
     /**
      * List of user preferences.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference[]
+     * @var UserPreference[]
      */
     public $items = [];
 

@@ -4,17 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 
 abstract class FilterLoaderWrapped implements LoaderInterface
 {
-    /** @var \Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface */
+    /** @var LoaderInterface */
     protected $innerLoader;
 
     /**
-     * @param \Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface $innerLoader
+     * @param LoaderInterface $innerLoader
      */
     public function setInnerLoader(LoaderInterface $innerLoader)
     {

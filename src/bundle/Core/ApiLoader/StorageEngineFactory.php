@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidStorageEngine;
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 
 /**
@@ -14,14 +16,14 @@ use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
  */
 class StorageEngineFactory
 {
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
+    /** @var RepositoryConfigurationProvider */
     private $repositoryConfigurationProvider;
 
     /**
      * Hash of registered storage engines.
      * Key is the storage engine identifier, value persistence handler itself.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Handler[]
+     * @var Handler[]
      */
     protected $storageEngines = [];
 
@@ -35,16 +37,18 @@ class StorageEngineFactory
      *
      * Note: It is strongly recommenced to register a lazy persistent handler.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $persistenceHandler
+     * @param Handler $persistenceHandler
      * @param string $storageEngineIdentifier
      */
-    public function registerStorageEngine(PersistenceHandler $persistenceHandler, $storageEngineIdentifier)
-    {
+    public function registerStorageEngine(
+        PersistenceHandler $persistenceHandler,
+        $storageEngineIdentifier
+    ) {
         $this->storageEngines[$storageEngineIdentifier] = $persistenceHandler;
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Handler[]
+     * @return Handler[]
      */
     public function getStorageEngines()
     {
@@ -54,7 +58,7 @@ class StorageEngineFactory
     /**
      * Builds storage engine identified by $storageEngineIdentifier (the "alias" attribute in the service tag).
      *
-     * @throws \Ibexa\Bundle\Core\ApiLoader\Exception\InvalidStorageEngine
+     * @throws InvalidStorageEngine
      */
     public function buildStorageEngine(): PersistenceHandler
     {

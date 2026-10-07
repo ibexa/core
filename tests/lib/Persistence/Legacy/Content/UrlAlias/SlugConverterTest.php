@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
@@ -12,6 +13,7 @@ use Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler;
 use Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased;
 use Ibexa\Core\Persistence\Utf8Converter;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestSuite;
 
 /**
@@ -118,8 +120,11 @@ class SlugConverterTest extends TestCase
      *
      * @dataProvider providerForTestGetUniqueCounterValue
      */
-    public function testGetUniqueCounterValue($text, $isRootLevel, $returnValue)
-    {
+    public function testGetUniqueCounterValue(
+        $text,
+        $isRootLevel,
+        $returnValue
+    ) {
         $slugConverter = $this->getMockedSlugConverter();
 
         $this->assertEquals(
@@ -154,8 +159,11 @@ class SlugConverterTest extends TestCase
      *
      * @dataProvider cleanupTextData
      */
-    public function testCleanupText($text, $method, $expected)
-    {
+    public function testCleanupText(
+        $text,
+        $method,
+        $expected
+    ) {
         $testMethod = new \ReflectionMethod(
             SlugConverter::class,
             'cleanupText'
@@ -201,8 +209,12 @@ class SlugConverterTest extends TestCase
      *
      * @depends testCleanupText
      */
-    public function testConvertNoMocking($text, $defaultText, $transformation, $expected)
-    {
+    public function testConvertNoMocking(
+        $text,
+        $defaultText,
+        $transformation,
+        $expected
+    ) {
         $transformationProcessor = new PreprocessedBased(
             new PcreCompiler(
                 new Utf8Converter()
@@ -244,17 +256,17 @@ class SlugConverterTest extends TestCase
         ],
     ];
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter */
+    /** @var SlugConverter */
     protected $slugConverter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $slugConverterMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $transformationProcessorMock;
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
+     * @return SlugConverter
      */
     protected function getMockedSlugConverter()
     {
@@ -271,7 +283,7 @@ class SlugConverterTest extends TestCase
     /**
      * @param array $methods
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter|\PHPUnit\Framework\MockObject\MockObject
+     * @return SlugConverter|MockObject
      */
     protected function getSlugConverterMock(array $methods = [])
     {
@@ -291,7 +303,7 @@ class SlugConverterTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getTransformationProcessorMock()
     {
@@ -313,7 +325,7 @@ class SlugConverterTest extends TestCase
     /**
      * Returns the test suite with all tests declared in this class.
      *
-     * @return \PHPUnit\Framework\TestSuite
+     * @return TestSuite
      */
     public static function suite()
     {

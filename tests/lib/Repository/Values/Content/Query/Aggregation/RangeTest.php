@@ -17,8 +17,10 @@ final class RangeTest extends TestCase
     /**
      * @dataProvider dataProviderForTestToString
      */
-    public function testToString(Range $range, string $expected): void
-    {
+    public function testToString(
+        Range $range,
+        string $expected
+    ): void {
         $this->assertEquals($expected, (string)$range);
     }
 
@@ -75,8 +77,11 @@ final class RangeTest extends TestCase
     /**
      * @dataProvider dataProviderForEqualsTo
      */
-    public function testEqualsTo(Range $rangeA, Range $rangeB, bool $expectedResult): void
-    {
+    public function testEqualsTo(
+        Range $rangeA,
+        Range $rangeB,
+        bool $expectedResult
+    ): void {
         self::assertEquals($expectedResult, $rangeA->equalsTo($rangeB));
         self::assertEquals($expectedResult, $rangeB->equalsTo($rangeA));
     }

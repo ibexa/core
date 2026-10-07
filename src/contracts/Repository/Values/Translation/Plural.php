@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Repository\Values\Translation;
 
 use Ibexa\Contracts\Core\Repository\Values\Translation;
@@ -24,7 +25,7 @@ use Ibexa\Contracts\Core\Repository\Values\Translation;
  * An instance of this class can be cast to a string. In such case whether to use singular or plural form is determined
  * based on the value of first element of $values array (it needs to be 1 for singular, anything else for plural).
  * If plurality cannot be inferred from $values, a plural form is assumed as default. To force singular form,
- * use {@see \Ibexa\Contracts\Core\Repository\Values\Translation\Message} instead.
+ * use {@see Message} instead.
  *
  * No implementation supports multiple different plural forms in one single message.
  *
@@ -57,8 +58,11 @@ class Plural extends Translation
      *
      * @param array<string, scalar> $values
      */
-    public function __construct(string $singular, string $plural, array $values)
-    {
+    public function __construct(
+        string $singular,
+        string $plural,
+        array $values
+    ) {
         $this->singular = $singular;
         $this->plural = $plural;
         $this->values = $values;

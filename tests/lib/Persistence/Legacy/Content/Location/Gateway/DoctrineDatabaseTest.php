@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -613,10 +615,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends      testCreateLocation
+     *
      * @dataProvider getCreateLocationValues
      */
-    public function testCreateLocationValues($field, $value)
-    {
+    public function testCreateLocationValues(
+        $field,
+        $value
+    ) {
         if ($value === null) {
             $this->markTestIncomplete('Proper value setting yet unknown.');
         }
@@ -672,10 +677,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends      testCreateLocation
+     *
      * @dataProvider getCreateLocationReturnValues
      */
-    public function testCreateLocationReturnValues($field, $value)
-    {
+    public function testCreateLocationReturnValues(
+        $field,
+        $value
+    ) {
         if ($value === null) {
             $this->markTestIncomplete('Proper value setting yet unknown.');
         }
@@ -718,8 +726,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @dataProvider getUpdateLocationData
      */
-    public function testUpdateLocation($field, $value)
-    {
+    public function testUpdateLocation(
+        $field,
+        $value
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
         $gateway->update(
@@ -821,13 +831,16 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends      testCreateLocation
+     *
      * @dataProvider getNodeAssignmentValues
      *
      * @param string $field
      * @param array $expectedResult
      */
-    public function testCreateLocationNodeAssignmentCreation(string $field, array $expectedResult)
-    {
+    public function testCreateLocationNodeAssignmentCreation(
+        string $field,
+        array $expectedResult
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
@@ -994,10 +1007,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends      testCreateLocationNodeAssignmentCreation
+     *
      * @dataProvider getConvertNodeAssignmentsLocationValues
      */
-    public function testConvertNodeAssignments($field, $value)
-    {
+    public function testConvertNodeAssignments(
+        $field,
+        $value
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
         $gateway = $this->getLocationGateway();
@@ -1225,7 +1241,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      *
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function testChangeMainLocation()
     {
@@ -1377,7 +1393,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function testGetFallbackMainNodeData(): void
     {

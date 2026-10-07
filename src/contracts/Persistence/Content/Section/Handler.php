@@ -4,7 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content\Section;
+
+use Ibexa\Contracts\Core\Persistence\Content\Section;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 interface Handler
 {
@@ -14,12 +18,15 @@ interface Handler
      * @param string $name
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section
+     * @return Section
      *
      * @todo Should validate that $identifier is unique??
      * @todo What about translatable $name?
      */
-    public function create($name, $identifier);
+    public function create(
+        $name,
+        $identifier
+    );
 
     /**
      * Update name and identifier of a section.
@@ -28,25 +35,29 @@ interface Handler
      * @param string $name
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section
+     * @return Section
      */
-    public function update($id, $name, $identifier);
+    public function update(
+        $id,
+        $name,
+        $identifier
+    );
 
     /**
      * Get section data.
      *
      * @param mixed $id
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If section is not found
+     * @throws NotFoundException If section is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section
+     * @return Section
      */
     public function load($id);
 
     /**
      * Get all section data.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section[]
+     * @return Section[]
      */
     public function loadAll();
 
@@ -55,9 +66,9 @@ interface Handler
      *
      * @param string $identifier
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If section is not found
+     * @throws NotFoundException If section is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Section
+     * @return Section
      */
     public function loadByIdentifier($identifier);
 
@@ -78,7 +89,10 @@ interface Handler
      * @param mixed $sectionId
      * @param mixed $contentId
      */
-    public function assign($sectionId, $contentId);
+    public function assign(
+        $sectionId,
+        $contentId
+    );
 
     /**
      * Number of content assignments a Section has.

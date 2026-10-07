@@ -17,8 +17,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target\Custo
  */
 final class CustomField extends SortClause
 {
-    public function __construct(string $field, string $sortDirection = Query::SORT_ASC)
-    {
+    public function __construct(
+        string $field,
+        string $sortDirection = Query::SORT_ASC
+    ) {
         parent::__construct('custom_field', $sortDirection, new CustomFieldTarget($field));
     }
 }

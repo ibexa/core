@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Event\NameSchema;
 
+use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
@@ -17,7 +18,7 @@ final class ResolveContentNameSchemaEvent extends AbstractNameSchemaEvent implem
 
     /**
      * @param array<string, array<string>> $schemaIdentifiers
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
+     * @param array<int|string, array<string, Value>>  $fieldMap
      * @param array<string> $languageCodes
      */
     public function __construct(

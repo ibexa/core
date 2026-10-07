@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\TrashResult;
@@ -11,8 +12,11 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList;
 use Ibexa\Core\Persistence\Legacy\Content as CoreContent;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Trash\Handler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Location\Trash\Handler
@@ -22,28 +26,28 @@ class TrashHandlerTest extends TestCase
     /**
      * Mocked location handler instance.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Handler
+     * @var CoreContent\Location\Handler
      */
     protected $locationHandler;
 
     /**
      * Mocked location gateway instance.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @var Gateway
      */
     protected $locationGateway;
 
     /**
      * Mocked location mapper instance.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @var Mapper
      */
     protected $locationMapper;
 
     /**
      * Mocked content handler instance.
      *
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
     protected $contentHandler;
 
@@ -51,8 +55,8 @@ class TrashHandlerTest extends TestCase
     {
         return new Handler(
             $this->locationHandler = $this->createMock(CoreContent\Location\Handler::class),
-            $this->locationGateway = $this->createMock(CoreContent\Location\Gateway::class),
-            $this->locationMapper = $this->createMock(CoreContent\Location\Mapper::class),
+            $this->locationGateway = $this->createMock(Gateway::class),
+            $this->locationMapper = $this->createMock(Mapper::class),
             $this->contentHandler = $this->createMock(CoreContent\Handler::class)
         );
     }

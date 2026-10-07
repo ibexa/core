@@ -4,9 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Security\Authentication;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 /**
  * This interface is to be implemented by authenticator classes.
@@ -25,20 +29,20 @@ interface AuthenticatorInterface
      *  - Inject authenticated token in the SecurityContext
      *  - (optional) Trigger SecurityEvents::INTERACTIVE_LOGIN event
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
-     * @return \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     * @return TokenInterface
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AuthenticationException If any authentication issue occured.
+     * @throws AuthenticationException If any authentication issue occured.
      */
     public function authenticate(Request $request);
 
     /**
      * Performs logout by running configured logout handlers.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function logout(Request $request);
 }

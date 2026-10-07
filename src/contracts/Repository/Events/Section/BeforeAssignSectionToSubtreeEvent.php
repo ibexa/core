@@ -14,14 +14,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 
 final class BeforeAssignSectionToSubtreeEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
+    /** @var Section */
     private $section;
 
-    public function __construct(Location $location, Section $section)
-    {
+    public function __construct(
+        Location $location,
+        Section $section
+    ) {
         $this->location = $location;
         $this->section = $section;
     }

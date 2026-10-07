@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Routing\JsRouting;
 
 use FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractorInterface;
@@ -20,14 +21,16 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
 {
-    /** @var \FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractorInterface */
+    /** @var ExposedRoutesExtractorInterface */
     private $innerExtractor;
 
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    /** @var RequestStack */
     private $requestStack;
 
-    public function __construct(ExposedRoutesExtractorInterface $innerExtractor, RequestStack $requestStack)
-    {
+    public function __construct(
+        ExposedRoutesExtractorInterface $innerExtractor,
+        RequestStack $requestStack
+    ) {
         $this->innerExtractor = $innerExtractor;
         $this->requestStack = $requestStack;
     }
@@ -90,8 +93,10 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
         return $this->innerExtractor->getPort();
     }
 
-    public function isRouteExposed(Route $route, $name): bool
-    {
+    public function isRouteExposed(
+        Route $route,
+        $name
+    ): bool {
         return $this->innerExtractor->isRouteExposed($route, $name);
     }
 }

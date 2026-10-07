@@ -9,13 +9,14 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\FieldType\FieldConstraintsStorage;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 
 interface StorageRegistryInterface
 {
     public function hasStorage(string $fieldTypeName): bool;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getStorage(string $fieldTypeName): FieldConstraintsStorage;
 }

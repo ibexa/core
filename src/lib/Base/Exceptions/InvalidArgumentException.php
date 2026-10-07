@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Exceptions;
 
 use Exception;
@@ -25,10 +26,13 @@ class InvalidArgumentException extends APIInvalidArgumentException implements Tr
      *
      * @param string $argumentName
      * @param string $whatIsWrong
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
-    public function __construct($argumentName, $whatIsWrong, ?Exception $previous = null)
-    {
+    public function __construct(
+        $argumentName,
+        $whatIsWrong,
+        ?Exception $previous = null
+    ) {
         $this->setMessageTemplate("Argument '%argumentName%' is invalid: %whatIsWrong%");
         $this->setParameters(['%argumentName%' => $argumentName, '%whatIsWrong%' => $whatIsWrong]);
         parent::__construct($this->getBaseTranslation(), 0, $previous);

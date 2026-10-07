@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\URL\Handler as URLHandlerInterface;
@@ -18,8 +19,10 @@ class URLHandler extends AbstractHandler implements URLHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function updateUrl($id, URLUpdateStruct $struct)
-    {
+    public function updateUrl(
+        $id,
+        URLUpdateStruct $struct
+    ) {
         $this->logger->logCall(__METHOD__, [
             'url' => $id,
             'struct' => $struct,

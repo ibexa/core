@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\User;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -18,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 interface PasswordValidatorInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     public function validatePassword(
         string $password,
@@ -26,7 +27,10 @@ interface PasswordValidatorInterface
         ?User $user = null
     ): array;
 
-    public function getPasswordInfo(User $user, FieldDefinition $fieldDefinition): PasswordInfo;
+    public function getPasswordInfo(
+        User $user,
+        FieldDefinition $fieldDefinition
+    ): PasswordInfo;
 }
 
 class_alias(PasswordValidatorInterface::class, 'eZ\Publish\Core\Repository\User\PasswordValidatorInterface');

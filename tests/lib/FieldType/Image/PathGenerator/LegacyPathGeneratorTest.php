@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType\Image\PathGenerator;
 
 use Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator;
@@ -21,8 +22,10 @@ class LegacyPathGeneratorTest extends TestCase
      *
      * @dataProvider provideStoragePathForFieldData
      */
-    public function testGetStoragePathForField($data, $expectedPath)
-    {
+    public function testGetStoragePathForField(
+        $data,
+        $expectedPath
+    ) {
         $pathGenerator = new LegacyPathGenerator();
 
         $this->assertEquals(

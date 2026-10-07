@@ -4,7 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Repository;
+
+use Ibexa\Contracts\Core\Repository\Values\Translation;
 
 /**
  * Interface implemented by everything which should be translatable. This
@@ -16,7 +19,7 @@ interface Translatable
     /**
      * Returns a translatable Message.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Translation
+     * @return Translation
      */
     public function getTranslatableMessage();
 }

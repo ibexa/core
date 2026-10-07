@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy;
 
 use Doctrine\DBAL\Connection;
 use Exception;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler as TransactionHandlerInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler as CachingLanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler as CachingContentTypeHandler;
@@ -20,10 +22,10 @@ use RuntimeException;
  */
 class TransactionHandler implements TransactionHandlerInterface
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
+    /** @var Handler */
     protected $contentTypeHandler;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
@@ -52,7 +54,7 @@ class TransactionHandler implements TransactionHandlerInterface
      *
      * Commit transaction, or throw exceptions if no transactions has been started.
      *
-     * @throws \RuntimeException If no transaction has been started
+     * @throws RuntimeException If no transaction has been started
      */
     public function commit()
     {
@@ -68,7 +70,7 @@ class TransactionHandler implements TransactionHandlerInterface
      *
      * Rollback transaction, or throw exceptions if no transactions has been started.
      *
-     * @throws \RuntimeException If no transaction has been started
+     * @throws RuntimeException If no transaction has been started
      */
     public function rollback()
     {

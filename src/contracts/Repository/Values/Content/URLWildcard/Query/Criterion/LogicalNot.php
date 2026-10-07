@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 
 final class LogicalNot extends LogicalOperator
@@ -17,7 +18,7 @@ final class LogicalNot extends LogicalOperator
      *
      * Will match of the given criterion doesn't match
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException if more than one criterion is given in the array parameter
+     * @throws InvalidCriterionArgumentException if more than one criterion is given in the array parameter
      */
     public function __construct(Criterion $criterion)
     {

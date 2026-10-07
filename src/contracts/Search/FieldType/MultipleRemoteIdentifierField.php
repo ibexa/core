@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Search\FieldType;
 
 use Ibexa\Contracts\Core\Search\FieldType;
@@ -16,7 +17,7 @@ class MultipleRemoteIdentifierField extends FieldType
     /**
      * Search engine field type corresponding to remote ID list. The same MultipleIdentifierField due to BC.
      *
-     * @see \Ibexa\Contracts\Core\Search\FieldType\MultipleIdentifierField
+     * @see MultipleIdentifierField
      *
      * @var string
      */

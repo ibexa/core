@@ -15,17 +15,19 @@ use UnexpectedValueException;
 
 final class BeforeUpdateRoleDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
+    /** @var RoleDraft */
     private $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleUpdateStruct */
+    /** @var RoleUpdateStruct */
     private $roleUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft|null */
+    /** @var RoleDraft|null */
     private $updatedRoleDraft;
 
-    public function __construct(RoleDraft $roleDraft, RoleUpdateStruct $roleUpdateStruct)
-    {
+    public function __construct(
+        RoleDraft $roleDraft,
+        RoleUpdateStruct $roleUpdateStruct
+    ) {
         $this->roleDraft = $roleDraft;
         $this->roleUpdateStruct = $roleUpdateStruct;
     }

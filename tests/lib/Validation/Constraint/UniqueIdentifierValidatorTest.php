@@ -104,8 +104,10 @@ final class UniqueIdentifierValidatorTest extends ConstraintValidatorTestCase
         return new class (PropertyAccess::createPropertyAccessor(), $this) extends UniqueIdentifierValidator {
             private UniqueIdentifierValidatorTest $test;
 
-            public function __construct(PropertyAccessorInterface $propertyAccessor, UniqueIdentifierValidatorTest $test)
-            {
+            public function __construct(
+                PropertyAccessorInterface $propertyAccessor,
+                UniqueIdentifierValidatorTest $test
+            ) {
                 $this->test = $test;
                 parent::__construct($propertyAccessor);
             }

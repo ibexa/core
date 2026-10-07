@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\FieldStorage;
@@ -29,14 +30,14 @@ abstract class GatewayBasedStorage implements FieldStorage
     /**
      * Gateways.
      *
-     * @var \Ibexa\Core\FieldType\StorageGateway[]
+     * @var StorageGateway[]
      */
     protected $gateways;
 
     /**
      * Construct from gateways.
      *
-     * @param \Ibexa\Core\FieldType\StorageGateway[] $gateways
+     * @param StorageGateway[] $gateways
      */
     public function __construct(array $gateways = [])
     {
@@ -59,10 +60,12 @@ abstract class GatewayBasedStorage implements FieldStorage
      * Adds a storage $gateway assigned to the given $identifier.
      *
      * @param string $identifier
-     * @param \Ibexa\Core\FieldType\StorageGateway $gateway
+     * @param StorageGateway $gateway
      */
-    public function addGateway($identifier, StorageGateway $gateway)
-    {
+    public function addGateway(
+        $identifier,
+        StorageGateway $gateway
+    ) {
         $this->gateways[$identifier] = $gateway;
     }
 
@@ -74,7 +77,7 @@ abstract class GatewayBasedStorage implements FieldStorage
      *
      * @param array $context
      *
-     * @return \Ibexa\Core\FieldType\StorageGateway
+     * @return StorageGateway
      */
     protected function getGateway(array $context)
     {
@@ -103,15 +106,19 @@ abstract class GatewayBasedStorage implements FieldStorage
      * By default the method falls back to the {@link \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      * External storages implement this method as needed.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $originalField
+     * @param VersionInfo $versionInfo
+     * @param Field $field
+     * @param Field $originalField
      * @param array $context
      *
      * @return bool|null Same as {@link \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      */
-    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField, array $context)
-    {
+    public function copyLegacyField(
+        VersionInfo $versionInfo,
+        Field $field,
+        Field $originalField,
+        array $context
+    ) {
         return $this->storeFieldData($versionInfo, $field, $context);
     }
 }

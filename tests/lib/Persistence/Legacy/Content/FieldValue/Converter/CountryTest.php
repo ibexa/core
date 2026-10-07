@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints;
@@ -20,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CountryTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter */
+    /** @var CountryConverter */
     protected $converter;
 
     protected function setUp(): void
@@ -40,10 +41,15 @@ class CountryTest extends TestCase
     /**
      * @group fieldType
      * @group country
+     *
      * @dataProvider providerForTestToStorageValue
      */
-    public function testToStorageValue($data, $sortKey, $dataText, $sortKeyString)
-    {
+    public function testToStorageValue(
+        $data,
+        $sortKey,
+        $dataText,
+        $sortKeyString
+    ) {
         $value = new FieldValue();
         $value->data = $data;
         $value->sortKey = $sortKey;
@@ -65,10 +71,14 @@ class CountryTest extends TestCase
     /**
      * @group fieldType
      * @group country
+     *
      * @dataProvider providerForTestToFieldValue
      */
-    public function testToFieldValue($dataText, $sortKeyString, $data)
-    {
+    public function testToFieldValue(
+        $dataText,
+        $sortKeyString,
+        $data
+    ) {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = $dataText;
         $storageFieldValue->sortKeyString = $sortKeyString;

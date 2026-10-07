@@ -19,7 +19,7 @@ use Traversable;
  * (by offset/limit parameters and permission filters).
  *
  * @property-read int $totalCount - the total count of found locations (filtered by permissions)
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Location[] $locations - the partial list of
+ * @property-read Location[] $locations - the partial list of
  *                Locations controlled by offset/limit.
  **/
 class LocationList extends ValueObject implements IteratorAggregate, TotalCountAwareInterface
@@ -36,12 +36,12 @@ class LocationList extends ValueObject implements IteratorAggregate, TotalCountA
     /**
      * the partial list of locations controlled by offset/limit.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
+     * @var Location[]
      */
     protected $locations = [];
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]|\Traversable
+     * @return Location[]|Traversable
      */
     public function getIterator(): Traversable
     {

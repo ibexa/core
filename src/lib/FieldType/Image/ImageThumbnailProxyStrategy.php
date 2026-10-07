@@ -35,8 +35,10 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
         return $this->imageThumbnailStrategy->getFieldTypeIdentifier();
     }
 
-    public function getThumbnail(Field $field, ?VersionInfo $versionInfo = null): Thumbnail
-    {
+    public function getThumbnail(
+        Field $field,
+        ?VersionInfo $versionInfo = null
+    ): Thumbnail {
         $initializer = function (
             &$wrappedObject,
             LazyLoadingInterface $proxy,

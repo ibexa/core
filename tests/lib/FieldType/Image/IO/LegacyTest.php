@@ -4,33 +4,36 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType\Image\IO;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Image\IO\Legacy;
 use Ibexa\Core\FieldType\Image\IO\Legacy as LegacyIOService;
 use Ibexa\Core\FieldType\Image\IO\OptionsProvider;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LegacyTest extends TestCase
 {
-    /** @var \Ibexa\Core\FieldType\Image\IO\Legacy */
+    /** @var Legacy */
     protected $service;
 
     /**
      * Internal IOService instance for published images.
      *
-     * @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var IOServiceInterface|MockObject
      */
     protected $publishedIoServiceMock;
 
     /**
      * Internal IOService instance for draft images.
      *
-     * @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var IOServiceInterface|MockObject
      */
     protected $draftIoServiceMock;
 
@@ -447,7 +450,7 @@ class LegacyTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return ConfigResolverInterface|MockObject
      */
     protected function createConfigResolverMock(): ConfigResolverInterface
     {

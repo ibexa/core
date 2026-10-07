@@ -4,11 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Selection\Type as Selection;
+use Ibexa\Core\FieldType\Selection\Value;
 use Ibexa\Core\FieldType\Selection\Value as SelectionValue;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -27,7 +30,7 @@ class SelectionTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -73,7 +76,7 @@ class SelectionTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return \Ibexa\Core\FieldType\Selection\Value
+     * @return Value
      */
     protected function getEmptyValueExpectation()
     {

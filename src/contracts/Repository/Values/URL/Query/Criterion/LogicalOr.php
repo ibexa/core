@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 
-class LogicalOr extends LogicalOperator
-{
-}
+class LogicalOr extends LogicalOperator {}
 
 class_alias(LogicalOr::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\LogicalOr');

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Bundle\Core\Fragment\FragmentListenerFactory;
@@ -19,8 +20,10 @@ class FragmentListenerFactoryTest extends TestCase
     /**
      * @dataProvider buildFragmentListenerProvider
      */
-    public function testBuildFragmentListener($requestUri, $isFragmentCandidate)
-    {
+    public function testBuildFragmentListener(
+        $requestUri,
+        $isFragmentCandidate
+    ) {
         $listenerClass = FragmentListener::class;
         $uriSigner = new UriSigner('my_precious_secret');
         $baseFragmentPath = '/_fragment';

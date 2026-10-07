@@ -15,17 +15,20 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 final class BeforeAssignRoleToUserGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role */
+    /** @var Role */
     private $role;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $userGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation */
+    /** @var RoleLimitation */
     private $roleLimitation;
 
-    public function __construct(Role $role, UserGroup $userGroup, ?RoleLimitation $roleLimitation = null)
-    {
+    public function __construct(
+        Role $role,
+        UserGroup $userGroup,
+        ?RoleLimitation $roleLimitation = null
+    ) {
         $this->role = $role;
         $this->userGroup = $userGroup;
         $this->roleLimitation = $roleLimitation;

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry;
@@ -16,7 +17,7 @@ final class MigrationFileListerPass implements CompilerPassInterface
     /**
      * Registers the FileListerInterface into the file lister registry.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {

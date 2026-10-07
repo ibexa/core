@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Common;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -28,7 +29,7 @@ interface BackgroundIndexer
      *
      * .. then item is removed from index, if not it is added/updated.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      */
     public function registerContent(ContentInfo $contentInfo);
 
@@ -41,7 +42,7 @@ interface BackgroundIndexer
      *
      * .. then item is removed from index, if not it is added/updated.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location $location
+     * @param Location $location
      */
     public function registerLocation(Location $location);
 }

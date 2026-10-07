@@ -27,7 +27,7 @@ final class RemoteIdQueryBuilder extends BaseLocationCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationRemoteId $criterion */
+        /** @var LocationRemoteId $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         return $queryBuilder->expr()->in(

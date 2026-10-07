@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\Bookmark;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -16,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Boo
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
+use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Location\Doctrine\DoctrineGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\Bookmark\IdSortClauseQueryBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -121,7 +123,7 @@ final class IdSortClauseQueryBuilderTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder}>
+     * @return iterable<string, array{FilteringQueryBuilder}>
      */
     public function standaloneContextProvider(): iterable
     {
@@ -150,8 +152,10 @@ final class IdSortClauseQueryBuilderTest extends TestCase
      *
      * @return array<string, mixed>|null
      */
-    private function findJoinByAlias(array $joins, string $joinAlias): ?array
-    {
+    private function findJoinByAlias(
+        array $joins,
+        string $joinAlias
+    ): ?array {
         foreach ($joins as $join) {
             if ($join['joinAlias'] === $joinAlias) {
                 return $join;
@@ -174,7 +178,7 @@ final class IdSortClauseQueryBuilderTest extends TestCase
 
     /**
      * Mirrors the baseline query built by
-     * {@see \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Location\Doctrine\DoctrineGateway}:
+     * {@see DoctrineGateway}:
      * "location" is the FROM table and "content" is joined off it.
      */
     private function createLocationFilteringQueryBuilder(): FilteringQueryBuilder
@@ -208,7 +212,7 @@ final class IdSortClauseQueryBuilderTest extends TestCase
         return $queryBuilder;
     }
 
-    private function createInMemoryConnection(): \Doctrine\DBAL\Connection
+    private function createInMemoryConnection(): Connection
     {
         return DriverManager::getConnection(['url' => 'sqlite:///:memory:']);
     }

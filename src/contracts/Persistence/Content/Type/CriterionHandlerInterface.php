@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Content\Type;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
@@ -25,7 +26,7 @@ interface CriterionHandlerInterface
     /**
      * @phpstan-param TCriterion $criterion
      *
-     * @return string|\Doctrine\DBAL\Query\Expression\CompositeExpression
+     * @return string|CompositeExpression
      */
     public function apply(
         CriterionVisitor $criterionVisitor,

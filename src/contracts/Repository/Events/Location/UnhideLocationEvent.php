@@ -13,10 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 final class UnhideLocationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $revealedLocation;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location;
 
     public function __construct(

@@ -4,20 +4,25 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 
 final class SimplifiedRequestNormalizer extends PropertyNormalizer
 {
     /**
-     * @see \Symfony\Component\Serializer\Normalizer\NormalizerInterface::normalize
+     * @see NormalizerInterface::normalize
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $object
+     * @param SimplifiedRequest $object
      */
-    public function normalize($object, $format = null, array $context = [])
-    {
+    public function normalize(
+        $object,
+        $format = null,
+        array $context = []
+    ) {
         return [
             'scheme' => $object->scheme,
             'host' => $object->host,
@@ -29,8 +34,11 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
         ];
     }
 
-    public function supportsNormalization($data, $format = null, array $context = [])
-    {
+    public function supportsNormalization(
+        $data,
+        $format = null,
+        array $context = []
+    ) {
         return $data instanceof SimplifiedRequest;
     }
 }

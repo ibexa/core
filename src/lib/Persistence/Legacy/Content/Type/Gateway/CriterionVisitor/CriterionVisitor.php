@@ -8,17 +8,19 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
 final class CriterionVisitor
 {
-    /** @var iterable<\Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> */
+    /** @var iterable<CriterionHandlerInterface<CriterionInterface>> */
     private iterable $criterionHandlers;
 
     /**
-     * @param iterable<\Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> $criterionHandlers
+     * @param iterable<CriterionHandlerInterface<CriterionInterface>> $criterionHandlers
      */
     public function __construct(iterable $criterionHandlers)
     {
@@ -26,9 +28,9 @@ final class CriterionVisitor
     }
 
     /**
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return CompositeExpression|string
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if there's no builder for a criterion
+     * @throws NotImplementedException if there's no builder for a criterion
      */
     public function visitCriteria(
         QueryBuilder $queryBuilder,

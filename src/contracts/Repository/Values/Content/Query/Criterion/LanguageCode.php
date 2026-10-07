@@ -39,8 +39,10 @@ class LanguageCode extends Criterion implements FilteringCriterion
      * @throws \InvalidArgumentException if non string value is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct($value, bool $matchAlwaysAvailable = true)
-    {
+    public function __construct(
+        $value,
+        bool $matchAlwaysAvailable = true
+    ) {
         if (!is_bool($matchAlwaysAvailable)) {
             throw new InvalidArgumentType('matchAlwaysAvailable', 'boolean', $matchAlwaysAvailable);
         }

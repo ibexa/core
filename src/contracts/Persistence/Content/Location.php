@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
+use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
@@ -75,7 +77,7 @@ class Location extends ValueObject
     /**
      * Content ID.
      *
-     * ID of the corresponding {@see \Ibexa\Contracts\Core\Persistence\Content}.
+     * ID of the corresponding {@see Content}.
      *
      * @var int
      */

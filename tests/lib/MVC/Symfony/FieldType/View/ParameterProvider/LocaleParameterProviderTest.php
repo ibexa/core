@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\View\ParameterProvider;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -27,8 +28,10 @@ class LocaleParameterProviderTest extends TestCase
     /**
      * @dataProvider providerForTestGetViewParameters
      */
-    public function testGetViewParameters($hasRequestLocale, $expectedLocale)
-    {
+    public function testGetViewParameters(
+        $hasRequestLocale,
+        $expectedLocale
+    ) {
         $field = new Field(['languageCode' => 'cro-HR']);
         $parameterProvider = new LocaleParameterProvider($this->getLocaleConverterMock());
         $parameterProvider->setRequestStack($this->getRequestStackMock($hasRequestLocale));

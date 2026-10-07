@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
 use Imagine\Exception\InvalidArgumentException;
@@ -23,8 +24,10 @@ class BorderFilterLoader implements LoaderInterface
 
     public const DEFAULT_BORDER_COLOR = '#000';
 
-    public function load(ImageInterface $image, array $options = [])
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ) {
         $optionsCount = count($options);
         if ($optionsCount < 2) {
             throw new InvalidArgumentException('Invalid options for border filter. You must provide array(width, height)');

@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Routing;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\URLWildcardService;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
+use Psr\Log\LoggerInterface;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,22 +25,22 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
 {
     public const URL_ALIAS_ROUTE_NAME = 'ibexa.url.alias';
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLWildcardService */
+    /** @var URLWildcardService */
     private $wildcardService;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator */
+    /** @var UrlAliasGenerator */
     private $generator;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
+    /** @var RequestContext */
     private $requestContext;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\URLWildcardService $wildcardService
-     * @param \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator $generator
-     * @param \Symfony\Component\Routing\RequestContext $requestContext
+     * @param URLWildcardService $wildcardService
+     * @param UrlAliasGenerator $generator
+     * @param RequestContext $requestContext
      */
     public function __construct(
         URLWildcardService $wildcardService,
@@ -51,7 +53,7 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     }
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      */
     public function setLogger($logger)
     {
@@ -59,11 +61,11 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
      * @return array An array of parameters
      *
-     * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
+     * @throws ResourceNotFoundException
      */
     public function matchRequest(Request $request): array
     {
@@ -88,7 +90,7 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     }
 
     /**
-     * @return \Symfony\Component\Routing\RouteCollection
+     * @return RouteCollection
      */
     public function getRouteCollection(): RouteCollection
     {
@@ -102,13 +104,16 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
      *
      * @return string|void
      */
-    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
-    {
+    public function generate(
+        $name,
+        $parameters = [],
+        $referenceType = self::ABSOLUTE_PATH
+    ) {
         throw new RouteNotFoundException('Could not match route');
     }
 
     /**
-     * @param \Symfony\Component\Routing\RequestContext $context
+     * @param RequestContext $context
      */
     public function setContext(RequestContext $context): void
     {
@@ -117,7 +122,7 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     }
 
     /**
-     * @return \Symfony\Component\Routing\RequestContext
+     * @return RequestContext
      */
     public function getContext(): RequestContext
     {
@@ -157,8 +162,10 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     /**
      * @see Symfony\Cmf\Component\Routing\VersatileGeneratorInterface::getRouteDebugMessage()
      */
-    public function getRouteDebugMessage($name, array $parameters = []): string
-    {
+    public function getRouteDebugMessage(
+        $name,
+        array $parameters = []
+    ): string {
         if ($name instanceof RouteObjectInterface) {
             return 'Route with key ' . $name->getRouteKey();
         }

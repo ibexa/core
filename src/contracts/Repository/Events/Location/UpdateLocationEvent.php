@@ -14,13 +14,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationUpdateStruct;
 
 final class UpdateLocationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $updatedLocation;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationUpdateStruct */
+    /** @var LocationUpdateStruct */
     private $locationUpdateStruct;
 
     public function __construct(

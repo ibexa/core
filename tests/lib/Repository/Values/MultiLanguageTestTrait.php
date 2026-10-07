@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Values;
 
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription;
@@ -20,7 +21,7 @@ trait MultiLanguageTestTrait
     /**
      * @depends testNewClassWithMultiLanguageProperties
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
+     * @param MultiLanguageName $object tested ValueObject
      */
     public function testGetMultiLanguagePrioritizedName($object)
     {
@@ -39,7 +40,7 @@ trait MultiLanguageTestTrait
     /**
      * @depends testNewClassWithMultiLanguageProperties
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
+     * @param MultiLanguageName $object tested ValueObject
      */
     public function testGetMultiLanguageDefaultName($object)
     {
@@ -69,7 +70,7 @@ trait MultiLanguageTestTrait
     /**
      * @depends testNewClassWithMultiLanguageProperties
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
+     * @param MultiLanguageDescription $object tested ValueObject
      */
     public function testGetMultiLanguagePrioritizedDescription($object)
     {
@@ -88,7 +89,7 @@ trait MultiLanguageTestTrait
     /**
      * @depends testNewClassWithMultiLanguageProperties
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
+     * @param MultiLanguageDescription $object tested ValueObject
      */
     public function testGetMultiLanguageDefaultDescription($object)
     {

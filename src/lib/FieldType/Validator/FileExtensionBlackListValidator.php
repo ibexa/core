@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -26,7 +27,7 @@ class FileExtensionBlackListValidator extends Validator
     ];
 
     /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
+     * @param ConfigResolverInterface $configResolver
      */
     public function __construct(ConfigResolverInterface $configResolver)
     {
@@ -46,8 +47,10 @@ class FileExtensionBlackListValidator extends Validator
     /**
      * {@inheritdoc}
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null)
-    {
+    public function validate(
+        BaseValue $value,
+        ?FieldDefinition $fieldDefinition = null
+    ) {
         $this->errors = [];
 
         $this->validateFileExtension($value->fileName);

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\SessionSetDynamicNameListener;
@@ -11,6 +12,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -22,13 +24,13 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class SessionSetDynamicNameListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $sessionStorageFactory;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $sessionStorage;
 
     protected function setUp(): void
@@ -95,8 +97,11 @@ class SessionSetDynamicNameListenerTest extends TestCase
     /**
      * @dataProvider onSiteAccessMatchProvider
      */
-    public function testOnSiteAccessMatch(SiteAccess $siteAccess, $configuredSessionStorageOptions, array $expectedSessionStorageOptions)
-    {
+    public function testOnSiteAccessMatch(
+        SiteAccess $siteAccess,
+        $configuredSessionStorageOptions,
+        array $expectedSessionStorageOptions
+    ) {
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
 

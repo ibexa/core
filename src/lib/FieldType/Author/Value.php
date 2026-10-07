@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Author;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
@@ -16,14 +17,14 @@ class Value extends BaseValue
     /**
      * List of authors.
      *
-     * @var \Ibexa\Core\FieldType\Author\AuthorCollection
+     * @var AuthorCollection
      */
     public $authors;
 
     /**
      * Construct a new Value object and initialize with $authors.
      *
-     * @param \Ibexa\Core\FieldType\Author\Author[] $authors
+     * @param Author[] $authors
      */
     public function __construct(array $authors = [])
     {

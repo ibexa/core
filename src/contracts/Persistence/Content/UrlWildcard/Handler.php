@@ -4,9 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 
 /**
@@ -24,9 +27,13 @@ interface Handler
      * @param string $destinationUrl
      * @param bool $forward
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
+     * @return UrlWildcard
      */
-    public function create($sourceUrl, $destinationUrl, $forward = false);
+    public function create(
+        $sourceUrl,
+        $destinationUrl,
+        $forward = false
+    );
 
     public function update(
         int $id,
@@ -38,7 +45,7 @@ interface Handler
     /**
      * removes an url wildcard.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws NotFoundException if the url wild card was not found
      *
      * @param mixed $id
      */
@@ -47,11 +54,11 @@ interface Handler
     /**
      * Loads a url wild card.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws NotFoundException if the url wild card was not found
      *
      * @param mixed $id
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
+     * @return UrlWildcard
      */
     public function load($id);
 
@@ -61,25 +68,28 @@ interface Handler
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard[]
+     * @return UrlWildcard[]
      */
-    public function loadAll($offset = 0, $limit = -1);
+    public function loadAll(
+        $offset = 0,
+        $limit = -1
+    );
 
     /**
      * Find URLWildcards.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
     public function find(URLWildcardQuery $query): array;
 
     /**
      * Performs lookup for given (source) URL.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws NotFoundException if the url wild card was not found
      *
      * @param string $sourceUrl
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
+     * @return UrlWildcard
      */
     public function translate(string $sourceUrl): UrlWildcard;
 

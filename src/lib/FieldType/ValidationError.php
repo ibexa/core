@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError as ValidationErrorInterface;
+use Ibexa\Contracts\Core\Repository\Values\Translation;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Plural;
 
@@ -39,8 +41,12 @@ class ValidationError implements ValidationErrorInterface
      * @param string $plural
      * @param array $values
      */
-    public function __construct($singular, $plural = null, array $values = [], $target = null)
-    {
+    public function __construct(
+        $singular,
+        $plural = null,
+        array $values = [],
+        $target = null
+    ) {
         $this->singular = $singular;
         $this->plural = $plural;
         $this->values = $values;
@@ -50,7 +56,7 @@ class ValidationError implements ValidationErrorInterface
     /**
      * Returns a translatable Message.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Translation
+     * @return Translation
      */
     public function getTranslatableMessage()
     {

@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field;
 
-final class CheckboxTermAggregation extends AbstractFieldTermAggregation
-{
-}
+final class CheckboxTermAggregation extends AbstractFieldTermAggregation {}
 
 class_alias(CheckboxTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\CheckboxTermAggregation');

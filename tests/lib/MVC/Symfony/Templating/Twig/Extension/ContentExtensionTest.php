@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -22,6 +23,7 @@ use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -31,10 +33,10 @@ use Psr\Log\LoggerInterface;
  */
 class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentTypeService|MockObject */
     private $fieldHelperMock;
 
-    /** @var array<int, \Ibexa\Core\Repository\Values\ContentType\FieldDefinition[]> */
+    /** @var array<int, FieldDefinition[]> */
     private $fieldDefinitions = [];
 
     /** @var int[] */
@@ -72,10 +74,13 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
      * @param array $fieldsData
      * @param array $namesData
      *
-     * @return \Ibexa\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function getContent(string $contentTypeIdentifier, array $fieldsData, array $namesData = [])
-    {
+    protected function getContent(
+        string $contentTypeIdentifier,
+        array $fieldsData,
+        array $namesData = []
+    ) {
         if (!array_key_exists($contentTypeIdentifier, $this->identityMap)) {
             $this->identityMap[$contentTypeIdentifier] = count($this->identityMap) + 1;
         }
@@ -131,8 +136,11 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
      * @param array<string, mixed>  $fieldsData
      * @param array<mixed>  $namesData
      */
-    protected function getContentAwareObject(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): ContentAwareInterface
-    {
+    protected function getContentAwareObject(
+        string $contentTypeIdentifier,
+        array $fieldsData,
+        array $namesData = []
+    ): ContentAwareInterface {
         $content = $this->getContent($contentTypeIdentifier, $fieldsData, $namesData);
 
         $mock = $this->createMock(ContentAwareInterface::class);
@@ -186,7 +194,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getRepositoryMock()
     {
@@ -200,7 +208,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getContentTypeServiceMock()
     {

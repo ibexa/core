@@ -4,41 +4,44 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 
 interface Handler
 {
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct $group
+     * @param GroupCreateStruct $group
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     * @return Group
      */
     public function createGroup(GroupCreateStruct $group);
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct $group
+     * @param GroupUpdateStruct $group
      */
     public function updateGroup(GroupUpdateStruct $group);
 
     /**
      * @param mixed $groupId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If type group contains types
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type group with id is not found
+     * @throws BadStateException If type group contains types
+     * @throws NotFoundException If type group with id is not found
      */
     public function deleteGroup($groupId);
 
     /**
      * @param mixed $groupId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type group with id is not found
+     * @throws NotFoundException If type group with id is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     * @return Group
      */
     public function loadGroup($groupId);
 
@@ -50,7 +53,7 @@ interface Handler
      *
      * @param array $groupIds
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
+     * @return Group[]
      */
     public function loadGroups(array $groupIds);
 
@@ -61,14 +64,14 @@ interface Handler
      *
      * @param string $identifier
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type group with id is not found
+     * @throws NotFoundException If type group with id is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     * @return Group
      */
     public function loadGroupByIdentifier($identifier);
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
+     * @return Group[]
      */
     public function loadAllGroups();
 
@@ -76,9 +79,12 @@ interface Handler
      * @param mixed $groupId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return Type[]
      */
-    public function loadContentTypes($groupId, $status = Type::STATUS_DEFINED);
+    public function loadContentTypes(
+        $groupId,
+        $status = Type::STATUS_DEFINED
+    );
 
     /**
      * Return list of unique content types, with type id as key.
@@ -88,7 +94,7 @@ interface Handler
      *
      * @param array $contentTypeIds
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return Type[]
      */
     public function loadContentTypeList(array $contentTypeIds): array;
 
@@ -97,10 +103,13 @@ interface Handler
      *
      * @return array{count: int, items: array<string, mixed>}
      */
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array;
+    public function findContentTypes(
+        ?ContentTypeQuery $query = null,
+        array $prioritizedLanguages = []
+    ): array;
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return Type[]
      */
     public function loadContentTypesByFieldDefinitionIdentifier(string $identifier): array;
 
@@ -112,11 +121,14 @@ interface Handler
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type with provided status is not found
+     * @throws NotFoundException If type with provided status is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    public function load($contentTypeId, $status = Type::STATUS_DEFINED);
+    public function load(
+        $contentTypeId,
+        $status = Type::STATUS_DEFINED
+    );
 
     /**
      * Loads a (defined) content type by identifier.
@@ -125,9 +137,9 @@ interface Handler
      *
      * @param string $identifier
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If defined type is not found
+     * @throws NotFoundException If defined type is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     public function loadByIdentifier($identifier);
 
@@ -138,33 +150,40 @@ interface Handler
      *
      * @param mixed $remoteId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If defined type is not found
+     * @throws NotFoundException If defined type is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     public function loadByRemoteId($remoteId);
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct $contentType
+     * @param CreateStruct $contentType
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     public function create(CreateStruct $contentType);
 
     /**
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct $contentType
+     * @param UpdateStruct $contentType
      */
-    public function update($contentTypeId, $status, UpdateStruct $contentType);
+    public function update(
+        $contentTypeId,
+        $status,
+        UpdateStruct $contentType
+    );
 
     /**
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If type is defined and still has content
+     * @throws BadStateException If type is defined and still has content
      */
-    public function delete($contentTypeId, $status);
+    public function delete(
+        $contentTypeId,
+        $status
+    );
 
     /**
      * Creates a draft of existing defined content type.
@@ -174,16 +193,19 @@ interface Handler
      * @param mixed $modifierId
      * @param mixed $contentTypeId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type with defined status is not found
+     * @throws NotFoundException If type with defined status is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    public function createDraft($modifierId, $contentTypeId);
+    public function createDraft(
+        $modifierId,
+        $contentTypeId
+    );
 
     /**
      * Copy a Type to a new Type with status Draft.
      *
-     * Copy a Type incl fields and group-relations from a given status to a new Type with status {@see \Ibexa\Contracts\Core\Persistence\Content\Type::STATUS_DRAFT}.
+     * Copy a Type incl fields and group-relations from a given status to a new Type with status {@see Type::STATUS_DRAFT}.
      *
      * New content type will have $userId as creator / modifier, created / modified should be updated, new remoteId created
      * and identifier should be 'copy_of_<originalBaseIdentifier>_<newTypeId>' or another unique string.
@@ -192,11 +214,15 @@ interface Handler
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user or type with provided status is not found
+     * @throws NotFoundException If user or type with provided status is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    public function copy($userId, $contentTypeId, $status);
+    public function copy(
+        $userId,
+        $contentTypeId,
+        $status
+    );
 
     /**
      * Unlink a content type group from a content type.
@@ -205,11 +231,15 @@ interface Handler
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If group or type with provided status is not found
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If $groupId is last group on $contentTypeId or
+     * @throws NotFoundException If group or type with provided status is not found
+     * @throws BadStateException If $groupId is last group on $contentTypeId or
      *                                                                 not a group assigned to type
      */
-    public function unlink($groupId, $contentTypeId, $status);
+    public function unlink(
+        $groupId,
+        $contentTypeId,
+        $status
+    );
 
     /**
      * Link a content type group with a content type.
@@ -218,22 +248,29 @@ interface Handler
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If group or type with provided status is not found
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If type is already part of group
+     * @throws NotFoundException If group or type with provided status is not found
+     * @throws BadStateException If type is already part of group
      */
-    public function link($groupId, $contentTypeId, $status);
+    public function link(
+        $groupId,
+        $contentTypeId,
+        $status
+    );
 
     /**
      * Returns field definition for the given field definition id.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If field definition is not found
+     * @throws NotFoundException If field definition is not found
      *
      * @param mixed $id
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      */
-    public function getFieldDefinition($id, $status);
+    public function getFieldDefinition(
+        $id,
+        $status
+    );
 
     /**
      * Counts the number of Content instances of the ContentType identified by given $contentTypeId.
@@ -253,15 +290,19 @@ interface Handler
      *
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDefinition
+     * @param FieldDefinition $fieldDefinition
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type is not found
+     * @throws NotFoundException If type is not found
      *
      * @todo Add FieldDefinition\CreateStruct?
      */
-    public function addFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition);
+    public function addFieldDefinition(
+        $contentTypeId,
+        $status,
+        FieldDefinition $fieldDefinition
+    );
 
     /**
      * Removes a field definition from an existing Type.
@@ -274,7 +315,7 @@ interface Handler
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      * @param mixed $fieldDefinitionId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If field is not found
+     * @throws NotFoundException If field is not found
      */
     public function removeFieldDefinition(
         int $contentTypeId,
@@ -292,13 +333,17 @@ interface Handler
      *
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDefinition
+     * @param FieldDefinition $fieldDefinition
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If field is not found
+     * @throws NotFoundException If field is not found
      *
      * @todo Add FieldDefinition\UpdateStruct?
      */
-    public function updateFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition);
+    public function updateFieldDefinition(
+        $contentTypeId,
+        $status,
+        FieldDefinition $fieldDefinition
+    );
 
     /**
      * Update content objects.
@@ -312,7 +357,7 @@ interface Handler
      *
      * @param mixed $contentTypeId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type with $contentTypeId and Type::STATUS_DRAFT is not found
+     * @throws NotFoundException If type with $contentTypeId and Type::STATUS_DRAFT is not found
      */
     public function publish($contentTypeId);
 
@@ -344,15 +389,21 @@ interface Handler
      * @param int $contentTypeId
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
-    public function removeContentTypeTranslation(int $contentTypeId, string $languageCode): Type;
+    public function removeContentTypeTranslation(
+        int $contentTypeId,
+        string $languageCode
+    ): Type;
 
     /**
      * @param int $userId
      * @param int $status
      */
-    public function deleteByUserAndStatus(int $userId, int $status): void;
+    public function deleteByUserAndStatus(
+        int $userId,
+        int $status
+    ): void;
 }
 
 class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Type\Handler');

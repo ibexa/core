@@ -9,10 +9,14 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler;
 use Ibexa\Core\Base\Exceptions\BadStateException;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use Psr\Log\LoggerInterface;
@@ -24,7 +28,7 @@ use RuntimeException;
  *
  * @internal Gateway implementation is considered internal. Use Persistence UrlAlias Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
@@ -48,7 +52,7 @@ final class DoctrineDatabase extends Gateway
         'text_md5' => ParameterType::STRING,
     ];
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
+    /** @var MaskGenerator */
     private $languageMaskGenerator;
 
     /**
@@ -58,17 +62,17 @@ final class DoctrineDatabase extends Gateway
      */
     private $table;
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
+    /** @var AbstractPlatform */
     private $dbPlatform;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function __construct(
         Connection $connection,
@@ -356,8 +360,10 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    public function historizeBeforeSwap(string $action, int $languageMask): void
-    {
+    public function historizeBeforeSwap(
+        string $action,
+        int $languageMask
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update($this->connection->quoteIdentifier($this->table))
@@ -410,8 +416,11 @@ final class DoctrineDatabase extends Gateway
      * History entry "id" column is moved to next id value so that all active (non-history) entries are kept
      * under the same id.
      */
-    private function historize(int $parentId, string $textMD5, int $newId): void
-    {
+    private function historize(
+        int $parentId,
+        string $textMD5,
+        int $newId
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update($this->connection->quoteIdentifier($this->table))
@@ -450,8 +459,11 @@ final class DoctrineDatabase extends Gateway
      *
      * Removes given $languageId from entry's language mask
      */
-    private function removeTranslation(int $parentId, string $textMD5, int $languageId): void
-    {
+    private function removeTranslation(
+        int $parentId,
+        string $textMD5,
+        int $languageId
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update($this->connection->quoteIdentifier($this->table))
@@ -487,8 +499,10 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function historizeId(int $id, int $link): void
-    {
+    public function historizeId(
+        int $id,
+        int $link
+    ): void {
         if ($id === $link) {
             return;
         }
@@ -532,8 +546,10 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    public function reparent(int $oldParentId, int $newParentId): void
-    {
+    public function reparent(
+        int $oldParentId,
+        int $newParentId
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query->update(
             $this->connection->quoteIdentifier($this->table)
@@ -553,8 +569,11 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function updateRow(int $parentId, string $textMD5, array $values): void
-    {
+    public function updateRow(
+        int $parentId,
+        string $textMD5,
+        array $values
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query->update($this->connection->quoteIdentifier($this->table));
         foreach ($values as $columnName => $value) {
@@ -670,8 +689,10 @@ final class DoctrineDatabase extends Gateway
         return (int)$this->connection->lastInsertId(self::INCR_TABLE_SEQ);
     }
 
-    public function loadRow(int $parentId, string $textMD5): array
-    {
+    public function loadRow(
+        int $parentId,
+        string $textMD5
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query->select('*')->from(
             $this->connection->quoteIdentifier($this->table)
@@ -751,8 +772,10 @@ final class DoctrineDatabase extends Gateway
         return false !== $result ? $result : [];
     }
 
-    public function loadAutogeneratedEntry(string $action, ?int $parentId = null): array
-    {
+    public function loadAutogeneratedEntry(
+        string $action,
+        ?int $parentId = null
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query->select(
             '*'
@@ -901,8 +924,10 @@ final class DoctrineDatabase extends Gateway
         return $data;
     }
 
-    public function removeCustomAlias(int $parentId, string $textMD5): bool
-    {
+    public function removeCustomAlias(
+        int $parentId,
+        string $textMD5
+    ): bool {
         $query = $this->connection->createQueryBuilder();
         $query->delete(
             $this->connection->quoteIdentifier($this->table)
@@ -932,8 +957,10 @@ final class DoctrineDatabase extends Gateway
         return $query->execute() === 1;
     }
 
-    public function remove(string $action, ?int $id = null): void
-    {
+    public function remove(
+        string $action,
+        ?int $id = null
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
@@ -967,8 +994,10 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function loadAutogeneratedEntries(int $parentId, bool $includeHistory = false): array
-    {
+    public function loadAutogeneratedEntries(
+        int $parentId,
+        bool $includeHistory = false
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
@@ -1036,8 +1065,10 @@ final class DoctrineDatabase extends Gateway
         return (int)$languageId;
     }
 
-    public function bulkRemoveTranslation(int $languageId, array $actions): void
-    {
+    public function bulkRemoveTranslation(
+        int $languageId,
+        array $actions
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update($this->connection->quoteIdentifier($this->table))
@@ -1120,7 +1151,7 @@ final class DoctrineDatabase extends Gateway
             false
         );
 
-        /** @var \Doctrine\DBAL\Connection $connection */
+        /** @var Connection $connection */
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('id', 'lang_mask', 'parent', 'text_md5')
@@ -1137,7 +1168,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function deleteUrlAliasesWithoutLocation(): int
     {
@@ -1288,7 +1319,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function deleteUrlNopAliasesWithoutChildren(): int
     {
@@ -1339,7 +1370,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function getAllChildrenAliases(int $parentId): array
     {
@@ -1451,8 +1482,10 @@ final class DoctrineDatabase extends Gateway
     /**
      * Delete URL alias row by its primary composite key.
      */
-    private function deleteRow(int $parentId, string $textMD5): int
-    {
+    private function deleteRow(
+        int $parentId,
+        string $textMD5
+    ): int {
         $queryBuilder = $this->connection->createQueryBuilder();
         $expr = $queryBuilder->expr();
         $queryBuilder

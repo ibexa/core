@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use DateTime;
@@ -25,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class TimeTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TimeConverter */
+    /** @var TimeConverter */
     protected $converter;
 
     /** @var int */

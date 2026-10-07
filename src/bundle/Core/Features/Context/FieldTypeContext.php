@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
@@ -58,13 +59,13 @@ class FieldTypeContext implements Context
         'integer' => 1,
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeService */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     private $locationService;
 
     public function __construct(
@@ -108,8 +109,11 @@ class FieldTypeContext implements Context
      * @param string $name Name of the field, optional, if not specified $fieldType is used
      * @param bool $required True if the is the field required, optional
      */
-    public function createField($fieldType, $name = null, $required = false)
-    {
+    public function createField(
+        $fieldType,
+        $name = null,
+        $required = false
+    ) {
         $fieldPosition = $this->getActualFieldPosition();
         $name = ($name == null ? $fieldType : $name);
         $fieldCreateStruct = $this->contentTypeService->newFieldDefinitionCreateStruct(
@@ -131,8 +135,11 @@ class FieldTypeContext implements Context
      * @param string $value Value of the constraint
      * @param string $constraint Constraint name
      */
-    public function addValueConstraint($fieldType, $value, $constraint)
-    {
+    public function addValueConstraint(
+        $fieldType,
+        $value,
+        $constraint
+    ) {
         $validatorName = $this->getFieldValidator($fieldType);
         $validatorParent = $validatorName . 'Validator';
         if ($this->fieldConstructionObject['fieldType']->validatorConfiguration == null) {
@@ -152,8 +159,10 @@ class FieldTypeContext implements Context
      * @param string $field Name of the field
      * @param mixed $value Value of the field
      */
-    public function createContent($field, $value)
-    {
+    public function createContent(
+        $field,
+        $value
+    ) {
         $this->setFieldContentState(self::CONTENT_PUBLISHED, $field, $value);
     }
 
@@ -165,8 +174,11 @@ class FieldTypeContext implements Context
      * @param string $field Name of the field, optional
      * @param mixed $value Value of the field, optional
      */
-    public function setFieldContentState($stateFlag, $field = null, $value = null)
-    {
+    public function setFieldContentState(
+        $stateFlag,
+        $field = null,
+        $value = null
+    ) {
         if ($stateFlag <= $this->fieldConstructionObject['objectState']
             || $stateFlag < self::FIELD_TYPE_NOT_CREATED
         ) {
@@ -203,8 +215,10 @@ class FieldTypeContext implements Context
     /**
      * @param mixed $value
      */
-    private function createAndPublishContent(?string $field, $value): void
-    {
+    private function createAndPublishContent(
+        ?string $field,
+        $value
+    ): void {
         $languageCode = self::DEFAULT_LANGUAGE;
 
         $locationCreateStruct = $this->locationService->newLocationCreateStruct('2');
@@ -340,8 +354,10 @@ class FieldTypeContext implements Context
      *
      * Creates a ContentType with only the desired FieldType.
      */
-    public function createContentTypeWithFieldType($fieldType, $name = null)
-    {
+    public function createContentTypeWithFieldType(
+        $fieldType,
+        $name = null
+    ) {
         return $this->createField($fieldType, $name);
     }
 
@@ -351,8 +367,10 @@ class FieldTypeContext implements Context
      *
      * Creates a ContentType with only the desired FieldType.
      */
-    public function createContentTypeWithRequiredFieldType($fieldType, $name = null)
-    {
+    public function createContentTypeWithRequiredFieldType(
+        $fieldType,
+        $name = null
+    ) {
         return $this->createField($fieldType, $name, true);
     }
 
@@ -362,8 +380,10 @@ class FieldTypeContext implements Context
      *
      * Creates a Content with the previously defined ContentType.
      */
-    public function createContentOfThisType($field = null, $value = null)
-    {
+    public function createContentOfThisType(
+        $field = null,
+        $value = null
+    ) {
         return $this->createContent($field, $value);
     }
 
@@ -371,8 +391,11 @@ class FieldTypeContext implements Context
      * @Given a content type with an :fieldType field exists with Properties:
      * @Given a content type with an :fieldType field with name :name exists with Properties:
      */
-    public function createContentOfThisTypeWithProperties($fieldType, TableNode $properties, $name = null)
-    {
+    public function createContentOfThisTypeWithProperties(
+        $fieldType,
+        TableNode $properties,
+        $name = null
+    ) {
         $this->createField($fieldType, $name);
         foreach ($properties as $property) {
             if ($property['Validator'] == 'maximum value validator') {

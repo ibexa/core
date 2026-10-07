@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 
 use Symfony\Component\Config\Resource\ResourceInterface;
@@ -24,7 +25,7 @@ interface ConfigBuilderInterface
     /**
      * Adds given resource, which would typically be added to container resources.
      *
-     * @param \Symfony\Component\Config\Resource\ResourceInterface $resource
+     * @param ResourceInterface $resource
      */
     public function addResource(ResourceInterface $resource);
 }

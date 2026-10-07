@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
 
@@ -21,17 +22,17 @@ class Location extends APILocation
     /**
      * Content info of the content object of this location.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @var ContentInfo
      */
     protected $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
+    /** @var APILocation|null */
     protected $parentLocation;
 
     /**
      * Returns the content info of the content object of this location.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      */
     public function getContentInfo(): APIContentInfo
     {

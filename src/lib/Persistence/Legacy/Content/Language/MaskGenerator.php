@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Language;
 
+use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 
@@ -17,14 +19,14 @@ class MaskGenerator
     /**
      * Language lookup.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @var Handler
      */
     protected $languageHandler;
 
     /**
      * Creates a new Language MaskGenerator.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $languageHandler
+     * @param LanguageHandler $languageHandler
      */
     public function __construct(LanguageHandler $languageHandler)
     {
@@ -71,8 +73,10 @@ class MaskGenerator
      *
      * @return int
      */
-    public function generateLanguageMaskFromLanguageIds(array $languageIds, $alwaysAvailable): int
-    {
+    public function generateLanguageMaskFromLanguageIds(
+        array $languageIds,
+        $alwaysAvailable
+    ): int {
         // make sure alwaysAvailable part of bit mask always results in 1 or 0
         $languageMask = $alwaysAvailable ? 1 : 0;
 
@@ -93,8 +97,10 @@ class MaskGenerator
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function generateLanguageIndicator($languageCode, $alwaysAvailable)
-    {
+    public function generateLanguageIndicator(
+        $languageCode,
+        $alwaysAvailable
+    ) {
         return $this->languageHandler->loadByLanguageCode($languageCode)->id | ($alwaysAvailable ? 1 : 0);
     }
 
@@ -106,8 +112,10 @@ class MaskGenerator
      *
      * @return bool
      */
-    public function isLanguageAlwaysAvailable($language, array $languages): bool
-    {
+    public function isLanguageAlwaysAvailable(
+        $language,
+        array $languages
+    ): bool {
         return isset($languages['always-available'])
            && ($languages['always-available'] == $language)
         ;
@@ -213,8 +221,10 @@ class MaskGenerator
      *
      * @return int
      */
-    public function generateLanguageMaskFromLanguageCodes(array $languageCodes, bool $isAlwaysAvailable = false): int
-    {
+    public function generateLanguageMaskFromLanguageCodes(
+        array $languageCodes,
+        bool $isAlwaysAvailable = false
+    ): int {
         $mask = $isAlwaysAvailable ? 1 : 0;
 
         $languageList = $this->languageHandler->loadListByLanguageCodes($languageCodes);
@@ -232,7 +242,7 @@ class MaskGenerator
     /**
      * Collect all translations of the given Persistence Fields and generate language mask.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $fields
+     * @param Field[] $fields
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */

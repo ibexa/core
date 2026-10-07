@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\View;
 
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 
@@ -27,13 +29,13 @@ interface View
      *     // Must return a string to display
      * }
      * </code>
-     * Must throw a {@see \Ibexa\Core\Base\Exceptions\InvalidArgumentType} exception if $templateIdentifier is invalid.
+     * Must throw a {@see InvalidArgumentType} exception if $templateIdentifier is invalid.
      *
      * @param string|\Closure $templateIdentifier
      *
      * @phpstan-param string|(\Closure(array<string, mixed>):string) $templateIdentifier
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     public function setTemplateIdentifier($templateIdentifier);
 
@@ -114,21 +116,21 @@ interface View
     public function setControllerReference(ControllerReference $controllerReference);
 
     /**
-     * @return \Symfony\Component\HttpKernel\Controller\ControllerReference
+     * @return ControllerReference
      */
     public function getControllerReference();
 
     /**
      * Sets a pre-configured Response that will be used to render the View.
      *
-     * @param \Symfony\Component\HttpFoundation\Response $response
+     * @param Response $response
      */
     public function setResponse(Response $response);
 
     /**
      * Returns the pre-configured Response.
      *
-     * @return \Symfony\Component\HttpFoundation\Response|null
+     * @return Response|null
      */
     public function getResponse();
 }

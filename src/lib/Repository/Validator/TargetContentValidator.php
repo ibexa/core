@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Validator;
 
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -19,22 +20,24 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 final class TargetContentValidator implements TargetContentValidatorInterface
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
+    /** @var Handler */
     private $contentHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
+    /** @var Content\Type\Handler */
     private $contentTypeHandler;
 
     public function __construct(
-        Content\Handler $contentHandler,
+        Handler $contentHandler,
         Content\Type\Handler $contentTypeHandler
     ) {
         $this->contentHandler = $contentHandler;
         $this->contentTypeHandler = $contentTypeHandler;
     }
 
-    public function validate(int $value, array $allowedContentTypes = []): ?ValidationError
-    {
+    public function validate(
+        int $value,
+        array $allowedContentTypes = []
+    ): ?ValidationError {
         try {
             $content = $this->contentHandler->load($value);
             $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
 use Imagine\Exception\InvalidArgumentException;
@@ -17,8 +18,10 @@ class ScaleWidthFilterLoader extends FilterLoaderWrapped
 {
     public const IDENTIFIER = 'geometry/scalewidth';
 
-    public function load(ImageInterface $image, array $options = [])
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ) {
         if (empty($options)) {
             throw new InvalidArgumentException('Missing width option');
         }

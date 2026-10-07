@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\IO\EventListener;
 
 use DateTime;
@@ -12,6 +13,7 @@ use Ibexa\Bundle\IO\EventListener\StreamFileListener;
 use Ibexa\Core\IO\IOConfigProvider;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -19,13 +21,13 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class StreamFileListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\IO\EventListener\StreamFileListener */
+    /** @var StreamFileListener */
     private $eventListener;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOServiceInterface|MockObject */
     private $ioServiceMock;
 
-    /** @var \Ibexa\Core\IO\IOConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOConfigProvider|MockObject */
     private $ioConfigResolverMock;
 
     protected function setUp(): void
@@ -137,10 +139,12 @@ class StreamFileListenerTest extends TestCase
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      */
-    protected function createRequest($semanticPath, $host = 'localhost')
-    {
+    protected function createRequest(
+        $semanticPath,
+        $host = 'localhost'
+    ) {
         $request = Request::create(sprintf('http://%s%s', $host, $semanticPath));
         $request->attributes->set('semanticPathinfo', $semanticPath);
 
@@ -150,7 +154,7 @@ class StreamFileListenerTest extends TestCase
     /**
      * @param $request
      *
-     * @return \Symfony\Component\HttpKernel\Event\RequestEvent
+     * @return RequestEvent
      */
     protected function createEvent($request)
     {

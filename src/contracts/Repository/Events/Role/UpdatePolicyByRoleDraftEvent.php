@@ -15,16 +15,16 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft;
 
 final class UpdatePolicyByRoleDraftEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
+    /** @var RoleDraft */
     private $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft */
+    /** @var PolicyDraft */
     private $policy;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyUpdateStruct */
+    /** @var PolicyUpdateStruct */
     private $policyUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft */
+    /** @var PolicyDraft */
     private $updatedPolicyDraft;
 
     public function __construct(

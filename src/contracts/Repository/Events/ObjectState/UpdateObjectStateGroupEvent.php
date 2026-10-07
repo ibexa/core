@@ -14,13 +14,13 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStr
 
 final class UpdateObjectStateGroupEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup */
+    /** @var ObjectStateGroup */
     private $updatedObjectStateGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup */
+    /** @var ObjectStateGroup */
     private $objectStateGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct */
+    /** @var ObjectStateGroupUpdateStruct */
     private $objectStateGroupUpdateStruct;
 
     public function __construct(

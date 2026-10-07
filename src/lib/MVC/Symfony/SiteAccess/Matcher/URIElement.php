@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -13,7 +14,7 @@ use LogicException;
 
 class URIElement implements VersatileMatcher, URILexer
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
+    /** @var SimplifiedRequest */
     private $request;
 
     /**
@@ -67,7 +68,7 @@ class URIElement implements VersatileMatcher, URILexer
     /**
      * Returns URI elements as an array.
      *
-     * @throws \LogicException
+     * @throws LogicException
      *
      * @return array
      */
@@ -107,7 +108,7 @@ class URIElement implements VersatileMatcher, URILexer
     /**
      * Injects the request object to match against.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      */
     public function setRequest(SimplifiedRequest $request)
     {
@@ -115,7 +116,7 @@ class URIElement implements VersatileMatcher, URILexer
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest
+     * @return SimplifiedRequest
      */
     public function getRequest()
     {
@@ -168,7 +169,7 @@ class URIElement implements VersatileMatcher, URILexer
      *
      * @param string $siteAccessName
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement|null
+     * @return URIElement|null
      */
     public function reverseMatch($siteAccessName)
     {

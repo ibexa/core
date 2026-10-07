@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStr
 
 final class CreateContentTypeGroupEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup */
+    /** @var ContentTypeGroup */
     private $contentTypeGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct */
+    /** @var ContentTypeGroupCreateStruct */
     private $contentTypeGroupCreateStruct;
 
     public function __construct(

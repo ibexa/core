@@ -40,8 +40,11 @@ class Field extends SortClause implements CustomFieldInterface
      * @param string $fieldIdentifier
      * @param string $sortDirection
      */
-    public function __construct(string $typeIdentifier, string $fieldIdentifier, string $sortDirection = Query::SORT_ASC)
-    {
+    public function __construct(
+        string $typeIdentifier,
+        string $fieldIdentifier,
+        string $sortDirection = Query::SORT_ASC
+    ) {
         parent::__construct(
             'field',
             $sortDirection,
@@ -58,8 +61,11 @@ class Field extends SortClause implements CustomFieldInterface
      * @param string $field
      * @param string $customField
      */
-    public function setCustomField(string $type, string $field, string $customField): void
-    {
+    public function setCustomField(
+        string $type,
+        string $field,
+        string $customField
+    ): void {
         $this->customFields[$type][$field] = $customField;
     }
 
@@ -73,8 +79,10 @@ class Field extends SortClause implements CustomFieldInterface
      *
      * @return mixed
      */
-    public function getCustomField(string $type, string $field): ?string
-    {
+    public function getCustomField(
+        string $type,
+        string $field
+    ): ?string {
         if (!isset($this->customFields[$type][$field])) {
             return null;
         }

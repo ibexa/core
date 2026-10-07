@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Location\Trash;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as BaseTrashHandler;
@@ -12,9 +13,12 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Handler as ContentHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Handler as LocationHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 
 /**
@@ -27,28 +31,28 @@ class Handler implements BaseTrashHandler
     /**
      * Location handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Handler
+     * @var LocationHandler
      */
     protected $locationHandler;
 
     /**
      * Gateway for handling location data.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @var Gateway
      */
     protected $locationGateway;
 
     /**
      * Mapper for handling location data.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @var Mapper
      */
     protected $locationMapper;
 
     /**
      * Content handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Handler
+     * @var ContentHandler
      */
     protected $contentHandler;
 
@@ -72,7 +76,7 @@ class Handler implements BaseTrashHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location\Trashed
+     * @return Trashed
      */
     public function loadTrashItem($id)
     {
@@ -92,7 +96,7 @@ class Handler implements BaseTrashHandler
      *
      * @todo Handle field types actions
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location\Trashed|null null if location was deleted, otherwise Trashed object
+     * @return Trashed|null null if location was deleted, otherwise Trashed object
      */
     public function trashSubtree($locationId)
     {
@@ -159,20 +163,26 @@ class Handler implements BaseTrashHandler
      *
      * @return int Newly restored location id
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException If $newParentId is invalid
+     * @throws NotFoundException If $newParentId is invalid
      *
      * @todo Handle field types actions
      */
-    public function recover($trashedId, $newParentId)
-    {
+    public function recover(
+        $trashedId,
+        $newParentId
+    ) {
         return $this->locationGateway->untrashLocation($trashedId, $newParentId)->id;
     }
 
     /**
      * {@inheritdoc}.
      */
-    public function findTrashItems(?Criterion $criterion = null, $offset = 0, $limit = null, ?array $sort = null)
-    {
+    public function findTrashItems(
+        ?Criterion $criterion = null,
+        $offset = 0,
+        $limit = null,
+        ?array $sort = null
+    ) {
         $totalCount = $this->locationGateway->countTrashed($criterion);
         if ($totalCount === 0) {
             return new TrashResult();
@@ -215,7 +225,7 @@ class Handler implements BaseTrashHandler
      *
      * @param int $trashedId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult
+     * @return TrashItemDeleteResult
      */
     public function deleteTrashItem($trashedId)
     {
@@ -226,9 +236,9 @@ class Handler implements BaseTrashHandler
      * Triggers delete operations for $trashItem.
      * If there is no more locations for corresponding content, then it will be deleted as well.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\Trashed $trashItem
+     * @param Trashed $trashItem
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult
+     * @return TrashItemDeleteResult
      */
     protected function delete(Trashed $trashItem)
     {

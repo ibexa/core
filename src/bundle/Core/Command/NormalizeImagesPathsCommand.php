@@ -9,6 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Driver\Connection;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway as ImageStorageGateway;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
@@ -39,16 +42,16 @@ EOT;
 
     protected static $defaultName = 'ibexa:images:normalize-paths';
 
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
+    /** @var Gateway */
     private $imageGateway;
 
-    /** @var \Ibexa\Core\IO\FilePathNormalizerInterface */
+    /** @var FilePathNormalizerInterface */
     private $filePathNormalizer;
 
-    /** @var \Doctrine\DBAL\Driver\Connection */
+    /** @var Connection */
     private $connection;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $ioService;
 
     /** @var bool */
@@ -89,8 +92,10 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         $io->title('Normalize image paths');
@@ -141,8 +146,8 @@ EOT
     /**
      * @param resource $inputStream
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
      */
     private function updateImagePath(
         int $fieldId,
@@ -269,8 +274,10 @@ EOT
         return $imagePathsToNormalize;
     }
 
-    private function normalizeImagePaths(array $imagePathsToNormalize, SymfonyStyle $io): array
-    {
+    private function normalizeImagePaths(
+        array $imagePathsToNormalize,
+        SymfonyStyle $io
+    ): array {
         $oldBinaryFilesToDelete = [];
         foreach ($imagePathsToNormalize as $imagePathToNormalize) {
             $this->connection->beginTransaction();

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\IO\MetadataHandler;
 
 use Ibexa\Core\IO\MetadataHandler\ImageSize as ImageSizeMetadataHandler;

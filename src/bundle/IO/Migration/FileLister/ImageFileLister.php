@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\Migration\FileLister;
 
+use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileList;
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Ibexa\Bundle\IO\Migration\FileListerInterface;
 use Ibexa\Bundle\IO\Migration\MigrationHandler;
@@ -18,25 +20,25 @@ use Psr\Log\LoggerInterface;
 
 class ImageFileLister extends MigrationHandler implements FileListerInterface
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileList */
+    /** @var ImageFileList */
     private $imageFileList;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
+    /** @var VariationPathGenerator */
     private $variationPathGenerator;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
+    /** @var FilterConfiguration */
     private $filterConfiguration;
 
     /** @var string Directory where images are stored, within the storage dir. Example: 'images' */
     private $imagesDir;
 
     /**
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry $metadataHandlerRegistry
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry $binarydataHandlerRegistry
-     * @param \Psr\Log\LoggerInterface $logger
-     * @param \Iterator $imageFileList
-     * @param \Ibexa\Contracts\Core\Variation\VariationPathGenerator
-     * @param \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration
+     * @param HandlerRegistry $metadataHandlerRegistry
+     * @param HandlerRegistry $binarydataHandlerRegistry
+     * @param LoggerInterface $logger
+     * @param Iterator $imageFileList
+     * @param VariationPathGenerator
+     * @param FilterConfiguration
      * @param string $imagesDir Directory where images are stored, within the storage dir. Example: 'images'
      */
     public function __construct(
@@ -63,8 +65,10 @@ class ImageFileLister extends MigrationHandler implements FileListerInterface
         return count($this->imageFileList);
     }
 
-    public function loadMetadataList($limit = null, $offset = null)
-    {
+    public function loadMetadataList(
+        $limit = null,
+        $offset = null
+    ) {
         $metadataList = [];
         $imageLimitList = new LimitIterator($this->imageFileList, $offset, $limit);
         $aliasNames = array_keys($this->filterConfiguration->all());

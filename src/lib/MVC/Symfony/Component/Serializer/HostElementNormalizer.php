@@ -12,13 +12,15 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostElement;
 
 final class HostElementNormalizer extends AbstractPropertyWhitelistNormalizer
 {
-    public function supportsNormalization($data, ?string $format = null)
-    {
+    public function supportsNormalization(
+        $data,
+        ?string $format = null
+    ) {
         return $data instanceof HostElement;
     }
 
     /**
-     * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostElement::__sleep
+     * @see HostElement::__sleep
      */
     protected function getAllowedProperties(): array
     {

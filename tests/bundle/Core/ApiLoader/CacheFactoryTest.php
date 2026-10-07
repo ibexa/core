@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\CacheFactory;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
@@ -15,10 +17,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CacheFactoryTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $container;
 
     protected function setUp(): void
@@ -43,8 +45,10 @@ class CacheFactoryTest extends TestCase
     /**
      * @dataProvider providerGetService
      */
-    public function testGetService($name, $expected)
-    {
+    public function testGetService(
+        $name,
+        $expected
+    ) {
         $this->configResolver
             ->expects($this->once())
             ->method('getParameter')

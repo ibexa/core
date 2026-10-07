@@ -23,7 +23,7 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_USER_ID = 'user_id';
     public const COLUMN_VALUE = 'value';
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     public function __construct(Connection $connection)
@@ -72,8 +72,10 @@ class DoctrineDatabase extends Gateway
         return (int) $this->connection->lastInsertId();
     }
 
-    public function getUserPreferenceByUserIdAndName(int $userId, string $name): array
-    {
+    public function getUserPreferenceByUserIdAndName(
+        int $userId,
+        string $name
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(...$this->getColumns())
@@ -90,8 +92,11 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function loadUserPreferences(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadUserPreferences(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(...$this->getColumns())

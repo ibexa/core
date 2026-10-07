@@ -25,7 +25,7 @@ final class Orientation extends Criterion
     /**
      * @param string|array<string> $orientation
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(
         string $fieldDefIdentifier,
@@ -55,7 +55,7 @@ final class Orientation extends Criterion
     /**
      * @param string|array<string> $orientation
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function validate($orientation): void
     {
@@ -84,7 +84,7 @@ final class Orientation extends Criterion
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function throwException(string $whatIsWrong): void
     {

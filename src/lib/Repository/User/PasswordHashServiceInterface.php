@@ -12,10 +12,8 @@ use Ibexa\Contracts\Core\Repository\PasswordHashService;
 
 /**
  * @deprecated since Ibexa 3.3.0, to be removed in Ibexa 4.0.0. Use
- * {@see \Ibexa\Contracts\Core\Repository\PasswordHashService} directly instead.
+ * {@see PasswordHashService} directly instead.
  */
-interface PasswordHashServiceInterface extends PasswordHashService
-{
-}
+interface PasswordHashServiceInterface extends PasswordHashService {}
 
 class_alias(PasswordHashServiceInterface::class, 'eZ\Publish\Core\Repository\User\PasswordHashServiceInterface');

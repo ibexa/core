@@ -13,13 +13,14 @@ use Ibexa\Bundle\Test\Core\IbexaTestCoreBundle;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\BookmarkService;
 use Ibexa\Contracts\Core\Repository\TrashService;
+use Ibexa\Contracts\Core\Test\IbexaTestKernel;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Contracts\Test\Core\IbexaTestKernel as BaseIbexaTestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Loads the same fixture set {@see \Ibexa\Contracts\Core\Test\IbexaTestKernel} (the package-internal
+ * Loads the same fixture set {@see IbexaTestKernel} (the package-internal
  * kernel predating ibexa/test-core) already used, instead of the shared kernel's own generic default,
  * so tests already calibrated against it keep passing unchanged.
  *

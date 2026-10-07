@@ -14,14 +14,16 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 
 final class BeforeRemoveFieldDefinitionEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
+    /** @var ContentTypeDraft */
     private $contentTypeDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition */
+    /** @var FieldDefinition */
     private $fieldDefinition;
 
-    public function __construct(ContentTypeDraft $contentTypeDraft, FieldDefinition $fieldDefinition)
-    {
+    public function __construct(
+        ContentTypeDraft $contentTypeDraft,
+        FieldDefinition $fieldDefinition
+    ) {
         $this->contentTypeDraft = $contentTypeDraft;
         $this->fieldDefinition = $fieldDefinition;
     }

@@ -8,15 +8,18 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\QueryType\BuiltIn;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Core\QueryType\BuiltIn\SortSpec\Exception\SyntaxErrorException;
+
 /**
  * @internal
  */
 interface SortClausesFactoryInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
+     * @return SortClause[]
      *
-     * @throws \Ibexa\Core\QueryType\BuiltIn\SortSpec\Exception\SyntaxErrorException
+     * @throws SyntaxErrorException
      */
     public function createFromSpecification(string $specification): array;
 }

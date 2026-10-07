@@ -12,11 +12,14 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\AliasCleanerInterface;
 use Ibexa\Core\FieldType\Image\ImageStorage;
+use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\FieldType\Image\PathGenerator;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
+use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\MetadataHandler;
@@ -24,34 +27,35 @@ use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
 {
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
+    /** @var Gateway */
     private $gateway;
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UrlRedecoratorInterface|MockObject */
     private $redecorator;
 
-    /** @var \Ibexa\Core\IO\MetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var MetadataHandler|MockObject */
     private $imageSizeMetadataHandler;
 
-    /** @var \Ibexa\Core\FieldType\Image\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PathGenerator|MockObject */
     private $pathGenerator;
 
-    /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AliasCleanerInterface|MockObject */
     private $aliasCleaner;
 
-    /** @var \Ibexa\Core\IO\FilePathNormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FilePathNormalizerInterface|MockObject */
     private $filePathNormalizer;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOServiceInterface|MockObject */
     private $ioService;
 
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage */
+    /** @var ImageStorage */
     private $storage;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FileExtensionBlackListValidator&MockObject */
     private $fileExtensionBlackListValidator;
 
     protected function setUp(): void
@@ -93,11 +97,13 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
     /**
      * @dataProvider providerOfFieldData
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws InvalidArgumentException
+     * @throws InvalidBinaryFileIdException
      */
-    public function testStoreFieldDataDuringCreate(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataDuringCreate(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $binaryFile = $this->runCommonStoreFieldDataMocks($field);
 
         $this->redecorator
@@ -116,8 +122,10 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
      *
      * @depends testStoreFieldDataDuringCreate
      */
-    public function testStoreFieldDataDuringUpdate(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataDuringUpdate(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $binaryFile = $this->runCommonStoreFieldDataMocks($field);
 
         $this->redecorator
@@ -136,8 +144,10 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
      *
      * @depends testStoreFieldDataDuringUpdate
      */
-    public function testStoreFieldDataDuringUpdateWithDifferentImage(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataDuringUpdateWithDifferentImage(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $versionInfo->versionNo = 2;
         $field->versionNo = 2;
 
@@ -176,8 +186,10 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
     /**
      * @dataProvider providerOfFieldData
      */
-    public function testStoreFieldDataWithSameImageOnAutosave(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataWithSameImageOnAutosave(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $targetPath = '1/8/6/232-eng-US/' . $field->value->externalData['fileName'];
 
         $binaryFile = new BinaryFile([

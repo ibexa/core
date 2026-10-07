@@ -4,11 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\User;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\User\UserStorage\Gateway;
 
 /**
  * Description of UserStorage.
@@ -30,31 +33,40 @@ class UserStorage extends GatewayBasedStorage
     /**
      * Field Type External Storage Gateway.
      *
-     * @var \Ibexa\Core\FieldType\User\UserStorage\Gateway
+     * @var Gateway
      */
     protected $gateway;
 
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         return $this->gateway->storeFieldData($versionInfo, $field);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         $field->value->externalData = $this->gateway->getFieldData($field->id);
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      * @param int[] $fieldIds Array of field Ids
      * @param array $context
      *
      * @return bool
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds,
+        array $context
+    ) {
         return $this->gateway->deleteFieldData($versionInfo, $fieldIds);
     }
 
@@ -69,15 +81,17 @@ class UserStorage extends GatewayBasedStorage
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      * @param array $context
      *
      * @return \Ibexa\Contracts\Core\Search\Field[]
      */
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
-    {
-    }
+    public function getIndexData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {}
 
     /**
      * @param int[] $supportedHashTypes

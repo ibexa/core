@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\FieldType;
@@ -12,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\FieldType;
  * Test case for operations in the FieldTypeService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService
+ *
  * @group field-type
  */
 class FieldTypeServiceTest extends BaseTest

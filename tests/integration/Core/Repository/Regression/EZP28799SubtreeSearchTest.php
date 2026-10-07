@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
@@ -15,7 +17,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 class EZP28799SubtreeSearchTest extends BaseTest
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
+     * @return Content[]
      */
     public function createTestContent()
     {

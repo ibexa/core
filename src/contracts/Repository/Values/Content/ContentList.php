@@ -20,16 +20,18 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
     /** @var int */
     private int $totalCount;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content[] */
+    /** @var Content[] */
     private array $contentItems;
 
     /**
      * @internal for internal use by Repository
      *
-     * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\Content> $contentItems
+     * @param array<Content> $contentItems
      */
-    public function __construct(int $totalCount, array $contentItems)
-    {
+    public function __construct(
+        int $totalCount,
+        array $contentItems
+    ) {
         $this->totalCount = $totalCount;
         $this->contentItems = $contentItems;
     }
@@ -40,7 +42,7 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
     }
 
     /**
-     * @return \ArrayIterator<int, \Ibexa\Contracts\Core\Repository\Values\Content\Content>
+     * @return ArrayIterator<int, Content>
      */
     public function getIterator(): ArrayIterator
     {

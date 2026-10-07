@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\DateAndTime;
 
 use DateTime;
@@ -19,7 +20,7 @@ class Value extends BaseValue
     /**
      * Date content.
      *
-     * @var \DateTime|null
+     * @var DateTime|null
      */
     public $value;
 
@@ -33,7 +34,7 @@ class Value extends BaseValue
     /**
      * Construct a new Value object and initialize with $dateTime.
      *
-     * @param \DateTime|null $dateTime Date/Time as a DateTime object
+     * @param DateTime|null $dateTime Date/Time as a DateTime object
      */
     public function __construct(?DateTime $dateTime = null)
     {
@@ -45,7 +46,7 @@ class Value extends BaseValue
      *
      * @param string $dateString
      *
-     * @return \Ibexa\Core\FieldType\DateAndTime\Value
+     * @return Value
      */
     public static function fromString($dateString)
     {
@@ -61,7 +62,7 @@ class Value extends BaseValue
      *
      * @param int $timestamp
      *
-     * @return \Ibexa\Core\FieldType\DateAndTime\Value
+     * @return Value
      */
     public static function fromTimestamp($timestamp)
     {

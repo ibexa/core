@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ViewProvidersPass;
@@ -35,8 +36,10 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider addViewProviderProvider
      */
-    public function testAddViewProvider($declaredPriority, $expectedPriority)
-    {
+    public function testAddViewProvider(
+        $declaredPriority,
+        $expectedPriority
+    ) {
         $def = new Definition();
 
         $attributes = ['type' => 'Test\View'];

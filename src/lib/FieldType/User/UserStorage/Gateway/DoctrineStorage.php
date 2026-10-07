@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\User\UserStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
@@ -23,7 +25,7 @@ class DoctrineStorage extends Gateway
     public const USER_TABLE = 'ezuser';
     public const USER_SETTING_TABLE = 'ezuser_setting';
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     /**
@@ -52,8 +54,10 @@ class DoctrineStorage extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function getFieldData($fieldId, $userId = null)
-    {
+    public function getFieldData(
+        $fieldId,
+        $userId = null
+    ) {
         $userId = $userId ?: $this->fetchUserId($fieldId);
         $userData = $this->fetchUserData($userId);
 
@@ -247,8 +251,10 @@ class DoctrineStorage extends Gateway
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): bool {
         if ($field->value->externalData === null) {
             //to avoid unnecessary modifications when provided field is empty (like missing data for languageCode)
             return false;
@@ -272,8 +278,10 @@ class DoctrineStorage extends Gateway
         return true;
     }
 
-    protected function insertFieldData(VersionInfo $versionInfo, Field $field): void
-    {
+    protected function insertFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $insertQuery = $this->connection->createQueryBuilder();
 
         $insertQuery
@@ -308,8 +316,10 @@ class DoctrineStorage extends Gateway
         $settingsQuery->execute();
     }
 
-    protected function updateFieldData(VersionInfo $versionInfo, Field $field): void
-    {
+    protected function updateFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $queryBuilder = $this->connection->createQueryBuilder();
 
         $queryBuilder
@@ -354,8 +364,10 @@ class DoctrineStorage extends Gateway
         $settingsQuery->execute();
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds
+    ): bool {
         // Delete external storage only, when when deleting last relation to fieldType
         // to avoid removing it when deleting draft, translation or by exceeding archive limit
         if (!$this->isLastRelationToFieldType($fieldIds)) {
@@ -396,7 +408,7 @@ class DoctrineStorage extends Gateway
      *
      * @return bool
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function isLastRelationToFieldType(array $fieldIds): bool
     {

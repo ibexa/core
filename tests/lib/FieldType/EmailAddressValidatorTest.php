@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
@@ -13,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @todo add more tests, like on validateConstraints method
+ *
  * @group fieldType
  * @group validator
  */

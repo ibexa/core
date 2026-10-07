@@ -4,25 +4,28 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Configuration\VersatileScopeInterface;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
+use Ibexa\Core\MVC\Symfony\View\ViewProvider;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConfigScopeListener implements EventSubscriberInterface, ConfigScopeChangeSubscriber
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
+    /** @var ConfigResolverInterface[] */
     private $configResolvers;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\ViewManagerInterface|\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware */
+    /** @var ViewManagerInterface|SiteAccessAware */
     private $viewManager;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\ViewProvider[]|\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware[] */
+    /** @var ViewProvider[]|SiteAccessAware[] */
     private $viewProviders;
 
     public function __construct(

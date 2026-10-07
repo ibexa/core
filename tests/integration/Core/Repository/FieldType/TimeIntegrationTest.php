@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use DateTime;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Time\Value;
 use Ibexa\Core\FieldType\Time\Value as TimeValue;
 
 /**
@@ -138,7 +140,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -168,7 +170,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
     /**
      * Get update field externals data.
      *
-     * @return \Ibexa\Core\FieldType\Time\Value
+     * @return Value
      */
     public function getValidUpdateFieldData()
     {
@@ -212,8 +214,10 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @dataProvider provideInvalidUpdateFieldData
      */
-    public function testUpdateContentFails($failingValue, $expectedException)
-    {
+    public function testUpdateContentFails(
+        $failingValue,
+        $expectedException
+    ) {
         return [
             [
                 'Some unknown date format', InvalidArgumentException::class,
@@ -227,7 +231,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {

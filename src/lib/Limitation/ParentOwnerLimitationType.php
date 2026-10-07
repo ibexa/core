@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Target;
@@ -12,8 +13,11 @@ use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentOwnerLimitation as APIParentOwnerLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\BadStateException;
@@ -33,7 +37,7 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param Limitation $limitationValue
      */
     public function acceptValue(APILimitationValue $limitationValue)
     {
@@ -58,7 +62,7 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param Limitation $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -86,7 +90,7 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @param mixed[] $limitationValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
+     * @return Limitation
      */
     public function buildValue(array $limitationValues)
     {
@@ -101,17 +105,21 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
+     * @param Limitation $value
+     * @param UserReference $currentUser
+     * @param ValueObject $object
+     * @param ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
      * @return bool
      *
      * @todo Add support for $limitationValues[0] == 2 when session values can be injected somehow
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
-    {
+    public function evaluate(
+        APILimitationValue $value,
+        APIUserReference $currentUser,
+        ValueObject $object,
+        ?array $targets = null
+    ) {
         if (!$value instanceof APIParentOwnerLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIParentOwnerLimitation');
         }
@@ -168,13 +176,15 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param Limitation $value
+     * @param UserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
+     * @return CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
-    {
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    ) {
         throw new NotImplementedException(__METHOD__);
     }
 

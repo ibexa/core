@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\TransformationProcessor;
 
 use Ibexa\Core\Persistence;
@@ -18,7 +19,7 @@ class TransformationProcessorDefinitionBasedTest extends TestCase
     public function getProcessor()
     {
         return new DefinitionBased(
-            new Persistence\TransformationProcessor\DefinitionBased\Parser(),
+            new DefinitionBased\Parser(),
             new Persistence\TransformationProcessor\PcreCompiler(new Persistence\Utf8Converter()),
             glob(__DIR__ . '/_fixtures/transformations/*.tr')
         );

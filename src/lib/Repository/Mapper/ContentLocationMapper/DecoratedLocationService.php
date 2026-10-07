@@ -21,7 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
  */
 final class DecoratedLocationService extends LocationServiceDecorator
 {
-    /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\ContentLocationMapper */
+    /** @var ContentLocationMapper */
     private $contentLocationMapper;
 
     public function __construct(
@@ -117,7 +117,7 @@ final class DecoratedLocationService extends LocationServiceDecorator
     }
 
     /**
-     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Location> $locationList
+     * @param iterable<Location> $locationList
      */
     private function setLocationMappings(iterable $locationList): void
     {

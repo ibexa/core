@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence;
 
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
+use Ibexa\Contracts\Core\Persistence\FieldType;
 use Ibexa\Contracts\Core\Persistence\FieldType as SPIPersistenceFieldType;
 use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 use Ibexa\Core\Persistence\FieldTypeRegistry;
@@ -85,7 +87,7 @@ class FieldTypeRegistryTest extends TestCase
     /**
      * Returns a mock for persistence field type.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\FieldType
+     * @return FieldType
      */
     protected function getFieldTypeMock()
     {

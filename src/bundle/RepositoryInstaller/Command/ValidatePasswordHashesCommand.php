@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
@@ -15,10 +16,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ValidatePasswordHashesCommand extends Command implements BackwardCompatibleCommand
 {
-    /** @var \Ibexa\Core\FieldType\User\UserStorage */
+    /** @var UserStorage */
     private $userStorage;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PasswordHashService */
+    /** @var PasswordHashService */
     private $passwordHashService;
 
     public function __construct(
@@ -37,8 +38,10 @@ final class ValidatePasswordHashesCommand extends Command implements BackwardCom
         $this->setAliases($this->getDeprecatedAliases());
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $unsupportedHashesCounter = $this->userStorage->countUsersWithUnsupportedHashType(
             $this->passwordHashService->getSupportedHashTypes()
         );

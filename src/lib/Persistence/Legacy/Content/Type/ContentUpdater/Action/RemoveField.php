@@ -4,10 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
@@ -20,27 +23,27 @@ class RemoveField extends Action
     /**
      * Field definition of the field to remove.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @var FieldDefinition
      */
     protected $fieldDefinition;
 
     /**
      * Storage handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $storageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var Mapper */
     protected $contentMapper;
 
     /**
      * Creates a new action.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageHandler $storageHandler
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Mapper $contentMapper
+     * @param Gateway $contentGateway
+     * @param FieldDefinition $fieldDef
+     * @param StorageHandler $storageHandler
+     * @param Mapper $contentMapper
      */
     public function __construct(
         ContentGateway $contentGateway,

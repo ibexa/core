@@ -9,13 +9,14 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
+use Ibexa\Core\MVC\Symfony\Security\User\BaseProvider;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 class User implements ReferenceUserInterface, EquatableInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var APIUser */
     private $user;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserReference */
@@ -24,8 +25,10 @@ class User implements ReferenceUserInterface, EquatableInterface
     /** @var string[] */
     private $roles;
 
-    public function __construct(APIUser $user, array $roles = [])
-    {
+    public function __construct(
+        APIUser $user,
+        array $roles = []
+    ) {
         $this->user = $user;
         $this->reference = new UserReference($user->getUserId());
         $this->roles = $roles;
@@ -89,9 +92,7 @@ class User implements ReferenceUserInterface, EquatableInterface
      * This is important if, at any given point, sensitive information like
      * the plain-text password is stored on this object.
      */
-    public function eraseCredentials()
-    {
-    }
+    public function eraseCredentials() {}
 
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserReference
@@ -102,7 +103,7 @@ class User implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      */
     public function getAPIUser()
     {
@@ -116,7 +117,7 @@ class User implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
+     * @param APIUser $user
      */
     public function setAPIUser(APIUser $user)
     {
@@ -143,7 +144,7 @@ class User implements ReferenceUserInterface, EquatableInterface
 
     /**
      * Make sure we don't serialize the whole API user object given it's a full fledged api content object. We set
-     * (& either way refresh) the user object in {@see \Ibexa\Core\MVC\Symfony\Security\User\BaseProvider::refreshUser}
+     * (& either way refresh) the user object in {@see BaseProvider::refreshUser}
      * when object wakes back up from session.
      *
      * @return array

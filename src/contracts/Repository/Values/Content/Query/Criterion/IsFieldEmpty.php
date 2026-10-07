@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 
@@ -20,10 +21,12 @@ class IsFieldEmpty extends Criterion
      * @param string $fieldDefinitionIdentifier
      * @param bool $value
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function __construct(string $fieldDefinitionIdentifier, bool $value = true)
-    {
+    public function __construct(
+        string $fieldDefinitionIdentifier,
+        bool $value = true
+    ) {
         parent::__construct($fieldDefinitionIdentifier, null, $value);
     }
 

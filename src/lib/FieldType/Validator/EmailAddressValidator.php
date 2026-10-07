@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator;
+use Ibexa\Core\FieldType\Value;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
@@ -81,12 +83,14 @@ class EmailAddressValidator extends Validator
      *
      * @abstract
      *
-     * @param \Ibexa\Core\FieldType\Value $value
+     * @param Value $value
      *
      * @return bool
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null)
-    {
+    public function validate(
+        BaseValue $value,
+        ?FieldDefinition $fieldDefinition = null
+    ) {
         $pattern = '/^((\"[^\"\f\n\r\t\v\b]+\")|([A-Za-z0-9_\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[A-Za-z0-9_\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]{2,}))$/';
 
         if (preg_match($pattern, $value->email)) {

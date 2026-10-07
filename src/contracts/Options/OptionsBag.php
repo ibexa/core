@@ -17,7 +17,10 @@ interface OptionsBag
      *
      * @return mixed|null
      */
-    public function get(string $key, $default = null);
+    public function get(
+        string $key,
+        $default = null
+    );
 
     public function has(string $key): bool;
 }

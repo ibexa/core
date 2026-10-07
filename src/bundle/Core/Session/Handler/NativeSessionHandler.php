@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Session\Handler;
 
 /**
@@ -23,8 +24,10 @@ class NativeSessionHandler extends \SessionHandler
      *
      * @see http://php.net/manual/en/session.configuration.php#ini.session.save-path for further details.
      */
-    public function __construct($savePath = null, $saveHandler = null)
-    {
+    public function __construct(
+        $savePath = null,
+        $saveHandler = null
+    ) {
         if (null !== $savePath) {
             ini_set('session.save_path', $savePath);
         }

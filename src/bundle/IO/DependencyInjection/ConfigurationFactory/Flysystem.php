@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
@@ -44,8 +45,10 @@ abstract class Flysystem implements ConfigurationFactory, ContainerAwareInterfac
             ->end();
     }
 
-    public function configureHandler(ServiceDefinition $definition, array $config)
-    {
+    public function configureHandler(
+        ServiceDefinition $definition,
+        array $config
+    ) {
         $filesystemId = $this->createFilesystem($this->container, $config['name'], $config['adapter']);
         $definition->replaceArgument(0, new Reference($filesystemId));
     }
@@ -53,14 +56,17 @@ abstract class Flysystem implements ConfigurationFactory, ContainerAwareInterfac
     /**
      * Creates a flysystem filesystem $name service.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      * @param string $name filesystem name (nfs, local...)
      * @param string $adapter adapter name
      *
      * @return string
      */
-    private function createFilesystem(ContainerBuilder $container, $name, $adapter)
-    {
+    private function createFilesystem(
+        ContainerBuilder $container,
+        $name,
+        $adapter
+    ) {
         $adapterId = sprintf('oneup_flysystem.%s_adapter', $adapter);
         // has either definition or alias
         if (!$container->has($adapterId)) {

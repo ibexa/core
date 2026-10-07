@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SectionHandlerInterface;
@@ -17,8 +18,10 @@ class SectionHandler extends AbstractHandler implements SectionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function create($name, $identifier)
-    {
+    public function create(
+        $name,
+        $identifier
+    ) {
         $this->logger->logCall(__METHOD__, ['name' => $name, 'identifier' => $identifier]);
 
         return $this->persistenceHandler->sectionHandler()->create($name, $identifier);
@@ -27,8 +30,11 @@ class SectionHandler extends AbstractHandler implements SectionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function update($id, $name, $identifier)
-    {
+    public function update(
+        $id,
+        $name,
+        $identifier
+    ) {
         $this->logger->logCall(__METHOD__, ['section' => $id, 'name' => $name, 'identifier' => $identifier]);
         $section = $this->persistenceHandler->sectionHandler()->update($id, $name, $identifier);
 
@@ -123,8 +129,10 @@ class SectionHandler extends AbstractHandler implements SectionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function assign($sectionId, $contentId)
-    {
+    public function assign(
+        $sectionId,
+        $contentId
+    ) {
         $this->logger->logCall(__METHOD__, ['section' => $sectionId, 'content' => $contentId]);
         $return = $this->persistenceHandler->sectionHandler()->assign($sectionId, $contentId);
 

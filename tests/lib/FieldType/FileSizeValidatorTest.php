@@ -4,12 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Plural;
+use Ibexa\Core\FieldType\BinaryFile\Value;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\FileSizeValidator;
@@ -143,6 +145,7 @@ class FileSizeValidatorTest extends TestCase
      * @param int $size
      *
      * @dataProvider providerForValidateOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validate
      * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
@@ -158,7 +161,7 @@ class FileSizeValidatorTest extends TestCase
     /**
      * @param int $size
      *
-     * @return \Ibexa\Core\FieldType\BinaryFile\Value
+     * @return Value
      */
     protected function getBinaryFileValue($size)
     {
@@ -182,10 +185,14 @@ class FileSizeValidatorTest extends TestCase
      * Tests validating a wrong value.
      *
      * @dataProvider providerForValidateKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validate
      */
-    public function testValidateWrongValues($size, $message, $values)
-    {
+    public function testValidateWrongValues(
+        $size,
+        $message,
+        $values
+    ) {
         $this->markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
         $validator->maxFileSize = $this->getMaxFileSize();
@@ -232,6 +239,7 @@ class FileSizeValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsCorrectValues($constraints)
@@ -260,10 +268,14 @@ class FileSizeValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
-    public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
-    {
+    public function testValidateConstraintsWrongValues(
+        $constraints,
+        $expectedMessages,
+        $values
+    ) {
         $validator = new FileSizeValidator();
         $messages = $validator->validateConstraints($constraints);
 

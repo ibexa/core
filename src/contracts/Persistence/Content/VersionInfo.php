@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
@@ -47,7 +48,7 @@ class VersionInfo extends ValueObject
     /**
      * ContentInfo of the content this VersionInfo belongs to.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
+     * @var ContentInfo
      */
     public $contentInfo;
 

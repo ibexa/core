@@ -41,7 +41,10 @@ abstract class FieldRangeFacetBuilder extends FacetBuilder
      * @param mixed $from
      * @param mixed $to
      */
-    abstract public function addRange($from, $to);
+    abstract public function addRange(
+        $from,
+        $to
+    );
 
     /**
      * Adds a range entry with explicit from and unbounded to.

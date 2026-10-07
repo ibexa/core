@@ -15,5 +15,8 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
  */
 interface TargetContentValidatorInterface
 {
-    public function validate(int $value, array $allowedContentTypes = []): ?ValidationError;
+    public function validate(
+        int $value,
+        array $allowedContentTypes = []
+    ): ?ValidationError;
 }

@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use DateTime;
+use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
@@ -21,7 +23,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  */
 class EZP21089Test extends BaseTest
 {
-    /** @var \Ibexa\Core\Repository\Values\ContentType\ContentType */
+    /** @var ContentType */
     private $contentType;
 
     protected function setUp(): void

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Locale;
 
 use Psr\Log\LoggerInterface;
@@ -25,11 +26,13 @@ class LocaleConverter implements LocaleConverterInterface
      */
     private $reverseConversionMap;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(array $conversionMap, LoggerInterface $logger)
-    {
+    public function __construct(
+        array $conversionMap,
+        LoggerInterface $logger
+    ) {
         $this->conversionMap = $conversionMap;
         $this->reverseConversionMap = array_flip($conversionMap);
         $this->logger = $logger;

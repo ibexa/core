@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Bookmark\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
@@ -80,16 +81,24 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @dataProvider dataProviderForLoadUserBookmarks
      */
-    public function testLoadUserBookmarks(int $userId, int $offset, int $limit, array $expected)
-    {
+    public function testLoadUserBookmarks(
+        int $userId,
+        int $offset,
+        int $limit,
+        array $expected
+    ) {
         $this->assertEquals($expected, $this->getGateway()->loadUserBookmarks($userId, $offset, $limit));
     }
 
     /**
      * @dataProvider dataProviderForLoadUserBookmarks
      */
-    public function testCountUserBookmarks(int $userId, int $offset, int $limit, array $expected)
-    {
+    public function testCountUserBookmarks(
+        int $userId,
+        int $offset,
+        int $limit,
+        array $expected
+    ) {
         $this->assertEquals(count($expected), $this->getGateway()->countUserBookmarks($userId));
     }
 
@@ -102,7 +111,10 @@ class DoctrineDatabaseTest extends TestCase
                 return $row['user_id'] == $userId;
             });
 
-            usort($rows, static function ($a, $b) {
+            usort($rows, static function (
+                $a,
+                $b
+            ) {
                 return $b['id'] <=> $a['id'];
             });
 
@@ -141,7 +153,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Return a ready to test DoctrineStorage gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getGateway(): Gateway
     {

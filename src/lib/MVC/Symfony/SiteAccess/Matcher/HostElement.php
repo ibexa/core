@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -11,7 +12,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
 class HostElement implements VersatileMatcher
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
+    /** @var SimplifiedRequest */
     private $request;
 
     /**
@@ -68,7 +69,7 @@ class HostElement implements VersatileMatcher
     /**
      * Injects the request object to match against.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      */
     public function setRequest(SimplifiedRequest $request)
     {

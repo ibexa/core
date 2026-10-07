@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Common;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -21,16 +23,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class Indexer
 {
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     protected $logger;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var Handler */
     protected $persistenceHandler;
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
+    /** @var SearchHandler */
     protected $searchHandler;
 
     public function __construct(
@@ -48,11 +50,15 @@ abstract class Indexer
     /**
      * Create search engine index.
      *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      * @param int $iterationCount
      * @param bool $commit commit changes after each iteration
      */
-    abstract public function createSearchIndex(OutputInterface $output, $iterationCount, $commit);
+    abstract public function createSearchIndex(
+        OutputInterface $output,
+        $iterationCount,
+        $commit
+    );
 
     /**
      * Get DB Statement to fetch metadata about content objects to be indexed.

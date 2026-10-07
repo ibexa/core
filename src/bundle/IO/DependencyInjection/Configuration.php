@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\DependencyInjection;
 
 use ArrayObject;
@@ -13,10 +14,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    /** @var ConfigurationFactory[]|\ArrayObject */
+    /** @var ConfigurationFactory[]|ArrayObject */
     private $metadataHandlerFactories = [];
 
-    /** @var ConfigurationFactory[]|\ArrayObject */
+    /** @var ConfigurationFactory[]|ArrayObject */
     private $binarydataHandlerFactories = [];
 
     public function setMetadataHandlerFactories(ArrayObject $factories)
@@ -54,13 +55,17 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * @param \Symfony\Component\Config\Definition\Builder\NodeDefinition $node
+     * @param NodeDefinition $node
      * @param string $name
      * @param string $info block info line
-     * @param ConfigurationFactory[]|\ArrayObject $factories
+     * @param ConfigurationFactory[]|ArrayObject $factories
      */
-    private function addHandlersSection(NodeDefinition $node, $name, $info, ArrayObject $factories)
-    {
+    private function addHandlersSection(
+        NodeDefinition $node,
+        $name,
+        $info,
+        ArrayObject $factories
+    ) {
         $handlersNodeBuilder = $node
             ->children()
                 ->arrayNode($name)

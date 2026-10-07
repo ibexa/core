@@ -16,20 +16,23 @@ use UnexpectedValueException;
 
 final class BeforeUpdatePolicyByRoleDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
+    /** @var RoleDraft */
     private $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft */
+    /** @var PolicyDraft */
     private $policy;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyUpdateStruct */
+    /** @var PolicyUpdateStruct */
     private $policyUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft|null */
+    /** @var PolicyDraft|null */
     private $updatedPolicyDraft;
 
-    public function __construct(RoleDraft $roleDraft, PolicyDraft $policy, PolicyUpdateStruct $policyUpdateStruct)
-    {
+    public function __construct(
+        RoleDraft $roleDraft,
+        PolicyDraft $policy,
+        PolicyUpdateStruct $policyUpdateStruct
+    ) {
         $this->roleDraft = $roleDraft;
         $this->policy = $policy;
         $this->policyUpdateStruct = $policyUpdateStruct;

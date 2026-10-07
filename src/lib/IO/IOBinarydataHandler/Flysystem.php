@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\IO\IOBinarydataHandler;
 
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
@@ -19,14 +20,16 @@ use League\Flysystem\Visibility;
 /**
  * @internal type-hint \Ibexa\Core\IO\IOBinarydataHandler instead
  */
-final class Flysystem implements IOBinaryDataHandler
+final class Flysystem implements IOBinarydataHandler
 {
     private FilesystemOperator $filesystem;
 
     private ?UrlDecorator $urlDecorator;
 
-    public function __construct(FilesystemOperator $filesystem, ?UrlDecorator $urlDecorator = null)
-    {
+    public function __construct(
+        FilesystemOperator $filesystem,
+        ?UrlDecorator $urlDecorator = null
+    ) {
         $this->filesystem = $filesystem;
         $this->urlDecorator = $urlDecorator;
     }

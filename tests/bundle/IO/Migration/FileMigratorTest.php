@@ -11,32 +11,35 @@ namespace Ibexa\Tests\Bundle\IO\Migration;
 use DateTime;
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator;
+use Ibexa\Bundle\IO\Migration\FileMigratorInterface;
 use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Core\IO\IOBinarydataHandler;
-use Ibexa\Core\IO\IOMetadataHandler;
+use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
+use Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class FileMigratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var HandlerRegistry|MockObject */
     private $metadataHandlerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var HandlerRegistry|MockObject */
     private $binaryHandlerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileMigratorInterface */
+    /** @var FileMigratorInterface */
     private $fileMigrator;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler\Flysystem */
+    /** @var Flysystem */
     private $metadataFlysystem;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster */
+    /** @var LegacyDFSCluster */
     private $metadataLegacyDFSCluster;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
+    /** @var IOBinarydataHandler\Flysystem */
     private $binaryFlysystemFrom;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
+    /** @var IOBinarydataHandler\Flysystem */
     private $binaryFlysystemTo;
 
     protected function setUp(): void
@@ -46,8 +49,8 @@ final class FileMigratorTest extends TestCase
         $this->metadataHandlerRegistry = $this->createMock(HandlerRegistry::class);
         $this->binaryHandlerRegistry = $this->createMock(HandlerRegistry::class);
 
-        $this->metadataFlysystem = $this->createMock(IOMetadataHandler\Flysystem::class);
-        $this->metadataLegacyDFSCluster = $this->createMock(IOMetadataHandler\LegacyDFSCluster::class);
+        $this->metadataFlysystem = $this->createMock(Flysystem::class);
+        $this->metadataLegacyDFSCluster = $this->createMock(LegacyDFSCluster::class);
 
         $this->binaryFlysystemFrom = $this->createMock(IOBinarydataHandler::class);
         $this->binaryFlysystemTo = $this->createMock(IOBinarydataHandler::class);

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Contracts\Core\Limitation\Type;
@@ -20,6 +21,7 @@ use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository as CoreRepository;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Mock test case for PermissionResolver.
@@ -102,8 +104,10 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestHasAccessReturnsTrue
      */
-    public function testHasAccessReturnsTrue(array $roles, array $roleAssignments)
-    {
+    public function testHasAccessReturnsTrue(
+        array $roles,
+        array $roleAssignments
+    ) {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
         $mockedService = $this->getPermissionResolverMock(null);
@@ -173,8 +177,10 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestHasAccessReturnsFalse
      */
-    public function testHasAccessReturnsFalse(array $roles, array $roleAssignments)
-    {
+    public function testHasAccessReturnsFalse(
+        array $roles,
+        array $roleAssignments
+    ) {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
         $service = $this->getPermissionResolverMock(null);
@@ -285,8 +291,10 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestHasAccessReturnsPermissionSets
      */
-    public function testHasAccessReturnsPermissionSets(array $roles, array $roleAssignments)
-    {
+    public function testHasAccessReturnsPermissionSets(
+        array $roles,
+        array $roleAssignments
+    ) {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
         $roleDomainMapper = $this->getRoleDomainMapperMock(['buildDomainPolicyObject']);
@@ -399,8 +407,10 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestHasAccessReturnsLimitationNotFoundException
      */
-    public function testHasAccessReturnsLimitationNotFoundException(array $roles, array $roleAssignments)
-    {
+    public function testHasAccessReturnsLimitationNotFoundException(
+        array $roles,
+        array $roleAssignments
+    ) {
         $this->expectException(LimitationNotFoundException::class);
 
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
@@ -514,8 +524,10 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestHasAccessReturnsInvalidArgumentValueException
      */
-    public function testHasAccessReturnsInvalidArgumentValueException(array $roles, array $roleAssignments)
-    {
+    public function testHasAccessReturnsInvalidArgumentValueException(
+        array $roles,
+        array $roleAssignments
+    ) {
         $this->expectException(InvalidArgumentValue::class);
 
         $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
@@ -579,8 +591,10 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestHasAccessReturnsPermissionSetsWithRoleLimitation
      */
-    public function testHasAccessReturnsPermissionSetsWithRoleLimitation(array $roles, array $roleAssignments)
-    {
+    public function testHasAccessReturnsPermissionSetsWithRoleLimitation(
+        array $roles,
+        array $roleAssignments
+    ) {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
         $limitationTypeMock = $this->createMock(Type::class);
@@ -648,10 +662,12 @@ class PermissionTest extends BaseServiceMockTest
      * @param array $policiesData
      * @param mixed $roleId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
-    private function createRole(array $policiesData, $roleId = null)
-    {
+    private function createRole(
+        array $policiesData,
+        $roleId = null
+    ) {
         $policies = [];
         foreach ($policiesData as $policyData) {
             $policies[] = new Policy(
@@ -687,8 +703,10 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestCanUserSimple
      */
-    public function testCanUserSimple($permissionSets, $result)
-    {
+    public function testCanUserSimple(
+        $permissionSets,
+        $result
+    ) {
         $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
 
         $permissionResolverMock
@@ -885,8 +903,11 @@ class PermissionTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestCanUserComplex
      */
-    public function testCanUserComplex(array $roleLimitationEvaluations, array $policyLimitationEvaluations, $userCan)
-    {
+    public function testCanUserComplex(
+        array $roleLimitationEvaluations,
+        array $policyLimitationEvaluations,
+        $userCan
+    ) {
         /** @var $valueObject \Ibexa\Contracts\Core\Repository\Values\ValueObject */
         $valueObject = $this->createMock(ValueObject::class);
         $limitationServiceMock = $this->getLimitationServiceMock();
@@ -1004,7 +1025,7 @@ class PermissionTest extends BaseServiceMockTest
     protected $permissionResolverMock;
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Repository\PermissionResolver|MockObject
      */
     protected function getPermissionResolverMock($methods = [])
     {
@@ -1064,7 +1085,7 @@ class PermissionTest extends BaseServiceMockTest
     protected $repositoryMock;
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
+     * @return Repository|MockObject
      */
     protected function getRepositoryMock(): Repository
     {

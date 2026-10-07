@@ -12,9 +12,11 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -27,12 +29,12 @@ class FieldEmpty extends FieldBase
     /**
      * Field converter registry.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @var ConverterRegistry
      */
     protected $fieldConverterRegistry;
 
     /**
-     * @var \Ibexa\Contracts\Core\Repository\FieldTypeService
+     * @var FieldTypeService
      */
     protected $fieldTypeService;
 
@@ -65,7 +67,7 @@ class FieldEmpty extends FieldBase
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      * @throws \RuntimeException if no converter is found
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     protected function getFieldsInformation(string $fieldIdentifier): array
     {

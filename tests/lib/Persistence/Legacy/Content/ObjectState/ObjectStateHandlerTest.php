@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\ObjectState;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
@@ -24,21 +25,21 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Object state handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
+     * @var Handler
      */
     protected $objectStateHandler;
 
     /**
      * Object state gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
     /**
      * Object state mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
@@ -580,7 +581,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     protected function getObjectStateFixture()
     {
@@ -590,7 +591,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state group.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     protected function getObjectStateGroupFixture()
     {
@@ -600,7 +601,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns the InputStruct.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
+     * @return InputStruct
      */
     protected function getInputStructFixture()
     {
@@ -610,7 +611,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns the object state handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
+     * @return Handler
      */
     protected function getObjectStateHandler()
     {
@@ -627,7 +628,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
+     * @return Mapper
      */
     protected function getMapperMock()
     {
@@ -644,7 +645,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a mock for the object state gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway
+     * @return Gateway
      */
     protected function getGatewayMock()
     {

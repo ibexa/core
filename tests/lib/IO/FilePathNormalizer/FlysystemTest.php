@@ -11,14 +11,15 @@ namespace Ibexa\Tests\Core\IO\FilePathNormalizer;
 use Ibexa\Core\IO\FilePathNormalizer\Flysystem;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use League\Flysystem\WhitespacePathNormalizer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class FlysystemTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\FilePathNormalizer\Flysystem */
+    /** @var Flysystem */
     private $filePathNormalizer;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SlugConverter|MockObject */
     private $slugConverter;
 
     public function setUp(): void

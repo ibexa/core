@@ -11,6 +11,7 @@ namespace Ibexa\Bundle\Core\Command\Indexer\ContentIdList;
 use Generator;
 use Ibexa\Bundle\Core\Command\Indexer\ContentIdListGeneratorStrategyInterface;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -27,17 +28,21 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
 
     private Repository $repository;
 
-    public function __construct(ContentService $contentService, Repository $repository)
-    {
+    public function __construct(
+        ContentService $contentService,
+        Repository $repository
+    ) {
         $this->contentService = $contentService;
         $this->repository = $repository;
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
-    public function getBatchList(InputInterface $input, int $batchSize): ContentIdBatchList
-    {
+    public function getBatchList(
+        InputInterface $input,
+        int $batchSize
+    ): ContentIdBatchList {
         $contentList = $this->getContentList($input->getOption('content-type'));
 
         return new ContentIdBatchList(
@@ -46,8 +51,10 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
         );
     }
 
-    private function buildGenerator(ContentList $contentList, int $batchSize): Generator
-    {
+    private function buildGenerator(
+        ContentList $contentList,
+        int $batchSize
+    ): Generator {
         $contentIds = [];
         foreach ($contentList as $content) {
             $contentIds[] = $content->getVersionInfo()->getContentInfo()->getId();
@@ -67,7 +74,7 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     private function getContentList(string $contentTypeIdentifier): ContentList
     {
@@ -78,7 +85,7 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
             )
         ;
 
-        return  $this->repository->sudo(
+        return $this->repository->sudo(
             fn (): ContentList => $this->contentService->find($filter)
         );
     }

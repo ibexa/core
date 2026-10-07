@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -39,25 +41,25 @@ class PreviewController
     public const PREVIEW_PARAMETER_NAME = 'isPreview';
     public const CONTENT_VIEW_ROUTE = 'ibexa.content.view';
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     private $locationService;
 
-    /** @var \Ibexa\Core\Helper\PreviewLocationProvider */
+    /** @var PreviewLocationProvider */
     private $locationProvider;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface */
+    /** @var HttpKernelInterface */
     private $kernel;
 
-    /** @var \Ibexa\Core\Helper\ContentPreviewHelper */
+    /** @var ContentPreviewHelper */
     private $previewHelper;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface */
+    /** @var AuthorizationCheckerInterface */
     private $authorizationChecker;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker */
+    /** @var CustomLocationControllerChecker */
     private $controllerChecker;
 
     private bool $debugMode;
@@ -85,9 +87,9 @@ class PreviewController
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException If Content is missing location as this is not supported in current version
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotImplementedException If Content is missing location as this is not supported in current version
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function previewContentAction(
         Request $request,
@@ -205,8 +207,11 @@ class PreviewController
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    private function buildResponseForGenericPreviewError(Location $location, Content $content, Exception $e): Response
-    {
+    private function buildResponseForGenericPreviewError(
+        Location $location,
+        Content $content,
+        Exception $e
+    ): Response {
         $message = '';
         try {
             if ($location->isDraft() && $this->controllerChecker->usesCustomController($content, $location)) {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Image;
@@ -80,8 +81,10 @@ class FilterConfiguration extends BaseFilterConfiguration
      *
      * @phpstan-return TFilters
      */
-    private function getVariationFilters(string $variationName, array $configuredVariations): array
-    {
+    private function getVariationFilters(
+        string $variationName,
+        array $configuredVariations
+    ): array {
         if (!isset($configuredVariations[$variationName]['filters']) && !isset($this->filters[$variationName]['filters'])) {
             return [];
         }
@@ -100,8 +103,10 @@ class FilterConfiguration extends BaseFilterConfiguration
      *
      * @phpstan-return TPostProcessors
      */
-    private function getVariationPostProcessors(string $variationName, array $configuredVariations): array
-    {
+    private function getVariationPostProcessors(
+        string $variationName,
+        array $configuredVariations
+    ): array {
         return $configuredVariations[$variationName]['post_processors']
             ?? $this->filters[$variationName]['post_processors']
             ?? [];

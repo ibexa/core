@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Test\IntegrationTestCase;
 
@@ -28,17 +30,17 @@ class FileSizeExtensionTest extends IntegrationTestCase
     protected $suffixes = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 
     /**
-     * @param \Symfony\Contracts\Translation\TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @param TranslatorInterface|MockObject
      */
     protected $translatorMock;
 
     /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @param ConfigResolverInterface|MockObject
      */
     protected $configResolverInterfaceMock;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @param LocaleConverterInterface|MockObject
      */
     protected $localeConverterInterfaceMock;
 
@@ -46,8 +48,10 @@ class FileSizeExtensionTest extends IntegrationTestCase
      * @param string $locale
      * @param string $defaultLocale
      */
-    protected function setConfigurationLocale($locale, $defaultLocale)
-    {
+    protected function setConfigurationLocale(
+        $locale,
+        $defaultLocale
+    ) {
         locale_set_default($defaultLocale);
         $this->locale = $locale;
     }
@@ -80,7 +84,7 @@ class FileSizeExtensionTest extends IntegrationTestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return ConfigResolverInterface|MockObject
      */
     protected function getConfigResolverInterfaceMock()
     {
@@ -94,7 +98,7 @@ class FileSizeExtensionTest extends IntegrationTestCase
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return LocaleConverterInterface|MockObject
      */
     protected function getLocaleConverterInterfaceMock()
     {
@@ -114,7 +118,7 @@ class FileSizeExtensionTest extends IntegrationTestCase
     }
 
     /**
-     * @return \Symfony\Contracts\Translation\TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return TranslatorInterface|MockObject
      */
     protected function getTranslatorInterfaceMock()
     {

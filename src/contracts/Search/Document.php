@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Search;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -45,14 +46,14 @@ class Document extends ValueObject
     /**
      * An array of fields.
      *
-     * @var \Ibexa\Contracts\Core\Search\Field[]
+     * @var Field[]
      */
     public $fields = [];
 
     /**
      * An array of sub-documents.
      *
-     * @var \Ibexa\Contracts\Core\Search\Document[]
+     * @var Document[]
      */
     public $documents = [];
 }

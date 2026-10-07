@@ -12,8 +12,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\User;
  * This class is used for updating a policy. The limitations of the policy are replaced
  * with those which are added in instances of this class.
  */
-abstract class PolicyUpdateStruct extends PolicyStruct
-{
-}
+abstract class PolicyUpdateStruct extends PolicyStruct {}
 
 class_alias(PolicyUpdateStruct::class, 'eZ\Publish\API\Repository\Values\User\PolicyUpdateStruct');

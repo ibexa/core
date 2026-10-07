@@ -13,8 +13,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 /**
  * This is the base for Location SortClause classes, used to set sorting of Location queries.
  */
-abstract class Location extends SortClause
-{
-}
+abstract class Location extends SortClause {}
 
 class_alias(Location::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location');

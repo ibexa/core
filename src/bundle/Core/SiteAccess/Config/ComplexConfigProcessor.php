@@ -9,23 +9,25 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\SiteAccess\Config;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParser;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParserInterface;
 use Ibexa\Contracts\Core\SiteAccess\ConfigProcessor;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
+
 use function str_replace;
 
 final class ComplexConfigProcessor implements ConfigProcessor
 {
     private const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService */
+    /** @var SiteAccessService */
     private $siteAccessService;
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParserInterface */
+    /** @var ComplexSettingParserInterface */
     private $complexSettingParser;
 
     public function __construct(

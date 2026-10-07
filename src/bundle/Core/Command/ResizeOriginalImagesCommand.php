@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Exception;
+use Ibexa\Bundle\Core\Imagine\IORepositoryResolver;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -16,6 +17,8 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
@@ -41,31 +44,31 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
     public const DEFAULT_ITERATION_COUNT = 25;
     public const DEFAULT_REPOSITORY_USER = 'admin';
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     private $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeService */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchService */
     private $searchService;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterManager */
+    /** @var FilterManager */
     private $filterManager;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $ioService;
 
-    /** @var \Symfony\Component\Mime\MimeTypesInterface */
+    /** @var MimeTypesInterface */
     private $mimeTypes;
 
-    /** @var \Imagine\Image\ImagineInterface */
+    /** @var ImagineInterface */
     private $imagine;
 
     public function __construct(
@@ -92,8 +95,10 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
         parent::__construct();
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
+    protected function initialize(
+        InputInterface $input,
+        OutputInterface $output
+    ) {
         parent::initialize($input, $output);
 
         $this->permissionResolver->setCurrentUserReference(
@@ -138,8 +143,10 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $contentTypeIdentifier = $input->getArgument('contentTypeIdentifier');
         $imageFieldIdentifier = $input->getArgument('imageFieldIdentifier');
         $filter = $input->getOption('filter');
@@ -210,7 +217,7 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
         while ($query->offset <= $totalCount) {
             $results = $this->searchService->findContent($query);
 
-            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit $hit */
+            /** @var SearchHit $hit */
             foreach ($results->searchHits as $hit) {
                 $this->resize($output, $hit, $imageFieldIdentifier, $filter);
                 $progressBar->advance();
@@ -232,16 +239,20 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
     }
 
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit $hit
+     * @param OutputInterface $output
+     * @param SearchHit $hit
      * @param string $imageFieldIdentifier
      * @param string $filter
      */
-    private function resize(OutputInterface $output, SearchHit $hit, string $imageFieldIdentifier, string $filter): void
-    {
+    private function resize(
+        OutputInterface $output,
+        SearchHit $hit,
+        string $imageFieldIdentifier,
+        string $filter
+    ): void {
         $imageId = null;
         try {
-            /** @var \Ibexa\Core\FieldType\Image\Value $field */
+            /** @var Value $field */
             foreach ($hit->valueObject->fields[$imageFieldIdentifier] as $language => $field) {
                 if (null === $field->id) {
                     continue;
@@ -287,20 +298,22 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
     }
 
     /**
-     * Copy of {@see \Ibexa\Bundle\Core\Imagine\IORepositoryResolver::store}
-     * Original one cannot be used since original method uses {@see \Ibexa\Bundle\Core\Imagine\IORepositoryResolver::getFilePath}
+     * Copy of {@see IORepositoryResolver::store}
+     * Original one cannot be used since original method uses {@see IORepositoryResolver::getFilePath}
      * so ends-up with image stored in _aliases instead of overwritten original image.
      *
-     * @param \Liip\ImagineBundle\Binary\BinaryInterface $binary
-     * @param \Ibexa\Core\FieldType\Image\Value $image
+     * @param BinaryInterface $binary
+     * @param Value $image
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws InvalidArgumentException
+     * @throws InvalidArgumentValue
      *
-     * @return \Ibexa\Core\IO\Values\BinaryFile
+     * @return BinaryFile
      */
-    private function store(BinaryInterface $binary, Value $image): BinaryFile
-    {
+    private function store(
+        BinaryInterface $binary,
+        Value $image
+    ): BinaryFile {
         $tmpFile = tmpfile();
         fwrite($tmpFile, $binary->getContent());
         $tmpMetadata = stream_get_meta_data($tmpFile);

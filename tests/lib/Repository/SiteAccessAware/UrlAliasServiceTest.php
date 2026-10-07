@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Ibexa\Contracts\Core\Repository\URLAliasService as APIService;
@@ -61,16 +62,22 @@ class UrlAliasServiceTest extends AbstractServiceTest
         ];
     }
 
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesLookupExpectedArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         $arguments[$languageArgumentIndex] = $languages;
         $arguments[$languageArgumentIndex - 1] = true;
 
         return $arguments;
     }
 
-    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesPassTroughArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         return $this->setLanguagesLookupExpectedArguments($arguments, $languageArgumentIndex, $languages);
     }
 }

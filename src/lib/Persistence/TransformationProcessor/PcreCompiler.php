@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\TransformationProcessor;
 
 use Ibexa\Core\Persistence\TransformationProcessor;
@@ -19,14 +20,14 @@ class PcreCompiler
     /**
      * Class for converting UTF-8 characters.
      *
-     * @var \Ibexa\Core\Persistence\Utf8Converter
+     * @var Utf8Converter
      */
     protected $converter;
 
     /**
      * Construct from UTF8Converter.
      *
-     * @param \Ibexa\Core\Persistence\Utf8Converter $converter
+     * @param Utf8Converter $converter
      */
     public function __construct(Utf8Converter $converter)
     {
@@ -171,8 +172,11 @@ class PcreCompiler
      *
      * @return string
      */
-    protected function getModuloCharRange($start, $end, $modulo)
-    {
+    protected function getModuloCharRange(
+        $start,
+        $end,
+        $modulo
+    ) {
         $start = $this->converter->toUnicodeCodepoint($start);
         $end = $this->converter->toUnicodeCodepoint($end);
         $modulo = hexdec($modulo);
@@ -194,8 +198,10 @@ class PcreCompiler
      *
      * @return callable
      */
-    protected function getTransposeClosure($operator, $value)
-    {
+    protected function getTransposeClosure(
+        $operator,
+        $value
+    ) {
         $value = $this->hexdec($value) * ($operator === '-' ? -1 : 1);
         $converter = $this->converter;
 

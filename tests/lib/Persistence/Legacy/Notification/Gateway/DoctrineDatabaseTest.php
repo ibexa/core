@@ -229,7 +229,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Return a ready to test DoctrineStorage gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase
+     * @return DoctrineDatabase
      */
     protected function getGateway(): DoctrineDatabase
     {

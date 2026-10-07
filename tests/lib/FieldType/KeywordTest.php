@@ -4,10 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Keyword\Type as KeywordType;
+use Ibexa\Core\FieldType\Keyword\Value;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -26,7 +29,7 @@ class KeywordTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -241,7 +244,7 @@ class KeywordTest extends FieldTypeTest
     }
 
     /**
-     * @return iterable<string, array{0: array<string, mixed>, 1: \Ibexa\Core\FieldType\Keyword\Value}>
+     * @return iterable<string, array{0: array<string, mixed>, 1: Value}>
      */
     public function provideValidDataForValidate(): iterable
     {
@@ -264,7 +267,7 @@ class KeywordTest extends FieldTypeTest
     /**
      * @return iterable<string, array{
      *     0: array<string, mixed>,
-     *     1: \Ibexa\Core\FieldType\Keyword\Value,
+     *     1: Value,
      *     2: array<\Ibexa\Contracts\Core\FieldType\ValidationError>
      * }>
      */

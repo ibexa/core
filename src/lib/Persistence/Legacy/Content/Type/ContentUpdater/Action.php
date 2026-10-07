@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 
 /**
@@ -16,14 +18,14 @@ abstract class Action
     /**
      * Content gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGateway;
 
     /**
      * Creates a new action.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
+     * @param Gateway $contentGateway
      */
     public function __construct(ContentGateway $contentGateway)
     {

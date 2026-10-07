@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper\FieldsGroups;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -106,7 +107,7 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     }
 
     /**
-     * @return \Symfony\Contracts\Translation\TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return TranslatorInterface|MockObject
      */
     private function getTranslatorMock(): MockObject
     {
@@ -133,7 +134,7 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     /**
      * @param array $constructorArgs
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldDefinition|MockObject
      */
     private function getFieldDefinitionMock(array $constructorArgs = []): MockObject
     {

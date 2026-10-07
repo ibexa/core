@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -18,20 +19,20 @@ use Symfony\Component\Routing\RequestContext;
  */
 abstract class Generator implements SiteAccessAware
 {
-    /** @var \Symfony\Component\Routing\RequestContext */
+    /** @var RequestContext */
     protected $requestContext;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface */
+    /** @var SiteAccessRouterInterface */
     protected $siteAccessRouter;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     protected $siteAccess;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     protected $logger;
 
     /**
-     * @param \Symfony\Component\Routing\RequestContext $requestContext
+     * @param RequestContext $requestContext
      */
     public function setRequestContext(RequestContext $requestContext)
     {
@@ -39,7 +40,7 @@ abstract class Generator implements SiteAccessAware
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface $siteAccessRouter
+     * @param SiteAccessRouterInterface $siteAccessRouter
      */
     public function setSiteAccessRouter(SiteAccessRouterInterface $siteAccessRouter)
     {
@@ -47,7 +48,7 @@ abstract class Generator implements SiteAccessAware
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
+     * @param SiteAccess|null $siteAccess
      */
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
@@ -55,7 +56,7 @@ abstract class Generator implements SiteAccessAware
     }
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      */
     public function setLogger(?LoggerInterface $logger = null)
     {
@@ -72,8 +73,11 @@ abstract class Generator implements SiteAccessAware
      *
      * @return string
      */
-    public function generate($urlResource, array $parameters, $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
-    {
+    public function generate(
+        $urlResource,
+        array $parameters,
+        $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
+    ) {
         $siteAccess = $this->siteAccess;
         $requestContext = $this->requestContext;
 
@@ -113,18 +117,23 @@ abstract class Generator implements SiteAccessAware
      *
      * @return string
      */
-    abstract public function doGenerate($urlResource, array $parameters);
+    abstract public function doGenerate(
+        $urlResource,
+        array $parameters
+    );
 
     /**
      * Generates an absolute URL from $uri and the request context.
      *
      * @param string $uri
-     * @param \Symfony\Component\Routing\RequestContext $requestContext
+     * @param RequestContext $requestContext
      *
      * @return string
      */
-    protected function generateAbsoluteUrl($uri, RequestContext $requestContext)
-    {
+    protected function generateAbsoluteUrl(
+        $uri,
+        RequestContext $requestContext
+    ) {
         $scheme = $requestContext->getScheme();
         $port = '';
         if ($scheme === 'http' && $requestContext->getHttpPort() != 80) {
@@ -141,7 +150,7 @@ abstract class Generator implements SiteAccessAware
      *
      * @param SimplifiedRequest $simplifiedRequest
      *
-     * @return \Symfony\Component\Routing\RequestContext
+     * @return RequestContext
      */
     private function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest)
     {

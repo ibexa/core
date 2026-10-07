@@ -28,10 +28,10 @@ class RoutingExtension extends AbstractExtension
 {
     use DeprecationOptionsTrait;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGeneratorInterface */
+    /** @var RouteReferenceGeneratorInterface */
     private $routeReferenceGenerator;
 
-    /** @var \Symfony\Component\Routing\Generator\UrlGeneratorInterface */
+    /** @var UrlGeneratorInterface */
     private $urlGenerator;
 
     public function __construct(
@@ -95,22 +95,30 @@ class RoutingExtension extends AbstractExtension
      * @param mixed $resource
      * @param array $params
      *
-     * @return \Ibexa\Core\MVC\Symfony\Routing\RouteReference
+     * @return RouteReference
      */
-    public function getRouteReference($resource = null, $params = []): RouteReference
-    {
+    public function getRouteReference(
+        $resource = null,
+        $params = []
+    ): RouteReference {
         return $this->routeReferenceGenerator->generate($resource, $params);
     }
 
-    public function getPath(object $name, array $parameters = [], bool $relative = false): string
-    {
+    public function getPath(
+        object $name,
+        array $parameters = [],
+        bool $relative = false
+    ): string {
         $referenceType = $relative ? UrlGeneratorInterface::RELATIVE_PATH : UrlGeneratorInterface::ABSOLUTE_PATH;
 
         return $this->tryGeneratingUrlForObject($name, $parameters, $referenceType);
     }
 
-    public function getUrl(object $name, array $parameters = [], bool $schemeRelative = false): string
-    {
+    public function getUrl(
+        object $name,
+        array $parameters = [],
+        bool $schemeRelative = false
+    ): string {
         $referenceType = $schemeRelative ? UrlGeneratorInterface::NETWORK_PATH : UrlGeneratorInterface::ABSOLUTE_URL;
 
         return $this->tryGeneratingUrlForObject($name, $parameters, $referenceType);
@@ -119,8 +127,11 @@ class RoutingExtension extends AbstractExtension
     /**
      * @param array<string, mixed> $parameters
      */
-    private function tryGeneratingUrlForObject(object $object, array $parameters, int $referenceType): string
-    {
+    private function tryGeneratingUrlForObject(
+        object $object,
+        array $parameters,
+        int $referenceType
+    ): string {
         try {
             return $this->generateUrlForObject($object, $parameters, $referenceType);
         } catch (NotFoundException $e) {
@@ -128,8 +139,11 @@ class RoutingExtension extends AbstractExtension
         }
     }
 
-    private function generateUrlForObject(object $object, array $parameters, int $referenceType): string
-    {
+    private function generateUrlForObject(
+        object $object,
+        array $parameters,
+        int $referenceType
+    ): string {
         if ($object instanceof Location) {
             $routeName = UrlAliasRouter::URL_ALIAS_ROUTE_NAME;
             $parameters += [

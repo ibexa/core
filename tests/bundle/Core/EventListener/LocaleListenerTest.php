@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\LocaleListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,13 +21,13 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class LocaleListenerTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LocaleConverterInterface|MockObject */
     private $localeConverter;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     private $configResolver;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     private $requestStack;
 
     protected function setUp(): void
@@ -46,8 +48,11 @@ class LocaleListenerTest extends TestCase
     /**
      * @dataProvider onKernelRequestProvider
      */
-    public function testOnKernelRequest(array $configuredLanguages, array $convertedLocalesValueMap, $expectedLocale): void
-    {
+    public function testOnKernelRequest(
+        array $configuredLanguages,
+        array $convertedLocalesValueMap,
+        $expectedLocale
+    ): void {
         $this->configResolver
             ->expects($this->once())
             ->method('getParameter')

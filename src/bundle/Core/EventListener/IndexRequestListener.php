@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class IndexRequestListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)
@@ -35,7 +36,7 @@ class IndexRequestListener implements EventSubscriberInterface
     /**
      * Checks if the IndexPage is configured and which page must be shown.
      *
-     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+     * @param RequestEvent $event
      */
     public function onKernelRequestIndex(RequestEvent $event)
     {

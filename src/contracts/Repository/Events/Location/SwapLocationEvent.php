@@ -13,10 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 final class SwapLocationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location1;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location2;
 
     public function __construct(

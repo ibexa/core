@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
@@ -28,6 +29,7 @@ use Ibexa\Contracts\Core\Repository\UserService;
  * Test case for operations in the Repository using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\Repository
+ *
  * @group integration
  */
 class RepositoryTest extends BaseTest

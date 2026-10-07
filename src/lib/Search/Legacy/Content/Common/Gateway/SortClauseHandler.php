@@ -4,9 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
@@ -15,14 +18,14 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
  */
 abstract class SortClauseHandler
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform|null */
+    /** @var AbstractPlatform|null */
     protected $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function __construct(Connection $connection)
     {
@@ -33,7 +36,7 @@ abstract class SortClauseHandler
     /**
      * Check if this sort clause handler accepts to handle the given sort clause.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
+     * @param SortClause $sortClause
      *
      * @return bool
      */
@@ -45,13 +48,17 @@ abstract class SortClauseHandler
      * Returns the name of the (aliased) column, which information should be
      * used for sorting.
      *
-     * @param \Doctrine\DBAL\Query\QueryBuilder $query
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
+     * @param QueryBuilder $query
+     * @param SortClause $sortClause
      * @param int $number
      *
      * @return array column names to be used when sorting
      */
-    abstract public function applySelect(QueryBuilder $query, SortClause $sortClause, int $number): array;
+    abstract public function applySelect(
+        QueryBuilder $query,
+        SortClause $sortClause,
+        int $number
+    ): array;
 
     /**
      * Applies joins to the query.
@@ -63,8 +70,7 @@ abstract class SortClauseHandler
         SortClause $sortClause,
         int $number,
         array $languageSettings
-    ): void {
-    }
+    ): void {}
 
     /**
      * Returns the quoted sort column name.
@@ -86,8 +92,10 @@ abstract class SortClauseHandler
      *
      * @return string
      */
-    protected function getSortTableName($number, $externalTableName = null)
-    {
+    protected function getSortTableName(
+        $number,
+        $externalTableName = null
+    ) {
         return 'sort_table_' . ($externalTableName !== null ? $externalTableName . '_' : '') . $number;
     }
 }

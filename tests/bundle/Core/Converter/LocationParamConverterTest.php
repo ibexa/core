@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Converter;
 
 use Ibexa\Bundle\Core\Converter\LocationParamConverter;
@@ -18,7 +19,7 @@ class LocationParamConverterTest extends AbstractParamConverterTest
 
     public const LOCATION_CLASS = Location::class;
 
-    /** @var \Ibexa\Bundle\Core\Converter\LocationParamConverter */
+    /** @var LocationParamConverter */
     private $converter;
 
     private $locationServiceMock;

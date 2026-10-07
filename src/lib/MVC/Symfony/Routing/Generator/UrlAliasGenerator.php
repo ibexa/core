@@ -4,18 +4,21 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Routing\Generator;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\Generator;
+use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
  * URL generator for UrlAlias based links.
  *
- * @see \Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter
+ * @see UrlAliasRouter
  */
 class UrlAliasGenerator extends Generator
 {
@@ -27,7 +30,7 @@ class UrlAliasGenerator extends Generator
     /**
      * The default router (that works with declared routes).
      *
-     * @var \Symfony\Component\Routing\RouterInterface
+     * @var RouterInterface
      */
     private $defaultRouter;
 
@@ -40,7 +43,7 @@ class UrlAliasGenerator extends Generator
     /** @var array */
     private $pathPrefixMap = [];
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     /**
@@ -51,8 +54,12 @@ class UrlAliasGenerator extends Generator
      */
     private $unsafeCharMap;
 
-    public function __construct(Repository $repository, RouterInterface $defaultRouter, ConfigResolverInterface $configResolver, array $unsafeCharMap = [])
-    {
+    public function __construct(
+        Repository $repository,
+        RouterInterface $defaultRouter,
+        ConfigResolverInterface $configResolver,
+        array $unsafeCharMap = []
+    ) {
         $this->repository = $repository;
         $this->defaultRouter = $defaultRouter;
         $this->configResolver = $configResolver;
@@ -63,13 +70,15 @@ class UrlAliasGenerator extends Generator
      * Generates the URL from $urlResource and $parameters.
      * Entries in $parameters will be added in the query string.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param array $parameters
      *
      * @return string
      */
-    public function doGenerate($location, array $parameters)
-    {
+    public function doGenerate(
+        $location,
+        array $parameters
+    ) {
         $siteAccess = $parameters['siteaccess'] ?? null;
 
         unset($parameters['language'], $parameters['contentId'], $parameters['siteaccess']);
@@ -108,10 +117,13 @@ class UrlAliasGenerator extends Generator
      *
      * @return string
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function getPathPrefixByRootLocationId($rootLocationId, $languages = null, $siteaccess = null)
-    {
+    public function getPathPrefixByRootLocationId(
+        $rootLocationId,
+        $languages = null,
+        $siteaccess = null
+    ) {
         if (!$rootLocationId) {
             return '';
         }
@@ -163,8 +175,10 @@ class UrlAliasGenerator extends Generator
      *
      * @return \Ibexa\Core\Repository\Values\Content\Location
      */
-    public function loadLocation($locationId, ?array $languages = null)
-    {
+    public function loadLocation(
+        $locationId,
+        ?array $languages = null
+    ) {
         return $this->repository->sudo(
             static function (Repository $repository) use ($locationId, $languages) {
                 /* @var $repository \Ibexa\Core\Repository\Repository */
@@ -174,13 +188,15 @@ class UrlAliasGenerator extends Generator
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param string|null $siteAccess
      *
      * @return string
      */
-    private function createPathString(Location $location, ?string $siteAccess = null): string
-    {
+    private function createPathString(
+        Location $location,
+        ?string $siteAccess = null
+    ): string {
         $urlAliasService = $this->repository->getURLAliasService();
 
         if ($siteAccess) {

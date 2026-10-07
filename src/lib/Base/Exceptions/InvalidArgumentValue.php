@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Exceptions;
 
 use Exception;
@@ -21,10 +22,14 @@ class InvalidArgumentValue extends InvalidArgumentException
      * @param string $argumentName
      * @param mixed $value
      * @param string|null $className Optionally to specify class in abstract/parent classes
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
-    public function __construct($argumentName, $value, $className = null, ?Exception $previous = null)
-    {
+    public function __construct(
+        $argumentName,
+        $value,
+        $className = null,
+        ?Exception $previous = null
+    ) {
         $valueStr = is_string($value) ? $value : var_export($value, true);
         $parameters = ['%actualValue%' => $valueStr];
         $this->setMessageTemplate("'%actualValue%' is incorrect value");

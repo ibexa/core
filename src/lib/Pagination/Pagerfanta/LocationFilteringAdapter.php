@@ -14,10 +14,10 @@ use Pagerfanta\Adapter\AdapterInterface;
 
 final class LocationFilteringAdapter implements AdapterInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\Filter */
+    /** @var Filter */
     private $filter;
 
     /** @var array|null */
@@ -45,8 +45,10 @@ final class LocationFilteringAdapter implements AdapterInterface
         return $this->totalCount;
     }
 
-    public function getSlice($offset, $length): iterable
-    {
+    public function getSlice(
+        $offset,
+        $length
+    ): iterable {
         $selectFilter = clone $this->filter;
         $selectFilter->sliceBy($length, $offset);
 

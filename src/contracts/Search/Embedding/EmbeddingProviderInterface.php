@@ -13,7 +13,11 @@ interface EmbeddingProviderInterface
     /**
      * @return float[]
      *
-     * @throws \Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderExceptionInterface
+     * @throws EmbeddingProviderExceptionInterface
      */
-    public function getEmbedding(string $content, ?string $model = null, ?int $maxTokens = null): array;
+    public function getEmbedding(
+        string $content,
+        ?string $model = null,
+        ?int $maxTokens = null
+    ): array;
 }

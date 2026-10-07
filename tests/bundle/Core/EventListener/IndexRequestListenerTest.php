@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\IndexRequestListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -16,19 +18,19 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class IndexRequestListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\IndexRequestListener */
+    /** @var IndexRequestListener */
     private $indexRequestEventListener;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
+    /** @var Request */
     private $request;
 
-    /** @var \Symfony\Component\HttpKernel\Event\RequestEvent */
+    /** @var RequestEvent */
     private $event;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var HttpKernelInterface|MockObject */
     private $httpKernel;
 
     protected function setUp(): void
@@ -67,8 +69,11 @@ class IndexRequestListenerTest extends TestCase
     /**
      * @dataProvider indexPageProvider
      */
-    public function testOnKernelRequestIndexOnIndexPage($requestPath, $configuredIndexPath, $expectedIndexPath)
-    {
+    public function testOnKernelRequestIndexOnIndexPage(
+        $requestPath,
+        $configuredIndexPath,
+        $expectedIndexPath
+    ) {
         $this->configResolver
             ->expects($this->once())
             ->method('getParameter')

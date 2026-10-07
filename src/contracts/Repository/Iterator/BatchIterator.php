@@ -14,10 +14,10 @@ final class BatchIterator implements Iterator
 {
     public const DEFAULT_BATCH_SIZE = 25;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter */
+    /** @var BatchIteratorAdapter */
     private $adapter;
 
-    /** @var \Iterator|null */
+    /** @var Iterator|null */
     private $innerIterator;
 
     /** @var int */

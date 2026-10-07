@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Bundle\Core\Entity\EntityManagerFactory;
 use InvalidArgumentException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
@@ -25,13 +26,13 @@ class EntityManagerFactoryTest extends TestCase
         'ibexa_invalid' => self::INVALID_ENTITY_MANAGER,
     ];
 
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
+    /** @var RepositoryConfigurationProvider */
     private $repositoryConfigurationProvider;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
+    /** @var EntityManagerInterface */
     private $entityManager;
 
-    /** @var \Symfony\Component\DependencyInjection\ServiceLocator */
+    /** @var ServiceLocator */
     private $serviceLocator;
 
     public function setUp(): void
@@ -133,7 +134,7 @@ class EntityManagerFactoryTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider|\PHPUnit\Framework\MockObject\MockObject
+     * @return RepositoryConfigurationProvider|MockObject
      */
     protected function getRepositoryConfigurationProvider(): RepositoryConfigurationProvider
     {
@@ -141,7 +142,7 @@ class EntityManagerFactoryTest extends TestCase
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ServiceLocator|\PHPUnit\Framework\MockObject\MockObject
+     * @return ServiceLocator|MockObject
      */
     protected function getServiceLocator(): ServiceLocator
     {
@@ -149,7 +150,7 @@ class EntityManagerFactoryTest extends TestCase
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return EntityManagerInterface|MockObject
      */
     protected function getEntityManager(): EntityManagerInterface
     {

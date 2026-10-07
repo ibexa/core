@@ -4,14 +4,19 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use DateTime;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 use RuntimeException;
 
@@ -19,6 +24,7 @@ use RuntimeException;
  * Test case for field filtering operations in the SearchService.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SearchService
+ *
  * @group integration
  * @group search
  * @group language_fallback
@@ -31,7 +37,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
     public const SETUP_CLOUD = 'cloud';
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     protected function createTestContentType()
     {
@@ -71,7 +77,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      * @param array $searchValuesMap
      * @param string $mainLanguageCode
      * @param bool $alwaysAvailable
@@ -1707,6 +1713,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
 
     /**
      * @dataProvider providerForTestFind
+     *
      * @depends      testCreateTestContent
      *
      * @param array $languageSettings
@@ -1718,7 +1725,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         array $contentDataList,
         array $context
     ) {
-        /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
+        /** @var Repository $repository */
         list($repository, $data) = $context;
 
         $queryProperties = [
@@ -1740,7 +1747,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             list($contentNo, $translationLanguageCode, $indexMap) = $contentData;
             list($index, $contentNo) = $this->getIndexesToMatchData($contentData, $index, $contentNo);
 
-            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content */
+            /** @var Content $content */
             $content = $searchResult->searchHits[$index]->valueObject;
 
             $this->assertEquals(
@@ -1757,6 +1764,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
 
     /**
      * @dataProvider providerForTestFind
+     *
      * @depends      testCreateTestContent
      *
      * @param array $languageSettings
@@ -1768,7 +1776,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         array $contentDataList,
         array $context
     ) {
-        /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
+        /** @var Repository $repository */
         list($repository, $data) = $context;
 
         $queryProperties = [
@@ -1795,7 +1803,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             list($contentNo, $translationLanguageCode, $indexMap) = $contentData;
             list($index, $contentNo) = $this->getIndexesToMatchData($contentData, $index, $contentNo);
 
-            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
+            /** @var Location $location */
             $location = $searchResult->searchHits[$index]->valueObject;
 
             $this->assertEquals(
@@ -1812,6 +1820,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
 
     /**
      * @dataProvider providerForTestFind
+     *
      * @depends      testCreateTestContent
      *
      * @param array $languageSettings
@@ -1823,7 +1832,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         array $contentDataList,
         array $context
     ) {
-        /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
+        /** @var Repository $repository */
         list($repository, $data) = $context;
 
         $queryProperties = [
@@ -1846,7 +1855,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             list($contentNo, $translationLanguageCode, $indexMap) = $contentData;
             list($index, $contentNo) = $this->getIndexesToMatchData($contentData, $index, $contentNo);
 
-            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
+            /** @var Location $location */
             $location = $searchResult->searchHits[$index]->valueObject;
 
             $this->assertEquals(
@@ -1865,7 +1874,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             list($index, $contentNo) = $this->getIndexesToMatchData($contentData, $index, $contentNo);
 
             $realIndex = $index + count($contentDataList);
-            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
+            /** @var Location $location */
             $location = $searchResult->searchHits[$realIndex]->valueObject;
 
             $this->assertEquals(
@@ -1880,8 +1889,10 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         }
     }
 
-    private function assertIndexName(array $indexMap, SearchHit $searchHit): void
-    {
+    private function assertIndexName(
+        array $indexMap,
+        SearchHit $searchHit
+    ): void {
         if (!$this->isSolrInMaxVersion('9.3.0')) {
             // In Solr 9.3.0 and later, the shard parameter is not used anymore.
             return;

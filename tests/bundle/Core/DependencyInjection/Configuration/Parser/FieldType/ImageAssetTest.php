@@ -43,8 +43,10 @@ class ImageAssetTest extends AbstractParserTestCase
     /**
      * @dataProvider imageAssetSettingsProvider
      */
-    public function testImageAssetSettings(array $config, array $expected)
-    {
+    public function testImageAssetSettings(
+        array $config,
+        array $expected
+    ) {
         $this->load(
             [
                 'system' => [

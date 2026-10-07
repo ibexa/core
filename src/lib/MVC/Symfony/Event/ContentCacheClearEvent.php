@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Event;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -18,10 +19,10 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class ContentCacheClearEvent extends Event
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location[] */
+    /** @var Location[] */
     private $locationsToClear = [];
 
     public function __construct(ContentInfo $contentInfo)
@@ -32,7 +33,7 @@ class ContentCacheClearEvent extends Event
     /**
      * Returns ContentInfo object we're clearing the cache for.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      */
     public function getContentInfo()
     {
@@ -42,7 +43,7 @@ class ContentCacheClearEvent extends Event
     /**
      * Returns all location objects registered to the cache clear process.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
+     * @return Location[]
      */
     public function getLocationsToClear()
     {
@@ -52,7 +53,7 @@ class ContentCacheClearEvent extends Event
     /**
      * Adds a location that needs to be cleared.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      */
     public function addLocationToClear(Location $location)
     {
@@ -62,7 +63,7 @@ class ContentCacheClearEvent extends Event
     /**
      * Replaces the list of locations to clear.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location[] $locationsToClear
+     * @param Location[] $locationsToClear
      */
     public function setLocationsToClear(array $locationsToClear)
     {

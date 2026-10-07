@@ -22,22 +22,23 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
 {
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     protected $gateway;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PathGenerator|MockObject */
     protected $pathGeneratorMock;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOServiceInterface|MockObject */
     protected $ioServiceMock;
 
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var BinaryBaseStorage|MockObject */
     protected $storage;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FileExtensionBlackListValidator&MockObject */
     protected $fileExtensionBlackListValidatorMock;
 
     protected function setUp(): void
@@ -77,8 +78,10 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
     /**
      * @dataProvider providerOfFieldData
      */
-    public function testStoreFieldData(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $binaryFileCreateStruct = new BinaryFileCreateStruct([
             'id' => 'qwerty12345',
             'size' => '372949',
@@ -112,8 +115,10 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
      *
      * @dataProvider providerOfFieldData
      */
-    public function testCopyLegacyField(VersionInfo $versionInfo, Field $originalField): void
-    {
+    public function testCopyLegacyField(
+        VersionInfo $versionInfo,
+        Field $originalField
+    ): void {
         $field = clone $originalField;
         $field->id = 124;
         $field->versionNo = 2;

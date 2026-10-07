@@ -50,8 +50,11 @@ class ImageAsset extends AbstractFieldTypeParser
     /**
      * {@inheritdoc}
      */
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ): void {
         $fieldTypeIdentifier = $this->getFieldTypeIdentifier();
 
         if (isset($scopeSettings['fieldtypes'][$fieldTypeIdentifier])) {

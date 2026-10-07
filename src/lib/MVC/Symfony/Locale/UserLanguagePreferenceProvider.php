@@ -15,10 +15,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class UserLanguagePreferenceProvider implements UserLanguagePreferenceProviderInterface
 {
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    /** @var RequestStack */
     private $requestStack;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserPreferenceService */
+    /** @var UserPreferenceService */
     private $userPreferenceService;
 
     /** @var array */
@@ -28,8 +28,8 @@ class UserLanguagePreferenceProvider implements UserLanguagePreferenceProviderIn
     private $localeFallback;
 
     /**
-     * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
-     * @param \Ibexa\Contracts\Core\Repository\UserPreferenceService $userPreferenceService
+     * @param RequestStack $requestStack
+     * @param UserPreferenceService $userPreferenceService
      * @param array $languageCodesMap
      * @param string $localeFallback
      */

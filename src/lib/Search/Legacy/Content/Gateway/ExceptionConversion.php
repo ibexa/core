@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\DBALException;
@@ -19,7 +20,7 @@ use PDOException;
 class ExceptionConversion extends Gateway
 {
     /**
-     * @var \Ibexa\Core\Search\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 

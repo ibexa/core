@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\View;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -17,7 +18,7 @@ class Manager extends BaseManager implements SiteAccessAware
      * Passed SiteAccess will be injected in all location/content/block view providers
      * to allow them to change their internal configuration based on this new SiteAccess.
      *
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess
+     * @param SiteAccess $siteAccess
      */
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {

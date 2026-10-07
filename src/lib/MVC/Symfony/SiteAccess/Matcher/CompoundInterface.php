@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
@@ -15,21 +16,21 @@ interface CompoundInterface extends VersatileMatcher
     /**
      * Injects the matcher builder, to allow the Compound matcher to properly build the underlying matchers.
      *
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface $matcherBuilder
+     * @param MatcherBuilderInterface $matcherBuilder
      */
     public function setMatcherBuilder(MatcherBuilderInterface $matcherBuilder);
 
     /**
      * Returns all used sub-matchers.
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[]
+     * @return Matcher[]
      */
     public function getSubMatchers();
 
     /**
      * Replaces sub-matchers.
      *
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[] $subMatchers
+     * @param Matcher[] $subMatchers
      */
     public function setSubMatchers(array $subMatchers);
 }

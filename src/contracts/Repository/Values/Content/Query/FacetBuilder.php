@@ -34,7 +34,7 @@ abstract class FacetBuilder extends ValueObject
     /**
      * An additional facet filter that will further filter the documents the facet will be executed on.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     * @var Criterion
      */
     public $filter = null;
 

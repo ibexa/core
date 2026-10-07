@@ -69,7 +69,7 @@ final class GenericFieldTypeConverterPass implements CompilerPassInterface
     /**
      * Returns Field Type identifiers.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      *
      * @return string[]
      */
@@ -98,8 +98,10 @@ final class GenericFieldTypeConverterPass implements CompilerPassInterface
      *
      * @return string
      */
-    private function getAliasOrThrowException(array $attributes, array $tags): string
-    {
+    private function getAliasOrThrowException(
+        array $attributes,
+        array $tags
+    ): string {
         if (!isset($attributes['alias'])) {
             throw new LogicException(
                 vsprintf(
@@ -115,30 +117,34 @@ final class GenericFieldTypeConverterPass implements CompilerPassInterface
     /**
      * Returns service ids for a given tags.
      *
-     * @see \Symfony\Component\DependencyInjection\ContainerBuilder::findTaggedServiceIds
+     * @see ContainerBuilder::findTaggedServiceIds
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      * @param string[] $tags
      *
      * @return array
      */
-    private function findTaggedServiceIds(ContainerBuilder $container, array $tags): iterable
-    {
+    private function findTaggedServiceIds(
+        ContainerBuilder $container,
+        array $tags
+    ): iterable {
         return array_merge(...array_map([$container, 'findTaggedServiceIds'], $tags));
     }
 
     /**
      * Returns true if given service definition is Field Type based on Generic Field Type.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      * @param string $serviceId
      *
      * @return bool
      *
      * @throws \ReflectionException
      */
-    private function isGenericFieldType(ContainerBuilder $container, string $serviceId): bool
-    {
+    private function isGenericFieldType(
+        ContainerBuilder $container,
+        string $serviceId
+    ): bool {
         $reflection = $container->getReflectionClass(
             $container->getDefinition($serviceId)->getClass()
         );

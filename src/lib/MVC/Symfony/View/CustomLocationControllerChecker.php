@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\View;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -14,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
  */
 class CustomLocationControllerChecker
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\ViewProvider[] */
+    /** @var ViewProvider[] */
     private $viewProviders;
 
     /**
@@ -28,8 +29,11 @@ class CustomLocationControllerChecker
      *
      * @return bool
      */
-    public function usesCustomController(Content $content, Location $location, $viewMode = 'full')
-    {
+    public function usesCustomController(
+        Content $content,
+        Location $location,
+        $viewMode = 'full'
+    ) {
         $contentView = new ContentView(null, [], $viewMode);
         $contentView->setContent($content);
         $contentView->setLocation($location);
@@ -47,7 +51,7 @@ class CustomLocationControllerChecker
     }
 
     /**
-     * @param  \Ibexa\Core\MVC\Symfony\View\ViewProvider[] $viewProviders
+     * @param  ViewProvider[] $viewProviders
      */
     public function addViewProviders(array $viewProviders)
     {

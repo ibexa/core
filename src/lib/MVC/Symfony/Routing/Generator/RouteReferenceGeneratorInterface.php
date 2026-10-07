@@ -4,7 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Routing\Generator;
+
+use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
 
 /**
  * Interface for RouteReference generators.
@@ -18,9 +21,12 @@ interface RouteReferenceGeneratorInterface
      * @param mixed $resource The route name. Can be any resource supported by the different routers (e.g. Location object).
      * @param array $params Array of parameters, used to generate the final link along with $resource.
      *
-     * @return \Ibexa\Core\MVC\Symfony\Routing\RouteReference
+     * @return RouteReference
      */
-    public function generate($resource = null, array $params = []);
+    public function generate(
+        $resource = null,
+        array $params = []
+    );
 }
 
 class_alias(RouteReferenceGeneratorInterface::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Generator\RouteReferenceGeneratorInterface');

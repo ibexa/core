@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Date;
 
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
@@ -21,7 +23,7 @@ class Value extends BaseValue
     /**
      * Date content.
      *
-     * @var \DateTime|null
+     * @var DateTime|null
      */
     public $date;
 
@@ -35,7 +37,7 @@ class Value extends BaseValue
     /**
      * Construct a new Value object and initialize with $dateTime.
      *
-     * @param \DateTime|null $dateTime Date as a DateTime object
+     * @param DateTime|null $dateTime Date as a DateTime object
      */
     public function __construct(?DateTime $dateTime = null)
     {
@@ -49,11 +51,11 @@ class Value extends BaseValue
     /**
      * Creates a Value from the given $dateString.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param string $dateString
      *
-     * @return \Ibexa\Core\FieldType\Date\Value
+     * @return Value
      */
     public static function fromString($dateString)
     {
@@ -67,11 +69,11 @@ class Value extends BaseValue
     /**
      * Creates a Value from the given $timestamp.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param int $timestamp
      *
-     * @return \Ibexa\Core\FieldType\Date\Value
+     * @return Value
      */
     public static function fromTimestamp($timestamp)
     {

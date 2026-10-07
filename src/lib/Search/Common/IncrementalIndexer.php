@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Common;
 
 use Doctrine\DBAL\FetchMode;
@@ -26,8 +27,11 @@ abstract class IncrementalIndexer extends Indexer
     /**
      * @deprecated Kept for compatibility with consumers of Indexer, performs purge first & recreate of index second.
      */
-    final public function createSearchIndex(OutputInterface $output, $iterationCount, $commit)
-    {
+    final public function createSearchIndex(
+        OutputInterface $output,
+        $iterationCount,
+        $commit
+    ) {
         $output->writeln('Re-creating search index for: ' . $this->getName());
         $output->writeln('Purging Index...');
         $this->searchHandler->purgeIndex();
@@ -74,7 +78,10 @@ abstract class IncrementalIndexer extends Indexer
      * @param int[] $contentIds
      * @param bool $commit
      */
-    abstract public function updateSearchIndex(array $contentIds, $commit);
+    abstract public function updateSearchIndex(
+        array $contentIds,
+        $commit
+    );
 
     /**
      * Purges whole index, should only be done if user asked for it.

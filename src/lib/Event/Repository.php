@@ -8,80 +8,97 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Event;
 
+use Ibexa\Contracts\Core\Repository\BookmarkService;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
+use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentService as ContentServiceInterface;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInterface;
+use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\FieldTypeService as FieldTypeServiceInterface;
+use Ibexa\Contracts\Core\Repository\LanguageService;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
+use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
+use Ibexa\Contracts\Core\Repository\NotificationService;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
+use Ibexa\Contracts\Core\Repository\ObjectStateService;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
+use Ibexa\Contracts\Core\Repository\RoleService;
 use Ibexa\Contracts\Core\Repository\RoleService as RoleServiceInterface;
+use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\SearchService as SearchServiceInterface;
+use Ibexa\Contracts\Core\Repository\SectionService;
 use Ibexa\Contracts\Core\Repository\SectionService as SectionServiceInterface;
+use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Repository\TrashService as TrashServiceInterface;
+use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
+use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
+use Ibexa\Contracts\Core\Repository\URLWildcardService;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
+use Ibexa\Contracts\Core\Repository\UserPreferenceService;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
+use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 
 final class Repository implements RepositoryInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var RepositoryInterface */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\BookmarkService */
+    /** @var BookmarkService */
     private $bookmarkService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeService */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService */
+    /** @var FieldTypeService */
     private $fieldTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
+    /** @var LanguageService */
     private $languageService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\NotificationService */
+    /** @var NotificationService */
     private $notificationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ObjectStateService */
+    /** @var ObjectStateService */
     private $objectStateService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\RoleService */
+    /** @var RoleService */
     private $roleService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchService */
     private $searchService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SectionService */
+    /** @var SectionService */
     private $sectionService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\TrashService */
+    /** @var TrashService */
     private $trashService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
+    /** @var URLAliasService */
     private $urlAliasService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService */
+    /** @var URLService */
     private $urlService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLWildcardService */
+    /** @var URLWildcardService */
     private $urlWildcardService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserPreferenceService */
+    /** @var UserPreferenceService */
     private $userPreferenceService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     private $userService;
 
     public function __construct(
@@ -124,8 +141,10 @@ final class Repository implements RepositoryInterface
         $this->userService = $userService;
     }
 
-    public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
-    {
+    public function sudo(
+        callable $callback,
+        ?RepositoryInterface $outerRepository = null
+    ) {
         return $this->repository->sudo($callback, $outerRepository);
     }
 

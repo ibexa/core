@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Limitation\Target\Builder;
 
-use Ibexa\Contracts\Core\Limitation\Target;
+use Ibexa\Contracts\Core\Limitation\Target\Version;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -16,20 +16,20 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 /**
  * Version builder.
  *
- * Builder of {@see \Ibexa\Contracts\Core\Limitation\Target\Version} instance.
+ * Builder of {@see Version} instance.
  */
 final class VersionBuilder
 {
     /** @var array */
     private $targetVersionProperties = [];
 
-    public function build(): Target\Version
+    public function build(): Version
     {
-        return new Target\Version($this->targetVersionProperties);
+        return new Version($this->targetVersionProperties);
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $updatedFields
+     * @param Field[] $updatedFields
      *
      * @return VersionBuilder
      */
@@ -87,9 +87,9 @@ final class VersionBuilder
     /**
      * Set intent to change Version status.
      *
-     * Supported: {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo::STATUS_DRAFT}, {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo::STATUS_PUBLISHED}, {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo::STATUS_ARCHIVED}
+     * Supported: {@see VersionInfo::STATUS_DRAFT}, {@see VersionInfo::STATUS_PUBLISHED}, {@see VersionInfo::STATUS_ARCHIVED}
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo
+     * @see VersionInfo
      *
      * @param int $status
      *
@@ -118,12 +118,14 @@ final class VersionBuilder
      * Set intent to update Content Version Fields.
      *
      * @param string|null $initialLanguageCode
-     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Field> $fields
+     * @param array<int, Field> $fields
      *
      * @return VersionBuilder
      */
-    public function updateFieldsTo(?string $initialLanguageCode, array $fields): self
-    {
+    public function updateFieldsTo(
+        ?string $initialLanguageCode,
+        array $fields
+    ): self {
         $languageCodes = array_map(
             static function (Field $field) {
                 return $field->languageCode;

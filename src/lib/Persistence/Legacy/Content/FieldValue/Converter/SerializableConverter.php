@@ -18,7 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 
 final class SerializableConverter implements ConverterInterface
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface */
+    /** @var ValueSerializerInterface */
     private $serializer;
 
     public function __construct(ValueSerializerInterface $serializer)
@@ -26,8 +26,10 @@ final class SerializableConverter implements ConverterInterface
         $this->serializer = $serializer;
     }
 
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ): void {
         $data = $value->data;
         if ($data !== null) {
             $data = $this->serializer->encode($data);
@@ -37,8 +39,10 @@ final class SerializableConverter implements ConverterInterface
         $storageFieldValue->sortKeyString = (string)$value->sortKey;
     }
 
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ): void {
         $data = $value->dataText;
         if ($data !== null) {
             $data = $this->serializer->decode($data);
@@ -48,8 +52,10 @@ final class SerializableConverter implements ConverterInterface
         $fieldValue->sortKey = $value->sortKeyString;
     }
 
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ): void {
         $settings = $fieldDef->fieldTypeConstraints->fieldSettings;
         if ($settings !== null) {
             $settings = $this->serializer->encode((array)$settings);
@@ -58,8 +64,10 @@ final class SerializableConverter implements ConverterInterface
         $storageDef->dataText5 = $settings;
     }
 
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ): void {
         $settings = $storageDef->dataText5;
         if ($settings !== null) {
             $settings = new FieldSettings($this->serializer->decode($settings));

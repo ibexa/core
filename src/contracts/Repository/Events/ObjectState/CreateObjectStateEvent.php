@@ -15,13 +15,13 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 
 final class CreateObjectStateEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState */
+    /** @var ObjectState */
     private $objectState;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup */
+    /** @var ObjectStateGroup */
     private $objectStateGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct */
+    /** @var ObjectStateCreateStruct */
     private $objectStateCreateStruct;
 
     public function __construct(

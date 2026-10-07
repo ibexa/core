@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Values\Translation;
@@ -24,12 +25,15 @@ interface TranslationService
      *
      * Translate a Translation value object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Translation $translation
+     * @param Translation $translation
      * @param string $locale
      *
      * @return string
      */
-    public function translate(Translation $translation, $locale);
+    public function translate(
+        Translation $translation,
+        $locale
+    );
 
     /**
      * Translate string.
@@ -42,7 +46,10 @@ interface TranslationService
      *
      * @return string
      */
-    public function translateString($translation, $locale);
+    public function translateString(
+        $translation,
+        $locale
+    );
 }
 
 class_alias(TranslationService::class, 'eZ\Publish\API\Repository\TranslationService');

@@ -21,7 +21,10 @@ interface RenderStrategy
 {
     public function supports(ValueObject $valueObject): bool;
 
-    public function render(ValueObject $valueObject, RenderOptions $options): string;
+    public function render(
+        ValueObject $valueObject,
+        RenderOptions $options
+    ): string;
 }
 
 class_alias(RenderStrategy::class, 'eZ\Publish\SPI\MVC\Templating\RenderStrategy');

@@ -22,7 +22,7 @@ class LogicalNot extends LogicalOperator implements FilteringCriterion, TrashCri
      *
      * Will match of the given criterion doesn't match
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[] $criteria One criterion, as an array
+     * @param Criterion[] $criteria One criterion, as an array
      *
      * @throws \InvalidArgumentException if more than one criterion is given in the array parameter
      */

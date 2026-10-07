@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
@@ -17,7 +18,7 @@ class Languages extends AbstractParser
     /**
      * Adds semantic configuration definition.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>
+     * @param NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>
      */
     public function addSemanticConfig(NodeBuilder $nodeBuilder)
     {
@@ -35,8 +36,10 @@ class Languages extends AbstractParser
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {
         $contextualizer->mapConfigArray('languages', $config, ContextualizerInterface::UNIQUE);
         $contextualizer->mapConfigArray('translation_siteaccesses', $config, ContextualizerInterface::UNIQUE);
 
@@ -46,8 +49,11 @@ class Languages extends AbstractParser
         }
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ) {
         $container = $contextualizer->getContainer();
         if ($container->hasParameter("ibexa.site_access.config.$currentScope.languages")) {
             $languages = $container->getParameter("ibexa.site_access.config.$currentScope.languages");
@@ -58,8 +64,10 @@ class Languages extends AbstractParser
         }
     }
 
-    public function postMap(array $config, ContextualizerInterface $contextualizer)
-    {
+    public function postMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {
         $contextualizer->getContainer()->setParameter(
             'ibexa.site_access.by_language',
             $this->siteAccessesByLanguages

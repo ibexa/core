@@ -21,8 +21,7 @@ class URLAliasServiceDecoratorTest extends TestCase
 
     protected function createDecorator(MockObject $service): URLAliasService
     {
-        return new class($service) extends URLAliasServiceDecorator {
-        };
+        return new class($service) extends URLAliasServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

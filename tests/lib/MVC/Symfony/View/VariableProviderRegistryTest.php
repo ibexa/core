@@ -39,8 +39,10 @@ final class VariableProviderRegistryTest extends TestCase
                 return $this->identifier;
             }
 
-            public function getTwigVariables(View $view, array $options = []): object
-            {
+            public function getTwigVariables(
+                View $view,
+                array $options = []
+            ): object {
                 return (object)[
                     $this->identifier . '_parameter' => $this->identifier . '_value',
                 ];

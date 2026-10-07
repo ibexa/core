@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
@@ -17,7 +18,7 @@ class DoctrineStorage extends Gateway
     public const URL_TABLE = DoctrineDatabase::URL_TABLE;
     public const URL_LINK_TABLE = DoctrineDatabase::URL_LINK_TABLE;
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     public function __construct(Connection $connection)
@@ -136,8 +137,11 @@ class DoctrineStorage extends Gateway
      * @param int $fieldId
      * @param int $versionNo
      */
-    public function linkUrl($urlId, $fieldId, $versionNo)
-    {
+    public function linkUrl(
+        $urlId,
+        $fieldId,
+        $versionNo
+    ) {
         $query = $this->connection->createQueryBuilder();
 
         $query
@@ -164,8 +168,11 @@ class DoctrineStorage extends Gateway
      * @param int $versionNo
      * @param int[] $excludeUrlIds
      */
-    public function unlinkUrl($fieldId, $versionNo, array $excludeUrlIds = []): void
-    {
+    public function unlinkUrl(
+        $fieldId,
+        $versionNo,
+        array $excludeUrlIds = []
+    ): void {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select('link.url_id')

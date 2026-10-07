@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\TaggedContainerInterface;
  */
 final class BackwardCompatibleIterator implements IteratorAggregate
 {
-    /** @var \Symfony\Component\DependencyInjection\TaggedContainerInterface */
+    /** @var TaggedContainerInterface */
     private $container;
 
     /** @var string */
@@ -26,8 +26,11 @@ final class BackwardCompatibleIterator implements IteratorAggregate
     /** @var string */
     private $deprecatedServiceTag;
 
-    public function __construct(TaggedContainerInterface $container, string $serviceTag, string $deprecatedServiceTag)
-    {
+    public function __construct(
+        TaggedContainerInterface $container,
+        string $serviceTag,
+        string $deprecatedServiceTag
+    ) {
         $this->container = $container;
         $this->serviceTag = $serviceTag;
         $this->deprecatedServiceTag = $deprecatedServiceTag;

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
@@ -156,6 +157,7 @@ class StringLengthValidatorTest extends TestCase
      * Tests validating a correct value.
      *
      * @dataProvider providerForValidateOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\StringLengthValidator::validate
      * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
@@ -182,10 +184,15 @@ class StringLengthValidatorTest extends TestCase
      * Tests validating a wrong value.
      *
      * @dataProvider providerForValidateKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\StringLengthValidator::validate
      */
-    public function testValidateWrongValues($value, $messageSingular, $messagePlural, $values)
-    {
+    public function testValidateWrongValues(
+        $value,
+        $messageSingular,
+        $messagePlural,
+        $values
+    ) {
         $validator = new StringLengthValidator();
         $validator->minStringLength = $this->getMinStringLength();
         $validator->maxStringLength = $this->getMaxStringLength();
@@ -248,6 +255,7 @@ class StringLengthValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsCorrectValues($constraints)
@@ -294,10 +302,14 @@ class StringLengthValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
-    public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
-    {
+    public function testValidateConstraintsWrongValues(
+        $constraints,
+        $expectedMessages,
+        $values
+    ) {
         $validator = new StringLengthValidator();
         $messages = $validator->validateConstraints($constraints);
 

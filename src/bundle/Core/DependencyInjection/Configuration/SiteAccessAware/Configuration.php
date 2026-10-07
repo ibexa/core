@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
@@ -34,13 +36,15 @@ abstract class Configuration implements ConfigurationInterface
     /**
      * Generates the context node under which context based configuration will be defined.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode Node under which the generated node will be placed.
+     * @param ArrayNodeDefinition $rootNode Node under which the generated node will be placed.
      * @param string $scopeNodeName
      *
-     * @return \Symfony\Component\Config\Definition\Builder\NodeBuilder
+     * @return NodeBuilder
      */
-    public function generateScopeBaseNode(ArrayNodeDefinition $rootNode, $scopeNodeName = 'system')
-    {
+    public function generateScopeBaseNode(
+        ArrayNodeDefinition $rootNode,
+        $scopeNodeName = 'system'
+    ) {
         $contextNode = $rootNode
             ->children()
                 ->arrayNode($scopeNodeName)

@@ -11,8 +11,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query;
 /**
  * Base interface for Criterion implementations.
  */
-interface CriterionInterface
-{
-}
+interface CriterionInterface {}
 
 class_alias(CriterionInterface::class, 'eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface');

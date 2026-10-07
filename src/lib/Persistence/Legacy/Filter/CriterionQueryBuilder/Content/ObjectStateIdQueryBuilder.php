@@ -31,7 +31,7 @@ final class ObjectStateIdQueryBuilder implements CriterionQueryBuilder
     ): ?string {
         $tableAlias = uniqid('osl_');
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateId $criterion */
+        /** @var ObjectStateId $criterion */
         $queryBuilder
             ->join(
                 'content',

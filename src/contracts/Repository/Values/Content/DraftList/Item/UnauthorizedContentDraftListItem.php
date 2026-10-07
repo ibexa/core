@@ -30,8 +30,11 @@ class UnauthorizedContentDraftListItem implements ContentDraftListItemInterface
      * @param string $function
      * @param array $payload
      */
-    public function __construct(string $module, string $function, array $payload)
-    {
+    public function __construct(
+        string $module,
+        string $function,
+        array $payload
+    ) {
         $this->module = $module;
         $this->function = $function;
         $this->payload = $payload;
@@ -62,7 +65,7 @@ class UnauthorizedContentDraftListItem implements ContentDraftListItemInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo|null
+     * @return VersionInfo|null
      */
     public function getVersionInfo(): ?VersionInfo
     {

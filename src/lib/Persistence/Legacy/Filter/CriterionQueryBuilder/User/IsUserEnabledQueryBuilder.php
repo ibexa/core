@@ -28,7 +28,7 @@ final class IsUserEnabledQueryBuilder extends BaseUserCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsUserEnabled $criterion */
+        /** @var IsUserEnabled $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         $queryBuilder->joinOnce(

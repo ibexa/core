@@ -43,9 +43,12 @@ abstract class AbstractImageCompositeCriterion extends CompositeCriterion
     /**
      * @phpstan-param TImageCriteria $imageCriteriaData
      *
-     * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion>
+     * @return array<Criterion>
      */
-    abstract protected function buildCriteria(string $fieldDefIdentifier, array $imageCriteriaData): array;
+    abstract protected function buildCriteria(
+        string $fieldDefIdentifier,
+        array $imageCriteriaData
+    ): array;
 
     /**
      * @return array<string>

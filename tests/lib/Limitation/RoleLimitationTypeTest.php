@@ -135,8 +135,10 @@ final class RoleLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      */
-    public function testValidateError(UserRoleLimitation $limitation, int $errorCount): void
-    {
+    public function testValidateError(
+        UserRoleLimitation $limitation,
+        int $errorCount
+    ): void {
         $userHandlerMock = $this->createMock(UserHandlerInterface::class);
 
         if ($limitation->limitationValues !== null) {

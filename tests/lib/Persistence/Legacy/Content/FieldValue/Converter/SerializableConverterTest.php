@@ -16,6 +16,7 @@ use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SerializableConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,10 +31,10 @@ class SerializableConverterTest extends TestCase
 
     private const EXAMPLE_JSON = '{"foo":"foo","bar":"bar"}';
 
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ValueSerializerInterface|MockObject */
     private $serializer;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SerializableConverter */
+    /** @var SerializableConverter */
     private $converter;
 
     protected function setUp(): void

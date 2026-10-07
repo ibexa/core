@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Contracts\Core\FieldType\FieldType;
@@ -19,6 +20,7 @@ use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Values\Content\Relation as RelationValue;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -163,8 +165,10 @@ class RelationProcessorTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestAppendRelations
      */
-    public function testAppendFieldRelations(array $fieldRelations, array $expected)
-    {
+    public function testAppendFieldRelations(
+        array $fieldRelations,
+        array $expected
+    ) {
         $locationHandler = $this->getPersistenceMock()->locationHandler();
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
         $fieldValueMock = $this->getMockForAbstractClass(Value::class);
@@ -206,8 +210,12 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Assert loading Locations to find Content id in {@link RelationProcessor::appendFieldRelations()} method.
      */
-    protected function assertLocationHandlerExpectation($locationHandlerMock, $fieldRelations, $type, &$callCounter)
-    {
+    protected function assertLocationHandlerExpectation(
+        $locationHandlerMock,
+        $fieldRelations,
+        $type,
+        &$callCounter
+    ) {
         if (isset($fieldRelations[$type]['locationIds'])) {
             foreach ($fieldRelations[$type]['locationIds'] as $locationId) {
                 $locationHandlerMock->expects($this->at($callCounter))
@@ -644,8 +652,12 @@ class RelationProcessorTest extends BaseServiceMockTest
         $relationProcessor->processFieldRelations([], 24, 2, $contentTypeMock, $existingRelations);
     }
 
-    protected function getStubbedRelation($id, $type, $fieldDefinitionId, $contentId)
-    {
+    protected function getStubbedRelation(
+        $id,
+        $type,
+        $fieldDefinitionId,
+        $contentId
+    ) {
         return new RelationValue(
             [
                 'id' => $id,
@@ -665,7 +677,7 @@ class RelationProcessorTest extends BaseServiceMockTest
      *
      * @param string[] $methods
      *
-     * @return \Ibexa\Core\Repository\Helper\RelationProcessor|\PHPUnit\Framework\MockObject\MockObject
+     * @return RelationProcessor|MockObject
      */
     protected function getPartlyMockedRelationProcessor(?array $methods = null)
     {
@@ -680,7 +692,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getFieldTypeServiceMock()
     {

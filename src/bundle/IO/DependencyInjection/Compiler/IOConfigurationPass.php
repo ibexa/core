@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\DependencyInjection\Compiler;
 
 use ArrayObject;
+use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -22,10 +24,10 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class IOConfigurationPass implements CompilerPassInterface
 {
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
+    /** @var ConfigurationFactory[]|ArrayObject */
     private $metadataHandlerFactories;
 
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
+    /** @var ConfigurationFactory[]|ArrayObject */
     private $binarydataHandlerFactories;
 
     public function __construct(
@@ -37,7 +39,7 @@ class IOConfigurationPass implements CompilerPassInterface
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      *
      * @throws \LogicException
      */
@@ -69,10 +71,10 @@ class IOConfigurationPass implements CompilerPassInterface
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param \Symfony\Component\DependencyInjection\Definition $factory The factory service that should receive the list of handlers
+     * @param ContainerBuilder $container
+     * @param Definition $factory The factory service that should receive the list of handlers
      * @param array $configuredHandlers Handlers configuration declared via semantic config
-     * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject $factories Map of alias => handler service id
+     * @param ConfigurationFactory[]|ArrayObject $factories Map of alias => handler service id
      * @param string $defaultHandler default handler id
      */
     protected function processHandlers(
@@ -103,14 +105,17 @@ class IOConfigurationPass implements CompilerPassInterface
     /**
      * Returns from $factories the factory for handler $type.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject $factories
+     * @param ContainerBuilder $container
+     * @param ConfigurationFactory[]|ArrayObject $factories
      * @param string $type
      *
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory
+     * @return ConfigurationFactory
      */
-    protected function getFactory(ArrayObject $factories, $type, ContainerBuilder $container)
-    {
+    protected function getFactory(
+        ArrayObject $factories,
+        $type,
+        ContainerBuilder $container
+    ) {
         if (!isset($factories[$type])) {
             throw new InvalidConfigurationException("Unknown handler type $type");
         }

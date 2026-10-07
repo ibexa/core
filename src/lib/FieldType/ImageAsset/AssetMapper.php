@@ -10,26 +10,28 @@ namespace Ibexa\Core\FieldType\ImageAsset;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 
 class AssetMapper
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeService */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     /** @var int */
@@ -51,13 +53,16 @@ class AssetMapper
      * Creates an Image Asset.
      *
      * @param string $name
-     * @param \Ibexa\Core\FieldType\Image\Value $image
+     * @param Value $image
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    public function createAsset(string $name, ImageValue $image, string $languageCode): Content
-    {
+    public function createAsset(
+        string $name,
+        ImageValue $image,
+        string $languageCode
+    ): Content {
         $mappings = $this->getMappings();
 
         $contentType = $this->contentTypeService->loadContentTypeByIdentifier(
@@ -78,12 +83,12 @@ class AssetMapper
     /**
      * Returns field which is used to store the Image Asset value from specified content.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field
+     * @return Field
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function getAssetField(Content $content): Field
     {
@@ -97,7 +102,7 @@ class AssetMapper
     /**
      * Returns definition of the field which is used to store value of the Image Asset.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition
+     * @return FieldDefinition
      */
     public function getAssetFieldDefinition(): FieldDefinition
     {
@@ -115,12 +120,12 @@ class AssetMapper
     /**
      * Returns field value of the Image Asset from specified content.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      *
-     * @return \Ibexa\Core\FieldType\Image\Value
+     * @return Value
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function getAssetValue(Content $content): ImageValue
     {
@@ -134,11 +139,11 @@ class AssetMapper
     /**
      * Returns TRUE if content is an Image Asset.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      *
      * @return bool
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function isAsset(Content $content): bool
     {

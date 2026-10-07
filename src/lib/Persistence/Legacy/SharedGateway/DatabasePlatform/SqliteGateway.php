@@ -35,7 +35,7 @@ final class SqliteGateway extends AbstractGateway
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException if the sequence has no last value
+     * @throws DatabaseException if the sequence has no last value
      */
     public function getLastInsertedId(string $sequenceName): int
     {

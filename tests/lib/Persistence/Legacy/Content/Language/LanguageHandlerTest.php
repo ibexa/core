@@ -4,13 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct as SPILanguageCreateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
@@ -22,21 +26,21 @@ class LanguageHandlerTest extends TestCase
     /**
      * Language handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @var Handler
      */
     protected $languageHandler;
 
     /**
      * Language gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
     /**
      * Language mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
@@ -79,11 +83,11 @@ class LanguageHandlerTest extends TestCase
     /**
      * Returns a Language CreateStruct.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct
+     * @return CreateStruct
      */
     protected function getCreateStructFixture()
     {
-        return new Language\CreateStruct();
+        return new CreateStruct();
     }
 
     public function testUpdate()
@@ -101,7 +105,7 @@ class LanguageHandlerTest extends TestCase
     /**
      * Returns a Language.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     protected function getLanguageFixture()
     {
@@ -258,7 +262,7 @@ class LanguageHandlerTest extends TestCase
     /**
      * Returns the language handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @return Handler
      */
     protected function getLanguageHandler()
     {
@@ -275,7 +279,7 @@ class LanguageHandlerTest extends TestCase
     /**
      * Returns a language mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\Mapper
+     * @return Mapper
      */
     protected function getMapperMock()
     {
@@ -289,7 +293,7 @@ class LanguageHandlerTest extends TestCase
     /**
      * Returns a mock for the language gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
+     * @return Gateway
      */
     protected function getGatewayMock()
     {

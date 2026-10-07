@@ -9,20 +9,22 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\IO\IOBinarydataHandler;
 
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\IOBinarydataHandler\Flysystem;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToDeleteFile;
 use League\Flysystem\UnableToReadFile;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOBinarydataHandler|MockObject */
     private IOBinarydataHandler $handler;
 
-    /** @var \League\Flysystem\FilesystemOperator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FilesystemOperator|MockObject */
     private FilesystemOperator $filesystem;
 
     protected function setUp(): void
@@ -85,7 +87,7 @@ class FlysystemTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException
+     * @throws BinaryFileNotFoundException
      */
     public function testGetContents(): void
     {
@@ -117,7 +119,7 @@ class FlysystemTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testGetResource(): void
     {
@@ -137,7 +139,7 @@ class FlysystemTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testGetResourceNotFound(): void
     {

@@ -4,12 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -28,29 +34,29 @@ final class DoctrineDatabase extends Gateway
      */
     public const MAX_LIMIT = 1073741824;
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter */
+    /** @var CriteriaConverter */
     private $criteriaConverter;
 
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter */
+    /** @var SortClauseConverter */
     private $sortClauseConverter;
 
     /**
      * Language handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+     * @var Handler
      */
     private $languageHandler;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
+    /** @var AbstractPlatform */
     private $dbPlatform;
 
     /**
      * Construct from database handler.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function __construct(
         Connection $connection,
@@ -165,14 +171,16 @@ final class DoctrineDatabase extends Gateway
     /**
      * Returns total results count for $criterion and $sortClauses.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param array $languageFilter
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotImplementedException
+     * @throws NotFoundException
      */
-    private function getTotalCount(Criterion $criterion, array $languageFilter): int
-    {
+    private function getTotalCount(
+        Criterion $criterion,
+        array $languageFilter
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->dbPlatform->getCountExpression('*'))
@@ -234,7 +242,7 @@ final class DoctrineDatabase extends Gateway
      *
      * @param array $languageFilter
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function getLanguageMask(array $languageFilter): int
     {

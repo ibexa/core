@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Image\IO;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -11,6 +12,8 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 /**
  * Legacy Image IOService.
@@ -31,14 +34,14 @@ class Legacy implements IOServiceInterface
     /**
      * Published images IO Service.
      *
-     * @var \Ibexa\Core\IO\IOServiceInterface
+     * @var IOServiceInterface
      */
     private $publishedIOService;
 
     /**
      * Draft images IO Service.
      *
-     * @var \Ibexa\Core\IO\IOServiceInterface
+     * @var IOServiceInterface
      */
     private $draftIOService;
 
@@ -58,19 +61,22 @@ class Legacy implements IOServiceInterface
      */
     private $draftPrefix;
 
-    /** @var \Ibexa\Core\FieldType\Image\IO\OptionsProvider */
+    /** @var OptionsProvider */
     private $optionsProvider;
 
     /**
-     * @param \Ibexa\Core\FieldType\Image\IO\OptionsProvider $optionsProvider Path options. Known keys: var_dir, storage_dir, draft_images_dir, published_images_dir.
+     * @param OptionsProvider $optionsProvider Path options. Known keys: var_dir, storage_dir, draft_images_dir, published_images_dir.
      *
-     * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     * @throws InvalidOptionsException
      *         If any of the passed options has not been defined or does not contain an allowed value
-     * @throws \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
+     * @throws MissingOptionsException
      *         If a required option is missing.
      */
-    public function __construct(IOServiceInterface $publishedIOService, IOServiceInterface $draftIOService, OptionsProvider $optionsProvider)
-    {
+    public function __construct(
+        IOServiceInterface $publishedIOService,
+        IOServiceInterface $draftIOService,
+        OptionsProvider $optionsProvider
+    ) {
         $this->publishedIOService = $publishedIOService;
         $this->draftIOService = $draftIOService;
         $this->optionsProvider = $optionsProvider;

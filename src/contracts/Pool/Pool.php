@@ -12,6 +12,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
  * @template T of object
+ *
  * @implements \Ibexa\Contracts\Core\Pool\PoolInterface<T>
  */
 final class Pool implements PoolInterface
@@ -30,8 +31,10 @@ final class Pool implements PoolInterface
     /**
      * @phpstan-param iterable<string,T> $entries
      */
-    public function __construct(string $class, iterable $entries = [])
-    {
+    public function __construct(
+        string $class,
+        iterable $entries = []
+    ) {
         $this->class = $class;
         $this->entries = $entries;
     }

@@ -4,29 +4,35 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation as APISiteAccessLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 
 /**
  * SiteAccessLimitation is a User limitation.
  */
 class SiteAccessLimitationType implements SPILimitationTypeInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface */
+    /** @var SiteAccessServiceInterface */
     private $siteAccessService;
 
     public function __construct(
-        SiteAccess\SiteAccessServiceInterface $siteAccessService
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->siteAccessService = $siteAccessService;
     }
@@ -46,7 +52,7 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param Limitation $limitationValue
      */
     public function acceptValue(APILimitationValue $limitationValue)
     {
@@ -69,7 +75,7 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param Limitation $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -98,7 +104,7 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      *
      * @param mixed[] $limitationValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
+     * @return Limitation
      */
     public function buildValue(array $limitationValues)
     {
@@ -113,18 +119,22 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
      *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     * @throws BadStateException If value of the LimitationValue is unsupported
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
+     * @param Limitation $value
+     * @param UserReference $currentUser
+     * @param ValueObject $object
+     * @param ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
-    {
+    public function evaluate(
+        APILimitationValue $value,
+        APIUserReference $currentUser,
+        ValueObject $object,
+        ?array $targets = null
+    ) {
         if (!$value instanceof APISiteAccessLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APISiteAccessLimitation');
         }
@@ -149,13 +159,15 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param Limitation $value
+     * @param UserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
+     * @return CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
-    {
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    ) {
         throw new NotImplementedException(__METHOD__);
     }
 

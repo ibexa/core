@@ -13,8 +13,6 @@ use Throwable;
 /**
  * Marker interface for all Repository related exceptions.
  */
-interface Exception extends Throwable
-{
-}
+interface Exception extends Throwable {}
 
 class_alias(Exception::class, 'eZ\Publish\API\Repository\Exceptions\Exception');

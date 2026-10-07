@@ -4,18 +4,24 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Search;
 
 use ArrayObject;
 use Ibexa\Contracts\Core\FieldType\Indexable;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as APICriterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause as APISortClause;
+use Ibexa\Contracts\Core\Search\FieldType;
 use Ibexa\Contracts\Core\Search\FieldType as SPIFieldType;
 use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldNameResolver;
 use Ibexa\Core\Search\Common\FieldRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Search\Common\FieldNameResolver
@@ -764,7 +770,7 @@ class FieldNameResolverTest extends TestCase
     /**
      * @param array $methods
      *
-     * @return \Ibexa\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldNameResolver|MockObject
      */
     protected function getMockedFieldNameResolver(array $methods = [])
     {
@@ -783,11 +789,11 @@ class FieldNameResolverTest extends TestCase
         return $fieldNameResolver;
     }
 
-    /** @var \Ibexa\Core\Search\Common\FieldRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldRegistry|MockObject */
     protected $fieldRegistryMock;
 
     /**
-     * @return \Ibexa\Core\Search\Common\FieldRegistry|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldRegistry|MockObject
      */
     protected function getFieldRegistryMock()
     {
@@ -799,7 +805,7 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\FieldType\Indexable|\PHPUnit\Framework\MockObject\MockObject
+     * @return Indexable|MockObject
      */
     protected function getIndexFieldTypeMock()
     {
@@ -807,18 +813,18 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Search\FieldType|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldType|MockObject
      */
     protected function getSearchFieldTypeMock()
     {
         return $this->createMock(SPIFieldType::class);
     }
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     protected $contentTypeHandlerMock;
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return Handler|MockObject
      */
     protected function getContentTypeHandlerMock()
     {
@@ -829,11 +835,11 @@ class FieldNameResolverTest extends TestCase
         return $this->contentTypeHandlerMock;
     }
 
-    /** @var \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldNameGenerator|MockObject */
     protected $fieldNameGeneratorMock;
 
     /**
-     * @return \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldNameGenerator|MockObject
      */
     protected function getFieldNameGeneratorMock()
     {
@@ -845,7 +851,7 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|\PHPUnit\Framework\MockObject\MockObject
+     * @return Criterion|MockObject
      */
     protected function getCriterionMock()
     {
@@ -853,7 +859,7 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause|\PHPUnit\Framework\MockObject\MockObject
+     * @return SortClause|MockObject
      */
     protected function getSortClauseMock()
     {

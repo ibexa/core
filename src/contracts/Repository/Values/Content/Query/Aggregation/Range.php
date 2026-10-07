@@ -18,21 +18,24 @@ final class Range extends ValueObject
     /**
      * Beginning of the range (included).
      *
-     * @var int|float|\DateTimeInterface|null
+     * @var int|float|DateTimeInterface|null
      */
     private $from;
 
     /**
      * End of the range (excluded).
      *
-     * @var int|float|\DateTimeInterface|null
+     * @var int|float|DateTimeInterface|null
      */
     private $to;
 
     private ?string $label;
 
-    public function __construct($from, $to, ?string $label = null)
-    {
+    public function __construct(
+        $from,
+        $to,
+        ?string $label = null
+    ) {
         parent::__construct();
 
         $this->from = $from;
@@ -96,18 +99,24 @@ final class Range extends ValueObject
         return (string)$value;
     }
 
-    public static function ofInt(?int $from, ?int $to): self
-    {
+    public static function ofInt(
+        ?int $from,
+        ?int $to
+    ): self {
         return new self($from, $to);
     }
 
-    public static function ofFloat(?float $from, ?float $to): self
-    {
+    public static function ofFloat(
+        ?float $from,
+        ?float $to
+    ): self {
         return new self($from, $to);
     }
 
-    public static function ofDateTime(?DateTimeInterface $from, ?DateTimeInterface $to): self
-    {
+    public static function ofDateTime(
+        ?DateTimeInterface $from,
+        ?DateTimeInterface $to
+    ): self {
         return new self($from, $to);
     }
 }

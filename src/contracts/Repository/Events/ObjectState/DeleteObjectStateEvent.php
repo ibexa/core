@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState;
 
 final class DeleteObjectStateEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState */
+    /** @var ObjectState */
     private $objectState;
 
     public function __construct(ObjectState $objectState)

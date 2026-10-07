@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 final class DeleteUserGroupEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $userGroup;
 
     /** @var array */

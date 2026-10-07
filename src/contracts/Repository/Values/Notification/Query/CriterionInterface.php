@@ -8,6 +8,4 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Notification\Query;
 
-interface CriterionInterface
-{
-}
+interface CriterionInterface {}

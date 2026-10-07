@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ChainConfigResolverTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver */
+    /** @var ChainConfigResolver */
     private $chainResolver;
 
     protected function setUp(): void
@@ -167,8 +169,12 @@ class ChainConfigResolverTest extends TestCase
      * @param string $scope
      * @param mixed $expectedValue
      */
-    public function testGetParameter($paramName, $namespace, $scope, $expectedValue)
-    {
+    public function testGetParameter(
+        $paramName,
+        $namespace,
+        $scope,
+        $expectedValue
+    ) {
         $resolver = $this->createMock(ConfigResolverInterface::class);
         $resolver
             ->expects($this->once())
@@ -239,7 +245,7 @@ class ChainConfigResolverTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject[]
+     * @return MockObject[]
      */
     private function createResolverMocks()
     {
@@ -250,8 +256,10 @@ class ChainConfigResolverTest extends TestCase
         ];
     }
 
-    private function buildMock($class, array $methods = [])
-    {
+    private function buildMock(
+        $class,
+        array $methods = []
+    ) {
         return $this
             ->getMockBuilder($class)
             ->disableOriginalConstructor()

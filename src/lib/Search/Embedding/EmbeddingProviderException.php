@@ -14,8 +14,10 @@ use Throwable;
 
 final class EmbeddingProviderException extends RuntimeException implements EmbeddingProviderExceptionInterface
 {
-    public static function fromThrowable(Throwable $previous, string $message): self
-    {
+    public static function fromThrowable(
+        Throwable $previous,
+        string $message
+    ): self {
         return new self($message, 0, $previous);
     }
 }

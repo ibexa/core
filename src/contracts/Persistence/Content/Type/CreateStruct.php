@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -140,7 +141,7 @@ class CreateStruct extends ValueObject
     /**
      * Content fields in this type.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition[]
+     * @var FieldDefinition[]
      */
     public $fieldDefinitions = [];
 

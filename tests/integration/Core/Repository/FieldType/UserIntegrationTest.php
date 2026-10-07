@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
@@ -13,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\User\Type;
+use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\FieldType\User\Value as UserValue;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProvider;
@@ -137,7 +139,7 @@ class UserIntegrationTest extends BaseIntegrationTest
     /**
      * Get initial field externals data.
      *
-     * @return \Ibexa\Core\FieldType\User\Value
+     * @return Value
      */
     public function getValidCreationFieldData(): UserValue
     {
@@ -165,7 +167,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -205,7 +207,7 @@ class UserIntegrationTest extends BaseIntegrationTest
     /**
      * Get update field externals data.
      *
-     * @return \Ibexa\Core\FieldType\User\Value
+     * @return Value
      */
     public function getValidUpdateFieldData()
     {
@@ -268,7 +270,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      * Asserts that the data provided by {@link getValidCreationFieldData()};
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
@@ -370,8 +372,10 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @param mixed $fieldData
      */
-    protected function createContent($fieldData, $contentType = null)
-    {
+    protected function createContent(
+        $fieldData,
+        $contentType = null
+    ) {
         if ($contentType === null) {
             $contentType = $this->testCreateContentType();
         }
@@ -513,9 +517,9 @@ class UserIntegrationTest extends BaseIntegrationTest
     /**
      * Finds ezuser field definition in given $contentType or mark test as failed if it doens't exists.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition
+     * @return FieldDefinition
      */
     private function getUserFieldDefinition(ContentType $contentType): FieldDefinition
     {

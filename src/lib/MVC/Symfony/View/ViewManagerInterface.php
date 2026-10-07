@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\View;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -18,7 +19,7 @@ interface ViewManagerInterface
      * Renders $content by selecting the right template.
      * $content will be injected in the selected template.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      * @param string $viewType Variation of display for your content. Default is 'full'.
      * @param array $parameters Parameters to pass to the template called to
      *        render the view. By default, it's empty. 'content' entry is
@@ -28,13 +29,17 @@ interface ViewManagerInterface
      *
      * @return string
      */
-    public function renderContent(Content $content, $viewType = self::VIEW_TYPE_FULL, $parameters = []);
+    public function renderContent(
+        Content $content,
+        $viewType = self::VIEW_TYPE_FULL,
+        $parameters = []
+    );
 
     /**
      * Renders $location by selecting the right template for $viewType.
      * $content and $location will be injected in the selected template.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param string $viewType Variation of display for your content. Default is 'full'.
      * @param array $parameters Parameters to pass to the template called to
      *        render the view. By default, it's empty. 'location' and 'content'
@@ -45,7 +50,11 @@ interface ViewManagerInterface
      *
      * @return string
      */
-    public function renderLocation(Location $location, $viewType = self::VIEW_TYPE_FULL, $parameters = []);
+    public function renderLocation(
+        Location $location,
+        $viewType = self::VIEW_TYPE_FULL,
+        $parameters = []
+    );
 
     /**
      * Renders passed ContentView object via the template engine.
@@ -55,7 +64,10 @@ interface ViewManagerInterface
      *
      * @return string
      */
-    public function renderContentView(View $view, array $defaultParams = []);
+    public function renderContentView(
+        View $view,
+        array $defaultParams = []
+    );
 }
 
 class_alias(ViewManagerInterface::class, 'eZ\Publish\Core\MVC\Symfony\View\ViewManagerInterface');

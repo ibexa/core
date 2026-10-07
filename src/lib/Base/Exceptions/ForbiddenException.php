@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Exceptions;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException as APIForbiddenException;
@@ -23,8 +24,10 @@ class ForbiddenException extends APIForbiddenException implements Translatable
      * @param array $parameters Hash map with param placeholder as key and its corresponding value.
      *                          E.g. array('%contentId%' => 123).
      */
-    public function __construct($messageTemplate, array $parameters = [])
-    {
+    public function __construct(
+        $messageTemplate,
+        array $parameters = []
+    ) {
         /** @Ignore */
         $this->setMessageTemplate($messageTemplate);
         $this->setParameters($parameters);

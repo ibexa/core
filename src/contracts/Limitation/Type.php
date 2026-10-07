@@ -4,10 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Limitation;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject as APIValueObject;
 
 /**
@@ -73,9 +83,9 @@ interface Type
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
+     * @throws InvalidArgumentException If the value does not match the expected type/structure
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param Limitation $limitationValue
      */
     public function acceptValue(APILimitationValue $limitationValue);
 
@@ -84,9 +94,9 @@ interface Type
      *
      * Make sure {@see Type::acceptValue()} is checked first.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param Limitation $limitationValue
      *
-     * @return array<int, \Ibexa\Contracts\Core\FieldType\ValidationError>
+     * @return array<int, ValidationError>
      */
     public function validate(APILimitationValue $limitationValue);
 
@@ -98,41 +108,49 @@ interface Type
      *
      * @param array<int, mixed> $limitationValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
+     * @return Limitation
      */
     public function buildValue(array $limitationValues);
 
     /**
      * Evaluate ("Vote") against a main value object and targets for the context.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     * @throws InvalidArgumentException If any of the arguments are invalid
      *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
      *         However if $object or $targets is unsupported by ROLE limitation, ACCESS_ABSTAIN should be returned!
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     * @throws BadStateException If value of the LimitationValue is unsupported
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\ValueObject>|null $targets An array of location, parent or "assignment"
+     * @param Limitation $value
+     * @param UserReference $currentUser
+     * @param ValueObject $object
+     * @param array<int, ValueObject>|null $targets An array of location, parent or "assignment"
      *                                                                 objects, if null: none where provided by caller
      *
      * @return bool|null Returns one of ACCESS_* constants, {@see Type::ACCESS_GRANTED}, {@see Type::ACCESS_ABSTAIN}, or {@see Type::ACCESS_DENIED}.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, APIValueObject $object, ?array $targets = null);
+    public function evaluate(
+        APILimitationValue $value,
+        APIUserReference $currentUser,
+        APIValueObject $object,
+        ?array $targets = null
+    );
 
     /**
      * Returns Criterion for use in find() query.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException If the limitation does not support
+     * @throws NotImplementedException If the limitation does not support
      *         being used as a Criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param Limitation $value
+     * @param UserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator
+     * @return CriterionInterface|LogicalOperator
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser);
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    );
 
     /**
      * Returns info on valid $limitationValues.

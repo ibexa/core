@@ -4,12 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Contracts\Core\Variation\VariationPurger;
 use Ibexa\Core\IO\IOServiceInterface;
 use Iterator;
+use Psr\Log\LoggerInterface;
 
 /**
  * Purges image aliases based on image files referenced by the Image FieldType.
@@ -22,17 +24,20 @@ class ImageFileVariationPurger implements VariationPurger
     /** @var ImageFileList */
     private $imageFileList;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $ioService;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
+    /** @var VariationPathGenerator */
     private $variationPathGenerator;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(Iterator $imageFileList, IOServiceInterface $ioService, VariationPathGenerator $variationPathGenerator)
-    {
+    public function __construct(
+        Iterator $imageFileList,
+        IOServiceInterface $ioService,
+        VariationPathGenerator $variationPathGenerator
+    ) {
         $this->imageFileList = $imageFileList;
         $this->ioService = $ioService;
         $this->variationPathGenerator = $variationPathGenerator;
@@ -62,7 +67,7 @@ class ImageFileVariationPurger implements VariationPurger
     }
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      */
     public function setLogger($logger)
     {

@@ -29,8 +29,10 @@ class Priority extends Location implements FilteringCriterion
      * @param string $operator One of the Operator constants
      * @param mixed $value The match value, either as an array of as a single value, depending on the operator
      */
-    public function __construct(string $operator, $value)
-    {
+    public function __construct(
+        string $operator,
+        $value
+    ) {
         parent::__construct(null, $operator, $value);
     }
 
@@ -48,8 +50,11 @@ class Priority extends Location implements FilteringCriterion
     /**
      * @deprecated since 7.2, will be removed in 8.0. Use the constructor directly instead.
      */
-    public static function createFromQueryBuilder($target, $operator, $value)
-    {
+    public static function createFromQueryBuilder(
+        $target,
+        $operator,
+        $value
+    ) {
         @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 7.2 and will be removed in 8.0.', E_USER_DEPRECATED);
 
         return new self($operator, $value);

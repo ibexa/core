@@ -24,8 +24,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): ObjectStateService
     {
-        return new class($service) extends ObjectStateServiceDecorator {
-        };
+        return new class($service) extends ObjectStateServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

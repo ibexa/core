@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Security\Authorization;
 
 /**
@@ -38,8 +39,11 @@ class Attribute
     /** @var array */
     public $limitations;
 
-    public function __construct($module = null, $function = null, array $limitations = [])
-    {
+    public function __construct(
+        $module = null,
+        $function = null,
+        array $limitations = []
+    ) {
         $this->module = $module;
         $this->function = $function;
         $this->limitations = $limitations;

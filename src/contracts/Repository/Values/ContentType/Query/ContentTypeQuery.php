@@ -14,7 +14,7 @@ final class ContentTypeQuery
 
     private ?CriterionInterface $criterion;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[] */
+    /** @var SortClause[] */
     private array $sortClauses;
 
     private int $offset;
@@ -22,7 +22,7 @@ final class ContentTypeQuery
     private ?int $limit;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[] $sortClauses
+     * @param SortClause[] $sortClauses
      */
     public function __construct(
         ?CriterionInterface $criterion = null,
@@ -52,7 +52,7 @@ final class ContentTypeQuery
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[]
+     * @return SortClause[]
      */
     public function getSortClauses(): array
     {

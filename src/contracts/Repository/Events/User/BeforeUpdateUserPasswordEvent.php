@@ -14,17 +14,19 @@ use UnexpectedValueException;
 
 final class BeforeUpdateUserPasswordEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $user;
 
     /** @var string */
     private $newPassword;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|null */
+    /** @var User|null */
     private $updatedUser;
 
-    public function __construct(User $user, string $newPassword)
-    {
+    public function __construct(
+        User $user,
+        string $newPassword
+    ) {
         $this->user = $user;
         $this->newPassword = $newPassword;
     }

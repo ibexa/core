@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState;
 
 final class SetPriorityOfObjectStateEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState */
+    /** @var ObjectState */
     private $objectState;
 
     private $priority;

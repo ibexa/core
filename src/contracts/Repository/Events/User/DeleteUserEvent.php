@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 final class DeleteUserEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $user;
 
     /** @var array */

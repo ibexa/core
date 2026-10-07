@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use DateTime;
@@ -11,6 +12,7 @@ use DateTimeZone;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Date\Type as Date;
 use Ibexa\Core\FieldType\Date\Value as DateValue;
+use Ibexa\Core\FieldType\FieldType;
 
 /**
  * @group fieldType
@@ -27,7 +29,7 @@ class DateTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest()
     {

@@ -13,13 +13,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 final class CopySubtreeEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $subtree;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $targetParentLocation;
 
     public function __construct(

@@ -17,8 +17,10 @@ final class DateCreated implements CriterionInterface
 
     private ?DateTimeInterface $to;
 
-    public function __construct(?DateTimeInterface $from = null, ?DateTimeInterface $to = null)
-    {
+    public function __construct(
+        ?DateTimeInterface $from = null,
+        ?DateTimeInterface $to = null
+    ) {
         $this->from = $from;
         $this->to = $to;
     }

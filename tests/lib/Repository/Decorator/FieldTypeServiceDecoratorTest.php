@@ -17,8 +17,7 @@ class FieldTypeServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): FieldTypeService
     {
-        return new class($service) extends FieldTypeServiceDecorator {
-        };
+        return new class($service) extends FieldTypeServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

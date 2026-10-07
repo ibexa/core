@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Cache;
 
 use Ibexa\Bundle\Core\Imagine\Cache\Resolver\RelativeResolver;
@@ -11,17 +12,18 @@ use Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ResolverFactoryTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var MockObject|ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
+    /** @var MockObject|ResolverInterface */
     private $resolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory */
+    /** @var ResolverFactory */
     private $factory;
 
     protected function setUp(): void

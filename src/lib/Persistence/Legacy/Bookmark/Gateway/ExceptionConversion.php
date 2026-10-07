@@ -18,12 +18,12 @@ use PDOException;
 class ExceptionConversion extends Gateway
 {
     /**
-     * @var \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 
     /**
-     * @param \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -48,8 +48,10 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationId): array
-    {
+    public function loadBookmarkDataByUserIdAndLocationId(
+        int $userId,
+        array $locationId
+    ): array {
         try {
             return $this->innerGateway->loadBookmarkDataByUserIdAndLocationId($userId, $locationId);
         } catch (DBALException | PDOException $e) {
@@ -57,8 +59,11 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadUserBookmarks(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         try {
             return $this->innerGateway->loadUserBookmarks($userId, $offset, $limit);
         } catch (DBALException | PDOException $e) {
@@ -75,8 +80,10 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function locationSwapped(int $location1Id, int $location2Id): void
-    {
+    public function locationSwapped(
+        int $location1Id,
+        int $location2Id
+    ): void {
         try {
             $this->innerGateway->locationSwapped($location1Id, $location2Id);
         } catch (DBALException | PDOException $e) {

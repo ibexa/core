@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\User;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
@@ -18,14 +20,14 @@ class UserGroupUpdateStruct extends ValueObject
     /**
      * The update structure for the profile content.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct
+     * @var ContentUpdateStruct
      */
     public $contentUpdateStruct = null;
 
     /**
      * The update structure for the profile meta data.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct
+     * @var ContentMetadataUpdateStruct
      */
     public $contentMetadataUpdateStruct = null;
 }

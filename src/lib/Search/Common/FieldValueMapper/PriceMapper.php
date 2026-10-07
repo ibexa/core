@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Common\FieldValueMapper;
 
 use Ibexa\Contracts\Core\Search\Field;
@@ -23,7 +24,7 @@ class PriceMapper extends FieldValueMapper
     /**
      * Map field value to a proper search engine representation.
      *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
+     * @param Field $field
      *
      * @return mixed
      */

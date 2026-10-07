@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -16,6 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Tree Handler.
@@ -455,13 +457,13 @@ class TreeHandlerTest extends TestCase
         $treeHandler->deleteChildrenDrafts(42);
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
+    /** @var MockObject|LocationGateway */
     protected $locationGatewayMock;
 
     /**
      * Returns Location Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @return MockObject|LocationGateway
      */
     protected function getLocationGatewayMock()
     {
@@ -472,13 +474,13 @@ class TreeHandlerTest extends TestCase
         return $this->locationGatewayMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Mapper */
+    /** @var MockObject|LocationMapper */
     protected $locationMapperMock;
 
     /**
      * Returns a Location Mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @return MockObject|LocationMapper
      */
     protected function getLocationMapperMock()
     {
@@ -489,13 +491,13 @@ class TreeHandlerTest extends TestCase
         return $this->locationMapperMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway */
+    /** @var MockObject|Gateway */
     protected $contentGatewayMock;
 
     /**
      * Returns Content Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @return MockObject|Gateway
      */
     protected function getContentGatewayMock()
     {
@@ -506,13 +508,13 @@ class TreeHandlerTest extends TestCase
         return $this->contentGatewayMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var MockObject|Mapper */
     protected $contentMapper;
 
     /**
      * Returns a Content Mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return MockObject|Mapper
      */
     protected function getContentMapperMock()
     {
@@ -523,13 +525,13 @@ class TreeHandlerTest extends TestCase
         return $this->contentMapper;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldHandler */
+    /** @var MockObject|FieldHandler */
     protected $fieldHandlerMock;
 
     /**
      * Returns a FieldHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @return MockObject|FieldHandler
      */
     protected function getFieldHandlerMock()
     {
@@ -543,7 +545,7 @@ class TreeHandlerTest extends TestCase
     /**
      * @param array $methods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @return MockObject|TreeHandler
      */
     protected function getPartlyMockedTreeHandler(array $methods)
     {
@@ -562,7 +564,7 @@ class TreeHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @return TreeHandler
      */
     protected function getTreeHandler()
     {

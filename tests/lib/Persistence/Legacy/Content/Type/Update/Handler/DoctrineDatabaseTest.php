@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\Update\Handler;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -20,14 +21,14 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
     /**
      * Content Updater mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
+     * @var ContentUpdater
      */
     protected $contentUpdaterMock;
 
@@ -85,7 +86,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns an array with 'from' and 'to' types.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return Type[]
      */
     protected function getTypeFixtures()
     {
@@ -105,7 +106,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns the Update Handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
+     * @return DoctrineDatabase
      */
     protected function getUpdateHandler()
     {
@@ -115,7 +116,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns a gateway mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @return Gateway
      */
     protected function getGatewayMock()
     {
@@ -129,7 +130,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns a Content Updater mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
+     * @return ContentUpdater
      */
     protected function getContentUpdaterMock()
     {

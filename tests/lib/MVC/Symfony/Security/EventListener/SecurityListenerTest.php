@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\EventListener;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -16,6 +17,7 @@ use Ibexa\Core\MVC\Symfony\Security\Exception\UnauthorizedSiteAccessException;
 use Ibexa\Core\MVC\Symfony\Security\InteractiveLoginToken;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,25 +33,25 @@ use Symfony\Component\Security\Http\SecurityEvents;
 
 class SecurityListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $eventDispatcher;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AuthorizationCheckerInterface|MockObject */
     protected $tokenStorage;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $authChecker;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Security\EventListener\SecurityListener */
+    /** @var SecurityListener */
     protected $listener;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UserService|MockObject */
     private $userService;
 
     protected function setUp(): void

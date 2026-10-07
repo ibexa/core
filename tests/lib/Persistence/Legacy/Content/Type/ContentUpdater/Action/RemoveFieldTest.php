@@ -4,13 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,24 +25,24 @@ class RemoveFieldTest extends TestCase
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGatewayMock;
 
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $contentStorageHandlerMock;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var Mapper */
     protected $contentMapperMock;
 
     /**
      * RemoveField action to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField
+     * @var RemoveField
      */
     protected $removeFieldAction;
 
@@ -243,8 +247,10 @@ class RemoveFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    protected function getContentFixture(int $versionNo, array $languageCodes): Content
-    {
+    protected function getContentFixture(
+        int $versionNo,
+        array $languageCodes
+    ): Content {
         $fields = [];
 
         foreach ($languageCodes as $languageCode => $fieldId) {
@@ -278,7 +284,7 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns a Content Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @return MockObject|Gateway
      */
     protected function getContentGatewayMock()
     {
@@ -292,7 +298,7 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns a Content StorageHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @return MockObject|StorageHandler
      */
     protected function getContentStorageHandlerMock()
     {
@@ -306,7 +312,7 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns a Content mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return MockObject|Mapper
      */
     protected function getContentMapperMock()
     {
@@ -320,11 +326,11 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns a FieldDefinition fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      */
     protected function getFieldDefinitionFixture()
     {
-        $fieldDef = new Content\Type\FieldDefinition();
+        $fieldDef = new FieldDefinition();
         $fieldDef->id = 42;
         $fieldDef->fieldType = 'ezstring';
         $fieldDef->defaultValue = new Content\FieldValue();
@@ -335,7 +341,7 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns the RemoveField action to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField
+     * @return RemoveField
      */
     protected function getRemoveFieldAction()
     {

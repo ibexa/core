@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\FieldStorage;
@@ -16,31 +17,40 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 class NullStorage implements FieldStorage
 {
     /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()
+     * @see FieldStorage::storeFieldData()
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         return false;
     }
 
     /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::getFieldData()
+     * @see FieldStorage::getFieldData()
      */
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         return;
     }
 
     /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::deleteFieldData()
+     * @see FieldStorage::deleteFieldData()
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds,
+        array $context
+    ) {
         return true;
     }
 
     /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::hasFieldData()
+     * @see FieldStorage::hasFieldData()
      *
      * @return bool
      */
@@ -50,10 +60,13 @@ class NullStorage implements FieldStorage
     }
 
     /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::getIndexData()
+     * @see FieldStorage::getIndexData()
      */
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function getIndexData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         return false;
     }
 
@@ -64,15 +77,19 @@ class NullStorage implements FieldStorage
      * By default, the method falls back to the {@link \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      * External storages implement this method as needed.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $originalField
+     * @param VersionInfo $versionInfo
+     * @param Field $field
+     * @param Field $originalField
      * @param array $context
      *
      * @return bool|null Same as {@link \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      */
-    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField, array $context)
-    {
+    public function copyLegacyField(
+        VersionInfo $versionInfo,
+        Field $field,
+        Field $originalField,
+        array $context
+    ) {
         return;
     }
 }

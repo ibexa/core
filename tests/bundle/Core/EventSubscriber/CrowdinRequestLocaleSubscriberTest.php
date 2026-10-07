@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventSubscriber;
 
 use Ibexa\Bundle\Core\EventSubscriber\CrowdinRequestLocaleSubscriber;
@@ -17,8 +18,10 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
     /**
      * @dataProvider testSetRequestsProvider
      */
-    public function testSetLocale(Request $request, $shouldHaveCustomLocale)
-    {
+    public function testSetLocale(
+        Request $request,
+        $shouldHaveCustomLocale
+    ) {
         $event = new RequestEvent(
             $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
             $request,

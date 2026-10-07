@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
@@ -30,7 +31,7 @@ class BinaryFileTest extends BinaryBaseTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest(): FieldType
     {
@@ -637,7 +638,10 @@ class BinaryFileTest extends BinaryBaseTest
     {
         $mock = $this->createMock(RouteAwarePathGenerator::class);
         $mock->method('generate')
-            ->willReturnCallback(static function (string $route, array $routeParameters = []): string {
+            ->willReturnCallback(static function (
+                string $route,
+                array $routeParameters = []
+            ): string {
                 if ($routeParameters) {
                     return '__GENERATED_URI_WITH_PARAMS__';
                 }

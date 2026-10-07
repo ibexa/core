@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Exceptions;
 
 use Exception;
@@ -21,10 +22,14 @@ class InvalidArgumentType extends InvalidArgumentException
      * @param string $argumentName
      * @param string $expectedType
      * @param mixed|null $value Optionally to output the type that was received
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
-    public function __construct($argumentName, $expectedType, $value = null, ?Exception $previous = null)
-    {
+    public function __construct(
+        $argumentName,
+        $expectedType,
+        $value = null,
+        ?Exception $previous = null
+    ) {
         $parameters = ['%argumentName%' => $argumentName, '%expectedType%' => $expectedType];
         $this->setMessageTemplate("Argument '%argumentName%' is invalid: value must be of type '%expectedType%'");
         if ($value) {

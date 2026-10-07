@@ -14,14 +14,15 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use function iterator_to_array;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+use function iterator_to_array;
 
 class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware, EventSubscriberInterface
 {
     private SiteAccessProviderInterface $provider;
 
-    /** @var list<\Ibexa\Core\MVC\Symfony\SiteAccess> */
+    /** @var list<SiteAccess> */
     private array $siteAccessStack = [];
 
     private ConfigResolverInterface $configResolver;
@@ -103,7 +104,7 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware, 
 
         $saRelationMap = [];
 
-        /** @var \Ibexa\Core\MVC\Symfony\SiteAccess[] $saList */
+        /** @var SiteAccess[] $saList */
         $saList = iterator_to_array($this->provider->getSiteAccesses());
         // First build the SiteAccess relation map, indexed by repository and rootLocationId.
         foreach ($saList as $sa) {

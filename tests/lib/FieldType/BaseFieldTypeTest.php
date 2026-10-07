@@ -4,12 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseFieldTypeTest extends TestCase
@@ -17,7 +21,7 @@ abstract class BaseFieldTypeTest extends TestCase
     /**
      * Generic cache for the getFieldTypeUnderTest() method.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\FieldType
+     * @var FieldType
      */
     private $fieldTypeUnderTest;
 
@@ -500,7 +504,7 @@ abstract class BaseFieldTypeTest extends TestCase
      * Uses {@link createFieldTypeUnderTest()} to create the instance
      * initially.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function getFieldTypeUnderTest()
     {
@@ -574,8 +578,10 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideValidInputForAcceptValue
      */
-    public function testAcceptValue($inputValue, $expectedOutputValue)
-    {
+    public function testAcceptValue(
+        $inputValue,
+        $expectedOutputValue
+    ) {
         $fieldType = $this->getFieldTypeUnderTest();
 
         $outputValue = $fieldType->acceptValue($inputValue);
@@ -609,7 +615,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideInvalidInputForAcceptValue
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testAcceptValueFailsOnInvalidValues(
         $inputValue,
@@ -627,8 +633,10 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideInputForToHash
      */
-    public function testToHash($inputValue, $expectedResult)
-    {
+    public function testToHash(
+        $inputValue,
+        $expectedResult
+    ) {
         $fieldType = $this->getFieldTypeUnderTest();
 
         $actualResult = $fieldType->toHash($inputValue);
@@ -656,8 +664,10 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideInputForFromHash
      */
-    public function testFromHash($inputHash, $expectedResult)
-    {
+    public function testFromHash(
+        $inputHash,
+        $expectedResult
+    ) {
         $this->assertIsValidHashValue($inputHash);
 
         $fieldType = $this->getFieldTypeUnderTest();
@@ -858,8 +868,10 @@ abstract class BaseFieldTypeTest extends TestCase
      * @param mixed $actualHash
      * @param array $keyChain
      */
-    protected function assertIsValidHashValue($actualHash, $keyChain = [])
-    {
+    protected function assertIsValidHashValue(
+        $actualHash,
+        $keyChain = []
+    ) {
         switch ($actualHashType = gettype($actualHash)) {
             case 'boolean':
             case 'integer':
@@ -894,8 +906,10 @@ abstract class BaseFieldTypeTest extends TestCase
     /**
      * @dataProvider provideValidDataForValidate
      */
-    public function testValidateValid($fieldDefinitionData, $value)
-    {
+    public function testValidateValid(
+        $fieldDefinitionData,
+        $value
+    ) {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
         $this->assertIsArray($validationErrors);
@@ -905,19 +919,24 @@ abstract class BaseFieldTypeTest extends TestCase
     /**
      * @dataProvider provideInvalidDataForValidate
      */
-    public function testValidateInvalid($fieldDefinitionData, $value, $errors)
-    {
+    public function testValidateInvalid(
+        $fieldDefinitionData,
+        $value,
+        $errors
+    ) {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
         $this->assertIsArray($validationErrors);
         $this->assertEquals($errors, $validationErrors);
     }
 
-    protected function doValidate($fieldDefinitionData, $value)
-    {
+    protected function doValidate(
+        $fieldDefinitionData,
+        $value
+    ) {
         $fieldType = $this->getFieldTypeUnderTest();
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject $fieldDefinitionMock */
+        /** @var FieldDefinition|MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(APIFieldDefinition::class);
 
         foreach ($fieldDefinitionData as $method => $data) {
@@ -938,7 +957,7 @@ abstract class BaseFieldTypeTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldDefinition|MockObject
      */
     protected function getFieldDefinitionMock(array $fieldSettings)
     {

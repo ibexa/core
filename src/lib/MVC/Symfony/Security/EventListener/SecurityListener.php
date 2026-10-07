@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Security\EventListener;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\InteractiveLoginEvent;
@@ -40,22 +42,22 @@ use Symfony\Component\Security\Http\SecurityEvents;
  */
 class SecurityListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     protected $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     protected $userService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface */
+    /** @var TokenStorageInterface */
     protected $tokenStorage;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface */
+    /** @var AuthorizationCheckerInterface */
     protected $authorizationChecker;
 
     /**
@@ -100,7 +102,7 @@ class SecurityListener implements EventSubscriberInterface
      * Will dispatch an event allowing listeners to return a valid Ibexa user for current authenticated user.
      * Will by default let the repository load the anonymous user.
      *
-     * @param \Symfony\Component\Security\Http\Event\InteractiveLoginEvent $event
+     * @param BaseInteractiveLoginEvent $event
      */
     public function onInteractiveLogin(BaseInteractiveLoginEvent $event)
     {
@@ -148,22 +150,24 @@ class SecurityListener implements EventSubscriberInterface
      * Returns new user object based on original user and provided API user.
      * One may want to override this method to use their own user class.
      *
-     * @param \Symfony\Component\Security\Core\User\UserInterface $originalUser
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $apiUser
+     * @param UserInterface $originalUser
+     * @param User $apiUser
      *
-     * @return \Ibexa\Core\MVC\Symfony\Security\UserInterface
+     * @return IbexaUser
      */
-    protected function getUser(UserInterface $originalUser, APIUser $apiUser)
-    {
+    protected function getUser(
+        UserInterface $originalUser,
+        APIUser $apiUser
+    ) {
         return new UserWrapped($originalUser, $apiUser);
     }
 
     /**
      * Throws an UnauthorizedSiteAccessException if current user doesn't have permission to current SiteAccess.
      *
-     * @param \Symfony\Component\Security\Http\Event\InteractiveLoginEvent $event
+     * @param BaseInteractiveLoginEvent $event
      *
-     * @throws \Ibexa\Core\MVC\Symfony\Security\Exception\UnauthorizedSiteAccessException
+     * @throws UnauthorizedSiteAccessException
      */
     public function checkSiteAccessPermission(BaseInteractiveLoginEvent $event)
     {
@@ -183,9 +187,9 @@ class SecurityListener implements EventSubscriberInterface
     /**
      * Throws an UnauthorizedSiteAccessException if current user doesn't have access to current SiteAccess.
      *
-     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+     * @param RequestEvent $event
      *
-     * @throws \Ibexa\Core\MVC\Symfony\Security\Exception\UnauthorizedSiteAccessException
+     * @throws UnauthorizedSiteAccessException
      */
     public function onKernelRequest(RequestEvent $event)
     {
@@ -218,13 +222,15 @@ class SecurityListener implements EventSubscriberInterface
      * Returns true if given request is considered as a master request.
      * Fragments are considered as sub-requests (i.e. ESI, Hinclude...).
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      * @param $requestType
      *
      * @return bool
      */
-    private function isMasterRequest(Request $request, $requestType)
-    {
+    private function isMasterRequest(
+        Request $request,
+        $requestType
+    ) {
         if (
             $requestType !== HttpKernelInterface::MASTER_REQUEST
             || substr($request->getPathInfo(), -strlen($this->fragmentPath)) === $this->fragmentPath
@@ -238,7 +244,7 @@ class SecurityListener implements EventSubscriberInterface
     /**
      * Returns true if current user has access to given SiteAccess.
      *
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess
+     * @param SiteAccess $siteAccess
      *
      * @return bool
      */

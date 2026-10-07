@@ -27,8 +27,14 @@ final class StatsAggregationResult extends AggregationResult
     /** @var float|null */
     private $avg;
 
-    public function __construct(string $name, ?int $count, ?float $min, ?float $max, ?float $avg, ?float $sum)
-    {
+    public function __construct(
+        string $name,
+        ?int $count,
+        ?float $min,
+        ?float $max,
+        ?float $avg,
+        ?float $sum
+    ) {
         parent::__construct($name);
 
         $this->count = $count;

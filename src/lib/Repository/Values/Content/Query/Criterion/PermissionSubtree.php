@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Repository\Values\Content\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree as APISubtreeCriterion;
@@ -25,8 +26,11 @@ class PermissionSubtree extends APISubtreeCriterion
     /**
      * @deprecated since 7.2, will be removed in 8.0. Use the constructor directly instead.
      */
-    public static function createFromQueryBuilder($target, $operator, $value)
-    {
+    public static function createFromQueryBuilder(
+        $target,
+        $operator,
+        $value
+    ) {
         @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 7.2 and will be removed in 8.0.', E_USER_DEPRECATED);
 
         return new self($value);

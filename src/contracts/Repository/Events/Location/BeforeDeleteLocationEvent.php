@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 final class BeforeDeleteLocationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location;
 
     public function __construct(Location $location)

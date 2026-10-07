@@ -15,13 +15,13 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStru
 
 final class BeforeUpdateFieldDefinitionEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
+    /** @var ContentTypeDraft */
     private $contentTypeDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition */
+    /** @var FieldDefinition */
     private $fieldDefinition;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct */
+    /** @var FieldDefinitionUpdateStruct */
     private $fieldDefinitionUpdateStruct;
 
     public function __construct(

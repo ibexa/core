@@ -4,9 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\IO;
 
+use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 /**
  * Provides reading & writing of files meta data (size, modification time...).
@@ -16,9 +19,9 @@ interface IOMetadataHandler
     /**
      * Stores the file from $binaryFileCreateStruct.
      *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $spiBinaryFileCreateStruct
+     * @param BinaryFileCreateStruct $spiBinaryFileCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
+     * @return BinaryFile
      *
      * @throws \RuntimeException if an error occured creating the file
      */
@@ -27,7 +30,7 @@ interface IOMetadataHandler
     /**
      * Deletes file $spiBinaryFileId.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $spiBinaryFileId is not found
+     * @throws NotFoundException If $spiBinaryFileId is not found
      *
      * @param string $spiBinaryFileId
      */
@@ -38,9 +41,9 @@ interface IOMetadataHandler
      *
      * @param string $spiBinaryFileId
      *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
+     * @return BinaryFile
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function load($spiBinaryFileId);
 

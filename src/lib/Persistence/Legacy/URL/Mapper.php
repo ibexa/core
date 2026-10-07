@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\URL;
 
 use Ibexa\Contracts\Core\Persistence\URL\URL;
@@ -17,9 +18,9 @@ class Mapper
     /**
      * Creates a URL from the given update $struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct $struct
+     * @param URLUpdateStruct $struct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\URL\URL
+     * @return URL
      */
     public function createURLFromUpdateStruct(URLUpdateStruct $struct)
     {
@@ -38,7 +39,7 @@ class Mapper
      *
      * @param array $rows
      *
-     * @return \Ibexa\Contracts\Core\Persistence\URL\URL[]
+     * @return URL[]
      */
     public function extractURLsFromRows(array $rows)
     {

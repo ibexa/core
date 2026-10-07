@@ -26,8 +26,11 @@ final class ExampleFieldType extends FieldType
         return self::FIELD_TYPE_IDENTIFIER;
     }
 
-    public function getName(Value $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        Value $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return '';
     }
 

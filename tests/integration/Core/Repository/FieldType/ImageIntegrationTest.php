@@ -4,16 +4,22 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
 use DOMElement;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\FieldType\Image\IO\Legacy as LegacyIOService;
+use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -191,7 +197,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return array{
      *     StringLengthValidator: array{
-     *          minStringLength: \stdClass,
+     *          minStringLength: stdClass,
      *     },
      * }
      */
@@ -483,7 +489,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
     /**
      * @return array<array{
-     *     \Ibexa\Core\FieldType\Image\Value
+     *     Value
      * }>
      */
     public function providerForTestIsEmptyValue(): array
@@ -495,7 +501,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
     /**
      * @return array<array{
-     *     \Ibexa\Core\FieldType\Image\Value
+     *     Value
      * }>
      */
     public function providerForTestIsNotEmptyValue(): array
@@ -523,7 +529,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
         $draft = $this->createContent($this->getValidCreationFieldData(), $type);
 
-        /** @var \Ibexa\Core\FieldType\Image\Value $imageFieldValue */
+        /** @var Value $imageFieldValue */
         $imageFieldValue = $draft->getFieldValue('data');
         $initialValueImageUri = $imageFieldValue->uri;
 
@@ -533,7 +539,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         $updateStruct->setField('data', $imageFieldValue);
         $updatedDraft = $contentService->updateContent($draft->versionInfo, $updateStruct);
 
-        /** @var \Ibexa\Core\FieldType\Image\Value $updatedImageValue */
+        /** @var Value $updatedImageValue */
         $updatedImageValue = $updatedDraft->getFieldValue('data');
 
         self::assertEquals($initialValueImageUri, $updatedImageValue->uri);
@@ -543,9 +549,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     /**
      * @see https://issues.ibexa.co/browse/EZP-23152
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws ForbiddenException
+     * @throws UnauthorizedException
      */
     public function testThatRemovingDraftDoesntRemovePublishedImages(): void
     {
@@ -590,9 +596,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testUpdateImageAltTextOnly(): void
     {
@@ -609,7 +615,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             [2]
         );
 
-        /** @var \Ibexa\Core\FieldType\Image\Value $imageField */
+        /** @var Value $imageField */
         $imageField = $content->getFieldValue('image');
         $updatedAlternativeText = 'Updated alternative text';
         $imageField->alternativeText = $updatedAlternativeText;
@@ -702,9 +708,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testRemovingContentRemovesImages(): void
     {
@@ -742,9 +748,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testRemovingDraftRemovesOldImage(): void
     {
@@ -788,7 +794,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
     /**
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \ErrorException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
@@ -846,12 +852,15 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     /**
      * @return array<string,mixed>
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \ErrorException
      * @throws \Doctrine\DBAL\Driver\Exception
      */
-    private function fetchXML(int $contentId, int $versionNo, int $fieldDefinitionId): array
-    {
+    private function fetchXML(
+        int $contentId,
+        int $versionNo,
+        int $fieldDefinitionId
+    ): array {
         $connection = $this->getRawDatabaseConnection();
 
         $query = $connection->createQueryBuilder();
@@ -890,7 +899,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \ErrorException
      */
     private function updateXML(
@@ -917,9 +926,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     private function publishNewImage(
         string $name,
@@ -953,12 +962,14 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws ForbiddenException
+     * @throws UnauthorizedException
+     * @throws NotFoundException
      */
-    private function updateImage(Content $publishedImageContent, ImageValue $newImageValue): Content
-    {
+    private function updateImage(
+        Content $publishedImageContent,
+        ImageValue $newImageValue
+    ): Content {
         $repository = $this->getRepository(false);
         $contentService = $repository->getContentService();
 
@@ -978,12 +989,15 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         return $content->getFieldValue('image')->uri;
     }
 
-    private function assertImageExists(bool $expectExists, IOServiceInterface $ioService, Content $content): void
-    {
+    private function assertImageExists(
+        bool $expectExists,
+        IOServiceInterface $ioService,
+        Content $content
+    ): void {
         $imageField = $content->getField('image');
         self::assertNotNull($imageField, 'Image field not found');
 
-        /** @var \Ibexa\Core\FieldType\Image\Value $imageFieldValue */
+        /** @var Value $imageFieldValue */
         $imageFieldValue = $imageField->value;
         self::assertSame($expectExists, $ioService->exists($imageFieldValue->id));
     }

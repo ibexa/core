@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -21,6 +22,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
@@ -63,7 +65,7 @@ class MapperTest extends TestCase
     /**
      * Returns a GroupCreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct
+     * @return GroupCreateStruct
      */
     protected function getGroupCreateStructFixture()
     {
@@ -122,7 +124,7 @@ class MapperTest extends TestCase
     /**
      * Returns a CreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct
+     * @return CreateStruct
      */
     protected function getContentTypeCreateStructFixture()
     {
@@ -166,7 +168,7 @@ class MapperTest extends TestCase
     /**
      * Returns a CreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct
+     * @return UpdateStruct
      */
     protected function getContentTypeUpdateStructFixture(): UpdateStruct
     {
@@ -215,7 +217,7 @@ class MapperTest extends TestCase
     /**
      * Returns a Type fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     protected function getContentTypeFixture()
     {
@@ -438,7 +440,7 @@ class MapperTest extends TestCase
     /**
      * Returns a Mapper with conversion methods mocked.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
+     * @return Mapper
      */
     protected function getNonConvertingMapper()
     {
@@ -472,7 +474,7 @@ class MapperTest extends TestCase
     /**
      * Returns a converter registry mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @return ConverterRegistry
      */
     protected function getConverterRegistryMock()
     {
@@ -505,7 +507,7 @@ class MapperTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return StorageDispatcherInterface|MockObject
      */
     private function getStorageDispatcherMock(): StorageDispatcherInterface
     {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\SessionInitByPostListener;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class SessionInitByPostListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\SessionInitByPostListener */
+    /** @var SessionInitByPostListener */
     private $listener;
 
     protected function setUp(): void

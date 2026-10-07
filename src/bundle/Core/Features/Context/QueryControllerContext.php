@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Features\Context;
 
+use Behat\Mink\Element\NodeElement;
 use Behat\MinkExtension\Context\RawMinkContext;
 use PHPUnit\Framework\Assert;
 
@@ -24,8 +26,10 @@ class QueryControllerContext extends RawMinkContext
     /**
      * @Then the Query results assigned to the :arg1 twig variable is a :arg2 object
      */
-    public function theQueryResultsAssignedToTheTwigVariableIsAObject($twigVariableName, $className)
-    {
+    public function theQueryResultsAssignedToTheTwigVariableIsAObject(
+        $twigVariableName,
+        $className
+    ) {
         $variableTypes = $this->getVariableTypesFromTemplate();
 
         Assert::assertArrayHasKey($twigVariableName, $variableTypes, "The $twigVariableName twig variable was not set");
@@ -35,8 +39,10 @@ class QueryControllerContext extends RawMinkContext
     /**
      * @Then the Query results assigned to the twig variable is a Pagerfanta object and has limit :arg1 and selected page :arg2
      */
-    public function theQueryResultsAssignedToTheTwigVariableIsAObjectAndHasLimitAndCountParams($pageLimit, $pageValue)
-    {
+    public function theQueryResultsAssignedToTheTwigVariableIsAObjectAndHasLimitAndCountParams(
+        $pageLimit,
+        $pageValue
+    ) {
         $pageLimitFound = false;
         $currentPageFound = false;
 
@@ -44,14 +50,14 @@ class QueryControllerContext extends RawMinkContext
         $maxPerPage = $page->findAll('css', 'div#maxPerPage');
         $currentPage = $page->findAll('css', 'div#currentPage');
 
-        /** @var \Behat\Mink\Element\NodeElement $variableNode */
+        /** @var NodeElement $variableNode */
         foreach ($maxPerPage as $variableNode) {
             if ($variableNode->getText() === $pageLimit) {
                 $pageLimitFound = true;
             }
         }
 
-        /** @var \Behat\Mink\Element\NodeElement $valueNodes */
+        /** @var NodeElement $valueNodes */
         foreach ($currentPage as $valueNode) {
             if ($valueNode->getText() === $pageValue) {
                 $currentPageFound = true;

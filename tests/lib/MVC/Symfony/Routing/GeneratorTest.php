@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\Routing\Generator;
@@ -11,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -18,13 +20,13 @@ use Symfony\Component\Routing\RequestContext;
 
 class GeneratorTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Generator|MockObject */
     private $generator;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $siteAccessRouter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $logger;
 
     protected function setUp(): void
@@ -55,8 +57,11 @@ class GeneratorTest extends TestCase
     /**
      * @dataProvider generateProvider
      */
-    public function testSimpleGenerate($urlResource, array $parameters, $referenceType)
-    {
+    public function testSimpleGenerate(
+        $urlResource,
+        array $parameters,
+        $referenceType
+    ) {
         $matcher = $this->createMock(URILexer::class);
         $this->generator->setSiteAccess(new SiteAccess('test', 'fake', $matcher));
 
@@ -88,8 +93,11 @@ class GeneratorTest extends TestCase
     /**
      * @dataProvider generateProvider
      */
-    public function testGenerateWithSiteAccessNoReverseMatch($urlResource, array $parameters, $referenceType)
-    {
+    public function testGenerateWithSiteAccessNoReverseMatch(
+        $urlResource,
+        array $parameters,
+        $referenceType
+    ) {
         $matcher = $this->createMock(URILexer::class);
         $this->generator->setSiteAccess(new SiteAccess('test', 'test', $matcher));
 

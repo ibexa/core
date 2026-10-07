@@ -14,7 +14,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 final class RenderStrategy implements SPIRenderStrategy
 {
-    /** @var \Ibexa\Contracts\Core\MVC\Templating\RenderStrategy[] */
+    /** @var SPIRenderStrategy[] */
     private $strategies;
 
     public function __construct(iterable $strategies)
@@ -33,8 +33,10 @@ final class RenderStrategy implements SPIRenderStrategy
         return false;
     }
 
-    public function render(ValueObject $valueObject, RenderOptions $options): string
-    {
+    public function render(
+        ValueObject $valueObject,
+        RenderOptions $options
+    ): string {
         foreach ($this->strategies as $strategy) {
             if ($strategy->supports($valueObject)) {
                 return $strategy->render($valueObject, $options);

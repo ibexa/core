@@ -15,14 +15,14 @@ abstract class PolicyStruct extends ValueObject
     /**
      * Returns list of limitations added to policy.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     * @return Limitation[]
      */
     abstract public function getLimitations(): iterable;
 
     /**
      * Adds a limitation with the given identifier and list of values.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
+     * @param Limitation $limitation
      */
     abstract public function addLimitation(Limitation $limitation): void;
 }

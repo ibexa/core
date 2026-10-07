@@ -13,7 +13,7 @@ use Ibexa\Core\QueryType\BuiltIn\SortSpec\Exception\UnsupportedSortClauseExcepti
 
 final class SortClauseParserDispatcher implements SortClauseParserInterface
 {
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParserInterface[] */
+    /** @var SortClauseParserInterface[] */
     private $parsers;
 
     public function __construct(iterable $parsers = [])
@@ -21,8 +21,10 @@ final class SortClauseParserDispatcher implements SortClauseParserInterface
         $this->parsers = $parsers;
     }
 
-    public function parse(SortSpecParserInterface $parser, string $name): SortClause
-    {
+    public function parse(
+        SortSpecParserInterface $parser,
+        string $name
+    ): SortClause {
         $sortClauseParser = $this->findParser($name);
         if ($sortClauseParser instanceof SortClauseParserInterface) {
             return $sortClauseParser->parse($parser, $name);

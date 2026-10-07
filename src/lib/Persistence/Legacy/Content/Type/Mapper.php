@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -27,11 +28,11 @@ class Mapper
     /**
      * Converter registry.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @var ConverterRegistry
      */
     protected $converterRegistry;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
+    /** @var MaskGenerator */
     private $maskGenerator;
 
     private StorageDispatcherInterface $storageDispatcher;
@@ -39,8 +40,8 @@ class Mapper
     /**
      * Creates a new content type mapper.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry $converterRegistry
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator $maskGenerator
+     * @param ConverterRegistry $converterRegistry
+     * @param MaskGenerator $maskGenerator
      */
     public function __construct(
         ConverterRegistry $converterRegistry,
@@ -55,9 +56,9 @@ class Mapper
     /**
      * Creates a Group from its create struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct $struct
+     * @param GroupCreateStruct $struct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     * @return Group
      *
      * @todo $description is not supported by database, yet
      */
@@ -84,7 +85,7 @@ class Mapper
      *
      * @param array $rows
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
+     * @return Group[]
      */
     public function extractGroupsFromRows(array $rows)
     {
@@ -114,8 +115,10 @@ class Mapper
      *
      * @return array (Type)
      */
-    public function extractTypesFromRows(array $rows, bool $keepTypeIdAsKey = false)
-    {
+    public function extractTypesFromRows(
+        array $rows,
+        bool $keepTypeIdAsKey = false
+    ) {
         $types = [];
         $fields = [];
 
@@ -181,7 +184,7 @@ class Mapper
      *
      * @param array $row
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     protected function extractTypeFromRow(array $row)
     {
@@ -225,10 +228,13 @@ class Mapper
      * @param array $row
      * @param array $multilingualData
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      */
-    public function extractFieldFromRow(array $row, array $multilingualData = [], int $status = Type::STATUS_DEFINED)
-    {
+    public function extractFieldFromRow(
+        array $row,
+        array $multilingualData = [],
+        int $status = Type::STATUS_DEFINED
+    ) {
         $storageFieldDef = $this->extractStorageFieldFromRow($row, $multilingualData);
 
         $field = new FieldDefinition();
@@ -268,10 +274,12 @@ class Mapper
      * @param array $row
      * @param array $multilingualDataRow
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition
+     * @return StorageFieldDefinition
      */
-    protected function extractStorageFieldFromRow(array $row, array $multilingualDataRow = [])
-    {
+    protected function extractStorageFieldFromRow(
+        array $row,
+        array $multilingualDataRow = []
+    ) {
         $storageFieldDef = new StorageFieldDefinition();
 
         $storageFieldDef->dataFloat1 = isset($row['ezcontentclass_attribute_data_float1'])
@@ -334,9 +342,9 @@ class Mapper
     /**
      * Maps properties from $struct to $type.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct $createStruct
+     * @param CreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     public function createTypeFromCreateStruct(CreateStruct $createStruct)
     {
@@ -368,9 +376,9 @@ class Mapper
     /**
      * Creates a create struct from an existing $type.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type $type
+     * @param Type $type
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct
+     * @return CreateStruct
      */
     public function createCreateStructFromType(Type $type)
     {
@@ -401,9 +409,9 @@ class Mapper
     /**
      * Creates an update struct from an existing $type.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type $type
+     * @param Type $type
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct
+     * @return UpdateStruct
      */
     public function createUpdateStructFromType(Type $type)
     {
@@ -429,8 +437,8 @@ class Mapper
     /**
      * Maps $fieldDef to the legacy storage specific StorageFieldDefinition.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageFieldDef
+     * @param FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageFieldDef
      */
     public function toStorageFieldDefinition(
         FieldDefinition $fieldDef,
@@ -459,8 +467,8 @@ class Mapper
     /**
      * Maps a FieldDefinition from the given $storageFieldDef.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageFieldDef
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageFieldDef
+     * @param FieldDefinition $fieldDef
      */
     public function toFieldDefinition(
         StorageFieldDefinition $storageFieldDef,
@@ -486,17 +494,19 @@ class Mapper
      *
      * @return array|mixed
      */
-    protected function unserialize($serialized, $default = [])
-    {
+    protected function unserialize(
+        $serialized,
+        $default = []
+    ) {
         return $serialized
             ? unserialize($serialized)
             : $default;
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct $updateStruct
+     * @param UpdateStruct $updateStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     public function createTypeFromUpdateStruct(UpdateStruct $updateStruct): Type
     {

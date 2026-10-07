@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Persistence\Legacy;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
@@ -17,7 +18,7 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testUpdateFields(): void
     {
@@ -58,8 +59,11 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
         $this->updateContent($engDraft, $engUpdateStruct);
     }
 
-    private function createFieldDefinitionStruct(string $identifier, string $name, bool $isTranslatable): FieldDefinitionCreateStruct
-    {
+    private function createFieldDefinitionStruct(
+        string $identifier,
+        string $name,
+        bool $isTranslatable
+    ): FieldDefinitionCreateStruct {
         $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
 
         $fieldDefCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct(
@@ -89,8 +93,11 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
     /**
      * @param string[] $languages
      */
-    protected function createNewContent(string $name, array $languages = ['eng-GB'], int $parentLocationId = 2): Content
-    {
+    protected function createNewContent(
+        string $name,
+        array $languages = ['eng-GB'],
+        int $parentLocationId = 2
+    ): Content {
         $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
         $contentService = $this->getIbexaTestCore()->getContentService();
         $locationService = $this->getIbexaTestCore()->getLocationService();
@@ -111,8 +118,11 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
     /**
      * @param string[] $languages
      */
-    protected function createUpdateStruct(Content $content, string $translatedName, array $languages): ContentUpdateStruct
-    {
+    protected function createUpdateStruct(
+        Content $content,
+        string $translatedName,
+        array $languages
+    ): ContentUpdateStruct {
         $contentService = $this->getIbexaTestCore()->getContentService();
 
         $updateStruct = $contentService->newContentUpdateStruct();
@@ -133,8 +143,10 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
         return $updateStruct;
     }
 
-    protected function createContentDraft(Content $content, string $languageCode): Content
-    {
+    protected function createContentDraft(
+        Content $content,
+        string $languageCode
+    ): Content {
         $contentLanguageService = $this->getIbexaTestCore()->getLanguageService();
 
         $language = $contentLanguageService->loadLanguage($languageCode);
@@ -142,8 +154,10 @@ final class ContentUpdateAfterAddingFieldDefinitionTest extends RepositoryTestCa
         return $this->getIbexaTestCore()->getContentService()->createContentDraft($content->contentInfo, null, null, $language);
     }
 
-    protected function updateContent(Content $draft, ContentUpdateStruct $updateStruct): Content
-    {
+    protected function updateContent(
+        Content $draft,
+        ContentUpdateStruct $updateStruct
+    ): Content {
         return $this->getIbexaTestCore()->getContentService()->updateContent($draft->versionInfo, $updateStruct);
     }
 }

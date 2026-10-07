@@ -15,13 +15,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 final class UpdateContentEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $content;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
+    /** @var VersionInfo */
     private $versionInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct */
+    /** @var ContentUpdateStruct */
     private $contentUpdateStruct;
 
     /** @var string[]|null */

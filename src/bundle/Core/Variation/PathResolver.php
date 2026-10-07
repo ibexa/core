@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Variation;
 
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
@@ -23,15 +24,20 @@ abstract class PathResolver
         $this->variationPathGenerator = $variationPathGenerator;
     }
 
-    abstract public function resolve($path, $variation): string;
+    abstract public function resolve(
+        $path,
+        $variation
+    ): string;
 
     /**
      * Returns path for filtered image from original path, using the VariationPathGenerator.
      *
      * @return string
      */
-    public function getFilePath(?string $path, string $variation)
-    {
+    public function getFilePath(
+        ?string $path,
+        string $variation
+    ) {
         return $this->variationPathGenerator->getVariationPath($path, $variation);
     }
 

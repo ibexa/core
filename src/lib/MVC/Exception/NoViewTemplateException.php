@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Exception;
 
 use Exception;
@@ -14,7 +15,7 @@ use Ibexa\Core\MVC\Symfony\View\View;
  */
 class NoViewTemplateException extends Exception
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\View */
+    /** @var View */
     private $view;
 
     public function __construct(View $view)

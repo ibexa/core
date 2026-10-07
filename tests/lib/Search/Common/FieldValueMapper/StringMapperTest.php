@@ -90,8 +90,10 @@ final class StringMapperTest extends TestCase
         self::assertSame($value, $this->mapper->map($field));
     }
 
-    private function createFieldWithValue(string $value, StringField $type): Field
-    {
+    private function createFieldWithValue(
+        string $value,
+        StringField $type
+    ): Field {
         $field = $this->createMock(Field::class);
         $field
             ->method('getValue')
