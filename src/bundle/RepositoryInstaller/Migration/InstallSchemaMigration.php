@@ -39,12 +39,12 @@ final class InstallSchemaMigration extends AbstractSqlMigration implements Ibexa
         // migration creates): an install that built its schema via schema.yaml (rather than
         // through this migration) never has "ezcontentobject" -- it already has
         // "ibexa_content" directly.
-        if ($schema->hasTable('ezcontentobject')) {
+        if ($schema->hasTable('ibexa_content')) {
             return;
         }
 
         if ($this->isMariaDB()) {
-            // Doctrine DBAL creates JSON columns on MariaDB as LONGTEXT with a type comment
+            // Doctrine DBAL keeps JSON columns on MariaDB, but adds a type comment to them
             $this->addSqlFile(__DIR__ . '/sql/install-schema-json-tables.mariadb.sql');
             $this->addSqlFile(__DIR__ . '/sql/install-schema-mysql.sql');
         } elseif ($this->isMySQL()) {
