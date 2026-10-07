@@ -582,8 +582,8 @@ class ContentTypeService implements ContentTypeServiceInterface
             }
 
             // Check for duplicate positions
-            if (!isset($fieldDefinitionPositionSet[$fieldDefinitionCreateStruct->position ?? 0])) {
-                $fieldDefinitionPositionSet[$fieldDefinitionCreateStruct->position ?? 0] = true;
+            if (!isset($fieldDefinitionPositionSet[$fieldDefinitionCreateStruct->position ?? ''])) {
+                $fieldDefinitionPositionSet[$fieldDefinitionCreateStruct->position ?? ''] = true;
             } else {
                 throw new InvalidArgumentException(
                     '$contentTypeCreateStruct',
