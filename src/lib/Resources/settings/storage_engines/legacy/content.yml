@@ -56,6 +56,7 @@ services:
             - '@ibexa.persistence.legacy.content.gateway'
             - '@Ibexa\Core\Persistence\Legacy\Content\Mapper'
             - '@Ibexa\Core\Persistence\Legacy\Content\FieldHandler'
+            - !tagged_iterator 'ibexa.core.delete.content.handler'
 
     Ibexa\Core\Persistence\Legacy\Content\Handler:
         class: Ibexa\Core\Persistence\Legacy\Content\Handler
