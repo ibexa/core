@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core;
 
 use DAMA\DoctrineTestBundle\DAMADoctrineTestBundle;
+use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
+use Ibexa\Bundle\DoctrineMigrations\IbexaDoctrineMigrationsBundle;
 use Ibexa\Bundle\Test\Core\IbexaTestCoreBundle;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\BookmarkService;
@@ -26,6 +28,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * Registers DAMADoctrineTestBundle so mutating tests can run without reimporting schema/fixtures
  * before each one: DAMA wraps each test in a transaction that's rolled back afterwards, layered on
  * top of the one-time schema/fixture import tests/integration/bootstrap.php already does.
+ *
+ * Registers the two Doctrine Migrations bundles for the Doctrine Migrations install path, which
+ * tests/integration/bootstrap.php takes with IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED=0.
  */
 final class TestKernel extends BaseIbexaTestKernel
 {
@@ -43,6 +48,8 @@ final class TestKernel extends BaseIbexaTestKernel
         yield from parent::registerBundles();
 
         yield new IbexaTestCoreBundle();
+        yield new DoctrineMigrationsBundle();
+        yield new IbexaDoctrineMigrationsBundle();
         yield new DAMADoctrineTestBundle();
     }
 
