@@ -44,7 +44,7 @@ final class InstallSchemaMigration extends AbstractSqlMigration implements Ibexa
         }
 
         if ($this->isMariaDB()) {
-            // Doctrine DBAL keeps JSON columns on MariaDB, but adds a type comment to them
+            // Same DDL as MySQL: Doctrine DBAL 4 creates JSON columns the same way on MariaDB
             $this->addSqlFile(__DIR__ . '/sql/install-schema-json-tables.mariadb.sql');
             $this->addSqlFile(__DIR__ . '/sql/install-schema-mysql.sql');
         } elseif ($this->isMySQL()) {

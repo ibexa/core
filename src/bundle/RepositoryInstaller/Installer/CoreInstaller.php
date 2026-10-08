@@ -142,7 +142,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
                 '<info>Executed %d queries on database <comment>%s</comment> (<comment>%s</comment>)</info>',
                 count($queries),
                 $this->db->getDatabase(),
-                $this->db->getDatabasePlatform()->getName()
+                $this->getDBMSDataDirectoryName()
             )
         );
     }

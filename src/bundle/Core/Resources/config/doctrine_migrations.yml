@@ -62,3 +62,19 @@ services:
             $connection: '@ibexa.persistence.connection'
         tags:
             - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\AddContentVersionUniqueIndexMigration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }
+
+    Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsTo6_0Migration:
+        autowire: true
+        public: false
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: !php/const Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG }

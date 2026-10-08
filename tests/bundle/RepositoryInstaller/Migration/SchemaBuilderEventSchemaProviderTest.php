@@ -11,11 +11,10 @@ namespace Ibexa\Tests\Bundle\RepositoryInstaller\Migration;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Bundle\RepositoryInstaller\Migration\SchemaBuilderEventSchemaProvider;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Ibexa\Bundle\RepositoryInstaller\Migration\SchemaBuilderEventSchemaProvider
- */
+#[CoversClass(SchemaBuilderEventSchemaProvider::class)]
 final class SchemaBuilderEventSchemaProviderTest extends TestCase
 {
     public function testCreateSchemaDelegatesToSchemaBuilder(): void
