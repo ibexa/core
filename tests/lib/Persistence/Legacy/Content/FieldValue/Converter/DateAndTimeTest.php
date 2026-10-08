@@ -360,7 +360,6 @@ EOT;
 
         $refConverter = new ReflectionObject($this->converter);
         $refMethod = $refConverter->getMethod('getDateIntervalFromXML');
-        $refMethod->setAccessible(true);
         $generatedDateInterval = $refMethod->invoke(
             $this->converter,
             $this->getXMLStringFromDateInterval($dateIntervalReference)
@@ -385,7 +384,6 @@ EOT;
 
         $refConverter = new ReflectionObject($this->converter);
         $refMethod = $refConverter->getMethod('generateDateIntervalXML');
-        $refMethod->setAccessible(true);
         self::assertEquals(
             $dom->saveXML(),
             $refMethod->invoke($this->converter, $dateIntervalReference)

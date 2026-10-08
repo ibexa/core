@@ -2245,12 +2245,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/YamlConfigurationContext.php
 
 		-
-			message: '#^Offset ''message'' might not exist on array\{type\: int, message\: string, file\: string, line\: int\}\|null\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/bundle/Core/Features/Context/YamlConfigurationContext.php
-
-		-
 			message: '#^Parameter \#1 \$input of static method Symfony\\Component\\Yaml\\Yaml\:\:parse\(\) expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
@@ -14995,12 +14989,6 @@ parameters:
 			path: src/lib/Persistence/TransformationProcessor/PcreCompiler.php
 
 		-
-			message: '#^Parameter \#1 \$codepoint of function chr expects int, float\|int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/TransformationProcessor/PcreCompiler.php
-
-		-
 			message: '#^Parameter \#1 \$hex_string of function hexdec expects string, string\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -16231,12 +16219,6 @@ parameters:
 			path: src/lib/Repository/ProxyFactory/ProxyGenerator.php
 
 		-
-			message: '#^Offset ''message'' might not exist on array\{type\: int, message\: string, file\: string, line\: int\}\|null\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/lib/Repository/ProxyFactory/ProxyGenerator.php
-
-		-
 			message: '#^Parameter \#1 \$callback of function spl_autoload_register expects \(callable\(string\)\: void\)\|null, ProxyManager\\Autoloader\\AutoloaderInterface given\.$#'
 			identifier: argument.type
 			count: 1
@@ -16793,12 +16775,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Repository/URLService.php
-
-		-
-			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 2
-			path: src/lib/Repository/URLWildcardService.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\URLWildcardService\:\:__construct\(\) has parameter \$settings with no value type specified in iterable type array\.$#'
@@ -32761,12 +32737,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
 
 		-
-			message: '#^Offset int\<\-1, max\> might not exist on array\{\}\|array\{0\: array\{copy\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Field, original\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Field\}, 1\?\: array\{copy\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Field, original\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Field\}\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 2
-			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
-
-		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Persistence\\Content\\Field\:\:\$value \(Ibexa\\Contracts\\Core\\Persistence\\Content\\FieldValue\) does not accept null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -32806,18 +32776,6 @@ parameters:
 			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\FieldHandlerTest\:\:\$storageHandlerMock \(Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageHandler\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
-			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
-
-		-
-			message: '#^Variable \$copyField might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
-
-		-
-			message: '#^Variable \$originalField might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
 			path: tests/lib/Persistence/Legacy/Content/FieldHandlerTest.php
 
 		-

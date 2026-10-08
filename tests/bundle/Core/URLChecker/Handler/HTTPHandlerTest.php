@@ -290,7 +290,6 @@ final class HTTPHandlerTest extends TestCase
     private function invokePrivateMethod(HTTPHandler $handler, string $method, array $arguments)
     {
         $reflection = new ReflectionMethod(HTTPHandler::class, $method);
-        $reflection->setAccessible(true);
 
         return $reflection->invokeArgs($handler, $arguments);
     }

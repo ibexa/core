@@ -740,7 +740,6 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
         // @todo either test this not using acceptValue, or add to API (but is not meant for high level API, so..)
         $refObject = new \ReflectionObject($fieldType);
         $refProperty = $refObject->getProperty('internalFieldType');
-        $refProperty->setAccessible(true);
         $spiFieldType = $refProperty->getValue($fieldType);
 
         self::assertEquals(

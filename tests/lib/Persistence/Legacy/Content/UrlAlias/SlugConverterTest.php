@@ -161,7 +161,6 @@ final class SlugConverterTest extends TestCase
             SlugConverter::class,
             'cleanupText'
         );
-        $testMethod->setAccessible(true);
 
         $actual = $testMethod->invoke($this->getSlugConverter(), $text, $method);
 

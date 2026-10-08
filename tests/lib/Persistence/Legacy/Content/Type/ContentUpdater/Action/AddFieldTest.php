@@ -327,7 +327,6 @@ class AddFieldTest extends TestCase
 
         $refAction = new ReflectionObject($action);
         $refMethod = $refAction->getMethod('insertField');
-        $refMethod->setAccessible(true);
         $fieldId = $refMethod->invoke($action, $content, $field);
 
         self::assertEquals(23, $fieldId);
@@ -382,7 +381,6 @@ class AddFieldTest extends TestCase
 
         $refAction = new ReflectionObject($action);
         $refMethod = $refAction->getMethod('insertField');
-        $refMethod->setAccessible(true);
         $fieldId = $refMethod->invoke($action, $content, $field);
 
         self::assertEquals(23, $fieldId);
@@ -430,7 +428,6 @@ class AddFieldTest extends TestCase
 
         $refAction = new ReflectionObject($action);
         $refMethod = $refAction->getMethod('insertField');
-        $refMethod->setAccessible(true);
         $fieldId = $refMethod->invoke($action, $content, $field);
 
         self::assertEquals(32, $fieldId);
@@ -484,7 +481,6 @@ class AddFieldTest extends TestCase
 
         $refAction = new ReflectionObject($action);
         $refMethod = $refAction->getMethod('insertField');
-        $refMethod->setAccessible(true);
         $fieldId = $refMethod->invoke($action, $content, $field);
 
         self::assertEquals(32, $fieldId);

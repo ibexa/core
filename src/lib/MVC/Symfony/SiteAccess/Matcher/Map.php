@@ -81,7 +81,7 @@ abstract class Map implements VersatileMatcher
 
     public function match(): string|bool
     {
-        return $this->map[$this->key] ?? false;
+        return $this->map[$this->key ?? ''] ?? false;
     }
 
     public function reverseMatch(string $siteAccessName): ?VersatileMatcher

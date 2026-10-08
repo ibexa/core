@@ -2,7 +2,7 @@ includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/ibexa/phpstan/extension.neon
-    - phpstan-baseline.neon.php
+    - phpstan-baseline-gte-8.4.neon
     - phpstan-baseline.neon
     - phpstan-baseline.pagerfanta.neon
 

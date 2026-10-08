@@ -60,7 +60,7 @@ final class Context implements OptionsBag, ArrayAccess
 
     public function offsetSet($offset, $value): void
     {
-        $this->data[$offset] = $value;
+        $this->data[$offset ?? ''] = $value;
     }
 
     public function offsetUnset($offset): void

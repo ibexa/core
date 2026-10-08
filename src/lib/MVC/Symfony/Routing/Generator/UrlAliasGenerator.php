@@ -103,6 +103,8 @@ class UrlAliasGenerator extends Generator
             return '';
         }
 
+        $siteAccess ??= '';
+
         if (!isset($this->pathPrefixMap[$siteAccess])) {
             $this->pathPrefixMap[$siteAccess] = [];
         }

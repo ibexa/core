@@ -36,7 +36,7 @@ class Location extends MultipleValued
      */
     public function matchContentInfo(ContentInfo $contentInfo): bool
     {
-        return isset($this->values[$contentInfo->mainLocationId]);
+        return null !== $contentInfo->mainLocationId && isset($this->values[$contentInfo->mainLocationId]);
     }
 
     public function match(View $view): bool

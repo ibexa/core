@@ -1152,7 +1152,7 @@ class UserHandlerTest extends TestCase
         self::assertSame($loadedDraft->originalId, $originalRoleId);
         self::assertEquals($draft, $loadedDraft);
         foreach ($loadedDraft->policies as $policy) {
-            self::assertTrue(isset($originalPolicies[$policy->originalId]));
+            self::assertTrue(isset($originalPolicies[$policy->originalId ?? '']));
         }
 
         // Now add a new policy. Original ID of the new one must be the same as its actual ID.

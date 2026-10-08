@@ -139,12 +139,15 @@ class LimitationConverterTest extends TestCase
 
         self::assertArrayHasKey(Limitation::STATE, $policy->limitations);
 
+        $stateLimitationValues = $policy->limitations[Limitation::STATE];
+        self::assertIsArray($stateLimitationValues);
+
         // Don't expect backend to return sorted result, so lets sort values before testing
-        sort($policy->limitations[Limitation::STATE], SORT_NUMERIC);
+        sort($stateLimitationValues, SORT_NUMERIC);
 
         self::assertEquals(
             [1, 2, 5],
-            $policy->limitations[Limitation::STATE],
+            $stateLimitationValues,
             'Expected State limitation to be transformed into StateGroup_ limitations'
         );
     }

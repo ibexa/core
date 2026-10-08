@@ -220,7 +220,7 @@ class ContentMapper
     public function getLanguageCodesForUpdate(ContentUpdateStruct $contentUpdateStruct, Content $content): array
     {
         $languageCodes = array_fill_keys($content->versionInfo->languageCodes, true);
-        $languageCodes[$contentUpdateStruct->initialLanguageCode] = true;
+        $languageCodes[$contentUpdateStruct->initialLanguageCode ?? ''] = true;
 
         $updatedLanguageCodes = $this->getUpdatedLanguageCodes($contentUpdateStruct);
         foreach ($updatedLanguageCodes as $languageCode) {
@@ -240,7 +240,7 @@ class ContentMapper
     public function getUpdatedLanguageCodes(ContentUpdateStruct $contentUpdateStruct): array
     {
         $languageCodes = [
-            $contentUpdateStruct->initialLanguageCode => true,
+            $contentUpdateStruct->initialLanguageCode ?? '' => true,
         ];
 
         foreach ($contentUpdateStruct->fields as $field) {

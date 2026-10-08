@@ -54,14 +54,12 @@ trait MultiLanguageTestTrait
         $defaultLanguageProperty = $reflection->getProperty('mainLanguageCode');
 
         // set not defined language to force default one
-        $prioritizedLanguagesProperty->setAccessible(true);
         $prioritizedLanguagesProperty->setValue($object, ['ger-DE']);
 
         $names = $object->getNames();
         self::assertSame($names['eng-US'], $object->getName());
 
         // set other defined language as default
-        $defaultLanguageProperty->setAccessible(true);
         $defaultLanguageProperty->setValue($object, 'pol-PL');
         self::assertSame($names['pol-PL'], $object->getName());
     }
@@ -100,10 +98,8 @@ trait MultiLanguageTestTrait
         $prioritizedLanguagesProperty = $reflection->getProperty('prioritizedLanguages');
 
         $defaultLanguageProperty = $reflection->getProperty('mainLanguageCode');
-        $defaultLanguageProperty->setAccessible(true);
 
         // set not defined language to force default one
-        $prioritizedLanguagesProperty->setAccessible(true);
         $prioritizedLanguagesProperty->setValue($object, ['ger-DE']);
 
         $descriptions = $object->getDescriptions();

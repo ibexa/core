@@ -61,7 +61,6 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter $slugConverter */
         $slugConverterRef = new ReflectionClass(SlugConverter::class);
         $configurationPropertyRef = $slugConverterRef->getProperty('configuration');
-        $configurationPropertyRef->setAccessible(true);
         $configuration = $configurationPropertyRef->getValue($this->container->get(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class));
 
         self::assertEquals('urlalias', $configuration['transformation']);

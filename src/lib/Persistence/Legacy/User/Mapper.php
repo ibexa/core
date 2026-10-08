@@ -70,7 +70,7 @@ class Mapper
         $policies = [];
         foreach ($data as $row) {
             $policyId = $row['ibexa_policy_id'];
-            if (!isset($policies[$policyId]) && ($policyId !== null)) {
+            if ($policyId !== null && !isset($policies[$policyId])) {
                 $originalId = null;
                 if ($row['ibexa_policy_original_id']) {
                     $originalId = (int)$row['ibexa_policy_original_id'];

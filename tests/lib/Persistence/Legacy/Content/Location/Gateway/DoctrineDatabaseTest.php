@@ -559,7 +559,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gatewayReflection = new \ReflectionObject($gateway);
         $methodReflection = $gatewayReflection->getMethod('getMainNodeId');
-        $methodReflection->setAccessible(true);
         self::assertEquals($mainLocation->id, $res = $methodReflection->invoke($gateway, 68));
     }
 

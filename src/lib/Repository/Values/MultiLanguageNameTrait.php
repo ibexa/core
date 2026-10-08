@@ -41,6 +41,8 @@ trait MultiLanguageNameTrait
             return $this->names[$this->mainLanguageCode];
         }
 
-        return $this->names[array_key_first($this->names)] ?? null;
+        $firstKey = array_key_first($this->names);
+
+        return null === $firstKey ? null : ($this->names[$firstKey] ?? null);
     }
 }
