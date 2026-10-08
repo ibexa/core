@@ -4,9 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Command;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -27,27 +30,27 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class CopySubtreeCommand extends Command implements BackwardCompatibleCommand
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     private $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeService */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchService */
     private $searchService;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\LocationService $locationService
-     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $permissionResolver
-     * @param \Ibexa\Contracts\Core\Repository\UserService $userService
-     * @param \Ibexa\Contracts\Core\Repository\ContentTypeService $contentTypeService
-     * @param \Ibexa\Contracts\Core\Repository\SearchService $searchService
+     * @param LocationService $locationService
+     * @param PermissionResolver $permissionResolver
+     * @param UserService $userService
+     * @param ContentTypeService $contentTypeService
+     * @param SearchService $searchService
      */
     public function __construct(
         LocationService $locationService,
@@ -90,13 +93,15 @@ class CopySubtreeCommand extends Command implements BackwardCompatibleCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
+    protected function initialize(
+        InputInterface $input,
+        OutputInterface $output
+    ) {
         parent::initialize($input, $output);
         $this->permissionResolver->setCurrentUserReference(
             $this->userService->loadUserByLogin($input->getOption('user'))
@@ -104,18 +109,20 @@ class CopySubtreeCommand extends Command implements BackwardCompatibleCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      *
      * @return int|null
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $sourceLocationId = $input->getArgument('source-location-id');
         $targetLocationId = $input->getArgument('target-location-id');
 
@@ -166,7 +173,7 @@ class CopySubtreeCommand extends Command implements BackwardCompatibleCommand
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
      * @return int
      *

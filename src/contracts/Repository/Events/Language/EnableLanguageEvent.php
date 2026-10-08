@@ -13,10 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 
 final class EnableLanguageEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
+    /** @var Language */
     private $enabledLanguage;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
+    /** @var Language */
     private $language;
 
     public function __construct(

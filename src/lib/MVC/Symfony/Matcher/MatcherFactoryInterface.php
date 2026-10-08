@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Matcher;
 
 use Ibexa\Core\MVC\Symfony\View\View;
@@ -16,7 +17,7 @@ interface MatcherFactoryInterface
      *
      * $valueObject can be for example a Location or a Content object.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\View $view
+     * @param View $view
      *
      * @return array|null The matched configuration as a hash, containing template or controller to use, or null if not matched.
      */

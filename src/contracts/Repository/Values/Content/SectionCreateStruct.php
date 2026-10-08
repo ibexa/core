@@ -12,8 +12,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
  * This class represents a section.
  * $identifier and $name are required.
  */
-class SectionCreateStruct extends SectionStruct
-{
-}
+class SectionCreateStruct extends SectionStruct {}
 
 class_alias(SectionCreateStruct::class, 'eZ\Publish\API\Repository\Values\Content\SectionCreateStruct');

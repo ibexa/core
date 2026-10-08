@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Container\ApiLoader;
 
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
@@ -44,7 +45,7 @@ class RepositoryFactory implements ContainerAwareInterface
      */
     protected $policyMap = [];
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
+    /** @var LanguageResolver */
     private $languageResolver;
 
     public function __construct(
@@ -124,15 +125,17 @@ class RepositoryFactory implements ContainerAwareInterface
     /**
      * Returns a service based on a name string (content => contentService, etc).
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param string $serviceName
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @return mixed
      */
-    public function buildService(Repository $repository, $serviceName)
-    {
+    public function buildService(
+        Repository $repository,
+        $serviceName
+    ) {
         $methodName = 'get' . $serviceName . 'Service';
         if (!method_exists($repository, $methodName)) {
             throw new InvalidArgumentException($serviceName, 'No such service');

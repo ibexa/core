@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+
 /**
  * This class is used for creating a new content object.
  *
- * @property \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields
+ * @property Field[] $fields
  */
 abstract class ContentCreateStruct extends ContentStruct
 {
@@ -20,7 +22,7 @@ abstract class ContentCreateStruct extends ContentStruct
      *
      * Required.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @var ContentType
      */
     public $contentType;
 

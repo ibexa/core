@@ -17,16 +17,16 @@ use UnexpectedValueException;
 
 final class BeforeCopyContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct */
+    /** @var LocationCreateStruct */
     private $destinationLocationCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
+    /** @var VersionInfo */
     private $versionInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content|null */
+    /** @var Content|null */
     private $content;
 
     public function __construct(

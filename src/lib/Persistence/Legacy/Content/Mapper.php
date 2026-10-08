@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\Event\Mapper\ResolveMissingFieldEvent;
@@ -12,12 +13,14 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -80,13 +83,15 @@ class Mapper
     /**
      * Creates a Content from the given $struct and $currentVersionNo.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\CreateStruct $struct
+     * @param CreateStruct $struct
      * @param mixed $currentVersionNo
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
+     * @return ContentInfo
      */
-    private function createContentInfoFromCreateStruct(CreateStruct $struct, $currentVersionNo = 1)
-    {
+    private function createContentInfoFromCreateStruct(
+        CreateStruct $struct,
+        $currentVersionNo = 1
+    ) {
         $contentInfo = new ContentInfo();
 
         $contentInfo->id = null;
@@ -115,13 +120,15 @@ class Mapper
     /**
      * Creates a new version for the given $struct and $versionNo.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\CreateStruct $struct
+     * @param CreateStruct $struct
      * @param mixed $versionNo
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
+     * @return VersionInfo
      */
-    public function createVersionInfoFromCreateStruct(CreateStruct $struct, $versionNo)
-    {
+    public function createVersionInfoFromCreateStruct(
+        CreateStruct $struct,
+        $versionNo
+    ) {
         $versionInfo = new VersionInfo();
 
         $versionInfo->id = null;
@@ -148,15 +155,19 @@ class Mapper
     /**
      * Creates a new version for the given $content.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $content
+     * @param Content $content
      * @param mixed $versionNo
      * @param mixed $userId
      * @param string|null $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
+     * @return VersionInfo
      */
-    public function createVersionInfoForContent(Content $content, $versionNo, $userId, ?string $languageCode = null)
-    {
+    public function createVersionInfoForContent(
+        Content $content,
+        $versionNo,
+        $userId,
+        ?string $languageCode = null
+    ) {
         $versionInfo = new VersionInfo();
 
         $versionInfo->contentInfo = $content->versionInfo->contentInfo;
@@ -175,9 +186,9 @@ class Mapper
     /**
      * Converts value of $field to storage value.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param Field $field
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue
+     * @return StorageFieldValue
      */
     public function convertToStorageValue(Field $field)
     {
@@ -205,7 +216,7 @@ class Mapper
      * @param string $prefix
      * @param array<string>|null $translations
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content[]
+     * @return Content[]
      */
     public function extractContentFromRows(
         array $rows,
@@ -276,7 +287,7 @@ class Mapper
      * @phpstan-param TVersionedLanguageFieldDefinitionsMap $missingFieldDefinitions
      * @phpstan-param TVersionedNameMap $versionedNames
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content[]
+     * @return Content[]
      */
     private function buildContentObjects(
         array $contentInfos,
@@ -377,10 +388,13 @@ class Mapper
      * @param string $prefix Prefix for row keys, which are initially mapped by ezcontentobject fields
      * @param string $treePrefix Prefix for tree row key, which are initially mapped by ezcontentobject_tree_ fields
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
+     * @return ContentInfo
      */
-    public function extractContentInfoFromRow(array $row, $prefix = '', $treePrefix = 'ezcontentobject_tree_')
-    {
+    public function extractContentInfoFromRow(
+        array $row,
+        $prefix = '',
+        $treePrefix = 'ezcontentobject_tree_'
+    ) {
         $contentInfo = new ContentInfo();
         $contentInfo->id = (int)$row["{$prefix}id"];
         $contentInfo->name = (string)$row["{$prefix}name"];
@@ -408,10 +422,13 @@ class Mapper
      * @param string $prefix Prefix for row keys, which are initially mapped by ezcontentobject fields
      * @param string $treePrefix Prefix for tree row key, which are initially mapped by ezcontentobject_tree_ fields
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
+     * @return ContentInfo[]
      */
-    public function extractContentInfoFromRows(array $rows, $prefix = '', $treePrefix = 'ezcontentobject_tree_')
-    {
+    public function extractContentInfoFromRows(
+        array $rows,
+        $prefix = '',
+        $treePrefix = 'ezcontentobject_tree_'
+    ) {
         $contentInfoObjects = [];
         foreach ($rows as $row) {
             $contentInfoObjects[] = $this->extractContentInfoFromRow($row, $prefix, $treePrefix);
@@ -429,10 +446,12 @@ class Mapper
      * @param array $row
      * @param array $names
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
+     * @return VersionInfo
      */
-    private function extractVersionInfoFromRow(array $row, array $names = [])
-    {
+    private function extractVersionInfoFromRow(
+        array $row,
+        array $names = []
+    ) {
         $versionInfo = new VersionInfo();
         $versionInfo->id = (int)$row['ezcontentobject_version_id'];
         $versionInfo->contentInfo = null;
@@ -473,10 +492,12 @@ class Mapper
      * @phpstan-param TRawContentRow[] $rows
      * @phpstan-param TRawContentRow[] $nameRows
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[]
+     * @return VersionInfo[]
      */
-    public function extractVersionInfoListFromRows(array $rows, array $nameRows)
-    {
+    public function extractVersionInfoListFromRows(
+        array $rows,
+        array $nameRows
+    ) {
         $nameData = [];
         foreach ($nameRows as $row) {
             $versionId = $row['ezcontentobject_name_contentobject_id'] . '_' . $row['ezcontentobject_name_content_version'];
@@ -524,13 +545,16 @@ class Mapper
 
     /**
      * @param int $languageMask
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language[] $allLanguages
+     * @param Language[] $allLanguages
      * @param int[] &$missing
      *
      * @return string[]
      */
-    private function extractLanguageCodesFromMask(int $languageMask, array $allLanguages, &$missing = [])
-    {
+    private function extractLanguageCodesFromMask(
+        int $languageMask,
+        array $allLanguages,
+        &$missing = []
+    ) {
         $exp = 2;
         $result = [];
 
@@ -552,7 +576,7 @@ class Mapper
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
+     * @return Language[]
      */
     private function loadAllLanguagesWithIdKey()
     {
@@ -569,7 +593,7 @@ class Mapper
      *
      * @param array $row
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field
+     * @return Field
      */
     protected function extractFieldFromRow(array $row)
     {
@@ -593,13 +617,15 @@ class Mapper
      * @param array $row
      * @param string $type
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @return FieldValue
      *
-     * @throws \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
+     * @throws NotFound
      *         if the necessary converter for $type could not be found.
      */
-    protected function extractFieldValueFromRow(array $row, $type)
-    {
+    protected function extractFieldValueFromRow(
+        array $row,
+        $type
+    ) {
         $storageValue = new StorageFieldValue();
 
         // Nullable field
@@ -626,9 +652,9 @@ class Mapper
     /**
      * Creates CreateStruct from $content.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $content
+     * @param Content $content
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\CreateStruct
+     * @return CreateStruct
      */
     public function createCreateStructFromContent(Content $content)
     {
@@ -676,7 +702,7 @@ class Mapper
      *
      * @param array $row Associative array representing a relation
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation
+     * @return Relation
      */
     public function extractRelationFromRow(array $row)
     {
@@ -698,9 +724,9 @@ class Mapper
     /**
      * Creates a Content from the given $struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct $struct
+     * @param RelationCreateStruct $struct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation
+     * @return Relation
      */
     public function createRelationFromCreateStruct(RelationCreateStruct $struct)
     {

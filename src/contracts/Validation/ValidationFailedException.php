@@ -31,8 +31,10 @@ final class ValidationFailedException extends InvalidArgumentException
         return $this->errors;
     }
 
-    private function createMessage(string $argumentName, ConstraintViolationListInterface $errors): string
-    {
+    private function createMessage(
+        string $argumentName,
+        ConstraintViolationListInterface $errors
+    ): string {
         if ($errors->count() === 0) {
             throw new \InvalidArgumentException(sprintf(
                 'Cannot create %s with empty validation error list.',

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\ObjectState;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
@@ -24,21 +25,21 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Object state handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
+     * @var Handler
      */
     protected $objectStateHandler;
 
     /**
      * Object state gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
     /**
      * Object state mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
@@ -252,33 +253,38 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
                 )
             );
 
-        $gatewayMock->expects($this->exactly(2))
-            ->method('deleteObjectStateLinks');
+        // Records the call order across both methods: links of a state are removed before the state itself
+        $calls = [];
 
         $gatewayMock->expects($this->exactly(2))
-            ->method('deleteObjectState');
-
-        $gatewayMock->expects($this->at(1))
             ->method('deleteObjectStateLinks')
-            ->with($this->equalTo(1));
+            ->withConsecutive([$this->equalTo(1)], [$this->equalTo(2)])
+            ->willReturnCallback(static function (int $stateId) use (&$calls): void {
+                $calls[] = ['deleteObjectStateLinks', $stateId];
+            });
 
-        $gatewayMock->expects($this->at(2))
+        $gatewayMock->expects($this->exactly(2))
             ->method('deleteObjectState')
-            ->with($this->equalTo(1));
-
-        $gatewayMock->expects($this->at(3))
-            ->method('deleteObjectStateLinks')
-            ->with($this->equalTo(2));
-
-        $gatewayMock->expects($this->at(4))
-            ->method('deleteObjectState')
-            ->with($this->equalTo(2));
+            ->withConsecutive([$this->equalTo(1)], [$this->equalTo(2)])
+            ->willReturnCallback(static function (int $stateId) use (&$calls): void {
+                $calls[] = ['deleteObjectState', $stateId];
+            });
 
         $gatewayMock->expects($this->once())
             ->method('deleteObjectStateGroup')
             ->with($this->equalTo(2));
 
         $handler->deleteGroup(2);
+
+        self::assertSame(
+            [
+                ['deleteObjectStateLinks', 1],
+                ['deleteObjectState', 1],
+                ['deleteObjectStateLinks', 2],
+                ['deleteObjectState', 2],
+            ],
+            $calls
+        );
     }
 
     public function testCreate()
@@ -451,19 +457,12 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
             );
 
         $gatewayMock->expects($this->exactly(3))
-            ->method('updateObjectStatePriority');
-
-        $gatewayMock->expects($this->at(2))
             ->method('updateObjectStatePriority')
-            ->with($this->equalTo(2), $this->equalTo(0));
-
-        $gatewayMock->expects($this->at(3))
-            ->method('updateObjectStatePriority')
-            ->with($this->equalTo(1), $this->equalTo(1));
-
-        $gatewayMock->expects($this->at(4))
-            ->method('updateObjectStatePriority')
-            ->with($this->equalTo(3), $this->equalTo(2));
+            ->withConsecutive(
+                [$this->equalTo(2), $this->equalTo(0)],
+                [$this->equalTo(1), $this->equalTo(1)],
+                [$this->equalTo(3), $this->equalTo(2)]
+            );
 
         $handler->setPriority(2, 0);
     }
@@ -580,7 +579,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     protected function getObjectStateFixture()
     {
@@ -590,7 +589,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state group.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     protected function getObjectStateGroupFixture()
     {
@@ -600,7 +599,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns the InputStruct.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
+     * @return InputStruct
      */
     protected function getInputStructFixture()
     {
@@ -610,7 +609,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns the object state handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
+     * @return Handler
      */
     protected function getObjectStateHandler()
     {
@@ -627,7 +626,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
+     * @return Mapper
      */
     protected function getMapperMock()
     {
@@ -644,7 +643,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a mock for the object state gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway
+     * @return Gateway
      */
     protected function getGatewayMock()
     {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Translation;
 
 use Doctrine\Common\Annotations\DocParser;
@@ -40,8 +41,10 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
 
     private DocParser $docParser;
 
-    public function __construct(DocParser $docParser, FileSourceFactory $fileSourceFactory)
-    {
+    public function __construct(
+        DocParser $docParser,
+        FileSourceFactory $fileSourceFactory
+    ) {
         parent::__construct($docParser, $fileSourceFactory);
         $this->fileSourceFactory = $fileSourceFactory;
         $this->docParser = $docParser;
@@ -87,8 +90,11 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
         $this->catalogue->add($message);
     }
 
-    public function visitPhpFile(SplFileInfo $file, MessageCatalogue $catalogue, array $ast): void
-    {
+    public function visitPhpFile(
+        SplFileInfo $file,
+        MessageCatalogue $catalogue,
+        array $ast
+    ): void {
         $this->file = $file;
         $this->catalogue = $catalogue;
         $this->traverser->traverse($ast);

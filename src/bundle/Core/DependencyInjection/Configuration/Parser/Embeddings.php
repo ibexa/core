@@ -54,8 +54,10 @@ final class Embeddings extends AbstractParser
     /**
      * @param array<mixed> $config
      */
-    public function preMap(array $config, ContextualizerInterface $contextualizer): void
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ): void {
         $contextualizer->mapConfigArray('embedding_models', $config);
         $contextualizer->mapSetting('default_embedding_model', $config);
     }
@@ -63,8 +65,11 @@ final class Embeddings extends AbstractParser
     /**
      * @param array<mixed> $scopeSettings
      */
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ): void {
         // Nothing to do here.
     }
 }

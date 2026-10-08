@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeId>
+ * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<ContentTypeIdCriterion>
  */
 final class ContentTypeId implements CriterionHandlerInterface
 {
@@ -27,7 +27,7 @@ final class ContentTypeId implements CriterionHandlerInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeId $criterion
+     * @param ContentTypeIdCriterion $criterion
      */
     public function apply(
         CriterionVisitor $criterionVisitor,

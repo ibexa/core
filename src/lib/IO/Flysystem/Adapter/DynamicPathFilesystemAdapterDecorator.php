@@ -22,8 +22,10 @@ final class DynamicPathFilesystemAdapterDecorator implements FilesystemAdapter
 
     private PathPrefixerInterface $prefixer;
 
-    public function __construct(FilesystemAdapter $innerAdapter, PathPrefixerInterface $prefixer)
-    {
+    public function __construct(
+        FilesystemAdapter $innerAdapter,
+        PathPrefixerInterface $prefixer
+    ) {
         $this->innerAdapter = $innerAdapter;
         $this->prefixer = $prefixer;
     }
@@ -35,15 +37,21 @@ final class DynamicPathFilesystemAdapterDecorator implements FilesystemAdapter
         return $this->innerAdapter->fileExists($path);
     }
 
-    public function write(string $path, string $contents, Config $config): void
-    {
+    public function write(
+        string $path,
+        string $contents,
+        Config $config
+    ): void {
         $path = $this->prefixer->prefixPath($path);
 
         $this->innerAdapter->write($path, $contents, $config);
     }
 
-    public function writeStream(string $path, $contents, Config $config): void
-    {
+    public function writeStream(
+        string $path,
+        $contents,
+        Config $config
+    ): void {
         $path = $this->prefixer->prefixPath($path);
 
         $this->innerAdapter->writeStream($path, $contents, $config);
@@ -77,15 +85,19 @@ final class DynamicPathFilesystemAdapterDecorator implements FilesystemAdapter
         $this->innerAdapter->deleteDirectory($path);
     }
 
-    public function createDirectory(string $path, Config $config): void
-    {
+    public function createDirectory(
+        string $path,
+        Config $config
+    ): void {
         $path = $this->prefixer->prefixPath($path);
 
         $this->innerAdapter->createDirectory($path, $config);
     }
 
-    public function setVisibility(string $path, string $visibility): void
-    {
+    public function setVisibility(
+        string $path,
+        string $visibility
+    ): void {
         $path = $this->prefixer->prefixPath($path);
 
         $this->innerAdapter->setVisibility($path, $visibility);
@@ -119,8 +131,10 @@ final class DynamicPathFilesystemAdapterDecorator implements FilesystemAdapter
         return $this->innerAdapter->fileSize($path);
     }
 
-    public function listContents(string $path, bool $deep): iterable
-    {
+    public function listContents(
+        string $path,
+        bool $deep
+    ): iterable {
         $path = $this->prefixer->prefixPath($path);
 
         foreach ($this->innerAdapter->listContents($path, $deep) as $storageAttributes) {
@@ -132,16 +146,22 @@ final class DynamicPathFilesystemAdapterDecorator implements FilesystemAdapter
         yield from [];
     }
 
-    public function move(string $source, string $destination, Config $config): void
-    {
+    public function move(
+        string $source,
+        string $destination,
+        Config $config
+    ): void {
         $source = $this->prefixer->prefixPath($source);
         $destination = $this->prefixer->prefixPath($destination);
 
         $this->innerAdapter->move($source, $destination, $config);
     }
 
-    public function copy(string $source, string $destination, Config $config): void
-    {
+    public function copy(
+        string $source,
+        string $destination,
+        Config $config
+    ): void {
         $sourcePath = $this->prefixer->prefixPath($source);
         $destinationPath = $this->prefixer->prefixPath($destination);
 

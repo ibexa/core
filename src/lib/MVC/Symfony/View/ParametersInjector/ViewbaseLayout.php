@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\View\ParametersInjector;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -19,11 +20,13 @@ class ViewbaseLayout implements EventSubscriberInterface
     /** @var string */
     private $viewbaseLayout;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    public function __construct($viewbaseLayout, ConfigResolverInterface $configResolver)
-    {
+    public function __construct(
+        $viewbaseLayout,
+        ConfigResolverInterface $configResolver
+    ) {
         $this->viewbaseLayout = $viewbaseLayout;
         $this->configResolver = $configResolver;
     }

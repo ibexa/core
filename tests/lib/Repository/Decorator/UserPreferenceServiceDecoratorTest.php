@@ -17,8 +17,7 @@ class UserPreferenceServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): UserPreferenceService
     {
-        return new class($service) extends UserPreferenceServiceDecorator {
-        };
+        return new class($service) extends UserPreferenceServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

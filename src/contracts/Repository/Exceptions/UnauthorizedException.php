@@ -14,8 +14,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
 /**
  * This Exception is thrown if the user has is not allowed to perform a service operation.
  */
-abstract class UnauthorizedException extends Exception implements RepositoryException
-{
-}
+abstract class UnauthorizedException extends Exception implements RepositoryException {}
 
 class_alias(UnauthorizedException::class, 'eZ\Publish\API\Repository\Exceptions\UnauthorizedException');

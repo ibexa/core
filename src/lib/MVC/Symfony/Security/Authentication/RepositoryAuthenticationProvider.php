@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Security\Authentication;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SecurityPass;
@@ -29,10 +30,10 @@ class RepositoryAuthenticationProvider extends DaoAuthenticationProvider impleme
     /** @var float|null */
     private $constantAuthTime;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     private $userService;
 
     public function setConstantAuthTime(float $constantAuthTime)
@@ -50,8 +51,10 @@ class RepositoryAuthenticationProvider extends DaoAuthenticationProvider impleme
         $this->userService = $userService;
     }
 
-    protected function checkAuthentication(UserInterface $user, UsernamePasswordToken $token)
-    {
+    protected function checkAuthentication(
+        UserInterface $user,
+        UsernamePasswordToken $token
+    ) {
         if (!$user instanceof IbexaUserInterface) {
             parent::checkAuthentication($user, $token);
 
@@ -61,7 +64,7 @@ class RepositoryAuthenticationProvider extends DaoAuthenticationProvider impleme
         $apiUser = $user->getAPIUser();
 
         // $currentUser can either be an instance of UserInterface or just the username (e.g. during form login).
-        /** @var \Ibexa\Core\MVC\Symfony\Security\UserInterface|string $currentUser */
+        /** @var IbexaUserInterface|string $currentUser */
         $currentUser = $token->getUser();
         if ($currentUser instanceof UserInterface) {
             if ($currentUser->getAPIUser()->passwordHash !== $apiUser->passwordHash) {
@@ -82,7 +85,7 @@ class RepositoryAuthenticationProvider extends DaoAuthenticationProvider impleme
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PasswordInUnsupportedFormatException
+     * @throws PasswordInUnsupportedFormatException
      */
     public function authenticate(TokenInterface $token)
     {

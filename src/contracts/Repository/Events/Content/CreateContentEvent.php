@@ -14,13 +14,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 
 final class CreateContentEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct */
+    /** @var ContentCreateStruct */
     private $contentCreateStruct;
 
     /** @var array */
     private $locationCreateStructs;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $content;
 
     /** @var string[]|null */

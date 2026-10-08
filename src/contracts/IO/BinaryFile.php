@@ -4,7 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\IO;
+
+use Ibexa\Core\IO\IOMetadataHandler;
+use Ibexa\Core\IO\IOServiceInterface;
 
 /**
  * This class provides an abstract access to binary files.
@@ -48,7 +52,7 @@ class BinaryFile
      *
      * Example: text/xml
      *
-     * @deprecated Since 5.3.3, use {@see \Ibexa\Core\IO\IOServiceInterface::getMimeType()} or {@see \Ibexa\Core\IO\IOMetadataHandler::getMimeType()}
+     * @deprecated Since 5.3.3, use {@see IOServiceInterface::getMimeType()} or {@see IOMetadataHandler::getMimeType()}
      *
      * @var string
      */

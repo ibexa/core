@@ -4,21 +4,23 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\IO;
 
 use Ibexa\Core\IO\UrlDecorator;
 use Ibexa\Core\IO\UrlRedecorator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class UrlRedecoratorTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\UrlRedecorator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UrlRedecorator|MockObject */
     private $redecorator;
 
-    /** @var \Ibexa\Core\IO\UrlDecorator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UrlDecorator|MockObject */
     private $sourceDecoratorMock;
 
-    /** @var \Ibexa\Core\IO\UrlDecorator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UrlDecorator|MockObject */
     private $targetDecoratorMock;
 
     protected function setUp(): void

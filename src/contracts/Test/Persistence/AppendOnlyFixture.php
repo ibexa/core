@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Test\Persistence;
 
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
+
 /**
  * A fixture whose rows are added to whatever the tables already hold, instead of replacing it.
  *
- * {@see \Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter} normally truncates every
+ * {@see FixtureImporter} normally truncates every
  * table a fixture touches before inserting, because a plain fixture is assumed to be the sole
  * author of those tables. That assumption breaks when the baseline content arrives some other way
  * - notably when the Doctrine Migrations install path has already inserted it via
@@ -23,6 +25,4 @@ namespace Ibexa\Contracts\Core\Test\Persistence;
  *
  * @internal for internal use by Repository test setup
  */
-interface AppendOnlyFixture extends Fixture
-{
-}
+interface AppendOnlyFixture extends Fixture {}

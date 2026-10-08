@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
@@ -13,18 +14,19 @@ use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ContentPreviewHelperTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $eventDispatcher;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $siteAccessRouter;
 
-    /** @var \Ibexa\Core\Helper\ContentPreviewHelper */
+    /** @var ContentPreviewHelper */
     private $previewHelper;
 
     protected function setUp(): void

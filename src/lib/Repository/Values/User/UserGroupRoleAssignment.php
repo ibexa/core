@@ -23,28 +23,28 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
     /**
      * the limitation of this role assignment.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation|null
+     * @var APIRoleLimitation|null
      */
     protected $limitation;
 
     /**
      * the role which is assigned to the user group.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\Role
+     * @var APIRole
      */
     protected $role;
 
     /**
      * user group to which the role is assigned to.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @var APIUserGroup
      */
     protected $userGroup;
 
     /**
      * Returns the limitation of the role assignment.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation|null
+     * @return APIRoleLimitation|null
      */
     public function getRoleLimitation(): ?APIRoleLimitation
     {
@@ -54,7 +54,7 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
     /**
      * Returns the role to which the user group is assigned to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
+     * @return APIRole
      */
     public function getRole(): APIRole
     {
@@ -64,7 +64,7 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
     /**
      * Returns the user group to which the role is assigned to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return APIUserGroup
      */
     public function getUserGroup(): APIUserGroup
     {

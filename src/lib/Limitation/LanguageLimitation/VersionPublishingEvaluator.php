@@ -25,8 +25,10 @@ final class VersionPublishingEvaluator implements VersionTargetEvaluator
     /**
      * Evaluate publishing a specific translation of a Version.
      */
-    public function evaluate(Target\Version $targetVersion, Limitation $limitationValue): ?bool
-    {
+    public function evaluate(
+        Target\Version $targetVersion,
+        Limitation $limitationValue
+    ): ?bool {
         $diff = array_diff(
             $targetVersion->forPublishLanguageCodesList,
             $limitationValue->limitationValues

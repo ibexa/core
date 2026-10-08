@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\QueryTypePass;
@@ -16,8 +17,10 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository\Storag
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
 use Ibexa\Bundle\Core\Features\Context\QueryControllerContext;
-use Ibexa\Contracts\Core\Repository\Values\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
+use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomCriterionQueryBuilder;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomSortClauseQueryBuilder;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryType\TestQueryType;
@@ -36,7 +39,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
 
     private $siteaccessConfig = [];
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension */
+    /** @var IbexaCoreExtension */
     private $extension;
 
     protected function setUp(): void
@@ -256,6 +259,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->assertTrue($this->container->hasParameter('ibexa.default_router.non_site_access_aware_routes'));
         $nonSiteaccessAwareRoutes = $this->container->getParameter('ibexa.default_router.non_site_access_aware_routes');
         // See ezpublish_minimal_no_siteaccess.yml fixture
+        $this->assertIsArray($nonSiteaccessAwareRoutes);
         $this->assertContains('foo_route', $nonSiteaccessAwareRoutes);
         $this->assertContains('my_prefix_', $nonSiteaccessAwareRoutes);
     }
@@ -266,8 +270,10 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
      * @param array $customCacheConfig
      * @param string $expectedPurgeType
      */
-    public function testCacheConfiguration(array $customCacheConfig, $expectedPurgeType)
-    {
+    public function testCacheConfiguration(
+        array $customCacheConfig,
+        $expectedPurgeType
+    ) {
         $this->load($customCacheConfig);
 
         $this->assertContainerBuilderHasParameter('ibexa.http_cache.purge_type', $expectedPurgeType);
@@ -384,8 +390,10 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     /**
      * @dataProvider repositoriesConfigurationFieldGroupsProvider
      */
-    public function testRepositoriesConfigurationFieldGroups($repositories, $expectedRepositories)
-    {
+    public function testRepositoriesConfigurationFieldGroups(
+        $repositories,
+        $expectedRepositories
+    ) {
         $this->load(['repositories' => $repositories]);
         $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
 
@@ -836,7 +844,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     /**
      * Test automatic configuration of services implementing QueryType interface.
      *
-     * @see \Ibexa\Core\QueryType\QueryType
+     * @see QueryType
      */
     public function testQueryTypeAutomaticConfiguration(): void
     {
@@ -860,8 +868,8 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
      *
      * @dataProvider getFilteringQueryBuilderData
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder
-     * @see \Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder
+     * @see CriterionQueryBuilder
+     * @see SortClauseQueryBuilder
      */
     public function testFilteringQueryBuildersAutomaticConfiguration(
         string $classFQCN,
@@ -886,12 +894,12 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
      */
     public function getFilteringQueryBuilderData(): iterable
     {
-        yield Filter\CriterionQueryBuilder::class => [
+        yield CriterionQueryBuilder::class => [
             CustomCriterionQueryBuilder::class,
             ServiceTags::FILTERING_CRITERION_QUERY_BUILDER,
         ];
 
-        yield Filter\SortClauseQueryBuilder::class => [
+        yield SortClauseQueryBuilder::class => [
             CustomSortClauseQueryBuilder::class,
             ServiceTags::FILTERING_SORT_CLAUSE_QUERY_BUILDER,
         ];

@@ -22,11 +22,11 @@ class TrashItem extends APITrashItem
     /**
      * Content info of the content object of this trash item.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @var APIContentInfo
      */
     protected $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     protected $parentLocation;
 
     /** @var array<int, int> */
@@ -35,7 +35,7 @@ class TrashItem extends APITrashItem
     /**
      * Returns the content info of the content object of this trash item.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return APIContentInfo
      */
     public function getContentInfo(): APIContentInfo
     {
@@ -66,8 +66,10 @@ class TrashItem extends APITrashItem
      *
      * @return array
      */
-    protected function getProperties($dynamicProperties = ['contentId', 'path'])
-    {
+    protected function getProperties(
+        $dynamicProperties = ['contentId',
+        'path']
+    ) {
         return parent::getProperties($dynamicProperties);
     }
 

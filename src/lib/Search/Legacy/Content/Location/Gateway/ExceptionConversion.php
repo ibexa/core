@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\DBALException;
@@ -20,14 +21,14 @@ class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Location\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Location\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {

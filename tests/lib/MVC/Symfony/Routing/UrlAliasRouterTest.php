@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -20,6 +21,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,24 +34,24 @@ use Symfony\Component\Routing\RouterInterface;
 
 class UrlAliasRouterTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $repository;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $urlAliasService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $locationService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $contentService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $urlALiasGenerator;
 
     protected $requestContext;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter */
+    /** @var UrlAliasRouter */
     protected $router;
 
     protected function setUp(): void
@@ -85,16 +87,21 @@ class UrlAliasRouterTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\LocationService $locationService
-     * @param \Ibexa\Contracts\Core\Repository\URLAliasService $urlAliasService
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
-     * @param \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator $urlAliasGenerator
-     * @param \Symfony\Component\Routing\RequestContext $requestContext
+     * @param LocationService $locationService
+     * @param URLAliasService $urlAliasService
+     * @param ContentService $contentService
+     * @param UrlAliasGenerator $urlAliasGenerator
+     * @param RequestContext $requestContext
      *
-     * @return \Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter
+     * @return UrlAliasRouter
      */
-    protected function getRouter(LocationService $locationService, URLAliasService $urlAliasService, ContentService $contentService, UrlAliasGenerator $urlAliasGenerator, RequestContext $requestContext)
-    {
+    protected function getRouter(
+        LocationService $locationService,
+        URLAliasService $urlAliasService,
+        ContentService $contentService,
+        UrlAliasGenerator $urlAliasGenerator,
+        RequestContext $requestContext
+    ) {
         return new UrlAliasRouter($locationService, $urlAliasService, $contentService, $urlAliasGenerator, $requestContext);
     }
 
@@ -120,8 +127,10 @@ class UrlAliasRouterTest extends TestCase
     /**
      * @dataProvider providerTestSupports
      */
-    public function testSupports($routeReference, $isSupported)
-    {
+    public function testSupports(
+        $routeReference,
+        $isSupported
+    ) {
         $this->assertSame($isSupported, $this->router->supports($routeReference));
     }
 
@@ -143,7 +152,7 @@ class UrlAliasRouterTest extends TestCase
     /**
      * @param $pathInfo
      *
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      */
     protected function getRequestByPathInfo($pathInfo)
     {
@@ -168,7 +177,7 @@ class UrlAliasRouterTest extends TestCase
         $urlAlias = new URLAlias(
             [
                 'path' => $pathInfo,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => false,
             ]
@@ -203,7 +212,7 @@ class UrlAliasRouterTest extends TestCase
         $urlAlias = new URLAlias(
             [
                 'path' => $urlAliasPath,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => false,
             ]
@@ -245,7 +254,7 @@ class UrlAliasRouterTest extends TestCase
         $urlAlias = new URLAlias(
             [
                 'path' => $urlAliasPath,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => false,
             ]
@@ -286,7 +295,7 @@ class UrlAliasRouterTest extends TestCase
         $urlAlias = new URLAlias(
             [
                 'path' => $urlAliasPath,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => false,
             ]
@@ -332,7 +341,7 @@ class UrlAliasRouterTest extends TestCase
         $urlAlias = new URLAlias(
             [
                 'path' => $pathInfo,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => true,
             ]
@@ -374,7 +383,7 @@ class UrlAliasRouterTest extends TestCase
         $urlAlias = new URLAlias(
             [
                 'path' => $pathInfo,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => false,
                 'isCustom' => true,
@@ -415,7 +424,7 @@ class UrlAliasRouterTest extends TestCase
         $urlAlias = new URLAlias(
             [
                 'path' => $pathInfo,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => false,
                 'isCustom' => true,
@@ -481,7 +490,7 @@ class UrlAliasRouterTest extends TestCase
             [
                 'destination' => $destination,
                 'path' => $pathInfo,
-                'type' => UrlAlias::RESOURCE,
+                'type' => URLAlias::RESOURCE,
             ]
         );
         $request = $this->getRequestByPathInfo($pathInfo);
@@ -507,7 +516,7 @@ class UrlAliasRouterTest extends TestCase
             [
                 'destination' => $destination,
                 'path' => $pathInfo,
-                'type' => UrlAlias::RESOURCE,
+                'type' => URLAlias::RESOURCE,
                 'forward' => true,
             ]
         );
@@ -535,7 +544,7 @@ class UrlAliasRouterTest extends TestCase
             [
                 'destination' => $destination,
                 'path' => $urlAliasPath,
-                'type' => UrlAlias::RESOURCE,
+                'type' => URLAlias::RESOURCE,
                 'forward' => false,
             ]
         );
@@ -572,7 +581,7 @@ class UrlAliasRouterTest extends TestCase
             [
                 'destination' => $destination,
                 'path' => $urlAliasPath,
-                'type' => UrlAlias::RESOURCE,
+                'type' => URLAlias::RESOURCE,
                 'forward' => true,
             ]
         );
@@ -597,7 +606,7 @@ class UrlAliasRouterTest extends TestCase
         $urlAlias = new URLAlias(
             [
                 'path' => $pathInfo,
-                'type' => UrlAlias::VIRTUAL,
+                'type' => URLAlias::VIRTUAL,
             ]
         );
         $request = $this->getRequestByPathInfo($pathInfo);
@@ -622,7 +631,7 @@ class UrlAliasRouterTest extends TestCase
         $urlAlias = new URLAlias(
             [
                 'path' => $urlAliasPath,
-                'type' => UrlAlias::VIRTUAL,
+                'type' => URLAlias::VIRTUAL,
             ]
         );
         $request = $this->getRequestByPathInfo($pathInfo);

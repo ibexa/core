@@ -19,8 +19,11 @@ interface CriterionHandlerInterface
     public function supports(CriterionInterface $criterion): bool;
 
     /**
-     * @param \Doctrine\DBAL\Query\QueryBuilder $qb
+     * @param QueryBuilder $qb
      * @param T $criterion
      */
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void;
+    public function apply(
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): void;
 }

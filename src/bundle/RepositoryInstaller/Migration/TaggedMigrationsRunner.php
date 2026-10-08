@@ -8,16 +8,20 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\MigrationPlanList;
 use Doctrine\Migrations\MigratorConfiguration;
+use Doctrine\Migrations\Query\Query;
+use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RemoveTaggedMigrationsRunnerPass;
 use Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
 use Throwable;
 
 /**
  * Runs every not-yet-executed migration tagged with
- * {@see \Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG} (core's own
+ * {@see IbexaMigrationTag::TAG} (core's own
  * {@see InstallSchemaMigration} plus any other package's), via the
  * {@see IbexaOnlyDependencyFactory::SERVICE_ID} service - an independent
  * {@see DependencyFactory} that always runs against "ibexa.persistence.connection" and whose
@@ -31,13 +35,13 @@ use Throwable;
  *
  * Migrations are executed by {@see DependencyFactory::getMigrator()} - the same Migrator
  * "ibexa:doctrine:migrations:migrate" uses - so an install runs them exactly as an upgrade does:
- * each in its own transaction unless {@see \Doctrine\Migrations\AbstractMigration::isTransactional()}
+ * each in its own transaction unless {@see AbstractMigration::isTransactional()}
  * says otherwise, against a schema introspected from the live database, with the same events and
  * logging. Doctrine Migrations marks the Migrator interface and MigratorConfiguration `@internal`,
  * so they're used here only.
  *
  * This service isn't registered at all when "ibexa/doctrine-migrations" isn't installed/enabled
- * ({@see \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RemoveTaggedMigrationsRunnerPass}
+ * ({@see RemoveTaggedMigrationsRunnerPass}
  * removes its definition), so callers should depend on it as an optional (nullable) service rather
  * than expecting this class itself to handle that unavailability.
  */
@@ -51,9 +55,9 @@ final class TaggedMigrationsRunner
     }
 
     /**
-     * @return \Doctrine\Migrations\Query\Query[] All SQL statements that were executed, across all migrations run
+     * @return Query[] All SQL statements that were executed, across all migrations run
      *
-     * @throws \Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException naming the migration that failed, with the original error as its previous exception
+     * @throws MigrationFailedException naming the migration that failed, with the original error as its previous exception
      */
     public function run(): array
     {

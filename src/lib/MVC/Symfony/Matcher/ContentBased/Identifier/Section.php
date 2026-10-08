@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier;
 
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -18,7 +19,7 @@ class Section extends MultipleValued
     /**
      * Checks if a Location object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
      * @return bool
      */
@@ -38,7 +39,7 @@ class Section extends MultipleValued
     /**
      * Checks if a ContentInfo object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      *
      * @return bool
      */

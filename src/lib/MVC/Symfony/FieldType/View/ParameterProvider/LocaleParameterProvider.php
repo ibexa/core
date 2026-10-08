@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProvider;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -19,7 +20,7 @@ class LocaleParameterProvider implements ParameterProviderInterface
 {
     use RequestStackAware;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface */
+    /** @var LocaleConverterInterface */
     protected $localeConverter;
 
     public function __construct(LocaleConverterInterface $localeConverter)
@@ -33,7 +34,7 @@ class LocaleParameterProvider implements ParameterProviderInterface
      * Locale from request object will be used as locale if set, otherwise field language code
      * will be converted to locale string.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      *
      * @return array
      */

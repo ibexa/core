@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Pagination;
 
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -17,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultColle
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Core\Pagination\Pagerfanta\LocationSearchHitAdapter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LocationSearchHitAdapterTest extends TestCase
@@ -31,7 +33,7 @@ class LocationSearchHitAdapterTest extends TestCase
     private const EXAMPLE_RESULT_MAX_SCORE = 5.123;
     private const EXAMPLE_RESULT_TIME = 30.0;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SearchService|MockObject */
     protected $searchService;
 
     protected function setUp(): void
@@ -43,14 +45,17 @@ class LocationSearchHitAdapterTest extends TestCase
     /**
      * Returns the adapter to test.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
-     * @param \Ibexa\Contracts\Core\Repository\SearchService $searchService
+     * @param LocationQuery $query
+     * @param SearchService $searchService
      * @param array $languageFilter
      *
-     * @return \Ibexa\Core\Pagination\Pagerfanta\LocationSearchHitAdapter
+     * @return LocationSearchHitAdapter
      */
-    protected function getAdapter(LocationQuery $query, SearchService $searchService, array $languageFilter = [])
-    {
+    protected function getAdapter(
+        LocationQuery $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         return new LocationSearchHitAdapter($query, $searchService, $languageFilter);
     }
 
@@ -176,8 +181,10 @@ class LocationSearchHitAdapterTest extends TestCase
         return $hits;
     }
 
-    private function createTestQuery(int $limit = 25, int $offset = 0): LocationQuery
-    {
+    private function createTestQuery(
+        int $limit = 25,
+        int $offset = 0
+    ): LocationQuery {
         $query = new LocationQuery();
         $query->query = $this->createMock(CriterionInterface::class);
         $query->aggregations[] = $this->createMock(Aggregation::class);

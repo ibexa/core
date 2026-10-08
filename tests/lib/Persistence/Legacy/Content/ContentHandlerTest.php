@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content;
@@ -32,6 +33,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionException;
 
 /**
@@ -44,75 +46,75 @@ class ContentHandlerTest extends TestCase
     /**
      * Content handler to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Handler
+     * @var Handler
      */
     protected $contentHandler;
 
     /**
      * Gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var ContentGateway
      */
     protected $gatewayMock;
 
     /**
      * Location gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @var LocationGateway
      */
     protected $locationGatewayMock;
 
     /**
      * Type gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @var ContentTypeGateway
      */
     protected $typeGatewayMock;
 
     /**
      * Mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
     /**
      * Field handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @var FieldHandler
      */
     protected $fieldHandlerMock;
 
     /**
      * Location handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @var TreeHandler
      */
     protected $treeHandlerMock;
 
     /**
      * Slug converter mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
+     * @var SlugConverter
      */
     protected $slugConverterMock;
 
     /**
      * Location handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
+     * @var UrlAliasGateway
      */
     protected $urlAliasGatewayMock;
 
     /**
      * ContentType handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Handler
+     * @var ContentTypeHandler
      */
     protected $contentTypeHandlerMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @var MockObject&LanguageHandler
      */
     private LanguageHandler $languageHandlerMock;
 
@@ -128,7 +130,7 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $locationMock = $this->getLocationGatewayMock();
         $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
-        $contentTypeMock = $this->createMock(Type::class);
+        $contentTypeMock = $this->createStub(Type::class);
         $createStruct = $this->getCreateStructFixture();
 
         $contentTypeHandlerMock->expects($this->once())
@@ -224,7 +226,7 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $metadataUpdateStruct = new MetadataUpdateStruct();
 
-        $handler->expects($this->at(0))
+        $handler->expects($this->once())
             ->method('loadVersionInfo')
             ->with(23, 1)
             ->will(
@@ -301,7 +303,7 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $metadataUpdateStruct = new MetadataUpdateStruct();
 
-        $handler->expects($this->at(0))
+        $handler->expects($this->once())
             ->method('loadVersionInfo')
             ->with(23, 2)
             ->will(
@@ -319,7 +321,7 @@ class ContentHandlerTest extends TestCase
             );
 
         $handler
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('setStatus')
             ->with(23, VersionInfo::STATUS_ARCHIVED, 1);
 
@@ -546,15 +548,13 @@ class ContentHandlerTest extends TestCase
             2 => $this->getContentFixtureForDraft(2, 2),
             3 => $this->getContentFixtureForDraft(3, 1),
         ];
-        $mapperMock->expects($this->at(0))
+        $mapperMock->expects($this->exactly(2))
             ->method('extractContentFromRows')
-            ->with($this->equalTo([$contentRows[0]]), $this->equalTo([$nameDataRows[0]]))
-            ->willReturn([$expected[2]]);
-
-        $mapperMock->expects($this->at(1))
-            ->method('extractContentFromRows')
-            ->with($this->equalTo([$contentRows[1]]), $this->equalTo([$nameDataRows[1]]))
-            ->willReturn([$expected[3]]);
+            ->withConsecutive(
+                [$this->equalTo([$contentRows[0]]), $this->equalTo([$nameDataRows[0]])],
+                [$this->equalTo([$contentRows[1]]), $this->equalTo([$nameDataRows[1]])]
+            )
+            ->willReturnOnConsecutiveCalls([$expected[2]], [$expected[3]]);
 
         $fieldHandlerMock->expects($this->exactly(2))
             ->method('loadExternalFieldData')
@@ -613,10 +613,12 @@ class ContentHandlerTest extends TestCase
      * @param int $id Optional id
      * @param int $versionNo Optional version number
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
-    protected function getContentFixtureForDraft(int $id = 23, int $versionNo = 2)
-    {
+    protected function getContentFixtureForDraft(
+        int $id = 23,
+        int $versionNo = 2
+    ) {
         $content = new Content();
         $content->versionInfo = new VersionInfo();
         $content->versionInfo->versionNo = $versionNo;
@@ -638,7 +640,7 @@ class ContentHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
-        $contentTypeMock = $this->createMock(Type::class);
+        $contentTypeMock = $this->createStub(Type::class);
         $contentStub = new Content(
             [
                 'versionInfo' => new VersionInfo(
@@ -673,16 +675,12 @@ class ContentHandlerTest extends TestCase
                 $this->isInstanceOf(Type::class)
             );
 
-        $handler->expects($this->at(0))
+        $handler->expects($this->exactly(2))
             ->method('load')
             ->with(14, 4)
-            ->will($this->returnValue($contentStub));
+            ->willReturnOnConsecutiveCalls($contentStub, null);
 
-        $handler->expects($this->at(1))
-            ->method('load')
-            ->with(14, 4);
-
-        $handler->expects($this->at(2))
+        $handler->expects($this->once())
             ->method('loadContentInfo')
             ->with(14);
 
@@ -753,7 +751,7 @@ class ContentHandlerTest extends TestCase
             ->with(14)
             ->will(
                 $this->returnValue(
-                    $this->createMock(ContentInfo::class)
+                    $this->createStub(ContentInfo::class)
                 )
             );
 
@@ -818,7 +816,7 @@ class ContentHandlerTest extends TestCase
             ->with(14)
             ->will(
                 $this->returnValue(
-                    $this->createMock(ContentInfo::class)
+                    $this->createStub(ContentInfo::class)
                 )
             );
 
@@ -929,7 +927,7 @@ class ContentHandlerTest extends TestCase
         $expectedRelationObject->type = RelationValue::COMMON;
 
         // relation create struct
-        $relationCreateStruct = new Relation\CreateStruct();
+        $relationCreateStruct = new RelationCreateStruct();
         $relationCreateStruct->destinationContentId = 66;
         $relationCreateStruct->sourceContentId = 23;
         $relationCreateStruct->sourceContentVersionNo = 1;
@@ -968,7 +966,7 @@ class ContentHandlerTest extends TestCase
 
         $gatewayMock->expects($this->once())
             ->method('deleteRelation')
-            ->with($this->equalTo(1, RelationValue::COMMON));
+            ->with($this->equalTo(1));
 
         $this->getContentHandler()->removeRelation(1, RelationValue::COMMON);
     }
@@ -987,7 +985,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a CreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\CreateStruct
+     * @return CreateStruct
      */
     public function getCreateStructFixture()
     {
@@ -1263,7 +1261,7 @@ class ContentHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
-        $contentTypeMock = $this->createMock(Type::class);
+        $contentTypeMock = $this->createStub(Type::class);
         $time = time();
         $createStructStub = new CreateStruct(
             [
@@ -1281,11 +1279,6 @@ class ContentHandlerTest extends TestCase
             ->method('loadContentInfo')
             ->with($this->equalTo(23))
             ->will($this->returnValue(new ContentInfo(['currentVersionNo' => 2])));
-
-        $handler->expects($this->at(1))
-            ->method('load')
-            ->with($this->equalTo(23), $this->equalTo(2))
-            ->will($this->returnValue(new Content()));
 
         $mapperMock->expects($this->once())
             ->method('createCreateStructFromContent')
@@ -1336,17 +1329,19 @@ class ContentHandlerTest extends TestCase
                 ),
             ]
         );
-        $handler->expects($this->at(4))
+        $handler->expects($this->exactly(2))
             ->method('load')
-            ->with($this->equalTo(23), $this->equalTo(1))
-            ->will(
-                $this->returnValue(
-                    new Content(
-                        [
-                            'versionInfo' => $versionInfo,
-                            'fields' => [],
-                        ]
-                    )
+            ->withConsecutive(
+                [$this->equalTo(23), $this->equalTo(2)],
+                [$this->equalTo(23), $this->equalTo(1)]
+            )
+            ->willReturnOnConsecutiveCalls(
+                new Content(),
+                new Content(
+                    [
+                        'versionInfo' => $versionInfo,
+                        'fields' => [],
+                    ]
                 )
             );
 
@@ -1428,7 +1423,7 @@ class ContentHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects($this->once())
             ->method('load')
-            ->with($this->equalTo(23, 32))
+            ->with($this->equalTo(23))
             ->will($this->returnValue([]));
 
         $result = $handler->copy(23, 32);
@@ -1511,7 +1506,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns the handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Handler
+     * @return Handler
      */
     protected function getContentHandler()
     {
@@ -1537,7 +1532,7 @@ class ContentHandlerTest extends TestCase
      *
      * @param string[] $methods
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Handler
+     * @return Handler
      */
     protected function getPartlyMockedHandler(array $methods)
     {
@@ -1562,7 +1557,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a TreeHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @return MockObject|TreeHandler
      */
     protected function getTreeHandlerMock()
     {
@@ -1576,7 +1571,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a ContentTypeHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Type\Handler
+     * @return MockObject|ContentTypeHandler
      */
     protected function getContentTypeHandlerMock()
     {
@@ -1588,7 +1583,7 @@ class ContentHandlerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @return MockObject&LanguageHandler
      */
     protected function getLanguageHandlerMock(): LanguageHandler
     {
@@ -1602,7 +1597,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a FieldHandler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @return FieldHandler
      */
     protected function getFieldHandlerMock()
     {
@@ -1616,7 +1611,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a Mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return Mapper
      */
     protected function getMapperMock()
     {
@@ -1630,7 +1625,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a Location Gateway mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @return LocationGateway
      */
     protected function getLocationGatewayMock()
     {
@@ -1644,7 +1639,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a content type gateway mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @return ContentTypeGateway
      */
     protected function getTypeGatewayMock()
     {
@@ -1658,7 +1653,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a mock object for the Content Gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Gateway|\PHPUnit\Framework\MockObject\MockObject
+     * @return ContentGateway|MockObject
      */
     protected function getGatewayMock()
     {
@@ -1676,7 +1671,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a mock object for the UrlAlias Handler.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
+     * @return SlugConverter
      */
     protected function getSlugConverterMock()
     {
@@ -1690,7 +1685,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Returns a mock object for the UrlAlias Gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
+     * @return UrlAliasGateway
      */
     protected function getUrlAliasGatewayMock()
     {

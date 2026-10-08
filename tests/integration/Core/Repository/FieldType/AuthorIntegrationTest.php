@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -105,7 +106,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     /**
      * Get initial field data for valid object creation.
      *
-     * @return \Ibexa\Core\FieldType\Author\Value
+     * @return AuthorValue
      */
     public function getValidCreationFieldData()
     {
@@ -138,7 +139,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -197,7 +198,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     /**
      * Get update field externals data.
      *
-     * @return \Ibexa\Core\FieldType\Author\Value
+     * @return AuthorValue
      */
     public function getValidUpdateFieldData()
     {
@@ -258,7 +259,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -20,7 +21,7 @@ class PermissionsCriterionHandler extends PermissionCriterionResolver
     /**
      * Adds content, read Permission criteria if needed and return false if no access at all.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      *
      * @return bool
      */

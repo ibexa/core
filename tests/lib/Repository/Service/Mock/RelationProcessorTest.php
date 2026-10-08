@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Contracts\Core\FieldType\FieldType;
@@ -19,6 +20,7 @@ use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Values\Content\Relation as RelationValue;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -163,13 +165,14 @@ class RelationProcessorTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestAppendRelations
      */
-    public function testAppendFieldRelations(array $fieldRelations, array $expected)
-    {
+    public function testAppendFieldRelations(
+        array $fieldRelations,
+        array $expected
+    ) {
         $locationHandler = $this->getPersistenceMock()->locationHandler();
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
         $fieldValueMock = $this->getMockForAbstractClass(Value::class);
         $fieldTypeMock = $this->createMock(FieldType::class);
-        $locationCallCount = 0;
 
         $fieldTypeMock->expects($this->once())
             ->method('getRelations')
@@ -178,15 +181,10 @@ class RelationProcessorTest extends BaseServiceMockTest
 
         $this->assertLocationHandlerExpectation(
             $locationHandler,
-            $fieldRelations,
-            Relation::LINK,
-            $locationCallCount
-        );
-        $this->assertLocationHandlerExpectation(
-            $locationHandler,
-            $fieldRelations,
-            Relation::EMBED,
-            $locationCallCount
+            array_merge(
+                $fieldRelations[Relation::LINK]['locationIds'] ?? [],
+                $fieldRelations[Relation::EMBED]['locationIds'] ?? []
+            )
         );
 
         $relations = [];
@@ -205,25 +203,27 @@ class RelationProcessorTest extends BaseServiceMockTest
 
     /**
      * Assert loading Locations to find Content id in {@link RelationProcessor::appendFieldRelations()} method.
+     *
+     * @param int[] $locationIds
      */
-    protected function assertLocationHandlerExpectation($locationHandlerMock, $fieldRelations, $type, &$callCounter)
-    {
-        if (isset($fieldRelations[$type]['locationIds'])) {
-            foreach ($fieldRelations[$type]['locationIds'] as $locationId) {
-                $locationHandlerMock->expects($this->at($callCounter))
-                    ->method('load')
-                    ->with($this->equalTo($locationId))
-                    ->will(
-                        $this->returnValue(
-                            new Location(
-                                ['contentId' => $locationId + 100]
-                            )
-                        )
-                    );
-
-                ++$callCounter;
-            }
+    protected function assertLocationHandlerExpectation(
+        $locationHandlerMock,
+        array $locationIds
+    ) {
+        if ($locationIds === []) {
+            return;
         }
+
+        $locationHandlerMock->expects($this->exactly(count($locationIds)))
+            ->method('load')
+            ->withConsecutive(...array_map(static function (int $locationId): array {
+                return [$locationId];
+            }, $locationIds))
+            ->willReturnCallback(
+                static function (int $locationId): Location {
+                    return new Location(['contentId' => $locationId + 100]);
+                }
+            );
     }
 
     /**
@@ -350,15 +350,13 @@ class RelationProcessorTest extends BaseServiceMockTest
         $contentHandlerMock = $this->getPersistenceMockHandler('Content\\Handler');
         $contentTypeMock = $this->createMock(ContentType::class);
 
-        $contentTypeMock->expects($this->at(0))
+        $contentTypeMock->expects($this->exactly(2))
             ->method('getFieldDefinition')
-            ->with($this->equalTo('identifier42'))
-            ->will($this->returnValue(new FieldDefinition(['id' => 42])));
-
-        $contentTypeMock->expects($this->at(1))
-            ->method('getFieldDefinition')
-            ->with($this->equalTo('identifier43'))
-            ->will($this->returnValue(new FieldDefinition(['id' => 43])));
+            ->withConsecutive(['identifier42'], ['identifier43'])
+            ->willReturnOnConsecutiveCalls(
+                new FieldDefinition(['id' => 42]),
+                new FieldDefinition(['id' => 43])
+            );
 
         $contentHandlerMock->expects($this->never())->method('addRelation');
         $contentHandlerMock->expects($this->never())->method('removeRelation');
@@ -454,60 +452,53 @@ class RelationProcessorTest extends BaseServiceMockTest
         $contentTypeMock->expects($this->never())->method('getFieldDefinition');
         $contentHandlerMock->expects($this->never())->method('removeRelation');
 
-        $contentHandlerMock->expects($this->at(0))
+        $contentHandlerMock->expects($this->exactly(4))
             ->method('addRelation')
-            ->with(
-                new CreateStruct(
-                    [
-                        'sourceContentId' => 24,
-                        'sourceContentVersionNo' => 2,
-                        'sourceFieldDefinitionId' => null,
-                        'destinationContentId' => 17,
-                        'type' => Relation::EMBED,
-                    ]
-                )
-            );
-
-        $contentHandlerMock->expects($this->at(1))
-            ->method('addRelation')
-            ->with(
-                new CreateStruct(
-                    [
-                        'sourceContentId' => 24,
-                        'sourceContentVersionNo' => 2,
-                        'sourceFieldDefinitionId' => null,
-                        'destinationContentId' => 17,
-                        'type' => Relation::LINK,
-                    ]
-                )
-            );
-
-        $contentHandlerMock->expects($this->at(2))
-            ->method('addRelation')
-            ->with(
-                new CreateStruct(
-                    [
-                        'sourceContentId' => 24,
-                        'sourceContentVersionNo' => 2,
-                        'sourceFieldDefinitionId' => 42,
-                        'destinationContentId' => 13,
-                        'type' => Relation::FIELD,
-                    ]
-                )
-            );
-
-        $contentHandlerMock->expects($this->at(3))
-            ->method('addRelation')
-            ->with(
-                new CreateStruct(
-                    [
-                        'sourceContentId' => 24,
-                        'sourceContentVersionNo' => 2,
-                        'sourceFieldDefinitionId' => 44,
-                        'destinationContentId' => 18,
-                        'type' => Relation::ASSET,
-                    ]
-                )
+            ->withConsecutive(
+                [
+                    new CreateStruct(
+                        [
+                            'sourceContentId' => 24,
+                            'sourceContentVersionNo' => 2,
+                            'sourceFieldDefinitionId' => null,
+                            'destinationContentId' => 17,
+                            'type' => Relation::EMBED,
+                        ]
+                    ),
+                ],
+                [
+                    new CreateStruct(
+                        [
+                            'sourceContentId' => 24,
+                            'sourceContentVersionNo' => 2,
+                            'sourceFieldDefinitionId' => null,
+                            'destinationContentId' => 17,
+                            'type' => Relation::LINK,
+                        ]
+                    ),
+                ],
+                [
+                    new CreateStruct(
+                        [
+                            'sourceContentId' => 24,
+                            'sourceContentVersionNo' => 2,
+                            'sourceFieldDefinitionId' => 42,
+                            'destinationContentId' => 13,
+                            'type' => Relation::FIELD,
+                        ]
+                    ),
+                ],
+                [
+                    new CreateStruct(
+                        [
+                            'sourceContentId' => 24,
+                            'sourceContentVersionNo' => 2,
+                            'sourceFieldDefinitionId' => 44,
+                            'destinationContentId' => 18,
+                            'type' => Relation::ASSET,
+                        ]
+                    ),
+                ]
             );
 
         $relationProcessor->processFieldRelations(
@@ -567,45 +558,21 @@ class RelationProcessorTest extends BaseServiceMockTest
 
         $contentHandlerMock->expects($this->never())->method('addRelation');
 
-        $contentTypeMock->expects(self::at(0))
+        $contentTypeMock->expects(self::exactly(2))
             ->method('getFieldDefinition')
-            ->with($this->equalTo('identifier42'))
-            ->will($this->returnValue(new FieldDefinition(['id' => 42])));
-
-        $contentTypeMock->expects(self::at(1))
-            ->method('getFieldDefinition')
-            ->with($this->equalTo('identifier44'))
-            ->will($this->returnValue(new FieldDefinition(['id' => 44])));
-
-        $contentHandlerMock->expects(self::at(0))
-            ->method('removeRelation')
-            ->with(
-                self::equalTo(7),
-                self::equalTo(Relation::EMBED),
-                self::equalTo(16)
+            ->withConsecutive(['identifier42'], ['identifier44'])
+            ->willReturnOnConsecutiveCalls(
+                new FieldDefinition(['id' => 42]),
+                new FieldDefinition(['id' => 44])
             );
 
-        $contentHandlerMock->expects(self::at(1))
+        $contentHandlerMock->expects(self::exactly(4))
             ->method('removeRelation')
-            ->with(
-                self::equalTo(7),
-                self::equalTo(Relation::LINK),
-                self::equalTo(16)
-            );
-
-        $contentHandlerMock->expects(self::at(2))
-            ->method('removeRelation')
-            ->with(
-                self::equalTo(4),
-                self::equalTo(Relation::FIELD),
-                self::equalTo(13)
-            );
-
-        $contentHandlerMock->expects(self::at(3))
-            ->method('removeRelation')
-            ->with(
-                self::equalTo(9),
-                self::equalTo(Relation::FIELD)
+            ->withConsecutive(
+                [7, Relation::EMBED, 16],
+                [7, Relation::LINK, 16],
+                [4, Relation::FIELD, 13],
+                [9, Relation::FIELD]
             );
 
         $relationProcessor->processFieldRelations(
@@ -629,23 +596,21 @@ class RelationProcessorTest extends BaseServiceMockTest
 
         $contentTypeMock = $this->createMock(ContentType::class);
         $contentTypeMock
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('getFieldDefinition')
-            ->with($this->equalTo('identifier43'))
-            ->will($this->returnValue(null));
-
-        $contentTypeMock
-            ->expects($this->at(1))
-            ->method('getFieldDefinition')
-            ->with($this->equalTo('identifier44'))
-            ->will($this->returnValue(null));
+            ->withConsecutive(['identifier43'], ['identifier44'])
+            ->willReturn(null);
 
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
         $relationProcessor->processFieldRelations([], 24, 2, $contentTypeMock, $existingRelations);
     }
 
-    protected function getStubbedRelation($id, $type, $fieldDefinitionId, $contentId)
-    {
+    protected function getStubbedRelation(
+        $id,
+        $type,
+        $fieldDefinitionId,
+        $contentId
+    ) {
         return new RelationValue(
             [
                 'id' => $id,
@@ -665,7 +630,7 @@ class RelationProcessorTest extends BaseServiceMockTest
      *
      * @param string[] $methods
      *
-     * @return \Ibexa\Core\Repository\Helper\RelationProcessor|\PHPUnit\Framework\MockObject\MockObject
+     * @return RelationProcessor|MockObject
      */
     protected function getPartlyMockedRelationProcessor(?array $methods = null)
     {
@@ -680,7 +645,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getFieldTypeServiceMock()
     {

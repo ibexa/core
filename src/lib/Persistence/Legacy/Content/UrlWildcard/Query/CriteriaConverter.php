@@ -8,17 +8,18 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 
 final class CriteriaConverter
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler[] */
+    /** @var CriterionHandler[] */
     private $handlers;
 
     /**
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler[] $handlers
+     * @param CriterionHandler[] $handlers
      */
     public function __construct(iterable $handlers = [])
     {
@@ -26,12 +27,14 @@ final class CriteriaConverter
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if Criterion is not applicable to its target
+     * @throws NotImplementedException if Criterion is not applicable to its target
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return CompositeExpression|string
      */
-    public function convertCriteria(QueryBuilder $queryBuilder, Criterion $criterion)
-    {
+    public function convertCriteria(
+        QueryBuilder $queryBuilder,
+        Criterion $criterion
+    ) {
         foreach ($this->handlers as $handler) {
             if ($handler->accept($criterion)) {
                 return $handler->handle($this, $queryBuilder, $criterion);

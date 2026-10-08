@@ -15,11 +15,11 @@ use Traversable;
 
 final class ChainSiteAccessProvider implements SiteAccessProviderInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface[] */
+    /** @var SiteAccessProviderInterface[] */
     private $providers;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface[] $providers
+     * @param SiteAccessProviderInterface[] $providers
      */
     public function __construct(iterable $providers = [])
     {
@@ -49,7 +49,7 @@ final class ChainSiteAccessProvider implements SiteAccessProviderInterface
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function getSiteAccess(string $name): SiteAccess
     {

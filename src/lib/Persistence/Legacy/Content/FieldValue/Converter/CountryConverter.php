@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
@@ -22,7 +23,7 @@ class CountryConverter implements Converter
      *
      * @deprecated since 6.8, will be removed in 7.x, use default constructor instead.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter
+     * @return CountryConverter
      */
     public static function create()
     {
@@ -32,11 +33,13 @@ class CountryConverter implements Converter
     /**
      * Converts data from $value to $storageFieldValue.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
+     * @param FieldValue $value
+     * @param StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ) {
         $storageFieldValue->dataText = empty($value->data) || !is_array($value->data)
             ? ''
             : implode(',', $value->data);
@@ -46,11 +49,13 @@ class CountryConverter implements Converter
     /**
      * Converts data from $value to $fieldValue.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param StorageFieldValue $value
+     * @param FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ) {
         $fieldValue->data = empty($value->dataText) ? null : explode(',', $value->dataText);
         $fieldValue->sortKey = $value->sortKeyString;
     }
@@ -58,11 +63,13 @@ class CountryConverter implements Converter
     /**
      * Converts field definition data in $fieldDef into $storageFieldDef.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ) {
         if (isset($fieldDef->fieldTypeConstraints->fieldSettings['isMultiple'])) {
             $storageDef->dataInt1 = (int)$fieldDef->fieldTypeConstraints->fieldSettings['isMultiple'];
         }
@@ -75,11 +82,13 @@ class CountryConverter implements Converter
     /**
      * Converts field definition data in $storageDef into $fieldDef.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ) {
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             [
                 'isMultiple' => !empty($storageDef->dataInt1) ? (bool)$storageDef->dataInt1 : false,

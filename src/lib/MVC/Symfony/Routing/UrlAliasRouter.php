@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Routing;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -19,6 +20,7 @@ use LogicException;
 use Psr\Log\LoggerInterface;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -34,19 +36,19 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
 
     public const VIEW_ACTION = 'ibexa_content::viewAction';
 
-    /** @var \Symfony\Component\Routing\RequestContext */
+    /** @var RequestContext */
     protected $requestContext;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     protected $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
+    /** @var URLAliasService */
     protected $urlAliasService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     protected $contentService;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator */
+    /** @var UrlAliasGenerator */
     protected $generator;
 
     /**
@@ -56,7 +58,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      */
     protected $rootLocationId;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     protected $logger;
 
     public function __construct(
@@ -91,11 +93,11 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      * If the matcher can not find information, it must throw one of the exceptions documented
      * below.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request The request to match
+     * @param Request $request The request to match
      *
      * @return array An array of parameters
      *
-     * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException If no matching resource could be found
+     * @throws ResourceNotFoundException If no matching resource could be found
      */
     public function matchRequest(Request $request)
     {
@@ -206,8 +208,10 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @return string
      */
-    protected function removePathPrefix($path, $prefix)
-    {
+    protected function removePathPrefix(
+        $path,
+        $prefix
+    ) {
         if ($prefix !== '/' && mb_stripos($path, $prefix) === 0) {
             $path = mb_substr($path, mb_strlen($prefix));
         }
@@ -221,14 +225,17 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      * Used to determine if redirect is needed because requested path is case-different
      * from the stored one.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias $loadedUrlAlias
+     * @param URLAlias $loadedUrlAlias
      * @param string $requestedPath
      * @param string $pathPrefix
      *
      * @return bool
      */
-    protected function needsCaseRedirect(URLAlias $loadedUrlAlias, $requestedPath, $pathPrefix)
-    {
+    protected function needsCaseRedirect(
+        URLAlias $loadedUrlAlias,
+        $requestedPath,
+        $pathPrefix
+    ) {
         // If requested path is excluded from tree root jail, compare it to loaded UrlAlias directly.
         if ($this->generator->isUriPrefixExcluded($requestedPath)) {
             return strcmp($loadedUrlAlias->path, $requestedPath) !== 0;
@@ -248,9 +255,9 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @param $pathinfo
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
+     * @throws NotFoundException if the path does not exist or is not valid for the given language
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @return URLAlias
      */
     protected function getUrlAlias($pathinfo)
     {
@@ -260,7 +267,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
     /**
      * Gets the RouteCollection instance associated with this Router.
      *
-     * @return \Symfony\Component\Routing\RouteCollection A RouteCollection instance
+     * @return RouteCollection A RouteCollection instance
      */
     public function getRouteCollection()
     {
@@ -272,7 +279,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * It is possible to directly pass a Location object as the route name, as the ChainRouter allows it through ChainedRouterInterface.
      *
-     * If $name is a route name, the "location" key in $parameters must be set to a valid {@see \Ibexa\Contracts\Core\Repository\Values\Content\Location} object.
+     * If $name is a route name, the "location" key in $parameters must be set to a valid {@see Location} object.
      * "locationId" can also be provided.
      *
      * If the generator is not able to generate the url, it must throw the RouteNotFoundException
@@ -284,16 +291,19 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      * @param array $parameters An array of parameters
      * @param int $referenceType The type of reference to be generated (one of the constants)
      *
-     * @throws \LogicException
-     * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
-     * @throws \InvalidArgumentException
+     * @throws LogicException
+     * @throws RouteNotFoundException
+     * @throws InvalidArgumentException
      *
      * @return string The generated URL
      *
      * @api
      */
-    public function generate(string $name, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
-    {
+    public function generate(
+        string $name,
+        array $parameters = [],
+        int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
+    ): string {
         if ($name === '' &&
             array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters) &&
             $this->supportsObject($parameters[RouteObjectInterface::ROUTE_OBJECT])
@@ -388,10 +398,12 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
     }
 
     /**
-     * @see \Symfony\Cmf\Component\Routing\VersatileGeneratorInterface::getRouteDebugMessage()
+     * @see VersatileGeneratorInterface::getRouteDebugMessage()
      */
-    public function getRouteDebugMessage($name, array $parameters = [])
-    {
+    public function getRouteDebugMessage(
+        $name,
+        array $parameters = []
+    ) {
         if ($name instanceof RouteObjectInterface) {
             return 'Route with key ' . $name->getRouteKey();
         }

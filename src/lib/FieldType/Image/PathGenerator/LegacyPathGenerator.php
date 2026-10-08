@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Image\PathGenerator;
 
 use Ibexa\Core\FieldType\Image\PathGenerator;
@@ -21,8 +22,11 @@ class LegacyPathGenerator extends PathGenerator
      *
      * @return string
      */
-    public function getStoragePathForField($fieldId, $versionNo, $languageCode)
-    {
+    public function getStoragePathForField(
+        $fieldId,
+        $versionNo,
+        $languageCode
+    ) {
         return sprintf(
             '%s/%s-%s-%s',
             $this->getDirectoryStructure($fieldId),

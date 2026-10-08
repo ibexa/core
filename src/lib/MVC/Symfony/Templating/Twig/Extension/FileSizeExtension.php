@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -23,7 +24,7 @@ class FileSizeExtension extends AbstractExtension
     use DeprecationOptionsTrait;
 
     /**
-     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
+     * @param TranslatorInterface $translator
      */
     protected $translator;
 
@@ -33,23 +34,27 @@ class FileSizeExtension extends AbstractExtension
     protected $suffixes;
 
     /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
+     * @param ConfigResolverInterface $configResolver
      */
     protected $configResolver;
 
     /**
-     * @param  \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface $localeConverter
+     * @param  LocaleConverterInterface $localeConverter
      */
     protected $localeConverter;
 
     /**
-     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
-     * @param \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface $localeConverter
+     * @param TranslatorInterface $translator
+     * @param ConfigResolverInterface $configResolver
+     * @param LocaleConverterInterface $localeConverter
      * @param array $suffixes
      */
-    public function __construct(TranslatorInterface $translator, array $suffixes, ConfigResolverInterface $configResolver, LocaleConverterInterface $localeConverter)
-    {
+    public function __construct(
+        TranslatorInterface $translator,
+        array $suffixes,
+        ConfigResolverInterface $configResolver,
+        LocaleConverterInterface $localeConverter
+    ) {
         $this->translator = $translator;
         $this->suffixes = $suffixes;
         $this->configResolver = $configResolver;
@@ -97,8 +102,10 @@ class FileSizeExtension extends AbstractExtension
      *
      * @return string
      */
-    public function sizeFilter($number, $precision)
-    {
+    public function sizeFilter(
+        $number,
+        $precision
+    ) {
         $mod = 1024;
         $index = count($this->suffixes);
         if ($number < ($mod ** $index)) {
@@ -111,7 +118,7 @@ class FileSizeExtension extends AbstractExtension
         }
         $formatter = new NumberFormatter($this->getLocale(), NumberFormatter::PATTERN_DECIMAL);
         $formatter->setPattern(
-            $formatter->getPattern() . ' ' . $this->translator->trans(/** @Ignore */$this->suffixes[$i])
+            $formatter->getPattern() . ' ' . $this->translator->trans(/** @Ignore */ $this->suffixes[$i])
         );
         $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, $precision);
 

@@ -4,7 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\QueryType;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 
 /**
  * A QueryType is a pre-defined content or location query.
@@ -18,7 +21,7 @@ interface QueryType
      *
      * @param array $parameters A hash of parameters that will be used to build the Query
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query
+     * @return Query
      */
     public function getQuery(array $parameters = []);
 

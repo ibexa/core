@@ -14,14 +14,16 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 final class BeforeAssignUserToUserGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $user;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $userGroup;
 
-    public function __construct(User $user, UserGroup $userGroup)
-    {
+    public function __construct(
+        User $user,
+        UserGroup $userGroup
+    ) {
         $this->user = $user;
         $this->userGroup = $userGroup;
     }

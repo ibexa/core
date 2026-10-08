@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Debug\Collector;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -16,8 +17,11 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
  */
 class SiteAccessCollector extends DataCollector
 {
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
-    {
+    public function collect(
+        Request $request,
+        Response $response,
+        ?\Throwable $exception = null
+    ) {
         $this->data = [
             'siteAccess' => $request->attributes->get('siteaccess'),
         ];
@@ -31,7 +35,7 @@ class SiteAccessCollector extends DataCollector
     /**
      * Returns siteAccess.
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function getSiteAccess()
     {

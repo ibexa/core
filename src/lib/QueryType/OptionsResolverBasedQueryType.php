@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\QueryType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -21,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 abstract class OptionsResolverBasedQueryType implements QueryType
 {
-    /** @var \Symfony\Component\OptionsResolver\OptionsResolver */
+    /** @var OptionsResolver */
     private $resolver;
 
     /**
@@ -35,7 +36,7 @@ abstract class OptionsResolverBasedQueryType implements QueryType
      * $resolver->setDefault('limit', 10);
      * ```
      *
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $optionsResolver
+     * @param OptionsResolver $optionsResolver
      */
     abstract protected function configureOptions(OptionsResolver $optionsResolver);
 
@@ -47,7 +48,7 @@ abstract class OptionsResolverBasedQueryType implements QueryType
      *
      * @param array $parameters The QueryType parameters, pre-processed by the OptionsResolver
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query
+     * @return Query
      */
     abstract protected function doGetQuery(array $parameters);
 
@@ -66,7 +67,7 @@ abstract class OptionsResolverBasedQueryType implements QueryType
     /**
      * Builds the resolver, and configures it using configureOptions().
      *
-     * @return \Symfony\Component\OptionsResolver\OptionsResolver
+     * @return OptionsResolver
      */
     private function getResolver()
     {

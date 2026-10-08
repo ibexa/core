@@ -13,7 +13,7 @@ use Ibexa\Core\QueryType\QueryTypeRegistry;
 
 final class QueryFactory implements QueryFactoryInterface
 {
-    /** @var \Ibexa\Core\QueryType\QueryTypeRegistry */
+    /** @var QueryTypeRegistry */
     private $queryTypeRegistry;
 
     public function __construct(QueryTypeRegistry $queryTypeRegistry)
@@ -21,8 +21,10 @@ final class QueryFactory implements QueryFactoryInterface
         $this->queryTypeRegistry = $queryTypeRegistry;
     }
 
-    public function create(string $type, array $parameters = []): Query
-    {
+    public function create(
+        string $type,
+        array $parameters = []
+    ): Query {
         return $this->queryTypeRegistry->getQueryType($type)->getQuery($parameters);
     }
 }

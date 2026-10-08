@@ -16,8 +16,11 @@ final class RawRangeAggregation extends AbstractRangeAggregation implements RawA
     /** @var string */
     private $fieldName;
 
-    public function __construct(string $name, string $fieldName, array $ranges = [])
-    {
+    public function __construct(
+        string $name,
+        string $fieldName,
+        array $ranges = []
+    ) {
         parent::__construct($name, $ranges);
 
         $this->fieldName = $fieldName;

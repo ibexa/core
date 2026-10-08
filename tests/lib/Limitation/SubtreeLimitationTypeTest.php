@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
@@ -31,29 +32,8 @@ use Ibexa\Core\Repository\Values\Content\Query\Criterion\PermissionSubtree;
  */
 class SubtreeLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $locationHandlerMock;
-
     /**
-     * Setup Location Handler mock.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->locationHandlerMock = $this->createMock(SPILocationHandler::class);
-    }
-
-    /**
-     * Tear down Location Handler mock.
-     */
-    protected function tearDown(): void
-    {
-        unset($this->locationHandlerMock);
-        parent::tearDown();
-    }
-
-    /**
-     * @return \Ibexa\Core\Limitation\SubtreeLimitationType
+     * @return SubtreeLimitationType
      */
     public function testConstruct()
     {
@@ -74,13 +54,16 @@ class SubtreeLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValue
+     *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation $limitation
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitation $limitation
+     * @param SubtreeLimitationType $limitationType
      */
-    public function testAcceptValue(SubtreeLimitation $limitation, SubtreeLimitationType $limitationType)
-    {
+    public function testAcceptValue(
+        SubtreeLimitation $limitation,
+        SubtreeLimitationType $limitationType
+    ) {
         $limitationType->acceptValue($limitation);
     }
 
@@ -100,13 +83,16 @@ class SubtreeLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValueException
+     *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param SubtreeLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, SubtreeLimitationType $limitationType)
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        SubtreeLimitationType $limitationType
+    ) {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -127,28 +113,29 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidatePass
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation $limitation
+     * @param SubtreeLimitation $limitation
      */
     public function testValidatePass(SubtreeLimitation $limitation)
     {
         if (!empty($limitation->limitationValues)) {
+            $locationHandlerMock = $this->createMock(SPILocationHandler::class);
             $this->getPersistenceMock()
                 ->expects($this->any())
                 ->method('locationHandler')
-                ->will($this->returnValue($this->locationHandlerMock));
+                ->will($this->returnValue($locationHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
+            $loadArguments = [];
+            $loadResults = [];
+            foreach ($limitation->limitationValues as $value) {
                 $pathArray = explode('/', trim($value, '/'));
-                $this->locationHandlerMock
-                    ->expects($this->at($key))
-                    ->method('load')
-                    ->with(end($pathArray))
-                    ->will(
-                        $this->returnValue(
-                            new SPILocation(['pathString' => $value])
-                        )
-                    );
+                $loadArguments[] = [end($pathArray)];
+                $loadResults[] = new SPILocation(['pathString' => $value]);
             }
+            $locationHandlerMock
+                ->expects($this->exactly(count($loadArguments)))
+                ->method('load')
+                ->withConsecutive(...$loadArguments)
+                ->willReturnOnConsecutiveCalls(...$loadResults);
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -173,25 +160,32 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation $limitation
+     * @param SubtreeLimitation $limitation
      * @param int $errorCount
      */
-    public function testValidateError(SubtreeLimitation $limitation, $errorCount)
-    {
+    public function testValidateError(
+        SubtreeLimitation $limitation,
+        $errorCount
+    ) {
         if (!empty($limitation->limitationValues)) {
+            $locationHandlerMock = $this->createMock(SPILocationHandler::class);
             $this->getPersistenceMock()
                 ->expects($this->any())
                 ->method('locationHandler')
-                ->will($this->returnValue($this->locationHandlerMock));
+                ->will($this->returnValue($locationHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
+            $loadArguments = [];
+            $loadResults = [];
+            foreach ($limitation->limitationValues as $value) {
                 $pathArray = explode('/', trim($value, '/'));
-                $this->locationHandlerMock
-                    ->expects($this->at($key))
-                    ->method('load')
-                    ->with(end($pathArray))
-                    ->will($this->throwException(new NotFoundException('location', $value)));
+                $loadArguments[] = [end($pathArray)];
+                $loadResults[] = $this->throwException(new NotFoundException('location', $value));
             }
+            $locationHandlerMock
+                ->expects($this->exactly(count($loadArguments)))
+                ->method('load')
+                ->withConsecutive(...$loadArguments)
+                ->willReturnOnConsecutiveCalls(...$loadResults);
         } else {
             $this->getPersistenceMock()
                 ->expects($this->never())
@@ -209,23 +203,17 @@ class SubtreeLimitationTypeTest extends Base
     {
         $limitation = new SubtreeLimitation(['limitationValues' => ['/1/2/42/']]);
 
+        $locationHandlerMock = $this->createMock(SPILocationHandler::class);
         $this->getPersistenceMock()
             ->expects($this->any())
             ->method('locationHandler')
-            ->will($this->returnValue($this->locationHandlerMock));
+            ->will($this->returnValue($locationHandlerMock));
 
-        foreach ($limitation->limitationValues as $key => $value) {
-            $pathArray = explode('/', trim($value, '/'));
-            $this->locationHandlerMock
-                ->expects($this->at($key))
-                ->method('load')
-                ->with(end($pathArray))
-                ->will(
-                    $this->returnValue(
-                        new SPILocation(['pathString' => '/1/5/42'])
-                    )
-                );
-        }
+        $locationHandlerMock
+            ->expects($this->once())
+            ->method('load')
+            ->with('42')
+            ->willReturn(new SPILocation(['pathString' => '/1/5/42']));
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
@@ -237,7 +225,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testBuildValue(SubtreeLimitationType $limitationType)
     {
@@ -415,25 +403,31 @@ class SubtreeLimitationTypeTest extends Base
                 ->expects($this->never())
                 ->method($this->anything());
         } elseif ($object instanceof ContentCreateStruct) {
+            $locationHandlerMock = $this->createMock(SPILocationHandler::class);
+            $loadArguments = [];
+            $loadResults = [];
             foreach ((array)$targets as $key => $target) {
-                $this->getPersistenceMock()
-                    ->expects($this->at($key))
-                    ->method('locationHandler')
-                    ->will($this->returnValue($this->locationHandlerMock));
-
-                $this->locationHandlerMock
-                    ->expects($this->at($key))
-                    ->method('load')
-                    ->with($target->parentLocationId)
-                    ->will($this->returnValue($persistenceLocations[$key]));
+                $loadArguments[] = [$target->parentLocationId];
+                $loadResults[] = $persistenceLocations[$key];
             }
+            $this->getPersistenceMock()
+                ->expects($this->exactly(count($loadArguments)))
+                ->method('locationHandler')
+                ->will($this->returnValue($locationHandlerMock));
+
+            $locationHandlerMock
+                ->expects($this->exactly(count($loadArguments)))
+                ->method('load')
+                ->withConsecutive(...$loadArguments)
+                ->willReturnOnConsecutiveCalls(...$loadResults);
         } else {
+            $locationHandlerMock = $this->createMock(SPILocationHandler::class);
             $this->getPersistenceMock()
                 ->expects($this->once())
                 ->method('locationHandler')
-                ->will($this->returnValue($this->locationHandlerMock));
+                ->will($this->returnValue($locationHandlerMock));
 
-            $this->locationHandlerMock
+            $locationHandlerMock
                 ->expects($this->once())
                 ->method($object instanceof ContentInfo && $object->published ? 'loadLocationsByContent' : 'loadParentLocationsForDraftContent')
                 ->with($object->id)
@@ -509,7 +503,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testGetCriterionInvalidValue(SubtreeLimitationType $limitationType)
     {
@@ -524,7 +518,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testGetCriterionSingleValue(SubtreeLimitationType $limitationType)
     {
@@ -545,7 +539,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testGetCriterionMultipleValues(SubtreeLimitationType $limitationType)
     {
@@ -566,7 +560,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testValueSchema(SubtreeLimitationType $limitationType)
     {

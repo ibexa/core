@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Translation;
 
 use Doctrine\Common\Annotations\DocParser;
@@ -30,25 +31,25 @@ use Twig\Node\Node as TwigNode;
  */
 class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVisitorInterface, NodeVisitor
 {
-    /** @var \JMS\TranslationBundle\Translation\FileSourceFactory */
+    /** @var FileSourceFactory */
     private $fileSourceFactory;
 
-    /** @var \PhpParser\NodeTraverser */
+    /** @var NodeTraverser */
     private $traverser;
 
-    /** @var \JMS\TranslationBundle\Model\MessageCatalogue */
+    /** @var MessageCatalogue */
     private $catalogue;
 
     /** @var \SplFileInfo */
     private $file;
 
-    /** @var \Doctrine\Common\Annotations\DocParser */
+    /** @var DocParser */
     private $docParser;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
-    /** @var \PhpParser\Node */
+    /** @var Node */
     private $previousNode;
 
     /** @var string */
@@ -67,11 +68,13 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
     /**
      * DefaultPhpFileExtractor constructor.
      *
-     * @param \Doctrine\Common\Annotations\DocParser $docParser
-     * @param \JMS\TranslationBundle\Translation\FileSourceFactory $fileSourceFactory
+     * @param DocParser $docParser
+     * @param FileSourceFactory $fileSourceFactory
      */
-    public function __construct(DocParser $docParser, FileSourceFactory $fileSourceFactory)
-    {
+    public function __construct(
+        DocParser $docParser,
+        FileSourceFactory $fileSourceFactory
+    ) {
         $this->docParser = $docParser;
         $this->fileSourceFactory = $fileSourceFactory;
         $this->traverser = new NodeTraverser();
@@ -79,7 +82,7 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
     }
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -87,7 +90,7 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
     }
 
     /**
-     * @param \PhpParser\Node $node
+     * @param Node $node
      */
     public function enterNode(Node $node)
     {
@@ -156,11 +159,14 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
 
     /**
      * @param \SplFileInfo $file
-     * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
+     * @param MessageCatalogue $catalogue
      * @param array $ast
      */
-    public function visitPhpFile(\SplFileInfo $file, MessageCatalogue $catalogue, array $ast)
-    {
+    public function visitPhpFile(
+        \SplFileInfo $file,
+        MessageCatalogue $catalogue,
+        array $ast
+    ) {
         $this->file = $file;
         $this->catalogue = $catalogue;
         $this->traverser->traverse($ast);
@@ -169,43 +175,40 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
     /**
      * @param array $nodes
      */
-    public function beforeTraverse(array $nodes)
-    {
-    }
+    public function beforeTraverse(array $nodes) {}
 
     /**
-     * @param \PhpParser\Node $node
+     * @param Node $node
      */
-    public function leaveNode(Node $node)
-    {
-    }
+    public function leaveNode(Node $node) {}
 
     /**
      * @param array $nodes
      */
-    public function afterTraverse(array $nodes)
-    {
-    }
+    public function afterTraverse(array $nodes) {}
 
     /**
      * @param \SplFileInfo $file
-     * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
+     * @param MessageCatalogue $catalogue
      */
-    public function visitFile(\SplFileInfo $file, MessageCatalogue $catalogue)
-    {
-    }
+    public function visitFile(
+        \SplFileInfo $file,
+        MessageCatalogue $catalogue
+    ) {}
 
     /**
      * @param \SplFileInfo $file
-     * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
-     * @param \Twig\Node\Node $ast
+     * @param MessageCatalogue $catalogue
+     * @param TwigNode $ast
      */
-    public function visitTwigFile(\SplFileInfo $file, MessageCatalogue $catalogue, TwigNode $ast)
-    {
-    }
+    public function visitTwigFile(
+        \SplFileInfo $file,
+        MessageCatalogue $catalogue,
+        TwigNode $ast
+    ) {}
 
     /**
-     * @param \PhpParser\Node $node
+     * @param Node $node
      *
      * @return string|null
      */

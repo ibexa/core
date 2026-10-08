@@ -16,7 +16,7 @@ use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly as VisibleOnlyHandler;
 
 /**
- * @covers \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly
+ * @covers \VisibleOnlyHandler
  */
 class VisibleOnlyTest extends CriterionHandlerTest
 {

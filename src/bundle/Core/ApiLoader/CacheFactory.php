@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -22,13 +24,13 @@ class CacheFactory implements ContainerAwareInterface
     use ContainerAwareTrait;
 
     /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
+     * @param ConfigResolverInterface $configResolver
      *
-     * @return \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface
+     * @return TagAwareAdapterInterface
      */
     public function getCachePool(ConfigResolverInterface $configResolver)
     {
-        /** @var \Symfony\Component\Cache\Adapter\AdapterInterface $cacheService */
+        /** @var AdapterInterface $cacheService */
         $cacheService = $this->container->get($configResolver->getParameter('cache_service_name'));
 
         // If cache service is already implementing TagAwareAdapterInterface, return as-is

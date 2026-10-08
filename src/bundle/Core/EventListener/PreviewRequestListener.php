@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController;
@@ -15,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class PreviewRequestListener implements EventSubscriberInterface
 {
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    /** @var RequestStack */
     private $requestStack;
 
     public function __construct(RequestStack $requestStack)
@@ -31,7 +32,7 @@ class PreviewRequestListener implements EventSubscriberInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+     * @param RequestEvent $event
      */
     public function onKernelRequest(RequestEvent $event): void
     {

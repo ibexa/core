@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
@@ -24,17 +25,19 @@ use Symfony\Component\Security\Core\User\UserInterface as CoreUserInterface;
  */
 class UserWrapped implements ReferenceUserInterface, EquatableInterface
 {
-    /** @var \Symfony\Component\Security\Core\User\UserInterface */
+    /** @var CoreUserInterface */
     private $wrappedUser;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var APIUser */
     private $apiUser;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserReference */
+    /** @var APIUserReference */
     private $apiUserReference;
 
-    public function __construct(CoreUserInterface $wrappedUser, APIUser $apiUser)
-    {
+    public function __construct(
+        CoreUserInterface $wrappedUser,
+        APIUser $apiUser
+    ) {
         $this->setWrappedUser($wrappedUser);
         $this->apiUser = $apiUser;
         $this->apiUserReference = new UserReference($apiUser->getUserId());
@@ -46,7 +49,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $apiUser
+     * @param APIUser $apiUser
      */
     public function setAPIUser(APIUser $apiUser)
     {
@@ -55,7 +58,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      */
     public function getAPIUser()
     {
@@ -69,7 +72,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserReference
+     * @return APIUserReference
      */
     public function getAPIUserReference(): APIUserReference
     {
@@ -77,9 +80,9 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @param \Symfony\Component\Security\Core\User\UserInterface $wrappedUser
+     * @param CoreUserInterface $wrappedUser
      *
-     * @throws \InvalidArgumentException If $wrappedUser is instance of self or User to avoid duplicated APIUser in
+     * @throws InvalidArgumentException If $wrappedUser is instance of self or User to avoid duplicated APIUser in
      *     session.
      */
     public function setWrappedUser(CoreUserInterface $wrappedUser)
@@ -94,7 +97,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @return \Symfony\Component\Security\Core\User\UserInterface
+     * @return CoreUserInterface
      */
     public function getWrappedUser()
     {
@@ -136,7 +139,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @see \Ibexa\Core\MVC\Symfony\Security\User::__sleep
+     * @see User::__sleep
      */
     public function __sleep(): array
     {

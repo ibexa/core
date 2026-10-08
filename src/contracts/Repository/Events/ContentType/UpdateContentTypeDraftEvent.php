@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
 
 final class UpdateContentTypeDraftEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
+    /** @var ContentTypeDraft */
     private $contentTypeDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct */
+    /** @var ContentTypeUpdateStruct */
     private $contentTypeUpdateStruct;
 
     public function __construct(

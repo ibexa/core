@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Base\Container\Compiler\Search\Legacy;
 
 use Ibexa\Core\Base\Container\Compiler\Search\Legacy\CriteriaConverterPass;
@@ -29,8 +30,10 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider provideDescribedServiceToTagName
      */
-    public function testAddHandlers(string $serviceId, string $tag): void
-    {
+    public function testAddHandlers(
+        string $serviceId,
+        string $tag
+    ): void {
         $this->setDefinition(
             $serviceId,
             new Definition()
@@ -52,8 +55,10 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider provideDescribedServiceToTagName
      */
-    public function testAddContentHandlersWithPriority(string $serviceId, string $tag): void
-    {
+    public function testAddContentHandlersWithPriority(
+        string $serviceId,
+        string $tag
+    ): void {
         $this->setDefinition(
             $serviceId,
             new Definition()

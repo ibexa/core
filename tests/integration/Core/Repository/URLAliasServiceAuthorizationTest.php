@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -14,6 +15,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
      * Test for the createUrlAlias() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testCreateUrlAlias
      */
     public function testCreateUrlAliasThrowsUnauthorizedException()
@@ -47,6 +49,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
      * Test for the createGlobalUrlAlias() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testCreateGlobalUrlAlias
      */
     public function testCreateGlobalUrlAliasThrowsUnauthorizedException()
@@ -74,6 +77,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
      * Test for the removeAliases() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::removeAliases()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testRemoveAliases
      */
     public function testRemoveAliasesThrowsUnauthorizedException()

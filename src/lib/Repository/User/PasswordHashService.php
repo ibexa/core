@@ -40,7 +40,7 @@ final class PasswordHashService implements PasswordHashServiceInterface
     }
 
     /**
-     * @throws \Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType
+     * @throws UnsupportedPasswordHashType
      */
     public function createPasswordHash(
         #[\SensitiveParameter]

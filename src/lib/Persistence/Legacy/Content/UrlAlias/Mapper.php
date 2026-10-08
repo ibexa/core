@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
@@ -17,14 +18,14 @@ class Mapper
     /**
      * Language mask generator.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @var LanguageMaskGenerator
      */
     protected $languageMaskGenerator;
 
     /**
      * Creates a new UrlWildcard Handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator $languageMaskGenerator
+     * @param LanguageMaskGenerator $languageMaskGenerator
      */
     public function __construct(LanguageMaskGenerator $languageMaskGenerator)
     {
@@ -36,7 +37,7 @@ class Mapper
      *
      * @param mixed[] $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias
+     * @return UrlAlias
      */
     public function extractUrlAliasFromData($data)
     {
@@ -61,7 +62,7 @@ class Mapper
      *
      * @param array $rows
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias[]
+     * @return UrlAlias[]
      */
     public function extractUrlAliasListFromData(array $rows)
     {
@@ -90,8 +91,10 @@ class Mapper
         return $this->languageMaskGenerator->extractLanguageCodesFromMask($languageMask);
     }
 
-    public function generateIdentityKey(int $parentId, string $hash): string
-    {
+    public function generateIdentityKey(
+        int $parentId,
+        string $hash
+    ): string {
         return sprintf('%d-%s', $parentId, $hash);
     }
 
@@ -160,8 +163,10 @@ class Mapper
      * @param array $pathElementData
      * @param array $row
      */
-    protected function normalizePathDataRow(array &$pathElementData, array $row)
-    {
+    protected function normalizePathDataRow(
+        array &$pathElementData,
+        array $row
+    ) {
         $languageCodes = $this->languageMaskGenerator->extractLanguageCodesFromMask($row['lang_mask']);
         $pathElementData['always-available'] = $this->languageMaskGenerator->isAlwaysAvailable($row['lang_mask']);
         if (!empty($languageCodes)) {

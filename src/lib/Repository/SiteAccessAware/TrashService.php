@@ -23,13 +23,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
  */
 class TrashService implements TrashServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\TrashService */
+    /** @var TrashServiceInterface */
     protected $service;
 
     /**
      * Construct service object from aggregated service.
      *
-     * @param \Ibexa\Contracts\Core\Repository\TrashService $service
+     * @param TrashServiceInterface $service
      */
     public function __construct(
         TrashServiceInterface $service
@@ -47,8 +47,10 @@ class TrashService implements TrashServiceInterface
         return $this->service->trash($location);
     }
 
-    public function recover(TrashItem $trashItem, ?Location $newParentLocation = null): Location
-    {
+    public function recover(
+        TrashItem $trashItem,
+        ?Location $newParentLocation = null
+    ): Location {
         return $this->service->recover($trashItem, $newParentLocation);
     }
 

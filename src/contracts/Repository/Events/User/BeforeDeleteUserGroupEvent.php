@@ -14,7 +14,7 @@ use UnexpectedValueException;
 
 final class BeforeDeleteUserGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $userGroup;
 
     /** @var array|null */

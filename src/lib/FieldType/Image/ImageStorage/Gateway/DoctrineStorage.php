@@ -4,14 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
+use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
 use PDO;
 
@@ -22,7 +25,7 @@ class DoctrineStorage extends Gateway
 {
     public const IMAGE_FILE_TABLE = 'ezimagefile';
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     /**
@@ -38,11 +41,13 @@ class DoctrineStorage extends Gateway
         'data_string' => 'xml',
     ];
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface */
+    /** @var UrlRedecoratorInterface */
     private $redecorator;
 
-    public function __construct(UrlRedecoratorInterface $redecorator, Connection $connection)
-    {
+    public function __construct(
+        UrlRedecoratorInterface $redecorator,
+        Connection $connection
+    ) {
         $this->redecorator = $redecorator;
         $this->connection = $connection;
     }
@@ -89,8 +94,10 @@ class DoctrineStorage extends Gateway
      * @param string $uri File IO uri (not legacy)
      * @param int $fieldId
      */
-    public function storeImageReference($uri, $fieldId)
-    {
+    public function storeImageReference(
+        $uri,
+        $fieldId
+    ) {
         // legacy stores the path to the image without a leading /
         $path = $this->redecorator->redecorateFromSource($uri);
 
@@ -117,8 +124,10 @@ class DoctrineStorage extends Gateway
      *
      * @return array
      */
-    public function getXmlForImages($versionNo, array $fieldIds)
-    {
+    public function getXmlForImages(
+        $versionNo,
+        array $fieldIds
+    ) {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select(
@@ -191,10 +200,13 @@ class DoctrineStorage extends Gateway
      * @param int $versionNo
      * @param int $fieldId
      *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws InvalidBinaryFileIdException
      */
-    public function removeImageReferences($uri, $versionNo, $fieldId): void
-    {
+    public function removeImageReferences(
+        $uri,
+        $versionNo,
+        $fieldId
+    ): void {
         if (!$this->canRemoveImageReference($uri, $versionNo, $fieldId)) {
             return;
         }
@@ -294,8 +306,11 @@ class DoctrineStorage extends Gateway
      * @param int $versionNo
      * @param int $fieldId
      */
-    protected function canRemoveImageReference($path, $versionNo, $fieldId): bool
-    {
+    protected function canRemoveImageReference(
+        $path,
+        $versionNo,
+        $fieldId
+    ): bool {
         $selectQuery = $this->connection->createQueryBuilder();
         $expressionBuilder = $selectQuery->expr();
         $selectQuery
@@ -379,8 +394,10 @@ class DoctrineStorage extends Gateway
         return null;
     }
 
-    public function getImagesData(int $offset, int $limit): array
-    {
+    public function getImagesData(
+        int $offset,
+        int $limit
+    ): array {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select(
@@ -395,8 +412,11 @@ class DoctrineStorage extends Gateway
         return $selectQuery->execute()->fetchAllAssociative();
     }
 
-    public function updateImageData(int $fieldId, int $versionNo, string $xml): void
-    {
+    public function updateImageData(
+        int $fieldId,
+        int $versionNo,
+        string $xml
+    ): void {
         $updateQuery = $this->connection->createQueryBuilder();
         $expressionBuilder = $updateQuery->expr();
         $updateQuery
@@ -426,8 +446,11 @@ class DoctrineStorage extends Gateway
         ;
     }
 
-    public function updateImagePath(int $fieldId, string $oldPath, string $newPath): void
-    {
+    public function updateImagePath(
+        int $fieldId,
+        string $oldPath,
+        string $newPath
+    ): void {
         $updateQuery = $this->connection->createQueryBuilder();
         $expressionBuilder = $updateQuery->expr();
         $updateQuery
@@ -458,12 +481,14 @@ class DoctrineStorage extends Gateway
     }
 
     /**
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws InvalidBinaryFileIdException
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
-    public function hasImageReference(string $uri, int $fieldId): bool
-    {
+    public function hasImageReference(
+        string $uri,
+        int $fieldId
+    ): bool {
         $path = $this->redecorator->redecorateFromSource($uri);
 
         $selectQuery = $this->connection->createQueryBuilder();

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry;
@@ -19,7 +20,7 @@ class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
     public const FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG = 'ibexa.field_type.view.parameter.provider';
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      *
      * @throws \LogicException
      */

@@ -36,8 +36,10 @@ class MoreLikeThis extends Criterion
      *
      * @throws \InvalidArgumentException if the value type doesn't match the expected type
      */
-    public function __construct(int $type, $value)
-    {
+    public function __construct(
+        int $type,
+        $value
+    ) {
         $this->type = $type;
 
         parent::__construct(null, null, $value);

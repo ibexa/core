@@ -38,7 +38,7 @@ final class IsBookmarkedQueryBuilder extends BaseLocationCriterionQueryBuilder
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsBookmarked $criterion
+     * @param IsBookmarked $criterion
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */

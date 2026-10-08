@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Location;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -23,12 +24,15 @@ class Mapper
      *
      * @param array $data
      * @param string $prefix
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location|null $location
+     * @param Location|null $location
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location
+     * @return Location
      */
-    public function createLocationFromRow(array $data, $prefix = '', ?Location $location = null)
-    {
+    public function createLocationFromRow(
+        array $data,
+        $prefix = '',
+        ?Location $location = null
+    ) {
         $location = $location ?: new Location();
 
         $location->id = (int)$data[$prefix . 'node_id'];
@@ -56,12 +60,15 @@ class Mapper
      *
      * @param array $rows
      * @param string $prefix
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location|null $location
+     * @param Location|null $location
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
+     * @return Location[]
      */
-    public function createLocationsFromRows(array $rows, $prefix = '', ?Location $location = null)
-    {
+    public function createLocationsFromRows(
+        array $rows,
+        $prefix = '',
+        ?Location $location = null
+    ) {
         $locations = [];
 
         foreach ($rows as $row) {
@@ -79,7 +86,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct
+     * @return CreateStruct
      */
     public function getLocationCreateStruct(array $data)
     {

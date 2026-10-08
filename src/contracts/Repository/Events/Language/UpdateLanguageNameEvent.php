@@ -13,10 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 
 final class UpdateLanguageNameEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
+    /** @var Language */
     private $updatedLanguage;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
+    /** @var Language */
     private $language;
 
     /** @var string */

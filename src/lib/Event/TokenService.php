@@ -152,8 +152,10 @@ final class TokenService extends TokenServiceDecorator
         );
     }
 
-    public function revokeTokenByIdentifier(string $tokenType, ?string $identifier): void
-    {
+    public function revokeTokenByIdentifier(
+        string $tokenType,
+        ?string $identifier
+    ): void {
         $eventData = [$tokenType, $identifier];
 
         $beforeEvent = new BeforeRevokeTokenByIdentifierEvent(...$eventData);

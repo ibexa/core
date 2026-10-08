@@ -14,17 +14,19 @@ use UnexpectedValueException;
 
 final class BeforeRemoveContentTypeTranslationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
+    /** @var ContentTypeDraft */
     private $contentTypeDraft;
 
     /** @var string */
     private $languageCode;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft|null */
+    /** @var ContentTypeDraft|null */
     private $newContentTypeDraft;
 
-    public function __construct(ContentTypeDraft $contentTypeDraft, string $languageCode)
-    {
+    public function __construct(
+        ContentTypeDraft $contentTypeDraft,
+        string $languageCode
+    ) {
         $this->contentTypeDraft = $contentTypeDraft;
         $this->languageCode = $languageCode;
     }

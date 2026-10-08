@@ -4,16 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Section as SectionIdMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SectionTest extends BaseTest
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Section */
+    /** @var SectionIdMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -24,15 +26,19 @@ class SectionTest extends BaseTest
 
     /**
      * @dataProvider matchLocationProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        Location $location,
+        $expectedResult
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         $this->assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
@@ -68,7 +74,7 @@ class SectionTest extends BaseTest
      *
      * @param int $sectionId
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateLocationForSectionId($sectionId)
     {
@@ -87,15 +93,19 @@ class SectionTest extends BaseTest
 
     /**
      * @dataProvider matchContentInfoProvider
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Section::matchContentInfo
+     *
+     * @covers \SectionIdMatcher::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, ContentInfo $contentInfo, $expectedResult)
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        ContentInfo $contentInfo,
+        $expectedResult
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         $this->assertSame($expectedResult, $this->matcher->matchContentInfo($contentInfo));
     }

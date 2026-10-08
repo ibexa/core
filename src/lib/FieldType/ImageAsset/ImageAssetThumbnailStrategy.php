@@ -21,10 +21,10 @@ class ImageAssetThumbnailStrategy implements FieldTypeBasedThumbnailStrategy
     /** @var string */
     private $fieldTypeIdentifier;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy */
+    /** @var ContentThumbnailStrategy */
     private $thumbnailStrategy;
 
     public function __construct(
@@ -42,8 +42,10 @@ class ImageAssetThumbnailStrategy implements FieldTypeBasedThumbnailStrategy
         return $this->fieldTypeIdentifier;
     }
 
-    public function getThumbnail(Field $field, ?VersionInfo $versionInfo = null): ?Thumbnail
-    {
+    public function getThumbnail(
+        Field $field,
+        ?VersionInfo $versionInfo = null
+    ): ?Thumbnail {
         try {
             $content = $this->contentService->loadContent(
                 (int) $field->value->destinationContentId,

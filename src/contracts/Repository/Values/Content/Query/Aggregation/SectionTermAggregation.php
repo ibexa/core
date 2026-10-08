@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 
-final class SectionTermAggregation extends AbstractTermAggregation
-{
-}
+final class SectionTermAggregation extends AbstractTermAggregation {}
 
 class_alias(SectionTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\SectionTermAggregation');

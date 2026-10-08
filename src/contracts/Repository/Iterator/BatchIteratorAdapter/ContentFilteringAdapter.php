@@ -15,24 +15,29 @@ use Iterator;
 
 final class ContentFilteringAdapter implements BatchIteratorAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\Filter */
+    /** @var Filter */
     private $filter;
 
     /** @var string[]|null */
     private $languages;
 
-    public function __construct(ContentService $contentService, Filter $filter, ?array $languages = null)
-    {
+    public function __construct(
+        ContentService $contentService,
+        Filter $filter,
+        ?array $languages = null
+    ) {
         $this->contentService = $contentService;
         $this->filter = $filter;
         $this->languages = $languages;
     }
 
-    public function fetch(int $offset, int $limit): Iterator
-    {
+    public function fetch(
+        int $offset,
+        int $limit
+    ): Iterator {
         $filter = clone $this->filter;
         $filter->sliceBy($limit, $offset);
 

@@ -16,7 +16,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
@@ -44,6 +46,7 @@ use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use Ibexa\Core\Repository\Helper\NameSchemaService;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -55,46 +58,46 @@ use Psr\Log\NullLogger;
  */
 class LocationService implements LocationServiceInterface
 {
-    /** @var \Ibexa\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var Handler */
     protected $persistenceHandler;
 
     /** @var array */
     protected $settings;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
+    /** @var ContentDomainMapper */
     protected $contentDomainMapper;
 
     protected NameSchemaServiceInterface $nameSchemaService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
+    /** @var PermissionCriterionResolver */
     protected $permissionCriterionResolver;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Location\Handler */
+    /** @var LocationFilteringHandler */
     private $locationFilteringHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeService */
     protected $contentTypeService;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $handler
-     * @param \Ibexa\Core\Repository\Mapper\ContentDomainMapper $contentDomainMapper
-     * @param \Ibexa\Core\Repository\Helper\NameSchemaService $nameSchemaService
-     * @param \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver $permissionCriterionResolver
-     * @param \Ibexa\Contracts\Core\Repository\ContentTypeService $contentTypeService
+     * @param RepositoryInterface $repository
+     * @param Handler $handler
+     * @param ContentDomainMapper $contentDomainMapper
+     * @param NameSchemaService $nameSchemaService
+     * @param PermissionCriterionResolver $permissionCriterionResolver
+     * @param ContentTypeService $contentTypeService
      * @param array $settings
-     * @param \Psr\Log\LoggerInterface|null $logger
+     * @param LoggerInterface|null $logger
      */
     public function __construct(
         RepositoryInterface $repository,
@@ -132,13 +135,15 @@ class LocationService implements LocationServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user does not have read access to the whole source subtree
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the target location is a sub location of the given location
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $subtree - the subtree denoted by the location to copy
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $targetParentLocation - the target parent location for the copy operation
+     * @param APILocation $subtree - the subtree denoted by the location to copy
+     * @param APILocation $targetParentLocation - the target parent location for the copy operation
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location The newly created location of the copied subtree
+     * @return APILocation The newly created location of the copied subtree
      */
-    public function copySubtree(APILocation $subtree, APILocation $targetParentLocation): APILocation
-    {
+    public function copySubtree(
+        APILocation $subtree,
+        APILocation $targetParentLocation
+    ): APILocation {
         $loadedSubtree = $this->loadLocation($subtree->id);
         $loadedTargetLocation = $this->loadLocation($targetParentLocation->id);
 
@@ -186,8 +191,11 @@ class LocationService implements LocationServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadLocation(int $locationId, ?array $prioritizedLanguages = null, ?bool $useAlwaysAvailable = null): APILocation
-    {
+    public function loadLocation(
+        int $locationId,
+        ?array $prioritizedLanguages = null,
+        ?bool $useAlwaysAvailable = null
+    ): APILocation {
         $spiLocation = $this->persistenceHandler->locationHandler()->load($locationId, $prioritizedLanguages, $useAlwaysAvailable ?? true);
         $location = $this->contentDomainMapper->buildLocation($spiLocation, $prioritizedLanguages ?: [], $useAlwaysAvailable ?? true);
         if (!$this->permissionResolver->canUser('content', 'read', $location->getContentInfo(), [$location])) {
@@ -200,8 +208,11 @@ class LocationService implements LocationServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadLocationList(array $locationIds, ?array $prioritizedLanguages = null, ?bool $useAlwaysAvailable = null): iterable
-    {
+    public function loadLocationList(
+        array $locationIds,
+        ?array $prioritizedLanguages = null,
+        ?bool $useAlwaysAvailable = null
+    ): iterable {
         $spiLocations = $this->persistenceHandler->locationHandler()->loadList(
             $locationIds,
             $prioritizedLanguages,
@@ -246,8 +257,11 @@ class LocationService implements LocationServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadLocationByRemoteId(string $remoteId, ?array $prioritizedLanguages = null, ?bool $useAlwaysAvailable = null): APILocation
-    {
+    public function loadLocationByRemoteId(
+        string $remoteId,
+        ?array $prioritizedLanguages = null,
+        ?bool $useAlwaysAvailable = null
+    ): APILocation {
         $spiLocation = $this->persistenceHandler->locationHandler()->loadByRemoteId($remoteId, $prioritizedLanguages, $useAlwaysAvailable ?? true);
         $location = $this->contentDomainMapper->buildLocation($spiLocation, $prioritizedLanguages ?: [], $useAlwaysAvailable ?? true);
         if (!$this->permissionResolver->canUser('content', 'read', $location->getContentInfo(), [$location])) {
@@ -260,8 +274,11 @@ class LocationService implements LocationServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadLocations(ContentInfo $contentInfo, ?APILocation $rootLocation = null, ?array $prioritizedLanguages = null): iterable
-    {
+    public function loadLocations(
+        ContentInfo $contentInfo,
+        ?APILocation $rootLocation = null,
+        ?array $prioritizedLanguages = null
+    ): iterable {
         if (!$contentInfo->published) {
             throw new BadStateException('$contentInfo', 'The Content item has no published versions');
         }
@@ -286,7 +303,7 @@ class LocationService implements LocationServiceInterface
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function loadLocationChildren(
         APILocation $location,
@@ -328,8 +345,10 @@ class LocationService implements LocationServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadParentLocationsForDraftContent(VersionInfo $versionInfo, ?array $prioritizedLanguages = null): iterable
-    {
+    public function loadParentLocationsForDraftContent(
+        VersionInfo $versionInfo,
+        ?array $prioritizedLanguages = null
+    ): iterable {
         if (!$versionInfo->isDraft()) {
             throw new BadStateException(
                 '$contentInfo',
@@ -403,13 +422,15 @@ class LocationService implements LocationServiceInterface
      *                                        or the parent is a sub location of the location of the content
      *                                        or if set the remoteId exists already
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct $locationCreateStruct
+     * @param ContentInfo $contentInfo
+     * @param LocationCreateStruct $locationCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location the newly created Location
+     * @return APILocation the newly created Location
      */
-    public function createLocation(ContentInfo $contentInfo, LocationCreateStruct $locationCreateStruct): APILocation
-    {
+    public function createLocation(
+        ContentInfo $contentInfo,
+        LocationCreateStruct $locationCreateStruct
+    ): APILocation {
         $content = $this->contentDomainMapper->buildContentDomainObjectFromPersistence(
             $this->persistenceHandler->contentHandler()->load($contentInfo->id),
             $this->persistenceHandler->contentTypeHandler()->load($contentInfo->contentTypeId)
@@ -495,13 +516,15 @@ class LocationService implements LocationServiceInterface
     /**
      * Updates $location in the content repository.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws APINotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the remoteId exists already
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to update this location
      */
-    public function updateLocation(APILocation $location, LocationUpdateStruct $locationUpdateStruct): APILocation
-    {
+    public function updateLocation(
+        APILocation $location,
+        LocationUpdateStruct $locationUpdateStruct
+    ): APILocation {
         if (!$this->contentDomainMapper->isValidLocationPriority($locationUpdateStruct->priority)) {
             throw new InvalidArgumentValue('priority', $locationUpdateStruct->priority, 'LocationUpdateStruct');
         }
@@ -561,13 +584,15 @@ class LocationService implements LocationServiceInterface
     /**
      * Swaps the contents held by $location1 and $location2.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws APINotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to swap content
      */
-    public function swapLocation(APILocation $location1, APILocation $location2): void
-    {
+    public function swapLocation(
+        APILocation $location1,
+        APILocation $location2
+    ): void {
         $loadedLocation1 = $this->loadLocation($location1->id);
         $loadedLocation2 = $this->loadLocation($location2->id);
 
@@ -612,7 +637,7 @@ class LocationService implements LocationServiceInterface
     /**
      * Hides the $location and marks invisible all descendants of $location.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws APINotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to hide this location
@@ -647,7 +672,7 @@ class LocationService implements LocationServiceInterface
      * This method and marks visible all descendants of $locations
      * until a hidden location is found.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws APINotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to unhide this location
@@ -679,8 +704,10 @@ class LocationService implements LocationServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function moveSubtree(APILocation $location, APILocation $newParentLocation): void
-    {
+    public function moveSubtree(
+        APILocation $location,
+        APILocation $newParentLocation
+    ): void {
         $location = $this->loadLocation($location->id);
         $newParentLocation = $this->loadLocation($newParentLocation->id);
 
@@ -740,7 +767,7 @@ class LocationService implements LocationServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this location or a descendant
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param APILocation $location
      */
     public function deleteLocation(APILocation $location): void
     {
@@ -798,12 +825,14 @@ class LocationService implements LocationServiceInterface
      * Instantiates a new location create class.
      *
      * @param mixed $parentLocationId the parent under which the new location should be created
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType
+     * @param ContentType|null $contentType
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct
+     * @return LocationCreateStruct
      */
-    public function newLocationCreateStruct($parentLocationId, ?ContentType $contentType = null): LocationCreateStruct
-    {
+    public function newLocationCreateStruct(
+        $parentLocationId,
+        ?ContentType $contentType = null
+    ): LocationCreateStruct {
         $properties = [
             'parentLocationId' => $parentLocationId,
         ];
@@ -818,7 +847,7 @@ class LocationService implements LocationServiceInterface
     /**
      * Instantiates a new location update class.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationUpdateStruct
+     * @return LocationUpdateStruct
      */
     public function newLocationUpdateStruct(): LocationUpdateStruct
     {
@@ -843,13 +872,15 @@ class LocationService implements LocationServiceInterface
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
+     * @return APILocation[]
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function loadAllLocations(int $offset = 0, int $limit = 25): array
-    {
+    public function loadAllLocations(
+        int $offset = 0,
+        int $limit = 25
+    ): array {
         $spiLocations = $this->persistenceHandler->locationHandler()->loadAllLocations(
             $offset,
             $limit
@@ -904,8 +935,10 @@ class LocationService implements LocationServiceInterface
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function find(Filter $filter, ?array $languages = null): LocationList
-    {
+    public function find(
+        Filter $filter,
+        ?array $languages = null
+    ): LocationList {
         $filter = clone $filter;
         if (!empty($languages)) {
             $filter->andWithCriterion(new LanguageCode($languages));
@@ -942,8 +975,10 @@ class LocationService implements LocationServiceInterface
         );
     }
 
-    public function count(Filter $filter, ?array $languages = null): int
-    {
+    public function count(
+        Filter $filter,
+        ?array $languages = null
+    ): int {
         $filter = clone $filter;
         if (!empty($languages)) {
             $filter->andWithCriterion(new LanguageCode($languages));
@@ -967,7 +1002,7 @@ class LocationService implements LocationServiceInterface
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */

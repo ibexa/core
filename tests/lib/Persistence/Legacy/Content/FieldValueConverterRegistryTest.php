@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
@@ -11,7 +12,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Regist
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+ * @covers \Registry
  */
 class FieldValueConverterRegistryTest extends TestCase
 {
@@ -48,7 +49,7 @@ class FieldValueConverterRegistryTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @return Converter
      */
     protected function getFieldValueConverterMock()
     {

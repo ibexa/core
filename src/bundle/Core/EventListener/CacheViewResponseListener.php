@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class CacheViewResponseListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)

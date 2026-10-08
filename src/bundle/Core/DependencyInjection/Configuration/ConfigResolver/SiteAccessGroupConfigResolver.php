@@ -13,9 +13,10 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
 use LogicException;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @property-read \Symfony\Component\DependencyInjection\ContainerInterface $container
+ * @property-read ContainerInterface $container
  *
  * @internal
  */
@@ -35,8 +36,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         $this->siteAccessGroups = $siteAccessGroups;
     }
 
-    final public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
-    {
+    final public function hasParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): bool {
         [$namespace, $scope] = $this->resolveNamespaceAndScope($namespace, $scope);
 
         if ($this->isSiteAccessGroupScope($scope)) {
@@ -46,8 +50,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         return parent::hasParameter($paramName, $namespace, $scope);
     }
 
-    final public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
-    {
+    final public function getParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ) {
         [$namespace, $scope] = $this->resolveNamespaceAndScope($namespace, $scope);
 
         if ($this->isSiteAccessGroupScope($scope)) {
@@ -57,8 +64,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         return parent::getParameter($paramName, $namespace, $scope);
     }
 
-    protected function resolverHasParameter(SiteAccess $siteAccess, string $paramName, string $namespace): bool
-    {
+    protected function resolverHasParameter(
+        SiteAccess $siteAccess,
+        string $paramName,
+        string $namespace
+    ): bool {
         if ($this->container === null) {
             throw new LogicException('Container is not set.');
         }
@@ -73,8 +83,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         return false;
     }
 
-    protected function resolverHasParameterForGroup(SiteAccessGroup $siteAccessGroup, string $paramName, string $namespace): bool
-    {
+    protected function resolverHasParameterForGroup(
+        SiteAccessGroup $siteAccessGroup,
+        string $paramName,
+        string $namespace
+    ): bool {
         if ($this->container === null) {
             throw new LogicException('Container is not set.');
         }
@@ -84,8 +97,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         return $this->container->hasParameter($groupScopeParamName);
     }
 
-    protected function getParameterFromResolver(SiteAccess $siteAccess, string $paramName, string $namespace)
-    {
+    protected function getParameterFromResolver(
+        SiteAccess $siteAccess,
+        string $paramName,
+        string $namespace
+    ) {
         if ($this->container === null) {
             throw new LogicException('Container is not set.');
         }
@@ -104,8 +120,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         throw new ParameterNotFoundException($paramName, $namespace, $triedScopes);
     }
 
-    protected function getParameterFromResolverForGroup(SiteAccessGroup $siteAccessGroup, string $paramName, string $namespace)
-    {
+    protected function getParameterFromResolverForGroup(
+        SiteAccessGroup $siteAccessGroup,
+        string $paramName,
+        string $namespace
+    ) {
         if ($this->container === null) {
             throw new LogicException('Container is not set.');
         }

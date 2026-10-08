@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
@@ -16,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
  * Test case for operations in the LanguageService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\LanguageService
+ *
  * @group integration
  * @group language
  */
@@ -54,9 +56,10 @@ class LanguageServiceTest extends BaseTest
     /**
      * Test for the createLanguage() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @return Language
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testNewLanguageCreateStruct
      */
     public function testCreateLanguage()
@@ -85,9 +88,10 @@ class LanguageServiceTest extends BaseTest
     /**
      * Test for the createLanguage() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageSetsIdPropertyOnReturnedLanguage($language)
@@ -98,9 +102,10 @@ class LanguageServiceTest extends BaseTest
     /**
      * Test for the createLanguage() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageSetsExpectedProperties($language)
@@ -123,6 +128,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the createLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageThrowsInvalidArgumentException()
@@ -153,6 +159,7 @@ class LanguageServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageById
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListById
+     *
      * @depends testCreateLanguage
      */
     public function testLoadLanguageById()
@@ -187,6 +194,7 @@ class LanguageServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageById
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListById
+     *
      * @depends testLoadLanguageById
      */
     public function testLoadLanguageByIdThrowsNotFoundException()
@@ -212,6 +220,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the updateLanguageName() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
+     *
      * @depends testLoadLanguageById
      */
     public function testUpdateLanguageName()
@@ -276,6 +285,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the enableLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::enableLanguage
+     *
      * @depends testLoadLanguageById
      */
     public function testEnableLanguage()
@@ -305,6 +315,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the disableLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::disableLanguage
+     *
      * @depends testLoadLanguageById
      */
     public function testDisableLanguage()
@@ -335,6 +346,7 @@ class LanguageServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListByCode
+     *
      * @depends testCreateLanguage
      */
     public function testLoadLanguage()
@@ -386,6 +398,7 @@ class LanguageServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListByCode
+     *
      * @depends testLoadLanguage
      */
     public function testLoadLanguageThrowsNotFoundException()
@@ -423,6 +436,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the loadLanguages() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguages
+     *
      * @depends testCreateLanguage
      * @depends testLoadLanguage
      */
@@ -468,6 +482,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the loadLanguages() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguages
+     *
      * @depends testCreateLanguage
      */
     public function loadLanguagesReturnsAnEmptyArrayByDefault()
@@ -483,6 +498,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the deleteLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage
+     *
      * @depends testLoadLanguages
      */
     public function testDeleteLanguage()
@@ -525,6 +541,7 @@ class LanguageServiceTest extends BaseTest
      * we cannot declare them here.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage
+     *
      * @depends testDeleteLanguage
      */
     public function testDeleteLanguageThrowsInvalidArgumentException()
@@ -576,7 +593,7 @@ class LanguageServiceTest extends BaseTest
         $repository = $this->getRepository();
         $languageService = $repository->getContentLanguageService();
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '(^[a-z]{3}\-[A-Z]{2}$)',
             $languageService->getDefaultLanguageCode()
         );
@@ -586,6 +603,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the createLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageInTransactionWithRollback()
@@ -631,6 +649,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the createLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageInTransactionWithCommit()
@@ -672,6 +691,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the updateLanguageName() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
+     *
      * @depends testUpdateLanguageName
      */
     public function testUpdateLanguageNameInTransactionWithRollback()
@@ -710,6 +730,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the updateLanguageName() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
+     *
      * @depends testUpdateLanguageName
      */
     public function testUpdateLanguageNameInTransactionWithCommit()

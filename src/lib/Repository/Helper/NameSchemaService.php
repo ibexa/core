@@ -4,10 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Repository\Helper;
 
+use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
@@ -15,11 +18,12 @@ use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Ibexa\Core\Repository\NameSchema\NameSchemaService as NativeNameSchemaService;
 use Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor;
+use Ibexa\Core\Repository\Values\ContentType\FieldType;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @deprecated inject \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface instead.
- * @see \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
+ * @see NameSchemaServiceInterface
  */
 class NameSchemaService extends NativeNameSchemaService
 {
@@ -49,8 +53,10 @@ class NameSchemaService extends NativeNameSchemaService
         $this->contentTypeDomainMapper = $contentTypeDomainMapper;
     }
 
-    public function resolveUrlAliasSchema(Content $content, ?ContentType $contentType = null): array
-    {
+    public function resolveUrlAliasSchema(
+        Content $content,
+        ?ContentType $contentType = null
+    ): array {
         $contentType = $contentType ?? $content->getContentType();
 
         return $this->resolveUrlAliasSchema(
@@ -112,14 +118,17 @@ class NameSchemaService extends NativeNameSchemaService
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
+     * @param Content $content
+     * @param array<int|string, array<string, Value>>  $fieldMap
      * @param array<string> $languageCodes
      *
-     * @return array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>
+     * @return array<int|string, array<string, Value>>
      */
-    protected function mergeFieldMap(Content $content, array $fieldMap, array $languageCodes): array
-    {
+    protected function mergeFieldMap(
+        Content $content,
+        array $fieldMap,
+        array $languageCodes
+    ): array {
         $mergedFieldMap = [];
 
         foreach ($content->fields as $fieldIdentifier => $fieldLanguageMap) {
@@ -136,18 +145,22 @@ class NameSchemaService extends NativeNameSchemaService
      * an array of their current title value.
      *
      * @param array<string> $schemaIdentifiers
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type|\Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
+     * @param SPIContentType|ContentType $contentType
+     * @param array<int|string, array<string, Value>>  $fieldMap
      * @param string $languageCode
      *
      * @return array<string> Key is the field identifier, value is the title value
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      *
-     * @see \Ibexa\Core\Repository\Values\ContentType\FieldType::getName()
+     * @see FieldType::getName()
      */
-    protected function getFieldTitles(array $schemaIdentifiers, $contentType, array $fieldMap, $languageCode): array
-    {
+    protected function getFieldTitles(
+        array $schemaIdentifiers,
+        $contentType,
+        array $fieldMap,
+        $languageCode
+    ): array {
         $fieldTitles = [];
 
         foreach ($schemaIdentifiers as $fieldDefinitionIdentifier) {

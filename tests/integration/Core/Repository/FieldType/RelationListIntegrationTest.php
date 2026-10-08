@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -39,7 +40,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      *
      * @return array|\Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
@@ -68,7 +69,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      *
      * @return array|\Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
@@ -223,7 +224,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -292,7 +293,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {

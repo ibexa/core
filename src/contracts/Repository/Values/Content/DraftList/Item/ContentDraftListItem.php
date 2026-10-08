@@ -17,12 +17,12 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 class ContentDraftListItem implements ContentDraftListItemInterface
 {
     /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo
+     * @var VersionInfo
      */
     private $versionInfo;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      */
     public function __construct(VersionInfo $versionInfo)
     {
@@ -30,7 +30,7 @@ class ContentDraftListItem implements ContentDraftListItemInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo|null
+     * @return VersionInfo|null
      */
     public function getVersionInfo(): ?VersionInfo
     {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Event;
 
 use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
@@ -15,20 +16,22 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class RouteReferenceGenerationEvent extends Event
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\RouteReference */
+    /** @var RouteReference */
     private $routeReference;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
+    /** @var Request */
     private $request;
 
-    public function __construct(RouteReference $routeReference, Request $request)
-    {
+    public function __construct(
+        RouteReference $routeReference,
+        Request $request
+    ) {
         $this->routeReference = $routeReference;
         $this->request = $request;
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      */
     public function getRequest()
     {
@@ -36,7 +39,7 @@ class RouteReferenceGenerationEvent extends Event
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\Routing\RouteReference
+     * @return RouteReference
      */
     public function getRouteReference()
     {
@@ -44,7 +47,7 @@ class RouteReferenceGenerationEvent extends Event
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\Routing\RouteReference $routeReference
+     * @param RouteReference $routeReference
      */
     public function setRouteReference($routeReference)
     {

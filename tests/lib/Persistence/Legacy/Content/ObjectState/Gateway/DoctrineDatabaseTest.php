@@ -4,10 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
@@ -19,14 +22,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $databaseGateway;
 
     /**
      * Language mask generator.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @var MaskGenerator
      */
     protected $languageMaskGenerator;
 
@@ -470,7 +473,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns an object state fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     protected function getObjectStateFixture()
     {
@@ -487,7 +490,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns an object state group fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     protected function getObjectStateGroupFixture()
     {
@@ -504,7 +507,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a ready to test DoctrineDatabase gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

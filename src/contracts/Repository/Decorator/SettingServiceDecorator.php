@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Setting\SettingUpdateStruct;
 
 abstract class SettingServiceDecorator implements SettingService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SettingService */
+    /** @var SettingService */
     protected $innerService;
 
     public function __construct(
@@ -24,13 +24,17 @@ abstract class SettingServiceDecorator implements SettingService
         $this->innerService = $innerService;
     }
 
-    public function loadSetting(string $group, string $identifier): Setting
-    {
+    public function loadSetting(
+        string $group,
+        string $identifier
+    ): Setting {
         return $this->innerService->loadSetting($group, $identifier);
     }
 
-    public function updateSetting(Setting $setting, SettingUpdateStruct $settingUpdateStruct): Setting
-    {
+    public function updateSetting(
+        Setting $setting,
+        SettingUpdateStruct $settingUpdateStruct
+    ): Setting {
         return $this->innerService->updateSetting($setting, $settingUpdateStruct);
     }
 

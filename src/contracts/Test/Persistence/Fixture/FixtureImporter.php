@@ -22,7 +22,7 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture;
  */
 final class FixtureImporter
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     /** @var array<string, string|null> */
@@ -34,7 +34,7 @@ final class FixtureImporter
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function import(Fixture $fixture): void
     {
@@ -66,7 +66,7 @@ final class FixtureImporter
     /**
      * @param string[] $tables a list of table names
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     private function truncateTables(array $tables): void
     {
@@ -90,7 +90,7 @@ final class FixtureImporter
      *
      * @param string[] $affectedTables
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     private function resetSequences(array $affectedTables): void
     {
@@ -146,7 +146,7 @@ final class FixtureImporter
     }
 
     /**
-     * @param array<\Doctrine\DBAL\Schema\Column> $columns
+     * @param array<Column> $columns
      */
     private function findAutoincrementColumn(array $columns): ?Column
     {

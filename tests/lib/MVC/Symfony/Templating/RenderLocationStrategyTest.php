@@ -30,8 +30,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
             ]
         );
 
-        $valueObject = new class() extends ValueObject {
-        };
+        $valueObject = new class() extends ValueObject {};
         $this->assertFalse($renderLocationStrategy->supports($valueObject));
 
         $this->expectException(InvalidArgumentException::class);

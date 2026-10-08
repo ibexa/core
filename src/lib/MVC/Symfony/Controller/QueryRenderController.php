@@ -23,10 +23,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class QueryRenderController
 {
-    /** @var \Ibexa\Core\Query\QueryFactoryInterface */
+    /** @var QueryFactoryInterface */
     private $queryFactory;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface */
+    /** @var SearchHitAdapterFactoryInterface */
     private $searchHitAdapterFactory;
 
     public function __construct(
@@ -37,8 +37,10 @@ final class QueryRenderController
         $this->searchHitAdapterFactory = $searchHitAdapterFactory;
     }
 
-    public function renderQuery(Request $request, array $options): QueryView
-    {
+    public function renderQuery(
+        Request $request,
+        array $options
+    ): QueryView {
         $options = $this->resolveOptions($options);
 
         $results = new Pagerfanta($this->getAdapter($options));
@@ -106,8 +108,11 @@ final class QueryRenderController
         return $this->searchHitAdapterFactory->createFixedAdapter($query);
     }
 
-    private function createQueryView(string $template, string $assignResultsTo, iterable $results): QueryView
-    {
+    private function createQueryView(
+        string $template,
+        string $assignResultsTo,
+        iterable $results
+    ): QueryView {
         $view = new QueryView();
         $view->setTemplateIdentifier($template);
         $view->addParameters([

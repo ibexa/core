@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\RepositoryInstaller\Bootstrapper;
 
+use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RemoveTaggedMigrationsRunnerPass;
+use Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
 use Ibexa\Contracts\Test\Core\Bootstrapper\DatabaseSchemaHook;
 use Ibexa\Contracts\Test\Core\Bootstrapper\FixtureHook;
@@ -19,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * Installs the database schema the way a real `ibexa:install` does when the SchemaBuilderEvent path
  * is turned off: by running every Ibexa-tagged Doctrine migration via {@see TaggedMigrationsRunner}
- * — the very same service {@see \Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller} uses, so
+ * — the very same service {@see CoreInstaller} uses, so
  * a test database built this way is built by the production code path, not by a re-implementation
  * of it.
  *
@@ -41,7 +43,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * Registered only in the "test" environment, and removed from the container along with
  * {@see TaggedMigrationsRunner} itself when "ibexa/doctrine-migrations" isn't installed/enabled, by
- * {@see \Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RemoveTaggedMigrationsRunnerPass}.
+ * {@see RemoveTaggedMigrationsRunnerPass}.
  */
 final class DoctrineMigrationsSchemaHook implements HookInterface
 {

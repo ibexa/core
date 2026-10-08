@@ -10,6 +10,4 @@ namespace Ibexa\Contracts\Core\Search\Embedding;
 
 use Throwable;
 
-interface EmbeddingProviderExceptionInterface extends Throwable
-{
-}
+interface EmbeddingProviderExceptionInterface extends Throwable {}

@@ -29,8 +29,10 @@ class Depth extends Location implements FilteringCriterion
      * @param string $operator One of the Operator constants
      * @param mixed $value The match value, either as an array of as a single value, depending on the operator
      */
-    public function __construct(string $operator, $value)
-    {
+    public function __construct(
+        string $operator,
+        $value
+    ) {
         parent::__construct(null, $operator, $value);
     }
 

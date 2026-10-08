@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Fragment;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -16,10 +17,10 @@ use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
 
 class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
 {
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface */
+    /** @var FragmentRendererInterface */
     private $innerRenderer;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
     private SiteAccessSerializerInterface $siteAccessSerializer;
@@ -44,11 +45,14 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
         $this->siteAccess = $siteAccess;
     }
 
-    public function render($uri, Request $request, array $options = [])
-    {
+    public function render(
+        $uri,
+        Request $request,
+        array $options = []
+    ) {
         if ($uri instanceof ControllerReference) {
             if ($request->attributes->has('siteaccess')) {
-                /** @var \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess */
+                /** @var SiteAccess $siteAccess */
                 $siteAccess = $request->attributes->get('siteaccess');
                 $this->siteAccessSerializer->serializeSiteAccessAsControllerAttributes($siteAccess, $uri);
             }

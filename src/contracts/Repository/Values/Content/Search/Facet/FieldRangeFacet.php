@@ -41,7 +41,7 @@ class FieldRangeFacet extends Facet
     /**
      * For each interval there is an entry with statistical data.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet\RangeFacetEntry[]
+     * @var RangeFacetEntry[]
      */
     public $entries;
 }

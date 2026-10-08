@@ -8,6 +8,4 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion;
 
-final class LogicalOr extends LogicalOperator
-{
-}
+final class LogicalOr extends LogicalOperator {}

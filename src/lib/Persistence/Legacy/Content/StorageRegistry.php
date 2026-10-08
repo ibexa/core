@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\FieldType\FieldStorage;
@@ -14,7 +15,7 @@ use Ibexa\Core\FieldType\NullStorage;
  */
 class StorageRegistry
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\FieldStorage[] */
+    /** @var FieldStorage[] */
     protected $storageMap;
 
     /**
@@ -26,8 +27,10 @@ class StorageRegistry
         $this->storageMap = $storageMap;
     }
 
-    public function register(string $typeName, FieldStorage $storage): void
-    {
+    public function register(
+        string $typeName,
+        FieldStorage $storage
+    ): void {
         $this->storageMap[$typeName] = $storage;
     }
 

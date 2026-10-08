@@ -20,8 +20,11 @@ final class DateMetadataRangeAggregation extends AbstractRangeAggregation
     /** @var string */
     private $type;
 
-    public function __construct(string $name, string $type, array $ranges = [])
-    {
+    public function __construct(
+        string $name,
+        string $type,
+        array $ranges = []
+    ) {
         parent::__construct($name, $ranges);
         $this->type = $type;
     }

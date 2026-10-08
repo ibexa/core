@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 
 final class AssignSectionEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
+    /** @var Section */
     private $section;
 
     public function __construct(

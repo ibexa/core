@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngine;
@@ -14,14 +15,14 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
  */
 class SearchEngineFactory
 {
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
+    /** @var RepositoryConfigurationProvider */
     private $repositoryConfigurationProvider;
 
     /**
      * Hash of registered search engines.
      * Key is the search engine identifier, value search handler itself.
      *
-     * @var \Ibexa\Contracts\Core\Search\Handler[]
+     * @var SearchHandler[]
      */
     protected $searchEngines = [];
 
@@ -35,18 +36,20 @@ class SearchEngineFactory
      *
      * Note It is strongly recommended to register a lazy persistent handler.
      *
-     * @param \Ibexa\Contracts\Core\Search\Handler $searchHandler
+     * @param SearchHandler $searchHandler
      * @param string $searchEngineIdentifier
      */
-    public function registerSearchEngine(SearchHandler $searchHandler, $searchEngineIdentifier)
-    {
+    public function registerSearchEngine(
+        SearchHandler $searchHandler,
+        $searchEngineIdentifier
+    ) {
         $this->searchEngines[$searchEngineIdentifier] = $searchHandler;
     }
 
     /**
      * Returns registered search engines.
      *
-     * @return \Ibexa\Contracts\Core\Search\Handler[]
+     * @return SearchHandler[]
      */
     public function getSearchEngines()
     {
@@ -57,7 +60,7 @@ class SearchEngineFactory
      * Builds search engine identified by its identifier (the "alias" attribute in the service tag),
      * resolved for current SiteAccess.
      *
-     * @throws \Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngine
+     * @throws InvalidSearchEngine
      */
     public function buildSearchEngine(): SearchHandler
     {

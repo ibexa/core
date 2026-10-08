@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\View\Provider;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APIContentLocation;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
 
 /**
  * Interface for location view providers.
@@ -20,12 +22,15 @@ interface Location
     /**
      * Returns a ContentView object corresponding to $location, or null if not applicable.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param APIContentLocation $location
      * @param string $viewType Variation of display for your content.
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\ContentView|null
+     * @return ContentView|null
      */
-    public function getView(APIContentLocation $location, $viewType);
+    public function getView(
+        APIContentLocation $location,
+        $viewType
+    );
 }
 
 class_alias(Location::class, 'eZ\Publish\Core\MVC\Symfony\View\Provider\Location');

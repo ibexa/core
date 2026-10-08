@@ -12,20 +12,21 @@ use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader;
 use Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOConfigProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LegacyStorageImageFileListTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ImageFileRowReader|MockObject */
     protected $rowReaderMock;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList */
+    /** @var LegacyStorageImageFileList */
     protected $fileList;
 
-    /** @var \Ibexa\Core\IO\IOConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOConfigProvider|MockObject */
     private $ioConfigResolverMock;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     private $configResolverMock;
 
     protected function setUp(): void

@@ -13,14 +13,15 @@ use Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderInterface;
 use Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderRegistryInterface;
 use Ibexa\Contracts\Core\Search\Embedding\EmbeddingResolverNotFoundException;
 use Ibexa\Core\Search\Embedding\EmbeddingProviderResolver;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class EmbeddingProviderResolverTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Search\Embedding\EmbeddingConfigurationInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EmbeddingConfigurationInterface&MockObject */
     private EmbeddingConfigurationInterface $configuration;
 
-    /** @var \Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderRegistryInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EmbeddingProviderRegistryInterface&MockObject */
     private EmbeddingProviderRegistryInterface $registry;
 
     private EmbeddingProviderResolver $resolver;

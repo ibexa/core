@@ -18,13 +18,13 @@ use PHPUnit\Framework\TestCase;
 
 class DecoratedLocationServiceTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\DecoratedLocationService */
+    /** @var DecoratedLocationService */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var ApiLocationService */
     private $innerLocationService;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\ContentLocationMapper */
+    /** @var ContentLocationMapper */
     private $mapper;
 
     protected function setUp(): void

@@ -20,11 +20,14 @@ final class DestinationLocation extends ValueObject implements Target
     /** @var int */
     private $locationId;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $targetContentInfo;
 
-    public function __construct(int $locationId, ContentInfo $targetContentInfo, array $properties = [])
-    {
+    public function __construct(
+        int $locationId,
+        ContentInfo $targetContentInfo,
+        array $properties = []
+    ) {
         $this->locationId = $locationId;
         $this->targetContentInfo = $targetContentInfo;
 

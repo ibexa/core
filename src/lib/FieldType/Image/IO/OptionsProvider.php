@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Image\IO;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -13,7 +14,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
  */
 class OptionsProvider
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)

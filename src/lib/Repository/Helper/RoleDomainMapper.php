@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Repository\Helper;
 
 use Ibexa\Core\Repository\Mapper\RoleDomainMapper as BaseRoleDomainMapper;
@@ -15,8 +16,6 @@ use Ibexa\Core\Repository\Mapper\RoleDomainMapper as BaseRoleDomainMapper;
  *
  * @deprecated since eZ Platform 3.0.1, to be removed in eZ Platform 3.0.x (it's internal - no BC promise)
  */
-class RoleDomainMapper extends BaseRoleDomainMapper
-{
-}
+class RoleDomainMapper extends BaseRoleDomainMapper {}
 
 class_alias(RoleDomainMapper::class, 'eZ\Publish\Core\Repository\Helper\RoleDomainMapper');

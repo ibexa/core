@@ -17,10 +17,10 @@ use Pagerfanta\Adapter\AdapterInterface;
  */
 final class ContentFilteringAdapter implements AdapterInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\Filter */
+    /** @var Filter */
     private $filter;
 
     /** @var array|null */
@@ -48,8 +48,10 @@ final class ContentFilteringAdapter implements AdapterInterface
         return $this->totalCount;
     }
 
-    public function getSlice($offset, $length): iterable
-    {
+    public function getSlice(
+        $offset,
+        $length
+    ): iterable {
         $selectFilter = clone $this->filter;
         $selectFilter->sliceBy($length, $offset);
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -23,16 +24,16 @@ use Ibexa\Core\Repository\Values\Content\Relation;
 trait RelationSearchBaseIntegrationTestTrait
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
+     * @return APIRelation[]
      */
     abstract public function getCreateExpectedRelations(Content $content);
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
+     * @return APIRelation[]
      */
     abstract public function getUpdateExpectedRelations(Content $content);
 
@@ -73,15 +74,18 @@ trait RelationSearchBaseIntegrationTestTrait
     /**
      * Normalizes given $relations for easier comparison.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $relations
+     * @param APIRelation[] $relations
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
+     * @return APIRelation[]
      */
     protected function normalizeRelations(array $relations): array
     {
         usort(
             $relations,
-            static function (APIRelation $a, APIRelation $b): int {
+            static function (
+                APIRelation $a,
+                APIRelation $b
+            ): int {
                 if ($a->type === $b->type) {
                     return $a->destinationContentInfo->id < $b->destinationContentInfo->id ? 1 : -1;
                 }

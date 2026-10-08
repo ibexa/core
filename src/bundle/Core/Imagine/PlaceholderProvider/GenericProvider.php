@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
 
 use Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
@@ -14,13 +15,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GenericProvider implements PlaceholderProvider
 {
-    /** @var \Imagine\Image\ImagineInterface */
+    /** @var ImagineInterface */
     private $imagine;
 
     /**
      * GenericProvider constructor.
      *
-     * @param \Imagine\Image\ImagineInterface $imagine
+     * @param ImagineInterface $imagine
      */
     public function __construct(ImagineInterface $imagine)
     {
@@ -30,8 +31,10 @@ class GenericProvider implements PlaceholderProvider
     /**
      * {@inheritdoc}
      */
-    public function getPlaceholder(ImageValue $value, array $options = []): string
-    {
+    public function getPlaceholder(
+        ImageValue $value,
+        array $options = []
+    ): string {
         $options = $this->resolveOptions($options);
 
         $palette = new Image\Palette\RGB();
@@ -73,8 +76,10 @@ class GenericProvider implements PlaceholderProvider
         return $path;
     }
 
-    private function getPlaceholderText(string $pattern, ImageValue $value): string
-    {
+    private function getPlaceholderText(
+        string $pattern,
+        ImageValue $value
+    ): string {
         return strtr($pattern, [
             '%width%' => $value->width,
             '%height%' => $value->height,

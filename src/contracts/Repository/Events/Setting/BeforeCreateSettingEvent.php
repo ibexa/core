@@ -15,10 +15,10 @@ use UnexpectedValueException;
 
 final class BeforeCreateSettingEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Setting\SettingCreateStruct */
+    /** @var SettingCreateStruct */
     private $settingCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Setting\Setting|null */
+    /** @var Setting|null */
     private $setting;
 
     public function __construct(SettingCreateStruct $settingCreateStruct)

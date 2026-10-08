@@ -21,13 +21,13 @@ use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway as FilteringGateway;
  */
 final class ContentFilteringHandler implements Handler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway */
+    /** @var FilteringGateway */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper */
+    /** @var GatewayDataMapper */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldHandler */
+    /** @var FieldHandler */
     private $fieldHandler;
 
     public function __construct(
@@ -41,7 +41,7 @@ final class ContentFilteringHandler implements Handler
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Filter\Content\LazyContentItemListIterator
+     * @return LazyContentItemListIterator
      */
     public function find(Filter $filter): iterable
     {

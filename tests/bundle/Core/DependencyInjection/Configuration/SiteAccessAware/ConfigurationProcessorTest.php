@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ConfigurationMapperInterface;
@@ -102,7 +103,11 @@ class ConfigurationProcessorTest extends TestCase
             ],
         ];
 
-        $mapperClosure = static function (array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer) use ($config, $availableSAs, $saNodeName, $expectedContextualizer) {
+        $mapperClosure = static function (
+            array &$scopeSettings,
+            $currentScope,
+            ContextualizerInterface $contextualizer
+        ) use ($config, $availableSAs, $saNodeName, $expectedContextualizer) {
             self::assertTrue(isset($availableSAs[$currentScope]));
             self::assertSame($config[$saNodeName][$currentScope], $scopeSettings);
             self::assertSame($expectedContextualizer, $contextualizer);

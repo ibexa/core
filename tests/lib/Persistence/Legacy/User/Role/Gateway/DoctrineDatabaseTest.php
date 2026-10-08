@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\User\Role\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\User\Role;
 use Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase;
@@ -21,7 +22,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $databaseGateway;
 
@@ -40,7 +41,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function testCreateRole(): void
     {
@@ -74,7 +75,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function testLoadRoleAssignment(): void
     {
@@ -95,7 +96,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function testLoadRoleAssignmentsByGroupId(): void
     {
@@ -130,7 +131,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function testLoadRoleAssignmentsByRoleId(): void
     {
@@ -195,9 +196,9 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns a ready to test DoctrineDatabase gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
+     * @return DoctrineDatabase
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

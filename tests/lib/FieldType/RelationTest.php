@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
@@ -17,6 +18,7 @@ use Ibexa\Core\FieldType\Relation\Type as RelationType;
 use Ibexa\Core\FieldType\Relation\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class RelationTest extends FieldTypeTest
 {
@@ -24,7 +26,7 @@ class RelationTest extends FieldTypeTest
 
     private $contentHandler;
 
-    /** @var \Ibexa\Core\Repository\Validator\TargetContentValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TargetContentValidatorInterface|MockObject */
     private $targetContentValidator;
 
     protected function setUp(): void
@@ -70,7 +72,7 @@ class RelationTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Core\FieldType\Relation\Type
+     * @return RelationType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -123,7 +125,7 @@ class RelationTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return \Ibexa\Core\FieldType\Relation\Value
+     * @return Value
      */
     protected function getEmptyValueExpectation()
     {
@@ -377,7 +379,7 @@ class RelationTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Relation\Type::getRelations
+     * @covers \RelationType::getRelations
      */
     public function testGetRelations()
     {
@@ -464,7 +466,7 @@ class RelationTest extends FieldTypeTest
         array $fieldSettings = [],
         string $languageCode = 'en_GB'
     ): void {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject $fieldDefinitionMock */
+        /** @var FieldDefinition|MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(FieldDefinition::class);
         $fieldDefinitionMock->method('getFieldSettings')->willReturn($fieldSettings);
 

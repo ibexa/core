@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Contracts\Core\Limitation\Type;
@@ -14,6 +15,7 @@ use Ibexa\Core\Repository\PermissionsCriterionHandler;
 use Ibexa\Core\Repository\Values\User\Policy;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Mock test case for PermissionCriterionHandler.
@@ -74,8 +76,11 @@ class PermissionsCriterionHandlerTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestAddPermissionsCriterion
      */
-    public function testAddPermissionsCriterion($permissionsCriterionMock, $givenCriterion, $expectedCriterion)
-    {
+    public function testAddPermissionsCriterion(
+        $permissionsCriterionMock,
+        $givenCriterion,
+        $expectedCriterion
+    ) {
         $handler = $this->getPermissionsCriterionHandlerMock(['getPermissionsCriterion']);
         $handler
             ->expects($this->once())
@@ -274,8 +279,11 @@ class PermissionsCriterionHandlerTest extends BaseServiceMockTest
         ];
     }
 
-    protected function mockServices($criterionMock, $limitationCount, $permissionSets)
-    {
+    protected function mockServices(
+        $criterionMock,
+        $limitationCount,
+        $permissionSets
+    ) {
         $userMock = $this->createMock(User::class);
         $limitationTypeMock = $this->createMock(Type::class);
         $limitationServiceMock = $this->getLimitationServiceMock();
@@ -365,7 +373,7 @@ class PermissionsCriterionHandlerTest extends BaseServiceMockTest
      *
      * @param string[]|null $methods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\PermissionsCriterionHandler
+     * @return MockObject|PermissionsCriterionHandler
      */
     protected function getPermissionsCriterionHandlerMock($methods = [])
     {

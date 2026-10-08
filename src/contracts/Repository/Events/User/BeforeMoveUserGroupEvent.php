@@ -13,14 +13,16 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 final class BeforeMoveUserGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $userGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $newParent;
 
-    public function __construct(UserGroup $userGroup, UserGroup $newParent)
-    {
+    public function __construct(
+        UserGroup $userGroup,
+        UserGroup $newParent
+    ) {
         $this->userGroup = $userGroup;
         $this->newParent = $newParent;
     }

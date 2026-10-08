@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
 
 final class BeforeDeleteContentTypeGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup */
+    /** @var ContentTypeGroup */
     private $contentTypeGroup;
 
     public function __construct(ContentTypeGroup $contentTypeGroup)

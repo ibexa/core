@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 
 class IbexaRepositoryInstallerBundleTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle */
+    /** @var IbexaRepositoryInstallerBundle */
     private $bundle;
 
     public function setUp(): void

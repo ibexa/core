@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\Proxy\LazyLoadingInterface;
 
 /**
@@ -24,14 +25,16 @@ use ProxyManager\Proxy\LazyLoadingInterface;
  */
 final class ProxyDomainMapper implements ProxyDomainMapperInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
-    /** @var \ProxyManager\Factory\LazyLoadingValueHolderFactory */
+    /** @var LazyLoadingValueHolderFactory */
     private $proxyGenerator;
 
-    public function __construct(Repository $repository, ProxyGeneratorInterface $proxyGenerator)
-    {
+    public function __construct(
+        Repository $repository,
+        ProxyGeneratorInterface $proxyGenerator
+    ) {
         $this->repository = $repository;
         $this->proxyGenerator = $proxyGenerator;
     }
@@ -210,8 +213,10 @@ final class ProxyDomainMapper implements ProxyDomainMapperInterface
         return $this->proxyGenerator->createProxy(Section::class, $initializer);
     }
 
-    public function createUserProxy(int $userId, array $prioritizedLanguages = Language::ALL): User
-    {
+    public function createUserProxy(
+        int $userId,
+        array $prioritizedLanguages = Language::ALL
+    ): User {
         $initializer = function (
             &$wrappedObject,
             LazyLoadingInterface $proxy,

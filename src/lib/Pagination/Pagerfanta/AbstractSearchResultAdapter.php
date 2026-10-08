@@ -11,22 +11,23 @@ namespace Ibexa\Core\Pagination\Pagerfanta;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SpellcheckResult;
 use Pagerfanta\Adapter\AdapterInterface;
 
 abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchResultAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchService */
     private $searchService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query */
+    /** @var Query */
     private $query;
 
     /** @var array */
     private $languageFilter;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection|null */
+    /** @var AggregationResultCollection|null */
     private $aggregations;
 
     /** @var float|null */
@@ -43,8 +44,11 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
 
     private ?SpellcheckResult $spellcheck = null;
 
-    public function __construct(Query $query, SearchService $searchService, array $languageFilter = [])
-    {
+    public function __construct(
+        Query $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         $this->query = $query;
         $this->searchService = $searchService;
         $this->languageFilter = $languageFilter;
@@ -83,10 +87,12 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
      * @param int $offset The offset.
      * @param int $length The length.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit[]
+     * @return SearchHit[]
      */
-    public function getSlice($offset, $length)
-    {
+    public function getSlice(
+        $offset,
+        $length
+    ) {
         $query = clone $this->query;
         $query->offset = $offset;
         $query->limit = $length;

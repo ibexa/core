@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Helper;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -17,26 +18,28 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ContentPreviewHelper implements SiteAccessAware
 {
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface */
+    /** @var SiteAccessRouterInterface */
     protected $siteAccessRouter;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     protected $originalSiteAccess;
 
     /** @var bool */
     private $previewActive = false;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $previewedContent;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $previewedLocation;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher, SiteAccessRouterInterface $siteAccessRouter)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        SiteAccessRouterInterface $siteAccessRouter
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->siteAccessRouter = $siteAccessRouter;
     }
@@ -49,7 +52,7 @@ class ContentPreviewHelper implements SiteAccessAware
     /**
      * Return original SiteAccess.
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function getOriginalSiteAccess()
     {
@@ -61,7 +64,7 @@ class ContentPreviewHelper implements SiteAccessAware
      *
      * @param string $siteAccessName
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function changeConfigScope($siteAccessName)
     {
@@ -74,7 +77,7 @@ class ContentPreviewHelper implements SiteAccessAware
     /**
      * Restores original config scope.
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function restoreConfigScope()
     {
@@ -102,7 +105,7 @@ class ContentPreviewHelper implements SiteAccessAware
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
     public function getPreviewedContent()
     {
@@ -110,7 +113,7 @@ class ContentPreviewHelper implements SiteAccessAware
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $previewedContent
+     * @param Content $previewedContent
      */
     public function setPreviewedContent(Content $previewedContent)
     {
@@ -118,7 +121,7 @@ class ContentPreviewHelper implements SiteAccessAware
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
+     * @return Location
      */
     public function getPreviewedLocation()
     {
@@ -126,7 +129,7 @@ class ContentPreviewHelper implements SiteAccessAware
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $previewedLocation
+     * @param Location $previewedLocation
      */
     public function setPreviewedLocation(Location $previewedLocation)
     {

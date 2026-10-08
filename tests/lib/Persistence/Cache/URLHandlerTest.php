@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\URL\Handler as SpiURLHandler;
@@ -108,14 +109,12 @@ class URLHandlerTest extends AbstractCacheHandlerTest
             );
 
         $this->cacheMock
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('invalidateTags')
-            ->with(['url-1']);
-
-        $this->cacheMock
-            ->expects($this->at(1))
-            ->method('invalidateTags')
-            ->with(['c-2', 'c-3', 'c-5']);
+            ->withConsecutive(
+                [['url-1']],
+                [['c-2', 'c-3', 'c-5']]
+            );
 
         $handler = $this->persistenceCacheHandler->urlHandler();
         $handler->updateUrl($urlId, $updateStruct);
@@ -146,7 +145,7 @@ class URLHandlerTest extends AbstractCacheHandlerTest
             ->willReturn('url-1');
 
         $this->cacheMock
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with(['url-1']);
 

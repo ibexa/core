@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -29,10 +30,10 @@ class SessionSetDynamicNameListener implements EventSubscriberInterface
      */
     public const SESSION_NAME_PREFIX = 'eZSESSID';
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface */
+    /** @var SessionStorageFactoryInterface */
     private $sessionStorageFactory;
 
     public function __construct(
@@ -75,12 +76,14 @@ class SessionSetDynamicNameListener implements EventSubscriberInterface
 
     /**
      * @param string $sessionName
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess
+     * @param SiteAccess $siteAccess
      *
      * @return string
      */
-    private function getSessionName($sessionName, SiteAccess $siteAccess)
-    {
+    private function getSessionName(
+        $sessionName,
+        SiteAccess $siteAccess
+    ) {
         // Add session prefix if needed.
         if (strpos($sessionName, static::SESSION_NAME_PREFIX) !== 0) {
             $sessionName = static::SESSION_NAME_PREFIX . '_' . $sessionName;

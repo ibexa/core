@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Exception;
 
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -19,8 +20,10 @@ class RoleNotFound extends NotFoundException
      * @param mixed $roleId
      * @param mixed $status
      */
-    public function __construct($roleId, $status)
-    {
+    public function __construct(
+        $roleId,
+        $status
+    ) {
         parent::__construct(
             'Persistence User Role',
             sprintf('ID: %s, Status: %s', $roleId, $status)

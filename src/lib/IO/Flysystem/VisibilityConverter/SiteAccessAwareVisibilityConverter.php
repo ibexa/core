@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\IO\Flysystem\VisibilityConverter;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\UnixVisibility\VisibilityConverter;
 use League\Flysystem\Visibility;
 
@@ -18,9 +19,9 @@ use League\Flysystem\Visibility;
  * SiteAccess-aware Flysystem Visibility Converter (strategy of BaseVisibilityConverter).
  * Relies on ConfigResolver to fetch expected public files and directories permission configuration.
  *
- * @see \Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter
- * @see \League\Flysystem\Visibility
- * @see \League\Flysystem\UnixVisibility\PortableVisibilityConverter
+ * @see BaseVisibilityConverter
+ * @see Visibility
+ * @see PortableVisibilityConverter
  */
 final class SiteAccessAwareVisibilityConverter extends BaseVisibilityConverter
 {

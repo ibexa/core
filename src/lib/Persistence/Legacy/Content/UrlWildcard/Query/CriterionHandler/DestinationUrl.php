@@ -26,7 +26,7 @@ final class DestinationUrl implements CriterionHandler
         QueryBuilder $queryBuilder,
         Criterion $criterion
     ) {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion\DestinationUrl $criterion */
+        /** @var Criterion\DestinationUrl $criterion */
         return $queryBuilder->expr()->like(
             'destination_url',
             $queryBuilder->createNamedParameter(

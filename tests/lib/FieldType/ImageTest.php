@@ -4,16 +4,19 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Image\Type as ImageType;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\FieldType\Validator\ImageValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group fieldType
@@ -37,7 +40,7 @@ class ImageTest extends FieldTypeTest
         'pgif',
     ];
 
-    /** @var \Ibexa\Contracts\Core\IO\MimeTypeDetector&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var MimeTypeDetector&MockObject */
     private MimeTypeDetector $mimeTypeDetectorMock;
 
     public function getImageInputPath()
@@ -59,7 +62,7 @@ class ImageTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -148,7 +151,7 @@ class ImageTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return \Ibexa\Core\FieldType\Image\Value
+     * @return ImageValue
      */
     protected function getEmptyValueExpectation()
     {

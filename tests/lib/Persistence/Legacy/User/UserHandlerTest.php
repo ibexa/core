@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\User;
 
 use DateInterval;
 use DateTime;
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence;
 use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Role;
@@ -28,7 +30,7 @@ class UserHandlerTest extends TestCase
     private const TEST_USER_ID = 42;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getUserHandler(?User\Gateway $userGateway = null): Handler
     {
@@ -927,7 +929,10 @@ class UserHandlerTest extends TestCase
                     },
                     $policies
                 ),
-                static function ($a, $b) {
+                static function (
+                    $a,
+                    $b
+                ) {
                     return $a && $b;
                 },
                 true
@@ -1177,7 +1182,7 @@ class UserHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function createTestRole(User\Handler $handler): Role
     {
@@ -1191,7 +1196,7 @@ class UserHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function createTestRoleWithTestPolicy(): void
     {

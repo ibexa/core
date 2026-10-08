@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Search\FieldType;
 
 use Ibexa\Contracts\Core\Search\FieldType;
@@ -34,8 +35,10 @@ class FullTextField extends FieldType
      */
     public $splitFlag;
 
-    public function __construct(array $transformationRules = [], bool $splitFlag = true)
-    {
+    public function __construct(
+        array $transformationRules = [],
+        bool $splitFlag = true
+    ) {
         $this->transformationRules = $transformationRules;
         $this->splitFlag = $splitFlag;
 

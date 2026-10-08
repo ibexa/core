@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use InvalidArgumentException;
@@ -44,11 +45,14 @@ class ConfigurationProcessor
      */
     protected $scopeNodeName;
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface */
+    /** @var ContextualizerInterface */
     protected $contextualizer;
 
-    public function __construct(ContainerInterface $containerBuilder, $namespace, $siteAcccessNodeName = 'system')
-    {
+    public function __construct(
+        ContainerInterface $containerBuilder,
+        $namespace,
+        $siteAcccessNodeName = 'system'
+    ) {
         $this->contextualizer = $this->buildContextualizer($containerBuilder, $namespace, $siteAcccessNodeName);
     }
 
@@ -99,10 +103,12 @@ class ConfigurationProcessor
      *                                                      defined in ConfigurationMapper interface will be passed:
      *                                                      `array $scopeSettings, $currentScope, ContextualizerInterface $contextualizer`
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function mapConfig(array $config, $mapper)
-    {
+    public function mapConfig(
+        array $config,
+        $mapper
+    ) {
         $mapperCallable = is_callable($mapper);
         if (!$mapperCallable && !$mapper instanceof ConfigurationMapperInterface) {
             throw new InvalidArgumentException('Configuration mapper must either be a callable or an instance of ConfigurationMapper.');
@@ -134,8 +140,10 @@ class ConfigurationProcessor
      * @param string $id Id of the setting to map.
      * @param array $config Full semantic configuration array for current bundle.
      */
-    public function mapSetting($id, array $config)
-    {
+    public function mapSetting(
+        $id,
+        array $config
+    ) {
         $this->contextualizer->mapSetting($id, $config);
     }
 
@@ -148,8 +156,11 @@ class ConfigurationProcessor
      * @param array $config Full semantic configuration array for current bundle.
      * @param int $options Bit mask of options (See constants of `ContextualizerInterface`)
      */
-    public function mapConfigArray($id, array $config, $options = 0)
-    {
+    public function mapConfigArray(
+        $id,
+        array $config,
+        $options = 0
+    ) {
         $this->contextualizer->mapConfigArray($id, $config, $options);
     }
 
@@ -162,10 +173,13 @@ class ConfigurationProcessor
      * @param string $namespace
      * @param string $siteAccessNodeName
      *
-     * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface
+     * @return ContextualizerInterface
      */
-    protected function buildContextualizer(ContainerInterface $containerBuilder, $namespace, $siteAccessNodeName)
-    {
+    protected function buildContextualizer(
+        ContainerInterface $containerBuilder,
+        $namespace,
+        $siteAccessNodeName
+    ) {
         return new Contextualizer(
             $containerBuilder,
             $namespace,
@@ -177,7 +191,7 @@ class ConfigurationProcessor
     }
 
     /**
-     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface $contextualizer
+     * @param ContextualizerInterface $contextualizer
      */
     public function setContextualizer(ContextualizerInterface $contextualizer)
     {
@@ -185,7 +199,7 @@ class ConfigurationProcessor
     }
 
     /**
-     * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface
+     * @return ContextualizerInterface
      */
     public function getContextualizer()
     {

@@ -4,12 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\Content\SectionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct;
@@ -19,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
  * Test case for operations in the SectionService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SectionService
+ *
  * @group integration
  * @group section
  */
@@ -26,7 +29,7 @@ class SectionServiceTest extends BaseTest
 {
     private const SECTION_UNIQUE_KEY = 'uniqueKey';
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     protected $permissionResolver;
 
     /**
@@ -92,6 +95,7 @@ class SectionServiceTest extends BaseTest
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testNewSectionCreateStruct
      */
     public function testCreateSection()
@@ -115,6 +119,7 @@ class SectionServiceTest extends BaseTest
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testNewSectionCreateStruct
      */
     public function testCreateSectionForUserWithSectionLimitation()
@@ -153,6 +158,7 @@ class SectionServiceTest extends BaseTest
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testCreateSection
      */
     public function testCreateSectionThrowsInvalidArgumentException()
@@ -183,6 +189,7 @@ class SectionServiceTest extends BaseTest
      * Test for the loadSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSection()
+     *
      * @depends testCreateSection
      */
     public function testLoadSection()
@@ -244,6 +251,7 @@ class SectionServiceTest extends BaseTest
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testCreateSection
      * @depends testLoadSection
      * @depends testNewSectionUpdateStruct
@@ -281,6 +289,7 @@ class SectionServiceTest extends BaseTest
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testCreateSection
      * @depends testLoadSection
      * @depends testNewSectionUpdateStruct
@@ -338,6 +347,7 @@ class SectionServiceTest extends BaseTest
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testUpdateSection
      */
     public function testUpdateSectionKeepsSectionIdentifierOnNameUpdate()
@@ -365,6 +375,7 @@ class SectionServiceTest extends BaseTest
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testUpdateSection
      */
     public function testUpdateSectionWithSectionIdentifierOnNameUpdate()
@@ -395,6 +406,7 @@ class SectionServiceTest extends BaseTest
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testUpdateSection
      */
     public function testUpdateSectionKeepsSectionNameOnIdentifierUpdate()
@@ -423,6 +435,7 @@ class SectionServiceTest extends BaseTest
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testUpdateSection
      */
     public function testUpdateSectionThrowsInvalidArgumentException()
@@ -460,6 +473,7 @@ class SectionServiceTest extends BaseTest
      * Test for the loadSections() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
+     *
      * @depends testCreateSection
      */
     public function testLoadSections()
@@ -482,6 +496,7 @@ class SectionServiceTest extends BaseTest
      * Test for the loadSections() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
+     *
      * @depends testCreateSection
      */
     public function testLoadSectionsReturnsDefaultSectionsByDefault()
@@ -543,6 +558,7 @@ class SectionServiceTest extends BaseTest
      * Test for the loadSectionByIdentifier() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSectionByIdentifier()
+     *
      * @depends testCreateSection
      */
     public function testLoadSectionByIdentifier()
@@ -645,6 +661,7 @@ class SectionServiceTest extends BaseTest
      * Test for the assignSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::assignSection()
+     *
      * @depends testCountAssignedContents
      */
     public function testAssignSection()
@@ -702,6 +719,7 @@ class SectionServiceTest extends BaseTest
      * Test for the assignSectionToSubtree() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::assignSectionToSubtree()
+     *
      * @depends testCreateSection
      */
     public function testAssignSectionToSubtree()
@@ -754,6 +772,7 @@ class SectionServiceTest extends BaseTest
      * Test for the countAssignedContents() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::countAssignedContents()
+     *
      * @depends testCreateSection
      */
     public function testCountAssignedContentsReturnsZeroByDefault()
@@ -780,6 +799,7 @@ class SectionServiceTest extends BaseTest
      * Test for the isSectionUsed() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::isSectionUsed()
+     *
      * @depends testCreateSection
      */
     public function testIsSectionUsedReturnsZeroByDefault()
@@ -806,6 +826,7 @@ class SectionServiceTest extends BaseTest
      * Test for the deleteSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
+     *
      * @depends testLoadSections
      */
     public function testDeleteSection()
@@ -832,6 +853,7 @@ class SectionServiceTest extends BaseTest
      * Test for the deleteSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
+     *
      * @depends testDeleteSection
      */
     public function testDeleteSectionThrowsNotFoundException()
@@ -861,6 +883,7 @@ class SectionServiceTest extends BaseTest
      * Test for the deleteSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
+     *
      * @depends testAssignSection
      */
     public function testDeleteSectionThrowsBadStateException()
@@ -898,6 +921,7 @@ class SectionServiceTest extends BaseTest
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testCreateSection
      * @depends testLoadSectionByIdentifier
      */
@@ -943,6 +967,7 @@ class SectionServiceTest extends BaseTest
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testCreateSection
      * @depends testLoadSectionByIdentifier
      */
@@ -984,6 +1009,7 @@ class SectionServiceTest extends BaseTest
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testUpdateSection
      * @depends testLoadSectionByIdentifier
      */
@@ -1027,6 +1053,7 @@ class SectionServiceTest extends BaseTest
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testUpdateSection
      * @depends testLoadSectionByIdentifier
      */

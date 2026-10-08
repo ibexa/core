@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -11,10 +12,11 @@ use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias as UrlAliasMatcher;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UrlAliasTest extends BaseTest
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias */
+    /** @var UrlAliasMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -25,14 +27,17 @@ class UrlAliasTest extends BaseTest
 
     /**
      * @dataProvider setMatchingConfigProvider
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::setMatchingConfig
+     *
+     * @covers \UrlAliasMatcher::setMatchingConfig
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string $matchingConfig
      * @param string[] $expectedValues
      */
-    public function testSetMatchingConfig($matchingConfig, $expectedValues)
-    {
+    public function testSetMatchingConfig(
+        $matchingConfig,
+        $expectedValues
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         $this->assertSame(
             $this->matcher->getValues(),
@@ -56,14 +61,14 @@ class UrlAliasTest extends BaseTest
      *
      * @param string $path
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForUrlAlias($path)
     {
         // First an url alias that will never match, then the right url alias.
         // This ensures to test even if the location has several url aliases.
         $urlAliasList = [
-            $this->createMock(URLAlias::class),
+            $this->createStub(URLAlias::class),
             $this
                 ->getMockBuilder(URLAlias::class)
                 ->setConstructorArgs([['path' => $path]])
@@ -71,20 +76,13 @@ class UrlAliasTest extends BaseTest
         ];
 
         $urlAliasServiceMock = $this->createMock(URLAliasService::class);
-        $urlAliasServiceMock->expects($this->at(0))
+        $urlAliasServiceMock->expects($this->exactly(2))
             ->method('listLocationAliases')
-            ->with(
-                $this->isInstanceOf(Location::class),
-                true
+            ->withConsecutive(
+                [$this->isInstanceOf(Location::class), true],
+                [$this->isInstanceOf(Location::class), false]
             )
-            ->will($this->returnValue([]));
-        $urlAliasServiceMock->expects($this->at(1))
-            ->method('listLocationAliases')
-            ->with(
-                $this->isInstanceOf(Location::class),
-                false
-            )
-            ->will($this->returnValue($urlAliasList));
+            ->willReturnOnConsecutiveCalls([], $urlAliasList);
 
         $repository = $this->getRepositoryMock();
         $repository
@@ -97,16 +95,20 @@ class UrlAliasTest extends BaseTest
 
     /**
      * @dataProvider matchLocationProvider
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::setMatchingConfig
+     *
+     * @covers \UrlAliasMatcher::matchLocation
+     * @covers \UrlAliasMatcher::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        Repository $repository,
+        $expectedResult
+    ) {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
         $this->assertSame(
@@ -147,8 +149,8 @@ class UrlAliasTest extends BaseTest
     }
 
     /**
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::matchContentInfo
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::setMatchingConfig
+     * @covers \UrlAliasMatcher::matchContentInfo
+     * @covers \UrlAliasMatcher::setMatchingConfig
      */
     public function testMatchContentInfo()
     {

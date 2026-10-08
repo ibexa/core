@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\RelationList;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -28,8 +29,10 @@ class ParameterProviderTest extends TestCase
     /**
      * @dataProvider providerForTestGetViewParameters
      */
-    public function testGetViewParameters(array $desinationContentIds, array $expected)
-    {
+    public function testGetViewParameters(
+        array $desinationContentIds,
+        array $expected
+    ) {
         $contentServiceMock = $this->createMock(ContentService::class);
         $contentServiceMock
             ->method('loadContentInfoList')

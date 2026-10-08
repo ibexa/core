@@ -29,7 +29,10 @@ final class RelatedToContentQueryType extends AbstractQueryType
 
         $resolver->setRequired(['content']);
         $resolver->setAllowedTypes('content', [Content::class, ContentInfo::class, 'int']);
-        $resolver->setNormalizer('content', static function (Options $options, $value) {
+        $resolver->setNormalizer('content', static function (
+            Options $options,
+            $value
+        ) {
             if ($value instanceof Content || $value instanceof ContentInfo) {
                 $value = $value->id;
             }
@@ -39,7 +42,10 @@ final class RelatedToContentQueryType extends AbstractQueryType
 
         $resolver->setRequired(['field']);
         $resolver->setAllowedTypes('field', ['string', Field::class]);
-        $resolver->setNormalizer('field', static function (Options $options, $value) {
+        $resolver->setNormalizer('field', static function (
+            Options $options,
+            $value
+        ) {
             if ($value instanceof Field) {
                 $value = $value->fieldDefIdentifier;
             }

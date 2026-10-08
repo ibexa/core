@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
@@ -24,7 +25,7 @@ class URLWildcardQuery extends ValueObject
     /**
      * Query sorting clauses.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\SortClause[]
+     * @var SortClause[]
      */
     public array $sortClauses = [];
 

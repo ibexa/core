@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -16,16 +17,20 @@ class ImageValidator extends Validator
     /**
      * {@inheritdoc}
      */
-    public function validateConstraints($constraints, ?FieldDefinition $fieldDefinition = null)
-    {
+    public function validateConstraints(
+        $constraints,
+        ?FieldDefinition $fieldDefinition = null
+    ) {
         return [];
     }
 
     /**
      * @param \Ibexa\Core\FieldType\Image\Value $value
      */
-    public function validate(Value $value, ?FieldDefinition $fieldDefinition = null)
-    {
+    public function validate(
+        Value $value,
+        ?FieldDefinition $fieldDefinition = null
+    ) {
         $mimeTypes = [];
         if (null !== $fieldDefinition) {
             $mimeTypes = $fieldDefinition->getFieldSettings()['mimeTypes'] ?? [];
@@ -47,8 +52,10 @@ class ImageValidator extends Validator
     /**
      * @param array<string> $mimeTypes
      */
-    private function innerValidate($filePath, array $mimeTypes): bool
-    {
+    private function innerValidate(
+        $filePath,
+        array $mimeTypes
+    ): bool {
         // silence `getimagesize` error as extension-wise valid image files might produce it anyway
         // note that file extension checking is done using other validation which should be called before this one
         $imageData = @getimagesize($filePath);

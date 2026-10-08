@@ -59,6 +59,7 @@ class UserPreferenceServiceTest extends BaseTest
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::setUserPreference()
+     *
      * @depends testGetUserPreference
      */
     public function testSetUserPreference()
@@ -85,6 +86,7 @@ class UserPreferenceServiceTest extends BaseTest
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::setUserPreference()
+     *
      * @depends testSetUserPreference
      */
     public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnInvalidValue()
@@ -108,6 +110,7 @@ class UserPreferenceServiceTest extends BaseTest
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::setUserPreference()
+     *
      * @depends testSetUserPreference
      */
     public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnEmptyName()

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\EventListener\ConfigScopeListener;
@@ -22,7 +23,7 @@ class ViewProvidersPass implements CompilerPassInterface
     private const VIEW_PROVIDER_TAG = 'ibexa.view.provider';
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {

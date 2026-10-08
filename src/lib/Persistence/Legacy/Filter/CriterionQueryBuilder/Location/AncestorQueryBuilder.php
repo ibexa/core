@@ -8,15 +8,16 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
+use Doctrine\DBAL\Connection;
+use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Ancestor;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+
 use function array_filter;
 use function array_map;
 use function array_unique;
 use function array_values;
-use Doctrine\DBAL\Connection;
 use function explode;
-use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Ancestor;
-use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use function trim;
 
 /**
@@ -33,7 +34,7 @@ final class AncestorQueryBuilder extends BaseLocationCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Ancestor $criterion */
+        /** @var Ancestor $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         // extract numerical IDs from $criterion->value e.g. = ['/1/2/', '/1/4/10/']

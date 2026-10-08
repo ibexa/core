@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Security\PolicyProvider;
 
 use Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider\PoliciesConfigBuilder;
@@ -17,8 +18,11 @@ class PoliciesConfigBuilderTest extends TestCase
     /**
      * @dataProvider policiesConfigProvider
      */
-    public function testAddConfig(array $configOne, array $configTwo, array $expectedConfig): void
-    {
+    public function testAddConfig(
+        array $configOne,
+        array $configTwo,
+        array $expectedConfig
+    ): void {
         $containerBuilder = new ContainerBuilder();
         $configBuilder = new PoliciesConfigBuilder($containerBuilder);
 

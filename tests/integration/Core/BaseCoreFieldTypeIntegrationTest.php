@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core;
 
 use Doctrine\DBAL\Connection;
@@ -30,7 +31,7 @@ abstract class BaseCoreFieldTypeIntegrationTest extends APIBaseTest
     /**
      * Return the database connection from the service container.
      *
-     * @return \Doctrine\DBAL\Connection|object
+     * @return Connection|object
      */
     protected function getDatabaseConnection(): Connection
     {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\URL;
 
 use Ibexa\Contracts\Core\Persistence\URL\Handler as HandlerInterface;
@@ -16,20 +17,22 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
  */
 class Handler implements HandlerInterface
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Gateway */
+    /** @var Gateway */
     private $urlGateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper */
+    /** @var Mapper */
     private $urlMapper;
 
     /**
      * Handler constructor.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Gateway $gateway
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Mapper $mapper
+     * @param Gateway $gateway
+     * @param Mapper $mapper
      */
-    public function __construct(Gateway $gateway, Mapper $mapper)
-    {
+    public function __construct(
+        Gateway $gateway,
+        Mapper $mapper
+    ) {
         $this->urlGateway = $gateway;
         $this->urlMapper = $mapper;
     }
@@ -37,8 +40,10 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function updateUrl($id, URLUpdateStruct $urlUpdateStruct)
-    {
+    public function updateUrl(
+        $id,
+        URLUpdateStruct $urlUpdateStruct
+    ) {
         $url = $this->urlMapper->createURLFromUpdateStruct(
             $urlUpdateStruct
         );

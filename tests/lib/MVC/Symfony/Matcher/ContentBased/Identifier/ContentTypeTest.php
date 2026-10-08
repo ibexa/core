@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Identifier;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
@@ -11,10 +12,11 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType as ContentTypeIdentifierMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ContentTypeTest extends BaseTest
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType */
+    /** @var ContentTypeIdentifierMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -25,15 +27,19 @@ class ContentTypeTest extends BaseTest
 
     /**
      * @dataProvider matchLocationProvider
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
+     *
+     * @covers \ContentTypeIdentifierMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        Repository $repository,
+        $expectedResult
+    ) {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
 
@@ -77,7 +83,7 @@ class ContentTypeTest extends BaseTest
     /**
      * Generates a Location object in respect of a given content type identifier.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateLocationMock()
     {
@@ -96,15 +102,19 @@ class ContentTypeTest extends BaseTest
 
     /**
      * @dataProvider matchContentInfoProvider
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
+     *
+     * @covers \ContentTypeIdentifierMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        Repository $repository,
+        $expectedResult
+    ) {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
 
@@ -152,7 +162,7 @@ class ContentTypeTest extends BaseTest
      *
      * @param int $contentTypeIdentifier
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier)
     {

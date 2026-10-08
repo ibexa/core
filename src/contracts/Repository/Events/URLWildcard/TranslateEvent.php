@@ -15,7 +15,7 @@ final class TranslateEvent extends AfterEvent
 {
     private $url;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult */
+    /** @var URLWildcardTranslationResult */
     private $result;
 
     public function __construct(

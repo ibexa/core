@@ -17,10 +17,10 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
  */
 class EntityManagerFactory
 {
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
+    /** @var RepositoryConfigurationProvider */
     private $repositoryConfigurationProvider;
 
-    /** @var \Symfony\Component\DependencyInjection\ServiceLocator */
+    /** @var ServiceLocator */
     private $serviceLocator;
 
     /** @var string */

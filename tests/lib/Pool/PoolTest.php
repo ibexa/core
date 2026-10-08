@@ -19,7 +19,7 @@ final class PoolTest extends TestCase
 
     private stdClass $bar;
 
-    /** @var \Ibexa\Contracts\Core\Pool\Pool<\stdClass> */
+    /** @var Pool<stdClass> */
     private Pool $pool;
 
     protected function setUp(): void

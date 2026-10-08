@@ -21,17 +21,17 @@ class Location extends APILocation
     /**
      * Content info of the content object of this location.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @var APIContentInfo
      */
     protected $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
+    /** @var APILocation|null */
     protected $parentLocation;
 
     /**
      * Returns the content info of the content object of this location.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return APIContentInfo
      */
     public function getContentInfo(): APIContentInfo
     {

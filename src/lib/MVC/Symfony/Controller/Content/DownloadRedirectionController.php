@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -18,17 +19,20 @@ use Symfony\Component\Routing\RouterInterface;
 
 class DownloadRedirectionController extends Controller
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
+    /** @var RouterInterface */
     private $router;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator */
+    /** @var RouteReferenceGenerator */
     private $routeReferenceGenerator;
 
-    public function __construct(ContentService $contentService, RouterInterface $router, RouteReferenceGenerator $routeReferenceGenerator)
-    {
+    public function __construct(
+        ContentService $contentService,
+        RouterInterface $router,
+        RouteReferenceGenerator $routeReferenceGenerator
+    ) {
         $this->contentService = $contentService;
         $this->router = $router;
         $this->routeReferenceGenerator = $routeReferenceGenerator;
@@ -41,12 +45,15 @@ class DownloadRedirectionController extends Controller
      *
      * @param mixed $contentId
      * @param int $fieldId
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function redirectToContentDownloadAction($contentId, $fieldId, Request $request)
-    {
+    public function redirectToContentDownloadAction(
+        $contentId,
+        $fieldId,
+        Request $request
+    ) {
         $content = $this->contentService->loadContent($contentId);
         $field = $this->findFieldInContent($fieldId, $content);
 
@@ -77,12 +84,14 @@ class DownloadRedirectionController extends Controller
      * Finds the field with id $fieldId in $content.
      *
      * @param int $fieldId
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field
+     * @return Field
      */
-    protected function findFieldInContent($fieldId, Content $content)
-    {
+    protected function findFieldInContent(
+        $fieldId,
+        Content $content
+    ) {
         foreach ($content->getFields() as $field) {
             if ($field->id == $fieldId) {
                 return $field;

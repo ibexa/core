@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\URLAliasService;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
@@ -17,7 +18,7 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 final class UrlAliasLookupTest extends RepositoryTestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLookup(): void
     {

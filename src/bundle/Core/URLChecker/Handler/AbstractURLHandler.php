@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\URLChecker\Handler;
 
 use DateTime;
@@ -19,7 +20,7 @@ abstract class AbstractURLHandler implements URLHandlerInterface
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService */
+    /** @var URLService */
     protected $urlService;
 
     public function __construct(URLService $urlService)
@@ -35,11 +36,13 @@ abstract class AbstractURLHandler implements URLHandlerInterface
     /**
      * Sets URL status.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL $url
+     * @param URL $url
      * @param bool $isValid
      */
-    protected function setUrlStatus(URL $url, $isValid)
-    {
+    protected function setUrlStatus(
+        URL $url,
+        $isValid
+    ) {
         try {
             $updateStruct = $this->urlService->createUpdateStruct();
             $updateStruct->isValid = $isValid;

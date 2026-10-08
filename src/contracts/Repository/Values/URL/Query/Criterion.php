@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\URL\Query;
 
-abstract class Criterion
-{
-}
+abstract class Criterion {}
 
 class_alias(Criterion::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion');

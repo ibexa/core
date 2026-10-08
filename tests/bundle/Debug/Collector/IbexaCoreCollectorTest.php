@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Debug\Collector;
 
 use Exception;
 use Ibexa\Bundle\Debug\Collector\IbexaCoreCollector;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +17,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 
 class IbexaCoreCollectorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Debug\Collector\IbexaCoreCollector */
+    /** @var IbexaCoreCollector */
     private $mainCollector;
 
     protected function setUp(): void
@@ -149,7 +151,7 @@ class IbexaCoreCollectorTest extends TestCase
         $response = new Response();
         $exception = new Exception();
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject */
+        /** @var MockObject */
         foreach ($allCollectors as $name => $collector) {
             $this->mainCollector->addCollector($collector);
             $collector

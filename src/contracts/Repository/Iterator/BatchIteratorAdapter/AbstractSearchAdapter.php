@@ -16,10 +16,10 @@ use Iterator;
 
 abstract class AbstractSearchAdapter implements BatchIteratorAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchService */
     protected $searchService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query */
+    /** @var Query */
     protected $query;
 
     /** @var string[] */
@@ -40,8 +40,10 @@ abstract class AbstractSearchAdapter implements BatchIteratorAdapter
         $this->filterOnUserPermissions = $filterOnUserPermissions;
     }
 
-    final public function fetch(int $offset, int $limit): Iterator
-    {
+    final public function fetch(
+        int $offset,
+        int $limit
+    ): Iterator {
         $query = clone $this->query;
         $query->offset = $offset;
         $query->limit = $limit;

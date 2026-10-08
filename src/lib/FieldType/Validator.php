@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException as PropertyNotFound;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 
@@ -17,7 +19,7 @@ abstract class Validator
     /**
      * The errors collected during validation.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @var ValidationError[]
      */
     protected $errors = [];
 
@@ -95,18 +97,21 @@ abstract class Validator
      * When a check against a constraint has failed, an entry will be added to the
      * $errors array.
      *
-     * @param \Ibexa\Core\FieldType\Value $value
+     * @param Value $value
      *
      * @return bool
      */
-    abstract public function validate(Value $value, ?FieldDefinition $fieldDefinition = null);
+    abstract public function validate(
+        Value $value,
+        ?FieldDefinition $fieldDefinition = null
+    );
 
     /**
      * Returns array of messages on performed validations.
      *
      * When no validation errors occurred, the returned array should be empty.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     public function getMessage()
     {
@@ -118,7 +123,7 @@ abstract class Validator
      *
      * @internal
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFound
      *
      * @param array $constraints
      */
@@ -146,7 +151,7 @@ abstract class Validator
      *
      * @param string $name
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFound
      *
      * @return mixed
      */
@@ -166,10 +171,12 @@ abstract class Validator
      * @param string $name
      * @param mixed $value
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFound
      */
-    public function __set($name, $value)
-    {
+    public function __set(
+        $name,
+        $value
+    ) {
         if (!array_key_exists($name, $this->constraints)) {
             throw new PropertyNotFound("Constraint '{$name}' is not valid for this validator.");
         }

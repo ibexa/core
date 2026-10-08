@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Debug\Collector;
 
 use Ibexa\Core\Persistence\Cache\PersistenceLogger;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
  */
 class PersistenceCacheCollector extends DataCollector
 {
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
+    /** @var PersistenceLogger */
     private $logger;
 
     public function __construct(PersistenceLogger $logger)
@@ -24,8 +25,11 @@ class PersistenceCacheCollector extends DataCollector
         $this->logger = $logger;
     }
 
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
-    {
+    public function collect(
+        Request $request,
+        Response $response,
+        ?\Throwable $exception = null
+    ) {
         $this->data = [
             'stats' => $this->logger->getStats(),
             'calls_logging_enabled' => $this->logger->isCallsLoggingEnabled(),

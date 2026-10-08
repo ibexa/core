@@ -26,8 +26,12 @@ final class SiteAccessNormalizer implements DenormalizerInterface, DenormalizerA
     use DenormalizerAwareTrait;
     use SerializerAwareTrait;
 
-    public function denormalize($data, string $type, ?string $format = null, array $context = []): object
-    {
+    public function denormalize(
+        $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): object {
         // BC for SiteAccess being serialized/normalized using json_encode via \Ibexa\Bundle\Core\Fragment\SiteAccessSerializer
         $matcherType = $data['matcher']['type'] ?? $data['matcher'];
         $matcherData = $data['matcher']['data'] ?? $context['serialized_siteaccess_matcher'];
@@ -48,23 +52,32 @@ final class SiteAccessNormalizer implements DenormalizerInterface, DenormalizerA
         );
     }
 
-    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
-    {
+    public function supportsDenormalization(
+        $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $type === SiteAccess::class;
     }
 
-    public function supportsNormalization($data, ?string $format = null): bool
-    {
+    public function supportsNormalization(
+        $data,
+        ?string $format = null
+    ): bool {
         return $data instanceof SiteAccess;
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $object
+     * @param SiteAccess $object
      *
      * @return array{name: string, matchingType: string, matcher: array{type: class-string, data: string}|null, provider: string|null, groups: array<mixed>}
      */
-    public function normalize($object, ?string $format = null, array $context = []): array
-    {
+    public function normalize(
+        $object,
+        ?string $format = null,
+        array $context = []
+    ): array {
         $matcherData = null;
         if (is_object($object->matcher)) {
             $matcherData = [

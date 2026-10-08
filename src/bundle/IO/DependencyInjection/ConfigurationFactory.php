@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -31,7 +32,7 @@ interface ConfigurationFactory
      *   ->end();
      * ```
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node The handler's configuration node.
+     * @param ArrayNodeDefinition $node The handler's configuration node.
      */
     public function addConfiguration(ArrayNodeDefinition $node);
 
@@ -52,10 +53,13 @@ interface ConfigurationFactory
      *
      * Note: if the factory implements ContainerAwareInterface, the ContainerBuilder will be made available as $this->container.
      *
-     * @param \Symfony\Component\DependencyInjection\Definition $serviceDefinition
+     * @param ServiceDefinition $serviceDefinition
      * @param array $config
      */
-    public function configureHandler(ServiceDefinition $serviceDefinition, array $config);
+    public function configureHandler(
+        ServiceDefinition $serviceDefinition,
+        array $config
+    );
 }
 
 class_alias(ConfigurationFactory::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\ConfigurationFactory');

@@ -14,12 +14,14 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
-use function Ibexa\PolyfillPhp82\iterator_to_array;
 use PDO;
+
+use function Ibexa\PolyfillPhp82\iterator_to_array;
 
 class DoctrineDatabase extends Gateway
 {
@@ -34,15 +36,17 @@ class DoctrineDatabase extends Gateway
     private Connection $connection;
 
     /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface[]
+     * @var CriterionHandlerInterface[]
      */
     private array $criterionHandlers;
 
     /**
-     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface> $criterionHandlers
+     * @param iterable<CriterionHandlerInterface> $criterionHandlers
      */
-    public function __construct(Connection $connection, iterable $criterionHandlers)
-    {
+    public function __construct(
+        Connection $connection,
+        iterable $criterionHandlers
+    ) {
         $this->connection = $connection;
         $this->criterionHandlers = iterator_to_array($criterionHandlers);
     }
@@ -140,8 +144,10 @@ class DoctrineDatabase extends Gateway
     /**
      * @param int[] $idsToUpdate
      */
-    private function updateNotificationsPendingStatus(array $idsToUpdate, bool $isPending): void
-    {
+    private function updateNotificationsPendingStatus(
+        array $idsToUpdate,
+        bool $isPending
+    ): void {
         $updateQuery = $this->connection->createQueryBuilder();
         $updateQuery
             ->update(self::TABLE_NOTIFICATION)
@@ -173,8 +179,10 @@ class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int
-    {
+    public function countUserNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): int {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->select('COUNT(' . self::COLUMN_ID . ')')
@@ -204,8 +212,11 @@ class DoctrineDatabase extends Gateway
         return (int)$query->execute()->fetchColumn();
     }
 
-    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadUserNotifications(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(...$this->getColumns())
@@ -223,8 +234,10 @@ class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAllAssociative();
     }
 
-    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
-    {
+    public function findUserNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): array {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->select(...$this->getColumns())
@@ -253,17 +266,21 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface[] $criteria
+     * @param CriterionInterface[] $criteria
      */
-    private function applyFilters(QueryBuilder $qb, array $criteria): void
-    {
+    private function applyFilters(
+        QueryBuilder $qb,
+        array $criteria
+    ): void {
         foreach ($criteria as $criterion) {
             $this->applyCriterion($qb, $criterion);
         }
     }
 
-    private function applyCriterion(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
+    private function applyCriterion(
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): void {
         foreach ($this->criterionHandlers as $handler) {
             if ($handler->supports($criterion)) {
                 $handler->apply($qb, $criterion);

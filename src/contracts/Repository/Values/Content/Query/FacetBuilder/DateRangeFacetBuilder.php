@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
@@ -37,7 +38,10 @@ abstract class DateRangeFacetBuilder extends FacetBuilder
      * @param \DateTime $from
      * @param \DateTime $to
      */
-    abstract public function addRange($from, $to);
+    abstract public function addRange(
+        $from,
+        $to
+    );
 
     /**
      * Adds a range entry with explicit from and unbounded to.

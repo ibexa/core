@@ -4,8 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 
 /**
@@ -17,7 +20,7 @@ abstract class BaseNonRedundantFieldSetTest extends BaseTest
     /**
      * Creates a fully functional ContentType and returns it.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     protected function createContentType()
     {
@@ -119,10 +122,12 @@ abstract class BaseNonRedundantFieldSetTest extends BaseTest
      * @param string $mainLanguageCode
      * @param array $fieldValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function createTestContent($mainLanguageCode, array $fieldValues)
-    {
+    protected function createTestContent(
+        $mainLanguageCode,
+        array $fieldValues
+    ) {
         $repository = $this->getRepository();
 
         $contentService = $repository->getContentService();
@@ -179,8 +184,10 @@ abstract class BaseNonRedundantFieldSetTest extends BaseTest
         return $this->createTestContent('eng-GB', $fieldValues);
     }
 
-    protected function updateTestContent($initialLanguageCode, array $fieldValues)
-    {
+    protected function updateTestContent(
+        $initialLanguageCode,
+        array $fieldValues
+    ) {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 

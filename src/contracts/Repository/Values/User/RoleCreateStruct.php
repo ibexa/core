@@ -25,14 +25,14 @@ abstract class RoleCreateStruct extends ValueObject
     /**
      * Returns policies associated with the role.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct[]
+     * @return PolicyCreateStruct[]
      */
     abstract public function getPolicies(): iterable;
 
     /**
      * Adds a policy to this role.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct $policyCreateStruct
+     * @param PolicyCreateStruct $policyCreateStruct
      */
     abstract public function addPolicy(PolicyCreateStruct $policyCreateStruct): void;
 }

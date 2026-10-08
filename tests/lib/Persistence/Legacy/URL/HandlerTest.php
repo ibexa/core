@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL;
 
 use Ibexa\Contracts\Core\Persistence\URL\URL;
@@ -15,17 +16,18 @@ use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway;
 use Ibexa\Core\Persistence\Legacy\URL\Handler;
 use Ibexa\Core\Persistence\Legacy\URL\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Mapper|MockObject */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Handler */
+    /** @var Handler */
     private $handler;
 
     protected function setUp(): void
@@ -191,8 +193,10 @@ class HandlerTest extends TestCase
         $this->assertEquals($ids, $this->handler->findUsages($url->id));
     }
 
-    private function getUrl($id = 1, $urlAddr = 'http://ibexa.co')
-    {
+    private function getUrl(
+        $id = 1,
+        $urlAddr = 'http://ibexa.co'
+    ) {
         $url = new URL();
         $url->id = $id;
         $url->url = $url;

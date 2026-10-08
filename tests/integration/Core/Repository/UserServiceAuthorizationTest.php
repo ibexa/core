@@ -4,14 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 /**
  * Test case for operations in the UserService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\UserService
+ *
  * @group integration
  * @group authorization
  */
@@ -21,6 +24,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the loadUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUserGroup
      */
     public function testLoadUserGroupThrowsUnauthorizedException()
@@ -48,6 +52,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the loadUserGroupByRemoteId() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroupByRemoteId()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUserGroupByRemoteId
      */
     public function testLoadUserGroupByRemoteIdThrowsUnauthorizedException(): void
@@ -73,6 +78,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the loadSubUserGroups() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadSubUserGroups()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadSubUserGroups
      */
     public function testLoadSubUserGroupsThrowsUnauthorizedException()
@@ -100,6 +106,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the createUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::createUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUserGroup
      */
     public function testCreateUserGroupThrowsUnauthorizedException()
@@ -134,6 +141,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the deleteUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::deleteUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testDeleteUserGroup
      */
     public function testDeleteUserGroupThrowsUnauthorizedException()
@@ -161,6 +169,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the moveUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::moveUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testMoveUserGroup
      */
     public function testMoveUserGroupThrowsUnauthorizedException()
@@ -195,6 +204,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the updateUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testUpdateUserGroup
      */
     public function testUpdateUserGroupThrowsUnauthorizedException()
@@ -232,6 +242,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the createUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
     public function testCreateUserThrowsUnauthorizedException()
@@ -275,6 +286,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the deleteUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::deleteUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testDeleteUser
      */
     public function testDeleteUserThrowsUnauthorizedException()
@@ -353,6 +365,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the assignUserToUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::assignUserToUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testAssignUserToUserGroup
      */
     public function testAssignUserToUserGroupThrowsUnauthorizedException()
@@ -385,6 +398,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the unAssignUssrFromUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::unAssignUssrFromUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testUnAssignUserFromUserGroup
      */
     public function testUnAssignUserFromUserGroupThrowsUnauthorizedException()
@@ -425,6 +439,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the loadUserGroupsOfUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroupsOfUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUserGroupsOfUser
      */
     public function testLoadUserGroupsOfUserThrowsUnauthorizedException()
@@ -451,6 +466,7 @@ class UserServiceAuthorizationTest extends BaseTest
      * Test for the loadUsersOfUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUsersOfUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUsersOfUserGroup
      */
     public function testLoadUsersOfUserGroupThrowsUnauthorizedException()
@@ -477,7 +493,7 @@ class UserServiceAuthorizationTest extends BaseTest
     /**
      * Create a user group fixture in a variable named <b>$userGroup</b>,.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return UserGroup
      */
     private function createUserGroupVersion1()
     {

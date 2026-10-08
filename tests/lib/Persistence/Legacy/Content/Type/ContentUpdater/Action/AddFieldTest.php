@@ -4,16 +4,19 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
@@ -25,31 +28,31 @@ class AddFieldTest extends TestCase
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGatewayMock;
 
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $contentStorageHandlerMock;
 
     /**
      * FieldValue converter mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @var Converter
      */
     protected $fieldValueConverterMock;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var ContentMapper */
     protected $contentMapperMock;
 
     /**
      * AddField action to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField
+     * @var AddField
      */
     protected $addFieldAction;
 
@@ -89,7 +92,7 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('load')
             ->with($contentId, 1)
             ->will($this->returnValue([]));
@@ -129,7 +132,7 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('load')
             ->with($contentId, 1)
             ->will($this->returnValue([]));
@@ -141,16 +144,13 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([$content]));
 
         $action
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('insertField')
-            ->with($content, $this->getFieldReference(null, 1, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
-
-        $action
-            ->expects($this->at(1))
-            ->method('insertField')
-            ->with($content, $this->getFieldReference(null, 1, 'ger-DE'))
-            ->will($this->returnValue('fieldId2'));
+            ->withConsecutive(
+                [$content, $this->getFieldReference(null, 1, 'eng-GB')],
+                [$content, $this->getFieldReference(null, 1, 'ger-DE')]
+            )
+            ->willReturnOnConsecutiveCalls('fieldId1', 'fieldId2');
 
         $action->apply($contentId);
     }
@@ -176,40 +176,25 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('load')
-            ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->withConsecutive([$contentId, 1], [$contentId, 2])
+            ->willReturnOnConsecutiveCalls([], []);
 
         $this->getContentMapperMock()
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content1]));
-
-        $this->getContentGatewayMock()
-            ->expects($this->at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will($this->returnValue([]));
-
-        $this->getContentMapperMock()
-            ->expects($this->at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content2]));
+            ->withConsecutive([[], []], [[], []])
+            ->willReturnOnConsecutiveCalls([$content1], [$content2]);
 
         $action
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('insertField')
-            ->with($content1, $this->getFieldReference(null, 1, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
-
-        $action
-            ->expects($this->at(1))
-            ->method('insertField')
-            ->with($content2, $this->getFieldReference('fieldId1', 2, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
+            ->withConsecutive(
+                [$content1, $this->getFieldReference(null, 1, 'eng-GB')],
+                [$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')]
+            )
+            ->willReturnOnConsecutiveCalls('fieldId1', 'fieldId1');
 
         $action->apply($contentId);
     }
@@ -235,52 +220,27 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('load')
-            ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->withConsecutive([$contentId, 1], [$contentId, 2])
+            ->willReturnOnConsecutiveCalls([], []);
 
         $this->getContentMapperMock()
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content1]));
-
-        $this->getContentGatewayMock()
-            ->expects($this->at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will($this->returnValue([]));
-
-        $this->getContentMapperMock()
-            ->expects($this->at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content2]));
+            ->withConsecutive([[], []], [[], []])
+            ->willReturnOnConsecutiveCalls([$content1], [$content2]);
 
         $action
-            ->expects($this->at(0))
+            ->expects($this->exactly(4))
             ->method('insertField')
-            ->with($content1, $this->getFieldReference(null, 1, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
-
-        $action
-            ->expects($this->at(1))
-            ->method('insertField')
-            ->with($content1, $this->getFieldReference(null, 1, 'ger-DE'))
-            ->will($this->returnValue('fieldId2'));
-
-        $action
-            ->expects($this->at(2))
-            ->method('insertField')
-            ->with($content2, $this->getFieldReference('fieldId1', 2, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
-
-        $action
-            ->expects($this->at(3))
-            ->method('insertField')
-            ->with($content2, $this->getFieldReference('fieldId2', 2, 'ger-DE'))
-            ->will($this->returnValue('fieldId2'));
+            ->withConsecutive(
+                [$content1, $this->getFieldReference(null, 1, 'eng-GB')],
+                [$content1, $this->getFieldReference(null, 1, 'ger-DE')],
+                [$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')],
+                [$content2, $this->getFieldReference('fieldId2', 2, 'ger-DE')]
+            )
+            ->willReturnOnConsecutiveCalls('fieldId1', 'fieldId2', 'fieldId1', 'fieldId2');
 
         $action->apply($contentId);
     }
@@ -497,10 +457,12 @@ class AddFieldTest extends TestCase
      * @param int $versionNo
      * @param array $languageCodes
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
-    protected function getContentFixture($versionNo, array $languageCodes)
-    {
+    protected function getContentFixture(
+        $versionNo,
+        array $languageCodes
+    ) {
         $contentInfo = new Content\ContentInfo();
         $contentInfo->id = 'contentId';
         $versionInfo = new Content\VersionInfo();
@@ -523,7 +485,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @return MockObject|Gateway
      */
     protected function getContentGatewayMock()
     {
@@ -537,7 +499,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a FieldValue converter mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @return MockObject|Converter
      */
     protected function getFieldValueConverterMock()
     {
@@ -551,7 +513,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content StorageHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @return MockObject|StorageHandler
      */
     protected function getContentStorageHandlerMock()
     {
@@ -565,7 +527,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return MockObject|ContentMapper
      */
     protected function getContentMapperMock()
     {
@@ -579,11 +541,11 @@ class AddFieldTest extends TestCase
     /**
      * Returns a FieldDefinition fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      */
     protected function getFieldDefinitionFixture()
     {
-        $fieldDef = new Content\Type\FieldDefinition();
+        $fieldDef = new FieldDefinition();
         $fieldDef->id = 42;
         $fieldDef->isTranslatable = true;
         $fieldDef->fieldType = 'ezstring';
@@ -599,10 +561,13 @@ class AddFieldTest extends TestCase
      * @param int $versionNo
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field
+     * @return Field
      */
-    public function getFieldReference($id, $versionNo, $languageCode)
-    {
+    public function getFieldReference(
+        $id,
+        $versionNo,
+        $languageCode
+    ) {
         $field = new Field();
 
         $field->id = $id;
@@ -618,7 +583,7 @@ class AddFieldTest extends TestCase
     /**
      * @param $methods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField
+     * @return MockObject|AddField
      */
     protected function getMockedAction($methods = [])
     {

@@ -4,20 +4,23 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\LanguageService;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
 
 /**
  * Test case for maximum number of languages supported in the LanguageService.
  *
- * @see \Ibexa\Contracts\Core\Repository\LanguageService
+ * @see LanguageService
+ *
  * @group integration
  * @group language
  */
 class LanguageServiceMaximumSupportedLanguagesTest extends BaseTest
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
+    /** @var LanguageService */
     private $languageService;
 
     /** @var array */

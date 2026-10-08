@@ -29,7 +29,7 @@ final class Type implements CriterionHandler
         QueryBuilder $queryBuilder,
         Criterion $criterion
     ) {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion\Type $criterion */
+        /** @var Criterion\Type $criterion */
         return $queryBuilder->expr()->eq(
             'type',
             $queryBuilder->createNamedParameter(

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainRoutingPass;
@@ -43,8 +44,10 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
      *
      * @dataProvider addRouterProvider
      */
-    public function testAddRouter($declaredPriority, $expectedPriority)
-    {
+    public function testAddRouter(
+        $declaredPriority,
+        $expectedPriority
+    ) {
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
         if ($declaredPriority !== null) {
@@ -69,8 +72,10 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
      *
      * @dataProvider addRouterProvider
      */
-    public function testAddRouterWithDefaultRouter($declaredPriority, $expectedPriority)
-    {
+    public function testAddRouterWithDefaultRouter(
+        $declaredPriority,
+        $expectedPriority
+    ) {
         $defaultRouter = new Definition();
         $this->setDefinition('router.default', $defaultRouter);
         $this->setDefinition(SiteAccess::class, new Definition());

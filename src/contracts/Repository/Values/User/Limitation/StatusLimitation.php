@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 class StatusLimitation extends Limitation
 {
     /**
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation::getIdentifier()
+     * @see Limitation::getIdentifier()
      *
      * @return string
      */

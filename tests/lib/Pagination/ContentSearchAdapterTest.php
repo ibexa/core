@@ -4,23 +4,28 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Pagination;
 
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Core\Pagination\Pagerfanta\ContentSearchAdapter;
 
 class ContentSearchAdapterTest extends ContentSearchHitAdapterTest
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     * @param \Ibexa\Contracts\Core\Repository\SearchService $searchService
+     * @param Query $query
+     * @param SearchService $searchService
      * @param array $languageFilter
      *
-     * @return \Ibexa\Core\Pagination\Pagerfanta\ContentSearchAdapter
+     * @return ContentSearchAdapter
      */
-    protected function getAdapter(Query $query, SearchService $searchService, array $languageFilter = [])
-    {
+    protected function getAdapter(
+        Query $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         return new ContentSearchAdapter($query, $searchService, $languageFilter);
     }
 
@@ -35,7 +40,7 @@ class ContentSearchAdapterTest extends ContentSearchHitAdapterTest
     {
         $expectedResult = [];
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit[] $hits */
+        /** @var SearchHit[] $hits */
         foreach ($hits as $hit) {
             $expectedResult[] = $hit->valueObject;
         }

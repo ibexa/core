@@ -161,7 +161,7 @@ final class FieldConstraintsStorageTest extends BaseTest
 
     private function getExampleFieldConstraintsStorage(): ExampleFieldConstraintsStorage
     {
-        /** @var \Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\Stub\ExampleFieldConstraintsStorage $storage */
+        /** @var ExampleFieldConstraintsStorage $storage */
         $storage = $this->getSetupFactory()->getServiceContainer()->get(ExampleFieldConstraintsStorage::class);
 
         return $storage;

@@ -19,11 +19,13 @@ abstract class AbstractRangeAggregation implements Aggregation
      */
     protected $name;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] */
+    /** @var Range[] */
     protected $ranges;
 
-    public function __construct(string $name, array $ranges = [])
-    {
+    public function __construct(
+        string $name,
+        array $ranges = []
+    ) {
         $this->name = $name;
         $this->ranges = $ranges;
     }

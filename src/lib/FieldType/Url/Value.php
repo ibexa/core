@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Url;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
@@ -33,8 +34,10 @@ class Value extends BaseValue
      * @param string $link
      * @param string $text
      */
-    public function __construct($link = null, $text = null)
-    {
+    public function __construct(
+        $link = null,
+        $text = null
+    ) {
         $this->link = $link;
         $this->text = $text;
     }

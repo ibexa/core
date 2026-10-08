@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use DateTime;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Time\Type as Time;
 use Ibexa\Core\FieldType\Time\Value as TimeValue;
 
@@ -26,7 +28,7 @@ class TimeTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest()
     {

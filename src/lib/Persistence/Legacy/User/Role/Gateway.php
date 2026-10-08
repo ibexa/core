@@ -45,7 +45,10 @@ abstract class Gateway
      *
      * @return array
      */
-    abstract public function loadRole(int $roleId, int $status = Role::STATUS_DEFINED): array;
+    abstract public function loadRole(
+        int $roleId,
+        int $status = Role::STATUS_DEFINED
+    ): array;
 
     /**
      * Load a specified role by $identifier.
@@ -134,7 +137,10 @@ abstract class Gateway
      *
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      */
-    abstract public function deleteRole(int $roleId, int $status = Role::STATUS_DEFINED): void;
+    abstract public function deleteRole(
+        int $roleId,
+        int $status = Role::STATUS_DEFINED
+    ): void;
 
     /**
      * Publish the specified role draft.
@@ -143,19 +149,28 @@ abstract class Gateway
      * @param int|null $originalRoleId ID of role the draft was created from. Will be null
      *                                 if the role draft was completely new.
      */
-    abstract public function publishRoleDraft(int $roleDraftId, ?int $originalRoleId = null): void;
+    abstract public function publishRoleDraft(
+        int $roleDraftId,
+        ?int $originalRoleId = null
+    ): void;
 
     /**
      * Add a Policy to Role.
      */
-    abstract public function addPolicy(int $roleId, Policy $policy): Policy;
+    abstract public function addPolicy(
+        int $roleId,
+        Policy $policy
+    ): Policy;
 
     /**
      * Add Limitations to an existing Policy.
      *
      * @param array $limitations a map of Limitation identifiers to their raw values
      */
-    abstract public function addPolicyLimitations(int $policyId, array $limitations): void;
+    abstract public function addPolicyLimitations(
+        int $policyId,
+        array $limitations
+    ): void;
 
     /**
      * Remove a Policy from Role.

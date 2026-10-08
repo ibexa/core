@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Checkbox\Type as Checkbox;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
@@ -25,7 +27,7 @@ class CheckboxTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -58,7 +60,7 @@ class CheckboxTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return \Ibexa\Core\FieldType\Checkbox\Value
+     * @return CheckboxValue
      */
     protected function getEmptyValueExpectation()
     {
@@ -221,7 +223,7 @@ class CheckboxTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Checkbox\Type::toPersistenceValue
+     * @covers \Checkbox::toPersistenceValue
      */
     public function testToPersistenceValue()
     {
@@ -233,7 +235,7 @@ class CheckboxTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Checkbox\Value::__construct
+     * @covers \CheckboxValue::__construct
      */
     public function testBuildFieldValueWithParam()
     {
@@ -243,7 +245,7 @@ class CheckboxTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Checkbox\Value::__construct
+     * @covers \CheckboxValue::__construct
      */
     public function testBuildFieldValueWithoutParam()
     {
@@ -252,7 +254,7 @@ class CheckboxTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Checkbox\Value::__toString
+     * @covers \CheckboxValue::__toString
      */
     public function testFieldValueToString()
     {
@@ -287,7 +289,7 @@ class CheckboxTest extends FieldTypeTest
 
     /**
      * @return iterable<array{
-     *     \Ibexa\Core\FieldType\Checkbox\Value,
+     *     CheckboxValue,
      * }>
      */
     public function provideForValueIsNeverEmpty(): iterable

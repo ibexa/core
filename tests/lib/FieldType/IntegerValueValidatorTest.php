@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
@@ -155,6 +156,7 @@ class IntegerValueValidatorTest extends TestCase
      * Tests validating a correct value.
      *
      * @dataProvider providerForValidateOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\IntegerValueValidator::validate
      * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
@@ -184,10 +186,14 @@ class IntegerValueValidatorTest extends TestCase
      * Tests validating a wrong value.
      *
      * @dataProvider providerForValidateKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\IntegerValueValidator::validate
      */
-    public function testValidateWrongValues($value, $message, $values)
-    {
+    public function testValidateWrongValues(
+        $value,
+        $message,
+        $values
+    ) {
         $validator = new IntegerValueValidator();
         $validator->minIntegerValue = $this->getMinIntegerValue();
         $validator->maxIntegerValue = $this->getMaxIntegerValue();
@@ -226,6 +232,7 @@ class IntegerValueValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsCorrectValues($constraints)
@@ -272,10 +279,14 @@ class IntegerValueValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
-    public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
-    {
+    public function testValidateConstraintsWrongValues(
+        $constraints,
+        $expectedMessages,
+        $values
+    ) {
         $validator = new IntegerValueValidator();
         $messages = $validator->validateConstraints($constraints);
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Bookmark;
 
 use ArrayIterator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use IteratorAggregate;
 use Traversable;
@@ -28,7 +29,7 @@ class BookmarkList extends ValueObject implements IteratorAggregate
     /**
      * List of bookmarked locations.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
+     * @var Location[]
      */
     public $items = [];
 

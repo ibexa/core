@@ -98,8 +98,10 @@ final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
         $route->setDefault('_controller', [$this->createController(), 'downloadBinaryFileAction']);
     }
 
-    private function createHttpKernel(RouteCollection $routes, RequestContext $context): HttpKernel
-    {
+    private function createHttpKernel(
+        RouteCollection $routes,
+        RequestContext $context
+    ): HttpKernel {
         $requestStack = new RequestStack();
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber(new RouterListener(

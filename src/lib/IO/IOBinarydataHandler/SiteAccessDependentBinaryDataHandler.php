@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\IO\IOBinarydataHandler;
 
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
@@ -14,12 +15,12 @@ use Ibexa\Core\IO\IOBinarydataHandler;
 /**
  * @internal
  */
-final class SiteAccessDependentBinaryDataHandler implements IOBinaryDataHandler
+final class SiteAccessDependentBinaryDataHandler implements IOBinarydataHandler
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
+    /** @var HandlerRegistry */
     private $dataHandlerRegistry;
 
     public function __construct(

@@ -20,14 +20,14 @@ use PDOException;
 final class ExceptionConversion extends Gateway
 {
     /**
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
+     * @var Gateway
      */
     private $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {

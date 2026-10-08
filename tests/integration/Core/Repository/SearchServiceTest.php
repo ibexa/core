@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use function count;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -20,16 +20,20 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Tests\Core\Repository\Common;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 use ReflectionProperty;
 use RuntimeException;
 
+use function count;
+
 /**
  * Test case for operations in the SearchService.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SearchService
+ *
  * @group integration
  * @group search
  */
@@ -191,7 +195,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\DateMetadata(
                         Criterion\DateMetadata::MODIFIED,
-                        Criterion\Operator::GT,
+                        Operator::GT,
                         1343140540
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -202,7 +206,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\DateMetadata(
                         Criterion\DateMetadata::MODIFIED,
-                        Criterion\Operator::GTE,
+                        Operator::GTE,
                         1311154215
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -213,7 +217,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\DateMetadata(
                         Criterion\DateMetadata::MODIFIED,
-                        Criterion\Operator::LTE,
+                        Operator::LTE,
                         1311154215
                     ),
                     'limit' => 10,
@@ -225,7 +229,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\DateMetadata(
                         Criterion\DateMetadata::MODIFIED,
-                        Criterion\Operator::IN,
+                        Operator::IN,
                         [1033920794, 1060695457, 1343140540]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -236,7 +240,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\DateMetadata(
                         Criterion\DateMetadata::MODIFIED,
-                        Criterion\Operator::BETWEEN,
+                        Operator::BETWEEN,
                         [1033920776, 1072180276]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -247,7 +251,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\DateMetadata(
                         Criterion\DateMetadata::CREATED,
-                        Criterion\Operator::BETWEEN,
+                        Operator::BETWEEN,
                         [1033920776, 1072180278]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -258,7 +262,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\CustomField(
                         'user_group_name_value_s',
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         'Members'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -269,7 +273,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\CustomField(
                         'user_group_name_value_s',
-                        Criterion\Operator::CONTAINS,
+                        Operator::CONTAINS,
                         'Members'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -280,7 +284,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\CustomField(
                         'user_group_name_value_s',
-                        Criterion\Operator::LT,
+                        Operator::LT,
                         'Members'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -291,7 +295,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\CustomField(
                         'user_group_name_value_s',
-                        Criterion\Operator::LTE,
+                        Operator::LTE,
                         'Members'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -302,7 +306,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\CustomField(
                         'user_group_name_value_s',
-                        Criterion\Operator::GT,
+                        Operator::GT,
                         'Members'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -313,7 +317,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\CustomField(
                         'user_group_name_value_s',
-                        Criterion\Operator::GTE,
+                        Operator::GTE,
                         'Members'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -324,7 +328,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\CustomField(
                         'user_group_name_value_s',
-                        Criterion\Operator::BETWEEN,
+                        Operator::BETWEEN,
                         ['Administrator users', 'Members']
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -353,7 +357,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\Field(
                         'name',
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         'Members'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -364,7 +368,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\Field(
                         'name',
-                        Criterion\Operator::IN,
+                        Operator::IN,
                         ['Members', 'Anonymous users']
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -375,7 +379,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\DateMetadata(
                         Criterion\DateMetadata::MODIFIED,
-                        Criterion\Operator::BETWEEN,
+                        Operator::BETWEEN,
                         [1033920275, 1033920794]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -388,12 +392,12 @@ class SearchServiceTest extends BaseTest
                         [
                             new Criterion\Field(
                                 'name',
-                                Criterion\Operator::EQ,
+                                Operator::EQ,
                                 'Members'
                             ),
                             new Criterion\DateMetadata(
                                 Criterion\DateMetadata::MODIFIED,
-                                Criterion\Operator::BETWEEN,
+                                Operator::BETWEEN,
                                 [1033920275, 1033920794]
                             ),
                         ]
@@ -452,7 +456,10 @@ class SearchServiceTest extends BaseTest
                 static function (&$data) {
                     usort(
                         $data->searchHits,
-                        static function ($a, $b) {
+                        static function (
+                            $a,
+                            $b
+                        ) {
                             if ($a->score == $b->score) {
                                 if ($a->valueObject['id'] == $b->valueObject['id']) {
                                     return 0;
@@ -472,7 +479,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\UserMetadata(
                         Criterion\UserMetadata::MODIFIER,
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         14
                     ),
                     'sortClauses' => [
@@ -486,7 +493,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\UserMetadata(
                         Criterion\UserMetadata::MODIFIER,
-                        Criterion\Operator::IN,
+                        Operator::IN,
                         [14]
                     ),
                     'sortClauses' => [
@@ -500,7 +507,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\UserMetadata(
                         Criterion\UserMetadata::OWNER,
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         14
                     ),
                     'sortClauses' => [
@@ -514,7 +521,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\UserMetadata(
                         Criterion\UserMetadata::OWNER,
-                        Criterion\Operator::IN,
+                        Operator::IN,
                         [14]
                     ),
                     'sortClauses' => [
@@ -528,7 +535,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\UserMetadata(
                         Criterion\UserMetadata::GROUP,
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         12
                     ),
                     'sortClauses' => [
@@ -542,7 +549,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\UserMetadata(
                         Criterion\UserMetadata::GROUP,
-                        Criterion\Operator::IN,
+                        Operator::IN,
                         [12]
                     ),
                     'sortClauses' => [
@@ -556,7 +563,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\UserMetadata(
                         Criterion\UserMetadata::GROUP,
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         4
                     ),
                     'sortClauses' => [
@@ -570,7 +577,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\UserMetadata(
                         Criterion\UserMetadata::GROUP,
-                        Criterion\Operator::IN,
+                        Operator::IN,
                         [4]
                     ),
                     'sortClauses' => [
@@ -854,28 +861,28 @@ class SearchServiceTest extends BaseTest
         return [
             [
                 [
-                    'query' => new Criterion\Location\Depth(Criterion\Operator::EQ, 1),
+                    'query' => new Criterion\Location\Depth(Operator::EQ, 1),
                     'sortClauses' => [new SortClause\ContentId()],
                 ],
                 $fixtureDir . 'Depth.php',
             ],
             [
                 [
-                    'query' => new Criterion\Location\Depth(Criterion\Operator::IN, [1, 3]),
+                    'query' => new Criterion\Location\Depth(Operator::IN, [1, 3]),
                     'sortClauses' => [new SortClause\ContentId()],
                 ],
                 $fixtureDir . 'DepthIn.php',
             ],
             [
                 [
-                    'query' => new Criterion\Location\Depth(Criterion\Operator::GT, 2),
+                    'query' => new Criterion\Location\Depth(Operator::GT, 2),
                     'sortClauses' => [new SortClause\ContentId()],
                 ],
                 $fixtureDir . 'DepthGt.php',
             ],
             [
                 [
-                    'query' => new Criterion\Location\Depth(Criterion\Operator::GTE, 2),
+                    'query' => new Criterion\Location\Depth(Operator::GTE, 2),
                     'sortClauses' => [new SortClause\ContentId()],
                     'limit' => 50,
                 ],
@@ -883,14 +890,14 @@ class SearchServiceTest extends BaseTest
             ],
             [
                 [
-                    'query' => new Criterion\Location\Depth(Criterion\Operator::LT, 2),
+                    'query' => new Criterion\Location\Depth(Operator::LT, 2),
                     'sortClauses' => [new SortClause\ContentId()],
                 ],
                 $fixtureDir . 'Depth.php',
             ],
             [
                 [
-                    'query' => new Criterion\Location\Depth(Criterion\Operator::LTE, 2),
+                    'query' => new Criterion\Location\Depth(Operator::LTE, 2),
                     'sortClauses' => [new SortClause\ContentId()],
                     'limit' => 50,
                 ],
@@ -898,7 +905,7 @@ class SearchServiceTest extends BaseTest
             ],
             [
                 [
-                    'query' => new Criterion\Location\Depth(Criterion\Operator::BETWEEN, [1, 2]),
+                    'query' => new Criterion\Location\Depth(Operator::BETWEEN, [1, 2]),
                     'sortClauses' => [new SortClause\ContentId()],
                     'limit' => 50,
                 ],
@@ -924,8 +931,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFindContentFiltered($queryData, $fixture, $closure = null)
-    {
+    public function testFindContentFiltered(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
@@ -937,8 +947,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContentInfo()
      */
-    public function testFindContentInfoFiltered($queryData, $fixture, $closure = null)
-    {
+    public function testFindContentInfoFiltered(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure($closure), true);
     }
@@ -950,8 +963,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFindLocationsContentFiltered($queryData, $fixture, $closure = null)
-    {
+    public function testFindLocationsContentFiltered(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
@@ -985,8 +1001,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testQueryContent($queryData, $fixture, $closure = null)
-    {
+    public function testQueryContent(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
@@ -998,8 +1017,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testQueryContentInfo($queryData, $fixture, $closure = null)
-    {
+    public function testQueryContentInfo(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure($closure), true);
     }
@@ -1011,8 +1033,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testQueryContentLocations($queryData, $fixture, $closure = null)
-    {
+    public function testQueryContentLocations(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
@@ -1024,8 +1049,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testQueryLocations($queryData, $fixture, $closure = null)
-    {
+    public function testQueryLocations(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
@@ -1037,7 +1065,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\Field(
                         'name',
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         'Members'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1047,7 +1075,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\Field(
                         'name',
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         'members'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1057,7 +1085,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\Field(
                         'name',
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         'MEMBERS'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1107,7 +1135,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\FieldRelation(
                         'image',
-                        Criterion\Operator::IN,
+                        Operator::IN,
                         [1, 4, 10]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1118,7 +1146,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\FieldRelation(
                         'image',
-                        Criterion\Operator::IN,
+                        Operator::IN,
                         [4, 49]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1129,7 +1157,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\FieldRelation(
                         'image',
-                        Criterion\Operator::IN,
+                        Operator::IN,
                         [4]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1140,7 +1168,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\FieldRelation(
                         'image',
-                        Criterion\Operator::CONTAINS,
+                        Operator::CONTAINS,
                         [1, 4, 10]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1151,7 +1179,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\FieldRelation(
                         'image',
-                        Criterion\Operator::CONTAINS,
+                        Operator::CONTAINS,
                         [4, 49]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1162,7 +1190,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\FieldRelation(
                         'image',
-                        Criterion\Operator::CONTAINS,
+                        Operator::CONTAINS,
                         [4]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1206,10 +1234,13 @@ class SearchServiceTest extends BaseTest
      * @dataProvider getRelationFieldFilterSearches
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContentInfo()
+     *
      * @depends testRelationContentCreation
      */
-    public function testFindRelationFieldContentInfoFiltered($queryData, $fixture)
-    {
+    public function testFindRelationFieldContentInfoFiltered(
+        $queryData,
+        $fixture
+    ) {
         $this->getRepository(false); // To make sure repo is setup w/o removing data from getRelationFieldFilterContentSearches
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, null, true, true, false);
@@ -1221,10 +1252,13 @@ class SearchServiceTest extends BaseTest
      * @dataProvider getRelationFieldFilterSearches
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @depends testRelationContentCreation
      */
-    public function testFindRelationFieldLocationsFiltered($queryData, $fixture)
-    {
+    public function testFindRelationFieldLocationsFiltered(
+        $queryData,
+        $fixture
+    ) {
         $this->getRepository(false); // To make sure repo is setup w/o removing data from getRelationFieldFilterContentSearches
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, null, true, false, false);
@@ -1342,7 +1376,7 @@ class SearchServiceTest extends BaseTest
     /**
      * Create movie Content with subtitle field set to null.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
+     * @return Content[]
      */
     protected function createMovieContent()
     {
@@ -1416,7 +1450,7 @@ class SearchServiceTest extends BaseTest
     /**
      * Create test Content with ezcountry field having multiple countries selected.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
     protected function createMultipleCountriesContent()
     {
@@ -1465,7 +1499,7 @@ class SearchServiceTest extends BaseTest
     /**
      * Test for the findContent() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
+     * @return Content[]
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
@@ -1539,7 +1573,7 @@ class SearchServiceTest extends BaseTest
             [
                 'query' => new Criterion\Field(
                     'countries',
-                    Criterion\Operator::CONTAINS,
+                    Operator::CONTAINS,
                     'Belgium'
                 ),
             ]
@@ -1560,6 +1594,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @depends testFieldCollectionContains
      */
     public function testFieldCollectionContainsNoMatch()
@@ -1569,7 +1604,7 @@ class SearchServiceTest extends BaseTest
             [
                 'query' => new Criterion\Field(
                     'countries',
-                    Criterion\Operator::CONTAINS,
+                    Operator::CONTAINS,
                     'Netherlands Antilles'
                 ),
             ]
@@ -1595,7 +1630,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\Field(
                         'some_hopefully_unknown_field',
-                        Criterion\Operator::BETWEEN,
+                        Operator::BETWEEN,
                         [10, 1000]
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1617,7 +1652,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\Field(
                         'some_hopefully_unknown_field',
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         1000
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1639,7 +1674,7 @@ class SearchServiceTest extends BaseTest
                 [
                     'filter' => new Criterion\Field(
                         'tag_cloud_url',
-                        Criterion\Operator::EQ,
+                        Operator::EQ,
                         'http://nimbus.com'
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
@@ -1713,7 +1748,7 @@ class SearchServiceTest extends BaseTest
         $searchService->findSingle(
             new Criterion\Field(
                 'tag_cloud_url',
-                Criterion\Operator::EQ,
+                Operator::EQ,
                 'http://nimbus.com'
             )
         );
@@ -1735,7 +1770,10 @@ class SearchServiceTest extends BaseTest
             static function (&$data): void {
                 usort(
                     $data->searchHits,
-                    static function (SearchHit $a, SearchHit $b): int {
+                    static function (
+                        SearchHit $a,
+                        SearchHit $b
+                    ): int {
                         return $a->valueObject['id'] <=> $b->valueObject['id'];
                     }
                 );
@@ -1930,7 +1968,10 @@ class SearchServiceTest extends BaseTest
                     ];
                     usort(
                         $data->searchHits,
-                        static function ($a, $b) use ($map) {
+                        static function (
+                            $a,
+                            $b
+                        ) use ($map) {
                             return ($map[$a->valueObject['id']] < $map[$b->valueObject['id']]) ? -1 : 1;
                         }
                     );
@@ -1964,7 +2005,7 @@ class SearchServiceTest extends BaseTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     protected function createTestContentType()
     {
@@ -2004,14 +2045,14 @@ class SearchServiceTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      * @param int $fieldValue11 Value for translatable field in first language
      * @param int $fieldValue12 Value for translatable field in second language
      * @param int $fieldValue2 Value for non translatable field
      * @param string $mainLanguageCode
      * @param bool $alwaysAvailable
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
     protected function createMultilingualContent(
         $contentType,
@@ -2354,11 +2395,12 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @group rrr
+     *
      * @dataProvider providerForTestMultilingualFieldSort
      *
      * @param array $contentDataList
      * @param array $languageSettings
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
+     * @param SortClause[] $sortClauses
      * @param array $expected
      */
     public function testMultilingualFieldSortContent(
@@ -2379,11 +2421,12 @@ class SearchServiceTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @group rrr
+     *
      * @dataProvider providerForTestMultilingualFieldSort
      *
      * @param array $contentDataList
      * @param array $languageSettings
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
+     * @param SortClause[] $sortClauses
      * @param array $expected
      */
     public function testMultilingualFieldSortLocation(
@@ -2404,7 +2447,7 @@ class SearchServiceTest extends BaseTest
     /**
      * @param array $contentDataList
      * @param array $languageSettings
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
+     * @param SortClause[] $sortClauses
      * @param array $expected
      * @param bool $contentSearch
      */
@@ -2495,7 +2538,7 @@ class SearchServiceTest extends BaseTest
                         'ger-DE',
                     ],
                 ],
-                new Criterion\Field('integer', Criterion\Operator::LT, 5),
+                new Criterion\Field('integer', Operator::LT, 5),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2513,7 +2556,7 @@ class SearchServiceTest extends BaseTest
                     ],
                     'useAlwaysAvailable' => false,
                 ],
-                new Criterion\Field('integer', Criterion\Operator::LT, 2),
+                new Criterion\Field('integer', Operator::LT, 2),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2528,7 +2571,7 @@ class SearchServiceTest extends BaseTest
                         'eng-US',
                     ],
                 ],
-                new Criterion\Field('integer', Criterion\Operator::LTE, 4),
+                new Criterion\Field('integer', Operator::LTE, 4),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2547,7 +2590,7 @@ class SearchServiceTest extends BaseTest
                     ],
                     'useAlwaysAvailable' => false,
                 ],
-                new Criterion\Field('integer', Criterion\Operator::LTE, 4),
+                new Criterion\Field('integer', Operator::LTE, 4),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2559,7 +2602,7 @@ class SearchServiceTest extends BaseTest
             4 => [
                 $fixture,
                 $languageSettings,
-                new Criterion\Field('integer', Criterion\Operator::LTE, 4),
+                new Criterion\Field('integer', Operator::LTE, 4),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2572,7 +2615,7 @@ class SearchServiceTest extends BaseTest
             5 => [
                 $fixture,
                 $languageSettings,
-                new Criterion\Field('integer', Criterion\Operator::GT, 1),
+                new Criterion\Field('integer', Operator::GT, 1),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2585,7 +2628,7 @@ class SearchServiceTest extends BaseTest
             6 => [
                 $fixture,
                 $languageSettings,
-                new Criterion\Field('integer', Criterion\Operator::GTE, 2),
+                new Criterion\Field('integer', Operator::GTE, 2),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2598,7 +2641,7 @@ class SearchServiceTest extends BaseTest
             7 => [
                 $fixture,
                 $languageSettings,
-                new Criterion\Field('integer', Criterion\Operator::BETWEEN, [2, 4]),
+                new Criterion\Field('integer', Operator::BETWEEN, [2, 4]),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2610,13 +2653,13 @@ class SearchServiceTest extends BaseTest
             8 => [
                 $fixture,
                 $languageSettings,
-                new Criterion\Field('integer', Criterion\Operator::BETWEEN, [4, 2]),
+                new Criterion\Field('integer', Operator::BETWEEN, [4, 2]),
                 [],
             ],
             9 => [
                 $fixture,
                 $languageSettings,
-                new Criterion\Field('integer', Criterion\Operator::EQ, 4),
+                new Criterion\Field('integer', Operator::EQ, 4),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2627,7 +2670,7 @@ class SearchServiceTest extends BaseTest
             10 => [
                 $fixture,
                 $languageSettings,
-                new Criterion\Field('integer', Criterion\Operator::EQ, 2),
+                new Criterion\Field('integer', Operator::EQ, 2),
                 /**
                  * Expected order, Value eng-US, Value ger-DE.
                  *
@@ -2642,11 +2685,12 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @group ttt
+     *
      * @dataProvider providerForTestMultilingualFieldFilter
      *
      * @param array $contentDataList
      * @param array $languageSettings
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param array $expected
      */
     public function testMultilingualFieldFilterContent(
@@ -2667,11 +2711,12 @@ class SearchServiceTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @group ttt
+     *
      * @dataProvider providerForTestMultilingualFieldFilter
      *
      * @param array $contentDataList
      * @param array $languageSettings
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param array $expected
      */
     public function testMultilingualFieldFilterLocation(
@@ -2692,7 +2737,7 @@ class SearchServiceTest extends BaseTest
     /**
      * @param array $contentDataList
      * @param array $languageSettings
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param array $expected
      * @param bool $contentSearch
      */
@@ -2773,7 +2818,7 @@ class SearchServiceTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $result
+     * @param SearchResult $result
      *
      * @return array
      */
@@ -2798,8 +2843,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFindAndSortContent($queryData, $fixture, $closure = null)
-    {
+    public function testFindAndSortContent(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
@@ -2811,8 +2859,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContentInfo()
      */
-    public function testFindAndSortContentInfo($queryData, $fixture, $closure = null)
-    {
+    public function testFindAndSortContentInfo(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new Query($queryData);
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure($closure), true);
     }
@@ -2824,8 +2875,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFindAndSortContentLocations($queryData, $fixture, $closure = null)
-    {
+    public function testFindAndSortContentLocations(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
@@ -2837,8 +2891,11 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
      */
-    public function testFindAndSortLocations($queryData, $fixture, $closure = null)
-    {
+    public function testFindAndSortLocations(
+        $queryData,
+        $fixture,
+        $closure = null
+    ) {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
     }
@@ -2850,8 +2907,10 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFindFacetedContent(Query $query, $fixture)
-    {
+    public function testFindFacetedContent(
+        Query $query,
+        $fixture
+    ) {
         $this->assertQueryFixture($query, $fixture);
     }
 
@@ -2862,8 +2921,10 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContentInfo()
      */
-    public function testFindFacetedContentInfo(Query $query, $fixture)
-    {
+    public function testFindFacetedContentInfo(
+        Query $query,
+        $fixture
+    ) {
         $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure(), true);
     }
 
@@ -2878,7 +2939,7 @@ class SearchServiceTest extends BaseTest
             [
                 'query' => new Criterion\CustomField(
                     'custom_field',
-                    Criterion\Operator::EQ,
+                    Operator::EQ,
                     'AdMiNiStRaToR'
                 ),
                 'offset' => 0,
@@ -2915,7 +2976,7 @@ class SearchServiceTest extends BaseTest
             [
                 'query' => new Criterion\Field(
                     'first_name',
-                    Criterion\Operator::EQ,
+                    Operator::EQ,
                     'User'
                 ),
                 'offset' => 0,
@@ -2973,7 +3034,7 @@ class SearchServiceTest extends BaseTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     protected function createTestPlaceContentType()
     {
@@ -3007,6 +3068,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceLessThanOrEqual()
@@ -3060,7 +3122,7 @@ class SearchServiceTest extends BaseTest
                         new Criterion\ContentTypeId($contentType->id),
                         new Criterion\MapLocationDistance(
                             'maplocation',
-                            Criterion\Operator::LTE,
+                            Operator::LTE,
                             240,
                             43.756825,
                             15.775074
@@ -3087,6 +3149,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceGreaterThanOrEqual()
@@ -3140,7 +3203,7 @@ class SearchServiceTest extends BaseTest
                         new Criterion\ContentTypeId($contentType->id),
                         new Criterion\MapLocationDistance(
                             'maplocation',
-                            Criterion\Operator::GTE,
+                            Operator::GTE,
                             240,
                             43.756825,
                             15.775074
@@ -3167,6 +3230,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceBetween()
@@ -3236,7 +3300,7 @@ class SearchServiceTest extends BaseTest
                         new Criterion\ContentTypeId($contentType->id),
                         new Criterion\MapLocationDistance(
                             'maplocation',
-                            Criterion\Operator::BETWEEN,
+                            Operator::BETWEEN,
                             [239, 241],
                             43.756825,
                             15.775074
@@ -3271,6 +3335,7 @@ class SearchServiceTest extends BaseTest
      * (always very precise) and flat Earth (very imprecise for this use case) models.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceBetweenPolar()
@@ -3308,7 +3373,7 @@ class SearchServiceTest extends BaseTest
                         new Criterion\ContentTypeId($contentType->id),
                         new Criterion\MapLocationDistance(
                             'maplocation',
-                            Criterion\Operator::BETWEEN,
+                            Operator::BETWEEN,
                             [221, 350],
                             89,
                             16
@@ -3335,6 +3400,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceSortAscending()
@@ -3409,7 +3475,7 @@ class SearchServiceTest extends BaseTest
                         new Criterion\ContentTypeId($contentType->id),
                         new Criterion\MapLocationDistance(
                             'maplocation',
-                            Criterion\Operator::GTE,
+                            Operator::GTE,
                             235,
                             $wellInVodice['latitude'],
                             $wellInVodice['longitude']
@@ -3452,6 +3518,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceSortDescending()
@@ -3526,7 +3593,7 @@ class SearchServiceTest extends BaseTest
                         new Criterion\ContentTypeId($contentType->id),
                         new Criterion\MapLocationDistance(
                             'maplocation',
-                            Criterion\Operator::GTE,
+                            Operator::GTE,
                             235,
                             $well['latitude'],
                             $well['longitude']
@@ -3569,6 +3636,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceWithCustomField()
@@ -3617,7 +3685,7 @@ class SearchServiceTest extends BaseTest
 
         $distanceCriterion = new Criterion\MapLocationDistance(
             'maplocation',
-            Criterion\Operator::LTE,
+            Operator::LTE,
             240,
             43.756825,
             15.775074
@@ -3652,6 +3720,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceWithCustomFieldSort()
@@ -3735,7 +3804,7 @@ class SearchServiceTest extends BaseTest
                         new Criterion\ContentTypeId($contentType->id),
                         new Criterion\MapLocationDistance(
                             'maplocation',
-                            Criterion\Operator::GTE,
+                            Operator::GTE,
                             235,
                             $well['latitude'],
                             $well['longitude']
@@ -4074,7 +4143,7 @@ class SearchServiceTest extends BaseTest
 
         $criteria[] = new Criterion\UserMetadata(
             Criterion\UserMetadata::GROUP,
-            Criterion\Operator::EQ,
+            Operator::EQ,
             $editorsUserGroupId
         );
 
@@ -4164,7 +4233,7 @@ class SearchServiceTest extends BaseTest
 
         $criteria[] = new Criterion\UserMetadata(
             Criterion\UserMetadata::GROUP,
-            Criterion\Operator::EQ,
+            Operator::EQ,
             $editorsUserGroupId
         );
 
@@ -4555,6 +4624,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @depends testFulltextComplex
      *
      * @param array $data
@@ -4600,6 +4670,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
+     *
      * @depends testFulltextComplex
      *
      * @param array $data
@@ -4616,6 +4687,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @depends testFulltextComplex
      *
      * @param array $data
@@ -4666,6 +4738,7 @@ class SearchServiceTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @depends testFulltextComplex
      *
      * @param array $data
@@ -4720,7 +4793,7 @@ class SearchServiceTest extends BaseTest
      * Assert that query result matches the given fixture.
      *
      * @throws \ReflectionException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function assertQueryFixture(
         Query $query,
@@ -4818,7 +4891,7 @@ class SearchServiceTest extends BaseTest
     /**
      * Show a simplified view of the search result for manual introspection.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $result
+     * @param SearchResult $result
      *
      * @return string
      */
@@ -4838,7 +4911,7 @@ class SearchServiceTest extends BaseTest
      * This leads to saner comparisons of results, since we do not get the full
      * content objects every time.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $result
+     * @param SearchResult $result
      */
     protected function simplifySearchResult(SearchResult $result)
     {
@@ -4923,7 +4996,7 @@ class SearchServiceTest extends BaseTest
             [
                 'query' => new Criterion\Field(
                     'title',
-                    Criterion\Operator::EQ,
+                    Operator::EQ,
                     'foo'
                 ),
             ]
@@ -4990,8 +5063,10 @@ class SearchServiceTest extends BaseTest
      *
      * @dataProvider getSeedsForRandomSortClause
      */
-    public function testRandomSortContent(?int $firstSeed, ?int $secondSeed)
-    {
+    public function testRandomSortContent(
+        ?int $firstSeed,
+        ?int $secondSeed
+    ) {
         if ($firstSeed || $secondSeed) {
             $this->skipIfSeedNotImplemented();
         }
@@ -5036,8 +5111,10 @@ class SearchServiceTest extends BaseTest
      *
      * @dataProvider getSeedsForRandomSortClause
      */
-    public function testRandomSortLocation(?int $firstSeed, ?int $secondSeed)
-    {
+    public function testRandomSortLocation(
+        ?int $firstSeed,
+        ?int $secondSeed
+    ) {
         if ($firstSeed || $secondSeed) {
             $this->skipIfSeedNotImplemented();
         }
@@ -5097,7 +5174,7 @@ class SearchServiceTest extends BaseTest
 
     private function skipIfSeedNotImplemented()
     {
-        /** @var \Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy $setupFactory */
+        /** @var Legacy $setupFactory */
         $setupFactory = $this->getSetupFactory();
 
         $db = $setupFactory->getDB();
@@ -5111,13 +5188,13 @@ class SearchServiceTest extends BaseTest
 
     /**
      * @param string $findMethod
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
+     * @param Query $query
      * @param array $languages
      * @param bool $useAlwaysAvailable
      *
      * @throws \InvalidArgumentException
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
+     * @return SearchResult
      */
     private function find(
         string $findMethod,
@@ -5146,10 +5223,12 @@ class SearchServiceTest extends BaseTest
 
     /**
      * @param string $findMethod
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
+     * @param Query $query
      */
-    private function assertFulltextSearchForTranslations(string $findMethod, Query $query): void
-    {
+    private function assertFulltextSearchForTranslations(
+        string $findMethod,
+        Query $query
+    ): void {
         /*
          * Search in German translations without always available
          */
@@ -5193,7 +5272,7 @@ class SearchServiceTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $searchResult
+     * @param SearchResult $searchResult
      * @param string[] $translationsToMatch
      *
      * @throws \InvalidArgumentException
@@ -5227,7 +5306,10 @@ class SearchServiceTest extends BaseTest
     {
         usort(
             $searchHits,
-            static function (SearchHit $a, SearchHit $b): int {
+            static function (
+                SearchHit $a,
+                SearchHit $b
+            ): int {
                 return $a->valueObject->id <=> $b->valueObject->id;
             }
         );
@@ -5238,7 +5320,7 @@ class SearchServiceTest extends BaseTest
      *
      * @param int[] $expectedOrderedIds
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testSortingByNumericFieldsWithValuesOfDifferentLength(
         LocationQuery $query,
@@ -5252,7 +5334,7 @@ class SearchServiceTest extends BaseTest
         self::assertEquals(count($expectedOrderedIds), $result->totalCount);
         $actualIds = array_map(
             static function (SearchHit $searchHit) {
-                /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
+                /** @var Location $location */
                 $location = $searchHit->valueObject;
 
                 return $location->id;

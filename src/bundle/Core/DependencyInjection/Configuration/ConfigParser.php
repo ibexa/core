@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
@@ -16,7 +17,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 class ConfigParser implements ParserInterface
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface[] */
+    /** @var ParserInterface[] */
     private $configParsers;
 
     public function __construct(array $configParsers = [])
@@ -35,7 +36,7 @@ class ConfigParser implements ParserInterface
     }
 
     /**
-     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface[] $configParsers
+     * @param ParserInterface[] $configParsers
      */
     public function setConfigParsers($configParsers)
     {
@@ -43,29 +44,36 @@ class ConfigParser implements ParserInterface
     }
 
     /**
-     * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface[]
+     * @return ParserInterface[]
      */
     public function getConfigParsers()
     {
         return $this->configParsers;
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ) {
         foreach ($this->configParsers as $parser) {
             $parser->mapConfig($scopeSettings, $currentScope, $contextualizer);
         }
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {
         foreach ($this->configParsers as $parser) {
             $parser->preMap($config, $contextualizer);
         }
     }
 
-    public function postMap(array $config, ContextualizerInterface $contextualizer)
-    {
+    public function postMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {
         foreach ($this->configParsers as $parser) {
             $parser->postMap($config, $contextualizer);
         }

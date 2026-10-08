@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlWildcard;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase;
@@ -218,17 +219,17 @@ class UrlWildcardHandlerTest extends TestCase
         ],
     ];
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase */
+    /** @var DoctrineDatabase */
     protected $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper */
+    /** @var Mapper */
     protected $mapper;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler */
+    /** @var UrlWildcard\Handler */
     protected $urlWildcardHandler;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getHandler(): UrlWildcard\Handler
     {

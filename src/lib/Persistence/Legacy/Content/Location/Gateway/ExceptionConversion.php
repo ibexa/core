@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\DBALException;
@@ -23,14 +24,14 @@ final class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @var Gateway
      */
     private $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -49,8 +50,11 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getNodeDataList(array $locationIds, ?array $translations = null, bool $useAlwaysAvailable = true): iterable
-    {
+    public function getNodeDataList(
+        array $locationIds,
+        ?array $translations = null,
+        bool $useAlwaysAvailable = true
+    ): iterable {
         try {
             return $this->innerGateway->getNodeDataList($locationIds, $translations, $useAlwaysAvailable);
         } catch (DBALException | PDOException $e) {
@@ -70,8 +74,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadLocationDataByContent(int $contentId, ?int $rootLocationId = null): array
-    {
+    public function loadLocationDataByContent(
+        int $contentId,
+        ?int $rootLocationId = null
+    ): array {
         try {
             return $this->innerGateway->loadLocationDataByContent($contentId, $rootLocationId);
         } catch (DBALException | PDOException $e) {
@@ -79,8 +85,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadLocationDataByTrashContent(int $contentId, ?int $rootLocationId = null): array
-    {
+    public function loadLocationDataByTrashContent(
+        int $contentId,
+        ?int $rootLocationId = null
+    ): array {
         try {
             return $this->innerGateway->loadLocationDataByTrashContent($contentId, $rootLocationId);
         } catch (DBALException | PDOException $e) {
@@ -97,8 +105,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array
-    {
+    public function getSubtreeContent(
+        int $sourceId,
+        bool $onlyIds = false
+    ): array {
         try {
             return $this->innerGateway->getSubtreeContent($sourceId, $onlyIds);
         } catch (DBALException | PDOException $e) {
@@ -136,8 +146,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function moveSubtreeNodes(array $fromPathString, array $toPathString): void
-    {
+    public function moveSubtreeNodes(
+        array $fromPathString,
+        array $toPathString
+    ): void {
         try {
             $this->innerGateway->moveSubtreeNodes($fromPathString, $toPathString);
         } catch (DBALException | PDOException $e) {
@@ -145,8 +157,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function updateSubtreeModificationTime(string $pathString, ?int $timestamp = null): void
-    {
+    public function updateSubtreeModificationTime(
+        string $pathString,
+        ?int $timestamp = null
+    ): void {
         try {
             $this->innerGateway->updateSubtreeModificationTime($pathString, $timestamp);
         } catch (DBALException | PDOException $e) {
@@ -167,8 +181,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function createLocationsFromNodeAssignments(int $contentId, int $versionNo): void
-    {
+    public function createLocationsFromNodeAssignments(
+        int $contentId,
+        int $versionNo
+    ): void {
         try {
             $this->innerGateway->createLocationsFromNodeAssignments($contentId, $versionNo);
         } catch (DBALException | PDOException $e) {
@@ -176,8 +192,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function updateLocationsContentVersionNo(int $contentId, int $versionNo): void
-    {
+    public function updateLocationsContentVersionNo(
+        int $contentId,
+        int $versionNo
+    ): void {
         try {
             $this->innerGateway->updateLocationsContentVersionNo($contentId, $versionNo);
         } catch (DBALException | PDOException $e) {
@@ -239,8 +257,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function swap(int $locationId1, int $locationId2): bool
-    {
+    public function swap(
+        int $locationId1,
+        int $locationId2
+    ): bool {
         try {
             return $this->innerGateway->swap($locationId1, $locationId2);
         } catch (DBALException | PDOException $e) {
@@ -248,8 +268,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function create(CreateStruct $createStruct, array $parentNode): Location
-    {
+    public function create(
+        CreateStruct $createStruct,
+        array $parentNode
+    ): Location {
         try {
             return $this->innerGateway->create($createStruct, $parentNode);
         } catch (DBALException | PDOException $e) {
@@ -269,8 +291,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function deleteNodeAssignment(int $contentId, ?int $versionNo = null): void
-    {
+    public function deleteNodeAssignment(
+        int $contentId,
+        ?int $versionNo = null
+    ): void {
         try {
             $this->innerGateway->deleteNodeAssignment($contentId, $versionNo);
         } catch (DBALException | PDOException $e) {
@@ -278,8 +302,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function update(UpdateStruct $location, int $locationId): void
-    {
+    public function update(
+        UpdateStruct $location,
+        int $locationId
+    ): void {
         try {
             $this->innerGateway->update($location, $locationId);
         } catch (DBALException | PDOException $e) {
@@ -308,8 +334,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getFallbackMainNodeData(int $contentId, int $locationId): array
-    {
+    public function getFallbackMainNodeData(
+        int $contentId,
+        int $locationId
+    ): array {
         try {
             return $this->innerGateway->getFallbackMainNodeData($contentId, $locationId);
         } catch (DBALException | PDOException $e) {
@@ -326,8 +354,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function untrashLocation(int $locationId, ?int $newParentId = null): Location
-    {
+    public function untrashLocation(
+        int $locationId,
+        ?int $newParentId = null
+    ): Location {
         try {
             return $this->innerGateway->untrashLocation($locationId, $newParentId);
         } catch (DBALException | PDOException $e) {
@@ -384,8 +414,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function setSectionForSubtree(string $pathString, int $sectionId): bool
-    {
+    public function setSectionForSubtree(
+        string $pathString,
+        int $sectionId
+    ): bool {
         try {
             return $this->innerGateway->setSectionForSubtree($pathString, $sectionId);
         } catch (DBALException | PDOException $e) {
@@ -424,8 +456,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadAllLocationsData(int $offset, int $limit): array
-    {
+    public function loadAllLocationsData(
+        int $offset,
+        int $limit
+    ): array {
         try {
             return $this->innerGateway->loadAllLocationsData($offset, $limit);
         } catch (DBALException | PDOException $e) {

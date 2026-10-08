@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\User;
 
 use Ibexa\Contracts\Core\Persistence\User;
@@ -22,7 +23,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function mapUser(array $data)
     {
@@ -44,7 +45,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User[]
+     * @return User[]
      */
     public function mapUsers(array $data)
     {
@@ -61,11 +62,11 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Policy[]
+     * @return Policy[]
      */
     public function mapPolicies(array $data)
     {
-        /** @var \Ibexa\Contracts\Core\Persistence\User\Policy[] */
+        /** @var Policy[] */
         $policies = [];
         foreach ($data as $row) {
             $policyId = $row['ezpolicy_id'];
@@ -108,7 +109,7 @@ class Mapper
     /**
      * Map role data to a role.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
     public function mapRole(array $data)
     {
@@ -132,7 +133,7 @@ class Mapper
     /**
      * Map data for a set of roles.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role[]
+     * @return Role[]
      */
     public function mapRoles(array $data)
     {
@@ -154,7 +155,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[]
+     * @return RoleAssignment[]
      */
     public function mapRoleAssignments(array $data)
     {
@@ -205,9 +206,9 @@ class Mapper
     /**
      * Creates a create struct from an existing $role.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\Role $role
+     * @param Role $role
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct
+     * @return RoleCreateStruct
      */
     public function createCreateStructFromRole(Role $role)
     {
@@ -222,9 +223,9 @@ class Mapper
     /**
      * Maps properties from $struct to $role.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct $createStruct
+     * @param RoleCreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
     public function createRoleFromCreateStruct(RoleCreateStruct $createStruct)
     {

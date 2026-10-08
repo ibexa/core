@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base;
 
 use Ibexa\Contracts\Core\Container;
+use Ibexa\Contracts\Core\Repository\Repository;
 use RuntimeException;
 use Symfony\Bridge\ProxyManager\LazyProxy\PhpDumper\ProxyDumper;
 use Symfony\Component\Config\ConfigCache;
@@ -30,7 +32,7 @@ class ServiceContainer implements Container
     /**
      * Holds inner Symfony container instance.
      *
-     * @var \Symfony\Component\DependencyInjection\Container|\Symfony\Component\DependencyInjection\ContainerBuilder
+     * @var \Symfony\Component\DependencyInjection\Container|ContainerBuilder
      */
     protected $innerContainer;
 
@@ -63,15 +65,20 @@ class ServiceContainer implements Container
     protected $bypassCache;
 
     /**
-     * @param string|\Symfony\Component\DependencyInjection\ContainerInterface $container Path to the container file or container instance
+     * @param string|ContainerInterface $container Path to the container file or container instance
      * @param string $installDir Installation directory
      * @param string $cacheDir Directory where PHP container cache will be stored
      * @param bool $debug Default false should be used for production, if true resources will be checked
      *                    and cache will be regenerated if necessary
      * @param bool $bypassCache Default false should be used for production, if true completely bypasses the cache
      */
-    public function __construct($container, $installDir, $cacheDir, $debug = false, $bypassCache = false)
-    {
+    public function __construct(
+        $container,
+        $installDir,
+        $cacheDir,
+        $debug = false,
+        $bypassCache = false
+    ) {
         $this->innerContainer = $container;
         $this->installDir = $installDir;
         $this->cacheDir = $cacheDir;
@@ -86,7 +93,7 @@ class ServiceContainer implements Container
      *
      * Public API for
      *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
+     * @return Repository
      */
     public function getRepository()
     {
@@ -94,7 +101,7 @@ class ServiceContainer implements Container
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @return ContainerBuilder
      */
     public function getInnerContainer()
     {
@@ -128,7 +135,7 @@ class ServiceContainer implements Container
     /**
      * Initializes inner container.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function initializeContainer()
     {
@@ -162,7 +169,7 @@ class ServiceContainer implements Container
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function getContainer()
     {
@@ -180,7 +187,7 @@ class ServiceContainer implements Container
     /**
      * Dumps the service container to PHP code in the cache.
      *
-     * @param \Symfony\Component\Config\ConfigCache $cache
+     * @param ConfigCache $cache
      */
     protected function dumpContainer(ConfigCache $cache)
     {
@@ -203,13 +210,15 @@ class ServiceContainer implements Container
     /**
      * Checks for existence of given $directory and tries to create it if found missing.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      *
      * @param string $directory Path to the directory
      * @param string $name Used for exception message
      */
-    protected function prepareDirectory($directory, $name)
-    {
+    protected function prepareDirectory(
+        $directory,
+        $name
+    ) {
         if (!is_dir($directory)) {
             if (!@mkdir($directory, 0777, true) && !is_dir($directory)) {
                 throw new RuntimeException(

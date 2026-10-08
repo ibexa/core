@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Values\ObjectState;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
@@ -44,7 +45,7 @@ class ObjectStateGroupTest extends TestCase
     /**
      * Test a new class with unified multi language logic properties.
      *
-     * @return \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup
+     * @return ObjectStateGroup
      */
     public function testNewClassWithMultiLanguageProperties()
     {

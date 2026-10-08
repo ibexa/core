@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query;
 
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -19,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 class CriteriaConverterTest extends TestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function testConvertCriteriaSuccess(): void
     {
@@ -68,7 +69,7 @@ class CriteriaConverterTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function testConvertCriteriaFailure(): void
     {

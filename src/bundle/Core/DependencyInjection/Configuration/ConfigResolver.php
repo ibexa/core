@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
@@ -43,10 +44,10 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
     public const UNDEFINED_STRATEGY_EXCEPTION = 1;
     public const UNDEFINED_STRATEGY_NULL = 2;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     protected $siteAccess;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     protected $logger;
 
     /** @var array Siteaccess groups, indexed by siteaccess name */
@@ -65,7 +66,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
     private $tooEarlyLoadedList = [];
 
     /**
-     * @param \Psr\Log\LoggerInterface|null $logger
+     * @param LoggerInterface|null $logger
      * @param array $groupsBySiteAccess SiteAccess groups, indexed by siteaccess.
      * @param string $defaultNamespace The default namespace
      * @param int $undefinedStrategy Strategy to use when encountering undefined parameters.
@@ -113,8 +114,11 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
         return $this->undefinedStrategy;
     }
 
-    public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
-    {
+    public function hasParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): bool {
         $namespace = $namespace ?: $this->defaultNamespace;
         $scope = $scope ?: $this->getDefaultScope();
 
@@ -144,10 +148,13 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
     /**
      * @return mixed
      *
-     * @throws \Ibexa\Core\MVC\Exception\ParameterNotFoundException
+     * @throws ParameterNotFoundException
      */
-    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
-    {
+    public function getParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ) {
         $this->logTooEarlyLoadedListIfNeeded($paramName);
 
         $namespace = $namespace ?: $this->defaultNamespace;

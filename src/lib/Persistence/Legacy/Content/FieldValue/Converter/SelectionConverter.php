@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use DOMDocument;
@@ -23,7 +24,7 @@ class SelectionConverter implements Converter
      *
      * @deprecated since 6.8, will be removed in 7.x, use default constructor instead.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter
+     * @return SelectionConverter
      */
     public static function create()
     {
@@ -33,22 +34,26 @@ class SelectionConverter implements Converter
     /**
      * Converts data from $value to $storageFieldValue.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
+     * @param FieldValue $value
+     * @param StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ) {
         $storageFieldValue->sortKeyString = $storageFieldValue->dataText = $value->sortKey;
     }
 
     /**
      * Converts data from $value to $fieldValue.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param StorageFieldValue $value
+     * @param FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ) {
         if ($value->dataText !== '') {
             $fieldValue->data = array_map(
                 'intval',
@@ -63,11 +68,13 @@ class SelectionConverter implements Converter
     /**
      * Converts field definition data in $fieldDef into $storageFieldDef.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ) {
         $fieldSettings = $fieldDef->fieldTypeConstraints->fieldSettings;
 
         if (isset($fieldSettings['isMultiple'])) {
@@ -97,11 +104,13 @@ class SelectionConverter implements Converter
     /**
      * Converts field definition data in $storageDef into $fieldDef.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ) {
         $options = [];
         $multiLingualOptions = [$fieldDef->mainLanguageCode => []];
 
@@ -158,7 +167,7 @@ class SelectionConverter implements Converter
     /**
      * @param string[] $selectionOptions
      *
-     * @return \DOMDocument
+     * @return DOMDocument
      */
     private function buildOptionsXml(array $selectionOptions): DOMDocument
     {

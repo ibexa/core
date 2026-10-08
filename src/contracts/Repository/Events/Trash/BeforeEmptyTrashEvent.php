@@ -14,12 +14,10 @@ use UnexpectedValueException;
 
 final class BeforeEmptyTrashEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList|null */
+    /** @var TrashItemDeleteResultList|null */
     private $resultList;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function getResultList(): TrashItemDeleteResultList
     {

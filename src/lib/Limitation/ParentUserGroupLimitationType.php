@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Target;
@@ -12,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentUserGroupLimitation as APIParentUserGroupLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
@@ -33,7 +35,7 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      */
     public function acceptValue(APILimitationValue $limitationValue)
     {
@@ -61,7 +63,7 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -89,7 +91,7 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      *
      * @param mixed[] $limitationValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
+     * @return APILimitationValue
      */
     public function buildValue(array $limitationValues)
     {
@@ -104,15 +106,19 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
+     * @param APILimitationValue $value
+     * @param APIUserReference $currentUser
+     * @param ValueObject $object
+     * @param ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
-    {
+    public function evaluate(
+        APILimitationValue $value,
+        APIUserReference $currentUser,
+        ValueObject $object,
+        ?array $targets = null
+    ) {
         if (!$value instanceof APIParentUserGroupLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIParentUserGroupLimitation');
         }
@@ -192,13 +198,15 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param APIUserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
+     * @return CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
-    {
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    ) {
         throw new NotImplementedException(__METHOD__);
     }
 

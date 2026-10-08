@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Search;
 
 use ArrayIterator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Iterator;
 use IteratorAggregate;
@@ -21,21 +22,21 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
     /**
      * The facets for this search.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[]
+     * @var Facet[]
      *
      * @deprecated since eZ Platform 3.2.0, to be removed in Ibexa 4.0.0.
      */
     public $facets = [];
 
     /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection
+     * @var AggregationResultCollection
      */
     public $aggregations;
 
     /**
      * The value objects found for the query.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit[]
+     * @var SearchHit[]
      */
     public $searchHits = [];
 
@@ -43,7 +44,7 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
      * If spellcheck is on this field contains a collated query suggestion where in the appropriate
      * criterions the wrong spelled value is replaced by a corrected one (TBD).
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     * @var Criterion
      *
      * @deprecated since Ibexa 4.6.0, to be removed in Ibexa 5.0.0.
      */

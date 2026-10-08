@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener\Stubs;
 
 use Symfony\Component\Console\Output\Output;
@@ -20,8 +21,10 @@ class TestOutput extends Output
         $this->output = '';
     }
 
-    protected function doWrite($message, $newline)
-    {
+    protected function doWrite(
+        $message,
+        $newline
+    ) {
         $this->output .= $message . ($newline ? "\n" : '');
     }
 }

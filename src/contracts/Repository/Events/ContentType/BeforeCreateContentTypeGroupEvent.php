@@ -15,10 +15,10 @@ use UnexpectedValueException;
 
 final class BeforeCreateContentTypeGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct */
+    /** @var ContentTypeGroupCreateStruct */
     private $contentTypeGroupCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup|null */
+    /** @var ContentTypeGroup|null */
     private $contentTypeGroup;
 
     public function __construct(ContentTypeGroupCreateStruct $contentTypeGroupCreateStruct)

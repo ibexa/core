@@ -4,19 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion;
 
 class SuggestionCollector implements SuggestionCollectorInterface
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion[] */
+    /** @var ConfigSuggestion[] */
     private $suggestions = [];
 
     /**
      * Adds a config suggestion to the list.
      *
-     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion $suggestion
+     * @param ConfigSuggestion $suggestion
      */
     public function addSuggestion(ConfigSuggestion $suggestion)
     {
@@ -26,7 +27,7 @@ class SuggestionCollector implements SuggestionCollectorInterface
     /**
      * Returns all config suggestions.
      *
-     * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion[]
+     * @return ConfigSuggestion[]
      */
     public function getSuggestions()
     {

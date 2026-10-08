@@ -15,13 +15,13 @@ use UnexpectedValueException;
 
 final class BeforeCreateContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct */
+    /** @var ContentCreateStruct */
     private $contentCreateStruct;
 
     /** @var array */
     private $locationCreateStructs;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content|null */
+    /** @var Content|null */
     private $content;
 
     /** @var string[]|null */

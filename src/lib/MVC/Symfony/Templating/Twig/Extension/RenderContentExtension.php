@@ -25,10 +25,10 @@ final class RenderContentExtension extends AbstractExtension
 {
     use DeprecationOptionsTrait;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy */
+    /** @var RenderContentStrategy */
     private $renderContentStrategy;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     public function __construct(
@@ -61,10 +61,12 @@ final class RenderContentExtension extends AbstractExtension
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data
+     * @param Content|ContentAwareInterface $data
      */
-    public function renderContent(object $data, array $options = []): string
-    {
+    public function renderContent(
+        object $data,
+        array $options = []
+    ): string {
         $renderOptions = new RenderOptions($options);
         $event = $this->eventDispatcher->dispatch(
             new ResolveRenderOptionsEvent($renderOptions)
@@ -74,9 +76,9 @@ final class RenderContentExtension extends AbstractExtension
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data
+     * @param Content|ContentAwareInterface $data
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     private function getContent(object $data): Content
     {

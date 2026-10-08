@@ -15,17 +15,20 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 
 final class BeforeSetContentStateEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup */
+    /** @var ObjectStateGroup */
     private $objectStateGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState */
+    /** @var ObjectState */
     private $objectState;
 
-    public function __construct(ContentInfo $contentInfo, ObjectStateGroup $objectStateGroup, ObjectState $objectState)
-    {
+    public function __construct(
+        ContentInfo $contentInfo,
+        ObjectStateGroup $objectStateGroup,
+        ObjectState $objectState
+    ) {
         $this->contentInfo = $contentInfo;
         $this->objectStateGroup = $objectStateGroup;
         $this->objectState = $objectState;

@@ -28,13 +28,13 @@ final class SetSystemContentTypeGroupCommand extends Command
 
     protected static $defaultName = 'ibexa:content-type-group:set-system';
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeService */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     private $userService;
 
     public function __construct(
@@ -74,8 +74,10 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         if ($input->getOption('system') === null) {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Debug\Collector;
 
 use InvalidArgumentException;
@@ -19,9 +20,12 @@ class IbexaCoreCollector extends DataCollector
         $this->reset();
     }
 
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
-    {
-        /** @var \Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface $innerCollector */
+    public function collect(
+        Request $request,
+        Response $response,
+        ?\Throwable $exception = null
+    ) {
+        /** @var DataCollectorInterface $innerCollector */
         foreach ($this->data['collectors'] as $innerCollector) {
             $innerCollector->collect($request, $response, $exception);
         }
@@ -33,10 +37,13 @@ class IbexaCoreCollector extends DataCollector
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface $collector
+     * @param DataCollectorInterface $collector
      */
-    public function addCollector(DataCollectorInterface $collector, $panelTemplate = null, $toolbarTemplate = null)
-    {
+    public function addCollector(
+        DataCollectorInterface $collector,
+        $panelTemplate = null,
+        $toolbarTemplate = null
+    ) {
         $name = $collector->getName();
         $this->data['collectors'][$name] = $collector;
         $this->data['panelTemplates'][$name] = $panelTemplate;
@@ -46,9 +53,9 @@ class IbexaCoreCollector extends DataCollector
     /**
      * @param string $name Name of the collector
      *
-     * @return \Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface
+     * @return DataCollectorInterface
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getCollector($name)
     {
@@ -60,7 +67,7 @@ class IbexaCoreCollector extends DataCollector
     }
 
     /**
-     * @return \Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface[]
+     * @return DataCollectorInterface[]
      */
     public function getAllCollectors()
     {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -33,8 +34,10 @@ class HttpUtils extends BaseHttpUtils implements SiteAccessAware
         return $this->siteAccess->matcher->analyseLink($path);
     }
 
-    public function generateUri($request, $path)
-    {
+    public function generateUri(
+        $request,
+        $path
+    ) {
         if ($this->isRouteName($path)) {
             // Remove siteaccess attribute to avoid triggering reverse siteaccess lookup during link generation.
             $request->attributes->remove('siteaccess');
@@ -43,8 +46,10 @@ class HttpUtils extends BaseHttpUtils implements SiteAccessAware
         return parent::generateUri($request, $this->analyzeLink($path));
     }
 
-    public function checkRequestPath(Request $request, $path)
-    {
+    public function checkRequestPath(
+        Request $request,
+        $path
+    ) {
         return parent::checkRequestPath($request, $this->analyzeLink($path));
     }
 

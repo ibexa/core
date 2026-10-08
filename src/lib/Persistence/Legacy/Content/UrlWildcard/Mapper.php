@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
@@ -20,10 +21,13 @@ class Mapper
      * @param string $destinationUrl
      * @param bool $forward
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
+     * @return UrlWildcard
      */
-    public function createUrlWildcard($sourceUrl, $destinationUrl, $forward)
-    {
+    public function createUrlWildcard(
+        $sourceUrl,
+        $destinationUrl,
+        $forward
+    ) {
         $urlWildcard = new UrlWildcard();
 
         $urlWildcard->destinationUrl = $this->cleanUrl($destinationUrl);
@@ -38,7 +42,7 @@ class Mapper
      *
      * @param array $row
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
+     * @return UrlWildcard
      */
     public function extractUrlWildcardFromRow(array $row)
     {
@@ -72,7 +76,7 @@ class Mapper
      *
      * @param array $rows
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard[]
+     * @return UrlWildcard[]
      */
     public function extractUrlWildcardsFromRows(array $rows)
     {

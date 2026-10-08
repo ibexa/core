@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 
 /**
@@ -25,7 +26,7 @@ class LocationFacetBuilder extends FacetBuilder
     /**
      * The parent location.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Location
+     * @var Location
      */
     public $location;
 }

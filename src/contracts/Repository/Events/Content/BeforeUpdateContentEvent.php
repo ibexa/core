@@ -16,13 +16,13 @@ use UnexpectedValueException;
 
 final class BeforeUpdateContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
+    /** @var VersionInfo */
     private $versionInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct */
+    /** @var ContentUpdateStruct */
     private $contentUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content|null */
+    /** @var Content|null */
     private $content;
 
     /** @var string[]|null */

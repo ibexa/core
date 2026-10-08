@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Search;
 
 use ArrayObject;
@@ -16,6 +17,8 @@ use Ibexa\Contracts\Core\Search\FieldType as SPIFieldType;
 use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldNameResolver;
 use Ibexa\Core\Search\Common\FieldRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 
 /**
  * @covers \Ibexa\Core\Search\Common\FieldNameResolver
@@ -92,32 +95,28 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('getIndexFieldName')
-            ->with(
-                $this->isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_1',
-                'field_definition_identifier_1',
-                'field_type_identifier_1',
-                null
+            ->withConsecutive(
+                [
+                    $this->isInstanceOf(APICriterion::class),
+                    'content_type_identifier_1',
+                    'field_definition_identifier_1',
+                    'field_type_identifier_1',
+                    null,
+                ],
+                [
+                    $this->isInstanceOf(APICriterion::class),
+                    'content_type_identifier_2',
+                    'field_definition_identifier_1',
+                    'field_type_identifier_2',
+                    null,
+                ]
             )
-            ->will($this->returnValue(['index_field_name_1' => null]));
-
-        $mockedFieldNameResolver
-            ->expects($this->at(2))
-            ->method('getIndexFieldName')
-            ->with(
-                $this->isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_2',
-                'field_definition_identifier_1',
-                'field_type_identifier_2',
-                null
-            )
-            ->will($this->returnValue(['index_field_name_2' => null]));
+            ->willReturnOnConsecutiveCalls(
+                ['index_field_name_1' => null],
+                ['index_field_name_2' => null]
+            );
 
         $fieldNames = $mockedFieldNameResolver->getFieldNames(
             $criterionMock,
@@ -166,32 +165,28 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('getIndexFieldName')
-            ->with(
-                $this->isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_1',
-                'field_definition_identifier_1',
-                'field_type_identifier_1',
-                'field_name'
+            ->withConsecutive(
+                [
+                    $this->isInstanceOf(APICriterion::class),
+                    'content_type_identifier_1',
+                    'field_definition_identifier_1',
+                    'field_type_identifier_1',
+                    'field_name',
+                ],
+                [
+                    $this->isInstanceOf(APICriterion::class),
+                    'content_type_identifier_2',
+                    'field_definition_identifier_1',
+                    'field_type_identifier_2',
+                    'field_name',
+                ]
             )
-            ->will($this->returnValue(['index_field_name_1' => null]));
-
-        $mockedFieldNameResolver
-            ->expects($this->at(2))
-            ->method('getIndexFieldName')
-            ->with(
-                $this->isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_2',
-                'field_definition_identifier_1',
-                'field_type_identifier_2',
-                'field_name'
-            )
-            ->will($this->returnValue(['index_field_name_2' => null]));
+            ->willReturnOnConsecutiveCalls(
+                ['index_field_name_1' => null],
+                ['index_field_name_2' => null]
+            );
 
         $fieldNames = $mockedFieldNameResolver->getFieldNames(
             $criterionMock,
@@ -242,7 +237,7 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('getIndexFieldName')
             ->with(
                 $this->isInstanceOf(
@@ -303,7 +298,7 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('getIndexFieldName')
             ->with(
                 $this->isInstanceOf(
@@ -725,7 +720,7 @@ class FieldNameResolverTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(
-            ['getSortFieldName', 'getSearchableFieldMap', 'getFieldNames', 'getFieldTypes', 'getSortFieldName']
+            ['getSortFieldName', 'getSearchableFieldMap', 'getFieldNames', 'getFieldTypes']
         );
         $indexFieldType = $this->getIndexFieldTypeMock();
         $searchFieldTypeMock = $this->getSearchFieldTypeMock();
@@ -737,8 +732,6 @@ class FieldNameResolverTest extends TestCase
             ->will(
                 $this->returnValue($indexFieldType)
             );
-
-        $indexFieldType->expects($this->never())->method('getDefaultField');
 
         $indexFieldType
             ->expects($this->once())
@@ -764,7 +757,7 @@ class FieldNameResolverTest extends TestCase
     /**
      * @param array $methods
      *
-     * @return \Ibexa\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldNameResolver|MockObject
      */
     protected function getMockedFieldNameResolver(array $methods = [])
     {
@@ -783,11 +776,11 @@ class FieldNameResolverTest extends TestCase
         return $fieldNameResolver;
     }
 
-    /** @var \Ibexa\Core\Search\Common\FieldRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldRegistry|MockObject */
     protected $fieldRegistryMock;
 
     /**
-     * @return \Ibexa\Core\Search\Common\FieldRegistry|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldRegistry|MockObject
      */
     protected function getFieldRegistryMock()
     {
@@ -799,7 +792,7 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\FieldType\Indexable|\PHPUnit\Framework\MockObject\MockObject
+     * @return Indexable|MockObject
      */
     protected function getIndexFieldTypeMock()
     {
@@ -807,33 +800,33 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Search\FieldType|\PHPUnit\Framework\MockObject\MockObject
+     * @return SPIFieldType|MockObject
      */
     protected function getSearchFieldTypeMock()
     {
         return $this->createMock(SPIFieldType::class);
     }
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPIContentTypeHandler|Stub */
     protected $contentTypeHandlerMock;
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return SPIContentTypeHandler|Stub
      */
     protected function getContentTypeHandlerMock()
     {
         if (!isset($this->contentTypeHandlerMock)) {
-            $this->contentTypeHandlerMock = $this->createMock(SPIContentTypeHandler::class);
+            $this->contentTypeHandlerMock = $this->createStub(SPIContentTypeHandler::class);
         }
 
         return $this->contentTypeHandlerMock;
     }
 
-    /** @var \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldNameGenerator|MockObject */
     protected $fieldNameGeneratorMock;
 
     /**
-     * @return \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldNameGenerator|MockObject
      */
     protected function getFieldNameGeneratorMock()
     {
@@ -845,19 +838,19 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|\PHPUnit\Framework\MockObject\MockObject
+     * @return APICriterion|Stub
      */
     protected function getCriterionMock()
     {
-        return $this->createMock(APICriterion::class);
+        return $this->createStub(APICriterion::class);
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause|\PHPUnit\Framework\MockObject\MockObject
+     * @return APISortClause|Stub
      */
     protected function getSortClauseMock()
     {
-        return $this->createMock(APISortClause::class);
+        return $this->createStub(APISortClause::class);
     }
 }
 

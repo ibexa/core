@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper\ContentInfoLocationLoader;
 
 use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
@@ -17,11 +18,12 @@ use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class SudoMainLocationLoaderTest extends TestCase
 {
-    /** @var \Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader */
+    /** @var SudoMainLocationLoader */
     private $loader;
 
     protected function setUp(): void
@@ -95,7 +97,7 @@ class SudoMainLocationLoaderTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
+     * @return Repository|MockObject
      */
     private function getRepositoryMock()
     {
@@ -120,7 +122,7 @@ class SudoMainLocationLoaderTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject
+     * @return LocationService|MockObject
      */
     private function getLocationServiceMock()
     {
@@ -136,7 +138,7 @@ class SudoMainLocationLoaderTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Repository\Permission\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @return PermissionResolver|MockObject
      */
     private function getPermissionResolverMock()
     {

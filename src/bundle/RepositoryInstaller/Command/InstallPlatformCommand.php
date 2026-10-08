@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
@@ -11,6 +12,7 @@ use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use Ibexa\Bundle\RepositoryInstaller\Installer\Installer;
 use Psr\Cache\CacheItemPoolInterface;
+use Sensio\Bundle\DistributionBundle\Composer\ScriptHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -75,8 +77,10 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $this->output = $output;
         $this->checkPermissions();
         $this->checkCreateDatabase($output);
@@ -84,7 +88,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         $schemaManager = $this->connection->getSchemaManager();
         if (!empty($schemaManager->listTables())) {
             $io = new SymfonyStyle($input, $output);
-            if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?', )) {
+            if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
                 return self::SUCCESS;
             }
         }
@@ -160,8 +164,10 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
      *
      * IMPORTANT: This is done using a command because config has change, so container and all services are different.
      */
-    private function indexData(OutputInterface $output, ?string $siteaccess = null): void
-    {
+    private function indexData(
+        OutputInterface $output,
+        ?string $siteaccess = null
+    ): void {
         $output->writeln(
             sprintf('Search engine re-indexing, executing command ibexa:reindex')
         );
@@ -175,10 +181,12 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
     }
 
     /**
-     * @return \Ibexa\Bundle\RepositoryInstaller\Installer\Installer
+     * @return Installer
      */
-    private function getInstaller(string $type, OutputInterface $output): Installer
-    {
+    private function getInstaller(
+        string $type,
+        OutputInterface $output
+    ): Installer {
         if (!$this->installers->has($type)) {
             $output->writeln(
                 "Unknown install type '$type', available options in currently installed Ibexa package: " .
@@ -195,15 +203,18 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
      *
      * Typically useful when configuration has changed, or you are outside of Symfony context (Composer commands).
      *
-     * Based on {@see \Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::executeCommand}.
+     * Based on {@see ScriptHandler::executeCommand}.
      *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      * @param string $cmd Ibexa command to execute, like 'ezplatform:solr_create_index'
      *               Escape any user provided arguments, like: 'assets:install '.escapeshellarg($webDir)
      * @param int $timeout
      */
-    private function executeCommand(OutputInterface $output, $cmd, $timeout = 300): void
-    {
+    private function executeCommand(
+        OutputInterface $output,
+        $cmd,
+        $timeout = 300
+    ): void {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find(false)) {
             throw new \RuntimeException('The php executable could not be found. Add it to your PATH environment variable and try again');
@@ -243,7 +254,10 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
             $timeout
         );
 
-        $process->run(static function ($type, $buffer) use ($output) { $output->write($buffer, false); });
+        $process->run(static function (
+            $type,
+            $buffer
+        ) use ($output) { $output->write($buffer, false); });
         if (!$process->getExitCode() === 1) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }

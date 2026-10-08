@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
 
 use Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
@@ -19,8 +20,10 @@ class RemoteProvider implements PlaceholderProvider
     /**
      * {@inheritdoc}
      */
-    public function getPlaceholder(ImageValue $value, array $options = []): string
-    {
+    public function getPlaceholder(
+        ImageValue $value,
+        array $options = []
+    ): string {
         $options = $this->resolveOptions($options);
 
         $path = $this->getTemporaryPath();
@@ -66,8 +69,10 @@ class RemoteProvider implements PlaceholderProvider
         return $path;
     }
 
-    private function getPlaceholderUrl(string $urlPattern, ImageValue $value): string
-    {
+    private function getPlaceholderUrl(
+        string $urlPattern,
+        ImageValue $value
+    ): string {
         return strtr($urlPattern, [
             '%id%' => $value->id,
             '%width%' => $value->width,

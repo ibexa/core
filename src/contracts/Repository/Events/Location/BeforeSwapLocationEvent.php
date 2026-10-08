@@ -13,14 +13,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 final class BeforeSwapLocationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location1;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location2;
 
-    public function __construct(Location $location1, Location $location2)
-    {
+    public function __construct(
+        Location $location1,
+        Location $location2
+    ) {
         $this->location1 = $location1;
         $this->location2 = $location2;
     }

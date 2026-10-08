@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
@@ -16,8 +17,10 @@ use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
  */
 class AliasDirectoryVariationPathGenerator implements VariationPathGenerator
 {
-    public function getVariationPath($originalPath, $filter)
-    {
+    public function getVariationPath(
+        $originalPath,
+        $filter
+    ) {
         $info = pathinfo($originalPath);
 
         return sprintf(

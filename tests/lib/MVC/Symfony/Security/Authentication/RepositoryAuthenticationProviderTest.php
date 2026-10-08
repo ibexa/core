@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Authentication;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SecurityPass;
@@ -14,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\RepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\User;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -29,24 +31,24 @@ class RepositoryAuthenticationProviderTest extends TestCase
 {
     private const UNSUPPORTED_USER_PASSWORD_HASH_TYPE = 5;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface */
+    /** @var MockObject|EncoderFactoryInterface */
     private $encoderFactory;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Security\Authentication\RepositoryAuthenticationProvider */
+    /** @var RepositoryAuthenticationProvider */
     private $authProvider;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
     /**
-     * @var \Symfony\Component\Security\Core\User\UserProviderInterface
+     * @var UserProviderInterface
      */
     private $userProvider;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UserService|MockObject */
     private $userService;
 
-    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface|MockObject */
     private $logger;
 
     protected function setUp(): void

@@ -13,11 +13,14 @@ use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\TargetAwareType;
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
 use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupPolicyLimitations;
+use Ibexa\Contracts\Core\Repository\Values\User\Policy;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -37,19 +40,19 @@ class PermissionResolver implements PermissionResolverInterface
      */
     private $sudoNestingLevel = 0;
 
-    /** @var \Ibexa\Core\Repository\Mapper\RoleDomainMapper */
+    /** @var RoleDomainMapper */
     private $roleDomainMapper;
 
-    /** @var \Ibexa\Core\Repository\Permission\LimitationService */
+    /** @var LimitationService */
     private $limitationService;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\User\Handler */
+    /** @var UserHandler */
     private $userHandler;
 
     /**
      * Currently logged in user reference for permission purposes.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\UserReference
+     * @var APIUserReference
      */
     private $currentUserRef;
 
@@ -60,7 +63,7 @@ class PermissionResolver implements PermissionResolverInterface
      */
     private $policyMap;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     /**
@@ -101,8 +104,11 @@ class PermissionResolver implements PermissionResolverInterface
         $this->currentUserRef = $userReference;
     }
 
-    public function hasAccess(string $module, string $function, ?APIUserReference $userReference = null)
-    {
+    public function hasAccess(
+        string $module,
+        string $function,
+        ?APIUserReference $userReference = null
+    ) {
         if (!isset($this->policyMap[$module])) {
             throw new InvalidArgumentValue('module', "module: {$module}/ function: {$function}");
         } elseif (!array_key_exists($function, $this->policyMap[$module])) {
@@ -167,8 +173,12 @@ class PermissionResolver implements PermissionResolverInterface
         return false; // No policies matching $module and $function, or they contained limitations
     }
 
-    public function canUser(string $module, string $function, ValueObject $object, array $targets = []): bool
-    {
+    public function canUser(
+        string $module,
+        string $function,
+        ValueObject $object,
+        array $targets = []
+    ): bool {
         $permissionSets = $this->hasAccess($module, $function);
         if ($permissionSets === false || $permissionSets === true) {
             return $permissionSets;
@@ -186,7 +196,7 @@ class PermissionResolver implements PermissionResolverInterface
              * Here we accept ACCESS_GRANTED and ACCESS_ABSTAIN, the latter in cases where $object and $targets
              * are not supported by limitation.
              *
-             * @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+             * @var Limitation[]
              */
             if (
                 $permissionSet['limitation'] instanceof Limitation
@@ -206,7 +216,7 @@ class PermissionResolver implements PermissionResolverInterface
              * These are already filtered by hasAccess and given hasAccess did not return boolean
              * there must be some, so only return true if one of them says yes.
              *
-             * @var \Ibexa\Contracts\Core\Repository\Values\User\Policy $policy
+             * @var Policy $policy
              */
             foreach ($permissionSet['policies'] as $policy) {
                 $limitations = $policy->getLimitations();
@@ -285,7 +295,7 @@ class PermissionResolver implements PermissionResolverInterface
                 continue;
             }
 
-            /** @var \Ibexa\Contracts\Core\Repository\Values\User\Policy $policy */
+            /** @var Policy $policy */
             foreach ($permissionSet['policies'] as $policy) {
                 $policyLimitations = $policy->getLimitations();
 
@@ -311,7 +321,7 @@ class PermissionResolver implements PermissionResolverInterface
                 };
 
                 if (!empty($limitationsIdentifiers)) {
-                    $possibleLimitations = array_filter($possibleLimitations, $limitationFilter);
+                    $possibleLimitations = array_values(array_filter($possibleLimitations, $limitationFilter));
                     if (!\in_array($possibleRoleLimitation, $limitationsIdentifiers, true)) {
                         $possibleRoleLimitation = null;
                     }
@@ -330,15 +340,15 @@ class PermissionResolver implements PermissionResolverInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUserReference
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
+     * @param Limitation $limitation
+     * @param APIUserReference $currentUserReference
+     * @param ValueObject $object
      * @param array|null $targets
      *
      * @return bool
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
      */
     private function isGrantedByLimitation(
         Limitation $limitation,
@@ -358,15 +368,15 @@ class PermissionResolver implements PermissionResolverInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation|null $limitation
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUserReference
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
+     * @param Limitation|null $limitation
+     * @param APIUserReference $currentUserReference
+     * @param ValueObject $object
      * @param array|null $targets
      *
      * @return bool
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
      */
     private function isDeniedByRoleLimitation(
         ?Limitation $limitation,
@@ -405,16 +415,18 @@ class PermissionResolver implements PermissionResolverInterface
      *         }
      *     );
      *
-     * @param \callable(\Ibexa\Contracts\Core\Repository\Repository): mixed $callback
-     * @param \Ibexa\Contracts\Core\Repository\Repository $outerRepository
+     * @param callable(RepositoryInterface): mixed $callback
+     * @param RepositoryInterface $outerRepository
      *
      * @throws \RuntimeException Thrown on recursive sudo() use.
-     * @throws \Exception Re throws exceptions thrown inside $callback
+     * @throws Exception Re throws exceptions thrown inside $callback
      *
      * @return mixed
      */
-    public function sudo(callable $callback, RepositoryInterface $outerRepository)
-    {
+    public function sudo(
+        callable $callback,
+        RepositoryInterface $outerRepository
+    ) {
         ++$this->sudoNestingLevel;
         try {
             $returnValue = $callback($outerRepository);
@@ -432,12 +444,14 @@ class PermissionResolver implements PermissionResolverInterface
      * Prepare list of targets for the given Type keeping BC.
      *
      * @param array|null $targets
-     * @param \Ibexa\Contracts\Core\Limitation\Type $type
+     * @param LimitationType $type
      *
      * @return array|null
      */
-    private function prepareTargetsForType(?array $targets, LimitationType $type): ?array
-    {
+    private function prepareTargetsForType(
+        ?array $targets,
+        LimitationType $type
+    ): ?array {
         $isTargetAware = $type instanceof TargetAwareType;
 
         // BC: null for empty targets is still expected by some Limitations, so needs to be preserved

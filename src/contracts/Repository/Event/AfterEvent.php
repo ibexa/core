@@ -13,8 +13,6 @@ use Symfony\Contracts\EventDispatcher\Event;
 /**
  * Event emitted after action execution.
  */
-abstract class AfterEvent extends Event
-{
-}
+abstract class AfterEvent extends Event {}
 
 class_alias(AfterEvent::class, 'eZ\Publish\SPI\Repository\Event\AfterEvent');

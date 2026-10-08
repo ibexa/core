@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Handler as SPIPersistenceHandler;
@@ -13,11 +14,11 @@ use Ibexa\Contracts\Core\Persistence\Handler as SPIPersistenceHandler;
  */
 class AbstractPersistenceLimitationType
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var SPIPersistenceHandler */
     protected $persistence;
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $persistence
+     * @param SPIPersistenceHandler $persistence
      */
     public function __construct(SPIPersistenceHandler $persistence)
     {

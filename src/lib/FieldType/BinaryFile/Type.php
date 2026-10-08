@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\BinaryFile;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
@@ -33,7 +34,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return \Ibexa\Core\FieldType\BinaryFile\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
@@ -45,7 +46,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      *
      * @param array $inputValue
      *
-     * @return \Ibexa\Core\FieldType\BinaryFile\Value
+     * @return Value
      */
     protected function createValue(array $inputValue)
     {
@@ -57,7 +58,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\BinaryFile\Value $value
+     * @param Value $value
      *
      * @return mixed
      */
@@ -79,9 +80,9 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      *
      * This method builds a field type value from the $data and $externalData properties.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param FieldValue $fieldValue
      *
-     * @return \Ibexa\Core\FieldType\BinaryFile\Value
+     * @return Value
      */
     public function fromPersistenceValue(FieldValue $fieldValue)
     {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Variation\PathResolver;
@@ -25,13 +26,13 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
 {
     public const VARIATION_ORIGINAL = 'original';
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $ioService;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
+    /** @var FilterConfiguration */
     private $filterConfiguration;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPurger */
+    /** @var VariationPurger */
     private $variationPurger;
 
     public function __construct(
@@ -48,13 +49,17 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
         $this->variationPurger = $variationPurger;
     }
 
-    public function isStored($path, $filter)
-    {
+    public function isStored(
+        $path,
+        $filter
+    ) {
         return $this->ioService->exists($this->getFilePath($path, $filter));
     }
 
-    public function resolve($path, $filter): string
-    {
+    public function resolve(
+        $path,
+        $filter
+    ): string {
         try {
             $binaryFile = $this->ioService->loadBinaryFile($path);
 
@@ -87,8 +92,11 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
      *
      * {@inheritdoc}
      */
-    public function store(BinaryInterface $binary, $path, $filter)
-    {
+    public function store(
+        BinaryInterface $binary,
+        $path,
+        $filter
+    ) {
         $tmpFile = tmpfile();
         fwrite($tmpFile, $binary->getContent());
         $tmpMetadata = stream_get_meta_data($tmpFile);
@@ -104,8 +112,10 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
      * @param string[] $paths The paths where the original files are expected to be.
      * @param string[] $filters The imagine filters in effect.
      */
-    public function remove(array $paths, array $filters)
-    {
+    public function remove(
+        array $paths,
+        array $filters
+    ) {
         if (empty($filters)) {
             $filters = array_keys($this->filterConfiguration->all());
         }

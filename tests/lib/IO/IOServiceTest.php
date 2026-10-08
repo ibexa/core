@@ -4,17 +4,21 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\IO;
 
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\IOService;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,16 +28,16 @@ class IOServiceTest extends TestCase
 {
     public const PREFIX = 'test-prefix';
 
-    /** @var \Ibexa\Core\IO\IOService */
+    /** @var IOService */
     protected $IOService;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOMetadataHandler|MockObject */
     protected $metadataHandlerMock;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOBinarydataHandler|MockObject */
     protected $binarydataHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\IO\MimeTypeDetector|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var MimeTypeDetector|MockObject */
     protected $mimeTypeDetectorMock;
 
     protected function setUp(): void
@@ -381,7 +385,7 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\IO\IOService
+     * @return IOService
      */
     protected function getIOService()
     {
@@ -405,10 +409,10 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @return bool|\Ibexa\Core\IO\Values\BinaryFile
+     * @return bool|BinaryFile
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws InvalidArgumentValue
+     * @throws NotFoundException
      */
     protected function loadBinaryFileNotFound()
     {
@@ -440,10 +444,10 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @return bool|\Ibexa\Core\IO\Values\BinaryFile
+     * @return bool|BinaryFile
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws InvalidArgumentValue
+     * @throws NotFoundException
      */
     protected function loadBinaryFileByUriNotFound()
     {

@@ -27,7 +27,7 @@ use Ibexa\Core\FieldType\ValidationError;
 final class RoleLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
 {
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function acceptValue(APILimitationValue $limitationValue): void
     {
@@ -84,8 +84,12 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
         return new UserRoleLimitation(['limitationValues' => $limitationValues]);
     }
 
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
-    {
+    public function evaluate(
+        APILimitationValue $value,
+        APIUserReference $currentUser,
+        ValueObject $object,
+        ?array $targets = null
+    ) {
         if (!$value instanceof UserRoleLimitation) {
             throw new InvalidArgumentException(
                 '$value',
@@ -123,8 +127,10 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
         return self::ACCESS_DENIED;
     }
 
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
-    {
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    ) {
         throw new NotImplementedException('Role Limitation Criterion');
     }
 
@@ -133,8 +139,10 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
         throw new NotImplementedException(__METHOD__);
     }
 
-    private function evaluateRole(UserRoleLimitation $value, Role $role): bool
-    {
+    private function evaluateRole(
+        UserRoleLimitation $value,
+        Role $role
+    ): bool {
         return in_array($role->id, $value->limitationValues);
     }
 }

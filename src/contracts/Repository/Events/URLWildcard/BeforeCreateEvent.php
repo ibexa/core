@@ -20,11 +20,14 @@ final class BeforeCreateEvent extends BeforeEvent
 
     private $forward;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard|null */
+    /** @var URLWildcard|null */
     private $urlWildcard;
 
-    public function __construct($sourceUrl, $destinationUrl, $forward)
-    {
+    public function __construct(
+        $sourceUrl,
+        $destinationUrl,
+        $forward
+    ) {
         $this->sourceUrl = $sourceUrl;
         $this->destinationUrl = $destinationUrl;
         $this->forward = $forward;

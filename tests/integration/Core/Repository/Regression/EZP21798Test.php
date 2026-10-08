@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
@@ -78,7 +80,7 @@ class EZP21798Test extends BaseTest
         $roleDraft = $roleService->createRoleDraft($role);
 
         $numPolicies = count($roleDraft->getPolicies());
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft[] $policies */
+        /** @var PolicyDraft[] $policies */
         $policies = $roleDraft->getPolicies();
         $found = false;
 

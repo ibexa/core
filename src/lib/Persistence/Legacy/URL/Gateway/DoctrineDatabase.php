@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\URL\Gateway;
 
 use Doctrine\DBAL\Connection;
@@ -11,6 +12,7 @@ use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\URL\URL;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -43,18 +45,20 @@ class DoctrineDatabase extends Gateway
         SortClause::SORT_DESC => 'DESC',
     ];
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     /**
      * Criteria converter.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter
+     * @var CriteriaConverter
      */
     protected $criteriaConverter;
 
-    public function __construct(Connection $connection, CriteriaConverter $criteriaConverter)
-    {
+    public function __construct(
+        Connection $connection,
+        CriteriaConverter $criteriaConverter
+    ) {
         $this->connection = $connection;
         $this->criteriaConverter = $criteriaConverter;
     }
@@ -62,8 +66,13 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function find(Criterion $criterion, $offset, $limit, array $sortClauses = [], $doCount = true)
-    {
+    public function find(
+        Criterion $criterion,
+        $offset,
+        $limit,
+        array $sortClauses = [],
+        $doCount = true
+    ) {
         $count = $doCount ? $this->doCount($criterion) : null;
         if (!$doCount && $limit === 0) {
             throw new RuntimeException('Invalid query. Cannot disable count and request 0 items at the same time');
@@ -203,7 +212,7 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     protected function doCount(Criterion $criterion): int
     {
@@ -251,7 +260,7 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getQuerySortingDirection(string $direction): string
     {

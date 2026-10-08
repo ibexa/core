@@ -11,8 +11,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 /**
  * Matches URLs which are used in published content.
  */
-class VisibleOnly extends Matcher
-{
-}
+class VisibleOnly extends Matcher {}
 
 class_alias(VisibleOnly::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\VisibleOnly');

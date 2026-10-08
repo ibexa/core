@@ -8,10 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType;
 
+use Doctrine\DBAL\Exception;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+
 interface Gateway
 {
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function insert(string $identifier): int;
 
@@ -20,16 +23,16 @@ interface Gateway
     public function deleteByIdentifier(string $identifier): void;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function getTypeById(int $typeId): array;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function getTypeByIdentifier(string $identifier): array;
 }

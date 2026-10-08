@@ -20,7 +20,9 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\ImageAsset;
+use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\FieldType\ValidationError;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group fieldType
@@ -30,13 +32,13 @@ class ImageAssetTest extends FieldTypeTest
 {
     private const DESTINATION_CONTENT_ID = 14;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentService|MockObject */
     private $contentServiceMock;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AssetMapper|MockObject */
     private $assetMapperMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPIContentHandler|MockObject */
     private $contentHandlerMock;
 
     /**
@@ -47,7 +49,7 @@ class ImageAssetTest extends FieldTypeTest
         parent::setUp();
 
         $this->contentServiceMock = $this->createMock(ContentService::class);
-        $this->assetMapperMock = $this->createMock(ImageAsset\AssetMapper::class);
+        $this->assetMapperMock = $this->createMock(AssetMapper::class);
         $this->contentHandlerMock = $this->createMock(SPIContentHandler::class);
         $versionInfo = new VersionInfo([
             'versionNo' => 24,
@@ -291,7 +293,7 @@ class ImageAssetTest extends FieldTypeTest
     /**
      * @dataProvider provideDataForTestValidateValidNonEmptyAssetValue
      *
-     * @param array<\Ibexa\Core\FieldType\ValidationError> $expectedValidationErrors
+     * @param array<ValidationError> $expectedValidationErrors
      */
     public function testValidateValidNonEmptyAssetValue(
         int $fileSize,
@@ -348,7 +350,7 @@ class ImageAssetTest extends FieldTypeTest
     /**
      * @return iterable<array{
      *     int,
-     *     array<\Ibexa\Core\FieldType\ValidationError>,
+     *     array<ValidationError>,
      * }>
      */
     public function provideDataForTestValidateValidNonEmptyAssetValue(): iterable
@@ -403,7 +405,7 @@ class ImageAssetTest extends FieldTypeTest
         array $fieldSettings = [],
         string $languageCode = 'en_GB'
     ): void {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject $fieldDefinitionMock */
+        /** @var FieldDefinition|MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(FieldDefinition::class);
         $fieldDefinitionMock->method('getFieldSettings')->willReturn($fieldSettings);
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -21,6 +22,7 @@ use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
@@ -59,8 +61,11 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         return __DIR__ . '/_fixtures/field_rendering_functions/';
     }
 
-    public function getFieldDefinition($typeIdentifier, $id = null, $settings = [])
-    {
+    public function getFieldDefinition(
+        $typeIdentifier,
+        $id = null,
+        $settings = []
+    ) {
         return new FieldDefinition(
             [
                 'id' => $id,
@@ -77,10 +82,13 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
      * @param array $fieldsData
      * @param array $namesData
      *
-     * @return \Ibexa\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function getContent($contentTypeIdentifier, array $fieldsData, array $namesData = [])
-    {
+    protected function getContent(
+        $contentTypeIdentifier,
+        array $fieldsData,
+        array $namesData = []
+    ) {
         $fields = [];
         foreach ($fieldsData as $fieldTypeIdentifier => $fieldsArray) {
             $fieldsArray = isset($fieldsArray['id']) ? [$fieldsArray] : $fieldsArray;
@@ -136,8 +144,11 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
      * @param array<mixed>  $fieldsData
      * @param array<mixed>  $namesData
      */
-    protected function getContentAwareObject(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): ContentAwareInterface
-    {
+    protected function getContentAwareObject(
+        string $contentTypeIdentifier,
+        array $fieldsData,
+        array $namesData = []
+    ): ContentAwareInterface {
         $content = $this->getContent($contentTypeIdentifier, $fieldsData, $namesData);
 
         $mock = $this->createMock(ContentAwareInterface::class);
@@ -174,7 +185,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProviderInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return ResourceProviderInterface|MockObject
      */
     private function getResourceProviderMock(): ResourceProviderInterface
     {

@@ -20,7 +20,7 @@ class DateRangeFacet extends Facet
     /**
      * The date intervals with statistical data.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet\RangeFacetEntry
+     * @var RangeFacetEntry
      */
     public $entries;
 }

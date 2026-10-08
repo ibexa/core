@@ -11,12 +11,12 @@ namespace Ibexa\Contracts\Core\Search\Embedding;
 interface EmbeddingProviderResolverInterface
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Search\Embedding\EmbeddingResolverNotFoundException
+     * @throws EmbeddingResolverNotFoundException
      */
     public function resolve(): EmbeddingProviderInterface;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Search\Embedding\EmbeddingResolverNotFoundException
+     * @throws EmbeddingResolverNotFoundException
      */
     public function resolveByModelIdentifier(string $modelIdentifier): EmbeddingProviderInterface;
 }

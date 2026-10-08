@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\IO\IOMetadataHandler;
 
 use DateTime;
@@ -15,22 +16,24 @@ use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
+use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster;
 use Ibexa\Core\IO\UrlDecorator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LegacyDFSClusterTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOMetadataHandler&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOMetadataHandler&MockObject */
     private $handler;
 
-    /** @var \Doctrine\DBAL\Connection&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Connection&MockObject */
     private $dbalMock;
 
-    /** @var \Doctrine\DBAL\Query\QueryBuilder&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var QueryBuilder&MockObject */
     private $qbMock;
 
-    /** @var \Ibexa\Core\IO\UrlDecorator&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UrlDecorator&MockObject */
     private $urlDecoratorMock;
 
     protected function setUp(): void
@@ -51,7 +54,7 @@ class LegacyDFSClusterTest extends TestCase
     }
 
     /**
-     * @return iterable<array{string, string, int, \DateTime, \DateTime}>
+     * @return iterable<array{string, string, int, DateTime, DateTime}>
      */
     public function providerCreate(): iterable
     {
@@ -65,8 +68,13 @@ class LegacyDFSClusterTest extends TestCase
     /**
      * @dataProvider providerCreate
      */
-    public function testCreate(string $id, string $mimeType, int $size, \DateTime $mtime, \DateTime $mtimeExpected): void
-    {
+    public function testCreate(
+        string $id,
+        string $mimeType,
+        int $size,
+        DateTime $mtime,
+        DateTime $mtimeExpected
+    ): void {
         $this->dbalMock
             ->expects(self::once())
             ->method('insert')
@@ -198,7 +206,7 @@ class LegacyDFSClusterTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function createDbalStatementMock()
     {
@@ -208,8 +216,10 @@ class LegacyDFSClusterTest extends TestCase
     /**
      * @param array<mixed>|null $result
      */
-    private function setupQueryBuilderLoad(int $rowCount, ?array $result): void
-    {
+    private function setupQueryBuilderLoad(
+        int $rowCount,
+        ?array $result
+    ): void {
         $resultMock = $this->createMock(Result::class);
         $resultMock
             ->expects(self::once())

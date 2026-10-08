@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\ApiLoader;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -30,7 +31,7 @@ class HandlerRegistry
      *
      * @return object an instance of the requested handler
      *
-     * @throws \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException If the requested handler doesn't exist
+     * @throws InvalidConfigurationException If the requested handler doesn't exist
      */
     public function getConfiguredHandler($handlerName)
     {

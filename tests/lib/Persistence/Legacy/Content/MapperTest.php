@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
-use function count;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
@@ -21,12 +21,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation as RelationValue;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+
+use function count;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Mapper
@@ -36,12 +40,12 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Value converter registry mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @var Registry
      */
     protected $valueConverterRegistryMock;
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\CreateStruct
+     * @return CreateStruct
      */
     protected function getCreateStructFixture()
     {
@@ -99,7 +103,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getFullContentFixture()
     {
@@ -473,8 +477,10 @@ class MapperTest extends LanguageAwareTestCase
      * @param array $fixtures
      * @param string $prefix
      */
-    public function testExtractContentInfoFromRow(array $fixtures, $prefix)
-    {
+    public function testExtractContentInfoFromRow(
+        array $fixtures,
+        $prefix
+    ) {
         $contentInfoReference = $this->getContentExtractReference()->versionInfo->contentInfo;
         $mapper = new Mapper(
             $this->getValueConverterRegistryMock(),
@@ -575,7 +581,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * Fixture is stored in _fixtures/extract_content_from_rows_result.php
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentExtractReference()
     {
@@ -621,7 +627,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * Fixture is stored in _fixtures/relations_results.php
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getRelationExtractReference()
     {
@@ -631,7 +637,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns a Mapper.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return Mapper
      */
     protected function getMapper($valueConverter = null)
     {
@@ -646,7 +652,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns a FieldValue converter registry mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @return Registry
      */
     protected function getValueConverterRegistryMock()
     {
@@ -664,7 +670,7 @@ class MapperTest extends LanguageAwareTestCase
     }
 
     /**
-     * Returns a {@see \Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct} fixture.
+     * Returns a {@see RelationCreateStruct} fixture.
      */
     protected function getRelationCreateStructFixture(): RelationCreateStruct
     {
@@ -696,7 +702,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns a language handler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @return Handler
      */
     protected function getLanguageHandler()
     {
@@ -754,7 +760,7 @@ class MapperTest extends LanguageAwareTestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return Content\Type\Handler|MockObject
      */
     protected function getContentTypeHandler(): Content\Type\Handler
     {

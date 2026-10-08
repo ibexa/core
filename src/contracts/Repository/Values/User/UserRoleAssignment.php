@@ -11,14 +11,14 @@ namespace Ibexa\Contracts\Core\Repository\Values\User;
 /**
  * This class represents a user to role assignment.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\User\User $user calls getUser()
+ * @property-read User $user calls getUser()
  */
 abstract class UserRoleAssignment extends RoleAssignment
 {
     /**
      * Returns the user to which the role is assigned to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      */
     abstract public function getUser(): User;
 }

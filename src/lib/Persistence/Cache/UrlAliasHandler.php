@@ -4,12 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler as UrlAliasHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Psr\Cache\InvalidArgumentException;
 
 class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlAliasHandlerInterface
 {
@@ -74,8 +77,13 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function createCustomUrlAlias($locationId, $path, $forwarding = false, $languageCode = null, $alwaysAvailable = false)
-    {
+    public function createCustomUrlAlias(
+        $locationId,
+        $path,
+        $forwarding = false,
+        $languageCode = null,
+        $alwaysAvailable = false
+    ) {
         $this->logger->logCall(
             __METHOD__,
             [
@@ -108,8 +116,13 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function createGlobalUrlAlias($resource, $path, $forwarding = false, $languageCode = null, $alwaysAvailable = false)
-    {
+    public function createGlobalUrlAlias(
+        $resource,
+        $path,
+        $forwarding = false,
+        $languageCode = null,
+        $alwaysAvailable = false
+    ) {
         $this->logger->logCall(
             __METHOD__,
             [
@@ -139,8 +152,11 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function listGlobalURLAliases($languageCode = null, $offset = 0, $limit = -1)
-    {
+    public function listGlobalURLAliases(
+        $languageCode = null,
+        $offset = 0,
+        $limit = -1
+    ) {
         $this->logger->logCall(__METHOD__, ['language' => $languageCode, 'offset' => $offset, 'limit' => $limit]);
 
         return $this->persistenceHandler->urlAliasHandler()->listGlobalURLAliases($languageCode, $offset, $limit);
@@ -149,8 +165,10 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function listURLAliasesForLocation($locationId, $custom = false)
-    {
+    public function listURLAliasesForLocation(
+        $locationId,
+        $custom = false
+    ) {
         return $this->getListCacheValue(
             ($custom) ?
                 $this->cacheIdentifierGenerator->generateKey(self::URL_ALIAS_LOCATION_LIST_CUSTOM_IDENTIFIER, [$locationId], true) :
@@ -280,8 +298,11 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function locationMoved($locationId, $oldParentId, $newParentId)
-    {
+    public function locationMoved(
+        $locationId,
+        $oldParentId,
+        $newParentId
+    ) {
         $this->logger->logCall(
             __METHOD__,
             [
@@ -306,8 +327,11 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function locationCopied($locationId, $newLocationId, $newParentId)
-    {
+    public function locationCopied(
+        $locationId,
+        $newLocationId,
+        $newParentId
+    ) {
         $this->logger->logCall(
             __METHOD__,
             [
@@ -359,8 +383,12 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function locationSwapped($location1Id, $location1ParentId, $location2Id, $location2ParentId)
-    {
+    public function locationSwapped(
+        $location1Id,
+        $location1ParentId,
+        $location2Id,
+        $location2ParentId
+    ) {
         $this->logger->logCall(
             __METHOD__,
             [
@@ -393,8 +421,10 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function translationRemoved(array $locationIds, $languageCode)
-    {
+    public function translationRemoved(
+        array $locationIds,
+        $languageCode
+    ) {
         $this->logger->logCall(
             __METHOD__,
             ['locations' => implode(',', $locationIds), 'language' => $languageCode]
@@ -414,8 +444,11 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function archiveUrlAliasesForDeletedTranslations($locationId, $parentLocationId, array $languageCodes)
-    {
+    public function archiveUrlAliasesForDeletedTranslations(
+        $locationId,
+        $parentLocationId,
+        array $languageCodes
+    ) {
         $this->logger->logCall(
             __METHOD__,
             [
@@ -442,13 +475,15 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
      *
      * For use when generating cache, not on invalidation.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\UrlAlias $urlAlias
+     * @param UrlAlias $urlAlias
      * @param array $tags Optional, can be used to specify other tags.
      *
      * @return array
      */
-    private function getCacheTags(UrlAlias $urlAlias, array $tags = [])
-    {
+    private function getCacheTags(
+        UrlAlias $urlAlias,
+        array $tags = []
+    ) {
         $tags[] = $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_IDENTIFIER, [$urlAlias->id]);
 
         if ($urlAlias->type === UrlAlias::LOCATION) {
@@ -489,8 +524,8 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
      *
      * @param int $locationId
      *
-     * @throws \Ibexa\Core\Base\Exceptions\BadStateException
-     * @throws \Psr\Cache\InvalidArgumentException&\Throwable
+     * @throws BadStateException
+     * @throws InvalidArgumentException&\Throwable
      */
     public function repairBrokenUrlAliasesForLocation(int $locationId)
     {

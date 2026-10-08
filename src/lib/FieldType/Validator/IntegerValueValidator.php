@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\Integer\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
@@ -82,12 +84,14 @@ class IntegerValueValidator extends Validator
      * When a check against a constraint has failed, an entry will be added to the
      * $errors array.
      *
-     * @param \Ibexa\Core\FieldType\Integer\Value $value
+     * @param Value $value
      *
      * @return bool
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null)
-    {
+    public function validate(
+        BaseValue $value,
+        ?FieldDefinition $fieldDefinition = null
+    ) {
         $isValid = true;
 
         if ($this->constraints['maxIntegerValue'] !== null && $value->value > $this->constraints['maxIntegerValue']) {

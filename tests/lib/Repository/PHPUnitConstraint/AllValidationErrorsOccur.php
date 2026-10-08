@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\PHPUnitConstraint;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use PHPUnit\Framework\Constraint\Constraint as AbstractPHPUnitConstraint;
 use RecursiveArrayIterator;
@@ -18,8 +19,8 @@ use Traversable;
  * PHPUnit's constraint checking that all the given validation error messages occur in the asserted
  * ContentFieldValidationException.
  *
- * @see \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
- * @see \Ibexa\Contracts\Core\FieldType\ValidationError
+ * @see ContentFieldValidationException
+ * @see ValidationError
  */
 class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
 {
@@ -40,7 +41,7 @@ class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException $other
+     * @param ContentFieldValidationException $other
      *
      * @return bool
      */
@@ -57,7 +58,7 @@ class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException $exception
+     * @param ContentFieldValidationException $exception
      *
      * @return string[]
      */
@@ -67,9 +68,9 @@ class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
     }
 
     /**
-     * @param array<int, array<string, array<\Ibexa\Contracts\Core\FieldType\ValidationError>>> $fieldErrors
+     * @param array<int, array<string, array<ValidationError>>> $fieldErrors
      *
-     * @return \Traversable<string> translated message string
+     * @return Traversable<string> translated message string
      */
     private function extractTranslatable(array $fieldErrors): Traversable
     {
@@ -85,7 +86,7 @@ class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException $other
+     * @param ContentFieldValidationException $other
      *
      * @return string
      */

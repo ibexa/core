@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Locale;
 
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -17,7 +19,7 @@ final class LocaleConverterTest extends TestCase
 {
     private LocaleConverter $localeConverter;
 
-    /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface&MockObject */
     private LoggerInterface $logger;
 
     /**
@@ -50,8 +52,10 @@ final class LocaleConverterTest extends TestCase
     /**
      * @dataProvider convertToPOSIXProvider
      */
-    public function testConvertToPOSIX(string $repositoryLocale, ?string $expected): void
-    {
+    public function testConvertToPOSIX(
+        string $repositoryLocale,
+        ?string $expected
+    ): void {
         if ($expected === null) {
             $this->logger
                 ->expects($this->once())
@@ -76,8 +80,10 @@ final class LocaleConverterTest extends TestCase
     /**
      * @dataProvider convertToRepositoryProvider
      */
-    public function testConvertToEz(string $posixLocale, ?string $expected): void
-    {
+    public function testConvertToEz(
+        string $posixLocale,
+        ?string $expected
+    ): void {
         if ($expected === null) {
             $this->logger
                 ->expects($this->once())
@@ -90,8 +96,10 @@ final class LocaleConverterTest extends TestCase
     /**
      * @dataProvider convertToRepositoryProvider
      */
-    public function testConvertToRepository(string $posixLocale, ?string $expected): void
-    {
+    public function testConvertToRepository(
+        string $posixLocale,
+        ?string $expected
+    ): void {
         if ($expected === null) {
             $this->logger
                 ->expects($this->once())

@@ -14,14 +14,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 
 final class BeforeAssignSectionEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
+    /** @var Section */
     private $section;
 
-    public function __construct(ContentInfo $contentInfo, Section $section)
-    {
+    public function __construct(
+        ContentInfo $contentInfo,
+        Section $section
+    ) {
         $this->contentInfo = $contentInfo;
         $this->section = $section;
     }

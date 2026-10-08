@@ -4,7 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Test\Repository;
+
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Core\Base\ServiceContainer;
+use Ibexa\Tests\Integration\Core\Repository\IdManager;
 
 /**
  * A Test Factory is used to setup the infrastructure for a tests, based on a
@@ -18,14 +23,14 @@ abstract class SetupFactory
      * @param bool $initializeFromScratch if the back end should be initialized
      *                                    from scratch or re-used
      *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
+     * @return Repository
      */
     abstract public function getRepository($initializeFromScratch = true);
 
     /**
      * Returns a repository specific ID manager.
      *
-     * @return \Ibexa\Tests\Integration\Core\Repository\IdManager
+     * @return IdManager
      */
     abstract public function getIdManager();
 
@@ -45,7 +50,7 @@ abstract class SetupFactory
      *
      * Most tests should not use this at all!!
      *
-     * @return \Ibexa\Core\Base\ServiceContainer
+     * @return ServiceContainer
      */
     abstract public function getServiceContainer();
 }

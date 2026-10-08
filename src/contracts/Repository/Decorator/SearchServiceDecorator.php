@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 abstract class SearchServiceDecorator implements SearchService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchService */
     protected $innerService;
 
     public function __construct(SearchService $innerService)

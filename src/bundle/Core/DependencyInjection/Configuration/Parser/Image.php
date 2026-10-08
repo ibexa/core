@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
@@ -126,15 +127,20 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer): void
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ): void {
         $contextualizer->mapConfigArray('image_variations', $config);
         $contextualizer->mapSetting('image_host', $config);
         $contextualizer->mapSetting('variation_handler_identifier', $config);
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ): void {
         if (isset($scopeSettings['imagemagick'])) {
             $suggestion = new ConfigSuggestion(
                 '"imagemagick" settings are deprecated. Just remove them from your configuration file.'

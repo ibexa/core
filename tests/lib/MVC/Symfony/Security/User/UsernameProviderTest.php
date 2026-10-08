@@ -20,6 +20,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Core\Repository\Values\User\UserReference;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -27,13 +28,13 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 class UsernameProviderTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\UserService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UserService|MockObject */
     private $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider */
+    /** @var UsernameProvider */
     private $userProvider;
 
     protected function setUp(): void
@@ -161,8 +162,10 @@ class UsernameProviderTest extends TestCase
     /**
      * @dataProvider supportsClassProvider
      */
-    public function testSupportsClass($class, $supports)
-    {
+    public function testSupportsClass(
+        $class,
+        $supports
+    ) {
         $this->assertSame($supports, $this->userProvider->supportsClass($class));
     }
 

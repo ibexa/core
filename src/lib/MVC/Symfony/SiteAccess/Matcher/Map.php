@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
 abstract class Map implements VersatileMatcher
@@ -32,7 +34,7 @@ abstract class Map implements VersatileMatcher
      */
     protected $reverseMap = [];
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
+    /** @var SimplifiedRequest */
     protected $request;
 
     /**
@@ -103,7 +105,7 @@ abstract class Map implements VersatileMatcher
     /**
      * @param string $siteAccessName
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher|Map|null
+     * @return Matcher|Map|null
      */
     public function reverseMatch($siteAccessName)
     {

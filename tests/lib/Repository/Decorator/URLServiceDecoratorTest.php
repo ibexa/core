@@ -20,8 +20,7 @@ class URLServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): URLService
     {
-        return new class($service) extends URLServiceDecorator {
-        };
+        return new class($service) extends URLServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

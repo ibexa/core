@@ -12,7 +12,10 @@ use Iterator;
 
 interface BatchIteratorAdapter
 {
-    public function fetch(int $offset, int $limit): Iterator;
+    public function fetch(
+        int $offset,
+        int $limit
+    ): Iterator;
 }
 
 class_alias(BatchIteratorAdapter::class, 'eZ\Publish\API\Repository\Iterator\BatchIteratorAdapter');

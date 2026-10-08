@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
@@ -18,14 +19,16 @@ class RepositoryConfigurationProvider
     private const REPOSITORY_CONNECTION = 'connection';
     private const DEFAULT_CONNECTION_NAME = 'default';
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     /** @var array */
     private $repositories;
 
-    public function __construct(ConfigResolverInterface $configResolver, array $repositories)
-    {
+    public function __construct(
+        ConfigResolverInterface $configResolver,
+        array $repositories
+    ) {
         $this->configResolver = $configResolver;
         $this->repositories = $repositories;
     }
@@ -33,7 +36,7 @@ class RepositoryConfigurationProvider
     /**
      * @return array
      *
-     * @throws \Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException
+     * @throws InvalidRepositoryException
      */
     public function getRepositoryConfig()
     {

@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\Command;
 
 use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
+use Ibexa\Bundle\IO\Migration\FileListerInterface;
 use Ibexa\Bundle\IO\Migration\FileListerRegistry;
 use Ibexa\Bundle\IO\Migration\FileMigratorInterface;
 use Symfony\Component\Console\Command\Command;
@@ -24,13 +26,13 @@ final class MigrateFilesCommand extends Command implements BackwardCompatibleCom
     /** @var mixed Configuration for binary data handlers */
     private $configuredBinarydataHandlers;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileListerRegistry */
+    /** @var FileListerRegistry */
     private $fileListerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileListerInterface[] */
+    /** @var FileListerInterface[] */
     private $fileListers;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileMigratorInterface */
+    /** @var FileMigratorInterface */
     private $fileMigrator;
 
     public function __construct(
@@ -92,8 +94,10 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         if ($input->getOption('list-io-handlers')) {
             $this->outputConfiguredHandlers($output);
 
@@ -188,7 +192,7 @@ EOT
     /**
      * Output the configured meta/binary data handlers.
      *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      */
     protected function outputConfiguredHandlers(OutputInterface $output)
     {
@@ -205,7 +209,7 @@ EOT
      *
      * @param mixed $fromHandlers
      * @param mixed $toHandlers
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      *
      * @return bool
      */
@@ -252,7 +256,7 @@ EOT
      * @param int|null $totalFileCount Total count of files, null if unknown
      * @param int $bulkCount Number of files to process in each batch
      * @param bool $dryRun
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      */
     protected function migrateFiles(
         $totalFileCount,

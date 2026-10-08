@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory;
@@ -22,7 +23,7 @@ class RegisterSearchEnginePass implements CompilerPassInterface
     /**
      * Container service id of the SearchEngineFactory.
      *
-     * @see \Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory
+     * @see SearchEngineFactory
      *
      * @var string
      */
@@ -31,9 +32,9 @@ class RegisterSearchEnginePass implements CompilerPassInterface
     /**
      * Registers all found search engines to the SearchEngineFactory.
      *
-     * @throws \LogicException
+     * @throws LogicException
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {

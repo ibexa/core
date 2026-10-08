@@ -18,7 +18,7 @@ class SearchHit extends ValueObject
     /**
      * The value found by the search.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\ValueObject
+     * @var ValueObject
      */
     public $valueObject;
 

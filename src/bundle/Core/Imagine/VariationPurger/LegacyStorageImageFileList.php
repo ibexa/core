@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -33,14 +34,14 @@ class LegacyStorageImageFileList implements ImageFileList
     /**
      * Used to get ezimagefile rows.
      *
-     * @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader
+     * @var ImageFileRowReader
      */
     private $rowReader;
 
-    /** @var \Ibexa\Core\IO\IOConfigProvider */
+    /** @var IOConfigProvider */
     private $ioConfigResolver;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(

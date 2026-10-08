@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -11,6 +12,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
  * @issue https://issues.ibexa.co/browse/EZP-26551
+ *
  * @group regression
  * @group ezp26551
  */

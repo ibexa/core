@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration;
@@ -18,31 +19,32 @@ use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
 use Liip\ImagineBundle\Model\Binary;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
 
 class IORepositoryResolverTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $ioService;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
+    /** @var RequestContext */
     private $requestContext;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\IORepositoryResolver */
+    /** @var IORepositoryResolver */
     private $imageResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration */
+    /** @var FilterConfiguration */
     private $filterConfiguration;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPurger|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var VariationPurger|MockObject */
     protected $variationPurger;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var VariationPathGenerator|MockObject */
     protected $variationPathGenerator;
 
     protected function setUp(): void
@@ -67,8 +69,11 @@ class IORepositoryResolverTest extends TestCase
     /**
      * @dataProvider getFilePathProvider
      */
-    public function testGetFilePath($path, $filter, $expected)
-    {
+    public function testGetFilePath(
+        $path,
+        $filter,
+        $expected
+    ) {
         $this->variationPathGenerator
             ->expects($this->once())
             ->method('getVariationPath')
@@ -132,8 +137,13 @@ class IORepositoryResolverTest extends TestCase
     /**
      * @dataProvider resolveProvider
      */
-    public function testResolve($path, $filter, $variationPath, $requestUrl, $expected)
-    {
+    public function testResolve(
+        $path,
+        $filter,
+        $variationPath,
+        $requestUrl,
+        $expected
+    ) {
         if ($requestUrl) {
             $this->requestContext->fromRequest(Request::create($requestUrl));
         }

@@ -57,7 +57,7 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     }
 
     /**
-     * @param \Doctrine\Migrations\Metadata\Storage\MetadataStorage&\PHPUnit\Framework\MockObject\MockObject $metadataStorage
+     * @param MetadataStorage&MockObject $metadataStorage
      */
     private function createRunner(MockObject $metadataStorage): TaggedMigrationsRunner
     {
@@ -78,8 +78,10 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
      *
      * @return array<string, mixed>
      */
-    private function resolve(DoctrineMigrationsSchemaHook $hook, array $options): array
-    {
+    private function resolve(
+        DoctrineMigrationsSchemaHook $hook,
+        array $options
+    ): array {
         $resolver = new OptionsResolver();
         $hook->configureOptions($resolver);
 

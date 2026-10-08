@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
 
 final class UpdateUserGroupEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $userGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct */
+    /** @var UserGroupUpdateStruct */
     private $userGroupUpdateStruct;
 
     private $updatedUserGroup;

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -16,6 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Tree Handler.
@@ -133,93 +135,39 @@ class TreeHandlerTest extends TestCase
             ]
         );
 
-        // Original call
         $this->getLocationGatewayMock()
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('getBasicNodeData')
-            ->with(42)
-            ->will(
-                $this->returnValue(
-                    [
-                        'contentobject_id' => 100,
-                        'main_node_id' => 200,
-                    ]
-                )
+            ->withConsecutive([42], [201], [202])
+            ->willReturnOnConsecutiveCalls(
+                ['contentobject_id' => 100, 'main_node_id' => 200],
+                ['contentobject_id' => 101, 'main_node_id' => 201],
+                ['contentobject_id' => 102, 'main_node_id' => 202]
             );
         $this->getLocationGatewayMock()
-            ->expects($this->at(1))
+            ->expects($this->exactly(3))
             ->method('getChildren')
-            ->with(42)
-            ->will(
-                $this->returnValue(
-                    [
-                        ['node_id' => 201],
-                        ['node_id' => 202],
-                    ]
-                )
+            ->withConsecutive([42], [201], [202])
+            ->willReturnOnConsecutiveCalls(
+                [
+                    ['node_id' => 201],
+                    ['node_id' => 202],
+                ],
+                [],
+                []
             );
 
-        // First recursive call
         $this->getLocationGatewayMock()
-            ->expects($this->at(2))
-            ->method('getBasicNodeData')
-            ->with(201)
-            ->will(
-                $this->returnValue(
-                    [
-                        'contentobject_id' => 101,
-                        'main_node_id' => 201,
-                    ]
-                )
-            );
-        $this->getLocationGatewayMock()
-            ->expects($this->at(3))
-            ->method('getChildren')
-            ->with(201)
-            ->will($this->returnValue([]));
-        $this->getLocationGatewayMock()
-            ->expects($this->at(4))
+            ->expects($this->exactly(2))
             ->method('countLocationsByContentId')
-            ->with(101)
-            ->will($this->returnValue(1));
+            ->withConsecutive([101], [102])
+            ->willReturnOnConsecutiveCalls(1, 2);
         $treeHandler
             ->expects($this->once())
             ->method('removeRawContent')
             ->with(101);
         $this->getLocationGatewayMock()
-            ->expects($this->at(5))
-            ->method('removeLocation')
-            ->with(201);
-        $this->getLocationGatewayMock()
-            ->expects($this->at(6))
-            ->method('deleteNodeAssignment')
-            ->with(101);
-
-        // Second recursive call
-        $this->getLocationGatewayMock()
-            ->expects($this->at(7))
-            ->method('getBasicNodeData')
-            ->with(202)
-            ->will(
-                $this->returnValue(
-                    [
-                        'contentobject_id' => 102,
-                        'main_node_id' => 202,
-                    ]
-                )
-            );
-        $this->getLocationGatewayMock()
-            ->expects($this->at(8))
-            ->method('getChildren')
-            ->with(202)
-            ->will($this->returnValue([]));
-        $this->getLocationGatewayMock()
-            ->expects($this->at(9))
-            ->method('countLocationsByContentId')
-            ->with(102)
-            ->will($this->returnValue(2));
-        $this->getLocationGatewayMock()
-            ->expects($this->at(10))
+            ->expects($this->once())
             ->method('getFallbackMainNodeData')
             ->with(102, 202)
             ->will(
@@ -236,23 +184,13 @@ class TreeHandlerTest extends TestCase
             ->method('changeMainLocation')
             ->with(102, 203);
         $this->getLocationGatewayMock()
-            ->expects($this->at(11))
+            ->expects($this->exactly(3))
             ->method('removeLocation')
-            ->with(202);
+            ->withConsecutive([201], [202], [42]);
         $this->getLocationGatewayMock()
-            ->expects($this->at(12))
+            ->expects($this->exactly(3))
             ->method('deleteNodeAssignment')
-            ->with(102);
-
-        // Continuation of the original call
-        $this->getLocationGatewayMock()
-            ->expects($this->at(13))
-            ->method('removeLocation')
-            ->with(42);
-        $this->getLocationGatewayMock()
-            ->expects($this->at(14))
-            ->method('deleteNodeAssignment')
-            ->with(100);
+            ->withConsecutive([101], [102], [100]);
 
         // Start
         $treeHandler->removeSubtree(42);
@@ -263,7 +201,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler = $this->getTreeHandler();
 
         $this->getLocationGatewayMock()
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('getBasicNodeData')
             ->with(69)
             ->will(
@@ -295,28 +233,22 @@ class TreeHandlerTest extends TestCase
         );
 
         $treeHandler
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('loadLocation')
-            ->with(34)
-            ->will($this->returnValue(new Location(['parentId' => 42])));
+            ->withConsecutive([34], [42])
+            ->willReturnOnConsecutiveCalls(
+                new Location(['parentId' => 42]),
+                new Location(['contentId' => 84])
+            );
 
         $treeHandler
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('loadContentInfo')
-            ->with('12')
-            ->will($this->returnValue(new ContentInfo(['currentVersionNo' => 1])));
-
-        $treeHandler
-            ->expects($this->at(2))
-            ->method('loadLocation')
-            ->with(42)
-            ->will($this->returnValue(new Location(['contentId' => 84])));
-
-        $treeHandler
-            ->expects($this->at(3))
-            ->method('loadContentInfo')
-            ->with('84')
-            ->will($this->returnValue(new ContentInfo(['sectionId' => 4])));
+            ->withConsecutive(['12'], ['84'])
+            ->willReturnOnConsecutiveCalls(
+                new ContentInfo(['currentVersionNo' => 1]),
+                new ContentInfo(['sectionId' => 4])
+            );
 
         $this->getLocationGatewayMock()
             ->expects($this->once())
@@ -342,33 +274,32 @@ class TreeHandlerTest extends TestCase
         );
 
         $treeHandler
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('loadLocation')
-            ->with(34)
-            ->will($this->returnValue(new Location(['parentId' => 1])));
+            ->withConsecutive([34], [1])
+            ->willReturnOnConsecutiveCalls(
+                new Location(['parentId' => 1]),
+                new Location(['contentId' => 84])
+            );
 
         $treeHandler
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('loadContentInfo')
-            ->with('12')
-            ->will($this->returnValue(new ContentInfo(['currentVersionNo' => 1])));
-
-        $treeHandler
-            ->expects($this->at(2))
-            ->method('loadLocation')
-            ->with(1)
-            ->will($this->returnValue(new Location(['contentId' => 84])));
-
-        $treeHandler
-            ->expects($this->at(3))
-            ->method('loadContentInfo')
-            ->with('84')
-            ->will($this->returnValue(new ContentInfo(['sectionId' => 4])));
+            ->withConsecutive(['12'], ['84'])
+            ->willReturnOnConsecutiveCalls(
+                new ContentInfo(['currentVersionNo' => 1]),
+                new ContentInfo(['sectionId' => 4])
+            );
 
         $this->getLocationGatewayMock()
             ->expects($this->once())
             ->method('changeMainLocation')
             ->with(12, 34, 1, 1);
+
+        $treeHandler
+            ->expects($this->once())
+            ->method('setSectionForSubtree')
+            ->with(34, 4);
 
         $treeHandler->changeMainLocation(12, 34);
     }
@@ -455,13 +386,13 @@ class TreeHandlerTest extends TestCase
         $treeHandler->deleteChildrenDrafts(42);
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
+    /** @var MockObject|LocationGateway */
     protected $locationGatewayMock;
 
     /**
      * Returns Location Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @return MockObject|LocationGateway
      */
     protected function getLocationGatewayMock()
     {
@@ -472,13 +403,13 @@ class TreeHandlerTest extends TestCase
         return $this->locationGatewayMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Mapper */
+    /** @var MockObject|LocationMapper */
     protected $locationMapperMock;
 
     /**
      * Returns a Location Mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @return MockObject|LocationMapper
      */
     protected function getLocationMapperMock()
     {
@@ -489,13 +420,13 @@ class TreeHandlerTest extends TestCase
         return $this->locationMapperMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway */
+    /** @var MockObject|Gateway */
     protected $contentGatewayMock;
 
     /**
      * Returns Content Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @return MockObject|Gateway
      */
     protected function getContentGatewayMock()
     {
@@ -506,13 +437,13 @@ class TreeHandlerTest extends TestCase
         return $this->contentGatewayMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var MockObject|Mapper */
     protected $contentMapper;
 
     /**
      * Returns a Content Mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return MockObject|Mapper
      */
     protected function getContentMapperMock()
     {
@@ -523,13 +454,13 @@ class TreeHandlerTest extends TestCase
         return $this->contentMapper;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldHandler */
+    /** @var MockObject|FieldHandler */
     protected $fieldHandlerMock;
 
     /**
      * Returns a FieldHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @return MockObject|FieldHandler
      */
     protected function getFieldHandlerMock()
     {
@@ -543,7 +474,7 @@ class TreeHandlerTest extends TestCase
     /**
      * @param array $methods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @return MockObject|TreeHandler
      */
     protected function getPartlyMockedTreeHandler(array $methods)
     {
@@ -562,7 +493,7 @@ class TreeHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @return TreeHandler
      */
     protected function getTreeHandler()
     {

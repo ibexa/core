@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -19,8 +20,13 @@ class InteractiveLoginToken extends UsernamePasswordToken
 
     private string $originalTokenType;
 
-    public function __construct(UserInterface $user, $originalTokenType, $credentials, $providerKey, array $roles = [])
-    {
+    public function __construct(
+        UserInterface $user,
+        $originalTokenType,
+        $credentials,
+        $providerKey,
+        array $roles = []
+    ) {
         parent::__construct($user, $credentials, $providerKey, $roles);
 
         $this->originalTokenType = $originalTokenType;
@@ -35,7 +41,7 @@ class InteractiveLoginToken extends UsernamePasswordToken
      * @return array{
      *     string,
      *     mixed,
-     *     null|\Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     *     TokenInterface|null
      * } $data
      */
     public function __serialize(): array
@@ -51,7 +57,7 @@ class InteractiveLoginToken extends UsernamePasswordToken
      * @param array{
      *     string,
      *     mixed,
-     *     2?: \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     *     2?: TokenInterface
      * } $data
      */
     public function __unserialize(array $data): void

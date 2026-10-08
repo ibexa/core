@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Time;
 
 use DateTime;
 use Exception;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
@@ -43,9 +45,9 @@ class Value extends BaseValue
     /**
      * Creates a Value from the given $dateTime.
      *
-     * @param \DateTime $dateTime
+     * @param DateTime $dateTime
      *
-     * @return \Ibexa\Core\FieldType\Time\Value
+     * @return Value
      */
     public static function fromDateTime(DateTime $dateTime)
     {
@@ -57,11 +59,11 @@ class Value extends BaseValue
     /**
      * Creates a Value from the given $timeString.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param string $timeString
      *
-     * @return \Ibexa\Core\FieldType\Time\Value
+     * @return Value
      */
     public static function fromString($timeString)
     {
@@ -75,7 +77,7 @@ class Value extends BaseValue
     /**
      * Creates a Value from the given $timestamp.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param int $timestamp
      *

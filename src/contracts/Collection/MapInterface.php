@@ -8,8 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Collection;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
+
 /**
  * @template TKey
+ *
  * @template-covariant TValue
  *
  * @template-extends \Ibexa\Contracts\Core\Collection\CollectionInterface<TValue>
@@ -23,7 +26,7 @@ interface MapInterface extends CollectionInterface
      *
      * @return TValue
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException if map does not contain element with given key
+     * @throws OutOfBoundsException if map does not contain element with given key
      */
     public function get($key);
 

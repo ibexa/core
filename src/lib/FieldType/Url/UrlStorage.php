@@ -4,12 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Url;
 
+use Ibexa\Contracts\Core\FieldType\FieldStorage;
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -17,35 +20,40 @@ use Psr\Log\LoggerInterface;
  */
 class UrlStorage extends GatewayBasedStorage
 {
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     protected $logger;
 
-    /** @var \Ibexa\Core\FieldType\Url\UrlStorage\Gateway */
+    /** @var Gateway */
     protected $gateway;
 
     /**
      * Construct from gateways.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param StorageGatewayInterface $gateway
+     * @param LoggerInterface $logger
      */
-    public function __construct(StorageGatewayInterface $gateway, ?LoggerInterface $logger = null)
-    {
+    public function __construct(
+        StorageGatewayInterface $gateway,
+        ?LoggerInterface $logger = null
+    ) {
         parent::__construct($gateway);
         $this->logger = $logger;
     }
 
     /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
+     * @see FieldStorage
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      * @param array $context
      *
      * @return bool|mixed
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         $url = $field->value->externalData;
 
         if (empty($url)) {
@@ -74,8 +82,11 @@ class UrlStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         $id = $field->value->data['urlId'];
         if (empty($id)) {
             $field->value->externalData = null;
@@ -97,14 +108,17 @@ class UrlStorage extends GatewayBasedStorage
      * Deletes field data for all $fieldIds in the version identified by
      * $versionInfo.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      * @param array $fieldIds
      * @param array $context
      *
      * @return bool
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds,
+        array $context
+    ) {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->unlinkUrl($fieldId, $versionInfo->versionNo);
         }
@@ -121,15 +135,17 @@ class UrlStorage extends GatewayBasedStorage
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      * @param array $context
      *
      * @return \Ibexa\Contracts\Core\Search\Field[]
      */
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
-    {
-    }
+    public function getIndexData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {}
 }
 
 class_alias(UrlStorage::class, 'eZ\Publish\Core\FieldType\Url\UrlStorage');

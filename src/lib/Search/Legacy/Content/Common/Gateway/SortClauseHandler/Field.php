@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
 
 use Doctrine\DBAL\Connection;
@@ -12,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target\FieldTarget;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
@@ -24,14 +26,14 @@ class Field extends SortClauseHandler
     /**
      * Language handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+     * @var LanguageHandler
      */
     protected $languageHandler;
 
     /**
      * Content type handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+     * @var ContentTypeHandler
      */
     protected $contentTypeHandler;
 
@@ -49,7 +51,7 @@ class Field extends SortClauseHandler
     /**
      * Check if this sort clause handler accepts to handle the given sort clause.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
+     * @param SortClause $sortClause
      *
      * @return bool
      */
@@ -64,8 +66,8 @@ class Field extends SortClauseHandler
      * Returns the name of the (aliased) column, which information should be
      * used for sorting.
      *
-     * @param \Doctrine\DBAL\Query\QueryBuilder $query
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
+     * @param QueryBuilder $query
+     * @param SortClause $sortClause
      * @param int $number
      *
      * @return array
@@ -112,7 +114,7 @@ class Field extends SortClauseHandler
         int $number,
         array $languageSettings
     ): void {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target\FieldTarget $fieldTarget */
+        /** @var FieldTarget $fieldTarget */
         $fieldTarget = $sortClause->targetData;
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();
 

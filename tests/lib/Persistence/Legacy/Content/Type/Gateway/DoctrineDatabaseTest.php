@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
-use Ibexa\Contracts\Core\Persistence\Content\Type;
 // For SORT_ORDER_* constants
+use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
@@ -24,7 +26,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * The DoctrineDatabase gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $gateway;
 
@@ -70,7 +72,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a Group fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     * @return Group
      */
     protected function getGroupFixture()
     {
@@ -168,7 +170,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a Group update struct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct
+     * @return GroupUpdateStruct
      */
     protected function getGroupUpdateStructFixture()
     {
@@ -438,8 +440,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @dataProvider getTypeCreationExpectations
      */
-    public function testInsertType($column, $expectation)
-    {
+    public function testInsertType(
+        $column,
+        $expectation
+    ) {
         $gateway = $this->getGateway();
         $type = $this->getTypeFixture();
 
@@ -472,8 +476,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @dataProvider getTypeCreationContentClassNameExpectations
      */
-    public function testInsertTypeContentClassName($column, $expectation)
-    {
+    public function testInsertTypeContentClassName(
+        $column,
+        $expectation
+    ) {
         $gateway = $this->getGateway();
         $type = $this->getTypeFixture();
 
@@ -496,7 +502,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a Type fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     protected function getTypeFixture()
     {
@@ -608,7 +614,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a FieldDefinition fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      */
     protected function getFieldDefinitionFixture()
     {
@@ -641,7 +647,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a StorageFieldDefinition fixture.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition
+     * @return StorageFieldDefinition
      */
     protected function getStorageFieldDefinitionFixture()
     {
@@ -812,8 +818,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @dataProvider getTypeUpdateExpectations
      */
-    public function testUpdateType($fieldName, $expectedValue)
-    {
+    public function testUpdateType(
+        $fieldName,
+        $expectedValue
+    ) {
         $this->insertDatabaseFixture(
             __DIR__ . '/_fixtures/existing_types.php'
         );
@@ -902,7 +910,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * Returns a {@see \Ibexa\Contracts\Core\Persistence\Content\Type} fixture for update operation.
+     * Returns a {@see Type} fixture for update operation.
      */
     protected function getUpdateTypeFixture(): Type
     {
@@ -1145,7 +1153,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Return the DoctrineDatabase gateway to test.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getGateway(): DoctrineDatabase
     {

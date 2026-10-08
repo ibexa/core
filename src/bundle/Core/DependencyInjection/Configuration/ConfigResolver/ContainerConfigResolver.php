@@ -23,14 +23,19 @@ abstract class ContainerConfigResolver implements ConfigResolverInterface, Conta
     /** @var string */
     private $defaultNamespace;
 
-    public function __construct(string $scope, string $defaultNamespace)
-    {
+    public function __construct(
+        string $scope,
+        string $defaultNamespace
+    ) {
         $this->scope = $scope;
         $this->defaultNamespace = $defaultNamespace;
     }
 
-    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
-    {
+    public function getParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ) {
         [$namespace, $scope] = $this->resolveNamespaceAndScope($namespace, $scope);
         $scopeRelativeParamName = $this->getScopeRelativeParamName($paramName, $namespace, $scope);
         if ($this->container->hasParameter($scopeRelativeParamName)) {
@@ -40,8 +45,11 @@ abstract class ContainerConfigResolver implements ConfigResolverInterface, Conta
         throw new ParameterNotFoundException($paramName, $namespace, [$scope]);
     }
 
-    public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
-    {
+    public function hasParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): bool {
         return $this->container->hasParameter($this->resolveScopeRelativeParamName($paramName, $namespace, $scope));
     }
 
@@ -55,18 +63,26 @@ abstract class ContainerConfigResolver implements ConfigResolverInterface, Conta
         $this->defaultNamespace = $defaultNamespace;
     }
 
-    private function resolveScopeRelativeParamName(string $paramName, ?string $namespace = null, ?string $scope = null): string
-    {
+    private function resolveScopeRelativeParamName(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): string {
         return $this->getScopeRelativeParamName($paramName, ...$this->resolveNamespaceAndScope($namespace, $scope));
     }
 
-    private function resolveNamespaceAndScope(?string $namespace = null, ?string $scope = null): array
-    {
+    private function resolveNamespaceAndScope(
+        ?string $namespace = null,
+        ?string $scope = null
+    ): array {
         return [$namespace ?: $this->getDefaultNamespace(), $scope ?? $this->scope];
     }
 
-    private function getScopeRelativeParamName(string $paramName, string $namespace, string $scope): string
-    {
+    private function getScopeRelativeParamName(
+        string $paramName,
+        string $namespace,
+        string $scope
+    ): string {
         return "$namespace.$scope.$paramName";
     }
 }

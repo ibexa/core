@@ -15,10 +15,10 @@ use UnexpectedValueException;
 
 final class BeforeCreateContentTypeDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
+    /** @var ContentType */
     private $contentType;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft|null */
+    /** @var ContentTypeDraft|null */
     private $contentTypeDraft;
 
     public function __construct(ContentType $contentType)

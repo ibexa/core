@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter;
 
 use Imagine\Exception\NotSupportedException;
@@ -12,7 +13,7 @@ use Imagine\Image\ImageInterface;
 class UnsupportedFilter extends AbstractFilter
 {
     /**
-     * @throws \Imagine\Exception\NotSupportedException
+     * @throws NotSupportedException
      */
     public function apply(ImageInterface $image)
     {

@@ -32,7 +32,7 @@ final class SubtreeTermAggregationTest extends TestCase
     public function testConstructThrowsInvalidArgumentExceptionOnInvalidPathString(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("'/INVALID/PATH' value must follow the path string format, e.g. /1/2/");
+        $this->expectExceptionMessage("'/INVALID/PATH' value must follow the path string format, e.g. /1/2/");
 
         $aggregation = new SubtreeTermAggregation('foo', '/INVALID/PATH');
     }
@@ -40,7 +40,7 @@ final class SubtreeTermAggregationTest extends TestCase
     public function testFromLocation(): void
     {
         $location = $this->createMock(Location::class);
-        $location->method('__get')->with('pathString')->willReturn(self::EXAMPLE_PATH_STRING);
+        $location->expects(self::once())->method('__get')->with('pathString')->willReturn(self::EXAMPLE_PATH_STRING);
 
         $aggregation = SubtreeTermAggregation::fromLocation(self::EXAMPLE_AGGREGATION_NAME, $location);
 

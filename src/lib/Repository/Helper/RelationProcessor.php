@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Repository\Helper;
 
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
@@ -25,13 +26,13 @@ class RelationProcessor
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var Handler */
     protected $persistenceHandler;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $handler
+     * @param Handler $handler
      */
     public function __construct(Handler $handler)
     {
@@ -46,8 +47,8 @@ class RelationProcessor
      *
      * @param array $relations
      * @param array $locationIdToContentIdMapping An array with Location Ids as keys and corresponding Content Id as values
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType $fieldType
-     * @param \Ibexa\Contracts\Core\FieldType\Value $fieldValue Accepted field value.
+     * @param SPIFieldType $fieldType
+     * @param BaseValue $fieldValue Accepted field value.
      * @param string $fieldDefinitionId
      */
     public function appendFieldRelations(
@@ -103,7 +104,7 @@ class RelationProcessor
      * @param array $inputRelations
      * @param mixed $sourceContentId
      * @param mixed $sourceContentVersionNo
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $existingRelations An array of existing relations for Content version (empty when creating new content)
      */
     public function processFieldRelations(

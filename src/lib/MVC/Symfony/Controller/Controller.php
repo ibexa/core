@@ -4,13 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Controller;
 
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Templating\EngineInterface;
 
 abstract class Controller implements ContainerAwareInterface
 {
@@ -24,8 +31,10 @@ abstract class Controller implements ContainerAwareInterface
      *
      * @return mixed
      */
-    public function getParameter($parameterName, $defaultValue = null)
-    {
+    public function getParameter(
+        $parameterName,
+        $defaultValue = null
+    ) {
         if ($this->getConfigResolver()->hasParameter($parameterName)) {
             return $this->getConfigResolver()->getParameter($parameterName);
         }
@@ -46,7 +55,7 @@ abstract class Controller implements ContainerAwareInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
+     * @return ConfigResolverInterface
      */
     public function getConfigResolver()
     {
@@ -58,12 +67,15 @@ abstract class Controller implements ContainerAwareInterface
      *
      * @param string $view The view name
      * @param array $parameters An array of parameters to pass to the view
-     * @param \Symfony\Component\HttpFoundation\Response $response
+     * @param Response $response
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function render($view, array $parameters = [], ?Response $response = null)
-    {
+    public function render(
+        $view,
+        array $parameters = [],
+        ?Response $response = null
+    ) {
         if (!isset($response)) {
             $response = new Response();
         }
@@ -74,7 +86,7 @@ abstract class Controller implements ContainerAwareInterface
     }
 
     /**
-     * @return \Symfony\Component\Templating\EngineInterface
+     * @return EngineInterface
      */
     public function getTemplateEngine()
     {
@@ -82,7 +94,7 @@ abstract class Controller implements ContainerAwareInterface
     }
 
     /**
-     * @return \Psr\Log\LoggerInterface|null
+     * @return LoggerInterface|null
      */
     public function getLogger()
     {
@@ -90,7 +102,7 @@ abstract class Controller implements ContainerAwareInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository
+     * @return Repository
      */
     public function getRepository()
     {
@@ -98,7 +110,7 @@ abstract class Controller implements ContainerAwareInterface
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      */
     public function getRequest()
     {
@@ -106,7 +118,7 @@ abstract class Controller implements ContainerAwareInterface
     }
 
     /**
-     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     * @return EventDispatcherInterface
      */
     public function getEventDispatcher()
     {
@@ -116,7 +128,7 @@ abstract class Controller implements ContainerAwareInterface
     /**
      * Checks if current user has granted access to provided attribute.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute $attribute
+     * @param AuthorizationAttribute $attribute
      *
      * @return bool
      */

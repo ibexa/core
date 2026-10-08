@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration;
@@ -37,8 +38,10 @@ class ImaginePass implements CompilerPassInterface
         }
     }
 
-    private function processReduceNoiseFilter(ContainerBuilder $container, $driver)
-    {
+    private function processReduceNoiseFilter(
+        ContainerBuilder $container,
+        $driver
+    ) {
         if ($driver === 'imagick') {
             $container->setAlias('ibexa.image_alias.imagine.filter.reduce_noise', new Alias(ImagickReduceNoiseFilter::class));
         } elseif ($driver === 'gmagick') {
@@ -46,8 +49,10 @@ class ImaginePass implements CompilerPassInterface
         }
     }
 
-    private function processSwirlFilter(ContainerBuilder $container, $driver)
-    {
+    private function processSwirlFilter(
+        ContainerBuilder $container,
+        $driver
+    ) {
         if ($driver === 'imagick') {
             $container->setAlias('ibexa.image_alias.imagine.filter.swirl', new Alias(ImagickSwirlFilter::class));
         } elseif ($driver === 'gmagick') {

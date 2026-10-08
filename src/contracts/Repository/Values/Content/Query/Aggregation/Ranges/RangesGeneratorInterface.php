@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range;
+
 interface RangesGeneratorInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
+     * @return Range[]
      */
     public function generate(): iterable;
 }
