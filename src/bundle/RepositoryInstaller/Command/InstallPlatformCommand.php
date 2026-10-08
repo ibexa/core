@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Bundle\RepositoryInstaller\Installer\Installer;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
@@ -22,6 +23,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -33,28 +35,27 @@ final class InstallPlatformCommand extends Command
     public const int EXIT_UNKNOWN_INSTALL_TYPE = 6;
     public const int EXIT_MISSING_PERMISSIONS = 7;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Symfony\Component\Console\Output\OutputInterface */
-    private $output;
+    private OutputInterface $output;
 
-    /** @var \Psr\Cache\CacheItemPoolInterface */
-    private $cachePool;
+    private CacheItemPoolInterface $cachePool;
 
-    /** @var string */
-    private $environment;
+    private string $environment;
 
-    /** @var \Ibexa\Bundle\RepositoryInstaller\Installer\Installer[] */
-    private $installers = [];
+    /** @var \Symfony\Component\DependencyInjection\ServiceLocator<\Ibexa\Bundle\RepositoryInstaller\Installer\Installer> */
+    private ServiceLocator $installers;
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
     private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
 
+    /**
+     * @param \Symfony\Component\DependencyInjection\ServiceLocator<\Ibexa\Bundle\RepositoryInstaller\Installer\Installer> $installers
+     */
     public function __construct(
         Connection $connection,
-        array $installers,
+        ServiceLocator $installers,
         CacheItemPoolInterface $cachePool,
         string $environment,
         RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
@@ -74,7 +75,7 @@ final class InstallPlatformCommand extends Command
         $this->addArgument(
             'type',
             InputArgument::OPTIONAL,
-            'The type of install. Available options: ' . implode(', ', array_keys($this->installers)),
+            'The type of install. Available options: ' . implode(', ', array_keys($this->installers->getProvidedServices())),
             'ibexa-oss'
         );
         $this->addOption(
@@ -100,14 +101,7 @@ final class InstallPlatformCommand extends Command
 
         $type = $input->getArgument('type');
         $siteaccess = $input->getOption('siteaccess');
-        $installer = $this->getInstaller($type);
-        if ($installer === false) {
-            $output->writeln(
-                "Unknown install type '$type', available options in currently installed Ibexa package: " .
-                implode(', ', array_keys($this->installers))
-            );
-            exit(self::EXIT_UNKNOWN_INSTALL_TYPE);
-        }
+        $installer = $this->getInstaller($type, $output);
 
         $installer->setOutput($output);
 
@@ -125,7 +119,7 @@ final class InstallPlatformCommand extends Command
             } while ($exitCode !== self::SUCCESS);
         }
 
-        $this->cacheClear($output);
+        $this->cacheClear();
 
         if (!$input->getOption('skip-indexing')) {
             $this->indexData($output, $siteaccess);
@@ -134,7 +128,7 @@ final class InstallPlatformCommand extends Command
         return self::SUCCESS;
     }
 
-    private function checkPermissions()
+    private function checkPermissions(): void
     {
         // @todo should take var-dir etc. from composer config or fallback to flex directory scheme
         if (!is_writable('public') && !is_writable('public/var')) {
@@ -194,10 +188,8 @@ final class InstallPlatformCommand extends Command
 
     /**
      * Clear all content related cache (persistence cache).
-     *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    private function cacheClear(OutputInterface $output)
+    private function cacheClear(): void
     {
         $this->cachePool->clear();
     }
@@ -210,11 +202,8 @@ final class InstallPlatformCommand extends Command
      *       This is done after cache clearing to make sure no cached data from before sql import is used.
      *
      * IMPORTANT: This is done using a command because config has change, so container and all services are different.
-     *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param string|null $siteaccess
      */
-    private function indexData(OutputInterface $output, $siteaccess = null)
+    private function indexData(OutputInterface $output, ?string $siteaccess = null): void
     {
         $output->writeln(
             sprintf('Search engine re-indexing, executing command ibexa:reindex')
@@ -229,17 +218,19 @@ final class InstallPlatformCommand extends Command
     }
 
     /**
-     * @param $type
-     *
      * @return \Ibexa\Bundle\RepositoryInstaller\Installer\Installer
      */
-    private function getInstaller($type)
+    private function getInstaller(string $type, OutputInterface $output): Installer
     {
-        if (!isset($this->installers[$type])) {
-            return false;
+        if (!$this->installers->has($type)) {
+            $output->writeln(
+                "Unknown install type '$type', available options in currently installed Ibexa package: " .
+                implode(', ', array_keys($this->installers->getProvidedServices()))
+            );
+            exit(self::EXIT_UNKNOWN_INSTALL_TYPE);
         }
 
-        return $this->installers[$type];
+        return $this->installers->get($type);
     }
 
     /**
@@ -254,7 +245,7 @@ final class InstallPlatformCommand extends Command
      *               Escape any user provided arguments, like: 'assets:install '.escapeshellarg($webDir)
      * @param int $timeout
      */
-    private function executeCommand(OutputInterface $output, $cmd, $timeout = 300)
+    private function executeCommand(OutputInterface $output, $cmd, $timeout = 300): void
     {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find(false)) {
