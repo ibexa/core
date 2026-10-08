@@ -390,7 +390,7 @@ final class MemberOfLimitationTypeTest extends Base
             ->willReturnOnConsecutiveCalls(
                 new Location(['contentId' => 14]),
                 new Location(['contentId' => 44]),
-                ...$currentUserGroupLocations
+                ...array_values($currentUserGroupLocations)
             );
 
         $this->getPersistenceMock()

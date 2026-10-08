@@ -93,13 +93,13 @@ abstract class AbstractServiceTest extends TestCase
             $this->innerApiServiceMock
                 ->expects($this->once())
                 ->method($method)
-                ->with(...$arguments)
+                ->with(...array_values($arguments))
                 ->willReturn($return);
         } else {
             $this->innerApiServiceMock
                 ->expects($this->once())
                 ->method($method)
-                ->with(...$arguments);
+                ->with(...array_values($arguments));
         }
 
         $actualReturn = $this->service->$method(...$arguments);
@@ -194,7 +194,7 @@ abstract class AbstractServiceTest extends TestCase
         $this->innerApiServiceMock
             ->expects($this->once())
             ->method($method)
-            ->with(...$expectedArguments)
+            ->with(...array_values($expectedArguments))
             ->willReturn($return);
 
         if ($callback instanceof Closure) {
@@ -265,7 +265,7 @@ abstract class AbstractServiceTest extends TestCase
         $this->innerApiServiceMock
             ->expects($this->once())
             ->method($method)
-            ->with(...$arguments)
+            ->with(...array_values($arguments))
             ->willReturn($return);
 
         if ($callback instanceof Closure) {

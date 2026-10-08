@@ -972,7 +972,7 @@ class ContentHandlerTest extends TestCase
 
         $gatewayMock->expects($this->once())
             ->method('deleteRelation')
-            ->with($this->equalTo(1, RelationValue::COMMON));
+            ->with($this->equalTo(1));
 
         $this->getContentHandler()->removeRelation(1, RelationValue::COMMON);
     }
@@ -1432,7 +1432,7 @@ class ContentHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects($this->once())
             ->method('load')
-            ->with($this->equalTo(23, 32))
+            ->with($this->equalTo(23))
             ->will($this->returnValue([]));
 
         $result = $handler->copy(23, 32);

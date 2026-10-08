@@ -480,7 +480,7 @@ class UrlTest extends BaseServiceMockTest
         $this->permissionResolver
             ->expects($this->exactly(count($permissions)))
             ->method('canUser')
-            ->withConsecutive(...$permissions)
+            ->withConsecutive(...array_values($permissions))
             ->willReturn(true);
     }
 

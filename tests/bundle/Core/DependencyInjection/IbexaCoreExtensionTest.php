@@ -259,6 +259,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->assertTrue($this->container->hasParameter('ibexa.default_router.non_site_access_aware_routes'));
         $nonSiteaccessAwareRoutes = $this->container->getParameter('ibexa.default_router.non_site_access_aware_routes');
         // See ezpublish_minimal_no_siteaccess.yml fixture
+        $this->assertIsArray($nonSiteaccessAwareRoutes);
         $this->assertContains('foo_route', $nonSiteaccessAwareRoutes);
         $this->assertContains('my_prefix_', $nonSiteaccessAwareRoutes);
     }

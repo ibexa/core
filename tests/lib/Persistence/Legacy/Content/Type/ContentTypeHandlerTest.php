@@ -660,7 +660,7 @@ class ContentTypeHandlerTest extends TestCase
         $handlerMock->expects($this->once())
             ->method('load')
             ->with(
-                $this->equalTo($contentTypeId, Type::STATUS_DEFINED)
+                $this->equalTo($contentTypeId)
             )->will(
                 $this->returnValue(
                     new Type()
@@ -719,7 +719,7 @@ class ContentTypeHandlerTest extends TestCase
         $handlerMock->expects($this->once())
             ->method('load')
             ->with(
-                $this->equalTo($type->id, Type::STATUS_DEFINED)
+                $this->equalTo($type->id)
             )->willReturn(
                 $type
             );
