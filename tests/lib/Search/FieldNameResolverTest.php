@@ -18,6 +18,7 @@ use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldNameResolver;
 use Ibexa\Core\Search\Common\FieldRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 
 /**
  * @covers \Ibexa\Core\Search\Common\FieldNameResolver
@@ -814,16 +815,16 @@ class FieldNameResolverTest extends TestCase
         return $this->createMock(SPIFieldType::class);
     }
 
-    /** @var SPIContentTypeHandler|MockObject */
+    /** @var SPIContentTypeHandler|Stub */
     protected $contentTypeHandlerMock;
 
     /**
-     * @return SPIContentTypeHandler|MockObject
+     * @return SPIContentTypeHandler|Stub
      */
     protected function getContentTypeHandlerMock()
     {
         if (!isset($this->contentTypeHandlerMock)) {
-            $this->contentTypeHandlerMock = $this->createMock(SPIContentTypeHandler::class);
+            $this->contentTypeHandlerMock = $this->createStub(SPIContentTypeHandler::class);
         }
 
         return $this->contentTypeHandlerMock;
@@ -845,19 +846,19 @@ class FieldNameResolverTest extends TestCase
     }
 
     /**
-     * @return APICriterion|MockObject
+     * @return APICriterion|Stub
      */
     protected function getCriterionMock()
     {
-        return $this->createMock(APICriterion::class);
+        return $this->createStub(APICriterion::class);
     }
 
     /**
-     * @return APISortClause|MockObject
+     * @return APISortClause|Stub
      */
     protected function getSortClauseMock()
     {
-        return $this->createMock(APISortClause::class);
+        return $this->createStub(APISortClause::class);
     }
 }
 

@@ -49,7 +49,7 @@ final class ConfigurationDumperTest extends TestCase
     public function testDumpCustomConfiguration(): void
     {
         $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock->method('getParameter')->willReturnMap(
+        $containerMock->expects(self::atLeastOnce())->method('getParameter')->willReturnMap(
             [
                 [
                     'kernel.bundles_metadata',
