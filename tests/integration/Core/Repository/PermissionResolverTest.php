@@ -1026,23 +1026,21 @@ class PermissionResolverTest extends BaseTest
         $roleService->assignRoleToUser($role, $user);
         $permissionResolver->setCurrentUserReference($user);
 
-        $expected = new LookupLimitationResult(
-            true,
-            [],
-            [
-                new LookupPolicyLimitations(
-                    $role->getPolicies()[1],
-                    [
-                        new Limitation\SectionLimitation(['limitationValues' => [2]]),
-                        new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
-                    ]
-                ),
-            ]
-        );
+        $result = $permissionResolver->lookupLimitations($module, $function, $this->getContentCreateStruct($repository), []);
 
+        self::assertTrue($result->hasAccess());
+        self::assertSame([], $result->getRoleLimitations());
+        self::assertCount(1, $result->getLookupPolicyLimitations());
+
+        $policyLimitations = $result->getLookupPolicyLimitations()[0];
+        self::assertEquals($role->getPolicies()[1], $policyLimitations->policy);
+        // Order of limitations is not guaranteed by the persistence layer
         self::assertEquals(
-            $expected,
-            $permissionResolver->lookupLimitations($module, $function, $this->getContentCreateStruct($repository), [])
+            [
+                Limitation::LANGUAGE => new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
+                Limitation::SECTION => new Limitation\SectionLimitation(['limitationValues' => [2]]),
+            ],
+            $this->indexLimitationsByIdentifier($policyLimitations->limitations)
         );
     }
 
@@ -1357,6 +1355,22 @@ class PermissionResolverTest extends BaseTest
                 $actual->lookupPolicyLimitations
             )
         );
+    }
+
+    /**
+     * @param Limitation[] $limitations
+     *
+     * @return array<string, Limitation>
+     */
+    private function indexLimitationsByIdentifier(array $limitations): array
+    {
+        $indexed = [];
+        foreach ($limitations as $limitation) {
+            $indexed[$limitation->getIdentifier()] = $limitation;
+        }
+        ksort($indexed);
+
+        return $indexed;
     }
 
     /**

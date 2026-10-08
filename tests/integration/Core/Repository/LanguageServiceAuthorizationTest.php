@@ -26,7 +26,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage()
      *
-     * @depends testCreateLanguage
+     * @depends Ibexa\Tests\Integration\Core\Repository\LanguageServiceTest::testCreateLanguage
      */
     public function testCreateLanguageThrowsUnauthorizedException()
     {
@@ -60,7 +60,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName()
      *
-     * @depends testUpdateLanguageName
+     * @depends Ibexa\Tests\Integration\Core\Repository\LanguageServiceTest::testUpdateLanguageName
      */
     public function testUpdateLanguageNameThrowsUnauthorizedException()
     {
@@ -98,7 +98,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::enableLanguage()
      *
-     * @depends testEnableLanguage
+     * @depends Ibexa\Tests\Integration\Core\Repository\LanguageServiceTest::testEnableLanguage
      */
     public function testEnableLanguageThrowsUnauthorizedException()
     {
@@ -134,7 +134,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::disableLanguage()
      *
-     * @depends testDisableLanguage
+     * @depends Ibexa\Tests\Integration\Core\Repository\LanguageServiceTest::testDisableLanguage
      */
     public function testDisableLanguageThrowsUnauthorizedException()
     {
@@ -170,7 +170,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage()
      *
-     * @depends testDeleteLanguage
+     * @depends Ibexa\Tests\Integration\Core\Repository\LanguageServiceTest::testDeleteLanguage
      */
     public function testDeleteLanguageThrowsUnauthorizedException()
     {

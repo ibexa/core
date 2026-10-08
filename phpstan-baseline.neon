@@ -42068,9 +42068,15 @@ parameters:
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
 
 		-
+			message: '#^Access to protected property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\LookupPolicyLimitations\:\:\$limitations\.$#'
+			identifier: property.protected
+			count: 1
+			path: tests/integration/Core/Repository/PermissionResolverTest.php
+
+		-
 			message: '#^Access to protected property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\LookupPolicyLimitations\:\:\$policy\.$#'
 			identifier: property.protected
-			count: 3
+			count: 4
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
 
 		-

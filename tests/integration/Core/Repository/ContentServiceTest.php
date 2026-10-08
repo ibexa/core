@@ -1661,7 +1661,7 @@ class ContentServiceTest extends BaseContentServiceTest
                 [
                     'id' => 0,
                     'value' => true,
-                    'languageCode' => self::ENG_US,
+                    'languageCode' => self::ENG_GB,
                     'fieldDefIdentifier' => 'name',
                     'fieldTypeIdentifier' => 'ezstring',
                 ]
@@ -1670,7 +1670,7 @@ class ContentServiceTest extends BaseContentServiceTest
                 [
                     'id' => 0,
                     'value' => true,
-                    'languageCode' => self::ENG_GB,
+                    'languageCode' => self::ENG_US,
                     'fieldDefIdentifier' => 'name',
                     'fieldTypeIdentifier' => 'ezstring',
                 ]
@@ -3724,7 +3724,8 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $trashService = $this->getRepository()->getTrashService();
 
-        $draft = $this->createContentDraftVersion1();
+        // The draft must not be located under the trashed Location, otherwise it would be removed as an orphaned draft
+        $draft = $this->createContentDraftVersion1(2);
 
         // Load other content objects
         $media = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
@@ -7139,20 +7140,24 @@ class ContentServiceTest extends BaseContentServiceTest
         $anonymousUserId = $this->generateId('user', 10);
         $repository->getPermissionResolver()->setCurrentUserReference($repository->getUserService()->loadUser($anonymousUserId));
 
-        $this->setGracePeriod(10);
+        $originalGracePeriod = $this->setGracePeriod(10);
 
-        //Reset clock, to make sure that upfront operations did not exceed grace period.
-        ClockMock::withClockMock(strtotime('2025-04-01 14:00:02'));
-        $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        try {
+            //Reset clock, to make sure that upfront operations did not exceed grace period.
+            ClockMock::withClockMock(strtotime('2025-04-01 14:00:02'));
+            $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
-        ClockMock::sleep(20);
-        $this->expectException(CoreUnauthorizedException::class);
-        $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
-
-        ClockMock::withClockMock(false);
+            ClockMock::sleep(20);
+            $this->expectException(CoreUnauthorizedException::class);
+            $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        } finally {
+            // The repository is shared between tests, do not leak the mocked clock and grace period.
+            ClockMock::withClockMock(false);
+            $this->setGracePeriod($originalGracePeriod);
+        }
     }
 
-    private function setGracePeriod(int $value): void
+    private function setGracePeriod(int $value): int
     {
         $reflection = new ReflectionClass($this->contentService);
         $serviceProperty = $reflection->getProperty('service');
@@ -7171,9 +7176,12 @@ class ContentServiceTest extends BaseContentServiceTest
         $settingsProperty->setAccessible(true);
 
         $settings = $settingsProperty->getValue($innerService);
+        $previousValue = $settings['grace_period_in_seconds'];
         $settings['grace_period_in_seconds'] = $value;
 
         $settingsProperty->setValue($innerService, $settings);
+
+        return $previousValue;
     }
 }
 

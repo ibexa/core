@@ -321,7 +321,7 @@ class PermissionResolver implements PermissionResolverInterface
                 };
 
                 if (!empty($limitationsIdentifiers)) {
-                    $possibleLimitations = array_filter($possibleLimitations, $limitationFilter);
+                    $possibleLimitations = array_values(array_filter($possibleLimitations, $limitationFilter));
                     if (!\in_array($possibleRoleLimitation, $limitationsIdentifiers, true)) {
                         $possibleRoleLimitation = null;
                     }
