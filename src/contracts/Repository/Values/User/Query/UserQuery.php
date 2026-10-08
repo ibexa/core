@@ -13,18 +13,9 @@ use Ibexa\Contracts\Core\Repository\UserService;
 /**
  * Query for {@see UserService::findUsers()}.
  */
-final class UserQuery
+final class UserQuery extends AbstractQuery
 {
-    public const DEFAULT_LIMIT = 25;
-
     private ?UserCriterionInterface $criterion;
-
-    /** @var list<SortClause> */
-    private array $sortClauses;
-
-    private int $offset;
-
-    private ?int $limit;
 
     /**
      * @param list<SortClause> $sortClauses
@@ -35,10 +26,8 @@ final class UserQuery
         int $offset = 0,
         ?int $limit = self::DEFAULT_LIMIT
     ) {
+        parent::__construct($sortClauses, $offset, $limit);
         $this->criterion = $criterion;
-        $this->sortClauses = $sortClauses;
-        $this->offset = $offset;
-        $this->limit = $limit;
     }
 
     public function getCriterion(): ?UserCriterionInterface
@@ -49,41 +38,5 @@ final class UserQuery
     public function setCriterion(?UserCriterionInterface $criterion): void
     {
         $this->criterion = $criterion;
-    }
-
-    public function addSortClause(SortClause $sortClause): void
-    {
-        $this->sortClauses[] = $sortClause;
-    }
-
-    /**
-     * @return list<SortClause>
-     */
-    public function getSortClauses(): array
-    {
-        return $this->sortClauses;
-    }
-
-    public function getOffset(): int
-    {
-        return $this->offset;
-    }
-
-    public function setOffset(int $offset): void
-    {
-        $this->offset = $offset;
-    }
-
-    /**
-     * Returns the maximum number of items to return; `null` means no limit.
-     */
-    public function getLimit(): ?int
-    {
-        return $this->limit;
-    }
-
-    public function setLimit(?int $limit): void
-    {
-        $this->limit = $limit;
     }
 }
