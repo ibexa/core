@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Types\JsonType;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
@@ -23,11 +24,16 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  * and as JSON without it on 6.0, as DBAL 4 does. It's the same migration, so it doesn't run again
  * on a database upgraded to 6.0, and ibexa/installer's upgrade scripts don't change these columns.
  *
- * The statements are in sql/convert-json-columns-to-6-0-mariadb.sql. Running them on columns
- * already in that shape changes nothing, so there's no check first.
+ * The statements are in sql/convert-json-columns-to-6-0-mariadb.sql. They're skipped when every
+ * column is already in 6.0's form, as on a database a 6.0 SchemaBuilderEvent install created.
  */
 final class ConvertMariaDbJsonColumnsTo6_0Migration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
+    /** The columns sql/convert-json-columns-to-6-0-mariadb.sql converts, by table. */
+    private const JSON_COLUMNS = [
+        'ibexa_setting' => 'value',
+    ];
+
     public function getDescription(): string
     {
         return 'Converts the core JSON columns an earlier install created on MariaDB to JSON without a type comment';
@@ -51,6 +57,27 @@ final class ConvertMariaDbJsonColumnsTo6_0Migration extends AbstractSqlMigration
             return;
         }
 
+        if ($this->areColumnsConverted($schema)) {
+            return;
+        }
+
         $this->addSqlFile(__DIR__ . '/sql/convert-json-columns-to-6-0-mariadb.sql');
+    }
+
+    /**
+     * In 6.0's form, a column is JSON, which Doctrine DBAL reads from MariaDB's json_valid() check, and
+     * has no comment.
+     */
+    private function areColumnsConverted(Schema $schema): bool
+    {
+        foreach (self::JSON_COLUMNS as $tableName => $columnName) {
+            $column = $schema->getTable($tableName)->getColumn($columnName);
+
+            if (!$column->getType() instanceof JsonType || $column->getComment() !== '') {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
