@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
+use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter as UrlAliasRouterAlias;
 use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\MVC\Symfony\Routing\UrlAliasRouterTest as BaseUrlAliasRouterTest;
@@ -250,6 +251,73 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         ];
         $request = $this->getRequestByPathInfo($requestedPath);
         $this->assertEquals($expected, $this->router->matchRequest($request));
+    }
+
+    /**
+     * @dataProvider providerForTestMatchRequestRootLocationRedirectsToSlash
+     */
+    public function testMatchRequestRootLocationRedirectsToSlash(string $requestedPath): void
+    {
+        $rootLocationId = 123;
+        $this->resetConfigResolver();
+        $this->configResolver
+            ->expects(self::once())
+            ->method('getParameter')
+            ->with('url_alias_router')
+            ->willReturn(true);
+        $this->router->setRootLocationId($rootLocationId);
+
+        $prefix = '/root/prefix';
+        $this->urlALiasGenerator
+            ->expects(self::exactly(2))
+            ->method('getPathPrefixByRootLocationId')
+            ->with($rootLocationId)
+            ->willReturn($prefix);
+        $this->urlALiasGenerator
+            ->expects(self::once())
+            ->method('loadLocation')
+            ->with($rootLocationId)
+            ->willReturn(new Location(['contentInfo' => new ContentInfo(['id' => 456])]));
+
+        $urlAlias = new URLAlias(
+            [
+                'destination' => $rootLocationId,
+                'path' => $prefix,
+                'type' => URLAlias::LOCATION,
+                'isHistory' => false,
+            ]
+        );
+        $this->urlAliasService
+            ->expects(self::once())
+            ->method('lookup')
+            ->with($prefix . $requestedPath)
+            ->willReturn($urlAlias);
+
+        $expected = [
+            '_route' => UrlAliasRouterAlias::URL_ALIAS_ROUTE_NAME,
+            '_controller' => UrlAliasRouterAlias::VIEW_ACTION,
+            'locationId' => $rootLocationId,
+            'contentId' => 456,
+            'viewType' => ViewManager::VIEW_TYPE_FULL,
+            'layout' => true,
+            'semanticPathinfo' => '/',
+            'needsRedirect' => true,
+        ];
+
+        $request = $this->getRequestByPathInfo(str_replace(' ', '%20', $requestedPath));
+        $request->attributes->set('semanticPathinfo', $requestedPath);
+        self::assertEquals($expected, $this->router->matchRequest($request));
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public function providerForTestMatchRequestRootLocationRedirectsToSlash(): iterable
+    {
+        yield 'single space' => ['/ '];
+        yield 'single space encoded' => ['/%20'];
+        yield 'multiple spaces' => ['/   '];
+        yield 'space followed by slash' => ['/ /'];
     }
 
     public function testMatchRequestResourceCaseRedirectWithRootLocation()
