@@ -593,7 +593,7 @@ class LanguageServiceTest extends BaseTest
         $repository = $this->getRepository();
         $languageService = $repository->getContentLanguageService();
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '(^[a-z]{3}\-[A-Z]{2}$)',
             $languageService->getDefaultLanguageCode()
         );

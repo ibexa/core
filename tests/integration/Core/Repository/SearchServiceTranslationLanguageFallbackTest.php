@@ -1903,7 +1903,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         if ($indexName === null) {
             $this->assertNull($searchHit->index);
         } else {
-            $this->assertRegExp('~^' . $indexName . '$~', $searchHit->index);
+            $this->assertMatchesRegularExpression('~^' . $indexName . '$~', $searchHit->index);
         }
     }
 

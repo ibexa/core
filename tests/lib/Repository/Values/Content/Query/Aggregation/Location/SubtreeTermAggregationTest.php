@@ -32,7 +32,7 @@ final class SubtreeTermAggregationTest extends TestCase
     public function testConstructThrowsInvalidArgumentExceptionOnInvalidPathString(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage("'/INVALID/PATH' value must follow the path string format, e.g. /1/2/");
+        $this->expectExceptionMessage("'/INVALID/PATH' value must follow the path string format, e.g. /1/2/");
 
         $aggregation = new SubtreeTermAggregation('foo', '/INVALID/PATH');
     }

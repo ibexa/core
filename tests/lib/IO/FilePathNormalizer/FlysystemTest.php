@@ -47,7 +47,7 @@ final class FlysystemTest extends TestCase
         $normalizedPath = $this->filePathNormalizer->normalizePath($originalPath, $doHash);
 
         self::assertStringEndsWith($sluggedFileName, $normalizedPath);
-        self::assertRegExp($regex, $normalizedPath);
+        self::assertMatchesRegularExpression($regex, $normalizedPath);
     }
 
     public function providerForTestNormalizePath(): array

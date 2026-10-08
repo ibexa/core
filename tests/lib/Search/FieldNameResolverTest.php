@@ -727,7 +727,7 @@ class FieldNameResolverTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(
-            ['getSortFieldName', 'getSearchableFieldMap', 'getFieldNames', 'getFieldTypes', 'getSortFieldName']
+            ['getSortFieldName', 'getSearchableFieldMap', 'getFieldNames', 'getFieldTypes']
         );
         $indexFieldType = $this->getIndexFieldTypeMock();
         $searchFieldTypeMock = $this->getSearchFieldTypeMock();
@@ -739,8 +739,6 @@ class FieldNameResolverTest extends TestCase
             ->will(
                 $this->returnValue($indexFieldType)
             );
-
-        $indexFieldType->expects($this->never())->method('getDefaultField');
 
         $indexFieldType
             ->expects($this->once())

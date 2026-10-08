@@ -64,11 +64,11 @@ final class ConfigurationDumperTest extends TestCase
         $compiledFilePath = $this->projectDir . '/var/encore/foo-bar.js';
         self::assertFileExists($compiledFilePath);
         $compiledFileContents = file_get_contents($compiledFilePath);
-        self::assertRegExp(
+        self::assertMatchesRegularExpression(
             '@^module\.exports = \[.*io-tests\\\/foo-bar\\\/Resources\\\/encore\\\/foo-bar\.js@',
             $compiledFileContents
         );
-        self::assertRegExp(
+        self::assertMatchesRegularExpression(
             '@^module\.exports = \[.*io-tests\\\/encore\\\/foo-bar\.js@',
             $compiledFileContents
         );
