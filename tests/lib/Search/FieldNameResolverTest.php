@@ -95,32 +95,28 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('getIndexFieldName')
-            ->with(
-                $this->isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_1',
-                'field_definition_identifier_1',
-                'field_type_identifier_1',
-                null
+            ->withConsecutive(
+                [
+                    $this->isInstanceOf(APICriterion::class),
+                    'content_type_identifier_1',
+                    'field_definition_identifier_1',
+                    'field_type_identifier_1',
+                    null,
+                ],
+                [
+                    $this->isInstanceOf(APICriterion::class),
+                    'content_type_identifier_2',
+                    'field_definition_identifier_1',
+                    'field_type_identifier_2',
+                    null,
+                ]
             )
-            ->will($this->returnValue(['index_field_name_1' => null]));
-
-        $mockedFieldNameResolver
-            ->expects($this->at(2))
-            ->method('getIndexFieldName')
-            ->with(
-                $this->isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_2',
-                'field_definition_identifier_1',
-                'field_type_identifier_2',
-                null
-            )
-            ->will($this->returnValue(['index_field_name_2' => null]));
+            ->willReturnOnConsecutiveCalls(
+                ['index_field_name_1' => null],
+                ['index_field_name_2' => null]
+            );
 
         $fieldNames = $mockedFieldNameResolver->getFieldNames(
             $criterionMock,
@@ -169,32 +165,28 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('getIndexFieldName')
-            ->with(
-                $this->isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_1',
-                'field_definition_identifier_1',
-                'field_type_identifier_1',
-                'field_name'
+            ->withConsecutive(
+                [
+                    $this->isInstanceOf(APICriterion::class),
+                    'content_type_identifier_1',
+                    'field_definition_identifier_1',
+                    'field_type_identifier_1',
+                    'field_name',
+                ],
+                [
+                    $this->isInstanceOf(APICriterion::class),
+                    'content_type_identifier_2',
+                    'field_definition_identifier_1',
+                    'field_type_identifier_2',
+                    'field_name',
+                ]
             )
-            ->will($this->returnValue(['index_field_name_1' => null]));
-
-        $mockedFieldNameResolver
-            ->expects($this->at(2))
-            ->method('getIndexFieldName')
-            ->with(
-                $this->isInstanceOf(
-                    APICriterion::class
-                ),
-                'content_type_identifier_2',
-                'field_definition_identifier_1',
-                'field_type_identifier_2',
-                'field_name'
-            )
-            ->will($this->returnValue(['index_field_name_2' => null]));
+            ->willReturnOnConsecutiveCalls(
+                ['index_field_name_1' => null],
+                ['index_field_name_2' => null]
+            );
 
         $fieldNames = $mockedFieldNameResolver->getFieldNames(
             $criterionMock,
@@ -245,7 +237,7 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('getIndexFieldName')
             ->with(
                 $this->isInstanceOf(
@@ -306,7 +298,7 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('getIndexFieldName')
             ->with(
                 $this->isInstanceOf(

@@ -30,7 +30,7 @@ class ChainConfigResolverTest extends TestCase
     {
         $this->assertEquals([], $this->chainResolver->getAllResolvers());
 
-        list($low, $high) = $this->createResolverMocks();
+        list($low, $high) = $this->createResolverStubs();
 
         $this->chainResolver->addResolver($low, 10);
         $this->chainResolver->addResolver($high, 100);
@@ -50,7 +50,7 @@ class ChainConfigResolverTest extends TestCase
      */
     public function testSortResolvers()
     {
-        list($low, $medium, $high) = $this->createResolverMocks();
+        list($low, $medium, $high) = $this->createResolverStubs();
         // We're using a mock here and not $this->chainResolver because we need to ensure that the sorting operation is done only once.
         $resolver = $this->buildMock(
             ChainConfigResolver::class,
@@ -80,29 +80,20 @@ class ChainConfigResolverTest extends TestCase
      */
     public function testReSortResolvers()
     {
-        list($low, $medium, $high) = $this->createResolverMocks();
+        list($low, $medium, $high) = $this->createResolverStubs();
         $highest = clone $high;
         // We're using a mock here and not $this->chainResolver because we need to ensure that the sorting operation is done only once.
         $resolver = $this->buildMock(
             ChainConfigResolver::class,
             ['sortResolvers']
         );
-        $resolver
-            ->expects($this->at(0))
-            ->method('sortResolvers')
-            ->will(
-                $this->returnValue(
-                    [$high, $medium, $low]
-                )
-            );
         // The second time sortResolvers() is called, we're supposed to get the newly added router ($highest)
         $resolver
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('sortResolvers')
-            ->will(
-                $this->returnValue(
-                    [$highest, $high, $medium, $low]
-                )
+            ->willReturnOnConsecutiveCalls(
+                [$high, $medium, $low],
+                [$highest, $high, $medium, $low]
             );
 
         $resolver->addResolver($low, 10);
@@ -253,6 +244,18 @@ class ChainConfigResolverTest extends TestCase
             $this->createMock(ConfigResolverInterface::class),
             $this->createMock(ConfigResolverInterface::class),
             $this->createMock(ConfigResolverInterface::class),
+        ];
+    }
+
+    /**
+     * @return ConfigResolverInterface[]
+     */
+    private function createResolverStubs(): array
+    {
+        return [
+            $this->createStub(ConfigResolverInterface::class),
+            $this->createStub(ConfigResolverInterface::class),
+            $this->createStub(ConfigResolverInterface::class),
         ];
     }
 

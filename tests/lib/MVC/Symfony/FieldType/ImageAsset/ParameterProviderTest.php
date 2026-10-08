@@ -115,7 +115,7 @@ class ParameterProviderTest extends TestCase
             ->expects($this->once())
             ->method('sudo')
             ->with($closure)
-            ->willThrowException($this->createMock(NotFoundException::class));
+            ->willThrowException($this->createStub(NotFoundException::class));
 
         $actual = $this->parameterProvider->getViewParameters(
             $this->createField($destinationContentId)
@@ -134,7 +134,7 @@ class ParameterProviderTest extends TestCase
             ->method('isEmptyValue')
             ->willReturn(false);
 
-        $contentInfo = $this->createMock(ContentInfo::class);
+        $contentInfo = $this->createStub(ContentInfo::class);
 
         $this->repository
             ->method('sudo')
@@ -142,16 +142,12 @@ class ParameterProviderTest extends TestCase
         ;
 
         $this->permissionsResolver
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('canUser')
-            ->with('content', 'read', $contentInfo)
-            ->willReturn(false)
-        ;
-
-        $this->permissionsResolver
-            ->expects($this->at(1))
-            ->method('canUser')
-            ->with('content', 'view_embed', $contentInfo)
+            ->withConsecutive(
+                ['content', 'read', $contentInfo],
+                ['content', 'view_embed', $contentInfo]
+            )
             ->willReturn(false)
         ;
 
@@ -172,7 +168,7 @@ class ParameterProviderTest extends TestCase
             ->method('isEmptyValue')
             ->willReturn(true);
 
-        $contentInfo = $this->createMock(ContentInfo::class);
+        $contentInfo = $this->createStub(ContentInfo::class);
 
         $this->repository
             ->method('sudo')

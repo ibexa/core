@@ -32,7 +32,7 @@ abstract class CriterionHandlerTest extends TestCase
         CriterionHandler $handler,
         $criterionClass
     ) {
-        $this->assertTrue($handler->accept($this->createMock($criterionClass)));
+        $this->assertTrue($handler->accept($this->createStub($criterionClass)));
     }
 
     /**
@@ -45,7 +45,7 @@ abstract class CriterionHandlerTest extends TestCase
         CriterionHandler $handler,
         $criterionClass
     ) {
-        $this->assertFalse($handler->accept($this->createMock($criterionClass)));
+        $this->assertFalse($handler->accept($this->createStub($criterionClass)));
     }
 
     /**
@@ -80,15 +80,13 @@ abstract class CriterionHandlerTest extends TestCase
 
         $converter = $this->createMock(CriteriaConverter::class);
         $converter
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('convertCriteria')
-            ->with($queryBuilder, $foo)
-            ->willReturn($fooExpr);
-        $converter
-            ->expects($this->at(1))
-            ->method('convertCriteria')
-            ->with($queryBuilder, $bar)
-            ->willReturn($barExpr);
+            ->withConsecutive(
+                [$queryBuilder, $foo],
+                [$queryBuilder, $bar]
+            )
+            ->willReturnOnConsecutiveCalls($fooExpr, $barExpr);
 
         return $converter;
     }

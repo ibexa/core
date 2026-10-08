@@ -139,12 +139,11 @@ class LocationLimitationTypeTest extends Base
                 ->method('locationHandler')
                 ->will($this->returnValue($this->locationHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->locationHandlerMock
-                    ->expects($this->at($key))
-                    ->method('load')
-                    ->with($value);
-            }
+            $values = array_values($limitation->limitationValues);
+            $this->locationHandlerMock
+                ->expects($this->exactly(count($values)))
+                ->method('load')
+                ->withConsecutive(...array_map(static fn ($value): array => [$value], $values));
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -182,13 +181,12 @@ class LocationLimitationTypeTest extends Base
                 ->method('locationHandler')
                 ->will($this->returnValue($this->locationHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->locationHandlerMock
-                    ->expects($this->at($key))
-                    ->method('load')
-                    ->with($value)
-                    ->will($this->throwException(new NotFoundException('location', $value)));
-            }
+            $values = array_values($limitation->limitationValues);
+            $this->locationHandlerMock
+                ->expects($this->exactly(count($values)))
+                ->method('load')
+                ->withConsecutive(...array_map(static fn ($value): array => [$value], $values))
+                ->willReturnOnConsecutiveCalls(...array_map(fn ($value) => $this->throwException(new NotFoundException('location', $value)), $values));
         } else {
             $this->getPersistenceMock()
                 ->expects($this->never())

@@ -1030,21 +1030,14 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getPartlyMockedHandler(['load']);
         $updateHandlerMock = $this->getUpdateHandlerMock();
 
-        $handler->expects($this->at(0))
+        $handler->expects($this->exactly(2))
             ->method('load')
-            ->with(
-                $this->equalTo(23),
-                $this->equalTo(1)
-            )->will(
-                $this->returnValue(new Type())
-            );
-
-        $handler->expects($this->at(1))
-            ->method('load')
-            ->with(
-                $this->equalTo(23),
-                $this->equalTo(0)
-            )->will(
+            ->withConsecutive(
+                [$this->equalTo(23), $this->equalTo(1)],
+                [$this->equalTo(23), $this->equalTo(0)]
+            )
+            ->willReturnOnConsecutiveCalls(
+                new Type(),
                 $this->throwException(new Exception\TypeNotFound(23, 0))
             );
 

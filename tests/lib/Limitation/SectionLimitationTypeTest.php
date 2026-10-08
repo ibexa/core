@@ -145,17 +145,12 @@ class SectionLimitationTypeTest extends Base
                 ->method('sectionHandler')
                 ->will($this->returnValue($this->sectionHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->sectionHandlerMock
-                    ->expects($this->at($key))
-                    ->method('load')
-                    ->with($value)
-                    ->will(
-                        $this->returnValue(
-                            new SPISection(['id' => $value])
-                        )
-                    );
-            }
+            $values = array_values($limitation->limitationValues);
+            $this->sectionHandlerMock
+                ->expects($this->exactly(count($values)))
+                ->method('load')
+                ->withConsecutive(...array_map(static fn ($value): array => [$value], $values))
+                ->willReturnOnConsecutiveCalls(...array_map(static fn ($value): SPISection => new SPISection(['id' => $value]), $values));
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -193,13 +188,12 @@ class SectionLimitationTypeTest extends Base
                 ->method('sectionHandler')
                 ->will($this->returnValue($this->sectionHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->sectionHandlerMock
-                    ->expects($this->at($key))
-                    ->method('load')
-                    ->with($value)
-                    ->will($this->throwException(new NotFoundException('Section', $value)));
-            }
+            $values = array_values($limitation->limitationValues);
+            $this->sectionHandlerMock
+                ->expects($this->exactly(count($values)))
+                ->method('load')
+                ->withConsecutive(...array_map(static fn ($value): array => [$value], $values))
+                ->willReturnOnConsecutiveCalls(...array_map(fn ($value) => $this->throwException(new NotFoundException('Section', $value)), $values));
         } else {
             $this->getPersistenceMock()
                 ->expects($this->never())

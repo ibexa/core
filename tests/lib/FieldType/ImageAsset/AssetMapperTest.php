@@ -84,14 +84,12 @@ class AssetMapperTest extends TestCase
             ->willReturn($contentCreateStruct);
 
         $contentCreateStruct
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('setField')
-            ->with($this->mappings['name_field_identifier'], $name);
-
-        $contentCreateStruct
-            ->expects($this->at(1))
-            ->method('setField')
-            ->with($this->mappings['content_field_identifier'], $value);
+            ->withConsecutive(
+                [$this->mappings['name_field_identifier'], $name],
+                [$this->mappings['content_field_identifier'], $value]
+            );
 
         $this->locationService
             ->expects($this->once())

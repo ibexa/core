@@ -130,7 +130,7 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $locationMock = $this->getLocationGatewayMock();
         $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
-        $contentTypeMock = $this->createMock(Type::class);
+        $contentTypeMock = $this->createStub(Type::class);
         $createStruct = $this->getCreateStructFixture();
 
         $contentTypeHandlerMock->expects($this->once())
@@ -226,7 +226,7 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $metadataUpdateStruct = new MetadataUpdateStruct();
 
-        $handler->expects($this->at(0))
+        $handler->expects($this->once())
             ->method('loadVersionInfo')
             ->with(23, 1)
             ->will(
@@ -303,7 +303,7 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $metadataUpdateStruct = new MetadataUpdateStruct();
 
-        $handler->expects($this->at(0))
+        $handler->expects($this->once())
             ->method('loadVersionInfo')
             ->with(23, 2)
             ->will(
@@ -321,7 +321,7 @@ class ContentHandlerTest extends TestCase
             );
 
         $handler
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('setStatus')
             ->with(23, VersionInfo::STATUS_ARCHIVED, 1);
 
@@ -548,15 +548,13 @@ class ContentHandlerTest extends TestCase
             2 => $this->getContentFixtureForDraft(2, 2),
             3 => $this->getContentFixtureForDraft(3, 1),
         ];
-        $mapperMock->expects($this->at(0))
+        $mapperMock->expects($this->exactly(2))
             ->method('extractContentFromRows')
-            ->with($this->equalTo([$contentRows[0]]), $this->equalTo([$nameDataRows[0]]))
-            ->willReturn([$expected[2]]);
-
-        $mapperMock->expects($this->at(1))
-            ->method('extractContentFromRows')
-            ->with($this->equalTo([$contentRows[1]]), $this->equalTo([$nameDataRows[1]]))
-            ->willReturn([$expected[3]]);
+            ->withConsecutive(
+                [$this->equalTo([$contentRows[0]]), $this->equalTo([$nameDataRows[0]])],
+                [$this->equalTo([$contentRows[1]]), $this->equalTo([$nameDataRows[1]])]
+            )
+            ->willReturnOnConsecutiveCalls([$expected[2]], [$expected[3]]);
 
         $fieldHandlerMock->expects($this->exactly(2))
             ->method('loadExternalFieldData')
@@ -642,7 +640,7 @@ class ContentHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
-        $contentTypeMock = $this->createMock(Type::class);
+        $contentTypeMock = $this->createStub(Type::class);
         $contentStub = new Content(
             [
                 'versionInfo' => new VersionInfo(
@@ -677,16 +675,12 @@ class ContentHandlerTest extends TestCase
                 $this->isInstanceOf(Type::class)
             );
 
-        $handler->expects($this->at(0))
+        $handler->expects($this->exactly(2))
             ->method('load')
             ->with(14, 4)
-            ->will($this->returnValue($contentStub));
+            ->willReturnOnConsecutiveCalls($contentStub, null);
 
-        $handler->expects($this->at(1))
-            ->method('load')
-            ->with(14, 4);
-
-        $handler->expects($this->at(2))
+        $handler->expects($this->once())
             ->method('loadContentInfo')
             ->with(14);
 
@@ -757,7 +751,7 @@ class ContentHandlerTest extends TestCase
             ->with(14)
             ->will(
                 $this->returnValue(
-                    $this->createMock(ContentInfo::class)
+                    $this->createStub(ContentInfo::class)
                 )
             );
 
@@ -822,7 +816,7 @@ class ContentHandlerTest extends TestCase
             ->with(14)
             ->will(
                 $this->returnValue(
-                    $this->createMock(ContentInfo::class)
+                    $this->createStub(ContentInfo::class)
                 )
             );
 
@@ -1267,7 +1261,7 @@ class ContentHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
-        $contentTypeMock = $this->createMock(Type::class);
+        $contentTypeMock = $this->createStub(Type::class);
         $time = time();
         $createStructStub = new CreateStruct(
             [
@@ -1285,11 +1279,6 @@ class ContentHandlerTest extends TestCase
             ->method('loadContentInfo')
             ->with($this->equalTo(23))
             ->will($this->returnValue(new ContentInfo(['currentVersionNo' => 2])));
-
-        $handler->expects($this->at(1))
-            ->method('load')
-            ->with($this->equalTo(23), $this->equalTo(2))
-            ->will($this->returnValue(new Content()));
 
         $mapperMock->expects($this->once())
             ->method('createCreateStructFromContent')
@@ -1340,17 +1329,19 @@ class ContentHandlerTest extends TestCase
                 ),
             ]
         );
-        $handler->expects($this->at(4))
+        $handler->expects($this->exactly(2))
             ->method('load')
-            ->with($this->equalTo(23), $this->equalTo(1))
-            ->will(
-                $this->returnValue(
-                    new Content(
-                        [
-                            'versionInfo' => $versionInfo,
-                            'fields' => [],
-                        ]
-                    )
+            ->withConsecutive(
+                [$this->equalTo(23), $this->equalTo(2)],
+                [$this->equalTo(23), $this->equalTo(1)]
+            )
+            ->willReturnOnConsecutiveCalls(
+                new Content(),
+                new Content(
+                    [
+                        'versionInfo' => $versionInfo,
+                        'fields' => [],
+                    ]
                 )
             );
 

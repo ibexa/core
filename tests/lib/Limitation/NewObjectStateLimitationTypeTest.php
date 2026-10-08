@@ -137,12 +137,11 @@ class NewObjectStateLimitationTypeTest extends Base
                 ->method('objectStateHandler')
                 ->will($this->returnValue($this->objectStateHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->objectStateHandlerMock
-                    ->expects($this->at($key))
-                    ->method('load')
-                    ->with($value);
-            }
+            $values = array_values($limitation->limitationValues);
+            $this->objectStateHandlerMock
+                ->expects($this->exactly(count($values)))
+                ->method('load')
+                ->withConsecutive(...array_map(static fn ($value): array => [$value], $values));
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -180,13 +179,12 @@ class NewObjectStateLimitationTypeTest extends Base
                 ->method('objectStateHandler')
                 ->will($this->returnValue($this->objectStateHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->objectStateHandlerMock
-                    ->expects($this->at($key))
-                    ->method('load')
-                    ->with($value)
-                    ->will($this->throwException(new NotFoundException('contentType', $value)));
-            }
+            $values = array_values($limitation->limitationValues);
+            $this->objectStateHandlerMock
+                ->expects($this->exactly(count($values)))
+                ->method('load')
+                ->withConsecutive(...array_map(static fn ($value): array => [$value], $values))
+                ->willReturnOnConsecutiveCalls(...array_map(fn ($value) => $this->throwException(new NotFoundException('contentType', $value)), $values));
         } else {
             $this->getPersistenceMock()
                 ->expects($this->never())

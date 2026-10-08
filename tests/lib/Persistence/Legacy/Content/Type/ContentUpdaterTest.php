@@ -66,13 +66,16 @@ class ContentUpdaterTest extends TestCase
         $fromType = $this->getFromTypeFixture();
         $toType = $this->getToTypeFixture();
 
+        $this->getContentGatewayMock()
+            ->expects($this->never())
+            ->method('getContentIdsByContentTypeId');
         $converterRegMock = $this->getConverterRegistryMock();
         $converterRegMock->expects($this->once())
             ->method('getConverter')
             ->with('ezstring')
             ->will(
                 $this->returnValue(
-                    ($converterMock = $this->createMock(Converter::class))
+                    ($converterMock = $this->createStub(Converter::class))
                 )
             );
 
@@ -102,6 +105,9 @@ class ContentUpdaterTest extends TestCase
 
     public function testApplyUpdates()
     {
+        $this->getConverterRegistryMock()
+            ->expects($this->never())
+            ->method('getConverter');
         $updater = $this->getContentUpdater();
 
         $actionA = $this->getMockForAbstractClass(
@@ -110,24 +116,18 @@ class ContentUpdaterTest extends TestCase
             '',
             false
         );
-        $actionA->expects($this->at(0))
+        $actionA->expects($this->exactly(2))
             ->method('apply')
-            ->with(11);
-        $actionA->expects($this->at(1))
-            ->method('apply')
-            ->with(22);
+            ->withConsecutive([11], [22]);
         $actionB = $this->getMockForAbstractClass(
             Action::class,
             [],
             '',
             false
         );
-        $actionB->expects($this->at(0))
+        $actionB->expects($this->exactly(2))
             ->method('apply')
-            ->with(11);
-        $actionB->expects($this->at(1))
-            ->method('apply')
-            ->with(22);
+            ->withConsecutive([11], [22]);
 
         $actions = [$actionA, $actionB];
 
@@ -222,7 +222,7 @@ class ContentUpdaterTest extends TestCase
     protected function getContentStorageHandlerMock()
     {
         if (!isset($this->contentStorageHandlerMock)) {
-            $this->contentStorageHandlerMock = $this->createMock(StorageHandler::class);
+            $this->contentStorageHandlerMock = $this->createStub(StorageHandler::class);
         }
 
         return $this->contentStorageHandlerMock;
@@ -236,7 +236,7 @@ class ContentUpdaterTest extends TestCase
     protected function getContentMapperMock()
     {
         if (!isset($this->contentMapperMock)) {
-            $this->contentMapperMock = $this->createMock(Mapper::class);
+            $this->contentMapperMock = $this->createStub(Mapper::class);
         }
 
         return $this->contentMapperMock;

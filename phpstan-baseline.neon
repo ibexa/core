@@ -27651,7 +27651,7 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$resolver of method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ChainConfigResolver\:\:addResolver\(\) expects Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
 			identifier: argument.type
-			count: 4
+			count: 2
 			path: tests/bundle/Core/ChainConfigResolverTest.php
 
 		-
@@ -54602,36 +54602,6 @@ parameters:
 			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has parameter \$callNo with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has parameter \$contentId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has parameter \$contentInfo with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:assertContentHandlerExpectations\(\) has parameter \$persistenceCalled with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:getTestEvaluateContentMock\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -54754,12 +54724,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\ParentContentTypeLimitationTypeTest\:\:testValueSchema\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: '#^Method PHPUnit\\Framework\\TestCase\:\:once\(\) invoked with 1 parameter, 0 required\.$#'
-			identifier: arguments.count
 			count: 1
 			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
 
@@ -60160,7 +60124,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Handler\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 17
+			count: 15
 			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
 
 		-
@@ -60172,7 +60136,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Mapper\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 17
+			count: 16
 			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
 
 		-
@@ -62554,7 +62518,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 34
+			count: 31
 			path: tests/lib/Persistence/Legacy/Content/Location/TrashHandlerTest.php
 
 		-
@@ -62626,13 +62590,13 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Handler\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 6
+			count: 4
 			path: tests/lib/Persistence/Legacy/Content/LocationHandlerTest.php
 
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 22
+			count: 21
 			path: tests/lib/Persistence/Legacy/Content/LocationHandlerTest.php
 
 		-
@@ -63118,7 +63082,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 39
+			count: 32
 			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
 
 		-
@@ -63520,7 +63484,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Handler\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 3
+			count: 2
 			path: tests/lib/Persistence/Legacy/Content/Type/ContentTypeHandlerTest.php
 
 		-
@@ -63958,13 +63922,13 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\ConverterRegistry\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Persistence/Legacy/Content/Type/ContentUpdaterTest.php
 
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Persistence/Legacy/Content/Type/ContentUpdaterTest.php
 
 		-
@@ -66392,19 +66356,19 @@ parameters:
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
 
 		-
-			message: '#^Parameter \#1 \$criterion of method Ibexa\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\:\:accept\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\Query\\Criterion, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			message: '#^Parameter \#1 \$criterion of method Ibexa\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\:\:accept\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\Query\\Criterion, PHPUnit\\Framework\\MockObject\\Stub given\.$#'
 			identifier: argument.type
 			count: 2
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
 
 		-
-			message: '#^Parameter \#1 \$originalClassName of method PHPUnit\\Framework\\TestCase\:\:createMock\(\) expects class\-string\<mixed\>, string given\.$#'
+			message: '#^Parameter \#1 \$originalClassName of method PHPUnit\\Framework\\TestCase\:\:createStub\(\) expects class\-string\<mixed\>, string given\.$#'
 			identifier: argument.type
 			count: 2
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
 
 		-
-			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:createMock\(\)$#'
+			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:createStub\(\)$#'
 			identifier: argument.templateType
 			count: 2
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
@@ -70462,7 +70426,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Persistence\\User\\Handler\:\:expects\(\)\.$#'
 			identifier: method.notFound
-			count: 11
+			count: 6
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
 
 		-
@@ -70934,25 +70898,7 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\RelationProcessorTest\:\:assertLocationHandlerExpectation\(\) has parameter \$callCounter with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\RelationProcessorTest\:\:assertLocationHandlerExpectation\(\) has parameter \$fieldRelations with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\RelationProcessorTest\:\:assertLocationHandlerExpectation\(\) has parameter \$locationHandlerMock with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\RelationProcessorTest\:\:assertLocationHandlerExpectation\(\) has parameter \$type with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/lib/Repository/Service/Mock/RelationProcessorTest.php

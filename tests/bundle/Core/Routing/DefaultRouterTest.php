@@ -202,7 +202,7 @@ class DefaultRouterTest extends TestCase
                     ->method('analyseLink');
             }
         } else {
-            $matcher = $this->createMock(Matcher::class);
+            $matcher = $this->createStub(Matcher::class);
         }
 
         $sa = new SiteAccess($saName, 'test', $matcher);
@@ -272,22 +272,21 @@ class DefaultRouterTest extends TestCase
 
         $generator = $this->createMock(UrlGeneratorInterface::class);
         $generator
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('setContext')
-            ->with(self::isInstanceOf(RequestContext::class));
+            ->withConsecutive(
+                [self::isInstanceOf(RequestContext::class)],
+                [$this->requestContext]
+            );
         $generator
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('generate')
             ->with($routeName)
             ->willReturn($urlGenerated);
-        $generator
-            ->expects(self::at(2))
-            ->method('setContext')
-            ->with($this->requestContext);
 
         $router = new DefaultRouter($this->container, 'foo', [], $this->requestContext);
         $router->setConfigResolver($this->configResolver);
-        $router->setSiteAccess(new SiteAccess('test', 'test', $this->createMock(Matcher::class)));
+        $router->setSiteAccess(new SiteAccess('test', 'test', $this->createStub(Matcher::class)));
         $router->setSiteAccessRouter($siteAccessRouter);
         $refRouter = new ReflectionObject($router);
         $refGenerator = $refRouter->getProperty('generator');

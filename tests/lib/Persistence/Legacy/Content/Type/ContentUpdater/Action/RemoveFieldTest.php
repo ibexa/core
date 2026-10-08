@@ -66,7 +66,7 @@ class RemoveFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('load')
             ->with($contentId, 1)
             ->will($this->returnValue([]));
@@ -115,28 +115,16 @@ class RemoveFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('load')
-            ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->withConsecutive([$contentId, 1], [$contentId, 2])
+            ->willReturnOnConsecutiveCalls([], []);
 
         $this->getContentMapperMock()
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content1]));
-
-        $this->getContentGatewayMock()
-            ->expects($this->at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will($this->returnValue([]));
-
-        $this->getContentMapperMock()
-            ->expects($this->at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content2]));
+            ->withConsecutive([[], []], [[], []])
+            ->willReturnOnConsecutiveCalls([$content1], [$content2]);
 
         $this->getContentGatewayMock()
             ->expects($this->once())
@@ -144,21 +132,11 @@ class RemoveFieldTest extends TestCase
             ->with($this->equalTo($fieldId));
 
         $this->getContentStorageHandlerMock()
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('deleteFieldData')
-            ->with(
-                $this->equalTo('ezstring'),
-                $content1->versionInfo,
-                $this->equalTo([$fieldId])
-            );
-
-        $this->getContentStorageHandlerMock()
-            ->expects($this->at(1))
-            ->method('deleteFieldData')
-            ->with(
-                $this->equalTo('ezstring'),
-                $content2->versionInfo,
-                $this->equalTo([$fieldId])
+            ->withConsecutive(
+                ['ezstring', $content1->versionInfo, [$fieldId]],
+                ['ezstring', $content2->versionInfo, [$fieldId]]
             );
 
         $action->apply($contentId);
@@ -187,59 +165,32 @@ class RemoveFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('load')
-            ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->withConsecutive([$contentId, 1], [$contentId, 2])
+            ->willReturnOnConsecutiveCalls([], []);
 
         $this->getContentMapperMock()
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content1]));
+            ->withConsecutive([[], []], [[], []])
+            ->willReturnOnConsecutiveCalls([$content1], [$content2]);
 
         $this->getContentGatewayMock()
-            ->expects($this->at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will($this->returnValue([]));
-
-        $this->getContentMapperMock()
-            ->expects($this->at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content2]));
-
-        $this->getContentGatewayMock()
-            ->expects($this->at(5))
+            ->expects($this->exactly(2))
             ->method('deleteField')
-            ->with($this->equalTo($fieldId1));
-
-        $this->getContentGatewayMock()
-            ->expects($this->at(6))
-            ->method('deleteField')
-            ->with($this->equalTo($fieldId2));
+            ->withConsecutive([$fieldId1], [$fieldId2]);
 
         $this->getContentStorageHandlerMock()
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('deleteFieldData')
-            ->with(
-                $this->equalTo('ezstring'),
-                $content1->versionInfo,
-                $this->equalTo([$fieldId1, $fieldId2])
-            );
-
-        $this->getContentStorageHandlerMock()
-            ->expects($this->at(1))
-            ->method('deleteFieldData')
-            ->with(
-                $this->equalTo('ezstring'),
-                $content2->versionInfo,
-                $this->equalTo([$fieldId1, $fieldId2])
+            ->withConsecutive(
+                ['ezstring', $content1->versionInfo, [$fieldId1, $fieldId2]],
+                ['ezstring', $content2->versionInfo, [$fieldId1, $fieldId2]]
             );
 
         $this->getContentGatewayMock()
-            ->expects($this->at(4))
+            ->expects($this->once())
             ->method('removeRelationsByFieldDefinitionId')
             ->with($this->equalTo(42));
 

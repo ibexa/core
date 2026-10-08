@@ -130,10 +130,10 @@ class AliasGeneratorTest extends TestCase
     public function supportsValueProvider()
     {
         return [
-            [$this->createMock(FieldTypeValue::class), false],
+            [$this->createStub(FieldTypeValue::class), false],
             [new TextLineValue(), false],
             [new ImageValue(), true],
-            [$this->createMock(ImageValue::class), true],
+            [$this->createStub(ImageValue::class), true],
         ];
     }
 
@@ -141,7 +141,7 @@ class AliasGeneratorTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $field = new Field(['value' => $this->createMock(FieldTypeValue::class)]);
+        $field = new Field(['value' => $this->createStub(FieldTypeValue::class)]);
         $this->aliasGenerator->getVariation($field, new VersionInfo(), 'foo');
     }
 
@@ -170,7 +170,7 @@ class AliasGeneratorTest extends TestCase
             ->expects($this->once())
             ->method('debug');
 
-        $binary = $this->createMock(BinaryInterface::class);
+        $binary = $this->createStub(BinaryInterface::class);
         $this->dataLoader
             ->expects($this->once())
             ->method('find')
@@ -277,7 +277,7 @@ class AliasGeneratorTest extends TestCase
             ->expects($this->once())
             ->method('debug');
 
-        $binary = $this->createMock(BinaryInterface::class);
+        $binary = $this->createStub(BinaryInterface::class);
         $this->dataLoader
             ->expects($this->once())
             ->method('find')
@@ -286,20 +286,14 @@ class AliasGeneratorTest extends TestCase
 
         // Filter manager is supposed to be called 3 times to generate references, and then passed variation.
         $this->filterManager
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('applyFilter')
-            ->with($binary, $reference2)
-            ->will($this->returnValue($binary));
-        $this->filterManager
-            ->expects($this->at(1))
-            ->method('applyFilter')
-            ->with($binary, $reference1)
-            ->will($this->returnValue($binary));
-        $this->filterManager
-            ->expects($this->at(2))
-            ->method('applyFilter')
-            ->with($binary, $variationName)
-            ->will($this->returnValue($binary));
+            ->withConsecutive(
+                [$binary, $reference2],
+                [$binary, $reference1],
+                [$binary, $variationName]
+            )
+            ->willReturn($binary);
 
         $this->ioResolver
             ->expects($this->once())

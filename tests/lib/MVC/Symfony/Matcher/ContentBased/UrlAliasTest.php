@@ -68,7 +68,7 @@ class UrlAliasTest extends BaseTest
         // First an url alias that will never match, then the right url alias.
         // This ensures to test even if the location has several url aliases.
         $urlAliasList = [
-            $this->createMock(URLAlias::class),
+            $this->createStub(URLAlias::class),
             $this
                 ->getMockBuilder(URLAlias::class)
                 ->setConstructorArgs([['path' => $path]])
@@ -76,20 +76,13 @@ class UrlAliasTest extends BaseTest
         ];
 
         $urlAliasServiceMock = $this->createMock(URLAliasService::class);
-        $urlAliasServiceMock->expects($this->at(0))
+        $urlAliasServiceMock->expects($this->exactly(2))
             ->method('listLocationAliases')
-            ->with(
-                $this->isInstanceOf(Location::class),
-                true
+            ->withConsecutive(
+                [$this->isInstanceOf(Location::class), true],
+                [$this->isInstanceOf(Location::class), false]
             )
-            ->will($this->returnValue([]));
-        $urlAliasServiceMock->expects($this->at(1))
-            ->method('listLocationAliases')
-            ->with(
-                $this->isInstanceOf(Location::class),
-                false
-            )
-            ->will($this->returnValue($urlAliasList));
+            ->willReturnOnConsecutiveCalls([], $urlAliasList);
 
         $repository = $this->getRepositoryMock();
         $repository

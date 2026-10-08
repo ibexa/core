@@ -109,14 +109,12 @@ class URLHandlerTest extends AbstractCacheHandlerTest
             );
 
         $this->cacheMock
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('invalidateTags')
-            ->with(['url-1']);
-
-        $this->cacheMock
-            ->expects($this->at(1))
-            ->method('invalidateTags')
-            ->with(['c-2', 'c-3', 'c-5']);
+            ->withConsecutive(
+                [['url-1']],
+                [['c-2', 'c-3', 'c-5']]
+            );
 
         $handler = $this->persistenceCacheHandler->urlHandler();
         $handler->updateUrl($urlId, $updateStruct);
@@ -147,7 +145,7 @@ class URLHandlerTest extends AbstractCacheHandlerTest
             ->willReturn('url-1');
 
         $this->cacheMock
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with(['url-1']);
 

@@ -195,12 +195,12 @@ class UrlStorageTest extends TestCase
         $fieldIds = [12, 23, 34];
         $gateway = $this->getGatewayMock();
 
-        foreach ($fieldIds as $index => $id) {
-            $gateway
-                ->expects($this->at($index))
-                ->method('unlinkUrl')
-                ->with($id, 24);
-        }
+        $gateway
+            ->expects($this->exactly(count($fieldIds)))
+            ->method('unlinkUrl')
+            ->withConsecutive(
+                ...array_map(static fn (int $id): array => [$id, 24], $fieldIds)
+            );
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $storage->deleteFieldData($versionInfo, $fieldIds, $this->getContext());

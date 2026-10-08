@@ -212,12 +212,7 @@ class ContentViewBuilderTest extends TestCase
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects($this->at(0))
-            ->method('canUser')
-            ->willReturn(false);
-
-        $this->permissionResolver
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('canUser')
             ->willReturn(false);
 
@@ -339,7 +334,7 @@ class ContentViewBuilderTest extends TestCase
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('canUser')
             ->willReturn(true);
 
@@ -421,7 +416,7 @@ class ContentViewBuilderTest extends TestCase
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('canUser')
             ->willReturn(true);
 

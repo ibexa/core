@@ -92,7 +92,7 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('load')
             ->with($contentId, 1)
             ->will($this->returnValue([]));
@@ -132,7 +132,7 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('load')
             ->with($contentId, 1)
             ->will($this->returnValue([]));
@@ -144,16 +144,13 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([$content]));
 
         $action
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('insertField')
-            ->with($content, $this->getFieldReference(null, 1, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
-
-        $action
-            ->expects($this->at(1))
-            ->method('insertField')
-            ->with($content, $this->getFieldReference(null, 1, 'ger-DE'))
-            ->will($this->returnValue('fieldId2'));
+            ->withConsecutive(
+                [$content, $this->getFieldReference(null, 1, 'eng-GB')],
+                [$content, $this->getFieldReference(null, 1, 'ger-DE')]
+            )
+            ->willReturnOnConsecutiveCalls('fieldId1', 'fieldId2');
 
         $action->apply($contentId);
     }
@@ -179,40 +176,25 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('load')
-            ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->withConsecutive([$contentId, 1], [$contentId, 2])
+            ->willReturnOnConsecutiveCalls([], []);
 
         $this->getContentMapperMock()
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content1]));
-
-        $this->getContentGatewayMock()
-            ->expects($this->at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will($this->returnValue([]));
-
-        $this->getContentMapperMock()
-            ->expects($this->at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content2]));
+            ->withConsecutive([[], []], [[], []])
+            ->willReturnOnConsecutiveCalls([$content1], [$content2]);
 
         $action
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('insertField')
-            ->with($content1, $this->getFieldReference(null, 1, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
-
-        $action
-            ->expects($this->at(1))
-            ->method('insertField')
-            ->with($content2, $this->getFieldReference('fieldId1', 2, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
+            ->withConsecutive(
+                [$content1, $this->getFieldReference(null, 1, 'eng-GB')],
+                [$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')]
+            )
+            ->willReturnOnConsecutiveCalls('fieldId1', 'fieldId1');
 
         $action->apply($contentId);
     }
@@ -238,52 +220,27 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('load')
-            ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->withConsecutive([$contentId, 1], [$contentId, 2])
+            ->willReturnOnConsecutiveCalls([], []);
 
         $this->getContentMapperMock()
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content1]));
-
-        $this->getContentGatewayMock()
-            ->expects($this->at(3))
-            ->method('load')
-            ->with($contentId, 2)
-            ->will($this->returnValue([]));
-
-        $this->getContentMapperMock()
-            ->expects($this->at(1))
-            ->method('extractContentFromRows')
-            ->with([], [])
-            ->will($this->returnValue([$content2]));
+            ->withConsecutive([[], []], [[], []])
+            ->willReturnOnConsecutiveCalls([$content1], [$content2]);
 
         $action
-            ->expects($this->at(0))
+            ->expects($this->exactly(4))
             ->method('insertField')
-            ->with($content1, $this->getFieldReference(null, 1, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
-
-        $action
-            ->expects($this->at(1))
-            ->method('insertField')
-            ->with($content1, $this->getFieldReference(null, 1, 'ger-DE'))
-            ->will($this->returnValue('fieldId2'));
-
-        $action
-            ->expects($this->at(2))
-            ->method('insertField')
-            ->with($content2, $this->getFieldReference('fieldId1', 2, 'eng-GB'))
-            ->will($this->returnValue('fieldId1'));
-
-        $action
-            ->expects($this->at(3))
-            ->method('insertField')
-            ->with($content2, $this->getFieldReference('fieldId2', 2, 'ger-DE'))
-            ->will($this->returnValue('fieldId2'));
+            ->withConsecutive(
+                [$content1, $this->getFieldReference(null, 1, 'eng-GB')],
+                [$content1, $this->getFieldReference(null, 1, 'ger-DE')],
+                [$content2, $this->getFieldReference('fieldId1', 2, 'eng-GB')],
+                [$content2, $this->getFieldReference('fieldId2', 2, 'ger-DE')]
+            )
+            ->willReturnOnConsecutiveCalls('fieldId1', 'fieldId2', 'fieldId1', 'fieldId2');
 
         $action->apply($contentId);
     }

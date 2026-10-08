@@ -911,11 +911,11 @@ class ContentTest extends BaseServiceMockTest
             ->method('deleteContent')
             ->with(42);
 
-        foreach ($spiLocations as $index => $spiLocation) {
-            $urlAliasHandler->expects($this->at($index))
-                ->method('locationDeleted')
-                ->with($spiLocation->id);
-        }
+        $urlAliasHandler->expects($this->exactly(count($spiLocations)))
+            ->method('locationDeleted')
+            ->withConsecutive(...array_map(static function (SPILocation $spiLocation): array {
+                return [$spiLocation->id];
+            }, $spiLocations));
 
         $repository->expects($this->once())->method('commit');
 
@@ -2689,41 +2689,22 @@ class ContentTest extends BaseServiceMockTest
         $spiLocationCreateStruct = new SPILocation\CreateStruct();
         $parentLocation = new Location(['contentInfo' => new ContentInfo(['sectionId' => 1])]);
 
-        $locationServiceMock->expects($this->at(0))
+        $locationServiceMock->expects($this->exactly(2))
             ->method('loadLocation')
-            ->with($this->equalTo(321))
-            ->will($this->returnValue($parentLocation));
-
-        $locationServiceMock->expects($this->at(1))
-            ->method('loadLocation')
-            ->with($this->equalTo(654))
-            ->will($this->returnValue($parentLocation));
+            ->withConsecutive([321], [654])
+            ->willReturn($parentLocation);
 
         $repositoryMock->expects($this->atLeastOnce())
             ->method('getLocationService')
             ->will($this->returnValue($locationServiceMock));
 
-        $domainMapperMock->expects($this->at(1))
+        $domainMapperMock->expects($this->exactly(2))
             ->method('buildSPILocationCreateStruct')
-            ->with(
-                $this->equalTo($locationCreateStruct1),
-                $this->equalTo($parentLocation),
-                $this->equalTo(true),
-                $this->equalTo(null),
-                $this->equalTo(null),
-                $this->equalTo(false)
-            )->will($this->returnValue($spiLocationCreateStruct));
-
-        $domainMapperMock->expects($this->at(2))
-            ->method('buildSPILocationCreateStruct')
-            ->with(
-                $this->equalTo($locationCreateStruct2),
-                $this->equalTo($parentLocation),
-                $this->equalTo(false),
-                $this->equalTo(null),
-                $this->equalTo(null),
-                $this->equalTo(false)
-            )->will($this->returnValue($spiLocationCreateStruct));
+            ->withConsecutive(
+                [$locationCreateStruct1, $parentLocation, true, null, null, false],
+                [$locationCreateStruct2, $parentLocation, false, null, null, false]
+            )
+            ->willReturn($spiLocationCreateStruct);
 
         $spiContentCreateStruct = new SPIContentCreateStruct(
             [
@@ -6108,28 +6089,18 @@ class ContentTest extends BaseServiceMockTest
             ->method('loadAllGroups')
             ->will($this->returnValue($objectStateGroups));
 
-        $objectStateHandlerMock->expects($this->at(1))
+        $objectStateHandlerMock->expects($this->exactly(2))
             ->method('loadObjectStates')
-            ->with($this->equalTo(10))
-            ->will(
-                $this->returnValue(
-                    [
-                        new SPIObjectState(['id' => 11, 'groupId' => 10]),
-                        new SPIObjectState(['id' => 12, 'groupId' => 10]),
-                    ]
-                )
-            );
-
-        $objectStateHandlerMock->expects($this->at(2))
-            ->method('loadObjectStates')
-            ->with($this->equalTo(20))
-            ->will(
-                $this->returnValue(
-                    [
-                        new SPIObjectState(['id' => 21, 'groupId' => 20]),
-                        new SPIObjectState(['id' => 22, 'groupId' => 20]),
-                    ]
-                )
+            ->withConsecutive([10], [20])
+            ->willReturnOnConsecutiveCalls(
+                [
+                    new SPIObjectState(['id' => 11, 'groupId' => 10]),
+                    new SPIObjectState(['id' => 12, 'groupId' => 10]),
+                ],
+                [
+                    new SPIObjectState(['id' => 21, 'groupId' => 20]),
+                    new SPIObjectState(['id' => 22, 'groupId' => 20]),
+                ]
             );
     }
 
@@ -6142,15 +6113,11 @@ class ContentTest extends BaseServiceMockTest
             new SPIObjectState(['id' => 11, 'groupId' => 10]),
             new SPIObjectState(['id' => 21, 'groupId' => 20]),
         ];
-        foreach ($defaultObjectStates as $index => $objectState) {
-            $objectStateHandlerMock->expects($this->at($index + 3))
-                ->method('setContentState')
-                ->with(
-                    42,
-                    $objectState->groupId,
-                    $objectState->id
-                );
-        }
+        $objectStateHandlerMock->expects($this->exactly(count($defaultObjectStates)))
+            ->method('setContentState')
+            ->withConsecutive(...array_map(static function (SPIObjectState $objectState): array {
+                return [42, $objectState->groupId, $objectState->id];
+            }, $defaultObjectStates));
     }
 
     /**
@@ -6252,14 +6219,10 @@ class ContentTest extends BaseServiceMockTest
         $locationServiceMock = $this->getLocationServiceMock();
         $location = $this->createMock(APILocation::class);
 
-        $location->expects($this->at(0))
+        $location->expects($this->exactly(4))
             ->method('__get')
-            ->with('id')
-            ->will($this->returnValue(123));
-        $location->expects($this->at(1))
-            ->method('__get')
-            ->with('parentLocationId')
-            ->will($this->returnValue(456));
+            ->withConsecutive(['id'], ['parentLocationId'], ['id'], ['parentLocationId'])
+            ->willReturnOnConsecutiveCalls(123, 456, 123, 456);
 
         $urlAliasNames = ['eng-GB' => 'hello'];
         $nameSchemaServiceMock->expects($this->once())
@@ -6275,16 +6238,6 @@ class ContentTest extends BaseServiceMockTest
         $urlAliasHandlerMock->expects($this->once())
             ->method('publishUrlAliasForLocation')
             ->with(123, 456, 'hello', 'eng-GB', true, true);
-
-        $location->expects($this->at(2))
-            ->method('__get')
-            ->with('id')
-            ->will($this->returnValue(123));
-
-        $location->expects($this->at(3))
-            ->method('__get')
-            ->with('parentLocationId')
-            ->will($this->returnValue(456));
 
         $urlAliasHandlerMock->expects($this->once())
             ->method('archiveUrlAliasesForDeletedTranslations')
