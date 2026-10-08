@@ -71,7 +71,7 @@
         "ibexa/ci-scripts": "^0.2@dev",
         "ibexa/code-style": "~2.3.1",
         "ibexa/test-core": "~4.6.x-dev",
-        "phpunit/phpunit": "^8.2",
+        "phpunit/phpunit": "^9.6",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "symfony/phpunit-bridge": "^5.4",
         "symfony/proxy-manager-bridge": "^5.3",
