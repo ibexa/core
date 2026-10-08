@@ -2445,19 +2445,21 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
 
-        $contentTypeDraft = $this->createContentTypeDraft();
-        $fieldDefinition = $contentTypeDraft->getFieldDefinition('body');
+        $fieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('my_name', 'ezstring');
+        $fieldCreateStruct->defaultValue = 'Foo';
+
+        $contentTypeDraft = $this->createContentTypeDraft([$fieldCreateStruct]);
+        $fieldDefinition = $contentTypeDraft->getFieldDefinition('my_name');
 
         self::assertNotNull($fieldDefinition);
-        self::assertNotNull($fieldDefinition->defaultValue);
-        self::assertSame(2, $fieldDefinition->position);
+        self::assertEquals(new TextLineValue('Foo'), $fieldDefinition->defaultValue);
 
         $updateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
         $updateStruct->position = 100;
 
         $contentTypeService->updateFieldDefinition($contentTypeDraft, $fieldDefinition, $updateStruct);
         $contentTypeDraft = $contentTypeService->loadContentTypeDraft($contentTypeDraft->id);
-        $updatedFieldDefinition = $contentTypeDraft->getFieldDefinition('body');
+        $updatedFieldDefinition = $contentTypeDraft->getFieldDefinition('my_name');
 
         self::assertNotNull($updatedFieldDefinition);
         self::assertEquals($fieldDefinition->defaultValue, $updatedFieldDefinition->defaultValue);
