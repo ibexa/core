@@ -13,11 +13,15 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupQuery;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserQuery;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 
@@ -190,6 +194,16 @@ abstract class UserServiceDecorator implements UserService
         array $prioritizedLanguages = []
     ): iterable {
         return $this->innerService->loadUsersOfUserGroup($userGroup, $offset, $limit, $prioritizedLanguages);
+    }
+
+    public function findUsers(?UserQuery $query = null, array $prioritizedLanguages = []): UserList
+    {
+        return $this->innerService->findUsers($query, $prioritizedLanguages);
+    }
+
+    public function findUserGroups(?UserGroupQuery $query = null, array $prioritizedLanguages = []): UserGroupList
+    {
+        return $this->innerService->findUserGroups($query, $prioritizedLanguages);
     }
 
     public function isUser(Content $content): bool
