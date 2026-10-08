@@ -117,7 +117,7 @@ class ContentTypeServiceTest extends AbstractServiceTest
 
             ['loadContentTypeGroupByIdentifier', ['content', self::LANG_ARG], $contentTypeGroup, 1],
 
-            ['loadContentTypeGroups', [self::LANG_ARG], [$contentTypeGroup], 0],
+            ['loadContentTypeGroups', [self::LANG_ARG, false], [$contentTypeGroup], 0],
 
             ['loadContentType', [22, self::LANG_ARG], $contentType, 1],
 

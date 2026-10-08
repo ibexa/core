@@ -70,7 +70,7 @@ interface Handler
     /**
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
      */
-    public function loadAllGroups();
+    public function loadAllGroups(bool $includeSystem = false);
 
     /**
      * @param mixed $groupId

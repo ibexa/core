@@ -206,9 +206,9 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContentTypeGroups(array $prioritizedLanguages = []): iterable
+    public function loadContentTypeGroups(array $prioritizedLanguages = [], bool $includeSystem = false): iterable
     {
-        $spiGroups = $this->contentTypeHandler->loadAllGroups();
+        $spiGroups = $this->contentTypeHandler->loadAllGroups($includeSystem);
 
         $groups = [];
         foreach ($spiGroups as $spiGroup) {

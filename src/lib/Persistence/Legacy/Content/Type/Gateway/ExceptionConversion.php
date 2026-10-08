@@ -113,10 +113,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadAllGroupsData(): array
+    public function loadAllGroupsData(bool $includeSystem = false): array
     {
         try {
-            return $this->innerGateway->loadAllGroupsData();
+            return $this->innerGateway->loadAllGroupsData($includeSystem);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
