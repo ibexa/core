@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\Bookmark;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -45,30 +46,22 @@ final class IdSortClauseQueryBuilderTest extends TestCase
 
         $builder->buildQuery($queryBuilder, $sortClause);
 
-        $sql = $queryBuilder->getSQL();
-
-        self::assertStringContainsString(
-            sprintf('%s.id AS %s', self::BOOKMARK_ALIAS, self::SORT_ALIAS),
-            $sql
-        );
-
-        // bookmarks table is joined directly against "location"
         self::assertSame(
             sprintf(
-                '(location.node_id = %1$s.node_id) AND (%1$s.user_id = :dcValue1)',
-                self::BOOKMARK_ALIAS
+                'SELECT location.node_id, %1$s.id AS %2$s'
+                . ' FROM %3$s location'
+                . ' INNER JOIN %4$s content ON content.id = location.contentobject_id'
+                . ' LEFT JOIN %5$s %1$s ON (location.node_id = %1$s.node_id) AND (%1$s.user_id = :dcValue1)'
+                . ' ORDER BY %2$s DESC',
+                self::BOOKMARK_ALIAS,
+                self::SORT_ALIAS,
+                LocationGateway::CONTENT_TREE_TABLE,
+                ContentGateway::CONTENT_ITEM_TABLE,
+                DoctrineDatabase::TABLE_BOOKMARKS
             ),
-            $queryBuilder->getExistingTableAliasJoinCondition(self::BOOKMARK_ALIAS)
+            $queryBuilder->getSQL()
         );
         self::assertSame(['dcValue1' => self::CURRENT_USER_ID], $queryBuilder->getParameters());
-
-        self::assertStringContainsString(
-            sprintf('ORDER BY %s DESC', self::SORT_ALIAS),
-            $sql
-        );
-
-        // the whole join graph has to resolve
-        self::assertStringContainsString(self::BOOKMARK_ALIAS, $sql);
     }
 
     /**
@@ -81,43 +74,23 @@ final class IdSortClauseQueryBuilderTest extends TestCase
 
         $this->createBuilder()->buildQuery($queryBuilder, new Id(Query::SORT_DESC));
 
-        $sql = $queryBuilder->getSQL();
-
-        // main Location joined off the "content" FROM table...
         self::assertSame(
             sprintf(
-                '(content.id = %1$s.contentobject_id) AND (%1$s.node_id = %1$s.main_node_id)',
-                self::CONTENT_LOCATION_ALIAS
-            ),
-            $queryBuilder->getExistingTableAliasJoinCondition(self::CONTENT_LOCATION_ALIAS)
-        );
-        self::assertStringContainsString(
-            sprintf('%s %s', LocationGateway::CONTENT_TREE_TABLE, self::CONTENT_LOCATION_ALIAS),
-            $sql
-        );
-
-        // ...and bookmarks joined off that alias, not off a hardcoded "location"
-        self::assertSame(
-            sprintf(
-                '(%1$s.node_id = %2$s.node_id) AND (%2$s.user_id = :dcValue1)',
+                'SELECT content.id, %1$s.id AS %2$s'
+                . ' FROM %3$s content'
+                . ' INNER JOIN %4$s %5$s ON (content.id = %5$s.contentobject_id) AND (%5$s.node_id = %5$s.main_node_id)'
+                . ' LEFT JOIN %6$s %1$s ON (%5$s.node_id = %1$s.node_id) AND (%1$s.user_id = :dcValue1)'
+                . ' ORDER BY %2$s DESC',
+                self::BOOKMARK_ALIAS,
+                self::SORT_ALIAS,
+                ContentGateway::CONTENT_ITEM_TABLE,
+                LocationGateway::CONTENT_TREE_TABLE,
                 self::CONTENT_LOCATION_ALIAS,
-                self::BOOKMARK_ALIAS
+                DoctrineDatabase::TABLE_BOOKMARKS
             ),
-            $queryBuilder->getExistingTableAliasJoinCondition(self::BOOKMARK_ALIAS)
+            $queryBuilder->getSQL()
         );
-        self::assertStringContainsString(
-            sprintf('%s %s', DoctrineDatabase::TABLE_BOOKMARKS, self::BOOKMARK_ALIAS),
-            $sql
-        );
-
-        self::assertFalse($queryBuilder->hasFromAlias('location'));
-
-        self::assertStringContainsString(
-            sprintf('ORDER BY %s DESC', self::SORT_ALIAS),
-            $sql
-        );
-
-        self::assertStringContainsString(self::BOOKMARK_ALIAS, $sql);
+        self::assertSame(['dcValue1' => self::CURRENT_USER_ID], $queryBuilder->getParameters());
     }
 
     /**
@@ -191,7 +164,7 @@ final class IdSortClauseQueryBuilderTest extends TestCase
         return $queryBuilder;
     }
 
-    private static function createInMemoryConnection(): \Doctrine\DBAL\Connection
+    private static function createInMemoryConnection(): Connection
     {
         return DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
     }
