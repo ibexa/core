@@ -69,7 +69,7 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         if (!$this->connection->createSchemaManager()->tablesExist(['ibexa_content_translation'])) {
             // AddLanguageTranslationTablesMigration hasn't run yet (or "ibexa_content" itself
@@ -151,7 +151,7 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
 
     private function insertIgnoreKeyword(): string
     {
-        if ($this->isMySQL()) {
+        if ($this->isMySQL() || $this->isMariaDB()) {
             return 'IGNORE';
         }
         if ($this->isSqlite()) {
