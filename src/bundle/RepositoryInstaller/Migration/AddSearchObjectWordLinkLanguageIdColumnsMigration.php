@@ -62,7 +62,7 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSq
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         $schemaManager = $this->connection->createSchemaManager();
 
@@ -99,7 +99,7 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSq
 
     private function buildAddLanguageIdColumnSql(): string
     {
-        $columnDefinition = $this->isMySQL() ? "INT DEFAULT '0' NOT NULL" : 'INTEGER DEFAULT 0 NOT NULL';
+        $columnDefinition = $this->isMySQL() || $this->isMariaDB() ? "INT DEFAULT '0' NOT NULL" : 'INTEGER DEFAULT 0 NOT NULL';
 
         return 'ALTER TABLE ' . self::TABLE . ' ADD COLUMN ' . self::LANGUAGE_ID_COLUMN . " {$columnDefinition}";
     }
@@ -107,7 +107,7 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSq
     private function buildAddAlwaysAvailableColumnSql(): string
     {
         $columnDefinition = match (true) {
-            $this->isMySQL() => "TINYINT(1) DEFAULT '0' NOT NULL",
+            $this->isMySQL(), $this->isMariaDB() => "TINYINT(1) DEFAULT '0' NOT NULL",
             $this->isPostgreSQL() => "BOOLEAN DEFAULT 'false' NOT NULL",
             default => "BOOLEAN DEFAULT '0' NOT NULL",
         };

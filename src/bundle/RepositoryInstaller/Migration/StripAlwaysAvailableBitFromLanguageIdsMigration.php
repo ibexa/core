@@ -69,7 +69,7 @@ final class StripAlwaysAvailableBitFromLanguageIdsMigration extends AbstractSqlM
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         $schemaManager = $this->connection->createSchemaManager();
         foreach (self::TABLES as $table => $chunkColumn) {

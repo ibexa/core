@@ -82,7 +82,7 @@ final class AddLanguageTranslationTablesMigration extends AbstractSqlMigration i
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         $schemaManager = $this->connection->createSchemaManager();
 
@@ -108,7 +108,7 @@ final class AddLanguageTranslationTablesMigration extends AbstractSqlMigration i
             return;
         }
 
-        if ($this->isMySQL()) {
+        if ($this->isMySQL() || $this->isMariaDB()) {
             $this->addSqlFile(__DIR__ . '/sql/add-language-translation-tables-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
             $this->addSqlFile(__DIR__ . '/sql/add-language-translation-tables-postgresql.sql');

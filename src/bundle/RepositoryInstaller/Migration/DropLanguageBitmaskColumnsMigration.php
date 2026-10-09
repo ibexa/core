@@ -96,7 +96,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         $schemaManager = $this->connection->createSchemaManager();
 
@@ -162,7 +162,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
         // MySQL ties an index's identity to its table ("DROP INDEX x ON t" / "ALTER TABLE t DROP
         // INDEX x"); PostgreSQL/SQLite index names are unique connection/schema-wide, dropped
         // without referencing the table.
-        return $this->isMySQL()
+        return $this->isMySQL() || $this->isMariaDB()
             ? "ALTER TABLE {$table} DROP INDEX {$indexName}"
             : "DROP INDEX {$indexName}";
     }
@@ -171,7 +171,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
     {
         // Replaces the dropped "(text(32), parent)"/"(text, parent)" + lang index with a lang-less
         // equivalent - "lang_mask" is gone, but the (text, parent) lookup itself is still needed.
-        return $this->isMySQL()
+        return $this->isMySQL() || $this->isMariaDB()
             ? 'ALTER TABLE ibexa_url_alias_ml ADD INDEX ibexa_url_alias_ml_text_lang (text(32), parent)'
             : 'CREATE INDEX ibexa_url_alias_ml_text_lang ON ibexa_url_alias_ml (text, parent)';
     }
