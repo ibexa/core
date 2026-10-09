@@ -13,6 +13,7 @@ use DOMElement;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\FieldType\Image\IO\Legacy as LegacyIOService;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
@@ -793,27 +794,11 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      */
     public function testDeleteImageWithCorruptedName(): void
     {
-        $ioService = $this->getSetupFactory()->getServiceContainer()->get(LegacyIOService::class);
-        $repository = $this->getRepository();
-        $contentService = $repository->getContentService();
+        $ioService = $this->getLegacyIOService();
+        $contentService = $this->getRepository()->getContentService();
 
-        self::assertInstanceOf(IOServiceInterface::class, $ioService);
-
-        $content = $this->publishNewImage(
-            __METHOD__,
-            new ImageValue(
-                [
-                    'inputUri' => __DIR__ . '/_fixtures/image.jpg',
-                    'fileName' => 'image.jpg',
-                    'fileSize' => filesize(__DIR__ . '/_fixtures/image.jpg'),
-                    'alternativeText' => 'Alternative',
-                ]
-            ),
-            [2]
-        );
-
-        $imageFieldDefinition = $content->getContentType()->getFieldDefinition('image');
-        self::assertNotNull($imageFieldDefinition);
+        $content = $this->publishImageFixture(__METHOD__);
+        $imageFieldDefinition = $this->getImageFieldDefinition($content);
 
         // sanity check
         $this->assertImageExists(true, $ioService, $content);
@@ -840,6 +825,28 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         $contentService->deleteContent($content->getVersionInfo()->getContentInfo());
 
         // Expect no League\Flysystem\CorruptedPathDetected thrown
+    }
+
+    public function testDeleteContentRemovesImageStoredUnderLegacyFieldTypeIdentifier(): void
+    {
+        $ioService = $this->getLegacyIOService();
+        $contentService = $this->getRepository()->getContentService();
+
+        $content = $this->publishImageFixture(__METHOD__);
+        $imageFieldDefinition = $this->getImageFieldDefinition($content);
+
+        $this->assertImageExists(true, $ioService, $content);
+
+        $this->downgradeFieldTypeIdentifierToLegacyAlias(
+            'ezimage',
+            $content->getId(),
+            $content->getVersionInfo()->getVersionNo(),
+            $imageFieldDefinition->getId()
+        );
+
+        $contentService->deleteContent($content->getVersionInfo()->getContentInfo());
+
+        $this->assertImageExists(false, $ioService, $content);
     }
 
     /**
@@ -913,6 +920,45 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 
         $query->executeQuery();
+    }
+
+    private function getLegacyIOService(): IOServiceInterface
+    {
+        $ioService = $this->getSetupFactory()->getServiceContainer()->get(LegacyIOService::class);
+        self::assertInstanceOf(IOServiceInterface::class, $ioService);
+
+        return $ioService;
+    }
+
+    private function getImageFieldDefinition(Content $content): FieldDefinition
+    {
+        $fieldDefinition = $content->getContentType()->getFieldDefinition('image');
+        self::assertNotNull($fieldDefinition);
+
+        return $fieldDefinition;
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    private function publishImageFixture(string $name): Content
+    {
+        $path = __DIR__ . '/_fixtures/image.jpg';
+
+        return $this->publishNewImage(
+            $name,
+            new ImageValue(
+                [
+                    'inputUri' => $path,
+                    'fileName' => 'image.jpg',
+                    'fileSize' => filesize($path),
+                    'alternativeText' => 'Alternative',
+                ]
+            ),
+            [2]
+        );
     }
 
     /**

@@ -362,4 +362,32 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
 
         return 4;
     }
+
+    public function testDeleteContentClearsRelationStoredUnderLegacyFieldTypeIdentifier(): void
+    {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        $target = $this->createFolder(['eng-US' => 'Relation target'], 2);
+        $referrer = $contentService->publishVersion(
+            $this->createContent(new RelationValue($target->getId()))->getVersionInfo()
+        );
+
+        $fieldDefinition = $referrer->getContentType()->getFieldDefinition('data');
+        self::assertNotNull($fieldDefinition);
+
+        $this->downgradeFieldTypeIdentifierToLegacyAlias(
+            'ezobjectrelation',
+            $referrer->getId(),
+            $referrer->getVersionInfo()->getVersionNo(),
+            $fieldDefinition->getId()
+        );
+
+        $contentService->deleteContent($target->getVersionInfo()->getContentInfo());
+
+        $reloaded = $contentService->loadContent($referrer->getId());
+        $value = $reloaded->getFieldValue('data');
+        self::assertInstanceOf(RelationValue::class, $value);
+        self::assertNull($value->destinationContentId);
+    }
 }
