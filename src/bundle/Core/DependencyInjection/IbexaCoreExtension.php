@@ -117,6 +117,8 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         // Note: this is where the transformation occurs
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('ibexa.strict_mode', $config['strict_mode'] ?? false);
+
         // Base services and services overrides
         $loader->load('services.yml');
         // Doctrine Migrations for core's own schema, alongside the legacy SchemaBuilderEvent path
