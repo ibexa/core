@@ -1,0 +1,25 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\PermissionResolver\:\:sudo\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/Permission/CachedPermissionService.php
+
+		-
+			message: '#^Callable callable\(\)\: T invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/Permission/PermissionResolver.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\PermissionResolver\:\:sudo\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/Repository.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Ibexa\\Contracts\\Core\\Repository\\PermissionResolver\:\:sudo\(\) expects callable\(\)\: T, callable\(Ibexa\\Contracts\\Core\\Repository\\Repository\)\: T given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/lib/Repository/Repository.php
