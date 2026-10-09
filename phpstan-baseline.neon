@@ -31651,12 +31651,6 @@ parameters:
 			path: tests/integration/Core/IO/BinarydataHandler/FlysystemTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\IO\\BinarydataHandler\\FlysystemTest\:\:getFlysystemFilesystem\(\) should return League\\Flysystem\\FilesystemOperator but returns object\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: tests/integration/Core/IO/BinarydataHandler/FlysystemTest.php
-
-		-
 			message: '#^Parameter \#1 \$inputStream of method Ibexa\\Contracts\\Core\\IO\\BinaryFileCreateStruct\:\:setInputStream\(\) expects resource, resource\|false given\.$#'
 			identifier: argument.type
 			count: 1

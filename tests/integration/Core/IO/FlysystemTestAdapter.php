@@ -43,6 +43,11 @@ final class FlysystemTestAdapter implements FlysystemTestAdapterInterface, Files
         return $this->adapter->fileExists($path);
     }
 
+    public function directoryExists(string $path): bool
+    {
+        return $this->adapter->directoryExists($path);
+    }
+
     public function write(string $path, string $contents, Config $config): void
     {
         $this->adapter->write($path, $contents, $config);

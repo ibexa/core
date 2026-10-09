@@ -37,6 +37,10 @@ if (InstalledVersions::satisfies($versionParser, 'doctrine/persistence', '2.*'))
     $includes[] = __DIR__ . '/phpstan-baseline-doctrine-persistence-v3.neon';
 }
 
+if (InstalledVersions::satisfies($versionParser, 'league/flysystem', '2.*')) {
+    $includes[] = __DIR__ . '/phpstan-baseline-flysystem-v2.neon';
+}
+
 $config = [];
 $config['includes'] = $includes;
 
