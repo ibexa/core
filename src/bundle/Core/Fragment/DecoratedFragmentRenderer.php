@@ -8,32 +8,29 @@
 namespace Ibexa\Bundle\Core\Fragment;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
 
-class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccessAware
+class DecoratedFragmentRenderer implements FragmentRendererInterface
 {
     private FragmentRendererInterface $innerRenderer;
 
-    private ?SiteAccess $siteAccess = null;
-
     private SiteAccessSerializerInterface $siteAccessSerializer;
+
+    private SiteAccessServiceInterface $siteAccessService;
 
     public function __construct(
         FragmentRendererInterface $innerRenderer,
-        SiteAccessSerializerInterface $siteAccessSerializer
+        SiteAccessSerializerInterface $siteAccessSerializer,
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->innerRenderer = $innerRenderer;
         $this->siteAccessSerializer = $siteAccessSerializer;
-    }
-
-    public function setSiteAccess(?SiteAccess $siteAccess = null): void
-    {
-        $this->siteAccess = $siteAccess;
+        $this->siteAccessService = $siteAccessService;
     }
 
     public function setFragmentPath(string $path): void
@@ -42,7 +39,7 @@ class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccess
             return;
         }
 
-        $matcher = $this->siteAccess?->matcher;
+        $matcher = $this->siteAccessService->getCurrent()?->matcher;
         if ($matcher instanceof SiteAccess\URILexer) {
             $path = $matcher->analyseLink($path);
         }

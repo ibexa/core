@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 use Ibexa\Core\MVC\Symfony\Routing\Generator;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -29,12 +30,19 @@ class GeneratorTest extends TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $logger;
 
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $siteAccessService;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->siteAccessRouter = $this->createMock(SiteAccessRouterInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->generator = $this->getMockForAbstractClass(Generator::class);
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
+        $this->generator = $this->getMockBuilder(Generator::class)
+            ->setConstructorArgs([$this->siteAccessService])
+            ->onlyMethods(['doGenerate'])
+            ->getMock();
         $this->generator->setSiteAccessRouter($this->siteAccessRouter);
         $this->generator->setLogger($this->logger);
     }
@@ -61,7 +69,7 @@ class GeneratorTest extends TestCase
     public function testSimpleGenerate($urlResource, array $parameters, $referenceType): void
     {
         $matcher = $this->createMock(URILexer::class);
-        $this->generator->setSiteAccess(new SiteAccess('test', 'fake', $matcher));
+        $this->siteAccessService->method('getCurrent')->willReturn(new SiteAccess('test', 'fake', $matcher));
 
         $baseUrl = '/base/url';
         $requestContext = new RequestContext($baseUrl);
@@ -72,14 +80,14 @@ class GeneratorTest extends TestCase
             ->expects(self::once())
             ->method('doGenerate')
             ->with($urlResource, $parameters)
-            ->will(self::returnValue($uri));
+            ->willReturn($uri);
 
         $fullUri = $baseUrl . $uri;
         $matcher
             ->expects(self::once())
             ->method('analyseLink')
             ->with($uri)
-            ->will(self::returnValue($uri));
+            ->willReturn($uri);
 
         if ($referenceType === UrlGeneratorInterface::ABSOLUTE_URL) {
             $fullUri = $requestContext->getScheme() . '://' . $requestContext->getHost() . $baseUrl . $uri;
@@ -92,7 +100,7 @@ class GeneratorTest extends TestCase
     public function testGenerateWithSiteAccessNoReverseMatch($urlResource, array $parameters, $referenceType): void
     {
         $matcher = $this->createMock(URILexer::class);
-        $this->generator->setSiteAccess(new SiteAccess('test', 'test', $matcher));
+        $this->siteAccessService->method('getCurrent')->willReturn(new SiteAccess('test', 'test', $matcher));
 
         $baseUrl = '/base/url';
         $requestContext = new RequestContext($baseUrl);
@@ -103,14 +111,14 @@ class GeneratorTest extends TestCase
             ->expects(self::once())
             ->method('doGenerate')
             ->with($urlResource, $parameters)
-            ->will(self::returnValue($uri));
+            ->willReturn($uri);
 
         $fullUri = $baseUrl . $uri;
         $matcher
             ->expects(self::once())
             ->method('analyseLink')
             ->with($uri)
-            ->will(self::returnValue($uri));
+            ->willReturn($uri);
 
         if ($referenceType === UrlGeneratorInterface::ABSOLUTE_URL) {
             $fullUri = $requestContext->getScheme() . '://' . $requestContext->getHost() . $baseUrl . $uri;
@@ -121,7 +129,7 @@ class GeneratorTest extends TestCase
             ->expects(self::once())
             ->method('matchByName')
             ->with($siteAccessName)
-            ->will(self::returnValue(null));
+            ->willReturn(null);
         $this->logger
             ->expects(self::once())
             ->method('notice');
