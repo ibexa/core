@@ -56,7 +56,7 @@ final class AddContentAlwaysAvailableColumnsMigration extends AbstractSqlMigrati
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         $schemaManager = $this->connection->createSchemaManager();
 
@@ -90,7 +90,7 @@ final class AddContentAlwaysAvailableColumnsMigration extends AbstractSqlMigrati
     private function buildAddColumnSql(string $table): string
     {
         $columnDefinition = match (true) {
-            $this->isMySQL() => "TINYINT(1) DEFAULT '0' NOT NULL",
+            $this->isMySQL(), $this->isMariaDB() => "TINYINT(1) DEFAULT '0' NOT NULL",
             $this->isPostgreSQL() => "BOOLEAN DEFAULT 'false' NOT NULL",
             default => "BOOLEAN DEFAULT '0' NOT NULL",
         };
