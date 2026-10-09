@@ -76,7 +76,7 @@ final class NarrowLanguageIdColumnTypesMigration extends AbstractSqlMigration im
 
     public function up(Schema $schema): void
     {
-        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
+        $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         $schemaManager = $this->connection->createSchemaManager();
 
@@ -112,14 +112,14 @@ final class NarrowLanguageIdColumnTypesMigration extends AbstractSqlMigration im
 
         if ($needsRename) {
             $this->addSql(
-                $this->isMySQL()
+                $this->isMySQL() || $this->isMariaDB()
                     ? sprintf('RENAME TABLE %s TO %s', self::OLD_LANGUAGE_TABLE, self::LANGUAGE_TABLE)
                     : sprintf('ALTER TABLE %s RENAME TO %s', self::OLD_LANGUAGE_TABLE, self::LANGUAGE_TABLE)
             );
         }
 
         if ($needsNarrowing) {
-            if ($this->isMySQL()) {
+            if ($this->isMySQL() || $this->isMariaDB()) {
                 $this->addSqlFile(__DIR__ . '/sql/narrow-language-id-column-types-mysql.sql');
             } elseif ($this->isPostgreSQL()) {
                 $this->addSqlFile(__DIR__ . '/sql/narrow-language-id-column-types-postgresql.sql');
