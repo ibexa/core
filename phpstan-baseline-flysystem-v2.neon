@@ -1,0 +1,19 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method League\\Flysystem\\FilesystemAdapter\:\:directoryExists\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/lib/IO/Flysystem/Adapter/DynamicPathFilesystemAdapterDecorator.php
+
+		-
+			message: '#^Call to an undefined method League\\Flysystem\\FilesystemAdapter\:\:directoryExists\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: tests/integration/Core/IO/FlysystemTestAdapter.php
+
+		-
+			message: '#^Call to an undefined method League\\Flysystem\\FilesystemAdapter\:\:directoryExists\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: tests/lib/IO/Flysystem/Adapter/DynamicPathFilesystemAdapterDecoratorTest.php

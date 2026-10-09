@@ -46,6 +46,10 @@ services:
         class: League\Flysystem\Filesystem
         abstract: true
 
+    # league/flysystem 3.x local adapter defaults to a detector which returns no MIME type for inconclusive contents
+    ibexa.core.io.flysystem.mime_type_detector:
+        class: League\MimeTypeDetection\FinfoMimeTypeDetector
+
     ibexa.core.io.flysystem.adapter.site_access_aware:
         class: League\Flysystem\Local\LocalFilesystemAdapter
         arguments:
@@ -53,6 +57,7 @@ services:
             $visibility: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter'
             $writeFlags: '%ibexa.core.io.flysystem.write_flags%'
             $linkHandling: '%ibexa.core.io.flysystem.link_handling%'
+            $mimeTypeDetector: '@ibexa.core.io.flysystem.mime_type_detector'
 
     ibexa.core.io.flysystem.adapter.dfs:
         class: League\Flysystem\Local\LocalFilesystemAdapter
@@ -61,6 +66,7 @@ services:
             $visibility: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\DFSVisibilityConverter'
             $writeFlags: "@=parameter('ibexa.io.nfs.adapter.config')['writeFlags'] ? parameter('ibexa.io.nfs.adapter.config')['writeFlags'] : parameter('ibexa.core.io.flysystem.write_flags')"
             $linkHandling: "@=parameter('ibexa.io.nfs.adapter.config')['linkHandling'] ? parameter('ibexa.io.nfs.adapter.config')['linkHandling'] : parameter('ibexa.core.io.flysystem.link_handling')"
+            $mimeTypeDetector: '@ibexa.core.io.flysystem.mime_type_detector'
 
     ibexa.core.io.flysystem.adapter.dynamic_path.site_access_aware.decorator:
         class: Ibexa\Core\IO\Flysystem\Adapter\DynamicPathFilesystemAdapterDecorator
