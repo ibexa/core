@@ -16,6 +16,8 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler
 use Ibexa\Contracts\Core\Persistence\User as SPIUser;
 use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct as SPIUserTokenUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException as APIUnauthorizedException;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
@@ -24,21 +26,41 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId as CriterionContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId as CriterionContentTypeId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier as CriterionContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId as CriterionLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd as CriterionLogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchAll as CriterionMatchAll;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone as CriterionMatchNone;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator as CriterionOperator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId as CriterionParentLocationId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserEmail as CriterionUserEmail;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserId as CriterionUserId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserLogin as CriterionUserLogin;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as SortClauseContentId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Id as SortClauseLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\User as UserCriterion;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\UserGroup as UserGroupCriterion;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\SortClause as UserQuerySortClause;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserCriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupCriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupQuery;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserQuery;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct as APIUserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup as APIUserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct as APIUserGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -1082,6 +1104,288 @@ class UserService implements UserServiceInterface
         }
 
         return $users;
+    }
+
+    public function findUsers(?UserQuery $query = null, array $prioritizedLanguages = []): UserList
+    {
+        $query ??= new UserQuery();
+        $criterion = $query->getCriterion();
+
+        $filteringCriteria = [new CriterionContentTypeIdentifier($this->getUserContentTypeIdentifiers())];
+        if ($criterion !== null) {
+            $filteringCriteria[] = $this->mapUserCriterion($criterion);
+        }
+
+        $contentIds = $this->findContentIds(
+            new CriterionLogicalAnd($filteringCriteria),
+            $this->hasSingleLocationCriterion($criterion, UserCriterion\UserGroupId::class),
+            $query->getSortClauses(),
+            $query->getOffset(),
+            $query->getLimit(),
+            $prioritizedLanguages,
+        );
+
+        return new UserList(
+            $contentIds['totalCount'],
+            array_map(
+                fn (int $userId): APIUser => $this->loadUser($userId, $prioritizedLanguages),
+                $contentIds['items'],
+            ),
+        );
+    }
+
+    public function findUserGroups(?UserGroupQuery $query = null, array $prioritizedLanguages = []): UserGroupList
+    {
+        $query ??= new UserGroupQuery();
+        $criterion = $query->getCriterion();
+
+        $filteringCriteria = [new CriterionContentTypeId((int)$this->settings['userGroupClassID'])];
+        if ($criterion !== null) {
+            $filteringCriteria[] = $this->mapUserGroupCriterion($criterion);
+        }
+
+        $contentIds = $this->findContentIds(
+            new CriterionLogicalAnd($filteringCriteria),
+            $this->hasSingleLocationCriterion($criterion, UserGroupCriterion\ParentUserGroupId::class),
+            $query->getSortClauses(),
+            $query->getOffset(),
+            $query->getLimit(),
+            $prioritizedLanguages,
+        );
+
+        return new UserGroupList(
+            $contentIds['totalCount'],
+            array_map(
+                fn (int $userGroupId): APIUserGroup => $this->loadUserGroup($userGroupId, $prioritizedLanguages),
+                $contentIds['items'],
+            ),
+        );
+    }
+
+    /**
+     * Runs the repository Filtering API and returns the IDs of the matched content items.
+     *
+     * A Location filter is used when the criteria contain a Location-based constraint (user group membership),
+     * because in a Content filter Location criteria match only the main Location. Otherwise, a Content filter
+     * is used, so content with several Locations is returned once.
+     *
+     * @param list<\Ibexa\Contracts\Core\Repository\Values\User\Query\SortClause> $sortClauses
+     * @param string[] $languages
+     *
+     * @return array{totalCount: int<0, max>, items: list<int>}
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     */
+    private function findContentIds(
+        FilteringCriterion $criterion,
+        bool $useLocationFilter,
+        array $sortClauses,
+        int $offset,
+        ?int $limit,
+        array $languages
+    ): array {
+        if ($sortClauses === []) {
+            $sortClauses = [new UserQuerySortClause\Id()];
+        }
+
+        $filter = new Filter($criterion, array_map($this->mapUserQuerySortClause(...), $sortClauses));
+        if ($useLocationFilter) {
+            // Content ID is unique within the result set as long as only one Location-based criterion is used,
+            // the Location ID is a tie-breaker making the order fully deterministic
+            $filter->withSortClause(new SortClauseLocationId());
+        }
+
+        $filter->sliceBy($limit ?? 0, $offset);
+
+        if ($limit === 0) {
+            $totalCount = $useLocationFilter
+                ? $this->repository->getLocationService()->count($filter, $languages)
+                : $this->repository->getContentService()->count($filter, $languages);
+
+            return ['totalCount' => max(0, $totalCount), 'items' => []];
+        }
+
+        if ($useLocationFilter) {
+            $locationList = $this->repository->getLocationService()->find($filter, $languages);
+            $items = [];
+            foreach ($locationList as $location) {
+                $items[] = $location->getContentInfo()->getId();
+            }
+
+            return ['totalCount' => $locationList->getTotalCount(), 'items' => $items];
+        }
+
+        $contentList = $this->repository->getContentService()->find($filter, $languages);
+        $items = [];
+        foreach ($contentList as $content) {
+            $items[] = $content->getVersionInfo()->getContentInfo()->getId();
+        }
+
+        return ['totalCount' => $contentList->getTotalCount(), 'items' => $items];
+    }
+
+    /**
+     * @param class-string $locationCriterionClass
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the Location-based criterion is used more than once
+     */
+    private function hasSingleLocationCriterion(
+        UserCriterionInterface|UserGroupCriterionInterface|null $criterion,
+        string $locationCriterionClass
+    ): bool {
+        $count = $this->countCriteria($criterion, $locationCriterionClass);
+        if ($count > 1) {
+            throw new InvalidArgumentException(
+                '$query',
+                sprintf('Criterion "%s" can be used only once in a query', $locationCriterionClass)
+            );
+        }
+
+        return $count === 1;
+    }
+
+    /**
+     * @param class-string $criterionClass
+     */
+    private function countCriteria(
+        UserCriterionInterface|UserGroupCriterionInterface|null $criterion,
+        string $criterionClass
+    ): int {
+        if ($criterion instanceof UserCriterion\LogicalAnd || $criterion instanceof UserGroupCriterion\LogicalAnd) {
+            return array_sum(array_map(
+                fn (UserCriterionInterface|UserGroupCriterionInterface $innerCriterion): int => $this->countCriteria(
+                    $innerCriterion,
+                    $criterionClass
+                ),
+                $criterion->getCriteria(),
+            ));
+        }
+
+        return $criterion instanceof $criterionClass ? 1 : 0;
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    private function mapUserCriterion(UserCriterionInterface $criterion): FilteringCriterion
+    {
+        return match (true) {
+            $criterion instanceof UserCriterion\UserId => $criterion->getValue() === []
+                ? new CriterionMatchNone()
+                : new CriterionUserId($criterion->getValue()),
+            $criterion instanceof UserCriterion\Login => $criterion->getValue() === []
+                ? new CriterionMatchNone()
+                : new CriterionUserLogin($criterion->getValue(), $this->getEqualityOperator($criterion->getValue())),
+            $criterion instanceof UserCriterion\Email => $criterion->getValue() === []
+                ? new CriterionMatchNone()
+                : new CriterionUserEmail($criterion->getValue(), $this->getEqualityOperator($criterion->getValue())),
+            $criterion instanceof UserCriterion\UserGroupId => $this->buildChildrenOfUserGroupCriterion(
+                $criterion->getValue()
+            ),
+            $criterion instanceof UserCriterion\LogicalAnd => $criterion->getCriteria() === []
+                ? new CriterionMatchAll()
+                : new CriterionLogicalAnd(array_map($this->mapUserCriterion(...), $criterion->getCriteria())),
+            default => throw new InvalidArgumentException(
+                '$query',
+                sprintf('Unsupported user criterion "%s"', get_debug_type($criterion))
+            ),
+        };
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    private function mapUserGroupCriterion(UserGroupCriterionInterface $criterion): FilteringCriterion
+    {
+        return match (true) {
+            $criterion instanceof UserGroupCriterion\UserId => $this->buildUserGroupsOfUserCriterion(
+                $criterion->getValue()
+            ),
+            $criterion instanceof UserGroupCriterion\ParentUserGroupId => $this->buildChildrenOfUserGroupCriterion(
+                $criterion->getValue()
+            ),
+            $criterion instanceof UserGroupCriterion\LogicalAnd => $criterion->getCriteria() === []
+                ? new CriterionMatchAll()
+                : new CriterionLogicalAnd(array_map($this->mapUserGroupCriterion(...), $criterion->getCriteria())),
+            default => throw new InvalidArgumentException(
+                '$query',
+                sprintf('Unsupported user group criterion "%s"', get_debug_type($criterion))
+            ),
+        };
+    }
+
+    /**
+     * @param string|list<string> $value
+     */
+    private function getEqualityOperator(string|array $value): string
+    {
+        return is_array($value) ? CriterionOperator::IN : CriterionOperator::EQ;
+    }
+
+    /**
+     * Matches children of the main Location of the given user group,
+     * or nothing if the user group doesn't exist or can't be read.
+     */
+    private function buildChildrenOfUserGroupCriterion(int $userGroupId): FilteringCriterion
+    {
+        try {
+            $contentInfo = $this->repository->getContentService()->loadContentInfo($userGroupId);
+        } catch (APINotFoundException | APIUnauthorizedException) {
+            return new CriterionMatchNone();
+        }
+
+        if (
+            $contentInfo->contentTypeId !== (int)$this->settings['userGroupClassID']
+            || $contentInfo->getMainLocationId() === null
+        ) {
+            return new CriterionMatchNone();
+        }
+
+        return new CriterionParentLocationId($contentInfo->getMainLocationId());
+    }
+
+    /**
+     * Matches content items being parents of any Location of the given user,
+     * or nothing if the user doesn't exist or can't be read.
+     */
+    private function buildUserGroupsOfUserCriterion(int $userId): FilteringCriterion
+    {
+        try {
+            $contentInfo = $this->repository->getContentService()->loadContentInfo($userId);
+        } catch (APINotFoundException | APIUnauthorizedException) {
+            return new CriterionMatchNone();
+        }
+
+        if (!in_array($contentInfo->getContentType()->getIdentifier(), $this->getUserContentTypeIdentifiers(), true)) {
+            return new CriterionMatchNone();
+        }
+
+        $parentContentIds = [];
+        foreach ($this->locationHandler->loadLocationsByContent($contentInfo->getId()) as $location) {
+            $parentContentIds[] = (int)$this->locationHandler->load($location->parentId)->contentId;
+        }
+
+        if ($parentContentIds === []) {
+            return new CriterionMatchNone();
+        }
+
+        return new CriterionContentId(array_values(array_unique($parentContentIds)));
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    private function mapUserQuerySortClause(UserQuerySortClause $sortClause): SortClauseContentId
+    {
+        if (!$sortClause instanceof UserQuerySortClause\Id) {
+            throw new InvalidArgumentException(
+                '$query',
+                sprintf('Unsupported sort clause "%s"', get_debug_type($sortClause))
+            );
+        }
+
+        return new SortClauseContentId($sortClause->direction);
     }
 
     /**

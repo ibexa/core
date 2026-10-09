@@ -54241,12 +54241,6 @@ parameters:
 			path: tests/lib/Repository/Decorator/UserServiceDecoratorTest.php
 
 		-
-			message: '#^Parameter \#1 \$innerService of class Ibexa\\Contracts\\Core\\Repository\\Decorator\\UserServiceDecorator@anonymous/tests/lib/Repository/Decorator/UserServiceDecoratorTest\.php\:37 constructor expects Ibexa\\Contracts\\Core\\Repository\\UserService, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/Repository/Decorator/UserServiceDecoratorTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Filtering\\TestContentProvider\:\:createContentDraft\(\) has parameter \$multilingualFields with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

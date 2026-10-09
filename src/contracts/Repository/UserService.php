@@ -12,11 +12,15 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupQuery;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserQuery;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 
@@ -328,6 +332,34 @@ interface UserService
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User[]
      */
     public function loadUsersOfUserGroup(UserGroup $userGroup, int $offset = 0, int $limit = 25, array $prioritizedLanguages = []): iterable;
+
+    /**
+     * Finds users matching the given query.
+     *
+     * Only users the current user is allowed to read are returned and counted. A criterion referencing
+     * a user group which does not exist or cannot be read results in an empty list.
+     * Without a query, the first {@see \Ibexa\Contracts\Core\Repository\Values\User\Query\UserQuery::DEFAULT_LIMIT}
+     * users sorted by ID are returned.
+     *
+     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned objects.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the query is not supported
+     */
+    public function findUsers(?UserQuery $query = null, array $prioritizedLanguages = []): UserList;
+
+    /**
+     * Finds user groups matching the given query.
+     *
+     * Only user groups the current user is allowed to read are returned and counted. A criterion referencing
+     * a user or user group which does not exist or cannot be read results in an empty list.
+     * Without a query, the first {@see \Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupQuery::DEFAULT_LIMIT}
+     * user groups sorted by ID are returned.
+     *
+     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned objects.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the query is not supported
+     */
+    public function findUserGroups(?UserGroupQuery $query = null, array $prioritizedLanguages = []): UserGroupList;
 
     /**
      * Checks if Content is a user.
