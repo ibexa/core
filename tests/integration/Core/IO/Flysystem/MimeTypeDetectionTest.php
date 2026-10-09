@@ -9,16 +9,20 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\IO\Flysystem;
 
 use Ibexa\Tests\Integration\Core\IO\BaseRealFilesystemTestCase;
+use League\Flysystem\FilesystemException;
 
 final class MimeTypeDetectionTest extends BaseRealFilesystemTestCase
 {
     /**
      * @dataProvider provideFilesWithInconclusiveContents
      *
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
-    public function testDetectsMimeTypeFromContents(string $path, string $contents, string $expectedMimeType): void
-    {
+    public function testDetectsMimeTypeFromContents(
+        string $path,
+        string $contents,
+        string $expectedMimeType
+    ): void {
         $this->filesystem->write($path, $contents);
 
         self::assertSame($expectedMimeType, $this->filesystem->mimeType($path));

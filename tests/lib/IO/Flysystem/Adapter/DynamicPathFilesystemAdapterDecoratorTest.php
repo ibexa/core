@@ -146,7 +146,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     /**
      * @requires function League\Flysystem\Filesystem::directoryExists
      *
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testDirectoryExists(): void
     {
