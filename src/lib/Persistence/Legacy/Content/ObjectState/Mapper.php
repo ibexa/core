@@ -47,9 +47,9 @@ class Mapper
 
         $languageIds = [(int)$data[0]['ibexa_object_state_default_language_id']];
         foreach ($data as $stateTranslation) {
-            $languageIds[] = (int)$stateTranslation['ibexa_object_state_language_language_id'] & ~1;
+            $languageIds[] = (int)$stateTranslation['ibexa_object_state_language_language_id'];
         }
-        $languages = iterator_to_array($this->languageHandler->loadList($languageIds));
+        $languages = iterator_to_array($this->languageHandler->loadList(array_unique($languageIds)));
 
         $objectState->id = (int)$data[0]['ibexa_object_state_id'];
         $objectState->groupId = (int)$data[0]['ibexa_object_state_group_id'];
@@ -62,7 +62,7 @@ class Mapper
         $objectState->description = [];
 
         foreach ($data as $stateTranslation) {
-            $languageCode = $languages[$stateTranslation['ibexa_object_state_language_language_id'] & ~1]->languageCode;
+            $languageCode = $languages[(int)$stateTranslation['ibexa_object_state_language_language_id']]->languageCode;
             $objectState->languageCodes[] = $languageCode;
             $objectState->name[$languageCode] = $stateTranslation['ibexa_object_state_language_name'];
             $objectState->description[$languageCode] = $stateTranslation['ibexa_object_state_language_description'];

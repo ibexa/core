@@ -13,7 +13,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -58,7 +57,7 @@ final class UrlAliasGatewayTest extends RepositoryTestCase
             new LanguageMapper()
         );
 
-        return new DoctrineDatabase($connection, new LanguageMaskGenerator($languageHandler));
+        return new DoctrineDatabase($connection, $languageHandler);
     }
 
     /**
@@ -68,7 +67,8 @@ final class UrlAliasGatewayTest extends RepositoryTestCase
     {
         return [
             'action' => 'nop:',
-            'lang_mask' => 3,
+            'language_ids' => [2],
+            'is_always_available' => true,
             'link' => 1,
             'parent' => 0,
             'text' => self::TEXT,

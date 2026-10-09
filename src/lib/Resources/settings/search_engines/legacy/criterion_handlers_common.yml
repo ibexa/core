@@ -44,12 +44,18 @@ services:
             $connection: '@ibexa.persistence.connection'
             $joinedTablesTracker: '@Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
 
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         abstract: true
         arguments:
             $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $languagePriorityConditionBuilder: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder'
 
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler:
         abstract: true
@@ -142,7 +148,7 @@ services:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
             $processor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
-            $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
             $configuration: '%ibexa.search.legacy.criterion_handler.full_text.configuration%'
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}
@@ -158,7 +164,7 @@ services:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LanguageCode
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            $maskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $languageHandler: '@ibexa.spi.persistence.legacy.language.handler'
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}

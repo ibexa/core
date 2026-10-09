@@ -12,6 +12,7 @@ services:
             - '@ibexa.spi.persistence.legacy.content_type.handler'
             - '@Symfony\Contracts\EventDispatcher\EventDispatcherInterface'
             - '@Ibexa\Core\FieldType\FieldTypeAliasResolverInterface'
+            - '@ibexa.persistence.legacy.language.gateway'
 
     Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber:
         arguments:
@@ -28,7 +29,6 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway'
             - '@Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder'
             - '@ibexa.spi.persistence.legacy.language.handler'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
 
     Ibexa\Core\Persistence\Legacy\Content\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\Gateway\ExceptionConversion
