@@ -839,63 +839,47 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
     /**
      * @dataProvider provideLegacyFieldTypeIdentifiers
+     *
+     * @param array<string, int[]> $fieldIdsByType
+     * @param int[] $expectedFieldIds
      */
     public function testDeleteFieldsResolvesLegacyFieldTypeIdentifier(
-        string $legacyIdentifier,
-        string $expectedIdentifier
+        array $fieldIdsByType,
+        string $expectedFieldTypeIdentifier,
+        array $expectedFieldIds
     ): void {
         $fieldHandler = $this->getFieldHandler();
 
-        $contentGatewayMock = $this->getContentGatewayMock();
-        $contentGatewayMock->expects(self::once())
-            ->method('getFieldIdsByType')
-            ->with(self::equalTo(42), self::equalTo(2))
-            ->willReturn([$legacyIdentifier => [2, 3]]);
-
-        $storageHandlerMock = $this->getStorageHandlerMock();
-        $storageHandlerMock->expects(self::once())
-            ->method('deleteFieldData')
-            ->with(
-                self::equalTo($expectedIdentifier),
-                self::isInstanceOf(VersionInfo::class),
-                self::equalTo([2, 3])
-            );
+        $this->mockGetFieldIdsByType($fieldIdsByType);
+        $this->expectExternalStorageDataDeleted($expectedFieldTypeIdentifier, $expectedFieldIds);
 
         $fieldHandler->deleteFields(42, new VersionInfo(['versionNo' => 2]));
     }
 
     /**
-     * @return iterable<string, array{string, string}>
+     * @return iterable<string, array{array<string, int[]>, string, int[]}>
      */
     public static function provideLegacyFieldTypeIdentifiers(): iterable
     {
         foreach (self::EXTERNAL_STORAGE_FIELD_TYPE_ALIASES as $legacyAlias => $alias) {
-            yield $legacyAlias => [$legacyAlias, $alias];
+            yield $legacyAlias => [
+                [$legacyAlias => [2, 3]],
+                $alias,
+                [2, 3],
+            ];
         }
 
-        yield 'already migrated identifier' => ['ibexa_image', 'ibexa_image'];
-    }
+        yield 'already migrated identifier' => [
+            ['ibexa_image' => [2, 3]],
+            'ibexa_image',
+            [2, 3],
+        ];
 
-    public function testDeleteFieldsMergesLegacyAndCurrentFieldTypeIdentifiers(): void
-    {
-        $fieldHandler = $this->getFieldHandler();
-
-        $contentGatewayMock = $this->getContentGatewayMock();
-        $contentGatewayMock->expects(self::once())
-            ->method('getFieldIdsByType')
-            ->with(self::equalTo(42), self::equalTo(2))
-            ->willReturn(['ezimage' => [2], 'ibexa_image' => [3]]);
-
-        $storageHandlerMock = $this->getStorageHandlerMock();
-        $storageHandlerMock->expects(self::once())
-            ->method('deleteFieldData')
-            ->with(
-                self::equalTo('ibexa_image'),
-                self::isInstanceOf(VersionInfo::class),
-                self::equalTo([2, 3])
-            );
-
-        $fieldHandler->deleteFields(42, new VersionInfo(['versionNo' => 2]));
+        yield 'legacy and current identifiers merged' => [
+            ['ezimage' => [2], 'ibexa_image' => [3]],
+            'ibexa_image',
+            [2, 3],
+        ];
     }
 
     public function testDeleteTranslationFromVersionFieldsResolvesLegacyFieldTypeIdentifier(): void
@@ -906,18 +890,8 @@ class FieldHandlerTest extends LanguageAwareTestCase
             'versionNo' => 2,
         ]);
 
-        $this->getContentGatewayMock()->expects(self::once())
-            ->method('getFieldIdsByType')
-            ->with(self::equalTo(42), self::equalTo(2), self::equalTo('eng-GB'))
-            ->willReturn(['ezimage' => [4]]);
-
-        $this->getStorageHandlerMock()->expects(self::once())
-            ->method('deleteFieldData')
-            ->with(
-                self::equalTo('ibexa_image'),
-                self::isInstanceOf(VersionInfo::class),
-                self::equalTo([4])
-            );
+        $this->mockGetFieldIdsByType(['ezimage' => [4]], 'eng-GB');
+        $this->expectExternalStorageDataDeleted('ibexa_image', [4]);
 
         $fieldHandler->deleteTranslationFromVersionFields($versionInfo, 'eng-GB');
     }
@@ -930,20 +904,42 @@ class FieldHandlerTest extends LanguageAwareTestCase
             'versionNo' => 2,
         ]);
 
+        $this->mockGetFieldIdsByType(['ezuser' => [5]], 'eng-GB');
+        $this->expectExternalStorageDataDeleted('ibexa_user', [5]);
+
+        $fieldHandler->deleteTranslationFromContentFields(42, [$versionInfo], 'eng-GB');
+    }
+
+    /**
+     * @param array<string, int[]> $fieldIdsByType
+     */
+    private function mockGetFieldIdsByType(array $fieldIdsByType, ?string $languageCode = null): void
+    {
+        $arguments = [self::equalTo(42), self::equalTo(2)];
+        if (null !== $languageCode) {
+            $arguments[] = self::equalTo($languageCode);
+        }
+
         $this->getContentGatewayMock()->expects(self::once())
             ->method('getFieldIdsByType')
-            ->with(self::equalTo(42), self::equalTo(2), self::equalTo('eng-GB'))
-            ->willReturn(['ezuser' => [5]]);
+            ->with(...$arguments)
+            ->willReturn($fieldIdsByType);
+    }
 
+    /**
+     * @param int[] $expectedFieldIds
+     */
+    private function expectExternalStorageDataDeleted(
+        string $expectedFieldTypeIdentifier,
+        array $expectedFieldIds
+    ): void {
         $this->getStorageHandlerMock()->expects(self::once())
             ->method('deleteFieldData')
             ->with(
-                self::equalTo('ibexa_user'),
+                self::equalTo($expectedFieldTypeIdentifier),
                 self::isInstanceOf(VersionInfo::class),
-                self::equalTo([5])
+                self::equalTo($expectedFieldIds)
             );
-
-        $fieldHandler->deleteTranslationFromContentFields(42, [$versionInfo], 'eng-GB');
     }
 
     /**
