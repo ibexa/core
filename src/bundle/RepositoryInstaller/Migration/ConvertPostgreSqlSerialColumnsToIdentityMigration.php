@@ -23,8 +23,9 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  * sequence. The install migrations, which a 6.0 install runs too, are the ones from 4.6 and 5.0, so
  * they created these as SERIAL, and a database upgraded from 5.0 keeps them.
  * sql/convert-serial-columns-to-identity-postgresql.sql turns each SERIAL column into an identity
- * column that carries on from its sequence's current value, drops the old sequence, and skips a
- * column that's no longer SERIAL.
+ * column that carries on from its sequence's current value, and drops the old sequence. The file is
+ * skipped when the columns are identity columns already, as on a database a 6.0 SchemaBuilderEvent
+ * install created.
  *
  * This is kept apart from the other 6.0 migrations on purpose: SERIAL columns work the same for
  * inserts, so leaving this one out keeps them as they are.
@@ -50,8 +51,24 @@ final class ConvertPostgreSqlSerialColumnsToIdentityMigration extends AbstractSq
     {
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
-        if ($this->isPostgreSQL()) {
-            $this->addSqlFile(__DIR__ . '/sql/convert-serial-columns-to-identity-postgresql.sql');
+        if (!$this->isPostgreSQL()) {
+            return;
         }
+
+        if ($this->areColumnsConverted($schema)) {
+            return;
+        }
+
+        $this->addSqlFile(__DIR__ . '/sql/convert-serial-columns-to-identity-postgresql.sql');
+    }
+
+    /**
+     * Doctrine DBAL 4 reports only identity columns as autoincrement; a SERIAL column comes back
+     * with its nextval() default instead. PostgreSQL runs the migration in one transaction, so the
+     * columns are either all converted or none is, and the first one tells which.
+     */
+    private function areColumnsConverted(Schema $schema): bool
+    {
+        return $schema->getTable('ibexa_content')->getColumn('id')->getAutoincrement();
     }
 }
