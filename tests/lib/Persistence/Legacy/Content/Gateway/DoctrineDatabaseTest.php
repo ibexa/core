@@ -31,7 +31,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
  */
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
-    private const RELATION_FIELD_TYPE_ALIASES = [
+    private const array RELATION_FIELD_TYPE_ALIASES = [
         'ezimageasset' => 'ibexa_image_asset',
         'ezobjectrelation' => 'ibexa_object_relation',
         'ezobjectrelationlist' => 'ibexa_object_relation_list',
