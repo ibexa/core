@@ -127,7 +127,11 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         // Base services and services overrides
         $loader->load('services.yml');
         // Doctrine Migrations for core's own schema, alongside the legacy SchemaBuilderEvent path
-        $loader->load('doctrine_migrations.yml');
+        $phpLoader = new Loader\PhpFileLoader(
+            $container,
+            new FileLocator(__DIR__ . '/../Resources/config')
+        );
+        $phpLoader->load('doctrine_migrations.php');
         // Security services
         $loader->load('security.yml');
         // HTTP Kernel
