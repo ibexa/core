@@ -31,7 +31,7 @@ final class RemoveTaggedMigrationsRunnerPass implements CompilerPassInterface
      * @var list<string> definitions that cannot survive without a real DependencyFactory, in
      *                   dependent-first order
      */
-    private const DEFINITIONS = [
+    private const array DEFINITIONS = [
         DoctrineMigrationsSchemaHook::class,
         TaggedMigrationsRunner::class,
     ];

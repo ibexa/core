@@ -54,9 +54,9 @@ final class DoctrineMigrationsSchemaHook implements HookInterface
      * ("table already exists" out of the migrations) rather than in whichever order the tag
      * collection happened to produce.
      */
-    public const PRIORITY = 990;
+    public const int PRIORITY = 990;
 
-    public const OPTION_INSTALL_SCHEMA = 'install_schema';
+    public const string OPTION_INSTALL_SCHEMA = 'install_schema';
 
     private TaggedMigrationsRunner $taggedMigrationsRunner;
 

@@ -30,7 +30,7 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 final class ConvertMariaDbJsonColumnsTo6_0Migration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
     /** The columns sql/convert-json-columns-to-6-0-mariadb.sql converts, by table. */
-    private const JSON_COLUMNS = [
+    private const array JSON_COLUMNS = [
         'ibexa_setting' => 'value',
     ];
 
