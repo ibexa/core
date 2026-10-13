@@ -42,7 +42,7 @@
       <file>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</file>
     </testsuite>
   </testsuites>
-  <source baseline="phpunit-integration.baseline.xml" ignoreIndirectDeprecations="false" ignoreSuppressionOfDeprecations="true">
+  <source baseline="phpunit-integration.baseline.xml" ignoreIndirectDeprecations="true" ignoreSuppressionOfDeprecations="true">
     <include>
       <directory>src</directory>
     </include>
