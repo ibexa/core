@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Values\User;
 
 use Ibexa\Contracts\Core\FieldType\Value;
+use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
@@ -151,11 +152,7 @@ class UserGroup extends APIUserGroup
                 return $this->getThumbnail();
 
             case 'content':
-                // trigger error for this, but for BC let it pass on to normal __get lookup for now
-                @trigger_error(
-                    sprintf('%s is an internal property, usage is deprecated as of 6.10. User Group itself exposes everything needed.', $property),
-                    E_USER_DEPRECATED
-                );
+                throw new PropertyNotFoundException($property, static::class);
         }
 
         return parent::__get($property);
@@ -170,6 +167,10 @@ class UserGroup extends APIUserGroup
      */
     public function __isset($property)
     {
+        if ($property === 'content') {
+            return false;
+        }
+
         if ($property === 'contentInfo') {
             return true;
         }
