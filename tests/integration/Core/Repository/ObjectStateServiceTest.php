@@ -766,8 +766,13 @@ class ObjectStateServiceTest extends BaseTestCase
             $allObjectGroups
         ) = $testData;
 
-        $this->assertStructPropertiesCorrect(
-            $groupUpdateStruct,
+        $this->assertPropertiesCorrect(
+            [
+                'identifier' => $groupUpdateStruct->identifier,
+                'mainLanguageCode' => $groupUpdateStruct->defaultLanguageCode,
+                'names' => $groupUpdateStruct->names,
+                'descriptions' => $groupUpdateStruct->descriptions,
+            ],
             $updatedObjectStateGroup
         );
 
@@ -937,8 +942,14 @@ class ObjectStateServiceTest extends BaseTestCase
             $createdObjectState
         ) = $testData;
 
-        $this->assertStructPropertiesCorrect(
-            $objectStateCreateStruct,
+        $this->assertPropertiesCorrect(
+            [
+                'identifier' => $objectStateCreateStruct->identifier,
+                'priority' => $objectStateCreateStruct->priority,
+                'mainLanguageCode' => $objectStateCreateStruct->defaultLanguageCode,
+                'names' => $objectStateCreateStruct->names,
+                'descriptions' => $objectStateCreateStruct->descriptions,
+            ],
             $createdObjectState
         );
 
@@ -1131,7 +1142,7 @@ class ObjectStateServiceTest extends BaseTestCase
         );
 
         foreach ($objectStateGroups as $objectStateGroup) {
-            $languageCode = $expectedLanguageCode === null ? $objectStateGroup->defaultLanguageCode : $expectedLanguageCode;
+            $languageCode = $expectedLanguageCode === null ? $objectStateGroup->mainLanguageCode : $expectedLanguageCode;
 
             self::assertEquals(
                 $objectStateGroup->getName($languageCode),
@@ -1167,7 +1178,7 @@ class ObjectStateServiceTest extends BaseTestCase
         );
 
         if ($expectedLanguageCode === null) {
-            $expectedLanguageCode = $loadedObjectStateGroup->defaultLanguageCode;
+            $expectedLanguageCode = $loadedObjectStateGroup->mainLanguageCode;
         }
 
         self::assertEquals(
@@ -1203,7 +1214,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $loadedObjectState = $objectStateService->loadObjectState($objectState->id, $prioritizedLanguages);
 
         if ($expectedLanguageCode === null) {
-            $expectedLanguageCode = $objectState->defaultLanguageCode;
+            $expectedLanguageCode = $objectState->mainLanguageCode;
         }
 
         self::assertEquals(
@@ -1580,7 +1591,7 @@ class ObjectStateServiceTest extends BaseTestCase
         );
         self::assertEquals('sindelfingen', $initialObjectState->identifier);
         self::assertEquals(['eng-GB' => 'Sindelfingen'], $initialObjectState->names);
-        self::assertEquals('eng-GB', $initialObjectState->defaultLanguageCode);
+        self::assertEquals('eng-GB', $initialObjectState->mainLanguageCode);
     }
 
     /**

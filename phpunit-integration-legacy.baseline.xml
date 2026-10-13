@@ -1,15 +1,5 @@
 <?xml version="1.0"?>
 <files version="1">
- <file path="src/lib/Repository/Values/ObjectState/ObjectState.php">
-  <line number="59" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
-   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectState::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
-  </line>
- </file>
- <file path="src/lib/Repository/Values/ObjectState/ObjectStateGroup.php">
-  <line number="43" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
-   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
-  </line>
- </file>
  <file path="src/lib/Repository/Values/User/User.php">
   <line number="146" hash="18671e9722365609a0d9f39f1e98e669502bf100">
    <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>

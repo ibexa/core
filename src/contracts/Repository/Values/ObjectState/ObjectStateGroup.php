@@ -18,7 +18,6 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @property-read mixed $id the id of the content type group
  * @property-read string $identifier the identifier of the content type group
  * @property-read string $mainLanguageCode the default language of the object state group names and description used for fallback.
- * @property-read string $defaultLanguageCode the default language code.
  * @property-read string[] $languageCodes the available languages
  */
 abstract class ObjectStateGroup extends ValueObject implements MultiLanguageName, MultiLanguageDescription
@@ -36,13 +35,6 @@ abstract class ObjectStateGroup extends ValueObject implements MultiLanguageName
      * @var string
      */
     protected $identifier;
-
-    /**
-     * The default language code.
-     *
-     * @var string
-     */
-    protected $defaultLanguageCode;
 
     /**
      * The available language codes for names an descriptions.

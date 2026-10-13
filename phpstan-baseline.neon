@@ -15823,12 +15823,6 @@ parameters:
 			path: src/lib/Repository/NameSchema/NameSchemaService.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$defaultLanguageCode\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/Repository/ObjectStateService.php
-
-		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$prioritizedLanguages\.$#'
 			identifier: property.notFound
 			count: 1
@@ -26153,12 +26147,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: tests/integration/Core/Repository/NonRedundantFieldSetTest.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$defaultLanguageCode\.$#'
-			identifier: property.notFound
-			count: 2
-			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
 
 		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$names\.$#'
@@ -38071,20 +38059,8 @@ parameters:
 			path: tests/lib/Repository/Values/Filter/FilterTest.php
 
 		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroupTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:\$defaultLanguageCode \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
 			count: 1
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
 
