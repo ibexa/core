@@ -25543,12 +25543,6 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/UrlIntegrationTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User\:\:\$content\.$#'
-			identifier: property.notFound
-			count: 2
-			path: tests/integration/Core/Repository/FieldType/UserIntegrationTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\UserIntegrationTest\:\:assertCopiedFieldDataLoadedCorrectly\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1

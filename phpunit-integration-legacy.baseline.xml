@@ -1,8 +1,2 @@
 <?xml version="1.0"?>
-<files version="1">
- <file path="src/lib/Repository/Values/User/User.php">
-  <line number="146" hash="18671e9722365609a0d9f39f1e98e669502bf100">
-   <issue><![CDATA[content is an internal property, usage is deprecated as of 6.10. User itself exposes everything needed.]]></issue>
-  </line>
- </file>
-</files>
+<files version="1"/>
