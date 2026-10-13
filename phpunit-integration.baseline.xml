@@ -3,7 +3,6 @@
  <file path="src/bundle/Core/DependencyInjection/Compiler/SlugConverterConfigurationPass.php">
   <line number="62" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
    <issue><![CDATA[Relying on default url_alias.slug_converter.transformation setting ("urlalias") is deprecated and might change in the next major. Set it explicitly to one of the following: urlalias, urlalias_iri, urlalias_compat, urlalias_lowercase]]></issue>
-   <issue><![CDATA[Relying on default url_alias.slug_converter.transformation setting ("urlalias") is deprecated and might change in the next major. Set it explicitly to one of the following: urlalias, urlalias_iri, urlalias_compat, urlalias_lowercase]]></issue>
   </line>
  </file>
 </files>
