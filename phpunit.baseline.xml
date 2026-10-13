@@ -10,19 +10,6 @@
    <issue><![CDATA[preg_match(): Passing null to parameter #2 ($subject) of type string is deprecated]]></issue>
   </line>
  </file>
- <file path="src/lib/Repository/Values/ObjectState/ObjectState.php">
-  <line number="59" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
-   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectState::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
-  </line>
- </file>
- <file path="src/lib/Repository/Values/ObjectState/ObjectStateGroup.php">
-  <line number="43" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
-   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
-  </line>
-  <line number="57" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
-   <issue><![CDATA[Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::$defaultLanguageCode is deprecated. Use mainLanguageCode]]></issue>
-  </line>
- </file>
  <file path="vendor/symfony/deprecation-contracts/function.php">
   <line number="25" hash="c6af5d66288d0667e424978000f29571e4954b81">
    <issue><![CDATA[Since ibexa/core 4.6: Passing Ibexa\Contracts\Core\Persistence\Content\Type instead of Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as 2nd argument of Ibexa\Core\Repository\Mapper\ContentDomainMapper::buildDomainFields() method is deprecated and will cause a fatal error in 5.0. Build Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType using Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper::buildContentTypeDomainObject prior passing it to the method]]></issue>
