@@ -64,6 +64,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Collector\ContentCollector;
+use Ibexa\Core\Repository\Helper\DefaultObjectState;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
@@ -872,10 +873,11 @@ class ContentService implements ContentServiceInterface
         $objectStateHandler = $this->persistenceHandler->objectStateHandler();
 
         foreach ($objectStateHandler->loadAllGroups() as $objectStateGroup) {
-            foreach ($objectStateHandler->loadObjectStates($objectStateGroup->id) as $objectState) {
-                // Only register the first object state which is the default one.
-                $defaultObjectStatesMap[$objectStateGroup->id] = $objectState;
-                break;
+            $defaultObjectState = DefaultObjectState::fromGroupStates(
+                $objectStateHandler->loadObjectStates($objectStateGroup->id)
+            );
+            if ($defaultObjectState !== null) {
+                $defaultObjectStatesMap[$objectStateGroup->id] = $defaultObjectState;
             }
         }
 
