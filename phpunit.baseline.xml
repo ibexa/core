@@ -1,8 +1,3 @@
 <?xml version="1.0"?>
 <files version="1">
- <file path="src/lib/Limitation/ObjectStateLimitationType.php">
-  <line number="151" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
-   <issue><![CDATA[Passing ContentCreateStruct to ObjectStateLimitationType is deprecated  and will throw an error in Ibexa 5.0]]></issue>
-  </line>
- </file>
 </files>
