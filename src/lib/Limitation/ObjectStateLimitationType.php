@@ -26,6 +26,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Repository\Helper\DefaultObjectState;
 use RuntimeException;
 
 /**
@@ -304,17 +305,15 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
         $stateGroups = $objectStateHandler->loadAllGroups();
         foreach ($stateGroups as $stateGroup) {
             $states = $objectStateHandler->loadObjectStates($stateGroup->id);
-            if (empty($states)) {
+            // New Content gets the default State, same as in ContentService::createContent()
+            $defaultState = DefaultObjectState::fromGroupStates($states);
+            if ($defaultState === null) {
                 continue;
             }
 
-            // Same as ContentService::getDefaultObjectStates(): new Content gets the first State (the lowest priority)
-            $defaultStateId = reset($states)->id;
-
             foreach ($states as $state) {
-                // check using loose types as limitation values are strings and id's can be int
                 if (in_array($state->id, $limitationValues, true)) {
-                    $objectStateIdsToVerify[] = $defaultStateId;
+                    $objectStateIdsToVerify[] = $defaultState->id;
                 }
             }
         }
