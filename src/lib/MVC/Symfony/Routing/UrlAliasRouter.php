@@ -212,7 +212,8 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
             $path = mb_substr($path, mb_strlen($prefix));
         }
 
-        return $path;
+        // Path equal to the prefix points to the tree root, which is served at "/"
+        return $path === '' ? '/' : $path;
     }
 
     /**
