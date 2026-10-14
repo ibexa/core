@@ -8,8 +8,6 @@
 namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
-use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
-use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -25,7 +23,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
-use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\ValidationError;
@@ -148,12 +145,6 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
                 $limitationValues
             );
         } else {
-            @trigger_error(
-                'Passing ContentCreateStruct to ObjectStateLimitationType is deprecated ' .
-                ' and will throw an error in Ibexa 5.0',
-                E_USER_DEPRECATED
-            );
-
             $objectStateIdsToVerify = $this->getObjectStateIdsForContentCreate(
                 $objectStateHandler,
                 $limitationValues
@@ -304,8 +295,6 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      * @param int[] $limitationValues Limitation Object State IDs
      *
      * @return int[] Object State IDs to verify
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     private function getObjectStateIdsForContentCreate(
         Handler $objectStateHandler,
@@ -319,7 +308,8 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
                 continue;
             }
 
-            $defaultStateId = $this->getDefaultStateId($states, $stateGroup);
+            // Same as ContentService::getDefaultObjectStates(): new Content gets the first State (the lowest priority)
+            $defaultStateId = reset($states)->id;
 
             foreach ($states as $state) {
                 // check using loose types as limitation values are strings and id's can be int
@@ -330,34 +320,6 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
         }
 
         return $objectStateIdsToVerify;
-    }
-
-    /**
-     * @param ObjectState[] $states
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     */
-    private function getDefaultStateId(
-        array $states,
-        Group $stateGroup
-    ): int {
-        $defaultStateId = null;
-        $defaultStatePriority = -1;
-        foreach ($states as $state) {
-            if ($state->priority > $defaultStatePriority) {
-                $defaultStateId = $state->id;
-                $defaultStatePriority = $state->priority;
-            }
-        }
-
-        if ($defaultStateId === null) {
-            throw new BadStateException(
-                '$defaultStateId',
-                "Could not find a default state for object state group {$stateGroup->id}"
-            );
-        }
-
-        return $defaultStateId;
     }
 
     private function getObjectStateIdsToVerify(
