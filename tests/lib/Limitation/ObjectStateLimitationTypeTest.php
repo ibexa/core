@@ -56,15 +56,15 @@ class ObjectStateLimitationTypeTest extends Base
             [
                 1,
                 [
-                    new ObjectState(['id' => 1, 'priority' => 0]),
-                    new ObjectState(['id' => 2, 'priority' => 1]),
+                    new ObjectState(['id' => 1, 'priority' => 1]),
+                    new ObjectState(['id' => 2, 'priority' => 0]),
                 ],
             ],
             [
                 2,
                 [
-                    new ObjectState(['id' => 3, 'priority' => 0]),
-                    new ObjectState(['id' => 4, 'priority' => 1]),
+                    new ObjectState(['id' => 3, 'priority' => 1]),
+                    new ObjectState(['id' => 4, 'priority' => 0]),
                 ],
             ],
         ];
@@ -172,13 +172,13 @@ class ObjectStateLimitationTypeTest extends Base
                 'object' => new ContentInfo(['id' => 1, 'mainLocationId' => 2, 'published' => true]),
                 'expected' => false,
             ],
-            'ContentCreateStruct, with access' => [
-                'limitation' => new ObjectStateLimitation(['limitationValues' => [1, 3]]),
+            'ContentCreateStruct, Limitation on the default (lowest priority) States, with access' => [
+                'limitation' => new ObjectStateLimitation(['limitationValues' => [2, 4]]),
                 'object' => new ContentCreateStruct(),
                 'expected' => true,
             ],
-            'ContentCreateStruct, no access' => [
-                'limitation' => new ObjectStateLimitation(['limitationValues' => [2, 4]]),
+            'ContentCreateStruct, Limitation on non-default States, no access' => [
+                'limitation' => new ObjectStateLimitation(['limitationValues' => [1, 3]]),
                 'object' => new ContentCreateStruct(),
                 'expected' => false,
             ],
