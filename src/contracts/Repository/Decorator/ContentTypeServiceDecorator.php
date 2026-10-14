@@ -52,9 +52,9 @@ abstract class ContentTypeServiceDecorator implements ContentTypeService
         return $this->innerService->loadContentTypeGroupByIdentifier($contentTypeGroupIdentifier, $prioritizedLanguages);
     }
 
-    public function loadContentTypeGroups(array $prioritizedLanguages = []): iterable
+    public function loadContentTypeGroups(array $prioritizedLanguages = [], bool $includeSystem = false): iterable
     {
-        return $this->innerService->loadContentTypeGroups($prioritizedLanguages);
+        return $this->innerService->loadContentTypeGroups($prioritizedLanguages, $includeSystem);
     }
 
     public function updateContentTypeGroup(
