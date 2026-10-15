@@ -29,7 +29,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
  * The corresponding {@see FieldType::fromHash()} method must convert such a
  * representation back into a value, which is understood by the FieldType.
  */
-abstract class FieldType
+abstract class FieldType implements Comparable
 {
     /**
      * Returns the field type identifier for this field type.

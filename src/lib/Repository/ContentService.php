@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
-use Ibexa\Contracts\Core\FieldType\Comparable;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Limitation\Target;
@@ -1737,22 +1736,7 @@ class ContentService implements ContentServiceInterface
         Value $value1,
         Value $value2
     ): bool {
-        if ($fieldType instanceof Comparable) {
-            return $fieldType->valuesEqual($value1, $value2);
-        } else {
-            @trigger_error(
-                \sprintf(
-                    'In eZ Platform 2.5 and 3.x %s should implement %s. ' .
-                    'Since the 4.0 major release FieldType\Comparable contract will be a part of %s',
-                    get_class($fieldType),
-                    Comparable::class,
-                    FieldType::class
-                ),
-                E_USER_DEPRECATED
-            );
-
-            return $fieldType->toHash($value1) === $fieldType->toHash($value2);
-        }
+        return $fieldType->valuesEqual($value1, $value2);
     }
 
     /**
