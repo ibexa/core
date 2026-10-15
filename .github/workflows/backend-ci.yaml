@@ -44,6 +44,12 @@ jobs:
                     - '7.4'
                     - '8.3'
                     - '8.4'
+                flysystem:
+                    - 'league/flysystem:^2.5'
+                    - 'league/flysystem:^3.36'
+                exclude:
+                    -   php: '7.4'
+                        flysystem: 'league/flysystem:^3.36'
 
         steps:
             -   uses: actions/checkout@v7
@@ -55,6 +61,7 @@ jobs:
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
                     satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+                    composer-options: "--with ${{ matrix.flysystem }}"
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
