@@ -56,19 +56,8 @@ class DownloadController extends Controller
         Request $request,
         int $contentId,
         int $fieldId,
-        ?string $filename = null
+        string $filename
     ): BinaryStreamResponse {
-        if ($filename === null) {
-            trigger_deprecation(
-                'ibexa/core',
-                '5.0',
-                'The "ibexa.content.download.field_id" route (/content/download/{contentId}/{fieldId}) is deprecated'
-                . ' and will be removed in 6.0.'
-                . ' Use the "ibexa.content.download.field_id.filename" route'
-                . ' (/content/download/{contentId}/{fieldId}/{filename}) instead.'
-            );
-        }
-
         $versionNo = $request->query->has('version') ? $request->query->getInt('version') : null;
         $language = $request->query->has('inLanguage') ? $request->query->get('inLanguage') : null;
 
@@ -83,7 +72,7 @@ class DownloadController extends Controller
             throw $this->createFileNotFoundException($e);
         }
 
-        if ($filename !== null && $field->value->fileName !== $filename) {
+        if ($field->value->fileName !== $filename) {
             throw $this->createFileNotFoundException();
         }
 

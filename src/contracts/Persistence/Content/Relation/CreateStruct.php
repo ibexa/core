@@ -9,6 +9,7 @@ namespace Ibexa\Contracts\Core\Persistence\Content\Relation;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 
 /**
  * CreateStruct representing a relation between content.
@@ -46,10 +47,10 @@ class CreateStruct extends ValueObject
     /**
      * Type bitmask.
      *
-     * @see Relation::COMMON
-     * @see Relation::EMBED
-     * @see Relation::LINK
-     * @see Relation::FIELD
+     * @see RelationType::COMMON
+     * @see RelationType::EMBED
+     * @see RelationType::LINK
+     * @see RelationType::FIELD
      *
      * @var int
      */

@@ -50,37 +50,33 @@ class SimplifiedRequest extends ValueObject
     /**
      * Hash of request headers.
      *
-     * @var array<string, array<string>>|null
+     * @var array<string, array<string|null>>|null
      */
     protected ?array $headers = null;
 
+    /**
+     * @param array<mixed>|null $queryParams
+     * @param string[]|null $languages
+     * @param array<string, array<string|null>>|null $headers
+     */
     public function __construct(
-        //string $scheme = 'http', string $host = '', int $port = 80, string $pathinfo = '', array $queryParams = [], array $languages = [], array $headers = []
+        ?string $scheme = null,
+        ?string $host = null,
+        int | string | null $port = null,
+        ?string $pathinfo = null,
+        ?array $queryParams = null,
+        ?array $languages = null,
+        ?array $headers = null
     ) {
-        $args = func_get_args();
+        parent::__construct();
 
-        if (
-            empty($args) ||
-            (func_num_args() === 1 && is_array($args[0]))
-        ) {
-            if (!empty($args)) {
-                trigger_deprecation(
-                    'ibexa/core',
-                    '5.0',
-                    'The signature of method "%s()" now requires explicit arguments: "string $scheme, string $host, string $port, string $pathinfo, array $queryParams, array $languages, array $headers", using ValueObject array constructor is deprecated.',
-                    __METHOD__
-                );
-            }
-            parent::__construct($args[0] ?? []);
-        } else {
-            $this->scheme = $args[0] ?? null;
-            $this->host = $args[1] ?? null;
-            $this->port = isset($args[2]) ? (int)$args[2] : null;
-            $this->pathinfo = $args[3] ?? null;
-            $this->queryParams = $args[4] ?? null;
-            $this->languages = $args[5] ?? null;
-            $this->headers = $args[6] ?? null;
-        }
+        $this->scheme = $scheme;
+        $this->host = $host;
+        $this->port = $port !== null ? (int)$port : null;
+        $this->pathinfo = $pathinfo;
+        $this->queryParams = $queryParams;
+        $this->languages = $languages;
+        $this->headers = $headers;
     }
 
     /**
@@ -223,7 +219,7 @@ class SimplifiedRequest extends ValueObject
     }
 
     /**
-     * @return array<string>|null
+     * @return array<string|null>|null
      */
     public function getHeader(string $headerName): ?array
     {
@@ -231,7 +227,7 @@ class SimplifiedRequest extends ValueObject
     }
 
     /**
-     * @return array<string, array<string>>|null
+     * @return array<string, array<string|null>>|null
      */
     public function getHeaders(): ?array
     {

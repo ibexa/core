@@ -126,46 +126,6 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function loadUserBookmarks(
-        int $userId,
-        int $offset = 0,
-        int $limit = -1
-    ): array {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->select(...$this->getColumns())
-            ->from(self::TABLE_BOOKMARKS)
-            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
-            ->setFirstResult($offset);
-
-        if ($limit > 0) {
-            $query->setMaxResults($limit);
-        }
-
-        $query->orderBy(self::COLUMN_ID, 'DESC');
-        $query->setParameter('user_id', $userId, ParameterType::INTEGER);
-
-        return $query->executeQuery()->fetchAllAssociative();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function countUserBookmarks(int $userId): int
-    {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->select('COUNT(' . self::COLUMN_ID . ')')
-            ->from(self::TABLE_BOOKMARKS)
-            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
-            ->setParameter('user_id', $userId, ParameterType::INTEGER);
-
-        return (int) $query->executeQuery()->fetchOne();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function locationSwapped(
         int $location1Id,
         int $location2Id

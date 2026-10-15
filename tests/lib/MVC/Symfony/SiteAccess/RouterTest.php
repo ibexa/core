@@ -89,9 +89,7 @@ class RouterTest extends RouterBaseTestCase
         $request->headers->set('X-Siteaccess', self::HEADERBASED_SA_NAME);
         $sa = $router->match(
             new SimplifiedRequest(
-                [
-                    'headers' => $request->headers->all(),
-                ]
+                headers: $request->headers->all(),
             )
         );
         self::assertInstanceOf(SiteAccess::class, $sa);

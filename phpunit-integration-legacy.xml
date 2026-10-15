@@ -61,7 +61,7 @@
       <directory>tests/integration/RepositoryInstaller</directory>
     </testsuite>
   </testsuites>
-  <source baseline="phpunit-integration-legacy.baseline.xml" ignoreIndirectDeprecations="false" ignoreSuppressionOfDeprecations="true">
+  <source baseline="phpunit-integration-legacy.baseline.xml" ignoreIndirectDeprecations="true" ignoreSuppressionOfDeprecations="true">
     <include>
       <directory suffix=".php">tests/integration</directory>
     </include>

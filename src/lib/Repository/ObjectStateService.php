@@ -746,7 +746,7 @@ class ObjectStateService implements ObjectStateServiceInterface
             throw new InvalidArgumentValue('defaultLanguageCode', $defaultLanguageCode);
         }
 
-        $inputStruct->defaultLanguage = $defaultLanguageCode !== null ? $defaultLanguageCode : $objectState->defaultLanguageCode;
+        $inputStruct->defaultLanguage = $defaultLanguageCode !== null ? $defaultLanguageCode : $objectState->mainLanguageCode;
 
         if ($names !== null && (!is_array($names) || empty($names))) {
             throw new InvalidArgumentValue('names', $names);
@@ -815,7 +815,7 @@ class ObjectStateService implements ObjectStateServiceInterface
             throw new InvalidArgumentValue('defaultLanguageCode', $defaultLanguageCode);
         }
 
-        $inputStruct->defaultLanguage = $defaultLanguageCode !== null ? $defaultLanguageCode : $objectStateGroup->defaultLanguageCode;
+        $inputStruct->defaultLanguage = $defaultLanguageCode !== null ? $defaultLanguageCode : $objectStateGroup->mainLanguageCode;
 
         if ($names !== null && empty($names)) {
             throw new InvalidArgumentValue('names', $names);

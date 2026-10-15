@@ -14,7 +14,6 @@ use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as FilteringCriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder as FilteringSortClauseQueryBuilder;
-use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
@@ -343,10 +342,7 @@ class Legacy extends SetupFactory
             ->addTag(ServiceTags::FILTERING_SORT_CLAUSE_QUERY_BUILDER);
     }
 
-    /**
-     * @deprecated since Ibexa 4.0, rewrite a test case to use {@see IbexaKernelTestCase} instead.
-     */
-    public static function getInstallationDir(): string
+    private static function getInstallationDir(): string
     {
         // package root directory:
         $installationDir = realpath(__DIR__ . '/../../../../../');
@@ -357,10 +353,7 @@ class Legacy extends SetupFactory
         return $installationDir;
     }
 
-    /**
-     * @deprecated since Ibexa 4.0, rewrite a test case to use {@see IbexaKernelTestCase} instead.
-     */
-    public static function getCacheDir(): string
+    private static function getCacheDir(): string
     {
         return self::getInstallationDir() . '/var/cache';
     }

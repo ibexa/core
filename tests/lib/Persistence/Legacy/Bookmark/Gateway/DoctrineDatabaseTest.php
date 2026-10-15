@@ -14,7 +14,6 @@ use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 #[CoversClass(Gateway::class)]
 class DoctrineDatabaseTest extends TestCase
@@ -74,54 +73,6 @@ class DoctrineDatabaseTest extends TestCase
         );
 
         self::assertEquals([self::EXISTING_BOOKMARK_DATA], $data);
-    }
-
-    #[DataProvider('dataProviderForLoadUserBookmarks')]
-    public function testLoadUserBookmarks(
-        int $userId,
-        int $offset,
-        int $limit,
-        array $expected
-    ): void {
-        self::assertEquals($expected, $this->getGateway()->loadUserBookmarks($userId, $offset, $limit));
-    }
-
-    #[DataProvider('dataProviderForLoadUserBookmarks')]
-    public function testCountUserBookmarks(
-        int $userId,
-        int $offset,
-        int $limit,
-        array $expected
-    ): void {
-        self::assertEquals(count($expected), $this->getGateway()->countUserBookmarks($userId));
-    }
-
-    public static function dataProviderForLoadUserBookmarks(): array
-    {
-        $fixtures = (require __DIR__ . '/../_fixtures/bookmarks.php')[DoctrineDatabase::TABLE_BOOKMARKS];
-
-        $expectedRows = static function ($userId) use ($fixtures): array {
-            $rows = array_filter($fixtures, static function (array $row) use ($userId): bool {
-                return $row['user_id'] == $userId;
-            });
-
-            usort($rows, static function (
-                $a,
-                $b
-            ): int {
-                return $b['id'] <=> $a['id'];
-            });
-
-            return $rows;
-        };
-
-        $userId = self::EXISTING_BOOKMARK_DATA['user_id'];
-
-        return [
-            [
-                $userId, 0, 10, $expectedRows($userId),
-            ],
-        ];
     }
 
     public function testLocationSwapped(): void

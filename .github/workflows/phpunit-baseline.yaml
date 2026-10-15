@@ -1,0 +1,14 @@
+name: Regenerate PHPUnit baselines
+
+on:
+    workflow_dispatch: ~
+
+jobs:
+    phpunit-baseline:
+        name: Regenerate PHPUnit baselines
+        uses: ibexa/gh-workflows/.github/workflows/phpunit-baseline.yml@main
+        secrets:
+            AUTOMATION_CLIENT_ID: ${{ secrets.AUTOMATION_CLIENT_ID }}
+            AUTOMATION_CLIENT_SECRET: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+            SATIS_NETWORK_KEY: ${{ secrets.SATIS_NETWORK_KEY }}
+            SATIS_NETWORK_TOKEN: ${{ secrets.SATIS_NETWORK_TOKEN }}
