@@ -6835,54 +6835,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Controller/Content/QueryController.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has parameter \$contentId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has parameter \$locationId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has parameter \$params with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has parameter \$viewType with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:performAccessChecks\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:renderContent\(\) has parameter \$params with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:renderLocation\(\) has parameter \$params with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
 			message: '#^Call to an undefined method object\:\:getCurrentRequest\(\)\.$#'
 			identifier: method.notFound
 			count: 1
