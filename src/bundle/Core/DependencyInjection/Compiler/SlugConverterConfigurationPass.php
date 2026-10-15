@@ -59,14 +59,10 @@ class SlugConverterConfigurationPass implements CompilerPassInterface
         }
 
         if (empty($mergedConfiguration['transformation'])) {
-            @trigger_error(
-                sprintf(
-                    'Relying on default url_alias.slug_converter.transformation setting ("%s") is deprecated and might change in the next major. Set it explicitly to one of the following: %s',
-                    SlugConverter::DEFAULT_CONFIGURATION['transformation'],
-                    implode(', ', array_keys($transformationGroups))
-                ),
-                E_USER_DEPRECATED
-            );
+            throw new InvalidConfigurationException(sprintf(
+                "The 'ibexa.url_alias.slug_converter.transformation' setting is required. Set it to one of: '%s'",
+                implode("', '", array_keys($mergedConfiguration['transformationGroups'] ?? $transformationGroups))
+            ));
         }
 
         $slugConverterDefinition->setArgument(1, $mergedConfiguration);
