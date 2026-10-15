@@ -15,17 +15,19 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class InteractiveLoginEvent extends Event
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var APIUser */
     private $apiUser;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
+    /** @var Request */
     private $request;
 
-    /** @var \Symfony\Component\Security\Core\Authentication\Token\TokenInterface */
+    /** @var TokenInterface */
     private $authenticationToken;
 
-    public function __construct(Request $request, TokenInterface $authenticationToken)
-    {
+    public function __construct(
+        Request $request,
+        TokenInterface $authenticationToken
+    ) {
         $this->request = $request;
         $this->authenticationToken = $authenticationToken;
     }
@@ -53,7 +55,7 @@ class InteractiveLoginEvent extends Event
     /**
      * Injects an API user to be injected in the repository.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $apiUser
+     * @param APIUser $apiUser
      */
     public function setApiUser(APIUser $apiUser): void
     {
@@ -61,7 +63,7 @@ class InteractiveLoginEvent extends Event
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      */
     public function getAPIUser(): APIUser
     {

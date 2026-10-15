@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -19,8 +20,11 @@ class RouterMapURITest extends TestCase
      *
      * @dataProvider setRequestProvider
      */
-    public function testSetGetRequest($config, $pathinfo, $expectedMapKey)
-    {
+    public function testSetGetRequest(
+        $config,
+        $pathinfo,
+        $expectedMapKey
+    ) {
         $request = new SimplifiedRequest(['pathinfo' => $pathinfo]);
         $matcher = new URIMapMatcher($config);
         $matcher->setRequest($request);
@@ -34,8 +38,10 @@ class RouterMapURITest extends TestCase
      *
      * @dataProvider fixupURIProvider
      */
-    public function testAnalyseURI($uri, $expectedFixedUpURI)
-    {
+    public function testAnalyseURI(
+        $uri,
+        $expectedFixedUpURI
+    ) {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $uri])
@@ -52,8 +58,10 @@ class RouterMapURITest extends TestCase
      *
      * @dataProvider fixupURIProvider
      */
-    public function testAnalyseLink($fullUri, $linkUri)
-    {
+    public function testAnalyseLink(
+        $fullUri,
+        $linkUri
+    ) {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $fullUri])

@@ -12,6 +12,7 @@ namespace Ibexa\Contracts\Core\Collection;
  * @template TValue
  *
  * @template-extends \Ibexa\Contracts\Core\Collection\ArrayList<TValue>
+ *
  * @template-implements \Ibexa\Contracts\Core\Collection\MutableListInterface<TValue>
  */
 class MutableArrayList extends ArrayList implements MutableListInterface
@@ -44,7 +45,7 @@ class MutableArrayList extends ArrayList implements MutableListInterface
      *
      * @phpstan-param TValueFrom[] $items
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Collection\MutableArrayList<TValueFrom>
+     * @phpstan-return MutableArrayList<TValueFrom>
      */
     protected function createFrom(array $items): MutableArrayList
     {

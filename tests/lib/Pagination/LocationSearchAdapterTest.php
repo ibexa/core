@@ -4,22 +4,27 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Pagination;
 
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Core\Pagination\Pagerfanta\LocationSearchAdapter;
 
 class LocationSearchAdapterTest extends LocationSearchHitAdapterTest
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
-     * @param \Ibexa\Contracts\Core\Repository\SearchService $searchService
+     * @param LocationQuery $query
+     * @param SearchService $searchService
      *
-     * @return \Ibexa\Core\Pagination\Pagerfanta\LocationSearchAdapter
+     * @return LocationSearchAdapter
      */
-    protected function getAdapter(LocationQuery $query, SearchService $searchService, array $languageFilter = [])
-    {
+    protected function getAdapter(
+        LocationQuery $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         return new LocationSearchAdapter($query, $searchService, $languageFilter);
     }
 
@@ -34,7 +39,7 @@ class LocationSearchAdapterTest extends LocationSearchHitAdapterTest
     {
         $expectedResult = [];
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit[] $hits */
+        /** @var SearchHit[] $hits */
         foreach ($hits as $hit) {
             $expectedResult[] = $hit->valueObject;
         }

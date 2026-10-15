@@ -8,6 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
@@ -33,7 +37,7 @@ class Query extends ValueObject implements QueryValidatorInterface
      * Can contain multiple criterion, as items of a logical one (by default
      * AND)
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     * @var Criterion
      */
     public $filter;
 
@@ -46,14 +50,14 @@ class Query extends ValueObject implements QueryValidatorInterface
      * Can contain multiple criterion, as items of a logical one (by default
      * AND). Defaults to MatchAll.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     * @var Criterion
      */
     public $query;
 
     /**
      * Query sorting clauses.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
+     * @var SortClause[]
      */
     public $sortClauses = [];
 
@@ -63,12 +67,12 @@ class Query extends ValueObject implements QueryValidatorInterface
      * Search engines may ignore any, or given facet builders they don't support and will just return search result
      * facets supported by the engine. API consumer should dynamically iterate over returned facets for further use.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[]
+     * @var FacetBuilder[]
      */
     public $facetBuilders = [];
 
     /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation[]
+     * @var Aggregation[]
      */
     public $aggregations = [];
 

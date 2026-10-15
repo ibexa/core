@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Pagination\Pagerfanta;
 
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -17,16 +18,22 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
  */
 class LocationSearchHitAdapter extends AbstractSearchResultAdapter
 {
-    public function __construct(LocationQuery $query, SearchService $searchService, array $languageFilter = [])
-    {
+    public function __construct(
+        LocationQuery $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         parent::__construct($query, $searchService, $languageFilter);
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
+     * @param LocationQuery $query
      */
-    protected function executeQuery(SearchService $searchService, Query $query, array $languageFilter): SearchResult
-    {
+    protected function executeQuery(
+        SearchService $searchService,
+        Query $query,
+        array $languageFilter
+    ): SearchResult {
         return $searchService->findLocations($query, $languageFilter);
     }
 }

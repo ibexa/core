@@ -39,8 +39,10 @@ final class Context implements OptionsBag, ArrayAccess
      *
      * @return mixed|null
      */
-    public function get(string $key, $default = null)
-    {
+    public function get(
+        string $key,
+        $default = null
+    ) {
         if ($this->has($key)) {
             return $this->data[$key];
         }
@@ -67,8 +69,10 @@ final class Context implements OptionsBag, ArrayAccess
         return $this->get($offset);
     }
 
-    public function offsetSet($offset, $value): void
-    {
+    public function offsetSet(
+        $offset,
+        $value
+    ): void {
         $this->data[$offset] = $value;
     }
 

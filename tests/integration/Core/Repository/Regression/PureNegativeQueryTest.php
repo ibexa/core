@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
@@ -215,11 +216,13 @@ class PureNegativeQueryTest extends BaseTest
     /**
      * @dataProvider providerForTestMatchAll
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param int $totalCount
      */
-    public function testMatchAllContentInfoQuery($criterion, $totalCount)
-    {
+    public function testMatchAllContentInfoQuery(
+        $criterion,
+        $totalCount
+    ) {
         $query = new Query(
             [
                 'query' => $criterion,
@@ -234,11 +237,13 @@ class PureNegativeQueryTest extends BaseTest
     /**
      * @dataProvider providerForTestMatchAll
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param int $totalCount
      */
-    public function testMatchAllContentInfoFilter($criterion, $totalCount)
-    {
+    public function testMatchAllContentInfoFilter(
+        $criterion,
+        $totalCount
+    ) {
         $query = new Query(
             [
                 'filter' => $criterion,
@@ -253,11 +258,13 @@ class PureNegativeQueryTest extends BaseTest
     /**
      * @dataProvider providerForTestMatchAll
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param int $totalCount
      */
-    public function testMatchAllLocationQuery($criterion, $totalCount)
-    {
+    public function testMatchAllLocationQuery(
+        $criterion,
+        $totalCount
+    ) {
         $query = new LocationQuery(
             [
                 'query' => $criterion,
@@ -272,11 +279,13 @@ class PureNegativeQueryTest extends BaseTest
     /**
      * @dataProvider providerForTestMatchAll
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param int $totalCount
      */
-    public function testMatchAllLocationFilter($criterion, $totalCount)
-    {
+    public function testMatchAllLocationFilter(
+        $criterion,
+        $totalCount
+    ) {
         $query = new LocationQuery(
             [
                 'filter' => $criterion,

@@ -19,7 +19,7 @@ abstract class Gateway
     /**
      * Insert a bookmark.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark $bookmark
+     * @param Bookmark $bookmark
      *
      * @return int ID
      */
@@ -40,7 +40,10 @@ abstract class Gateway
      *
      * @return array
      */
-    abstract public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationIds): array;
+    abstract public function loadBookmarkDataByUserIdAndLocationId(
+        int $userId,
+        array $locationIds
+    ): array;
 
     /**
      * Load user ids by the given $location.
@@ -60,7 +63,11 @@ abstract class Gateway
      *
      * @return array
      */
-    abstract public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array;
+    abstract public function loadUserBookmarks(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array;
 
     /**
      * Count bookmarks owned by given $userId.
@@ -79,7 +86,10 @@ abstract class Gateway
      * @param int $location1Id ID of first location
      * @param int $location2Id ID of second location
      */
-    abstract public function locationSwapped(int $location1Id, int $location2Id): void;
+    abstract public function locationSwapped(
+        int $location1Id,
+        int $location2Id
+    ): void;
 }
 
 class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Bookmark\Gateway');

@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\SiteAccess;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder as BaseMatcherBuilder;
 
@@ -14,7 +16,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder as BaseMatcherBuilder;
  */
 final class MatcherBuilder extends BaseMatcherBuilder
 {
-    /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface */
+    /** @var SiteAccessMatcherRegistryInterface */
     protected $siteAccessMatcherRegistry;
 
     public function __construct(SiteAccessMatcherRegistryInterface $siteAccessMatcherRegistry)
@@ -28,14 +30,17 @@ final class MatcherBuilder extends BaseMatcherBuilder
      *
      * @param $matchingClass
      * @param $matchingConfiguration
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      *
-     * @return \Ibexa\Bundle\Core\SiteAccess\Matcher
+     * @return Matcher
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function buildMatcher($matchingClass, $matchingConfiguration, SimplifiedRequest $request)
-    {
+    public function buildMatcher(
+        $matchingClass,
+        $matchingConfiguration,
+        SimplifiedRequest $request
+    ) {
         if (strpos($matchingClass, '@') === 0) {
             $matcher = $this->siteAccessMatcherRegistry->getMatcher(substr($matchingClass, 1));
 

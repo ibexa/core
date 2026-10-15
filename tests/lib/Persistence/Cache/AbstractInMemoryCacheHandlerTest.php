@@ -55,7 +55,7 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
         $invocationMocker = $innerHandler
             ->expects($callInnerHandler ? $this->once() : $this->never())
             ->method($method)
-            ->with(...$arguments);
+            ->with(...array_values($arguments));
         // workaround for mocking void-returning methods, null in this case denotes that, not null value
         if (null !== $returnValue) {
             $invocationMocker->willReturn($returnValue);
@@ -66,8 +66,8 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
                 $this->cacheIdentifierGeneratorMock
                     ->expects($this->exactly(count($tagGeneratingArguments)))
                     ->method('generateTag')
-                    ->withConsecutive(...$tagGeneratingArguments)
-                    ->willReturnOnConsecutiveCalls(...$tags);
+                    ->withConsecutive(...array_values($tagGeneratingArguments))
+                    ->willReturnOnConsecutiveCalls(...array_values($tags ?? []));
             }
 
             if ($keyGeneratingArguments) {
@@ -77,8 +77,8 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
                     $this->cacheIdentifierGeneratorMock
                         ->expects($this->exactly($callsCount))
                         ->method('generateKey')
-                        ->withConsecutive(...$keyGeneratingArguments)
-                        ->willReturnOnConsecutiveCalls(...$key);
+                        ->withConsecutive(...array_values($keyGeneratingArguments))
+                        ->willReturnOnConsecutiveCalls(...array_values($key));
                 } else {
                     $this->cacheIdentifierGeneratorMock
                         ->expects($this->exactly($callsCount))
@@ -148,16 +148,16 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
             $this->cacheIdentifierGeneratorMock
                 ->expects($this->exactly(count($tagGeneratingArguments)))
                 ->method('generateTag')
-                ->withConsecutive(...$tagGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$tagGeneratingResults);
+                ->withConsecutive(...array_values($tagGeneratingArguments))
+                ->willReturnOnConsecutiveCalls(...array_values($tagGeneratingResults ?? []));
         }
 
         if ($keyGeneratingArguments) {
             $this->cacheIdentifierGeneratorMock
                 ->expects($this->exactly(count($keyGeneratingArguments)))
                 ->method('generateKey')
-                ->withConsecutive(...$keyGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$keyGeneratingResults);
+                ->withConsecutive(...array_values($keyGeneratingArguments))
+                ->willReturnOnConsecutiveCalls(...array_values($keyGeneratingResults ?? []));
         }
 
         if ($multi) {
@@ -229,16 +229,16 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
             $this->cacheIdentifierGeneratorMock
                 ->expects($this->exactly(count($tagGeneratingArguments)))
                 ->method('generateTag')
-                ->withConsecutive(...$tagGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$tagGeneratingResults);
+                ->withConsecutive(...array_values($tagGeneratingArguments))
+                ->willReturnOnConsecutiveCalls(...array_values($tagGeneratingResults ?? []));
         }
 
         if ($keyGeneratingArguments) {
             $this->cacheIdentifierGeneratorMock
                 ->expects($this->exactly(count($keyGeneratingArguments)))
                 ->method('generateKey')
-                ->withConsecutive(...$keyGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$keyGeneratingResults);
+                ->withConsecutive(...array_values($keyGeneratingArguments))
+                ->willReturnOnConsecutiveCalls(...array_values($keyGeneratingResults ?? []));
         }
 
         if ($multi) {
@@ -264,7 +264,7 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
         $innerHandlerMock
             ->expects($this->once())
             ->method($method)
-            ->with(...$arguments)
+            ->with(...array_values($arguments))
             ->willReturn($data);
 
         foreach ($additionalCalls as $additionalCall) {

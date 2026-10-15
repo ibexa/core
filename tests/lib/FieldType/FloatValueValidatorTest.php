@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
@@ -155,6 +156,7 @@ class FloatValueValidatorTest extends TestCase
      * Tests validating a correct value.
      *
      * @dataProvider providerForValidateOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FloatValueValidator::validate
      * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
@@ -182,10 +184,14 @@ class FloatValueValidatorTest extends TestCase
      * Tests validating a wrong value.
      *
      * @dataProvider providerForValidateKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FloatValueValidator::validate
      */
-    public function testValidateWrongValues($value, $message, $values)
-    {
+    public function testValidateWrongValues(
+        $value,
+        $message,
+        $values
+    ) {
         $validator = new FloatValueValidator();
         $validator->minFloatValue = $this->getMinFloatValue();
         $validator->maxFloatValue = $this->getMaxFloatValue();
@@ -224,6 +230,7 @@ class FloatValueValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsCorrectValues($constraints)
@@ -270,10 +277,14 @@ class FloatValueValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
-    public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
-    {
+    public function testValidateConstraintsWrongValues(
+        $constraints,
+        $expectedMessages,
+        $values
+    ) {
         $validator = new FloatValueValidator();
         $messages = $validator->validateConstraints($constraints);
 

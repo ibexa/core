@@ -4,13 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine;
 
 use InvalidArgumentException;
 
 class PlaceholderProviderRegistry
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProvider */
+    /** @var PlaceholderProvider */
     private $providers;
 
     /**
@@ -23,8 +24,10 @@ class PlaceholderProviderRegistry
         $this->providers = $providers;
     }
 
-    public function addProvider(string $type, PlaceholderProvider $provider)
-    {
+    public function addProvider(
+        string $type,
+        PlaceholderProvider $provider
+    ) {
         $this->providers[$type] = $provider;
     }
 

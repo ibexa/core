@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use RuntimeException;
 
 /**
@@ -18,7 +20,7 @@ class SortClauseConverter
     /**
      * Sort clause handlers.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler[]
+     * @var SortClauseHandler[]
      */
     protected $handlers;
 
@@ -32,7 +34,7 @@ class SortClauseConverter
     /**
      * Construct from an optional array of sort clause handlers.
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler[] $handlers
+     * @param SortClauseHandler[] $handlers
      */
     public function __construct(array $handlers = [])
     {
@@ -42,7 +44,7 @@ class SortClauseConverter
     /**
      * Adds handler.
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler $handler
+     * @param SortClauseHandler $handler
      */
     public function addHandler(SortClauseHandler $handler)
     {
@@ -52,13 +54,15 @@ class SortClauseConverter
     /**
      * Apply select parts of sort clauses to query.
      *
-     * @param \Doctrine\DBAL\Query\QueryBuilder $query
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
+     * @param QueryBuilder $query
+     * @param SortClause[] $sortClauses
      *
-     * @throws \RuntimeException If no handler is available for sort clause
+     * @throws RuntimeException If no handler is available for sort clause
      */
-    public function applySelect(QueryBuilder $query, array $sortClauses): void
-    {
+    public function applySelect(
+        QueryBuilder $query,
+        array $sortClauses
+    ): void {
         foreach ($sortClauses as $nr => $sortClause) {
             foreach ($this->handlers as $handler) {
                 if ($handler->accept($sortClause)) {
@@ -83,13 +87,16 @@ class SortClauseConverter
     /**
      * Apply join parts of sort clauses to query.
      *
-     * @throws \RuntimeException If no handler is available for sort clause
+     * @throws RuntimeException If no handler is available for sort clause
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
+     * @param SortClause[] $sortClauses
      * @param array $languageSettings
      */
-    public function applyJoin(QueryBuilder $query, array $sortClauses, array $languageSettings): void
-    {
+    public function applyJoin(
+        QueryBuilder $query,
+        array $sortClauses,
+        array $languageSettings
+    ): void {
         foreach ($sortClauses as $nr => $sortClause) {
             foreach ($this->handlers as $handler) {
                 if ($handler->accept($sortClause)) {

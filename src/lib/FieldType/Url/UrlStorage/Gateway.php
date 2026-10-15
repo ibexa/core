@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Url\UrlStorage;
 
 use Ibexa\Contracts\Core\FieldType\StorageGateway;
@@ -52,7 +53,11 @@ abstract class Gateway extends StorageGateway
      * @param int|string $fieldId
      * @param int $versionNo
      */
-    abstract public function linkUrl($urlId, $fieldId, $versionNo);
+    abstract public function linkUrl(
+        $urlId,
+        $fieldId,
+        $versionNo
+    );
 
     /**
      * Removes link to URL for $fieldId in $versionNo and cleans up possibly orphaned URLs.
@@ -61,7 +66,11 @@ abstract class Gateway extends StorageGateway
      * @param int $versionNo
      * @param int[] $excludeUrlIds
      */
-    abstract public function unlinkUrl($fieldId, $versionNo, array $excludeUrlIds = []);
+    abstract public function unlinkUrl(
+        $fieldId,
+        $versionNo,
+        array $excludeUrlIds = []
+    );
 }
 
 class_alias(Gateway::class, 'eZ\Publish\Core\FieldType\Url\UrlStorage\Gateway');

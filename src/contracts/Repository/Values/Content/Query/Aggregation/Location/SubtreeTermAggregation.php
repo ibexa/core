@@ -18,8 +18,10 @@ final class SubtreeTermAggregation extends AbstractTermAggregation implements Lo
     /** @var string */
     private $pathString;
 
-    public function __construct(string $name, string $pathString)
-    {
+    public function __construct(
+        string $name,
+        string $pathString
+    ) {
         parent::__construct($name);
 
         if (!$this->isValidPathString($pathString)) {
@@ -42,8 +44,10 @@ final class SubtreeTermAggregation extends AbstractTermAggregation implements Lo
         return preg_match('/^(\/\w+)+\/$/', $pathString) === 1;
     }
 
-    public static function fromLocation(string $name, Location $location): self
-    {
+    public static function fromLocation(
+        string $name,
+        Location $location
+    ): self {
         return new self($name, $location->pathString);
     }
 }

@@ -17,11 +17,11 @@ use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
  */
 final class ViewMatcherRegistry implements ViewMatcherRegistryInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface[] */
+    /** @var ViewMatcherInterface[] */
     private $matchers;
 
     /**
-     * @param iterable<\Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface> $matchers
+     * @param iterable<ViewMatcherInterface> $matchers
      */
     public function __construct(iterable $matchers = [])
     {
@@ -31,15 +31,17 @@ final class ViewMatcherRegistry implements ViewMatcherRegistryInterface
         }
     }
 
-    public function setMatcher(string $matcherIdentifier, ViewMatcherInterface $matcher): void
-    {
+    public function setMatcher(
+        string $matcherIdentifier,
+        ViewMatcherInterface $matcher
+    ): void {
         $this->matchers[$matcherIdentifier] = $matcher;
     }
 
     /**
      * @param string $matcherIdentifier
      *
-     * @return \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface
+     * @return ViewMatcherInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */

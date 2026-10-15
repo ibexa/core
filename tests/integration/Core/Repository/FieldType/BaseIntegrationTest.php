@@ -4,14 +4,22 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
@@ -125,7 +133,7 @@ abstract class BaseIntegrationTest extends BaseTest
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     abstract public function assertFieldDataLoadedCorrect(Field $field);
 
@@ -165,7 +173,7 @@ abstract class BaseIntegrationTest extends BaseTest
      * Asserts that the data provided by {@link getValidUpdateFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     abstract public function assertUpdatedFieldDataLoadedCorrect(Field $field);
 
@@ -198,7 +206,7 @@ abstract class BaseIntegrationTest extends BaseTest
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     abstract public function assertCopiedFieldDataLoadedCorrectly(Field $field);
 
@@ -255,11 +263,13 @@ abstract class BaseIntegrationTest extends BaseTest
      * We cannot just overwrite the testCreateContent method, since this messes
      * up PHPUnits @depends sorting of tests, so everything will be skipped.
      *
-     * @param \Ibexa\Contracts\Core\Repository $repository
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Repository $repository
+     * @param Content $content
      */
-    public function postCreationHook(Repository\Repository $repository, Repository\Values\Content\Content $content)
-    {
+    public function postCreationHook(
+        Repository\Repository $repository,
+        Content $content
+    ) {
         // Do nothing by default
     }
 
@@ -309,10 +319,14 @@ abstract class BaseIntegrationTest extends BaseTest
      * @param array $typeCreateOverride
      * @param array $fieldCreateOverride
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
-    protected function createContentType($fieldSettings, $validatorConfiguration, array $typeCreateOverride = [], array $fieldCreateOverride = [])
-    {
+    protected function createContentType(
+        $fieldSettings,
+        $validatorConfiguration,
+        array $typeCreateOverride = [],
+        array $fieldCreateOverride = []
+    ) {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
 
@@ -376,13 +390,17 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @return mixed
      */
-    protected function getOverride($key, array $overrideValues, $default)
-    {
+    protected function getOverride(
+        $key,
+        array $overrideValues,
+        $default
+    ) {
         return isset($overrideValues[$key]) ? $overrideValues[$key] : $default;
     }
 
     /**
      * @covers \Ibexa\Core\FieldType\FieldType::isEmptyValue
+     *
      * @dataProvider providerForTestIsEmptyValue
      */
     public function testIsEmptyValue($value)
@@ -394,6 +412,7 @@ abstract class BaseIntegrationTest extends BaseTest
 
     /**
      * @covers \Ibexa\Core\FieldType\FieldType::isEmptyValue
+     *
      * @dataProvider providerForTestIsNotEmptyValue
      */
     public function testIsNotEmptyValue($value)
@@ -525,10 +544,12 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @param mixed $fieldData
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function createContent($fieldData, $contentType = null)
-    {
+    protected function createContent(
+        $fieldData,
+        $contentType = null
+    ) {
         if ($contentType === null) {
             $contentType = $this->testCreateContentType();
         }
@@ -554,17 +575,20 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @param array $names Content names in the form of <code>[languageCode => name]</code>
      * @param array $fieldData FT-specific data in the form of <code>[languageCode => data]</code>
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs
+     * @param LocationCreateStruct[] $locationCreateStructs
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
-    protected function createMultilingualContent(array $names, array $fieldData, array $locationCreateStructs = [])
-    {
+    protected function createMultilingualContent(
+        array $names,
+        array $fieldData,
+        array $locationCreateStructs = []
+    ) {
         self::assertEquals(array_keys($names), array_keys($fieldData), 'Languages passed to names and data differ');
 
         $contentType = $this->createContentType(
@@ -689,7 +713,7 @@ abstract class BaseIntegrationTest extends BaseTest
 
     public function testCreateContentWithEmptyFieldValue()
     {
-        /** @var \Ibexa\Core\FieldType\FieldType $fieldType */
+        /** @var FieldType $fieldType */
         $fieldType = $this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName());
 
         return $this->createContent($fieldType->getEmptyValue());
@@ -700,7 +724,7 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @depends testCreateContentWithEmptyFieldValue
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentDraft
+     * @param Content $contentDraft
      */
     public function testPublishContentWithEmptyFieldValue(Content $contentDraft)
     {
@@ -725,6 +749,7 @@ abstract class BaseIntegrationTest extends BaseTest
 
     /**
      * @depends testCreateContentWithEmptyFieldValue
+     *
      * @group xx
      */
     public function testLoadEmptyFieldValue()
@@ -756,7 +781,7 @@ abstract class BaseIntegrationTest extends BaseTest
      */
     public function testLoadEmptyFieldValueData($field)
     {
-        /** @var \Ibexa\Core\FieldType\FieldType $fieldType */
+        /** @var FieldType $fieldType */
         $fieldType = $this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName());
 
         // @todo either test this not using acceptValue, or add to API (but is not meant for high level API, so..)
@@ -785,10 +810,12 @@ abstract class BaseIntegrationTest extends BaseTest
      * @param mixed $fieldData
      * @param bool $setField If false the update struct will be empty (field value will not be set)
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    public function updateContent($fieldData, $setField = true)
-    {
+    public function updateContent(
+        $fieldData,
+        $setField = true
+    ) {
         $content = $this->testPublishContent();
 
         $repository = $this->getRepository();
@@ -929,8 +956,10 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @dataProvider provideInvalidCreationFieldData
      */
-    public function testCreateContentFails($failingValue, ?string $expectedException): void
-    {
+    public function testCreateContentFails(
+        $failingValue,
+        ?string $expectedException
+    ): void {
         $this->expectException($expectedException);
         $this->createContent($failingValue);
     }
@@ -943,8 +972,10 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @dataProvider provideInvalidUpdateFieldData
      */
-    public function testUpdateContentFails($failingValue, $expectedException)
-    {
+    public function testUpdateContentFails(
+        $failingValue,
+        $expectedException
+    ) {
         $this->expectException($expectedException);
         $this->updateContent($failingValue);
     }
@@ -1024,8 +1055,10 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @dataProvider provideToHashData
      */
-    public function testToHash($value, $expectedHash)
-    {
+    public function testToHash(
+        $value,
+        $expectedHash
+    ) {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
         $fieldType = $fieldTypeService->getFieldType($this->getTypeName());
@@ -1038,12 +1071,16 @@ abstract class BaseIntegrationTest extends BaseTest
 
     /**
      * @depends testCreateContent
+     *
      * @dataProvider provideFromHashData
+     *
      * @todo: Requires correct registered FieldTypeService, needs to be
      *        maintained!
      */
-    public function testFromHash($hash, $expectedValue)
-    {
+    public function testFromHash(
+        $hash,
+        $expectedValue
+    ) {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
         $fieldType = $fieldTypeService->getFieldType($this->getTypeName());

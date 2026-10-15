@@ -16,9 +16,15 @@ use Pagerfanta\Adapter\AdapterInterface;
  */
 interface SearchHitAdapterFactoryInterface
 {
-    public function createAdapter(Query $query, array $languageFilter = []): AdapterInterface;
+    public function createAdapter(
+        Query $query,
+        array $languageFilter = []
+    ): AdapterInterface;
 
-    public function createFixedAdapter(Query $query, array $languageFilter = []): AdapterInterface;
+    public function createFixedAdapter(
+        Query $query,
+        array $languageFilter = []
+    ): AdapterInterface;
 }
 
 class_alias(SearchHitAdapterFactoryInterface::class, 'eZ\Publish\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface');

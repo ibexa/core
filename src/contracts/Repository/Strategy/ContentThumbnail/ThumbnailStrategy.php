@@ -14,7 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
 interface ThumbnailStrategy
 {
-    public function getThumbnail(ContentType $contentType, array $fields, ?VersionInfo $versionInfo = null): ?Thumbnail;
+    public function getThumbnail(
+        ContentType $contentType,
+        array $fields,
+        ?VersionInfo $versionInfo = null
+    ): ?Thumbnail;
 }
 
 class_alias(ThumbnailStrategy::class, 'eZ\Publish\SPI\Repository\Strategy\ContentThumbnail\ThumbnailStrategy');

@@ -18,13 +18,13 @@ use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
 
 class LocationFilteringHandler implements Handler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway */
+    /** @var Gateway */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper */
+    /** @var LocationLegacyMapper */
     private $locationMapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper */
+    /** @var ContentGatewayDataMapper */
     private $contentGatewayDataMapper;
 
     public function __construct(

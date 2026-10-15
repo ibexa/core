@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Helper\FieldsGroups;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -32,7 +33,7 @@ interface FieldsGroupsList
     public function getDefaultGroup();
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param FieldDefinition $fieldDefinition
      *
      * @return string
      */

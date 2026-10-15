@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Ibexa\Contracts\Core\Repository\ObjectStateService as APIService;

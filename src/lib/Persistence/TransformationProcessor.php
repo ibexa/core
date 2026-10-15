@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence;
 
 use Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler;
@@ -38,7 +39,7 @@ abstract class TransformationProcessor
     /**
      * Transformation compiler.
      *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler
+     * @var PcreCompiler
      */
     protected $compiler = null;
 
@@ -48,11 +49,13 @@ abstract class TransformationProcessor
      * Through the $ruleFiles array, a list of files with full text
      * transformation rules is given.
      *
-     * @param \Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler $compiler
+     * @param PcreCompiler $compiler
      * @param array $ruleFiles
      */
-    public function __construct(PcreCompiler $compiler, array $ruleFiles = [])
-    {
+    public function __construct(
+        PcreCompiler $compiler,
+        array $ruleFiles = []
+    ) {
         $this->ruleFiles = $ruleFiles;
         $this->compiler = $compiler;
     }
@@ -75,8 +78,10 @@ abstract class TransformationProcessor
      *
      * @return string
      */
-    public function transform($string, array $ruleNames = [])
-    {
+    public function transform(
+        $string,
+        array $ruleNames = []
+    ) {
         $rules = $this->getRules();
 
         foreach ($ruleNames ?: array_keys($rules) as $ruleName) {
@@ -108,8 +113,10 @@ abstract class TransformationProcessor
      *
      * @return string
      */
-    public function transformByGroup($string, $ruleGroup)
-    {
+    public function transformByGroup(
+        $string,
+        $ruleGroup
+    ) {
         $rules = $this->getRules();
 
         foreach (array_keys($rules) as $ruleName) {

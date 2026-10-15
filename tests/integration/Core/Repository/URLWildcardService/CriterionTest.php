@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\URLWildcardService;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
@@ -19,6 +20,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  * Test case criterion for URLWildcard.
  *
  * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService
+ *
  * @group url-wildcard
  */
 class CriterionTest extends BaseTest
@@ -249,11 +251,14 @@ class CriterionTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard[] $items
+     * @param URLWildcard[] $items
      * @param string[] $expectedWildcardUrls
      */
-    protected function checkWildcardUrl(array $items, array $expectedWildcardUrls, bool $sourceUrl = true): void
-    {
+    protected function checkWildcardUrl(
+        array $items,
+        array $expectedWildcardUrls,
+        bool $sourceUrl = true
+    ): void {
         foreach ($items as $item) {
             if ($sourceUrl) {
                 self::assertContains($item->sourceUrl, $expectedWildcardUrls);

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -521,20 +522,30 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
             ->method('userHandler')
             ->willReturn($innerHandlerMock);
         $roleDraftId = 33;
+        $calls = [];
         $innerHandlerMock
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('loadRole')
             ->with($roleDraftId, Role::STATUS_DRAFT)
-            ->willReturn(new Role(['originalId' => -1]));
+            ->willReturnCallback(static function () use (&$calls): Role {
+                $calls[] = 'loadRole';
+
+                return new Role(['originalId' => -1]);
+            });
         $innerHandlerMock
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('publishRoleDraft')
-            ->with($roleDraftId);
+            ->with($roleDraftId)
+            ->willReturnCallback(static function () use (&$calls): void {
+                $calls[] = 'publishRoleDraft';
+            });
         $this->cacheMock
             ->expects($this->never())
             ->method($this->anything());
         $handler = $this->persistenceCacheHandler->userHandler();
         $handler->publishRoleDraft($roleDraftId);
+
+        self::assertSame(['loadRole', 'publishRoleDraft'], $calls);
     }
 
     public function testAssignRole()

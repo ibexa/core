@@ -4,12 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface;
+use Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
@@ -17,16 +19,16 @@ class Configuration extends SiteAccessConfiguration
 {
     public const CUSTOM_TAG_ATTRIBUTE_TYPES = ['number', 'string', 'boolean', 'choice'];
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface */
+    /** @var ParserInterface */
     private $mainSiteAccessConfigParser;
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface */
+    /** @var RepositoryConfigParserInterface */
     private $mainRepositoryConfigParser;
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface */
+    /** @var SuggestionCollectorInterface */
     private $suggestionCollector;
 
-    /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter[] */
+    /** @var SiteAccessConfigurationFilter[] */
     private $siteAccessConfigurationFilters;
 
     public function __construct(
@@ -47,7 +49,7 @@ class Configuration extends SiteAccessConfiguration
     /**
      * Generates the configuration tree builder.
      *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
+     * @return TreeBuilder The tree builder
      */
     public function getConfigTreeBuilder()
     {
@@ -379,7 +381,7 @@ EOT;
     /**
      * Defines configuration the images placeholder generation.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     * @param ArrayNodeDefinition $rootNode
      */
     private function addImagePlaceholderSection(ArrayNodeDefinition $rootNode)
     {
@@ -421,9 +423,9 @@ EOT;
      *                     cleanup_method: name_of_cleanup_method
      * </code>
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     * @param ArrayNodeDefinition $rootNode
      *
-     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     * @return ArrayNodeDefinition
      */
     private function addUrlAliasSection(ArrayNodeDefinition $rootNode)
     {
@@ -462,9 +464,9 @@ EOT;
      *         enabled: true
      * </code>
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     * @param ArrayNodeDefinition $rootNode
      *
-     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     * @return ArrayNodeDefinition
      */
     private function addUrlWildcardsSection($rootNode): ArrayNodeDefinition
     {
@@ -497,9 +499,9 @@ EOT;
      *
      * </code>
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     * @param ArrayNodeDefinition $rootNode
      *
-     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     * @return ArrayNodeDefinition
      */
     private function addOrmSection($rootNode): ArrayNodeDefinition
     {
@@ -544,7 +546,7 @@ EOT;
      *
      * </code>
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     * @param ArrayNodeDefinition $rootNode
      */
     private function addUITranslationsSection($rootNode): ArrayNodeDefinition
     {
@@ -576,7 +578,7 @@ EOT;
      *             enabled: true
      * </code>
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     * @param ArrayNodeDefinition $rootNode
      */
     private function addInstallerSection(ArrayNodeDefinition $rootNode): ArrayNodeDefinition
     {

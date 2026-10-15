@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
+use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Media\Type as MediaType;
 use Ibexa\Core\FieldType\Media\Value as MediaValue;
 use Ibexa\Core\FieldType\ValidationError;
@@ -27,7 +29,7 @@ class MediaTest extends BinaryBaseTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest()
     {

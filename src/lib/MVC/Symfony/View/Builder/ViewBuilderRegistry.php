@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\View\Builder;
 
 /**
@@ -16,14 +17,14 @@ interface ViewBuilderRegistry
      *
      * @param mixed $argument
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder|null The ViewBuilder, or null if there's none.
+     * @return ViewBuilder|null The ViewBuilder, or null if there's none.
      */
     public function getFromRegistry($argument);
 
     /**
      * Adds ViewBuilders from the $objects array to the registry.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder[] $objects
+     * @param ViewBuilder[] $objects
      */
     public function addToRegistry(array $objects);
 }

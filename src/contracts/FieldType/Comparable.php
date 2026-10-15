@@ -10,7 +10,10 @@ namespace Ibexa\Contracts\Core\FieldType;
 
 interface Comparable
 {
-    public function valuesEqual(Value $value1, Value $value2): bool;
+    public function valuesEqual(
+        Value $value1,
+        Value $value2
+    ): bool;
 }
 
 class_alias(Comparable::class, 'eZ\Publish\SPI\FieldType\Comparable');

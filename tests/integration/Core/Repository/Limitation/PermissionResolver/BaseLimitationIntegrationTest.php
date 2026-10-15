@@ -8,6 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
@@ -16,7 +23,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  */
 abstract class BaseLimitationIntegrationTest extends BaseTest
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     protected $permissionResolver;
 
     protected function setUp(): void
@@ -28,7 +35,7 @@ abstract class BaseLimitationIntegrationTest extends BaseTest
     /**
      * Map Limitations list to readable string for debugging purposes.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
+     * @param Limitation[] $limitations
      *
      * @return string
      */
@@ -53,12 +60,15 @@ abstract class BaseLimitationIntegrationTest extends BaseTest
      * @param string $function
      * @param array $limitations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    protected function loginAsEditorUserWithLimitations(string $module, string $function, array $limitations = []): void
-    {
+    protected function loginAsEditorUserWithLimitations(
+        string $module,
+        string $function,
+        array $limitations = []
+    ): void {
         $user = $this->createUserWithPolicies(
             uniqid('editor'),
             [
@@ -74,11 +84,11 @@ abstract class BaseLimitationIntegrationTest extends BaseTest
      * @param string $module
      * @param string $function
      * @param array $limitations
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
+     * @param ValueObject $object
      * @param array $targets
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
      */
     protected function assertCanUser(
         bool $expectedResult,

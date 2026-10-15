@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
@@ -18,8 +19,10 @@ class StorageConnectionFactoryTest extends TestCase
     /**
      * @dataProvider getConnectionProvider
      */
-    public function testGetConnection($repositoryAlias, $doctrineConnection)
-    {
+    public function testGetConnection(
+        $repositoryAlias,
+        $doctrineConnection
+    ) {
         $repositories = [
             $repositoryAlias => [
                 'storage' => [

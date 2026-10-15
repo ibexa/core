@@ -16,7 +16,7 @@ final class DeleteContentEvent extends AfterEvent
     /** @var array */
     private $locations;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
     public function __construct(

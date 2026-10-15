@@ -4,18 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\AliasCleaner;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AliasCleanerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\AliasCleaner */
+    /** @var AliasCleaner */
     private $aliasCleaner;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $resolver;
 
     protected function setUp(): void

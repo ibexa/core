@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -14,11 +16,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 trait RequestStackAware
 {
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    /** @var RequestStack */
     private $requestStack;
 
     /**
-     * @return \Symfony\Component\HttpFoundation\RequestStack
+     * @return RequestStack
      */
     public function getRequestStack()
     {
@@ -26,7 +28,7 @@ trait RequestStackAware
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+     * @param RequestStack $requestStack
      */
     public function setRequestStack(RequestStack $requestStack)
     {
@@ -34,7 +36,7 @@ trait RequestStackAware
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Request|null
+     * @return Request|null
      */
     protected function getCurrentRequest()
     {

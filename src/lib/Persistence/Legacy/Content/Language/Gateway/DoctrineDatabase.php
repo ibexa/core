@@ -9,9 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 use RuntimeException;
 
@@ -20,22 +23,22 @@ use RuntimeException;
  *
  * @internal Gateway implementation is considered internal. Use Persistence Language Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
     /**
      * The native Doctrine connection.
      *
-     * @var \Doctrine\DBAL\Connection
+     * @var Connection
      */
     private $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
+    /** @var AbstractPlatform */
     private $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function __construct(Connection $connection)
     {
@@ -88,8 +91,10 @@ final class DoctrineDatabase extends Gateway
     /**
      * Set columns for $query based on $language.
      */
-    private function setLanguageQueryParameters(QueryBuilder $query, Language $language): void
-    {
+    private function setLanguageQueryParameters(
+        QueryBuilder $query,
+        Language $language
+    ): void {
         $query
             ->setParameter('language_code', $language->languageCode, ParameterType::STRING)
             ->setParameter('name', $language->name, ParameterType::STRING)

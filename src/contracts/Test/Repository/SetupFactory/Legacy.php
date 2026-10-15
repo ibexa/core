@@ -4,12 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Test\Repository\SetupFactory;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ConnectionException;
+use Doctrine\DBAL\DBALException;
+use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as FilteringCriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder as FilteringSortClauseQueryBuilder;
+use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
@@ -56,7 +62,7 @@ class Legacy extends SetupFactory
     /**
      * Service container.
      *
-     * @var \Ibexa\Core\Base\ServiceContainer
+     * @var ServiceContainer
      */
     protected static $serviceContainer;
 
@@ -70,7 +76,7 @@ class Legacy extends SetupFactory
     /**
      * Cached in-memory initial database data fixture.
      *
-     * @var \Ibexa\Contracts\Core\Test\Persistence\Fixture
+     * @var Fixture
      */
     private static $initialDataFixture;
 
@@ -83,7 +89,7 @@ class Legacy extends SetupFactory
 
     protected $repositoryReference = 'ibexa.api.repository';
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     /**
@@ -142,7 +148,7 @@ class Legacy extends SetupFactory
      * @param bool $initializeFromScratch if the back end should be initialized
      *                                    from scratch or re-used
      *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
+     * @return Repository
      */
     public function getRepository($initializeFromScratch = true)
     {
@@ -152,7 +158,7 @@ class Legacy extends SetupFactory
         }
 
         $this->clearInternalCaches();
-        /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
+        /** @var Repository $repository */
         $repository = $this->getServiceContainer()->get($this->repositoryReference);
 
         // Set admin user as current user by default
@@ -190,7 +196,7 @@ class Legacy extends SetupFactory
     /**
      * Insert the database data.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function insertData(): void
     {
@@ -256,7 +262,7 @@ class Legacy extends SetupFactory
     /**
      * Initializes the database schema.
      *
-     * @throws \Doctrine\DBAL\ConnectionException
+     * @throws ConnectionException
      */
     protected function initializeSchema(): void
     {
@@ -274,7 +280,7 @@ class Legacy extends SetupFactory
     /**
      * Returns the raw database connection from the service container.
      *
-     * @return \Doctrine\DBAL\Connection
+     * @return Connection
      */
     private function getDatabaseConnection(): Connection
     {
@@ -288,7 +294,7 @@ class Legacy extends SetupFactory
     /**
      * Returns the service container used for initialization of the repository.
      *
-     * @return \Ibexa\Core\Base\ServiceContainer
+     * @return ServiceContainer
      */
     public function getServiceContainer()
     {
@@ -339,7 +345,7 @@ class Legacy extends SetupFactory
      * This is intended to be used from external repository in order to
      * enable container customization.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder
+     * @param ContainerBuilder $containerBuilder
      */
     protected function externalBuildContainer(ContainerBuilder $containerBuilder)
     {
@@ -360,7 +366,7 @@ class Legacy extends SetupFactory
      * Apply automatic configuration to needed Symfony Services.
      *
      * Note: Based on
-     * {@see \Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension::registerForAutoConfiguration},
+     * {@see IbexaCoreExtension::registerForAutoConfiguration},
      * but only for services needed by integration test setup.
      *
      * @see
@@ -375,7 +381,7 @@ class Legacy extends SetupFactory
     }
 
     /**
-     * @deprecated since Ibexa 4.0, rewrite test case to use {@see \Ibexa\Contracts\Core\Test\IbexaKernelTestCase} instead.
+     * @deprecated since Ibexa 4.0, rewrite test case to use {@see IbexaKernelTestCase} instead.
      */
     public static function getInstallationDir(): string
     {
@@ -384,7 +390,7 @@ class Legacy extends SetupFactory
     }
 
     /**
-     * @deprecated since Ibexa 4.0, rewrite test case to use {@see \Ibexa\Contracts\Core\Test\IbexaKernelTestCase} instead.
+     * @deprecated since Ibexa 4.0, rewrite test case to use {@see IbexaKernelTestCase} instead.
      */
     public static function getCacheDir(): string
     {

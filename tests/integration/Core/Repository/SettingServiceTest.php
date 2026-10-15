@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\SettingService;
 use Ibexa\Contracts\Core\Repository\Values\Setting\Setting;
 
@@ -17,21 +18,22 @@ use Ibexa\Contracts\Core\Repository\Values\Setting\Setting;
  * Test case for operations in the SettingService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SettingService
+ *
  * @group integration
  * @group setting
  */
 final class SettingServiceTest extends BaseTest
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     protected $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SettingService */
+    /** @var SettingService */
     protected $settingService;
 
     protected function getSettingService(): SettingService
     {
         $container = $this->getSetupFactory()->getServiceContainer();
-        /** @var \Ibexa\Contracts\Core\Repository\SettingService $settingService */
+        /** @var SettingService $settingService */
         $settingService = $container->get(SettingService::class);
 
         return $settingService;
@@ -50,8 +52,10 @@ final class SettingServiceTest extends BaseTest
      *
      * @dataProvider dataProviderForCreateSetting
      */
-    public function testCreateSetting(string $identifier, $value): void
-    {
+    public function testCreateSetting(
+        string $identifier,
+        $value
+    ): void {
         $settingService = $this->getSettingService();
 
         $settingCreate = $settingService->newSettingCreateStruct();

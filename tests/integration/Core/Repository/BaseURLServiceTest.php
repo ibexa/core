@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
@@ -22,8 +23,12 @@ abstract class BaseURLServiceTest extends BaseTest
 {
     private const URL_CONTENT_TYPE_IDENTIFIER = 'link_ct';
 
-    protected function doTestFindUrls(URLQuery $query, array $expectedUrls, ?int $expectedTotalCount, bool $ignoreOrder = true)
-    {
+    protected function doTestFindUrls(
+        URLQuery $query,
+        array $expectedUrls,
+        ?int $expectedTotalCount,
+        bool $ignoreOrder = true
+    ) {
         $repository = $this->getRepository();
 
         /* BEGIN: Use Case */
@@ -35,8 +40,11 @@ abstract class BaseURLServiceTest extends BaseTest
         $this->assertSearchResultItems($searchResult, $expectedUrls, $ignoreOrder);
     }
 
-    protected function assertSearchResultItems(SearchResult $searchResult, array $expectedUrls, $ignoreOrder)
-    {
+    protected function assertSearchResultItems(
+        SearchResult $searchResult,
+        array $expectedUrls,
+        $ignoreOrder
+    ) {
         $this->assertCount(count($expectedUrls), $searchResult->items);
 
         foreach ($searchResult->items as $i => $item) {
@@ -63,8 +71,10 @@ abstract class BaseURLServiceTest extends BaseTest
         }
     }
 
-    protected function assertUsagesSearchResultItems(UsageSearchResult $searchResult, array $expectedContentInfoIds)
-    {
+    protected function assertUsagesSearchResultItems(
+        UsageSearchResult $searchResult,
+        array $expectedContentInfoIds
+    ) {
         $this->assertCount(count($expectedContentInfoIds), $searchResult->items);
         foreach ($searchResult->items as $contentInfo) {
             $this->assertContains($contentInfo->id, $expectedContentInfoIds);

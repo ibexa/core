@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\IO;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\Exception\InvalidBinaryAbsolutePathException;
 use Ibexa\Core\IO\Values\BinaryFile;
@@ -22,7 +24,7 @@ use Psr\Log\LoggerInterface;
  */
 class TolerantIOService extends IOService
 {
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     protected $logger;
 
     public function setLogger(?LoggerInterface $logger = null)
@@ -33,10 +35,10 @@ class TolerantIOService extends IOService
     /**
      * Deletes $binaryFile.
      *
-     * @param \Ibexa\Core\IO\Values\BinaryFile $binaryFile
+     * @param BinaryFile $binaryFile
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue If the binary file is invalid
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If the binary file isn't found
+     * @throws InvalidArgumentValue If the binary file is invalid
+     * @throws BinaryFileNotFoundException If the binary file isn't found
      */
     public function deleteBinaryFile(BinaryFile $binaryFile)
     {
@@ -64,9 +66,9 @@ class TolerantIOService extends IOService
      *
      * @param string $binaryFileId
      *
-     * @return \Ibexa\Core\IO\Values\BinaryFile|\Ibexa\Core\IO\Values\MissingBinaryFile
+     * @return BinaryFile|MissingBinaryFile
      *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryAbsolutePathException
+     * @throws InvalidBinaryAbsolutePathException
      */
     public function loadBinaryFile($binaryFileId)
     {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Ibexa\Contracts\Core\Repository\SearchService as APIService;
@@ -59,8 +60,10 @@ class SearchServiceTest extends AbstractServiceTest
         ];
     }
 
-    protected function setLanguagesLookupArguments(array $arguments, $languageArgumentIndex)
-    {
+    protected function setLanguagesLookupArguments(
+        array $arguments,
+        $languageArgumentIndex
+    ) {
         $arguments[$languageArgumentIndex] = [
             'languages' => [],
             'useAlwaysAvailable' => null,
@@ -69,8 +72,11 @@ class SearchServiceTest extends AbstractServiceTest
         return $arguments;
     }
 
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesLookupExpectedArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         $arguments[$languageArgumentIndex] = [
             'languages' => $languages,
             'useAlwaysAvailable' => true,
@@ -79,8 +85,11 @@ class SearchServiceTest extends AbstractServiceTest
         return $arguments;
     }
 
-    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesPassTroughArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         $arguments[$languageArgumentIndex] = [
             'languages' => $languages,
             'useAlwaysAvailable' => true,

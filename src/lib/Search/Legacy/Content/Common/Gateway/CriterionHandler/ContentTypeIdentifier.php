@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
@@ -24,12 +25,12 @@ class ContentTypeIdentifier extends CriterionHandler
     /**
      * Content type handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+     * @var ContentTypeHandler
      */
     protected $contentTypeHandler;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
@@ -47,7 +48,7 @@ class ContentTypeIdentifier extends CriterionHandler
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      *
      * @return bool
      */

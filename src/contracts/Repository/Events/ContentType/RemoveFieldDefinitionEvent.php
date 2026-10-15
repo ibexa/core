@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 
 final class RemoveFieldDefinitionEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
+    /** @var ContentTypeDraft */
     private $contentTypeDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition */
+    /** @var FieldDefinition */
     private $fieldDefinition;
 
     public function __construct(

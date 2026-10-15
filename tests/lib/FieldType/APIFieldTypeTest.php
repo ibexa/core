@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
@@ -11,14 +12,15 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Core\FieldType\Value;
 use Ibexa\Core\Repository\Values\ContentType\FieldType;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class APIFieldTypeTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $innerFieldType;
 
-    /** @var \Ibexa\Core\Repository\Values\ContentType\FieldType */
+    /** @var FieldType */
     private $fieldType;
 
     protected function setUp(): void

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -63,8 +64,10 @@ class EZP21906SearchOneContentMultipleLocationsTest extends BaseTest
     /**
      * @dataProvider searchContentQueryProvider
      */
-    public function testSearchContentMultipleLocations(Query $query, $expectedResultCount)
-    {
+    public function testSearchContentMultipleLocations(
+        Query $query,
+        $expectedResultCount
+    ) {
         $result = $this->getRepository()->getSearchService()->findContent($query);
         $this->assertSame($expectedResultCount, $result->totalCount);
         $this->assertSame($expectedResultCount, count($result->searchHits));

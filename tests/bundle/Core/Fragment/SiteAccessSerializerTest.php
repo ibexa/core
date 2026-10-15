@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Bundle\Core\Fragment\SiteAccessSerializer;
@@ -54,7 +55,7 @@ final class SiteAccessSerializerTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Core\MVC\Symfony\SiteAccess}>
+     * @return iterable<string, array{SiteAccess}>
      */
     public static function getDataForTestSerializeSiteAccessAsControllerAttributes(): iterable
     {

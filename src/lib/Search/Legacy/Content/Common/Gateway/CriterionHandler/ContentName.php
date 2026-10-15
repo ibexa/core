@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -34,7 +35,7 @@ final class ContentName extends CriterionHandler
      *     useAlwaysAvailable: bool,
      *  } $languageSettings
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function handle(
         CriteriaConverter $converter,
@@ -87,7 +88,7 @@ final class ContentName extends CriterionHandler
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function toLowerCase(string $value): string
     {

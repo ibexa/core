@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess\Compound;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -14,11 +15,12 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalAnd;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CompoundAndTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $matcherBuilder;
 
     protected function setUp(): void
@@ -28,7 +30,7 @@ class CompoundAndTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalAnd
+     * @return LogicalAnd
      */
     public function testConstruct()
     {
@@ -36,7 +38,7 @@ class CompoundAndTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalAnd
+     * @return LogicalAnd
      */
     private function buildMatcher()
     {
@@ -90,11 +92,13 @@ class CompoundAndTest extends TestCase
     /**
      * @dataProvider matchProvider
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      * @param $expectedMatch
      */
-    public function testMatch(SimplifiedRequest $request, $expectedMatch)
-    {
+    public function testMatch(
+        SimplifiedRequest $request,
+        $expectedMatch
+    ) {
         $compoundMatcher = $this->buildMatcher();
         $compoundMatcher->setRequest($request);
         $compoundMatcher->setMatcherBuilder(new MatcherBuilder());

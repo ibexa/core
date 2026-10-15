@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\BinaryBase;
 
 use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator;
@@ -13,7 +14,9 @@ use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\ContentFieldValidationException;
+use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\IOServiceInterface;
 
@@ -25,23 +28,23 @@ class BinaryBaseStorage extends GatewayBasedStorage
     /**
      * An instance of IOService configured to store to the images folder.
      *
-     * @var \Ibexa\Core\IO\IOServiceInterface
+     * @var IOServiceInterface
      */
     protected $ioService;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator */
+    /** @var PathGenerator */
     protected $pathGenerator;
 
-    /** @var \Ibexa\Contracts\Core\IO\MimeTypeDetector */
+    /** @var MimeTypeDetector */
     protected $mimeTypeDetector;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator */
+    /** @var PathGenerator */
     protected $downloadUrlGenerator;
 
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway */
+    /** @var Gateway */
     protected $gateway;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator */
+    /** @var FileExtensionBlackListValidator */
     protected $fileExtensionBlackListValidator;
 
     public function __construct(
@@ -59,7 +62,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator $downloadUrlGenerator
+     * @param PathGenerator $downloadUrlGenerator
      */
     public function setDownloadUrlGenerator(PathGenerator $downloadUrlGenerator)
     {
@@ -67,11 +70,14 @@ class BinaryBaseStorage extends GatewayBasedStorage
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         if ($field->value->externalData === null) {
             $this->deleteFieldData($versionInfo, [$field->id], $context);
 
@@ -115,8 +121,12 @@ class BinaryBaseStorage extends GatewayBasedStorage
         $this->gateway->storeFileReference($versionInfo, $field);
     }
 
-    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField, array $context)
-    {
+    public function copyLegacyField(
+        VersionInfo $versionInfo,
+        Field $field,
+        Field $originalField,
+        array $context
+    ) {
         if ($originalField->value->externalData === null) {
             return false;
         }
@@ -137,8 +147,11 @@ class BinaryBaseStorage extends GatewayBasedStorage
      * @param string $versionNo
      * @param array $context
      */
-    protected function removeOldFile($fieldId, $versionNo, array $context)
-    {
+    protected function removeOldFile(
+        $fieldId,
+        $versionNo,
+        array $context
+    ) {
         $fileReference = $this->gateway->getFileReferenceData($fieldId, $versionNo);
         if ($fileReference === null) {
             // No previous file
@@ -155,8 +168,11 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         $field->value->externalData = $this->gateway->getFileReferenceData($field->id, $versionInfo->versionNo);
         if ($field->value->externalData !== null) {
             $binaryFile = $this->ioService->loadBinaryFile($field->value->externalData['id']);
@@ -179,8 +195,11 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds,
+        array $context
+    ) {
         if (empty($fieldIds)) {
             return;
         }
@@ -204,9 +223,11 @@ class BinaryBaseStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
-    {
-    }
+    public function getIndexData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {}
 }
 
 class_alias(BinaryBaseStorage::class, 'eZ\Publish\Core\FieldType\BinaryBase\BinaryBaseStorage');

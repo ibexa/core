@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 
 abstract class TrashServiceDecorator implements TrashService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\TrashService */
+    /** @var TrashService */
     protected $innerService;
 
     public function __construct(TrashService $innerService)

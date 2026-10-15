@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleAssignment;
 
 final class BeforeRemoveRoleAssignmentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleAssignment */
+    /** @var RoleAssignment */
     private $roleAssignment;
 
     public function __construct(RoleAssignment $roleAssignment)

@@ -13,9 +13,10 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
 use LogicException;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @property-read \Symfony\Component\DependencyInjection\ContainerInterface $container
+ * @property-read ContainerInterface $container
  *
  * @internal
  */
@@ -23,8 +24,11 @@ class StaticSiteAccessConfigResolver extends SiteAccessConfigResolver
 {
     use ContainerAwareTrait;
 
-    protected function resolverHasParameter(SiteAccess $siteAccess, string $paramName, string $namespace): bool
-    {
+    protected function resolverHasParameter(
+        SiteAccess $siteAccess,
+        string $paramName,
+        string $namespace
+    ): bool {
         if ($this->container === null) {
             throw new LogicException('Container is not set.');
         }
@@ -34,8 +38,11 @@ class StaticSiteAccessConfigResolver extends SiteAccessConfigResolver
         );
     }
 
-    protected function getParameterFromResolver(SiteAccess $siteAccess, string $paramName, string $namespace)
-    {
+    protected function getParameterFromResolver(
+        SiteAccess $siteAccess,
+        string $paramName,
+        string $namespace
+    ) {
         if ($this->container === null) {
             throw new LogicException('Container is not set.');
         }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
 use Imagine\Exception\InvalidArgumentException;
@@ -20,15 +21,17 @@ class ScaleDownOnlyFilterLoader extends FilterLoaderWrapped
     /**
      * Loads and applies a filter on the given image.
      *
-     * @param \Imagine\Image\ImageInterface $image
+     * @param ImageInterface $image
      * @param array $options Numerically indexed array. First entry is width, second is height.
      *
-     * @throws \Imagine\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @return \Imagine\Image\ImageInterface
+     * @return ImageInterface
      */
-    public function load(ImageInterface $image, array $options = [])
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ) {
         if (count($options) < 2) {
             throw new InvalidArgumentException('Missing width and/or height options');
         }

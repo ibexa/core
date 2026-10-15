@@ -15,17 +15,19 @@ use UnexpectedValueException;
 
 final class BeforeUpdateSectionEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
+    /** @var Section */
     private $section;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct */
+    /** @var SectionUpdateStruct */
     private $sectionUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section|null */
+    /** @var Section|null */
     private $updatedSection;
 
-    public function __construct(Section $section, SectionUpdateStruct $sectionUpdateStruct)
-    {
+    public function __construct(
+        Section $section,
+        SectionUpdateStruct $sectionUpdateStruct
+    ) {
         $this->section = $section;
         $this->sectionUpdateStruct = $sectionUpdateStruct;
     }

@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft;
 
 final class BeforeDeleteRoleDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
+    /** @var RoleDraft */
     private $roleDraft;
 
     public function __construct(RoleDraft $roleDraft)

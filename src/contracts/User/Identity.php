@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\User;
 
 /**
@@ -30,7 +31,10 @@ interface Identity
      * @param string $informationName
      * @param scalar $informationValue
      */
-    public function setInformation($informationName, $informationValue);
+    public function setInformation(
+        $informationName,
+        $informationValue
+    );
 
     /**
      * Replaces the information already registered in the identity.

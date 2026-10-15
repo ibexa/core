@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter;
 
 use Imagine\Filter\FilterInterface as BaseFilterInterface;
@@ -16,7 +17,10 @@ interface FilterInterface extends BaseFilterInterface
      * @param string $optionName
      * @param mixed $value
      */
-    public function setOption($optionName, $value);
+    public function setOption(
+        $optionName,
+        $value
+    );
 
     /**
      * Returns value for $optionName.
@@ -27,7 +31,10 @@ interface FilterInterface extends BaseFilterInterface
      *
      * @return mixed
      */
-    public function getOption($optionName, $defaultValue = null);
+    public function getOption(
+        $optionName,
+        $defaultValue = null
+    );
 
     /**
      * Checks if $optionName exists and has a value.

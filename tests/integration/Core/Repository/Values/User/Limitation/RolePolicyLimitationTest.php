@@ -4,14 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 class RolePolicyLimitationTest extends BaseLimitationTest
@@ -116,9 +119,9 @@ class RolePolicyLimitationTest extends BaseLimitationTest
     /**
      * Create test User in the given User Group.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $group
+     * @param UserGroup $group
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      */
     protected function createUserInGroup(UserGroup $group)
     {
@@ -146,13 +149,17 @@ class RolePolicyLimitationTest extends BaseLimitationTest
     /**
      * Add policy to a new role.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct $roleCreateStruct
+     * @param RoleCreateStruct $roleCreateStruct
      * @param string $module
      * @param string $function
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
+     * @param Limitation[] $limitations
      */
-    protected function addPolicyToNewRole(RoleCreateStruct $roleCreateStruct, $module, $function, array $limitations)
-    {
+    protected function addPolicyToNewRole(
+        RoleCreateStruct $roleCreateStruct,
+        $module,
+        $function,
+        array $limitations
+    ) {
         $roleService = $this->getRepository()->getRoleService();
         $policyCreateStruct = $roleService->newPolicyCreateStruct($module, $function);
         foreach ($limitations as $limitation) {
@@ -168,10 +175,13 @@ class RolePolicyLimitationTest extends BaseLimitationTest
      * @param string $mainLanguageCode
      * @param int $parentGroupId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return UserGroup
      */
-    protected function createGroup($groupName, $mainLanguageCode, $parentGroupId)
-    {
+    protected function createGroup(
+        $groupName,
+        $mainLanguageCode,
+        $parentGroupId
+    ) {
         $userService = $this->getRepository()->getUserService();
 
         $userGroupCreateStruct = $userService->newUserGroupCreateStruct($mainLanguageCode);

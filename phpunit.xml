@@ -30,7 +30,7 @@
       <directory>tests/bundle/IO</directory>
     </testsuite>
     <testsuite name="bundle_lse">
-      <directory>tests/bundle/LegacySearchEngineBundle</directory>
+      <directory>tests/bundle/LegacySearchEngine</directory>
     </testsuite>
   </testsuites>
   <listeners>

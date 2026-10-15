@@ -26,8 +26,7 @@ class LocationServiceDecoratorTest extends TestCase
 
     protected function createDecorator(MockObject $service): LocationService
     {
-        return new class($service) extends LocationServiceDecorator {
-        };
+        return new class($service) extends LocationServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

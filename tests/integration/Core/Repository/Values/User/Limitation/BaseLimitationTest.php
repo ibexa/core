@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -119,8 +120,10 @@ abstract class BaseLimitationTest extends BaseTest
         return $wikiPageCreate;
     }
 
-    protected function addPolicyToRole(string $roleIdentifier, PolicyCreateStruct $policyCreateStruct): Role
-    {
+    protected function addPolicyToRole(
+        string $roleIdentifier,
+        PolicyCreateStruct $policyCreateStruct
+    ): Role {
         $roleService = $this->getRepository()->getRoleService();
 
         $role = $roleService->loadRoleByIdentifier($roleIdentifier);

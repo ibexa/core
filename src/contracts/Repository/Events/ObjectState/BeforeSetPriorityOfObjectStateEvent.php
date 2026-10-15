@@ -13,13 +13,15 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState;
 
 final class BeforeSetPriorityOfObjectStateEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState */
+    /** @var ObjectState */
     private $objectState;
 
     private $priority;
 
-    public function __construct(ObjectState $objectState, $priority)
-    {
+    public function __construct(
+        ObjectState $objectState,
+        $priority
+    ) {
         $this->objectState = $objectState;
         $this->priority = $priority;
     }

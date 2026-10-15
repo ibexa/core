@@ -9,11 +9,15 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 
@@ -22,28 +26,30 @@ use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
  *
  * @internal Gateway implementation is considered internal. Use Persistence Location Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
     /**
      * Language mask generator.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @var MaskGenerator
      */
     private $maskGenerator;
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
+    /** @var AbstractPlatform */
     private $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
-    public function __construct(Connection $connection, MaskGenerator $maskGenerator)
-    {
+    public function __construct(
+        Connection $connection,
+        MaskGenerator $maskGenerator
+    ) {
         $this->connection = $connection;
         $this->dbPlatform = $this->connection->getDatabasePlatform();
         $this->maskGenerator = $maskGenerator;
@@ -64,8 +70,10 @@ final class DoctrineDatabase extends Gateway
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function loadObjectStateDataByIdentifier(string $identifier, int $groupId): array
-    {
+    public function loadObjectStateDataByIdentifier(
+        string $identifier,
+        int $groupId
+    ): array {
         $query = $this->createObjectStateFindQuery();
         $query->where(
             $query->expr()->andX(
@@ -135,8 +143,10 @@ final class DoctrineDatabase extends Gateway
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function loadObjectStateGroupListData(int $offset, int $limit): array
-    {
+    public function loadObjectStateGroupListData(
+        int $offset,
+        int $limit
+    ): array {
         $query = $this->createObjectStateGroupFindQuery();
         if ($limit > 0) {
             $query->setMaxResults($limit);
@@ -154,11 +164,13 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws DBALException
+     * @throws NotFoundException
      */
-    public function insertObjectState(ObjectState $objectState, int $groupId): void
-    {
+    public function insertObjectState(
+        ObjectState $objectState,
+        int $groupId
+    ): void {
         $maxPriority = $this->getMaxPriorityForObjectStatesInGroup($groupId);
 
         $objectState->priority = $maxPriority === null ? 0 : (int)$maxPriority + 1;
@@ -216,7 +228,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * @param string[] $languageCodes
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function updateObjectStateCommonFields(
         string $tableName,
@@ -299,8 +311,10 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function updateObjectStateLinks(int $oldStateId, int $newStateId): void
-    {
+    public function updateObjectStateLinks(
+        int $oldStateId,
+        int $newStateId
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::OBJECT_STATE_LINK_TABLE)
@@ -444,8 +458,11 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function setContentState(int $contentId, int $groupId, int $stateId): void
-    {
+    public function setContentState(
+        int $contentId,
+        int $groupId,
+        int $stateId
+    ): void {
         // First find out if $contentId is related to existing states in $groupId
         $assignedStateId = $this->getContentStateId($contentId, $groupId);
 
@@ -458,8 +475,10 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    public function loadObjectStateDataForContent(int $contentId, int $stateGroupId): array
-    {
+    public function loadObjectStateDataForContent(
+        int $contentId,
+        int $stateGroupId
+    ): array {
         $query = $this->createObjectStateFindQuery();
         $expr = $query->expr();
         $query
@@ -505,8 +524,10 @@ final class DoctrineDatabase extends Gateway
         return (int)$query->execute()->fetchColumn();
     }
 
-    public function updateObjectStatePriority(int $stateId, int $priority): void
-    {
+    public function updateObjectStatePriority(
+        int $stateId,
+        int $priority
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::OBJECT_STATE_TABLE)
@@ -586,7 +607,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * Insert object state group translations into database.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if Object State language does not exist
+     * @throws NotFoundException if Object State language does not exist
      */
     private function insertObjectStateTranslations(ObjectState $objectState): void
     {
@@ -645,7 +666,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * Insert object state group translations into database.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if Object State Group language does not exist
+     * @throws NotFoundException if Object State Group language does not exist
      */
     private function insertObjectStateGroupTranslations(Group $objectStateGroup): void
     {
@@ -716,8 +737,10 @@ final class DoctrineDatabase extends Gateway
         return null !== $priority ? (int)$priority : null;
     }
 
-    private function getContentStateId(int $contentId, int $groupId): ?int
-    {
+    private function getContentStateId(
+        int $contentId,
+        int $groupId
+    ): ?int {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('state.id')
@@ -746,8 +769,10 @@ final class DoctrineDatabase extends Gateway
         return false !== $stateId ? (int)$stateId : null;
     }
 
-    private function insertContentStateAssignment(int $contentId, int $stateId): void
-    {
+    private function insertContentStateAssignment(
+        int $contentId,
+        int $stateId
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->insert(self::OBJECT_STATE_LINK_TABLE)

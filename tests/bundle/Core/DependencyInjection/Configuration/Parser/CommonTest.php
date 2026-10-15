@@ -4,18 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Common;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Yaml\Yaml;
 
 class CommonTest extends AbstractParserTestCase
 {
     private $minimalConfig;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $suggestionCollector;
 
     protected function getContainerExtensions(): array
@@ -224,8 +226,10 @@ class CommonTest extends AbstractParserTestCase
     /**
      * @dataProvider sessionSettingsProvider
      */
-    public function testSessionSettings(array $inputParams, array $expected)
-    {
+    public function testSessionSettings(
+        array $inputParams,
+        array $expected
+    ) {
         $this->load(
             [
                 'system' => [

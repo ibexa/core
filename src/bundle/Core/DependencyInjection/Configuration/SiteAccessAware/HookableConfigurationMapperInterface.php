@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 /**
@@ -24,7 +25,10 @@ interface HookableConfigurationMapperInterface extends ConfigurationMapperInterf
      *
      * @return mixed
      */
-    public function preMap(array $config, ContextualizerInterface $contextualizer);
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    );
 
     /**
      * This method is called by the ConfigurationProcessor after looping over available scopes.
@@ -38,7 +42,10 @@ interface HookableConfigurationMapperInterface extends ConfigurationMapperInterf
      *
      * @return mixed
      */
-    public function postMap(array $config, ContextualizerInterface $contextualizer);
+    public function postMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    );
 }
 
 class_alias(HookableConfigurationMapperInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\HookableConfigurationMapperInterface');

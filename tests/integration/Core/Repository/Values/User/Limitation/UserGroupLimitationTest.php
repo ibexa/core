@@ -4,15 +4,19 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -65,7 +69,7 @@ class UserGroupLimitationTest extends BaseLimitationTest
     /**
      * Prepares the UserGroup fixture.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return UserGroup
      */
     protected function prepareUserGroup()
     {
@@ -91,15 +95,17 @@ class UserGroupLimitationTest extends BaseLimitationTest
     /**
      * Prepares the limitation fixture.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
+     * @param User $user
+     * @param UserGroup $userGroup
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      *
      * @throws \ErrorException
      */
-    protected function prepareLimitationAndContent(User $user, UserGroup $userGroup)
-    {
+    protected function prepareLimitationAndContent(
+        User $user,
+        UserGroup $userGroup
+    ) {
         $repository = $this->getRepository();
 
         $contentService = $repository->getContentService();
@@ -111,7 +117,7 @@ class UserGroupLimitationTest extends BaseLimitationTest
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         $editPolicy = null;
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'edit' != $policy->function) {

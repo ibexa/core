@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\SectionCreateStruct;
 
 final class CreateSectionEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\SectionCreateStruct */
+    /** @var SectionCreateStruct */
     private $sectionCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
+    /** @var Section */
     private $section;
 
     public function __construct(

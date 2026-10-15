@@ -63,8 +63,10 @@ abstract class Base implements CriterionHandler
         }
     }
 
-    protected function hasJoinedTable(QueryBuilder $queryBuilder, string $tableName): bool
-    {
+    protected function hasJoinedTable(
+        QueryBuilder $queryBuilder,
+        string $tableName
+    ): bool {
         // find table name in a structure: ['fromAlias' => [['joinTable' => '<table_name>'], ...]]
         $joinedParts = $queryBuilder->getQueryPart('join');
         foreach ($joinedParts as $joinedTables) {

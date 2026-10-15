@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct;
 
 abstract class ObjectStateServiceDecorator implements ObjectStateService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ObjectStateService */
+    /** @var ObjectStateService */
     protected $innerService;
 
     public function __construct(ObjectStateService $innerService)

@@ -15,10 +15,10 @@ use UnexpectedValueException;
 
 final class BeforeCreateRoleDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role */
+    /** @var Role */
     private $role;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft|null */
+    /** @var RoleDraft|null */
     private $roleDraft;
 
     public function __construct(Role $role)

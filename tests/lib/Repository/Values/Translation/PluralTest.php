@@ -19,13 +19,15 @@ final class PluralTest extends TestCase
     /**
      * @dataProvider getDataForTestStringable
      */
-    public function testStringable(Plural $message, string $expectedString): void
-    {
+    public function testStringable(
+        Plural $message,
+        string $expectedString
+    ): void {
         self::assertSame($expectedString, (string)$message);
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Translation\Plural, string}>
+     * @return iterable<string, array{Plural, string}>
      */
     public static function getDataForTestStringable(): iterable
     {

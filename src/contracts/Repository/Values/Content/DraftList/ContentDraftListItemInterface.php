@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 interface ContentDraftListItemInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo|null
+     * @return VersionInfo|null
      */
     public function getVersionInfo(): ?VersionInfo;
 

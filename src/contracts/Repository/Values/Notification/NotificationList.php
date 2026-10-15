@@ -18,7 +18,7 @@ class NotificationList extends ValueObject implements IteratorAggregate
     /** @var int */
     public $totalCount = 0;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Notification[] */
+    /** @var Notification[] */
     public $items = [];
 
     /**

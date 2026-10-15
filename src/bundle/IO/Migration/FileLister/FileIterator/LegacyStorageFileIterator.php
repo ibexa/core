@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\Migration\FileLister\FileIterator;
 
 use Ibexa\Bundle\IO\Migration\FileLister\FileIteratorInterface;
@@ -22,11 +23,11 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
     /** @var int Iteration cursor on statement. */
     private $cursor;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface Used to get file rows. */
+    /** @var FileRowReaderInterface Used to get file rows. */
     private $rowReader;
 
     /**
-     * @param \Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface $rowReader
+     * @param FileRowReaderInterface $rowReader
      */
     public function __construct(FileRowReaderInterface $rowReader)
     {

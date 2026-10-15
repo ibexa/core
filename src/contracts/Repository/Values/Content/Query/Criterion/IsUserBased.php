@@ -20,7 +20,7 @@ class IsUserBased extends Criterion implements FilteringCriterion
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications[]
+     * @return Specifications[]
      */
     public function getSpecifications(): array
     {

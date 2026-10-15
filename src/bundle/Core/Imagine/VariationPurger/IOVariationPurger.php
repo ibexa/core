@@ -4,12 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
 use Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator;
 use Ibexa\Contracts\Core\Variation\VariationPurger;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
 /**
@@ -19,19 +21,19 @@ use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
  */
 class IOVariationPurger implements VariationPurger
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $io;
 
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
+    /** @var TagAwareAdapterInterface */
     private $cache;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
+    /** @var CacheIdentifierGeneratorInterface */
     private $cacheIdentifierGenerator;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator */
+    /** @var AliasGeneratorDecorator */
     private $aliasGeneratorDecorator;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
     public function __construct(
@@ -47,7 +49,7 @@ class IOVariationPurger implements VariationPurger
     }
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      */
     public function setLogger($logger)
     {

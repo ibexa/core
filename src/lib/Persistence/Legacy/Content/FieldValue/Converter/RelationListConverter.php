@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Doctrine\DBAL\Connection;
@@ -22,7 +23,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 
 class RelationListConverter implements Converter
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     public function __construct(Connection $connection)
@@ -33,8 +34,10 @@ class RelationListConverter implements Converter
     /**
      * Converts data from $value to $storageFieldValue.
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ) {
         $doc = new DOMDocument('1.0', 'utf-8');
         $root = $doc->createElement('related-objects');
         $doc->appendChild($root);
@@ -75,8 +78,10 @@ class RelationListConverter implements Converter
     /**
      * Converts data from $value to $fieldValue.
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ) {
         $fieldValue->data = ['destinationContentIds' => []];
         if ($value->dataText === null) {
             return;
@@ -102,8 +107,10 @@ class RelationListConverter implements Converter
     /**
      * Converts field definition data in $fieldDef into $storageFieldDef.
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ) {
         $fieldSettings = $fieldDef->fieldTypeConstraints->fieldSettings;
         $validators = $fieldDef->fieldTypeConstraints->validators;
         $doc = new DOMDocument('1.0', 'utf-8');
@@ -185,8 +192,10 @@ class RelationListConverter implements Converter
      *   </related-objects>
      * </code>
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ) {
         // default settings
         $fieldDef->fieldTypeConstraints->fieldSettings = [
             'selectionMethod' => 0,

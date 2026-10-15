@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
@@ -17,16 +18,17 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\ObjectStateLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
  */
 class ObjectStateLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPIHandler|MockObject */
     private $objectStateHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group[] */
+    /** @var Group[] */
     private $allObjectStateGroups;
 
     /** @var array */
@@ -75,7 +77,7 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\ObjectStateLimitationType
+     * @return ObjectStateLimitationType
      */
     public function testConstruct()
     {
@@ -209,7 +211,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
+     * @param ObjectStateLimitationType $limitationType
      */
     public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType)
     {
@@ -224,7 +226,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
+     * @param ObjectStateLimitationType $limitationType
      */
     public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType)
     {

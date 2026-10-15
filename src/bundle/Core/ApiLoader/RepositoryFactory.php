@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
@@ -35,7 +36,7 @@ class RepositoryFactory implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     /** @var string */
@@ -48,10 +49,10 @@ class RepositoryFactory implements ContainerAwareInterface
      */
     private $policyMap;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
+    /** @var LanguageResolver */
     private $languageResolver;
 
     public function __construct(

@@ -16,6 +16,8 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler
 use Ibexa\Contracts\Core\Persistence\User as SPIUser;
 use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct as SPIUserTokenUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
@@ -64,28 +66,28 @@ class UserService implements UserServiceInterface
 {
     private const USER_FIELD_TYPE_NAME = 'ezuser';
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var RepositoryInterface */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\User\Handler */
+    /** @var Handler */
     protected $userHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
+    /** @var LocationHandler */
     private $locationHandler;
 
     /** @var array */
     protected $settings;
 
-    /** @var \Psr\Log\LoggerInterface|null */
+    /** @var LoggerInterface|null */
     protected $logger;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PasswordHashService */
+    /** @var PasswordHashService */
     private $passwordHashService;
 
-    /** @var \Ibexa\Core\Repository\User\PasswordValidatorInterface */
+    /** @var PasswordValidatorInterface */
     private $passwordValidator;
 
     private ConfigResolverInterface $configResolver;
@@ -132,18 +134,20 @@ class UserService implements UserServiceInterface
      * - the content type is determined via configuration and can be set to null.
      * The returned version is published.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct $userGroupCreateStruct a structure for setting all necessary data to create this user group
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $parentGroup
+     * @param APIUserGroupCreateStruct $userGroupCreateStruct a structure for setting all necessary data to create this user group
+     * @param APIUserGroup $parentGroup
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return APIUserGroup
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the input structure has invalid data
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $userGroupCreateStruct is not valid
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is missing or set to an empty value
+     * @throws ContentValidationException if a required field is missing or set to an empty value
      */
-    public function createUserGroup(APIUserGroupCreateStruct $userGroupCreateStruct, APIUserGroup $parentGroup): APIUserGroup
-    {
+    public function createUserGroup(
+        APIUserGroupCreateStruct $userGroupCreateStruct,
+        APIUserGroup $parentGroup
+    ): APIUserGroup {
         $contentService = $this->repository->getContentService();
         $locationService = $this->repository->getLocationService();
         $contentTypeService = $this->repository->getContentTypeService();
@@ -182,20 +186,24 @@ class UserService implements UserServiceInterface
      * @param mixed $id
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return APIUserGroup
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the user group with the given id was not found
+     * @throws NotFoundException if the user group with the given id was not found
      */
-    public function loadUserGroup(int $id, array $prioritizedLanguages = []): APIUserGroup
-    {
+    public function loadUserGroup(
+        int $id,
+        array $prioritizedLanguages = []
+    ): APIUserGroup {
         $content = $this->repository->getContentService()->loadContent($id, $prioritizedLanguages);
 
         return $this->buildDomainUserGroupObject($content);
     }
 
-    public function loadUserGroupByRemoteId(string $remoteId, array $prioritizedLanguages = []): APIUserGroup
-    {
+    public function loadUserGroupByRemoteId(
+        string $remoteId,
+        array $prioritizedLanguages = []
+    ): APIUserGroup {
         $content = $this->repository->getContentService()->loadContentByRemoteId($remoteId, $prioritizedLanguages);
 
         return $this->buildDomainUserGroupObject($content);
@@ -204,17 +212,21 @@ class UserService implements UserServiceInterface
     /**
      * Loads the sub groups of a user group.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
+     * @param APIUserGroup $userGroup
      * @param int $offset the start offset for paging
      * @param int $limit the number of user groups returned
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup[]
+     * @return APIUserGroup[]
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to read the user group
      */
-    public function loadSubUserGroups(APIUserGroup $userGroup, int $offset = 0, int $limit = 25, array $prioritizedLanguages = []): iterable
-    {
+    public function loadSubUserGroups(
+        APIUserGroup $userGroup,
+        int $offset = 0,
+        int $limit = 25,
+        array $prioritizedLanguages = []
+    ): iterable {
         $locationService = $this->repository->getLocationService();
 
         $loadedUserGroup = $this->loadUserGroup($userGroup->id);
@@ -251,14 +263,17 @@ class UserService implements UserServiceInterface
     /**
      * Returns (searches) subgroups of a user group described by its main location.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
+     * @return SearchResult
      */
-    protected function searchSubGroups(Location $location, int $offset = 0, int $limit = 25): SearchResult
-    {
+    protected function searchSubGroups(
+        Location $location,
+        int $offset = 0,
+        int $limit = 25
+    ): SearchResult {
         $searchQuery = new LocationQuery();
 
         $searchQuery->offset = $offset;
@@ -279,7 +294,7 @@ class UserService implements UserServiceInterface
      *
      * the users which are not assigned to other groups will be deleted.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
+     * @param APIUserGroup $userGroup
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
      */
@@ -308,13 +323,15 @@ class UserService implements UserServiceInterface
     /**
      * Moves the user group to another parent.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $newParent
+     * @param APIUserGroup $userGroup
+     * @param APIUserGroup $newParent
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to move the user group
      */
-    public function moveUserGroup(APIUserGroup $userGroup, APIUserGroup $newParent): void
-    {
+    public function moveUserGroup(
+        APIUserGroup $userGroup,
+        APIUserGroup $newParent
+    ): void {
         $loadedUserGroup = $this->loadUserGroup($userGroup->id);
         $loadedNewParent = $this->loadUserGroup($newParent->id);
 
@@ -351,17 +368,19 @@ class UserService implements UserServiceInterface
      * 4.x: If the versionUpdateStruct is set in $userGroupUpdateStruct, this method internally creates a content draft, updates ts with the provided data
      * and publishes the draft. If a draft is explicitly required, the user group can be updated via the content service methods.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct $userGroupUpdateStruct
+     * @param APIUserGroup $userGroup
+     * @param UserGroupUpdateStruct $userGroupUpdateStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return APIUserGroup
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to update the user group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $userGroupUpdateStruct is not valid
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is set empty
+     * @throws ContentValidationException if a required field is set empty
      */
-    public function updateUserGroup(APIUserGroup $userGroup, UserGroupUpdateStruct $userGroupUpdateStruct): APIUserGroup
-    {
+    public function updateUserGroup(
+        APIUserGroup $userGroup,
+        UserGroupUpdateStruct $userGroupUpdateStruct
+    ): APIUserGroup {
         if ($userGroupUpdateStruct->contentUpdateStruct === null &&
             $userGroupUpdateStruct->contentMetadataUpdateStruct === null) {
             // both update structs are empty, nothing to do
@@ -405,18 +424,20 @@ class UserService implements UserServiceInterface
     /**
      * Create a new user. The created user is published by this method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct $userCreateStruct the data used for creating the user
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup[] $parentGroups the groups which are assigned to the user after creation
+     * @param APIUserCreateStruct $userCreateStruct the data used for creating the user
+     * @param APIUserGroup[] $parentGroups the groups which are assigned to the user after creation
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to move the user group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $userCreateStruct is not valid
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is missing or set to an empty value
+     * @throws ContentValidationException if a required field is missing or set to an empty value
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if a user with provided login already exists
      */
-    public function createUser(APIUserCreateStruct $userCreateStruct, array $parentGroups): APIUser
-    {
+    public function createUser(
+        APIUserCreateStruct $userCreateStruct,
+        array $parentGroups
+    ): APIUser {
         $contentService = $this->repository->getContentService();
         $locationService = $this->repository->getLocationService();
 
@@ -469,13 +490,15 @@ class UserService implements UserServiceInterface
      * @param int $userId
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if a user with the given id was not found
+     * @throws NotFoundException if a user with the given id was not found
      */
-    public function loadUser(int $userId, array $prioritizedLanguages = []): APIUser
-    {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content */
+    public function loadUser(
+        int $userId,
+        array $prioritizedLanguages = []
+    ): APIUser {
+        /** @var APIContent $content */
         $content = $this->repository->getContentService()->internalLoadContentById($userId, $prioritizedLanguages);
         // Get spiUser value from Field Value
         foreach ($content->getFields() as $field) {
@@ -508,7 +531,7 @@ class UserService implements UserServiceInterface
     /**
      * Checks if credentials are valid for provided User.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
+     * @param APIUser $user
      * @param string $credentials
      *
      * @return bool
@@ -529,12 +552,14 @@ class UserService implements UserServiceInterface
      * @param string $login
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if a user with the given credentials was not found
+     * @throws NotFoundException if a user with the given credentials was not found
      */
-    public function loadUserByLogin(string $login, array $prioritizedLanguages = []): APIUser
-    {
+    public function loadUserByLogin(
+        string $login,
+        array $prioritizedLanguages = []
+    ): APIUser {
         if (empty($login)) {
             throw new InvalidArgumentValue('login', $login);
         }
@@ -552,12 +577,14 @@ class UserService implements UserServiceInterface
      * @param string $email
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function loadUserByEmail(string $email, array $prioritizedLanguages = []): APIUser
-    {
+    public function loadUserByEmail(
+        string $email,
+        array $prioritizedLanguages = []
+    ): APIUser {
         if (empty($email)) {
             throw new InvalidArgumentValue('email', $email);
         }
@@ -575,12 +602,14 @@ class UserService implements UserServiceInterface
      * @param string $email
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User[]
+     * @return APIUser[]
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function loadUsersByEmail(string $email, array $prioritizedLanguages = []): iterable
-    {
+    public function loadUsersByEmail(
+        string $email,
+        array $prioritizedLanguages = []
+    ): iterable {
         if (empty($email)) {
             throw new InvalidArgumentValue('email', $email);
         }
@@ -601,13 +630,15 @@ class UserService implements UserServiceInterface
      * @param string $hash
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws NotFoundException
+     * @throws InvalidArgumentValue
      */
-    public function loadUserByToken(string $hash, array $prioritizedLanguages = []): APIUser
-    {
+    public function loadUserByToken(
+        string $hash,
+        array $prioritizedLanguages = []
+    ): APIUser {
         if (empty($hash)) {
             throw new InvalidArgumentValue('hash', $hash);
         }
@@ -620,7 +651,7 @@ class UserService implements UserServiceInterface
     /**
      * This method deletes a user.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
+     * @param APIUser $user
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to delete the user
      */
@@ -655,15 +686,17 @@ class UserService implements UserServiceInterface
      * 4.x: If the versionUpdateStruct is set in the user update structure, this method internally creates a content draft, updates ts with the provided data
      * and publishes the draft. If a draft is explicitly required, the user group can be updated via the content service methods.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct $userUpdateStruct
+     * @param APIUser $user
+     * @param UserUpdateStruct $userUpdateStruct
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $userUpdateStruct is not valid
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is set empty
+     * @throws ContentValidationException if a required field is set empty
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to update the user
      */
-    public function updateUser(APIUser $user, UserUpdateStruct $userUpdateStruct): APIUser
-    {
+    public function updateUser(
+        APIUser $user,
+        UserUpdateStruct $userUpdateStruct
+    ): APIUser {
         $loadedUser = $this->loadUser($user->id);
 
         $contentService = $this->repository->getContentService();
@@ -819,18 +852,20 @@ class UserService implements UserServiceInterface
     /**
      * Update the user token information specified by the user token struct.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct $userTokenUpdateStruct
+     * @param APIUser $user
+     * @param UserTokenUpdateStruct $userTokenUpdateStruct
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws InvalidArgumentValue
+     * @throws NotFoundException
      * @throws \RuntimeException
-     * @throws \Exception
+     * @throws Exception
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      */
-    public function updateUserToken(APIUser $user, UserTokenUpdateStruct $userTokenUpdateStruct): APIUser
-    {
+    public function updateUserToken(
+        APIUser $user,
+        UserTokenUpdateStruct $userTokenUpdateStruct
+    ): APIUser {
         $loadedUser = $this->loadUser($user->id);
 
         if ($userTokenUpdateStruct->hashKey !== null && (!is_string($userTokenUpdateStruct->hashKey) || empty($userTokenUpdateStruct->hashKey))) {
@@ -881,14 +916,16 @@ class UserService implements UserServiceInterface
     /**
      * Assigns a new user group to the user.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
+     * @param APIUser $user
+     * @param APIUserGroup $userGroup
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to assign the user group to the user
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the user is already in the given user group
      */
-    public function assignUserToUserGroup(APIUser $user, APIUserGroup $userGroup): void
-    {
+    public function assignUserToUserGroup(
+        APIUser $user,
+        APIUserGroup $userGroup
+    ): void {
         $loadedUser = $this->loadUser($user->id);
         $loadedGroup = $this->loadUserGroup($userGroup->id);
         $locationService = $this->repository->getLocationService();
@@ -928,15 +965,17 @@ class UserService implements UserServiceInterface
     /**
      * Removes a user group from the user.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
+     * @param APIUser $user
+     * @param APIUserGroup $userGroup
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to remove the user group from the user
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the user is not in the given user group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If $userGroup is the last assigned user group
      */
-    public function unAssignUserFromUserGroup(APIUser $user, APIUserGroup $userGroup): void
-    {
+    public function unAssignUserFromUserGroup(
+        APIUser $user,
+        APIUserGroup $userGroup
+    ): void {
         $loadedUser = $this->loadUser($user->id);
         $loadedGroup = $this->loadUserGroup($userGroup->id);
         $locationService = $this->repository->getLocationService();
@@ -978,15 +1017,19 @@ class UserService implements UserServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed read the user or user group
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
+     * @param APIUser $user
      * @param int $offset the start offset for paging
      * @param int $limit the number of user groups returned
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup[]
+     * @return APIUserGroup[]
      */
-    public function loadUserGroupsOfUser(APIUser $user, int $offset = 0, int $limit = 25, array $prioritizedLanguages = []): iterable
-    {
+    public function loadUserGroupsOfUser(
+        APIUser $user,
+        int $offset = 0,
+        int $limit = 25,
+        array $prioritizedLanguages = []
+    ): iterable {
         $locationService = $this->repository->getLocationService();
 
         if (!$this->repository->getPermissionResolver()->canUser('content', 'read', $user)) {
@@ -1037,12 +1080,12 @@ class UserService implements UserServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to read the users or user group
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
+     * @param APIUserGroup $userGroup
      * @param int $offset the start offset for paging
      * @param int $limit the number of users returned
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User[]
+     * @return APIUser[]
      */
     public function loadUsersOfUserGroup(
         APIUserGroup $userGroup,
@@ -1130,9 +1173,9 @@ class UserService implements UserServiceInterface
      * @param string $email the email of the new user
      * @param string $password the plain password of the new user
      * @param string $mainLanguageCode the main language for the underlying content object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType content type for the underlying content item.
+     * @param ContentType|null $contentType content type for the underlying content item.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct
+     * @return APIUserCreateStruct
      */
     public function newUserCreateStruct(
         string $login,
@@ -1186,12 +1229,14 @@ class UserService implements UserServiceInterface
      * Instantiate a user group create class.
      *
      * @param string $mainLanguageCode The main language for the underlying content object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType 5.x the content type for the underlying content item. In 4.x it is ignored and taken from the configuration
+     * @param ContentType|null $contentType 5.x the content type for the underlying content item. In 4.x it is ignored and taken from the configuration
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct
+     * @return APIUserGroupCreateStruct
      */
-    public function newUserGroupCreateStruct(string $mainLanguageCode, ?ContentType $contentType = null): APIUserGroupCreateStruct
-    {
+    public function newUserGroupCreateStruct(
+        string $mainLanguageCode,
+        ?ContentType $contentType = null
+    ): APIUserGroupCreateStruct {
         if ($contentType === null) {
             $contentType = $this->repository->getContentTypeService()->loadContentType(
                 $this->settings['userGroupClassID']
@@ -1210,7 +1255,7 @@ class UserService implements UserServiceInterface
     /**
      * Instantiate a new user update struct.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct
+     * @return UserUpdateStruct
      */
     public function newUserUpdateStruct(): UserUpdateStruct
     {
@@ -1220,7 +1265,7 @@ class UserService implements UserServiceInterface
     /**
      * Instantiate a new user group update struct.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct
+     * @return UserGroupUpdateStruct
      */
     public function newUserGroupUpdateStruct(): UserGroupUpdateStruct
     {
@@ -1260,9 +1305,9 @@ class UserService implements UserServiceInterface
     /**
      * Builds the domain UserGroup object from provided Content object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param APIContent $content
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return APIUserGroup
      */
     protected function buildDomainUserGroupObject(APIContent $content): APIUserGroup
     {
@@ -1286,11 +1331,11 @@ class UserService implements UserServiceInterface
     /**
      * Builds the domain user object from provided persistence user object.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User $spiUser
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|null $content
+     * @param SPIUser $spiUser
+     * @param APIContent|null $content
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return APIUser
      */
     protected function buildDomainUserObject(
         SPIUser $spiUser,
@@ -1331,7 +1376,7 @@ class UserService implements UserServiceInterface
     }
 
     /**
-     * Verifies if the provided login and password are valid for {@see \Ibexa\Contracts\Core\Persistence\User}.
+     * Verifies if the provided login and password are valid for {@see SPIUser}.
      *
      * @return bool return true if the login and password are successfully validated and false, if not.
      */
@@ -1344,7 +1389,7 @@ class UserService implements UserServiceInterface
     }
 
     /**
-     * Verifies if the provided login and password are valid for {@see \Ibexa\Contracts\Core\Repository\Values\User\User}.
+     * Verifies if the provided login and password are valid for {@see APIUser}.
      *
      * @return bool return true if the login and password are successfully validated and false, if not.
      */
@@ -1378,7 +1423,7 @@ class UserService implements UserServiceInterface
     /**
      * Return true if any of the UserUpdateStruct properties refers to User Profile (Content) update.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct $userUpdateStruct
+     * @param UserUpdateStruct $userUpdateStruct
      *
      * @return bool
      */

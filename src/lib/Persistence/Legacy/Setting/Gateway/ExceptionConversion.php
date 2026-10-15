@@ -18,7 +18,7 @@ use PDOException;
  */
 final class ExceptionConversion extends Gateway
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Setting\Gateway */
+    /** @var Gateway */
     private $innerGateway;
 
     public function __construct(Gateway $innerGateway)
@@ -27,10 +27,13 @@ final class ExceptionConversion extends Gateway
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException
+     * @throws DatabaseException
      */
-    public function insertSetting(string $group, string $identifier, string $serializedValue): int
-    {
+    public function insertSetting(
+        string $group,
+        string $identifier,
+        string $serializedValue
+    ): int {
         try {
             return $this->innerGateway->insertSetting($group, $identifier, $serializedValue);
         } catch (DBALException | PDOException $e) {
@@ -39,10 +42,13 @@ final class ExceptionConversion extends Gateway
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException
+     * @throws DatabaseException
      */
-    public function updateSetting(string $group, string $identifier, string $serializedValue): void
-    {
+    public function updateSetting(
+        string $group,
+        string $identifier,
+        string $serializedValue
+    ): void {
         try {
             $this->innerGateway->updateSetting($group, $identifier, $serializedValue);
         } catch (DBALException | PDOException $e) {
@@ -51,10 +57,12 @@ final class ExceptionConversion extends Gateway
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException
+     * @throws DatabaseException
      */
-    public function loadSetting(string $group, string $identifier): ?array
-    {
+    public function loadSetting(
+        string $group,
+        string $identifier
+    ): ?array {
         try {
             return $this->innerGateway->loadSetting($group, $identifier);
         } catch (DBALException | PDOException $e) {
@@ -63,7 +71,7 @@ final class ExceptionConversion extends Gateway
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException
+     * @throws DatabaseException
      */
     public function loadSettingById(int $id): ?array
     {
@@ -75,10 +83,12 @@ final class ExceptionConversion extends Gateway
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException
+     * @throws DatabaseException
      */
-    public function deleteSetting(string $group, string $identifier): void
-    {
+    public function deleteSetting(
+        string $group,
+        string $identifier
+    ): void {
         try {
             $this->innerGateway->deleteSetting($group, $identifier);
         } catch (DBALException | PDOException $e) {

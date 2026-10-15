@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler;
 
+use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler\LegacyDFSCluster;
 use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTest;
 use Symfony\Component\DependencyInjection\Definition;
@@ -15,7 +17,7 @@ class LegacyDFSClusterTest extends ConfigurationFactoryTest
     /**
      * Returns an instance of the tested factory.
      *
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory
+     * @return ConfigurationFactory
      */
     public function provideTestedFactory()
     {

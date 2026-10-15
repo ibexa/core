@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\IO;
 
 use Exception;
@@ -24,13 +25,13 @@ use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
  */
 class IOService implements IOServiceInterface
 {
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler */
+    /** @var IOBinarydataHandler */
     protected $binarydataHandler;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler */
+    /** @var IOMetadataHandler */
     protected $metadataHandler;
 
-    /** @var \Ibexa\Contracts\Core\IO\MimeTypeDetector */
+    /** @var MimeTypeDetector */
     protected $mimeTypeDetector;
 
     /** @var array */
@@ -224,9 +225,9 @@ class IOService implements IOServiceInterface
     /**
      * Generates SPI BinaryFileCreateStruct object from provided API BinaryFileCreateStruct object.
      *
-     * @param \Ibexa\Core\IO\Values\BinaryFileCreateStruct $binaryFileCreateStruct
+     * @param BinaryFileCreateStruct $binaryFileCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct
+     * @return SPIBinaryFileCreateStruct
      */
     protected function buildSPIBinaryFileCreateStructObject(BinaryFileCreateStruct $binaryFileCreateStruct)
     {
@@ -244,9 +245,9 @@ class IOService implements IOServiceInterface
     /**
      * Generates API BinaryFile object from provided SPI BinaryFile object.
      *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFile $spiBinaryFile
+     * @param SPIBinaryFile $spiBinaryFile
      *
-     * @return \Ibexa\Core\IO\Values\BinaryFile
+     * @return BinaryFile
      */
     protected function buildDomainBinaryFileObject(SPIBinaryFile $spiBinaryFile)
     {
@@ -283,7 +284,7 @@ class IOService implements IOServiceInterface
      *
      * @return string
      *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryPrefixException
+     * @throws InvalidBinaryPrefixException
      */
     protected function removeUriPrefix($spiBinaryFileId)
     {
@@ -301,7 +302,7 @@ class IOService implements IOServiceInterface
     /**
      * @param string $binaryFileId
      *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException If the id is invalid
+     * @throws InvalidBinaryFileIdException If the id is invalid
      */
     protected function checkBinaryFileId($binaryFileId)
     {

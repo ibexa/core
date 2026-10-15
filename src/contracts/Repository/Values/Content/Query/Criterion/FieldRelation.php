@@ -10,11 +10,12 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 
 /**
  * A criterion that matches Content based on the relations in relation field.
  * This includes Relation and RelationList field types in standard installation, but also any
- * other field type storing {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
+ * other field type storing {@see Relation::FIELD}
  * type relation.
  *
  * Supported operators:

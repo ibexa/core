@@ -33,13 +33,13 @@ class ObjectState extends APIObjectState
     use MultiLanguageNameTrait;
     use MultiLanguageDescriptionTrait;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup */
+    /** @var APIObjectStateGroup */
     protected $objectStateGroup;
 
     /**
      * The object state group this object state belongs to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup
+     * @return APIObjectStateGroup
      */
     public function getObjectStateGroup(): APIObjectStateGroup
     {

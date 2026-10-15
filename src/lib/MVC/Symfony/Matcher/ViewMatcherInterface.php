@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Matcher;
 
 use Ibexa\Core\MVC\Symfony\View\View;
@@ -26,7 +27,7 @@ interface ViewMatcherInterface
     /**
      * Matches the $view against a set of matchers.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\View $view
+     * @param View $view
      *
      * @return bool
      */

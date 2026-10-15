@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Variation;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Variation\Values\Variation;
 
 /**
  * Interface for Variation services.
@@ -21,14 +23,19 @@ interface VariationHandler
      * This method is responsible to create the variation if needed.
      * Variations might be applicable for images (aliases), documents...
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
+     * @param Field $field
+     * @param VersionInfo $versionInfo
      * @param string $variationName
      * @param array $parameters Hash of arbitrary parameters useful to generate the variation
      *
-     * @return \Ibexa\Contracts\Core\Variation\Values\Variation
+     * @return Variation
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, $variationName, array $parameters = []);
+    public function getVariation(
+        Field $field,
+        VersionInfo $versionInfo,
+        $variationName,
+        array $parameters = []
+    );
 }
 
 class_alias(VariationHandler::class, 'eZ\Publish\SPI\Variation\VariationHandler');

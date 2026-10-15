@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Repository\Values\Translation;
 
 use Ibexa\Contracts\Core\Repository\Values\Translation;
@@ -35,8 +36,10 @@ class Message extends Translation
      *
      * @param array<string, scalar> $values
      */
-    public function __construct(string $message, array $values = [])
-    {
+    public function __construct(
+        string $message,
+        array $values = []
+    ) {
         $this->message = $message;
         $this->values = $values;
 

@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Policy;
 
 final class BeforeDeletePolicyEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Policy */
+    /** @var Policy */
     private $policy;
 
     public function __construct(Policy $policy)

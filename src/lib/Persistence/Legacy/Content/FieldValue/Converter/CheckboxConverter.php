@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
@@ -21,7 +22,7 @@ class CheckboxConverter implements Converter
      *
      * @deprecated since 6.8, will be removed in 7.x, use default constructor instead.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter
+     * @return CheckboxConverter
      */
     public static function create()
     {
@@ -31,11 +32,13 @@ class CheckboxConverter implements Converter
     /**
      * Converts data from $value to $storageFieldValue.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
+     * @param FieldValue $value
+     * @param StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ) {
         $storageFieldValue->dataInt = (int)$value->data;
         $storageFieldValue->sortKeyInt = (int)$value->data;
     }
@@ -43,11 +46,13 @@ class CheckboxConverter implements Converter
     /**
      * Converts data from $value to $fieldValue.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param StorageFieldValue $value
+     * @param FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ) {
         $fieldValue->data = (bool)$value->dataInt;
         $fieldValue->sortKey = $value->dataInt;
     }
@@ -55,22 +60,26 @@ class CheckboxConverter implements Converter
     /**
      * Converts field definition data in $fieldDef into $storageFieldDef.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ) {
         $storageDef->dataInt3 = (int)$fieldDef->defaultValue->data;
     }
 
     /**
      * Converts field definition data in $storageDef into $fieldDef.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ) {
         $fieldDef->defaultValue->data = !empty($storageDef->dataInt3) ? (bool)$storageDef->dataInt3 : false;
     }
 

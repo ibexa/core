@@ -4,9 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\Migration;
 
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
+use Ibexa\Core\IO\IOBinarydataHandler;
+use Ibexa\Core\IO\IOMetadataHandler;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -14,25 +17,25 @@ use Psr\Log\LoggerInterface;
  */
 abstract class MigrationHandler implements MigrationHandlerInterface
 {
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
+    /** @var HandlerRegistry */
     private $metadataHandlerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
+    /** @var HandlerRegistry */
     private $binarydataHandlerRegistry;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler */
+    /** @var IOMetadataHandler */
     protected $fromMetadataHandler;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler */
+    /** @var IOBinarydataHandler */
     protected $fromBinarydataHandler;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler */
+    /** @var IOMetadataHandler */
     protected $toMetadataHandler;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler */
+    /** @var IOBinarydataHandler */
     protected $toBinarydataHandler;
 
     public function __construct(

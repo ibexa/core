@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Translation;
 
 abstract class TranslationServiceDecorator implements TranslationService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\TranslationService */
+    /** @var TranslationService */
     protected $innerService;
 
     public function __construct(TranslationService $innerService)

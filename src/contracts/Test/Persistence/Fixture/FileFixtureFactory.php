@@ -15,7 +15,7 @@ use SplFileInfo;
 /**
  * Factory building an instance of Fixture depending on a file type.
  *
- * @see \Ibexa\Contracts\Core\Test\Persistence\Fixture
+ * @see Fixture
  */
 final class FileFixtureFactory
 {

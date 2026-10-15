@@ -13,8 +13,6 @@ namespace Ibexa\Contracts\Core\Repository\Values;
  *
  * Use its extensions: Translation\Singular, Translation\Plural.
  */
-abstract class Translation extends ValueObject
-{
-}
+abstract class Translation extends ValueObject {}
 
 class_alias(Translation::class, 'eZ\Publish\API\Repository\Values\Translation');

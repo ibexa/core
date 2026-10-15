@@ -31,10 +31,10 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 class CachedPermissionService implements PermissionService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var APIPermissionResolver */
     private $innerPermissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
+    /** @var APIPermissionCriterionResolver */
     private $permissionCriterionResolver;
 
     /** @var int */
@@ -52,7 +52,7 @@ class CachedPermissionService implements PermissionService
      *
      * Value is null if not yet set or cleared.
      *
-     * @var bool|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     * @var bool|Criterion
      */
     private $permissionCriterion;
 
@@ -66,8 +66,8 @@ class CachedPermissionService implements PermissionService
     /**
      * CachedPermissionService constructor.
      *
-     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $innerPermissionResolver
-     * @param \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver $permissionCriterionResolver
+     * @param APIPermissionResolver $innerPermissionResolver
+     * @param APIPermissionCriterionResolver $permissionCriterionResolver
      * @param int $cacheTTL By default set to 5 seconds, should be low to avoid to many permission exceptions on long running requests / processes (even if tolerant search service should handle that)
      */
     public function __construct(
@@ -91,13 +91,20 @@ class CachedPermissionService implements PermissionService
         $this->innerPermissionResolver->setCurrentUserReference($userReference);
     }
 
-    public function hasAccess(string $module, string $function, ?UserReference $userReference = null)
-    {
+    public function hasAccess(
+        string $module,
+        string $function,
+        ?UserReference $userReference = null
+    ) {
         return $this->innerPermissionResolver->hasAccess($module, $function, $userReference);
     }
 
-    public function canUser(string $module, string $function, ValueObject $object, array $targets = []): bool
-    {
+    public function canUser(
+        string $module,
+        string $function,
+        ValueObject $object,
+        array $targets = []
+    ): bool {
         return $this->innerPermissionResolver->canUser($module, $function, $object, $targets);
     }
 
@@ -114,8 +121,11 @@ class CachedPermissionService implements PermissionService
         return $this->innerPermissionResolver->lookupLimitations($module, $function, $object, $targets, $limitations);
     }
 
-    public function getPermissionsCriterion(string $module = 'content', string $function = 'read', ?array $targets = null)
-    {
+    public function getPermissionsCriterion(
+        string $module = 'content',
+        string $function = 'read',
+        ?array $targets = null
+    ) {
         // We only cache content/read lookup as those are the once frequently done, and it's only one we can safely
         // do that won't harm the system if it becomes stale (but user might experience permissions exceptions if it do)
         if ($module !== 'content' || $function !== 'read' || $this->sudoNestingLevel > 0) {
@@ -138,8 +148,10 @@ class CachedPermissionService implements PermissionService
     /**
      * @internal For internal use only, do not depend on this method.
      */
-    public function sudo(callable $callback, RepositoryInterface $outerRepository)
-    {
+    public function sudo(
+        callable $callback,
+        RepositoryInterface $outerRepository
+    ) {
         ++$this->sudoNestingLevel;
         try {
             $returnValue = $this->innerPermissionResolver->sudo($callback, $outerRepository);

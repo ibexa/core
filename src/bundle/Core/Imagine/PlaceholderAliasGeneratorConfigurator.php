@@ -4,16 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 class PlaceholderAliasGeneratorConfigurator
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry */
+    /** @var PlaceholderProviderRegistry */
     private $providerRegistry;
 
     /** @var array */

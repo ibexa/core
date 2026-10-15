@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 
 abstract class URLAliasServiceDecorator implements URLAliasService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
+    /** @var URLAliasService */
     protected $innerService;
 
     public function __construct(URLAliasService $innerService)

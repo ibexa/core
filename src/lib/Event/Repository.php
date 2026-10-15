@@ -30,58 +30,58 @@ use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 
 final class Repository implements RepositoryInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var RepositoryInterface */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\BookmarkService */
+    /** @var BookmarkServiceInterface */
     private $bookmarkService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentServiceInterface */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeServiceInterface */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService */
+    /** @var FieldTypeServiceInterface */
     private $fieldTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
+    /** @var LanguageServiceInterface */
     private $languageService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationServiceInterface */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\NotificationService */
+    /** @var NotificationServiceInterface */
     private $notificationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ObjectStateService */
+    /** @var ObjectStateServiceInterface */
     private $objectStateService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\RoleService */
+    /** @var RoleServiceInterface */
     private $roleService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchServiceInterface */
     private $searchService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SectionService */
+    /** @var SectionServiceInterface */
     private $sectionService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\TrashService */
+    /** @var TrashServiceInterface */
     private $trashService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
+    /** @var URLAliasServiceInterface */
     private $urlAliasService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService */
+    /** @var URLServiceInterface */
     private $urlService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLWildcardService */
+    /** @var URLWildcardServiceInterface */
     private $urlWildcardService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserPreferenceService */
+    /** @var UserPreferenceServiceInterface */
     private $userPreferenceService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserServiceInterface */
     private $userService;
 
     public function __construct(
@@ -124,8 +124,10 @@ final class Repository implements RepositoryInterface
         $this->userService = $userService;
     }
 
-    public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
-    {
+    public function sudo(
+        callable $callback,
+        ?RepositoryInterface $outerRepository = null
+    ) {
         return $this->repository->sudo($callback, $outerRepository);
     }
 

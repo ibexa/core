@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\IO\MimeTypeDetector;
 
 use Ibexa\Core\IO\MimeTypeDetector\FileInfo as MimeTypeDetector;
@@ -11,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class FileInfoTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\MimeTypeDetector\FileInfo */
+    /** @var MimeTypeDetector */
     protected $mimeTypeDetector;
 
     protected function setUp(): void

@@ -16,7 +16,7 @@ final class BeforeTranslateEvent extends BeforeEvent
 {
     private $url;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult|null */
+    /** @var URLWildcardTranslationResult|null */
     private $result;
 
     public function __construct($url)

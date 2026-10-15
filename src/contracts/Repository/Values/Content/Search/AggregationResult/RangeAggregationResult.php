@@ -17,14 +17,16 @@ use IteratorAggregate;
 
 final class RangeAggregationResult extends AggregationResult implements IteratorAggregate, Countable
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry[] */
+    /** @var RangeAggregationResultEntry[] */
     private $entries;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry[] $entries
+     * @param RangeAggregationResultEntry[] $entries
      */
-    public function __construct(string $name, iterable $entries = [])
-    {
+    public function __construct(
+        string $name,
+        iterable $entries = []
+    ) {
         parent::__construct($name);
 
         $this->entries = $entries;
@@ -36,7 +38,7 @@ final class RangeAggregationResult extends AggregationResult implements Iterator
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry[]
+     * @return RangeAggregationResultEntry[]
      */
     public function getEntries(): iterable
     {
@@ -62,7 +64,7 @@ final class RangeAggregationResult extends AggregationResult implements Iterator
     /**
      * Return available keys (ranges).
      *
-     * @return iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range>
+     * @return iterable<Range>
      */
     public function getKeys(): iterable
     {

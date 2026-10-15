@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStru
 
 final class AddFieldDefinitionEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
+    /** @var ContentTypeDraft */
     private $contentTypeDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct */
+    /** @var FieldDefinitionCreateStruct */
     private $fieldDefinitionCreateStruct;
 
     public function __construct(

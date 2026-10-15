@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 
 final class BeforeDeleteNotificationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Notification */
+    /** @var Notification */
     private $notification;
 
     public function __construct(Notification $notification)

@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 final class UnAssignUserFromUserGroupEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $user;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
+    /** @var UserGroup */
     private $userGroup;
 
     public function __construct(

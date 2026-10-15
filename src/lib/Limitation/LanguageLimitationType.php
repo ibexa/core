@@ -10,10 +10,12 @@ namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation as DestinationLocationTarget;
+use Ibexa\Contracts\Core\Limitation\Target\Version;
 use Ibexa\Contracts\Core\Limitation\TargetAwareType as SPITargetAwareLimitationType;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIPersistenceContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as SPIPersistenceLanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
@@ -28,25 +30,26 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Limitation\LanguageLimitation\VersionTargetEvaluator;
 
 /**
  * LanguageLimitation is a Content limitation.
  */
 class LanguageLimitationType implements SPITargetAwareLimitationType
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
+    /** @var SPIPersistenceLanguageHandler */
     private $persistenceLanguageHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
+    /** @var SPIPersistenceContentHandler */
     private $persistenceContentHandler;
 
-    /** @var \Ibexa\Core\Limitation\LanguageLimitation\VersionTargetEvaluator[] */
+    /** @var VersionTargetEvaluator[] */
     private $versionTargetEvaluators;
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $persistenceLanguageHandler
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Handler $persistenceContentHandler
-     * @param \Ibexa\Core\Limitation\LanguageLimitation\VersionTargetEvaluator[] $versionTargetEvaluators
+     * @param SPIPersistenceLanguageHandler $persistenceLanguageHandler
+     * @param SPIPersistenceContentHandler $persistenceContentHandler
+     * @param VersionTargetEvaluator[] $versionTargetEvaluators
      */
     public function __construct(
         SPIPersistenceLanguageHandler $persistenceLanguageHandler,
@@ -63,9 +66,9 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
+     * @throws InvalidArgumentException If the value does not match the expected type/structure
      */
     public function acceptValue(APILimitationValue $limitationValue): void
     {
@@ -99,7 +102,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -131,7 +134,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
      *
      * @param array[] $limitationValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
+     * @return APILimitationValue
      */
     public function buildValue(array $limitationValues): APILimitationValue
     {
@@ -159,7 +162,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
                 continue;
             }
 
-            if ($target instanceof Target\Version) {
+            if ($target instanceof Version) {
                 $accessVote = $this->evaluateVersionTarget($target, $value);
             } elseif ($target instanceof DestinationLocationTarget) {
                 $accessVote = $this->evaluateLocationTarget($target, $value);
@@ -180,13 +183,15 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
+     * @param ValueObject $object
+     * @param APILimitationValue $value
      *
      * @return bool|null
      */
-    private function evaluateObject(ValueObject $object, APILimitationValue $value): ?bool
-    {
+    private function evaluateObject(
+        ValueObject $object,
+        APILimitationValue $value
+    ): ?bool {
         // by default abstain from making decision for unknown object
         $accessVote = self::ACCESS_ABSTAIN;
 
@@ -227,8 +232,8 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
     /**
      * Evaluate language codes of allowed translations for ContentCreateStruct.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct $object
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
+     * @param ContentCreateStruct $object
+     * @param APILimitationValue $value
      *
      * @return bool|null
      */
@@ -247,13 +252,13 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
     /**
      * Evaluate permissions to create new Version.
      *
-     * @param \Ibexa\Contracts\Core\Limitation\Target\Version $version
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
+     * @param Version $version
+     * @param APILimitationValue $value
      *
      * @return bool|null
      */
     private function evaluateVersionTarget(
-        Target\Version $version,
+        Version $version,
         APILimitationValue $value
     ): ?bool {
         $accessVote = self::ACCESS_ABSTAIN;
@@ -287,7 +292,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
     /**
      * Get unique list of language codes for all used translations, including mainLanguageCode.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct $contentCreateStruct
+     * @param ContentCreateStruct $contentCreateStruct
      *
      * @return string[]
      */
@@ -305,10 +310,10 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param APIUserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
+     * @return CriterionInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Translation;
 
 use Ibexa\Core\FieldType\FieldTypeRegistry;
@@ -16,7 +17,7 @@ use JMS\TranslationBundle\Translation\ExtractorInterface;
  */
 class FieldTypesTranslationExtractor implements ExtractorInterface
 {
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
+    /** @var FieldTypeRegistry */
     private $fieldTypeRegistry;
 
     public function __construct(FieldTypeRegistry $fieldTypeRegistry)

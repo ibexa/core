@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location;
 
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -18,7 +19,7 @@ class Depth extends SortClauseHandler
     /**
      * Check if this sort clause handler accepts to handle the given sort clause.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
+     * @param SortClause $sortClause
      *
      * @return bool
      */

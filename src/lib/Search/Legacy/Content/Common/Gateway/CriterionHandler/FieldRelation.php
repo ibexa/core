@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
@@ -25,14 +26,14 @@ class FieldRelation extends FieldBase
      *
      * c_rel: ContentGateway::CONTENT_RELATION_TABLE
      *
-     * @see \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE
+     * @see ContentGateway::CONTENT_RELATION_TABLE
      */
     private const CONTENT_ITEM_REL_COLUMN = 'c_rel.to_contentobject_id';
 
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      *
      * @return bool
      */
@@ -48,7 +49,7 @@ class FieldRelation extends FieldBase
      *
      * @return array
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
+     * @throws InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      */
     protected function getFieldDefinitionsIds($fieldDefinitionIdentifier)
     {

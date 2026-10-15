@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Converter;
 
 use Ibexa\Bundle\Core\Converter\ContentParamConverter;
@@ -17,7 +18,7 @@ class ContentParamConverterTest extends AbstractParamConverterTest
 
     public const CONTENT_CLASS = Content::class;
 
-    /** @var \Ibexa\Bundle\Core\Converter\ContentParamConverter */
+    /** @var ContentParamConverter */
     private $converter;
 
     private $contentServiceMock;

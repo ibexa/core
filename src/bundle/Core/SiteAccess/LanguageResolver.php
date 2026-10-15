@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\SiteAccess;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -14,7 +15,7 @@ use Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver;
  */
 final class LanguageResolver extends AbstractLanguageResolver
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(

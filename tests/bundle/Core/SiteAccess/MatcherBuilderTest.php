@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\SiteAccess;
 
 use Ibexa\Bundle\Core\SiteAccess\Matcher as CoreMatcher;
@@ -11,6 +12,7 @@ use Ibexa\Bundle\Core\SiteAccess\MatcherBuilder;
 use Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MatcherBuilderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $siteAccessMatcherRegistry;
 
     protected function setUp(): void

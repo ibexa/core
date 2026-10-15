@@ -4,24 +4,26 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Handler as SPIHandler;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class Base extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPIHandler|MockObject */
     private $persistenceHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var APIUser|MockObject */
     private $userMock;
 
     /**
      * @param array $mockMethods For specifying the methods to mock, all by default
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return SPIHandler|MockObject
      */
     public function getPersistenceMock(array $mockMethods = [])
     {
@@ -35,7 +37,7 @@ abstract class Base extends TestCase
     /**
      * @param array $mockMethods For specifying the methods to mock, all by default
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject
+     * @return APIUser|MockObject
      */
     public function getUserMock(array $mockMethods = [])
     {

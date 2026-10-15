@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\TransformationProcessor;
 
 use Ibexa\Core\Persistence;
@@ -22,8 +23,10 @@ class TransformationProcessorPcreCompilerTest extends TestCase
      *
      * @return string
      */
-    protected function applyTransformations(array $transformations, $string)
-    {
+    protected function applyTransformations(
+        array $transformations,
+        $string
+    ) {
         foreach ($transformations as $rules) {
             foreach ($rules as $rule) {
                 $string = preg_replace_callback($rule['regexp'], $rule['callback'], $string);

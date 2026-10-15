@@ -4,18 +4,21 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DbBasedInstaller
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $db;
 
-    /** @var \Symfony\Component\Console\Output\OutputInterface */
+    /** @var OutputInterface */
     protected $output;
 
     /** @var string */
@@ -29,7 +32,7 @@ class DbBasedInstaller
     }
 
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      */
     public function setOutput($output)
     {
@@ -42,8 +45,10 @@ class DbBasedInstaller
      * @param string $source
      * @param string $target
      */
-    protected function copyConfigurationFile($source, $target)
-    {
+    protected function copyConfigurationFile(
+        $source,
+        $target
+    ) {
         $fs = new Filesystem();
         $fs->copy($source, $target, true);
 
@@ -80,7 +85,7 @@ class DbBasedInstaller
      * @return string absolute existing file path
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      *
      * @since 6.13
      */

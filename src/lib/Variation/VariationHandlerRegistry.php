@@ -14,7 +14,7 @@ use Traversable;
 
 final class VariationHandlerRegistry
 {
-    /** @var iterable<string, \Ibexa\Contracts\Core\Variation\VariationHandler> */
+    /** @var iterable<string, VariationHandler> */
     private iterable $variationHandlers;
 
     public function __construct(iterable $variationHandlers)
@@ -42,8 +42,10 @@ final class VariationHandlerRegistry
         return $this->variationHandlers[$identifier];
     }
 
-    public function setVariationHandler(string $identifier, VariationHandler $variationHandler): void
-    {
+    public function setVariationHandler(
+        string $identifier,
+        VariationHandler $variationHandler
+    ): void {
         $this->variationHandlers[$identifier] = $variationHandler;
     }
 }

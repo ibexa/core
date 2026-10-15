@@ -24,8 +24,10 @@ abstract class UniqueIdentifierValidator extends ConstraintValidator
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    public function validate($value, Constraint $constraint): void
-    {
+    public function validate(
+        $value,
+        Constraint $constraint
+    ): void {
         if (!$constraint instanceof UniqueIdentifier) {
             throw new UnexpectedTypeException($constraint, UniqueIdentifier::class);
         }

@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
@@ -19,8 +21,10 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @dataProvider getLanguageMaskData
      */
-    public function testGenerateLanguageMask(array $languages, $expectedMask)
-    {
+    public function testGenerateLanguageMask(
+        array $languages,
+        $expectedMask
+    ) {
         $generator = $this->getMaskGenerator();
 
         $this->assertSame(
@@ -33,11 +37,12 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      * @param array $languages
      * @param int $expectedMask
      *
-     *
      * @dataProvider getLanguageMaskData
      */
-    public function testGenerateLanguageMaskFromLanguagesCodes(array $languages, $expectedMask)
-    {
+    public function testGenerateLanguageMaskFromLanguagesCodes(
+        array $languages,
+        $expectedMask
+    ) {
         $generator = $this->getMaskGenerator();
 
         if (isset($languages['always-available'])) {
@@ -175,8 +180,10 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @dataProvider isAlwaysAvailableProvider
      */
-    public function testIsAlwaysAvailable($langMask, $expectedResult)
-    {
+    public function testIsAlwaysAvailable(
+        $langMask,
+        $expectedResult
+    ) {
         $generator = $this->getMaskGenerator();
         self::assertSame($expectedResult, $generator->isAlwaysAvailable($langMask));
     }
@@ -200,8 +207,10 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     /**
      * @dataProvider removeAlwaysAvailableFlagProvider
      */
-    public function testRemoveAlwaysAvailableFlag($langMask, $expectedResult)
-    {
+    public function testRemoveAlwaysAvailableFlag(
+        $langMask,
+        $expectedResult
+    ) {
         $generator = $this->getMaskGenerator();
         self::assertSame($expectedResult, $generator->removeAlwaysAvailableFlag($langMask));
     }
@@ -227,8 +236,10 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @dataProvider languageIdsFromMaskProvider
      */
-    public function testExtractLanguageIdsFromMask($langMask, array $expectedResult)
-    {
+    public function testExtractLanguageIdsFromMask(
+        $langMask,
+        array $expectedResult
+    ) {
         $generator = $this->getMaskGenerator();
         self::assertSame($expectedResult, $generator->extractLanguageIdsFromMask($langMask));
     }
@@ -259,7 +270,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     /**
      * Returns the mask generator to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @return MaskGenerator
      */
     protected function getMaskGenerator()
     {
@@ -269,7 +280,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     /**
      * Returns a language handler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @return Handler
      */
     protected function getLanguageHandler()
     {

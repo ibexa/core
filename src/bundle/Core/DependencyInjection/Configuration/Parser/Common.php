@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
@@ -18,13 +19,13 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 class Common extends AbstractParser implements SuggestionCollectorAwareInterface
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface */
+    /** @var SuggestionCollectorInterface */
     private $suggestionCollector;
 
     /**
      * Adds semantic configuration definition.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ibexa.system.<siteaccess>
+     * @param NodeBuilder $nodeBuilder Node just under ibexa.system.<siteaccess>
      */
     public function addSemanticConfig(NodeBuilder $nodeBuilder)
     {
@@ -149,13 +150,18 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {
         $contextualizer->mapConfigArray('session', $config);
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ) {
         if (isset($scopeSettings['database'])) {
             $this->addDatabaseConfigSuggestion($currentScope, $scopeSettings['database']);
         }
@@ -226,15 +232,17 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
     /**
      * Injects SuggestionCollector.
      *
-     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface $suggestionCollector
+     * @param SuggestionCollectorInterface $suggestionCollector
      */
     public function setSuggestionCollector(SuggestionCollectorInterface $suggestionCollector)
     {
         $this->suggestionCollector = $suggestionCollector;
     }
 
-    private function addDatabaseConfigSuggestion($sa, array $databaseConfig)
-    {
+    private function addDatabaseConfigSuggestion(
+        $sa,
+        array $databaseConfig
+    ) {
         $suggestion = new ConfigSuggestion(
             <<<EOT
 Database configuration has changed for Ibexa Content repository.

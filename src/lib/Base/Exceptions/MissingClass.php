@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Exceptions;
 
 use Exception;
@@ -28,10 +29,13 @@ class MissingClass extends LogicException implements Translatable
      *
      * @param string $className
      * @param string|null $classType Optional string to specify what kind of class this is
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
-    public function __construct($className, $classType = null, ?Exception $previous = null)
-    {
+    public function __construct(
+        $className,
+        $classType = null,
+        ?Exception $previous = null
+    ) {
         $this->setParameters(['%className%' => $className]);
         if ($classType === null) {
             $this->setMessageTemplate("Could not find class '%className%'");

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Container\Compiler;
 
 use LogicException;
@@ -19,11 +20,11 @@ abstract class AbstractFieldTypeBasedPass implements CompilerPassInterface
     ];
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      *
      * @return array
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function getFieldTypeServiceIds(ContainerBuilder $container): iterable
     {

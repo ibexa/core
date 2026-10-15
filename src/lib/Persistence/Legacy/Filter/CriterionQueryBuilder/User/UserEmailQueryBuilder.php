@@ -28,7 +28,7 @@ final class UserEmailQueryBuilder extends BaseUserCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserEmail $criterion */
+        /** @var UserEmail $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         if (Operator::LIKE === $criterion->operator) {

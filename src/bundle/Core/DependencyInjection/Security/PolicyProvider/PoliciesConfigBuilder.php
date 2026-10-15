@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ContainerConfigBuilder;
@@ -52,8 +53,11 @@ class PoliciesConfigBuilder extends ContainerConfigBuilder
      *
      * @return bool
      */
-    private function policyExists(array $policyMap, $module, $function)
-    {
+    private function policyExists(
+        array $policyMap,
+        $module,
+        $function
+    ) {
         return array_key_exists($module, $policyMap) && array_key_exists($function, $policyMap[$module]);
     }
 }

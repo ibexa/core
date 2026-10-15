@@ -11,6 +11,7 @@ namespace Ibexa\Core\Search\Legacy\Content;
 use DateTimeInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\ResultStatement;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Generator;
@@ -22,7 +23,7 @@ use Ibexa\Contracts\Core\Search\Content\IndexerGateway as SPIIndexerGateway;
  */
 final class IndexerGateway implements SPIIndexerGateway
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     public function __construct(Connection $connection)
@@ -30,8 +31,10 @@ final class IndexerGateway implements SPIIndexerGateway
         $this->connection = $connection;
     }
 
-    public function getContentSince(DateTimeInterface $since, int $iterationCount): Generator
-    {
+    public function getContentSince(
+        DateTimeInterface $since,
+        int $iterationCount
+    ): Generator {
         $query = $this->buildQueryForContentSince($since);
         $query->orderBy('c.modified');
 
@@ -47,8 +50,10 @@ final class IndexerGateway implements SPIIndexerGateway
         return (int)$query->execute()->fetchOne();
     }
 
-    public function getContentInSubtree(string $locationPath, int $iterationCount): Generator
-    {
+    public function getContentInSubtree(
+        string $locationPath,
+        int $iterationCount
+    ): Generator {
         $query = $this->buildQueryForContentInSubtree($locationPath);
 
         yield from $this->fetchIteration($query->execute(), $iterationCount);
@@ -111,7 +116,7 @@ final class IndexerGateway implements SPIIndexerGateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function buildCountingQuery(QueryBuilder $query): QueryBuilder
     {
@@ -127,8 +132,10 @@ final class IndexerGateway implements SPIIndexerGateway
         return $query;
     }
 
-    private function fetchIteration(ResultStatement $statement, int $iterationCount): Generator
-    {
+    private function fetchIteration(
+        ResultStatement $statement,
+        int $iterationCount
+    ): Generator {
         do {
             $contentIds = [];
             for ($i = 0; $i < $iterationCount; ++$i) {

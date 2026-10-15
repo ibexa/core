@@ -12,19 +12,21 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 final class SiteAccessMatcherRegistry implements SiteAccessMatcherRegistryInterface
 {
-    /** @var \Ibexa\Bundle\Core\SiteAccess\Matcher[] */
+    /** @var Matcher[] */
     private $matchers;
 
     /**
-     * @param \Ibexa\Bundle\Core\SiteAccess\Matcher[] $matchers
+     * @param Matcher[] $matchers
      */
     public function __construct(array $matchers = [])
     {
         $this->matchers = $matchers;
     }
 
-    public function setMatcher(string $identifier, Matcher $matcher): void
-    {
+    public function setMatcher(
+        string $identifier,
+        Matcher $matcher
+    ): void {
         $this->matchers[$identifier] = $matcher;
     }
 

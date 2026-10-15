@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
@@ -26,7 +27,7 @@ class CreateStruct extends ValueObject
      * ContentId, contentVersion and mainLocationId are allowed to be left empty
      * when used on with this struct as these values are created by the create method.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct[]
+     * @var Location\CreateStruct[]
      */
     public $locations = [];
 

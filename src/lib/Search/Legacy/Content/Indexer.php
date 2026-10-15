@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content;
 
 use Doctrine\DBAL\Connection;
@@ -31,8 +32,10 @@ class Indexer extends IncrementalIndexer
         return 'Ibexa Legacy (SQL) Search Engine';
     }
 
-    public function updateSearchIndex(array $contentIds, $commit)
-    {
+    public function updateSearchIndex(
+        array $contentIds,
+        $commit
+    ) {
         $contentHandler = $this->persistenceHandler->contentHandler();
         foreach ($contentIds as $contentId) {
             try {

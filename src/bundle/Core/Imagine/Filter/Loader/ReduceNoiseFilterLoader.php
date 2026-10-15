@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterInterface;
@@ -21,7 +22,7 @@ class ReduceNoiseFilterLoader implements LoaderInterface
 {
     public const IDENTIFIER = 'filter/noise';
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
+    /** @var FilterInterface */
     private $filter;
 
     public function __construct(FilterInterface $filter)
@@ -29,8 +30,10 @@ class ReduceNoiseFilterLoader implements LoaderInterface
         $this->filter = $filter;
     }
 
-    public function load(ImageInterface $image, array $options = [])
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ) {
         if (!$image instanceof ImagickImage && !$image instanceof GmagickImage) {
             throw new NotSupportedException('ReduceNoiseFilterLoader is only compatible with "imagick" and "gmagick" drivers');
         }

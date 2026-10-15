@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Routing;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -16,21 +17,22 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
+use Symfony\Component\Routing\RequestContext;
 
 /**
  * Extension of Symfony default router implementing RequestMatcherInterface.
  */
 class DefaultRouter extends Router implements RequestMatcherInterface, SiteAccessAware
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     protected $siteAccess;
 
     protected $nonSiteAccessAwareRoutes = [];
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface */
+    /** @var SiteAccessRouterInterface */
     protected $siteAccessRouter;
 
     public function setConfigResolver(ConfigResolverInterface $configResolver)
@@ -55,7 +57,7 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface $siteAccessRouter
+     * @param SiteAccessRouterInterface $siteAccessRouter
      */
     public function setSiteAccessRouter(SiteAccessRouterInterface $siteAccessRouter)
     {
@@ -75,8 +77,11 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
         return parent::matchRequest($request);
     }
 
-    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
-    {
+    public function generate(
+        $name,
+        $parameters = [],
+        $referenceType = self::ABSOLUTE_PATH
+    ) {
         $siteAccess = $this->siteAccess;
         $originalContext = $context = $this->getContext();
         $isSiteAccessAware = $this->isSiteAccessAwareRoute($name);
@@ -152,9 +157,9 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
     /**
      * Merges context from $simplifiedRequest into a clone of the current context.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $simplifiedRequest
+     * @param SimplifiedRequest $simplifiedRequest
      *
-     * @return \Symfony\Component\Routing\RequestContext
+     * @return RequestContext
      */
     public function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest)
     {

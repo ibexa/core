@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\URL\Query;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 
@@ -14,7 +16,7 @@ interface CriterionHandler
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion $criterion
+     * @param Criterion $criterion
      *
      * @return bool
      */
@@ -25,7 +27,7 @@ interface CriterionHandler
      *
      * accept() must be called before calling this method.
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return CompositeExpression|string
      */
     public function handle(
         CriteriaConverter $converter,

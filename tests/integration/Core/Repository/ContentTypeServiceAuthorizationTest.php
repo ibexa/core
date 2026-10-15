@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -12,7 +13,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
  * Test case for operations in the ContentTypeServiceAuthorization using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService
+ *
  * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
+ *
  * @group integration
  * @group authorization
  */
@@ -22,6 +25,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the createContentTypeGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::createContentTypeGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentTypeGroup
      */
     public function testCreateContentTypeGroupThrowsUnauthorizedException()
@@ -63,6 +67,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the updateContentTypeGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::updateContentTypeGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUpdateContentTypeGroup
      */
     public function testUpdateContentTypeGroupThrowsUnauthorizedException()
@@ -113,6 +118,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the deleteContentTypeGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::deleteContentTypeGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testDeleteContentTypeGroup
      */
     public function testDeleteContentTypeGroupThrowsUnauthorizedException()
@@ -150,6 +156,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the createContentType() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::createContentType()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      */
     public function testCreateContentTypeThrowsUnauthorizedException()
@@ -207,6 +214,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the updateContentTypeDraft() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::updateContentTypeDraft()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUpdateContentTypeDraft
      */
     public function testUpdateContentTypeDraftThrowsUnauthorizedException()
@@ -259,6 +267,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the addFieldDefinition() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::addFieldDefinition()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testAddFieldDefinition
      */
     public function testAddFieldDefinitionThrowsUnauthorizedException()
@@ -315,6 +324,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the removeFieldDefinition() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::removeFieldDefinition()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testRemoveFieldDefinition
      */
     public function testRemoveFieldDefinitionThrowsUnauthorizedException()
@@ -348,6 +358,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the updateFieldDefinition() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::updateFieldDefinition()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUpdateFieldDefinition
      */
     public function testUpdateFieldDefinitionThrowsUnauthorizedException()
@@ -406,6 +417,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the publishContentTypeDraft() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::publishContentTypeDraft()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testPublishContentTypeDraft
      */
     public function testPublishContentTypeDraftThrowsUnauthorizedException()
@@ -437,6 +449,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the createContentTypeDraft() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::createContentTypeDraft()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentTypeDraft
      */
     public function testCreateContentTypeDraftThrowsUnauthorizedException()
@@ -469,6 +482,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the deleteContentType() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::deleteContentType()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testDeleteContentType
      */
     public function testDeleteContentTypeThrowsUnauthorizedException()
@@ -501,6 +515,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the copyContentType() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::copyContentType()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCopyContentType
      */
     public function testCopyContentTypeThrowsUnauthorizedException()
@@ -533,6 +548,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the assignContentTypeGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::assignContentTypeGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testAssignContentTypeGroup
      */
     public function testAssignContentTypeGroupThrowsUnauthorizedException()
@@ -566,6 +582,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      * Test for the unassignContentTypeGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::unassignContentTypeGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUnassignContentTypeGroup
      */
     public function testUnassignContentTypeGroupThrowsUnauthorizedException()

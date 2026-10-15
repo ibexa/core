@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\URLChecker;
 
 use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
@@ -16,17 +17,17 @@ class URLChecker implements URLCheckerInterface
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService */
+    /** @var URLServiceInterface */
     protected $urlService;
 
-    /** @var \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistryInterface */
+    /** @var URLHandlerRegistryInterface */
     protected $handlerRegistry;
 
     /**
      * URLChecker constructor.
      *
-     * @param \Ibexa\Contracts\Core\Repository\URLService $urlService
-     * @param \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistryInterface $handlerRegistry
+     * @param URLServiceInterface $urlService
+     * @param URLHandlerRegistryInterface $handlerRegistry
      */
     public function __construct(
         URLServiceInterface $urlService,
@@ -57,7 +58,7 @@ class URLChecker implements URLCheckerInterface
     /**
      * Fetch URLs to check.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLQuery $query
+     * @param URLQuery $query
      *
      * @return array
      */
@@ -71,7 +72,7 @@ class URLChecker implements URLCheckerInterface
     /**
      * Group URLs by schema.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\SearchResult $urls
+     * @param SearchResult $urls
      *
      * @return array
      */

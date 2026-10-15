@@ -12,12 +12,14 @@ use Ibexa\Contracts\Core\MVC\Templating\RenderStrategy;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\Templating\RenderOptions;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Tests\Core\Search\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -79,8 +81,10 @@ abstract class BaseRenderStrategyTest extends TestCase
         };
     }
 
-    public function createLocation(APIContent $content, int $id): APILocation
-    {
+    public function createLocation(
+        APIContent $content,
+        int $id
+    ): APILocation {
         return new Location([
             'id' => $id,
             'contentInfo' => $content->versionInfo->contentInfo,
@@ -100,8 +104,8 @@ abstract class BaseRenderStrategyTest extends TestCase
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface&\PHPUnit\Framework\MockObject\MockObject $fragmentRendererMock
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject&\PHPUnit\Framework\MockObject\MockObject $valueObjectMock
+     * @param FragmentRendererInterface&MockObject $fragmentRendererMock
+     * @param ValueObject&MockObject $valueObjectMock
      * @param class-string<RenderStrategy> $renderStrategyClass
      */
     public function forwardParamOptionsToFragmentRenderer(
@@ -137,7 +141,7 @@ abstract class BaseRenderStrategyTest extends TestCase
             ],
         );
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ValueObject&\PHPUnit\Framework\MockObject\MockObject $valueObjectMock */
+        /** @var ValueObject&MockObject $valueObjectMock */
         self::assertTrue($renderContentStrategy->supports($valueObjectMock));
 
         self::assertSame(

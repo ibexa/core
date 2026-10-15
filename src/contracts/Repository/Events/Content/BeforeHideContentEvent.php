@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 
 final class BeforeHideContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
     public function __construct(ContentInfo $contentInfo)

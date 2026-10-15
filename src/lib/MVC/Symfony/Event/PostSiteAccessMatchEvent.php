@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Event;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -15,10 +16,10 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PostSiteAccessMatchEvent extends Event
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
+    /** @var Request */
     private $request;
 
     /**
@@ -29,15 +30,18 @@ class PostSiteAccessMatchEvent extends Event
      */
     private $requestType;
 
-    public function __construct(SiteAccess $siteAccess, Request $request, $requestType)
-    {
+    public function __construct(
+        SiteAccess $siteAccess,
+        Request $request,
+        $requestType
+    ) {
         $this->siteAccess = $siteAccess;
         $this->request = $request;
         $this->requestType = $requestType;
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      */
     public function getRequest()
     {
@@ -47,7 +51,7 @@ class PostSiteAccessMatchEvent extends Event
     /**
      * Returns matched SiteAccess instance.
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function getSiteAccess()
     {

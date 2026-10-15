@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Doctrine;
 
+use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\Cache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
@@ -108,8 +110,10 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->createNamedQuery($name);
     }
 
-    public function createNativeQuery($sql, ResultSetMapping $rsm): NativeQuery
-    {
+    public function createNativeQuery(
+        $sql,
+        ResultSetMapping $rsm
+    ): NativeQuery {
         return $this->getWrapped()->createNativeQuery($sql, $rsm);
     }
 
@@ -130,8 +134,10 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      *
      * @return T|null
      */
-    public function getReference($entityName, $id): ?object
-    {
+    public function getReference(
+        $entityName,
+        $id
+    ): ?object {
         return $this->getWrapped()->getReference($entityName, $id);
     }
 
@@ -142,8 +148,10 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      *
      * @return T|null
      */
-    public function getPartialReference($entityName, $identifier): ?object
-    {
+    public function getPartialReference(
+        $entityName,
+        $identifier
+    ): ?object {
         return $this->getWrapped()->getPartialReference($entityName, $identifier);
     }
 
@@ -160,18 +168,23 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      *
      * @return T
      */
-    public function copy($entity, $deep = false): object
-    {
+    public function copy(
+        $entity,
+        $deep = false
+    ): object {
         /** @var T */
         return $this->getWrapped()->copy($entity, $deep);
     }
 
-    public function lock($entity, $lockMode, $lockVersion = null): void
-    {
+    public function lock(
+        $entity,
+        $lockMode,
+        $lockVersion = null
+    ): void {
         $this->getWrapped()->lock($entity, $lockMode, $lockVersion);
     }
 
-    public function getEventManager(): \Doctrine\Common\EventManager
+    public function getEventManager(): EventManager
     {
         return $this->getWrapped()->getEventManager();
     }
@@ -230,7 +243,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      * @template T of object
      *
      * @phpstan-param class-string<T> $className
-     * @phpstan-param \Doctrine\DBAL\LockMode::*|null $lockMode
+     * @phpstan-param LockMode::*|null $lockMode
      *
      * @param string $className
      * @param mixed $id
@@ -239,8 +252,12 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      *
      * @return T|null
      */
-    public function find($className, $id, ?int $lockMode = null, ?int $lockVersion = null): ?object
-    {
+    public function find(
+        $className,
+        $id,
+        ?int $lockMode = null,
+        ?int $lockVersion = null
+    ): ?object {
         return $this->getWrapped()->find($className, $id, $lockMode, $lockVersion);
     }
 
@@ -273,8 +290,10 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->detach($object);
     }
 
-    public function refresh($object, ?int $lockMode = null): void
-    {
+    public function refresh(
+        $object,
+        ?int $lockMode = null
+    ): void {
         $this->getWrapped()->refresh($object, $lockMode);
     }
 

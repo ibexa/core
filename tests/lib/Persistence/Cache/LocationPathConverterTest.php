@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class LocationPathConverterTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\LocationPathConverter */
+    /** @var LocationPathConverter */
     private $locationPathConverter;
 
     public function setUp(): void
@@ -37,8 +37,10 @@ final class LocationPathConverterTest extends TestCase
     /**
      * @dataProvider providerForTestConvertToPathIds
      */
-    public function testConvertToPathIds(array $arguments, array $resultArray): void
-    {
+    public function testConvertToPathIds(
+        array $arguments,
+        array $resultArray
+    ): void {
         self::assertEquals(
             $resultArray,
             $this->locationPathConverter->convertToPathIds(...$arguments)

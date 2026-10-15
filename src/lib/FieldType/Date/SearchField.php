@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Date;
 
 use DateTime;
@@ -17,8 +18,10 @@ use Ibexa\Contracts\Core\Search;
  */
 class SearchField implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
-    {
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    ) {
         if ($field->value->data !== null) {
             $dateTime = new DateTime("@{$field->value->data['timestamp']}");
 

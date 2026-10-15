@@ -10,8 +10,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 
-abstract class Matcher extends Criterion
-{
-}
+abstract class Matcher extends Criterion {}
 
 class_alias(Matcher::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\Matcher');

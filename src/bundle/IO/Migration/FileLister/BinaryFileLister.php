@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\Migration\FileLister;
 
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
@@ -40,8 +41,10 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
         return count($this->fileList);
     }
 
-    public function loadMetadataList($limit = null, $offset = null): array
-    {
+    public function loadMetadataList(
+        $limit = null,
+        $offset = null
+    ): array {
         $metadataList = [];
         $fileLimitList = new LimitIterator($this->fileList, $offset, $limit);
 

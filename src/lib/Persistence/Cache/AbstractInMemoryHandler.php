@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface;
@@ -20,22 +21,22 @@ abstract class AbstractInMemoryHandler
     /**
      * NOTE: Instance of this must be TransactionalInMemoryCacheAdapter in order for cache clearing to affect in-memory cache.
      *
-     * @var \Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface
+     * @var TransactionAwareAdapterInterface
      */
     protected $cache;
 
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
+    /** @var PersistenceLogger */
     protected $logger;
 
     /**
      * NOTE: On purpose private as it's only supposed to be interacted with in tandem with symfony cache here,
      *       hence the cache decorator and the reusable methods here.
      *
-     * @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
+     * @var InMemoryCache
      */
     private $inMemory;
 
-    /** @var \Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface */
+    /** @var CacheIndicesValidatorInterface */
     private $cacheIndicesValidator;
 
     public function __construct(

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -44,7 +45,7 @@ class FullTextData extends ValueObject
     /**
      * List of FullTextValue objects corresponding to content object fields (per translation).
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\FullTextValue[]
+     * @var FullTextValue[]
      */
     public $values;
 }

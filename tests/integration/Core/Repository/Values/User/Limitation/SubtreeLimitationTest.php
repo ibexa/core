@@ -4,15 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -22,9 +25,9 @@ class SubtreeLimitationTest extends BaseLimitationTest
      * Tests a combination of SubtreeLimitation, SectionLimitation and
      * the ContentTypeLimitation.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
+     * @see ContentTypeLimitation
+     * @see SectionLimitation
+     * @see SubtreeLimitation
      */
     public function testSubtreeLimitationAllow()
     {
@@ -62,9 +65,9 @@ class SubtreeLimitationTest extends BaseLimitationTest
      * Tests a combination of SubtreeLimitation, SectionLimitation and
      * the ContentTypeLimitation.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
+     * @see ContentTypeLimitation
+     * @see SectionLimitation
+     * @see SubtreeLimitation
      */
     public function testSubtreeLimitationForbid()
     {
@@ -112,7 +115,7 @@ class SubtreeLimitationTest extends BaseLimitationTest
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         $editPolicy = null;
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'read' != $policy->function) {

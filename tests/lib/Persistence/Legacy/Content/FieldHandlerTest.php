@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
@@ -21,6 +23,8 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
+use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
@@ -30,37 +34,92 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGatewayMock;
 
     /**
      * Mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
     /**
      * Storage handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $storageHandlerMock;
 
     /**
      * Field type registry mock.
      *
-     * @var \Ibexa\Core\Persistence\FieldTypeRegistry
+     * @var FieldTypeRegistry
      */
     protected $fieldTypeRegistryMock;
 
     /**
      * Field type mock.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\FieldType
+     * @var FieldType
      */
     protected $fieldTypeMock;
+
+    /** @var string[] */
+    private array $storageCalls = [];
+
+    /** @var string[] */
+    private array $expectedStorageCalls = [];
+
+    /**
+     * Expects all storeFieldData() calls followed by all copyFieldData() calls, in this exact order.
+     *
+     * @param array<int, array<int, Constraint>> $storeArguments
+     * @param array<int, array<int, Constraint>> $copyArguments
+     */
+    private function expectStorageHandlerCalls(
+        MockObject $storageHandlerMock,
+        array $storeArguments,
+        array $copyArguments,
+        bool $storageHandlerUpdatesFields
+    ): void {
+        $queue = [];
+        foreach ($storeArguments as $constraints) {
+            $queue[] = ['storeFieldData', $constraints];
+        }
+        foreach ($copyArguments as $constraints) {
+            $queue[] = ['copyFieldData', $constraints];
+        }
+
+        $this->storageCalls = [];
+        $this->expectedStorageCalls = array_column($queue, 0);
+        $calls = &$this->storageCalls;
+
+        foreach (['storeFieldData' => count($storeArguments), 'copyFieldData' => count($copyArguments)] as $method => $count) {
+            $storageHandlerMock->expects($this->exactly($count))
+                ->method($method)
+                ->willReturnCallback(
+                    static function (...$arguments) use ($method, &$calls, $queue, $storageHandlerUpdatesFields): bool {
+                        $index = count($calls);
+                        $calls[] = $method;
+                        self::assertSame($queue[$index][0] ?? null, $method);
+                        foreach ($queue[$index][1] as $position => $constraint) {
+                            self::assertThat($arguments[$position], $constraint);
+                        }
+
+                        return $storageHandlerUpdatesFields;
+                    }
+                );
+        }
+    }
+
+    protected function assertPostConditions(): void
+    {
+        parent::assertPostConditions();
+
+        self::assertSame($this->expectedStorageCalls, $this->storageCalls);
+    }
 
     /**
      * @param bool $storageHandlerUpdatesFields
@@ -83,7 +142,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 $this->isInstanceOf(StorageFieldValue::class)
             )->will($this->returnValue(42));
 
-        $callNo = 0;
+        $storeArguments = [];
         $fieldValue = new FieldValue();
         foreach ([1, 2, 3] as $fieldDefinitionId) {
             foreach (['eng-US', 'eng-GB'] as $languageCode) {
@@ -104,24 +163,23 @@ class FieldHandlerTest extends LanguageAwareTestCase
                     $originalField->languageCode = 'eng-GB';
                     continue;
                 }
-                $storageHandlerMock->expects($this->at($callNo++))
-                    ->method('storeFieldData')
-                    ->with(
-                        $this->isInstanceOf(VersionInfo::class),
-                        $this->equalTo($field)
-                    )->will($this->returnValue($storageHandlerUpdatesFields));
+                $storeArguments[] = [
+                    $this->isInstanceOf(VersionInfo::class),
+                    $this->equalTo($field),
+                ];
             }
         }
 
         /* @var $copyField */
         /* @var $originalField */
-        $storageHandlerMock->expects($this->at($callNo))
-            ->method('copyFieldData')
-            ->with(
+        $copyArguments = [
+            [
                 $this->isInstanceOf(VersionInfo::class),
                 $this->equalTo($copyField),
-                $this->equalTo($originalField)
-            )->will($this->returnValue($storageHandlerUpdatesFields));
+                $this->equalTo($originalField),
+            ],
+        ];
+        $this->expectStorageHandlerCalls($storageHandlerMock, $storeArguments, $copyArguments, $storageHandlerUpdatesFields);
     }
 
     public function testCreateNewFields()
@@ -189,7 +247,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 $this->isInstanceOf(StorageFieldValue::class)
             )->will($this->returnValue(42));
 
-        $callNo = 0;
+        $storeArguments = [];
         $fieldValue = new FieldValue();
         foreach ([1, 2, 3] as $fieldDefinitionId) {
             $field = new Field(
@@ -202,13 +260,16 @@ class FieldHandlerTest extends LanguageAwareTestCase
                     'languageCode' => 'eng-GB',
                 ]
             );
-            $storageHandlerMock->expects($this->at($callNo++))
-                ->method('storeFieldData')
-                ->with(
-                    $this->isInstanceOf(VersionInfo::class),
-                    $this->equalTo($field)
-                )->will($this->returnValue($storageHandlerUpdatesFields));
+            $storeArguments[] = [
+                $this->isInstanceOf(VersionInfo::class),
+                $this->equalTo($field),
+            ];
         }
+
+        $storageHandlerMock->expects($this->exactly(count($storeArguments)))
+            ->method('storeFieldData')
+            ->withConsecutive(...$storeArguments)
+            ->willReturn($storageHandlerUpdatesFields);
     }
 
     public function testCreateNewFieldsForMainLanguage()
@@ -271,7 +332,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 $this->isInstanceOf(StorageFieldValue::class)
             )->will($this->returnValue(42));
 
-        $callNo = 0;
+        $copyArguments = [];
         $fieldValue = new FieldValue();
         foreach ([1, 2, 3] as $fieldDefinitionId) {
             foreach (['eng-US', 'eng-GB'] as $languageIndex => $languageCode) {
@@ -286,15 +347,18 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 );
                 $originalField = clone $field;
                 $field->versionNo = 1;
-                $storageHandlerMock->expects($this->at($callNo++))
-                    ->method('copyFieldData')
-                    ->with(
-                        $this->isInstanceOf(VersionInfo::class),
-                        $this->equalTo($field),
-                        $this->equalTo($originalField)
-                    )->will($this->returnValue($storageHandlerUpdatesFields));
+                $copyArguments[] = [
+                    $this->isInstanceOf(VersionInfo::class),
+                    $this->equalTo($field),
+                    $this->equalTo($originalField),
+                ];
             }
         }
+
+        $storageHandlerMock->expects($this->exactly(count($copyArguments)))
+            ->method('copyFieldData')
+            ->withConsecutive(...$copyArguments)
+            ->willReturn($storageHandlerUpdatesFields);
     }
 
     public function testCreateExistingFieldsInNewVersion()
@@ -470,7 +534,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 $this->isInstanceOf(StorageFieldValue::class)
             );
 
-        $callNo = 0;
+        $storeArguments = [];
         $fieldValue = new FieldValue();
         foreach ([1, 2, 3] as $fieldDefinitionId) {
             $field = new Field(
@@ -490,23 +554,22 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 $originalField->languageCode = 'eng-GB';
                 continue;
             }
-            $storageHandlerMock->expects($this->at($callNo++))
-                ->method('storeFieldData')
-                ->with(
-                    $this->isInstanceOf(VersionInfo::class),
-                    $this->equalTo($field)
-                )->will($this->returnValue($storageHandlerUpdatesFields));
+            $storeArguments[] = [
+                $this->isInstanceOf(VersionInfo::class),
+                $this->equalTo($field),
+            ];
         }
 
         /* @var $copyField */
         /* @var $originalField */
-        $storageHandlerMock->expects($this->at($callNo))
-            ->method('copyFieldData')
-            ->with(
+        $copyArguments = [
+            [
                 $this->isInstanceOf(VersionInfo::class),
                 $this->equalTo($copyField),
-                $this->equalTo($originalField)
-            )->will($this->returnValue($storageHandlerUpdatesFields));
+                $this->equalTo($originalField),
+            ],
+        ];
+        $this->expectStorageHandlerCalls($storageHandlerMock, $storeArguments, $copyArguments, $storageHandlerUpdatesFields);
     }
 
     public function testUpdateFieldsWithNewLanguage()
@@ -588,7 +651,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     {
         $storageHandlerMock = $this->getStorageHandlerMock();
 
-        $callNo = 0;
+        $storeArguments = [];
         $fieldValue = new FieldValue();
         $fieldsToCopy = [];
         foreach ([1, 2, 3] as $fieldDefinitionId) {
@@ -613,25 +676,24 @@ class FieldHandlerTest extends LanguageAwareTestCase
                         'original' => $originalField,
                     ];
                 } else {
-                    $storageHandlerMock->expects($this->at($callNo++))
-                        ->method('storeFieldData')
-                        ->with(
-                            $this->isInstanceOf(VersionInfo::class),
-                            $this->equalTo($field)
-                        )->will($this->returnValue($storageHandlerUpdatesFields));
+                    $storeArguments[] = [
+                        $this->isInstanceOf(VersionInfo::class),
+                        $this->equalTo($field),
+                    ];
                 }
             }
         }
 
+        $copyArguments = [];
         foreach ($fieldsToCopy as $fieldToCopy) {
-            $storageHandlerMock->expects($this->at($callNo++))
-                ->method('copyFieldData')
-                ->with(
-                    $this->isInstanceOf(VersionInfo::class),
-                    $this->equalTo($fieldToCopy['copy']),
-                    $this->equalTo($fieldToCopy['original'])
-                )->will($this->returnValue($storageHandlerUpdatesFields));
+            $copyArguments[] = [
+                $this->isInstanceOf(VersionInfo::class),
+                $this->equalTo($fieldToCopy['copy']),
+                $this->equalTo($fieldToCopy['original']),
+            ];
         }
+
+        $this->expectStorageHandlerCalls($storageHandlerMock, $storeArguments, $copyArguments, $storageHandlerUpdatesFields);
     }
 
     public function testUpdateFieldsExistingLanguages()
@@ -695,7 +757,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     {
         $storageHandlerMock = $this->getStorageHandlerMock();
 
-        $callNo = 0;
+        $storeArguments = [];
         $fieldValue = new FieldValue();
         $fieldsToCopy = [];
         foreach ([1, 2, 3] as $id => $fieldDefinitionId) {
@@ -721,23 +783,22 @@ class FieldHandlerTest extends LanguageAwareTestCase
             }
             // This field is inserted as empty
             $field->value = null;
-            $storageHandlerMock->expects($this->at($callNo++))
-                ->method('storeFieldData')
-                ->with(
-                    $this->isInstanceOf(VersionInfo::class),
-                    $this->equalTo($field)
-                )->will($this->returnValue($storageHandlerUpdatesFields));
+            $storeArguments[] = [
+                $this->isInstanceOf(VersionInfo::class),
+                $this->equalTo($field),
+            ];
         }
 
+        $copyArguments = [];
         foreach ($fieldsToCopy as $fieldToCopy) {
-            $storageHandlerMock->expects($this->at($callNo++))
-                ->method('copyFieldData')
-                ->with(
-                    $this->isInstanceOf(VersionInfo::class),
-                    $this->equalTo($fieldToCopy['copy']),
-                    $this->equalTo($fieldToCopy['original'])
-                )->will($this->returnValue($storageHandlerUpdatesFields));
+            $copyArguments[] = [
+                $this->isInstanceOf(VersionInfo::class),
+                $this->equalTo($fieldToCopy['copy']),
+                $this->equalTo($fieldToCopy['original']),
+            ];
         }
+
+        $this->expectStorageHandlerCalls($storageHandlerMock, $storeArguments, $copyArguments, $storageHandlerUpdatesFields);
     }
 
     public function testUpdateFieldsForInitialLanguage()
@@ -826,7 +887,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentPartialFieldsFixture()
     {
@@ -864,7 +925,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentNoFieldsFixture()
     {
@@ -884,7 +945,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentSingleLanguageFixture()
     {
@@ -916,7 +977,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentFixture()
     {
@@ -961,7 +1022,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a ContentType fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     protected function getContentTypeFixture()
     {
@@ -999,7 +1060,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an UpdateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UpdateStruct
+     * @return UpdateStruct
      */
     protected function getUpdateStructFixture()
     {
@@ -1024,7 +1085,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a FieldHandler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @return FieldHandler
      */
     protected function getFieldHandler()
     {
@@ -1042,7 +1103,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a StorageHandler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageHandler|\PHPUnit\Framework\MockObject\MockObject
+     * @return StorageHandler|MockObject
      */
     protected function getStorageHandlerMock()
     {
@@ -1056,7 +1117,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper|\PHPUnit\Framework\MockObject\MockObject
+     * @return Mapper|MockObject
      */
     protected function getMapperMock()
     {
@@ -1070,7 +1131,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a mock object for the Content Gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Gateway|\PHPUnit\Framework\MockObject\MockObject
+     * @return Gateway|MockObject
      */
     protected function getContentGatewayMock()
     {
@@ -1082,7 +1143,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\FieldTypeRegistry|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldTypeRegistry|MockObject
      */
     protected function getFieldTypeRegistryMock()
     {
@@ -1104,7 +1165,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\FieldType|\PHPUnit\Framework\MockObject\MockObject
+     * @return SPIFieldType|MockObject
      */
     protected function getFieldTypeMock()
     {

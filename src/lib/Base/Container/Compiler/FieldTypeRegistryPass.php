@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Container\Compiler;
 
 use Ibexa\Core\FieldType\FieldTypeRegistry;
@@ -17,7 +18,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
 {
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      *
      * @throws \LogicException
      */

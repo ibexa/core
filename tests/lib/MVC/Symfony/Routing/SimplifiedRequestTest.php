@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -16,12 +17,14 @@ class SimplifiedRequestTest extends TestCase
 {
     /**
      * @param string $url
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $expectedRequest
+     * @param SimplifiedRequest $expectedRequest
      *
      * @dataProvider fromUrlProvider
      */
-    public function testFromUrl($url, $expectedRequest)
-    {
+    public function testFromUrl(
+        $url,
+        $expectedRequest
+    ) {
         self::assertEquals(
             $expectedRequest,
             SimplifiedRequest::fromUrl($url)

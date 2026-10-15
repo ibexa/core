@@ -17,11 +17,13 @@ use IteratorAggregate;
 
 class TermAggregationResult extends AggregationResult implements IteratorAggregate, Countable
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry[] */
+    /** @var TermAggregationResultEntry[] */
     private $entries;
 
-    public function __construct(string $name, iterable $entries = [])
-    {
+    public function __construct(
+        string $name,
+        iterable $entries = []
+    ) {
         parent::__construct($name);
 
         $this->entries = $entries;
@@ -33,7 +35,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry[]
+     * @return TermAggregationResultEntry[]
      */
     public function getEntries(): iterable
     {
@@ -90,8 +92,10 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
         }
     }
 
-    public static function createForAggregation(Aggregation $aggregation, iterable $entries = []): self
-    {
+    public static function createForAggregation(
+        Aggregation $aggregation,
+        iterable $entries = []
+    ): self {
         return new self($aggregation->getName(), $entries);
     }
 }

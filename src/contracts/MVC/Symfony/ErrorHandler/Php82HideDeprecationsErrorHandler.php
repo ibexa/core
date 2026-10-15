@@ -8,8 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\MVC\Symfony\ErrorHandler;
 
-use const PHP_VERSION_ID;
 use Symfony\Component\Runtime\Internal\BasicErrorHandler;
+
+use const PHP_VERSION_ID;
 
 final class Php82HideDeprecationsErrorHandler
 {

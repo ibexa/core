@@ -16,10 +16,10 @@ use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 
 class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScopeChangeSubscriber
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $innerIOService;
 
     /** @var string */

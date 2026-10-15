@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft;
 
 final class PublishRoleDraftEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
+    /** @var RoleDraft */
     private $roleDraft;
 
     public function __construct(

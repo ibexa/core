@@ -13,7 +13,10 @@ interface MutableOptionsBag extends OptionsBag
     /**
      * @param mixed|null $value
      */
-    public function set(string $key, $value): void;
+    public function set(
+        string $key,
+        $value
+    ): void;
 
     public function remove(string $key): void;
 }

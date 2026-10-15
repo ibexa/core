@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\LegacySearchEngine\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -18,8 +19,10 @@ class IbexaLegacySearchEngineExtension extends Extension
         return 'ibexa_legacy_search_engine';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
-    {
+    public function load(
+        array $configs,
+        ContainerBuilder $container
+    ) {
         // Loading configuration from ./src/lib/Resources/settings/policies.yml
         $loader = new YamlFileLoader(
             $container,

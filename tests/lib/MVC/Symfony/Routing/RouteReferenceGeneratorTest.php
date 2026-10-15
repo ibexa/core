@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
@@ -11,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator;
 use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +20,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RouteReferenceGeneratorTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $dispatcher;
 
     protected function setUp(): void
@@ -82,8 +84,10 @@ class RouteReferenceGeneratorTest extends TestCase
     /**
      * @dataProvider generateGenerator
      */
-    public function testGenerate($resource, array $params)
-    {
+    public function testGenerate(
+        $resource,
+        array $params
+    ) {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
 

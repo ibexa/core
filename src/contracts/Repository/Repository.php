@@ -27,21 +27,24 @@ interface Repository
      *
      * @template T
      *
-     * @phpstan-param callable(\Ibexa\Contracts\Core\Repository\Repository): T $callback
+     * @phpstan-param callable(Repository): T $callback
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository|null $outerRepository Optional, mostly
+     * @param Repository|null $outerRepository Optional, mostly
      *        for internal use but allows to specify Repository to pass to closure.
      *
      * @return T
      */
-    public function sudo(callable $callback, ?Repository $outerRepository = null);
+    public function sudo(
+        callable $callback,
+        ?Repository $outerRepository = null
+    );
 
     /**
      * Get Content Service.
      *
      * Get service object to perform operations on Content objects and it's aggregate members.
      *
-     * @return \Ibexa\Contracts\Core\Repository\ContentService
+     * @return ContentService
      */
     public function getContentService(): ContentService;
 
@@ -50,7 +53,7 @@ interface Repository
      *
      * Get service object to perform operations on Content language objects
      *
-     * @return \Ibexa\Contracts\Core\Repository\LanguageService
+     * @return LanguageService
      */
     public function getContentLanguageService(): LanguageService;
 
@@ -60,7 +63,7 @@ interface Repository
      * Get service object to perform operations on content type objects and it's aggregate members.
      * ( Group, Field & FieldCategory )
      *
-     * @return \Ibexa\Contracts\Core\Repository\ContentTypeService
+     * @return ContentTypeService
      */
     public function getContentTypeService(): ContentTypeService;
 
@@ -69,7 +72,7 @@ interface Repository
      *
      * Get service object to perform operations on Location objects and subtrees
      *
-     * @return \Ibexa\Contracts\Core\Repository\LocationService
+     * @return LocationService
      */
     public function getLocationService(): LocationService;
 
@@ -79,7 +82,7 @@ interface Repository
      * Trash service allows to perform operations related to location trash
      * (trash/untrash, load/list from trash...)
      *
-     * @return \Ibexa\Contracts\Core\Repository\TrashService
+     * @return TrashService
      */
     public function getTrashService(): TrashService;
 
@@ -88,7 +91,7 @@ interface Repository
      *
      * Get Section service that lets you manipulate section objects
      *
-     * @return \Ibexa\Contracts\Core\Repository\SectionService
+     * @return SectionService
      */
     public function getSectionService(): SectionService;
 
@@ -97,7 +100,7 @@ interface Repository
      *
      * Get search service that lets you find content objects
      *
-     * @return \Ibexa\Contracts\Core\Repository\SearchService
+     * @return SearchService
      */
     public function getSearchService(): SearchService;
 
@@ -106,77 +109,77 @@ interface Repository
      *
      * Get service object to perform operations on Users and UserGroup
      *
-     * @return \Ibexa\Contracts\Core\Repository\UserService
+     * @return UserService
      */
     public function getUserService(): UserService;
 
     /**
      * Get URLAliasService.
      *
-     * @return \Ibexa\Contracts\Core\Repository\URLAliasService
+     * @return URLAliasService
      */
     public function getURLAliasService(): URLAliasService;
 
     /**
      * Get URLWildcardService.
      *
-     * @return \Ibexa\Contracts\Core\Repository\URLWildcardService
+     * @return URLWildcardService
      */
     public function getURLWildcardService(): URLWildcardService;
 
     /**
      * Get ObjectStateService.
      *
-     * @return \Ibexa\Contracts\Core\Repository\ObjectStateService
+     * @return ObjectStateService
      */
     public function getObjectStateService(): ObjectStateService;
 
     /**
      * Get RoleService.
      *
-     * @return \Ibexa\Contracts\Core\Repository\RoleService
+     * @return RoleService
      */
     public function getRoleService(): RoleService;
 
     /**
      * Get FieldTypeService.
      *
-     * @return \Ibexa\Contracts\Core\Repository\FieldTypeService
+     * @return FieldTypeService
      */
     public function getFieldTypeService(): FieldTypeService;
 
     /**
      * Get PermissionResolver.
      *
-     * @return \Ibexa\Contracts\Core\Repository\PermissionResolver
+     * @return PermissionResolver
      */
     public function getPermissionResolver(): PermissionResolver;
 
     /**
      * Get URLService.
      *
-     * @return \Ibexa\Contracts\Core\Repository\URLService
+     * @return URLService
      */
     public function getURLService(): URLService;
 
     /**
      * Get BookmarkService.
      *
-     * @return \Ibexa\Contracts\Core\Repository\BookmarkService
+     * @return BookmarkService
      */
     public function getBookmarkService(): BookmarkService;
 
     /**
      * Get NotificationService.
      *
-     * @return \Ibexa\Contracts\Core\Repository\NotificationService
+     * @return NotificationService
      */
     public function getNotificationService(): NotificationService;
 
     /**
      * Get UserPreferenceService.
      *
-     * @return \Ibexa\Contracts\Core\Repository\UserPreferenceService
+     * @return UserPreferenceService
      */
     public function getUserPreferenceService(): UserPreferenceService;
 

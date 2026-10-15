@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform;
 
-final class FallbackGateway extends AbstractGateway
-{
-}
+final class FallbackGateway extends AbstractGateway {}
 
 class_alias(FallbackGateway::class, 'eZ\Publish\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\FallbackGateway');

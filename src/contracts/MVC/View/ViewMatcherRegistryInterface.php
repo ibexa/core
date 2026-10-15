@@ -12,7 +12,10 @@ use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 
 interface ViewMatcherRegistryInterface
 {
-    public function setMatcher(string $matcherIdentifier, ViewMatcherInterface $matcher): void;
+    public function setMatcher(
+        string $matcherIdentifier,
+        ViewMatcherInterface $matcher
+    ): void;
 
     public function getMatcher(string $matcherIdentifier): ViewMatcherInterface;
 

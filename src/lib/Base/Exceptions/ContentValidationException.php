@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Exceptions;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException as APIContentValidationException;
@@ -24,9 +25,11 @@ class ContentValidationException extends APIContentValidationException implement
      * @param array $parameters Hash map with param placeholder as key and its corresponding value.
      *                          E.g. array('%contentId%' => 123).
      */
-    public function __construct($messageTemplate, array $parameters = [])
-    {
-        $this->setMessageTemplate(/** @Ignore */$messageTemplate);
+    public function __construct(
+        $messageTemplate,
+        array $parameters = []
+    ) {
+        $this->setMessageTemplate(/** @Ignore */ $messageTemplate);
         $this->setParameters($parameters);
 
         parent::__construct($this->getBaseTranslation());

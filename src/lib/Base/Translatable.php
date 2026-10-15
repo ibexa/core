@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base;
 
 /**
@@ -49,7 +50,10 @@ interface Translatable
      * @param string $name
      * @param string $value
      */
-    public function addParameter($name, $value);
+    public function addParameter(
+        $name,
+        $value
+    );
 
     /**
      * Adds $parameters to existing hash map.

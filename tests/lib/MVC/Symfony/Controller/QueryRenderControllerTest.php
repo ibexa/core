@@ -16,6 +16,7 @@ use Ibexa\Core\Pagination\Pagerfanta\Pagerfanta;
 use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
 use Ibexa\Core\Query\QueryFactoryInterface;
 use Pagerfanta\Adapter\AdapterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -49,13 +50,13 @@ final class QueryRenderControllerTest extends TestCase
         ],
     ];
 
-    /** @var \Ibexa\Core\Query\QueryFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var QueryFactoryInterface|MockObject */
     private $queryFactory;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SearchHitAdapterFactoryInterface|MockObject */
     private $searchHitAdapterFactory;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController */
+    /** @var QueryRenderController */
     private $controller;
 
     protected function setUp(): void

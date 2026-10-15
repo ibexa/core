@@ -68,7 +68,7 @@ abstract class AbstractCollectionTest extends TestCase
     public function testExistsEdgeCases(): void
     {
         $collection = $this->createCollectionWithExampleData();
-        if (!($collection instanceof \Ibexa\Contracts\Core\Collection\StreamableInterface)) {
+        if (!($collection instanceof StreamableInterface)) {
             self::markTestSkipped(sprintf('%s collection is not streamable', get_class($collection)));
         }
 

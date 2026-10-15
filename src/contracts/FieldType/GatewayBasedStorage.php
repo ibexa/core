@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\FieldType;
 
 use Ibexa\Contracts\Core\Persistence\Content\Field;
@@ -19,13 +20,15 @@ abstract class GatewayBasedStorage implements FieldStorage
     /**
      * Field Type External Storage Gateway.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface
+     * @var StorageGatewayInterface
+     *
      * @phpstan-var T
      */
     protected $gateway;
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
+     * @param StorageGatewayInterface $gateway
+     *
      * @phpstan-param T $gateway
      */
     public function __construct(StorageGatewayInterface $gateway)
@@ -37,18 +40,22 @@ abstract class GatewayBasedStorage implements FieldStorage
      * This method is used exclusively by Legacy Storage to copy external data of existing field in main language to
      * the untranslatable field not passed in create or update struct, but created implicitly in storage layer.
      *
-     * By default the method falls back to the {@see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
+     * By default the method falls back to the {@see FieldStorage::storeFieldData()}.
      * External storages implement this method as needed.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $originalField
+     * @param VersionInfo $versionInfo
+     * @param Field $field
+     * @param Field $originalField
      * @param array $context
      *
-     * @return bool|null Same as {@see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
+     * @return bool|null Same as {@see FieldStorage::storeFieldData()}.
      */
-    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField, array $context)
-    {
+    public function copyLegacyField(
+        VersionInfo $versionInfo,
+        Field $field,
+        Field $originalField,
+        array $context
+    ) {
         return $this->storeFieldData($versionInfo, $field, $context);
     }
 }

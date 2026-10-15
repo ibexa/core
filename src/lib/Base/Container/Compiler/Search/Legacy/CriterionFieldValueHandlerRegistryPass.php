@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Container\Compiler\Search\Legacy;
 
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry;
@@ -20,7 +21,7 @@ class CriterionFieldValueHandlerRegistryPass implements CompilerPassInterface
     private const SEARCH_LEGACY_GATEWAY_CRITERION_HANDLER_FIELD_VALUE_TAG = 'ibexa.search.legacy.gateway.criterion_handler.field_value';
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {

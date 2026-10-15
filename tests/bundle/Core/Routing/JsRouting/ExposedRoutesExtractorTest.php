@@ -61,8 +61,10 @@ final class ExposedRoutesExtractorTest extends TestCase
     /**
      * @dataProvider getDataForTestGetBaseUrl
      */
-    public function testGetBaseUrl(?Request $masterRequest, string $expectedBaseUrl): void
-    {
+    public function testGetBaseUrl(
+        ?Request $masterRequest,
+        string $expectedBaseUrl
+    ): void {
         $innerExtractor = $this->createMock(ExposedRoutesExtractorInterface::class);
         $requestStack = $this->createMock(RequestStack::class);
 

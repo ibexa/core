@@ -15,10 +15,10 @@ use UnexpectedValueException;
 
 final class BeforeCreateNotificationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct */
+    /** @var CreateStruct */
     private $createStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Notification|null */
+    /** @var Notification|null */
     private $notification;
 
     public function __construct(CreateStruct $createStruct)

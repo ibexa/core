@@ -4,20 +4,22 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleDownOnlyFilterLoader;
 use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ScaleDownOnlyFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleDownOnlyFilterLoader */
+    /** @var ScaleDownOnlyFilterLoader */
     private $loader;
 
     protected function setUp(): void

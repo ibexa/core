@@ -15,7 +15,7 @@ use UnexpectedValueException;
 
 final class BeforeCreateUrlAliasEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location;
 
     private $path;
@@ -26,11 +26,16 @@ final class BeforeCreateUrlAliasEvent extends BeforeEvent
 
     private $alwaysAvailable;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias|null */
+    /** @var URLAlias|null */
     private $urlAlias;
 
-    public function __construct(Location $location, $path, $languageCode, $forwarding, $alwaysAvailable)
-    {
+    public function __construct(
+        Location $location,
+        $path,
+        $languageCode,
+        $forwarding,
+        $alwaysAvailable
+    ) {
         $this->location = $location;
         $this->path = $path;
         $this->languageCode = $languageCode;

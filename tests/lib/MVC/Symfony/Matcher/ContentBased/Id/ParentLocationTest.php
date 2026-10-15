@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -11,10 +12,11 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation as ParentLocationIdMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ParentLocationTest extends BaseTest
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation */
+    /** @var ParentLocationIdMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -25,15 +27,19 @@ class ParentLocationTest extends BaseTest
 
     /**
      * @dataProvider matchLocationProvider
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation::matchLocation
+     *
+     * @covers \ParentLocationIdMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        Location $location,
+        $expectedResult
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         $this->assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
@@ -66,16 +72,20 @@ class ParentLocationTest extends BaseTest
 
     /**
      * @dataProvider matchContentInfoProvider
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation::matchContentInfo
+     *
+     * @covers \ParentLocationIdMatcher::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        Repository $repository,
+        $expectedResult
+    ) {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
         $this->assertSame(
@@ -115,7 +125,7 @@ class ParentLocationTest extends BaseTest
      *
      * @param int $parentLocationId
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForParentLocationId($parentLocationId)
     {

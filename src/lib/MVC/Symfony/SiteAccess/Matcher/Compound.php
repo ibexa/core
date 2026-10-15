@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -28,13 +29,13 @@ abstract class Compound implements CompoundInterface, URILexer
      */
     protected $matchersMap = [];
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[] */
+    /** @var Matcher[] */
     protected $subMatchers = [];
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface */
+    /** @var MatcherBuilderInterface */
     protected $matcherBuilder;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
+    /** @var SimplifiedRequest */
     protected $request;
 
     public function __construct(array $config)

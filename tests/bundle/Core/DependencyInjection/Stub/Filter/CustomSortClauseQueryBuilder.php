@@ -11,9 +11,10 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
+use Ibexa\Tests\Bundle\Core\DependencyInjection\IbexaCoreExtensionTest;
 
 /**
- * Stub for {@see \Ibexa\Tests\Bundle\Core\DependencyInjection\IbexaCoreExtensionTest::testFilteringQueryBuildersAutomaticConfiguration}.
+ * Stub for {@see IbexaCoreExtensionTest::testFilteringQueryBuildersAutomaticConfiguration}.
  */
 class CustomSortClauseQueryBuilder implements SortClauseQueryBuilder
 {

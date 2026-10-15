@@ -4,9 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Exceptions;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException as APIContentFieldValidationException;
+use Ibexa\Contracts\Core\Repository\Values\Translation;
 use Ibexa\Core\Base\Translatable;
 use Ibexa\Core\Base\TranslatableBase;
 
@@ -28,7 +31,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *  $fieldErrors[43]["eng-GB"]->getTranslatableMessage();
      * </code>
      *
-     * @var array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>>
+     * @var array<int, array<string, ValidationError|ValidationError[]>>
      */
     protected $errors;
 
@@ -40,7 +43,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *
      * Also sets the given $fieldErrors to the internal property, retrievable by getFieldErrors()
      *
-     * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
+     * @param array<int, array<string, ValidationError|ValidationError[]>> $errors
      */
     public function __construct(array $errors)
     {
@@ -52,10 +55,12 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     /**
      * Generates: Content fields did not validate exception with additional information on affected fields.
      *
-     * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
+     * @param array<int, array<string, ValidationError|ValidationError[]>> $errors
      */
-    public static function createNewWithMultiline(array $errors, ?string $contentName = null): self
-    {
+    public static function createNewWithMultiline(
+        array $errors,
+        ?string $contentName = null
+    ): self {
         $exception = new self($errors);
         $exception->contentName = $contentName;
 
@@ -72,7 +77,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     /**
      * Returns an array of field validation error messages.
      *
-     * @return array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>>
+     * @return array<int, array<string, ValidationError|ValidationError[]>>
      */
     public function getFieldErrors()
     {
@@ -89,7 +94,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
             $validationErrors[] = sprintf('Limit: %d of validation errors has been exceeded.', $maxMessagesNumber);
         }
 
-        /** @var callable(string|\Ibexa\Contracts\Core\Repository\Values\Translation): string $convertToString */
+        /** @var callable(string|Translation): string $convertToString */
         $convertToString = static function ($error): string {
             return (string)$error;
         };
@@ -99,7 +104,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     }
 
     /**
-     * @return array<\Ibexa\Contracts\Core\Repository\Values\Translation>
+     * @return array<Translation>
      */
     private function collectValidationErrors(): array
     {

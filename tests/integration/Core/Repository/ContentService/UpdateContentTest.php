@@ -8,6 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
@@ -21,7 +26,7 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 final class UpdateContentTest extends RepositoryTestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testUpdateContentHavingPrivateRelation(): void
     {
@@ -55,7 +60,7 @@ final class UpdateContentTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     private function addRelationFieldToFolderContentType(): void
     {
@@ -73,8 +78,8 @@ final class UpdateContentTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
     private function createPrivateSection(): Section
     {
@@ -90,7 +95,7 @@ final class UpdateContentTest extends RepositoryTestCase
     /**
      * @param int[] $relationListTarget
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     private function createFolderWithRelations(array $relationListTarget): Content
     {
@@ -107,10 +112,10 @@ final class UpdateContentTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws LimitationValidationException
      */
     private function assignToUserRoleWithStandardSectionLimitation(User $user): void
     {
@@ -132,7 +137,7 @@ final class UpdateContentTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     private function createUserWithNoAccessToPrivateSection(): User
     {
@@ -143,7 +148,7 @@ final class UpdateContentTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     private function publishVersionWithoutChanges(ContentInfo $contentInfo): Content
     {

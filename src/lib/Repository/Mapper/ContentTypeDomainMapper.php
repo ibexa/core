@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition as SPIFieldDef
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group as SPIContentTypeGroup;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPITypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct as SPIContentTypeUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as APIContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft as APIContentTypeDraft;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup as APIContentTypeGroup;
@@ -41,13 +42,13 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
  */
 class ContentTypeDomainMapper extends ProxyAwareDomainMapper
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
+    /** @var SPITypeHandler */
     protected $contentTypeHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
+    /** @var SPILanguageHandler */
     protected $contentLanguageHandler;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
+    /** @var FieldTypeRegistry */
     protected $fieldTypeRegistry;
 
     public function __construct(
@@ -115,14 +116,17 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
     /**
      * Builds ContentType update struct for storage layer.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct $contentTypeUpdateStruct
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $user
+     * @param APIContentTypeDraft $contentTypeDraft
+     * @param APIContentTypeUpdateStruct $contentTypeUpdateStruct
+     * @param APIUserReference $user
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct
+     * @return SPIContentTypeUpdateStruct
      */
-    public function buildSPIContentTypeUpdateStruct(APIContentTypeDraft $contentTypeDraft, APIContentTypeUpdateStruct $contentTypeUpdateStruct, APIUserReference $user)
-    {
+    public function buildSPIContentTypeUpdateStruct(
+        APIContentTypeDraft $contentTypeDraft,
+        APIContentTypeUpdateStruct $contentTypeUpdateStruct,
+        APIUserReference $user
+    ) {
         $updateStruct = new SPIContentTypeUpdateStruct();
 
         $updateStruct->identifier = $contentTypeUpdateStruct->identifier !== null ?
@@ -190,8 +194,10 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
     /**
      * Builds a ContentTypeGroup domain object from value object returned by persistence.
      */
-    public function buildContentTypeGroupDomainObject(SPIContentTypeGroup $spiGroup, array $prioritizedLanguages = []): APIContentTypeGroup
-    {
+    public function buildContentTypeGroupDomainObject(
+        SPIContentTypeGroup $spiGroup,
+        array $prioritizedLanguages = []
+    ): APIContentTypeGroup {
         return new ContentTypeGroup(
             [
                 'id' => $spiGroup->id,
@@ -211,15 +217,18 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
     /**
      * Builds a FieldDefinition domain object from value object returned by persistence.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $spiFieldDefinition
+     * @param SPIFieldDefinition $spiFieldDefinition
      * @param string $mainLanguageCode
      * @param string[] $prioritizedLanguages
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition
+     * @return APIFieldDefinition
      */
-    public function buildFieldDefinitionDomainObject(SPIFieldDefinition $spiFieldDefinition, $mainLanguageCode, array $prioritizedLanguages = [])
-    {
-        /** @var $fieldType \Ibexa\Contracts\Core\FieldType\FieldType */
+    public function buildFieldDefinitionDomainObject(
+        SPIFieldDefinition $spiFieldDefinition,
+        $mainLanguageCode,
+        array $prioritizedLanguages = []
+    ) {
+        /** @var $fieldType SPIFieldType */
         $fieldType = $this->fieldTypeRegistry->getFieldType($spiFieldDefinition->fieldType);
         $fieldDefinition = new FieldDefinition(
             [
@@ -250,19 +259,21 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
      * Builds SPIFieldDefinition object using API FieldDefinitionUpdateStruct
      * and API FieldDefinition.
      *
-     * @deprecated use {@see \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper::buildSPIFieldDefinitionFromUpdateStruct}
+     * @deprecated use {@see ContentTypeDomainMapper::buildSPIFieldDefinitionFromUpdateStruct}
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException if validator configuration or
      *         field setting do not validate
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param APIFieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
+     * @param APIFieldDefinition $fieldDefinition
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return SPIFieldDefinition
      */
-    public function buildSPIFieldDefinitionUpdate(APIFieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct, APIFieldDefinition $fieldDefinition)
-    {
-        /** @var $fieldType \Ibexa\Contracts\Core\FieldType\FieldType */
+    public function buildSPIFieldDefinitionUpdate(
+        APIFieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct,
+        APIFieldDefinition $fieldDefinition
+    ) {
+        /** @var $fieldType SPIFieldType */
         $fieldType = $this->fieldTypeRegistry->getFieldType(
             $fieldDefinition->fieldTypeIdentifier
         );
@@ -340,21 +351,21 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param APIFieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
+     * @param APIFieldDefinition $fieldDefinition
      * @param string $mainLanguageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return SPIFieldDefinition
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\Base\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws InvalidArgumentException
+     * @throws ContentTypeFieldDefinitionValidationException
      */
     public function buildSPIFieldDefinitionFromUpdateStruct(
         APIFieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct,
         APIFieldDefinition $fieldDefinition,
         string $mainLanguageCode
     ): SPIFieldDefinition {
-        /** @var $fieldType \Ibexa\Contracts\Core\FieldType\FieldType */
+        /** @var $fieldType SPIFieldType */
         $fieldType = $this->fieldTypeRegistry->getFieldType(
             $fieldDefinition->fieldTypeIdentifier
         );
@@ -436,18 +447,20 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
     /**
      * Builds SPIFieldDefinition object using API FieldDefinitionCreateStruct.
      *
-     * @deprecated use {@see \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper::buildSPIFieldDefinitionFromCreateStruct}
+     * @deprecated use {@see ContentTypeDomainMapper::buildSPIFieldDefinitionFromCreateStruct}
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException if validator configuration or
      *         field setting do not validate
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType $fieldType
+     * @param APIFieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param SPIFieldType $fieldType
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return SPIFieldDefinition
      */
-    public function buildSPIFieldDefinitionCreate(APIFieldDefinitionCreateStruct $fieldDefinitionCreateStruct, SPIFieldType $fieldType)
-    {
+    public function buildSPIFieldDefinitionCreate(
+        APIFieldDefinitionCreateStruct $fieldDefinitionCreateStruct,
+        SPIFieldType $fieldType
+    ) {
         $spiFieldDefinition = new SPIFieldDefinition(
             [
                 'id' => null,
@@ -494,13 +507,13 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType $fieldType
+     * @param APIFieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param SPIFieldType $fieldType
      * @param string $mainLanguageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return SPIFieldDefinition
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function buildSPIFieldDefinitionFromCreateStruct(
         APIFieldDefinitionCreateStruct $fieldDefinitionCreateStruct,

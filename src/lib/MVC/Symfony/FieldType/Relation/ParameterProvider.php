@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\FieldType\Relation;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -14,11 +15,11 @@ use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
 
 class ParameterProvider implements ParameterProviderInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
+     * @param ContentService $contentService
      */
     public function __construct(ContentService $contentService)
     {
@@ -32,7 +33,7 @@ class ParameterProvider implements ParameterProviderInterface
      * Key is the parameter name (the variable name exposed in the template, in the 'parameters' array).
      * Value is the parameter's value.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field The field parameters are provided for.
+     * @param Field $field The field parameters are provided for.
      *
      * @return array
      */

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\ComplexSettings;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParser;
@@ -11,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class ComplexSettingParserTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParser */
+    /** @var ComplexSettingParser */
     private $parser;
 
     protected function setUp(): void
@@ -22,16 +23,20 @@ class ComplexSettingParserTest extends TestCase
     /**
      * @dataProvider provideSettings
      */
-    public function testContainsDynamicSettings($setting, $expected)
-    {
+    public function testContainsDynamicSettings(
+        $setting,
+        $expected
+    ) {
         self::assertEquals($expected[0], $this->parser->containsDynamicSettings($setting), 'string');
     }
 
     /**
      * @dataProvider provideSettings
      */
-    public function testParseComplexSetting($setting, $expected)
-    {
+    public function testParseComplexSetting(
+        $setting,
+        $expected
+    ) {
         self::assertEquals($expected[1], $this->parser->parseComplexSetting($setting), 'string');
     }
 

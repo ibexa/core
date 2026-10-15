@@ -21,10 +21,13 @@ class PropertyReadOnlyException extends Exception implements RepositoryException
      *
      * @param string $propertyName
      * @param string|null $className Optionally to specify class in abstract/parent classes
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
-    public function __construct($propertyName, $className = null, ?Exception $previous = null)
-    {
+    public function __construct(
+        $propertyName,
+        $className = null,
+        ?Exception $previous = null
+    ) {
         if ($className === null) {
             parent::__construct("Property '{$propertyName}' is readonly", 0, $previous);
         } else {

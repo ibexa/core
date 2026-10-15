@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Pagination;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Ibexa\Core\Pagination\Pagerfanta\Pagerfanta;
 use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class PagerfantaTest extends TestCase
@@ -18,10 +19,10 @@ final class PagerfantaTest extends TestCase
     private const EXAMPLE_TIME_RESULT = 30.0;
     private const EXAMPLE_MAX_SCORE_RESULT = 5.12354;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SearchResultAdapter|MockObject */
     private $adapter;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\Pagerfanta */
+    /** @var Pagerfanta */
     private $pagerfanta;
 
     protected function setUp(): void

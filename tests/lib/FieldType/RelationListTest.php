@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
@@ -16,16 +17,17 @@ use Ibexa\Core\FieldType\RelationList\Type as RelationList;
 use Ibexa\Core\FieldType\RelationList\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class RelationListTest extends FieldTypeTest
 {
     private const DESTINATION_CONTENT_ID_14 = 14;
     private const DESTINATION_CONTENT_ID_22 = 22;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
+    /** @var SPIContentHandler */
     private $contentHandler;
 
-    /** @var \Ibexa\Core\Repository\Validator\TargetContentValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TargetContentValidatorInterface|MockObject */
     private $targetContentValidator;
 
     protected function setUp(): void
@@ -148,7 +150,7 @@ class RelationListTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return \Ibexa\Core\FieldType\RelationList\Value
+     * @return Value
      */
     protected function getEmptyValueExpectation()
     {

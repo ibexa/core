@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Tests\Core\FieldType\BaseFieldTypeTest;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Type as GenericFieldTypeStub;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Value as GenericFieldValueStub;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -21,10 +22,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class GenericTest extends BaseFieldTypeTest
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ValueSerializerInterface|MockObject */
     private $serializer;
 
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ValidatorInterface|MockObject */
     private $validator;
 
     protected function setUp(): void
@@ -38,8 +39,10 @@ class GenericTest extends BaseFieldTypeTest
     /**
      * @dataProvider provideValidDataForValidate
      */
-    public function testValidateValid($fieldDefinitionData, $value): void
-    {
+    public function testValidateValid(
+        $fieldDefinitionData,
+        $value
+    ): void {
         $this->validator
             ->method('validate')
             ->with($value, null)
@@ -51,8 +54,11 @@ class GenericTest extends BaseFieldTypeTest
     /**
      * @dataProvider provideInvalidDataForValidate
      */
-    public function testValidateInvalid($fieldDefinitionData, $value, $errors): void
-    {
+    public function testValidateInvalid(
+        $fieldDefinitionData,
+        $value,
+        $errors
+    ): void {
         $constraintViolationList = new ConstraintViolationList(array_map(static function (ValidationError $error) {
             return new ConstraintViolation((string) $error->getTranslatableMessage());
         }, $errors));
@@ -173,7 +179,10 @@ class GenericTest extends BaseFieldTypeTest
 
         $serializer
             ->method('denormalize')
-            ->willReturnCallback(function (array $data, string $valueClass) {
+            ->willReturnCallback(function (
+                array $data,
+                string $valueClass
+            ) {
                 $this->assertEquals($valueClass, GenericFieldValueStub::class);
 
                 return new GenericFieldValueStub($data['value']);

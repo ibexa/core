@@ -15,17 +15,19 @@ use UnexpectedValueException;
 
 final class BeforeUpdateUrlEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\URL\URL */
+    /** @var URL */
     private $url;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct */
+    /** @var URLUpdateStruct */
     private $struct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\URL\URL|null */
+    /** @var URL|null */
     private $updatedUrl;
 
-    public function __construct(URL $url, URLUpdateStruct $struct)
-    {
+    public function __construct(
+        URL $url,
+        URLUpdateStruct $struct
+    ) {
         $this->url = $url;
         $this->struct = $struct;
     }

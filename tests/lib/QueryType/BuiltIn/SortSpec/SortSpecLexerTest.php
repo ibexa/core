@@ -17,8 +17,10 @@ final class SortSpecLexerTest extends TestCase
     /**
      * @dataProvider dataProviderForTokenize
      */
-    public function testTokenize(string $input, iterable $expectedTokens): void
-    {
+    public function testTokenize(
+        string $input,
+        iterable $expectedTokens
+    ): void {
         $lexer = new SortSpecLexer();
         $lexer->tokenize($input);
 

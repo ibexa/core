@@ -14,13 +14,13 @@ use Ibexa\Contracts\Core\Repository\Values\Setting\SettingUpdateStruct;
 
 final class UpdateSettingEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Setting\Setting */
+    /** @var Setting */
     private $updatedSetting;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Setting\Setting */
+    /** @var Setting */
     private $setting;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Setting\SettingUpdateStruct */
+    /** @var SettingUpdateStruct */
     private $settingUpdateStruct;
 
     public function __construct(

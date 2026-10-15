@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
 
 abstract class URLWildcardServiceDecorator implements URLWildcardService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\URLWildcardService */
+    /** @var URLWildcardService */
     protected $innerService;
 
     public function __construct(URLWildcardService $innerService)

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Token\AbstractGateway;
@@ -51,7 +52,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function deleteById(int $typeId): void
     {
@@ -61,7 +62,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function deleteByIdentifier(string $identifier): void
     {

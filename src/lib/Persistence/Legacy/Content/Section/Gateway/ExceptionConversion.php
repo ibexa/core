@@ -21,22 +21,24 @@ final class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway
+     * @var Gateway
      */
     private $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
         $this->innerGateway = $innerGateway;
     }
 
-    public function insertSection(string $name, string $identifier): int
-    {
+    public function insertSection(
+        string $name,
+        string $identifier
+    ): int {
         try {
             return $this->innerGateway->insertSection($name, $identifier);
         } catch (DBALException | PDOException $e) {
@@ -44,8 +46,11 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function updateSection(int $id, string $name, string $identifier): void
-    {
+    public function updateSection(
+        int $id,
+        string $name,
+        string $identifier
+    ): void {
         try {
             $this->innerGateway->updateSection($id, $name, $identifier);
         } catch (DBALException | PDOException $e) {
@@ -116,8 +121,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function assignSectionToContent(int $sectionId, int $contentId): void
-    {
+    public function assignSectionToContent(
+        int $sectionId,
+        int $contentId
+    ): void {
         try {
             $this->innerGateway->assignSectionToContent($sectionId, $contentId);
         } catch (DBALException | PDOException $e) {

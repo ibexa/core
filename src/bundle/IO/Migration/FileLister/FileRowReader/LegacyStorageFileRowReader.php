@@ -4,17 +4,19 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\Migration\FileLister\FileRowReader;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Statement;
 use Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface;
 
 abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
-    /** @var \Doctrine\DBAL\Driver\Statement */
+    /** @var Statement */
     private $statement;
 
     public function __construct(Connection $connection)
@@ -58,8 +60,10 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
      *
      * @return string
      */
-    private function prependMimeToPath($path, $mimeType)
-    {
+    private function prependMimeToPath(
+        $path,
+        $mimeType
+    ) {
         return substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
     }
 }

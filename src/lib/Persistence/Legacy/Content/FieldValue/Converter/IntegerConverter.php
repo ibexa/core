@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
@@ -36,11 +37,13 @@ class IntegerConverter implements Converter
     /**
      * Converts data from $value to $storageFieldValue.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
+     * @param FieldValue $value
+     * @param StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ) {
         $storageFieldValue->dataInt = $value->data;
         $storageFieldValue->sortKeyInt = (int)$value->sortKey;
     }
@@ -48,11 +51,13 @@ class IntegerConverter implements Converter
     /**
      * Converts data from $value to $fieldValue.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param StorageFieldValue $value
+     * @param FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ) {
         $fieldValue->data = $value->dataInt;
         $fieldValue->sortKey = $value->sortKeyInt;
     }
@@ -60,11 +65,13 @@ class IntegerConverter implements Converter
     /**
      * Converts field definition data in $fieldDef into $storageFieldDef.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ) {
         if (isset($fieldDef->fieldTypeConstraints->validators[self::FLOAT_VALIDATOR_IDENTIFIER]['minIntegerValue'])) {
             $storageDef->dataInt1 = $fieldDef->fieldTypeConstraints->validators[self::FLOAT_VALIDATOR_IDENTIFIER]['minIntegerValue'];
         }
@@ -89,11 +96,13 @@ class IntegerConverter implements Converter
     /**
      * Converts field definition data in $storageDef into $fieldDef.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ) {
         $validatorParameters = ['minIntegerValue' => null, 'maxIntegerValue' => null];
         if ($storageDef->dataInt4 & self::HAS_MIN_VALUE) {
             $validatorParameters['minIntegerValue'] = $storageDef->dataInt1;
@@ -132,8 +141,10 @@ class IntegerConverter implements Converter
      *
      * @return int
      */
-    private function getStorageDefValidatorState($minValue, $maxValue)
-    {
+    private function getStorageDefValidatorState(
+        $minValue,
+        $maxValue
+    ) {
         $state = 0;
 
         if ($minValue !== null) {

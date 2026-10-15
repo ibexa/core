@@ -19,9 +19,9 @@ class Mapper
     /**
      * Creates a Bookmark from $createStruct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct $createStruct
+     * @param CreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark
+     * @return Bookmark
      */
     public function createBookmarkFromCreateStruct(CreateStruct $createStruct): Bookmark
     {
@@ -38,7 +38,7 @@ class Mapper
      *
      * @param array $rows
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark[]
+     * @return Bookmark[]
      */
     public function extractBookmarksFromRows(array $rows): array
     {
@@ -55,7 +55,7 @@ class Mapper
      *
      * @param array $row
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark
+     * @return Bookmark
      */
     private function extractBookmarkFromRow(array $row): Bookmark
     {

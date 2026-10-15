@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -73,8 +74,11 @@ class RouterURIElement2Test extends RouterBaseTest
      *
      * @dataProvider analyseProvider
      */
-    public function testAnalyseURI($level, $uri, $expectedFixedUpURI)
-    {
+    public function testAnalyseURI(
+        $level,
+        $uri,
+        $expectedFixedUpURI
+    ) {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $uri])
@@ -89,8 +93,11 @@ class RouterURIElement2Test extends RouterBaseTest
      *
      * @dataProvider analyseProvider
      */
-    public function testAnalyseURILevelAsInt($level, $uri, $expectedFixedUpURI)
-    {
+    public function testAnalyseURILevelAsInt(
+        $level,
+        $uri,
+        $expectedFixedUpURI
+    ) {
         $matcher = new URIElementMatcher($level);
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $uri])
@@ -105,8 +112,11 @@ class RouterURIElement2Test extends RouterBaseTest
      *
      * @dataProvider analyseProvider
      */
-    public function testAnalyseLink($level, $fullUri, $linkUri)
-    {
+    public function testAnalyseLink(
+        $level,
+        $fullUri,
+        $linkUri
+    ) {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $fullUri])
@@ -135,8 +145,10 @@ class RouterURIElement2Test extends RouterBaseTest
     /**
      * @dataProvider reverseMatchProvider
      */
-    public function testReverseMatch($siteAccessName, $originalPathinfo)
-    {
+    public function testReverseMatch(
+        $siteAccessName,
+        $originalPathinfo
+    ) {
         $expectedSiteAccessPath = str_replace('_', '/', $siteAccessName);
         $matcher = new URIElementMatcher([2]);
         $matcher->setRequest(new SimplifiedRequest(['pathinfo' => $originalPathinfo]));
@@ -200,7 +212,7 @@ class RouterURIElement2Test extends RouterBaseTest
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

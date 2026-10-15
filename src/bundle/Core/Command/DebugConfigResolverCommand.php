@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Command;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -18,10 +19,10 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
 
 class DebugConfigResolverCommand extends Command implements BackwardCompatibleCommand
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
     public function __construct(
@@ -84,8 +85,10 @@ EOM
     /**
      * {@inheritdoc}.
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $parameter = $input->getArgument('parameter');
         $namespace = $input->getOption('namespace');
         $scope = $input->getOption('scope');

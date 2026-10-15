@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\TransformationProcessor;
 
 use Ibexa\Core\Persistence\TransformationProcessor;
@@ -16,12 +17,14 @@ class PreprocessedBased extends TransformationProcessor
     /**
      * Constructor.
      *
-     * @param \Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler $compiler
+     * @param PcreCompiler $compiler
      * @param string $installDir Base dir for rule loading
      * @param array $ruleFiles
      */
-    public function __construct(PcreCompiler $compiler, array $ruleFiles = [])
-    {
+    public function __construct(
+        PcreCompiler $compiler,
+        array $ruleFiles = []
+    ) {
         parent::__construct($compiler, $ruleFiles);
     }
 

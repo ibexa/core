@@ -15,17 +15,19 @@ use UnexpectedValueException;
 
 final class BeforeCreateContentTypeEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct */
+    /** @var ContentTypeCreateStruct */
     private $contentTypeCreateStruct;
 
     /** @var array */
     private $contentTypeGroups;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft|null */
+    /** @var ContentTypeDraft|null */
     private $contentTypeDraft;
 
-    public function __construct(ContentTypeCreateStruct $contentTypeCreateStruct, array $contentTypeGroups)
-    {
+    public function __construct(
+        ContentTypeCreateStruct $contentTypeCreateStruct,
+        array $contentTypeGroups
+    ) {
         $this->contentTypeCreateStruct = $contentTypeCreateStruct;
         $this->contentTypeGroups = $contentTypeGroups;
     }

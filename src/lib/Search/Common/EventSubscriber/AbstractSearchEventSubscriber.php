@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Common\EventSubscriber;
 
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
@@ -14,10 +15,10 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
  */
 abstract class AbstractSearchEventSubscriber
 {
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
+    /** @var SearchHandler */
     protected $searchHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var PersistenceHandler */
     protected $persistenceHandler;
 
     public function __construct(

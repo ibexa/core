@@ -11,8 +11,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\Filter;
 /**
  * Marker for Content & Location filtering Criterion.
  */
-interface FilteringCriterion
-{
-}
+interface FilteringCriterion {}
 
 class_alias(FilteringCriterion::class, 'eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion');

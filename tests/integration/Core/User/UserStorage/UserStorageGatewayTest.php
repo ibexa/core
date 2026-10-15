@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\User\UserStorage;
 
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
@@ -57,8 +58,11 @@ abstract class UserStorageGatewayTest extends BaseCoreFieldTypeIntegrationTest
     /**
      * @dataProvider providerForGetFieldData
      */
-    public function testGetFieldData(?int $fieldId, ?int $userId, array $expectedUserData): void
-    {
+    public function testGetFieldData(
+        ?int $fieldId,
+        ?int $userId,
+        array $expectedUserData
+    ): void {
         $data = $this->getGateway()->getFieldData($fieldId, $userId);
         self::assertEquals($expectedUserData, $data);
     }

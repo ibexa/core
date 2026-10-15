@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\Pagination\Pagerfanta\ContentFilteringAdapter;
 use Ibexa\Tests\Core\Search\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class ContentFilteringAdapterTest extends TestCase
 {
@@ -22,7 +23,7 @@ final class ContentFilteringAdapterTest extends TestCase
         'useAlwaysAvailable' => true,
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentService|MockObject */
     private $contentService;
 
     protected function setUp(): void

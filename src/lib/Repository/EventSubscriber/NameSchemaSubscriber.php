@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Event\NameSchema\AbstractSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveContentNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveUrlAliasSchemaEvent;
+use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
@@ -114,7 +115,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
      * @param array<string> $languages
      * @param array<int, string> $identifiers
      * @param array<string, array<string, string>> $tokenValues
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<int|string, array<string, Value>> $fieldMap
      *
      * @return array<string, array<string, string>>
      */
@@ -144,7 +145,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
 
     /**
      * @param array<int, string> $identifiers
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<int|string, array<string, Value>> $fieldMap
      *
      * @return array<string, string>
      */

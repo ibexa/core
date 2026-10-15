@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
@@ -12,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class CriterionHandlerTest extends TestCase
@@ -23,27 +25,31 @@ abstract class CriterionHandlerTest extends TestCase
     /**
      * Check if critetion handler accepts specyfied criterion class.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler $handler
+     * @param CriterionHandler $handler
      * @param string $criterionClass
      */
-    protected function assertHandlerAcceptsCriterion(CriterionHandler $handler, $criterionClass)
-    {
-        $this->assertTrue($handler->accept($this->createMock($criterionClass)));
+    protected function assertHandlerAcceptsCriterion(
+        CriterionHandler $handler,
+        $criterionClass
+    ) {
+        $this->assertTrue($handler->accept($this->createStub($criterionClass)));
     }
 
     /**
      * Check if critetion handler rejects specyfied criterion class.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler $handler
+     * @param CriterionHandler $handler
      * @param string $criterionClass
      */
-    protected function assertHandlerRejectsCriterion(CriterionHandler $handler, $criterionClass)
-    {
-        $this->assertFalse($handler->accept($this->createMock($criterionClass)));
+    protected function assertHandlerRejectsCriterion(
+        CriterionHandler $handler,
+        $criterionClass
+    ) {
+        $this->assertFalse($handler->accept($this->createStub($criterionClass)));
     }
 
     /**
-     * @param \Doctrine\DBAL\Query\QueryBuilder|\PHPUnit\Framework\MockObject\MockObject $queryBuilder
+     * @param QueryBuilder|MockObject $queryBuilder
      */
     protected function mockConverterForLogicalOperator(
         string $expressionType,
@@ -74,15 +80,13 @@ abstract class CriterionHandlerTest extends TestCase
 
         $converter = $this->createMock(CriteriaConverter::class);
         $converter
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('convertCriteria')
-            ->with($queryBuilder, $foo)
-            ->willReturn($fooExpr);
-        $converter
-            ->expects($this->at(1))
-            ->method('convertCriteria')
-            ->with($queryBuilder, $bar)
-            ->willReturn($barExpr);
+            ->withConsecutive(
+                [$queryBuilder, $foo],
+                [$queryBuilder, $bar]
+            )
+            ->willReturnOnConsecutiveCalls($fooExpr, $barExpr);
 
         return $converter;
     }

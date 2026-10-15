@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Common;
 
 use Ibexa\Contracts\Core\FieldType\Indexable;
@@ -15,11 +16,11 @@ use OutOfBoundsException;
  */
 class FieldRegistry
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\Indexable[] */
+    /** @var Indexable[] */
     protected $types = [];
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\Indexable[] $types
+     * @param Indexable[] $types
      */
     public function __construct(array $types = [])
     {
@@ -28,8 +29,10 @@ class FieldRegistry
         }
     }
 
-    public function registerType(string $name, Indexable $type): void
-    {
+    public function registerType(
+        string $name,
+        Indexable $type
+    ): void {
         $this->types[$name] = $type;
     }
 

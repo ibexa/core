@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 
 final class BeforeDeleteSectionEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
+    /** @var Section */
     private $section;
 
     public function __construct(Section $section)

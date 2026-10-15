@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter;
@@ -22,7 +23,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $gateway;
 
@@ -165,7 +166,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Return the DoctrineDatabase gateway to test.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getGateway(): DoctrineDatabase
     {

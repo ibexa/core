@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
 use ArrayIterator;
+use Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use IteratorAggregate;
 use Traversable;
@@ -24,7 +25,7 @@ class ContentDraftList extends ValueObject implements IteratorAggregate
     public $totalCount = 0;
 
     /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface[]
+     * @var ContentDraftListItemInterface[]
      */
     public $items = [];
 

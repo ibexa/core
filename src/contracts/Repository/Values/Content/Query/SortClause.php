@@ -35,7 +35,7 @@ abstract class SortClause
     /**
      * Extra target data, required by some sort clauses, field for instance.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target|null
+     * @var Target|null
      */
     public $targetData;
 
@@ -44,12 +44,15 @@ abstract class SortClause
      *
      * @param string $sortTarget
      * @param string $sortDirection one of Query::SORT_ASC or Query::SORT_DESC
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target|null $targetData Extra target data, used by some clauses (field for instance)
+     * @param Target|null $targetData Extra target data, used by some clauses (field for instance)
      *
-     * @throws \InvalidArgumentException if the given sort order isn't one of Query::SORT_ASC or Query::SORT_DESC
+     * @throws InvalidArgumentException if the given sort order isn't one of Query::SORT_ASC or Query::SORT_DESC
      */
-    public function __construct(string $sortTarget, string $sortDirection, ?Target $targetData = null)
-    {
+    public function __construct(
+        string $sortTarget,
+        string $sortDirection,
+        ?Target $targetData = null
+    ) {
         if ($sortDirection !== Query::SORT_ASC && $sortDirection !== Query::SORT_DESC) {
             throw new InvalidArgumentException('Sort direction must be one of Query::SORT_ASC or Query::SORT_DESC');
         }

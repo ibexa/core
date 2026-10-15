@@ -23,14 +23,14 @@ final class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway
+     * @var Gateway
      */
     private $innerGateway;
 
     /**
      * Create a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -82,8 +82,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadUrlWildcardsData(int $offset = 0, int $limit = -1): array
-    {
+    public function loadUrlWildcardsData(
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         try {
             return $this->innerGateway->loadUrlWildcardsData($offset, $limit);
         } catch (DBALException | PDOException $e) {

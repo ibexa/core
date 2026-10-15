@@ -9,27 +9,30 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
 /**
  * @internal Gateway implementation is considered internal. Use Persistence Section Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\Section\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
+    /** @var AbstractPlatform */
     private $dbPlatform;
 
     /**
      * Creates a new DoctrineDatabase Section Gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function __construct(Connection $connection)
     {
@@ -37,8 +40,10 @@ final class DoctrineDatabase extends Gateway
         $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
-    public function insertSection(string $name, string $identifier): int
-    {
+    public function insertSection(
+        string $name,
+        string $identifier
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $query
             ->insert(self::CONTENT_SECTION_TABLE)
@@ -54,8 +59,11 @@ final class DoctrineDatabase extends Gateway
         return (int)$this->connection->lastInsertId(Gateway::CONTENT_SECTION_SEQ);
     }
 
-    public function updateSection(int $id, string $name, string $identifier): void
-    {
+    public function updateSection(
+        int $id,
+        string $name,
+        string $identifier
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::CONTENT_SECTION_TABLE)
@@ -213,8 +221,10 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function assignSectionToContent(int $sectionId, int $contentId): void
-    {
+    public function assignSectionToContent(
+        int $sectionId,
+        int $contentId
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update('ezcontentobject')

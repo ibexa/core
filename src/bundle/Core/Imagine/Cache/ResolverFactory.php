@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Cache;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -11,10 +12,10 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 
 class ResolverFactory
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
+    /** @var ResolverInterface */
     private $resolver;
 
     /** @var string|null */
@@ -27,8 +28,8 @@ class ResolverFactory
     private $relativeResolverClass;
 
     /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
-     * @param \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface $resolver
+     * @param ConfigResolverInterface $configResolver
+     * @param ResolverInterface $resolver
      * @param string $proxyResolverClass
      * @param string $relativeResolverClass
      */
@@ -45,7 +46,7 @@ class ResolverFactory
     }
 
     /**
-     * @return \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface
+     * @return ResolverInterface
      */
     public function createCacheResolver()
     {

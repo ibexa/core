@@ -38,8 +38,10 @@ abstract class LazyListIterator implements IteratorAggregate
         $this->iterationCallback = $iterationCallback;
     }
 
-    public function prepareIterator(iterable $iterator, callable $iterationCallback): void
-    {
+    public function prepareIterator(
+        iterable $iterator,
+        callable $iterationCallback
+    ): void {
         $this->iterator = $iterator;
         $this->iterationCallback = $iterationCallback;
     }

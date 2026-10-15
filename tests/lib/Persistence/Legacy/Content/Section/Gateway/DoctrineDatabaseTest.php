@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Section\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
@@ -18,7 +20,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $databaseGateway;
 
@@ -255,9 +257,9 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns a ready to test DoctrineDatabase gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase
+     * @return DoctrineDatabase
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getDatabaseGateway(): Gateway
     {

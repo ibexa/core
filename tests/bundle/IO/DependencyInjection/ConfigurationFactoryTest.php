@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection;
 
+use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractContainerBuilderTestCase;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -19,7 +21,7 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
 {
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory */
+    /** @var ConfigurationFactory */
     protected $factory;
 
     protected function setUp(): void
@@ -83,7 +85,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
     /**
      * Returns an instance of the tested factory.
      *
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory
+     * @return ConfigurationFactory
      */
     abstract public function provideTestedFactory();
 
@@ -96,7 +98,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
      * Provides the parent service definition, as defined in the bundle's services definition.
      * Required so that getArguments / replaceCalls work correctly.
      *
-     * @return \Symfony\Component\DependencyInjection\Definition
+     * @return Definition
      */
     abstract public function provideParentServiceDefinition();
 
@@ -106,7 +108,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
      *
      * The method can also configure the container via $this->container.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     abstract public function provideHandlerConfiguration();
 
@@ -122,9 +124,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
     /**
      * Lets you test extra changes that may have been done to the container during configuration.
      */
-    public function validateConfiguredContainer()
-    {
-    }
+    public function validateConfiguredContainer() {}
 }
 
 class_alias(ConfigurationFactoryTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\ConfigurationFactoryTest');

@@ -16,17 +16,19 @@ use UnexpectedValueException;
 
 final class BeforeAddRelationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
+    /** @var VersionInfo */
     private $sourceVersion;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $destinationContent;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Relation|null */
+    /** @var Relation|null */
     private $relation;
 
-    public function __construct(VersionInfo $sourceVersion, ContentInfo $destinationContent)
-    {
+    public function __construct(
+        VersionInfo $sourceVersion,
+        ContentInfo $destinationContent
+    ) {
         $this->sourceVersion = $sourceVersion;
         $this->destinationContent = $destinationContent;
     }

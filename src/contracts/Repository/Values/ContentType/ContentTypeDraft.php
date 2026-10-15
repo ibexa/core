@@ -11,8 +11,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\ContentType;
 /**
  * This class represents a draft of a content type.
  */
-abstract class ContentTypeDraft extends ContentType
-{
-}
+abstract class ContentTypeDraft extends ContentType {}
 
 class_alias(ContentTypeDraft::class, 'eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft');

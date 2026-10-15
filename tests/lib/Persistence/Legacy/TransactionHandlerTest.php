@@ -4,13 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy;
 
 use Doctrine\DBAL\Connection;
 use Exception;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler;
 use Ibexa\Core\Persistence\Legacy\TransactionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,17 +24,17 @@ class TransactionHandlerTest extends TestCase
     /**
      * Transaction handler to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\TransactionHandler
+     * @var TransactionHandler
      */
     protected $transactionHandler;
 
-    /** @var \Doctrine\DBAL\Connection|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Connection|MockObject */
     protected $connectionMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     protected $contentTypeHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler|MockObject */
     protected $languageHandlerMock;
 
     public function testBeginTransaction()
@@ -125,7 +128,7 @@ class TransactionHandlerTest extends TestCase
     /**
      * Returns a mock object for the Content Gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\TransactionHandler
+     * @return TransactionHandler
      */
     protected function getTransactionHandler()
     {
@@ -141,7 +144,7 @@ class TransactionHandlerTest extends TestCase
     }
 
     /**
-     * @return \Doctrine\DBAL\Connection|\PHPUnit\Framework\MockObject\MockObject
+     * @return Connection|MockObject
      */
     protected function getConnectionMock(): Connection
     {
@@ -155,7 +158,7 @@ class TransactionHandlerTest extends TestCase
     /**
      * Returns a mock object for the content type handler.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler|\PHPUnit\Framework\MockObject\MockObject
+     * @return MemoryCachingHandler|MockObject
      */
     protected function getContentTypeHandlerMock()
     {
@@ -169,7 +172,7 @@ class TransactionHandlerTest extends TestCase
     /**
      * Returns a mock object for the Content Language Gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler|\PHPUnit\Framework\MockObject\MockObject
+     * @return CachingHandler|MockObject
      */
     protected function getLanguageHandlerMock()
     {

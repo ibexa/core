@@ -11,14 +11,15 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\VariationPathGenerator;
 use Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration;
 use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 use Ibexa\Bundle\Core\Imagine\VariationPathGenerator\WebpFormatVariationPathGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class WebpFormatVariationPathGeneratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var VariationPathGenerator|MockObject */
     private VariationPathGenerator $innerVariationPathGenerator;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FilterConfiguration|MockObject */
     private FilterConfiguration $filterConfiguration;
 
     protected function setUp(): void

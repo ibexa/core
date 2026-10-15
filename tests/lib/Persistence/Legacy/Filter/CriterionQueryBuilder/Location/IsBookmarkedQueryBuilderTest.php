@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as Criterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
@@ -27,7 +28,7 @@ final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilde
     /**
      * @return iterable<array-key, array{Criterion, string, array<string, int>}>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws InvalidCriterionArgumentException
      */
     public function getFilteringCriteriaQueryData(): iterable
     {

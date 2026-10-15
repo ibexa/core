@@ -4,14 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Image;
 
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\ContentFieldValidationException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
@@ -22,25 +25,25 @@ use Ibexa\Core\IO\MetadataHandler;
  */
 class ImageStorage extends GatewayBasedStorage
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     protected $ioService;
 
-    /** @var \Ibexa\Core\FieldType\Image\PathGenerator */
+    /** @var PathGenerator */
     protected $pathGenerator;
 
-    /** @var \Ibexa\Core\IO\MetadataHandler */
+    /** @var MetadataHandler */
     protected $imageSizeMetadataHandler;
 
-    /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface */
+    /** @var AliasCleanerInterface */
     protected $aliasCleaner;
 
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
+    /** @var Gateway */
     protected $gateway;
 
-    /** @var \Ibexa\Core\IO\FilePathNormalizerInterface */
+    /** @var FilePathNormalizerInterface */
     protected $filePathNormalizer;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator */
+    /** @var FileExtensionBlackListValidator */
     protected $fileExtensionBlackListValidator;
 
     public function __construct(
@@ -62,12 +65,15 @@ class ImageStorage extends GatewayBasedStorage
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         $contentMetaData = [
             'fieldId' => $field->id,
             'versionNo' => $versionInfo->versionNo,
@@ -156,8 +162,11 @@ class ImageStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         if ($field->value->data !== null) {
             $field->value->data['imageId'] = $this->buildImageId($versionInfo, $field);
             $binaryFile = $this->ioService->loadBinaryFile($field->value->data['id']);
@@ -167,8 +176,11 @@ class ImageStorage extends GatewayBasedStorage
         }
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds,
+        array $context
+    ) {
         $fieldXmls = $this->gateway->getXmlForImages($versionInfo->versionNo, $fieldIds);
 
         foreach ($fieldXmls as $fieldId => $xml) {
@@ -195,8 +207,11 @@ class ImageStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function getIndexData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         // @todo: Correct?
         return null;
     }
@@ -204,8 +219,10 @@ class ImageStorage extends GatewayBasedStorage
     /**
      * @return string
      */
-    private function buildImageId(VersionInfo $versionInfo, Field $field)
-    {
+    private function buildImageId(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         return sprintf(
             '%s-%s-%s',
             $versionInfo->contentInfo->id,

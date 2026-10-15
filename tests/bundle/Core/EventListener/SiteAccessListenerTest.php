@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\SiteAccessListener;
@@ -17,10 +18,10 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class SiteAccessListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\SiteAccessListener */
+    /** @var SiteAccessListener */
     private $listener;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $defaultSiteaccess;
 
     protected function setUp(): void
@@ -99,8 +100,12 @@ class SiteAccessListenerTest extends TestCase
     /**
      * @dataProvider siteAccessMatchProvider
      */
-    public function testOnSiteAccessMatchSubRequest($uri, $semanticPathinfo, $vpString, $expectedViewParameters)
-    {
+    public function testOnSiteAccessMatchSubRequest(
+        $uri,
+        $semanticPathinfo,
+        $vpString,
+        $expectedViewParameters
+    ) {
         $siteAccess = new SiteAccess('test', 'test', $this->createMock(SiteAccess\Matcher::class));
         $request = Request::create($uri);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);

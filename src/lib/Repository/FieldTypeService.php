@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\FieldType as APIFieldType;
 use Ibexa\Contracts\Core\Repository\FieldTypeService as FieldTypeServiceInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
@@ -16,24 +17,24 @@ use Ibexa\Core\Repository\Values\ContentType\FieldType;
 /**
  * An implementation of this class provides access to FieldTypes.
  *
- * @see \Ibexa\Contracts\Core\Repository\FieldType
+ * @see APIFieldType
  */
 class FieldTypeService implements FieldTypeServiceInterface
 {
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
+    /** @var FieldTypeRegistry */
     protected $fieldTypeRegistry;
 
     /**
      * Holds an array of FieldType objects to avoid re creating them all the time from SPI variants.
      *
-     * @var \Ibexa\Contracts\Core\Repository\FieldType[]
+     * @var APIFieldType[]
      */
     protected $fieldTypes = [];
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \Ibexa\Core\FieldType\FieldTypeRegistry $fieldTypeRegistry Registry for SPI FieldTypes
+     * @param FieldTypeRegistry $fieldTypeRegistry Registry for SPI FieldTypes
      */
     public function __construct(FieldTypeRegistry $fieldTypeRegistry)
     {
@@ -43,7 +44,7 @@ class FieldTypeService implements FieldTypeServiceInterface
     /**
      * Returns a list of all field types.
      *
-     * @return \Ibexa\Contracts\Core\Repository\FieldType[]
+     * @return APIFieldType[]
      */
     public function getFieldTypes(): iterable
     {
@@ -63,9 +64,9 @@ class FieldTypeService implements FieldTypeServiceInterface
      *
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Repository\FieldType
+     * @return APIFieldType
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if there is no FieldType registered with $identifier
+     * @throws NotFoundException if there is no FieldType registered with $identifier
      */
     public function getFieldType(string $identifier): APIFieldType
     {

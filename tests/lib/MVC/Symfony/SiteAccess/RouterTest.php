@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
@@ -32,8 +33,10 @@ class RouterTest extends RouterBaseTest
     /**
      * @dataProvider matchProvider
      */
-    public function testMatch(SimplifiedRequest $request, $siteAccess)
-    {
+    public function testMatch(
+        SimplifiedRequest $request,
+        $siteAccess
+    ) {
         $router = $this->createRouter();
         $sa = $router->match($request);
         $this->assertInstanceOf(SiteAccess::class, $sa);
@@ -306,7 +309,7 @@ class RouterTest extends RouterBaseTest
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

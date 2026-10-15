@@ -12,12 +12,13 @@ use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Ibexa\Bundle\Core\Entity\EntityManagerFactory;
 use Ibexa\Core\Persistence\Doctrine\SiteAccessAwareEntityManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
 final class SiteAccessAwareEntityManagerTest extends TestCase
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EntityManagerInterface&MockObject */
     private EntityManagerInterface $wrappedEntityManager;
 
     private SiteAccessAwareEntityManager $entityManager;

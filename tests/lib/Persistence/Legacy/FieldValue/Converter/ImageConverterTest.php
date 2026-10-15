@@ -14,18 +14,19 @@ use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\PhpUnit\ClockMock;
 
 final class ImageConverterTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter */
+    /** @var ImageConverter */
     private $imageConverter;
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UrlRedecoratorInterface|MockObject */
     private $urlRedecorator;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOServiceInterface|MockObject */
     private $ioService;
 
     protected function setUp(): void
@@ -42,8 +43,10 @@ final class ImageConverterTest extends TestCase
     /**
      * @dataProvider fieldValueToXmlProvider
      */
-    public function testToStorageValue(FieldValue $fieldValue, string $expectedXml): void
-    {
+    public function testToStorageValue(
+        FieldValue $fieldValue,
+        string $expectedXml
+    ): void {
         ClockMock::register(ImageConverter::class);
         ClockMock::withClockMock(true);
 
@@ -135,8 +138,10 @@ XML,
     /**
      * @dataProvider xmlToFieldValueProvider
      */
-    public function testToFieldValue(string $xml, FieldValue $expectedFieldValue): void
-    {
+    public function testToFieldValue(
+        string $xml,
+        FieldValue $expectedFieldValue
+    ): void {
         ClockMock::register(ImageConverter::class);
         ClockMock::withClockMock(true);
 

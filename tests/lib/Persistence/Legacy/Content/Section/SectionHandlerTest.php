@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Section;
 
 use Ibexa\Contracts\Core\Persistence\Content\Section;
@@ -19,14 +20,14 @@ class SectionHandlerTest extends TestCase
     /**
      * Section handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Handler
+     * @var Handler
      */
     protected $sectionHandler;
 
     /**
      * Section gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
@@ -290,7 +291,7 @@ class SectionHandlerTest extends TestCase
     /**
      * Returns the section handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Section\Handler
+     * @return Handler
      */
     protected function getSectionHandler()
     {
@@ -306,7 +307,7 @@ class SectionHandlerTest extends TestCase
     /**
      * Returns a mock for the section gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway
+     * @return Gateway
      */
     protected function getGatewayMock()
     {

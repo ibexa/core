@@ -54,7 +54,7 @@ class ContentInfo extends ValueObject
     /**
      * The computed name (via name schema) in the main language of the Content object.
      *
-     * For names in other languages then main see {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo}
+     * For names in other languages then main see {@see VersionInfo}
      *
      * @var string
      */
@@ -146,19 +146,19 @@ class ContentInfo extends ValueObject
     /** @var bool */
     protected $isHidden;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
+    /** @var ContentType */
     protected $contentType;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
+    /** @var Section */
     protected $section;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
+    /** @var Language */
     protected $mainLanguage;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
+    /** @var Location|null */
     protected $mainLocation;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     protected $owner;
 
     /**

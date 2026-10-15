@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainConfigResolverPass;
@@ -41,8 +42,10 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
      *
      * @dataProvider addResolverProvider
      */
-    public function testAddResolver($declaredPriority, $expectedPriority)
-    {
+    public function testAddResolver(
+        $declaredPriority,
+        $expectedPriority
+    ) {
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
         $resolverDef->addTag(

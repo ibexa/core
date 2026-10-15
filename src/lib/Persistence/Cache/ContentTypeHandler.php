@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -14,6 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpd
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
+use Psr\Cache\InvalidArgumentException;
 
 class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements ContentTypeHandlerInterface
 {
@@ -74,7 +76,10 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
                 $this->cacheIdentifierGenerator->generateTag(self::TYPE_IDENTIFIER, [$type->id]),
             ];
         };
-        $this->getTypeKeys = function (Type $type, int $status = Type::STATUS_DEFINED) {
+        $this->getTypeKeys = function (
+            Type $type,
+            int $status = Type::STATUS_DEFINED
+        ) {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_IDENTIFIER, [$type->id], true),
                 $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_IDENTIFIER, [$type->id], true) . '-' . $status,
@@ -208,8 +213,10 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function loadContentTypes($groupId, $status = Type::STATUS_DEFINED)
-    {
+    public function loadContentTypes(
+        $groupId,
+        $status = Type::STATUS_DEFINED
+    ) {
         if ($status !== Type::STATUS_DEFINED) {
             $this->logger->logCall(__METHOD__, ['group' => $groupId, 'status' => $status]);
 
@@ -233,8 +240,10 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         );
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
-    {
+    public function findContentTypes(
+        ?ContentTypeQuery $query = null,
+        array $prioritizedLanguages = []
+    ): array {
         $this->logger->logCall(__METHOD__, [
             'query' => $query,
         ]);
@@ -258,8 +267,10 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function load($typeId, $status = Type::STATUS_DEFINED)
-    {
+    public function load(
+        $typeId,
+        $status = Type::STATUS_DEFINED
+    ) {
         if ($status !== Type::STATUS_DEFINED) {
             $this->logger->logCall(__METHOD__, ['type' => $typeId, 'status' => $status]);
 
@@ -356,8 +367,11 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function update($typeId, $status, UpdateStruct $struct)
-    {
+    public function update(
+        $typeId,
+        $status,
+        UpdateStruct $struct
+    ) {
         $this->logger->logCall(__METHOD__, ['type' => $typeId, 'status' => $status, 'struct' => $struct]);
         $type = $this->persistenceHandler->contentTypeHandler()->update($typeId, $status, $struct);
 
@@ -375,8 +389,10 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function delete($typeId, $status)
-    {
+    public function delete(
+        $typeId,
+        $status
+    ) {
         $this->logger->logCall(__METHOD__, ['type' => $typeId, 'status' => $status]);
         $return = $this->persistenceHandler->contentTypeHandler()->delete($typeId, $status);
 
@@ -394,8 +410,10 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function createDraft($modifierId, $typeId)
-    {
+    public function createDraft(
+        $modifierId,
+        $typeId
+    ) {
         $this->logger->logCall(__METHOD__, ['modifier' => $modifierId, 'type' => $typeId]);
 
         return $this->persistenceHandler->contentTypeHandler()->createDraft($modifierId, $typeId);
@@ -404,8 +422,11 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function copy($userId, $typeId, $status)
-    {
+    public function copy(
+        $userId,
+        $typeId,
+        $status
+    ) {
         $this->logger->logCall(__METHOD__, ['user' => $userId, 'type' => $typeId, 'status' => $status]);
         $copy = $this->persistenceHandler->contentTypeHandler()->copy($userId, $typeId, $status);
 
@@ -423,8 +444,11 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function unlink($groupId, $typeId, $status)
-    {
+    public function unlink(
+        $groupId,
+        $typeId,
+        $status
+    ) {
         $this->logger->logCall(__METHOD__, ['group' => $groupId, 'type' => $typeId, 'status' => $status]);
         $return = $this->persistenceHandler->contentTypeHandler()->unlink($groupId, $typeId, $status);
 
@@ -440,8 +464,11 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function link($groupId, $typeId, $status)
-    {
+    public function link(
+        $groupId,
+        $typeId,
+        $status
+    ) {
         $this->logger->logCall(__METHOD__, ['group' => $groupId, 'type' => $typeId, 'status' => $status]);
         $return = $this->persistenceHandler->contentTypeHandler()->link($groupId, $typeId, $status);
 
@@ -465,8 +492,10 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function getFieldDefinition($id, $status)
-    {
+    public function getFieldDefinition(
+        $id,
+        $status
+    ) {
         $this->logger->logCall(__METHOD__, ['field' => $id, 'status' => $status]);
 
         return $this->persistenceHandler->contentTypeHandler()->getFieldDefinition($id, $status);
@@ -485,8 +514,11 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function addFieldDefinition($typeId, $status, FieldDefinition $struct)
-    {
+    public function addFieldDefinition(
+        $typeId,
+        $status,
+        FieldDefinition $struct
+    ) {
         $this->logger->logCall(__METHOD__, ['type' => $typeId, 'status' => $status, 'struct' => $struct]);
         $return = $this->persistenceHandler->contentTypeHandler()->addFieldDefinition(
             $typeId,
@@ -537,8 +569,11 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function updateFieldDefinition($typeId, $status, FieldDefinition $struct)
-    {
+    public function updateFieldDefinition(
+        $typeId,
+        $status,
+        FieldDefinition $struct
+    ) {
         $this->logger->logCall(__METHOD__, ['type' => $typeId, 'status' => $status, 'struct' => $struct]);
         $this->persistenceHandler->contentTypeHandler()->updateFieldDefinition(
             $typeId,
@@ -610,12 +645,14 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
      * @param int $contentTypeId
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      *
-     * @throws \Psr\Cache\InvalidArgumentException&\Throwable
+     * @throws InvalidArgumentException&\Throwable
      */
-    public function removeContentTypeTranslation(int $contentTypeId, string $languageCode): Type
-    {
+    public function removeContentTypeTranslation(
+        int $contentTypeId,
+        string $languageCode
+    ): Type {
         $this->logger->logCall(__METHOD__, ['id' => $contentTypeId, 'languageCode' => $languageCode]);
         $return = $this->persistenceHandler->contentTypeHandler()->removeContentTypeTranslation(
             $contentTypeId,
@@ -631,8 +668,10 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         return $return;
     }
 
-    public function deleteByUserAndStatus(int $userId, int $status): void
-    {
+    public function deleteByUserAndStatus(
+        int $userId,
+        int $status
+    ): void {
         $this->logger->logCall(__METHOD__, ['user' => $userId, 'status' => $status]);
 
         $this->persistenceHandler->contentTypeHandler()->deleteByUserAndStatus($userId, $status);

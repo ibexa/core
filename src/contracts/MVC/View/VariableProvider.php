@@ -14,7 +14,10 @@ interface VariableProvider
 {
     public function getIdentifier(): string;
 
-    public function getTwigVariables(View $view, array $options = []): object;
+    public function getTwigVariables(
+        View $view,
+        array $options = []
+    ): object;
 }
 
 class_alias(VariableProvider::class, 'eZ\Publish\SPI\MVC\View\VariableProvider');

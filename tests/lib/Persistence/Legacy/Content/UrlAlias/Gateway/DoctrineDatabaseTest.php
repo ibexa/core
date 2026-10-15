@@ -4,12 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
@@ -23,7 +26,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
+     * @var Gateway
      */
     protected $gateway;
 
@@ -172,8 +175,10 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @dataProvider providerForTestLoadPathData
      */
-    public function testLoadPathData($id, $pathData)
-    {
+    public function testLoadPathData(
+        $id,
+        $pathData
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_fallback.php');
         $gateway = $this->getGateway();
 
@@ -234,8 +239,10 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @dataProvider providerForTestLoadPathDataMultipleLanguages
      */
-    public function testLoadPathDataMultipleLanguages($id, $pathData)
-    {
+    public function testLoadPathDataMultipleLanguages(
+        $id,
+        $pathData
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
         $gateway = $this->getGateway();
 
@@ -293,8 +300,12 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @dataProvider providerForTestCleanupAfterPublishHistorize
      */
-    public function testCleanupAfterPublishHistorize($action, $languageId, $parentId, $textMD5)
-    {
+    public function testCleanupAfterPublishHistorize(
+        $action,
+        $languageId,
+        $parentId,
+        $textMD5
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_downgrade.php');
         $gateway = $this->getGateway();
 
@@ -338,8 +349,12 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @dataProvider providerForTestCleanupAfterPublishRemovesLanguage
      */
-    public function testCleanupAfterPublishRemovesLanguage($action, $languageId, $parentId, $textMD5)
-    {
+    public function testCleanupAfterPublishRemovesLanguage(
+        $action,
+        $languageId,
+        $parentId,
+        $textMD5
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_downgrade.php');
         $gateway = $this->getGateway();
 
@@ -466,8 +481,10 @@ class DoctrineDatabaseTest extends TestCase
      * @param int $locationId
      * @param int[] $removedLanguageIds
      */
-    public function testArchiveUrlAliasesForDeletedTranslations($locationId, array $removedLanguageIds)
-    {
+    public function testArchiveUrlAliasesForDeletedTranslations(
+        $locationId,
+        array $removedLanguageIds
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
         $gateway = $this->getGateway();
 
@@ -494,7 +511,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Return the DoctrineDatabase gateway implementation to test.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getGateway(): DoctrineDatabase
     {

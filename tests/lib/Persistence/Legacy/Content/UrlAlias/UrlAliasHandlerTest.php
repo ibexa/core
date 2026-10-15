@@ -4,10 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -23,12 +27,14 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
+use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased;
 use Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased\Parser;
 use Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler;
 use Ibexa\Core\Persistence\Utf8Converter;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
@@ -342,7 +348,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupLocationUrlAlias
+     *
      * @depends testLookup
+     *
      * @group location
      */
     public function testLookupLocationUrlAlias(
@@ -390,7 +398,9 @@ class UrlAliasHandlerTest extends TestCase
      *
      *
      * @dataProvider providerForTestLookupLocationUrlAlias
+     *
      * @depends testLookup
+     *
      * @group case-correction
      * @group location
      *
@@ -518,7 +528,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * @dataProvider providerForTestLookupLocationMultipleLanguages
+     *
      * @depends testLookup
+     *
      * @group multiple-languages
      * @group location
      */
@@ -560,6 +572,7 @@ class UrlAliasHandlerTest extends TestCase
      * @todo document
      *
      * @depends testLookup
+     *
      * @group history
      * @group location
      */
@@ -698,7 +711,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupCustomLocationUrlAlias
+     *
      * @depends testLookup
+     *
      * @group location
      * @group custom
      */
@@ -740,7 +755,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupCustomLocationUrlAlias
+     *
      * @depends testLookup
+     *
      * @group location
      * @group custom
      */
@@ -797,11 +814,15 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that NOP action redirects to site root.
      *
      * @dataProvider providerForTestLookupVirtualUrlAlias
+     *
      * @depends testLookup
+     *
      * @group virtual
      */
-    public function testLookupVirtualUrlAlias($url, $id)
-    {
+    public function testLookupVirtualUrlAlias(
+        $url,
+        $id
+    ) {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
 
@@ -866,7 +887,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupResourceUrlAlias
+     *
      * @depends testLookup
+     *
      * @group resource
      */
     public function testLookupResourceUrlAlias(
@@ -908,7 +931,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupResourceUrlAlias
+     *
      * @depends testLookup
+     *
      * @group resource
      */
     public function testLookupResourceUrlAliasCaseInsensitive(
@@ -959,8 +984,10 @@ class UrlAliasHandlerTest extends TestCase
         self::assertInstanceOf(UrlAlias::class, $urlAlias);
     }
 
-    protected function assertVirtualUrlAliasValid(UrlAlias $urlAlias, $id)
-    {
+    protected function assertVirtualUrlAliasValid(
+        UrlAlias $urlAlias,
+        $id
+    ) {
         self::assertInstanceOf(UrlAlias::class, $urlAlias);
         self::assertEquals($id, $urlAlias->id);
         self::assertEquals(UrlAlias::VIRTUAL, $urlAlias->type);
@@ -1038,8 +1065,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testLookupLocationUrlAlias
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocation()
@@ -1082,8 +1109,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationRepublish()
@@ -1108,8 +1135,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasCreatesUniqueAlias()
@@ -1160,9 +1187,10 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @dataProvider providerForTestPublishUrlAliasForLocationComplex
+     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationComplex(
@@ -1209,8 +1237,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationSameAliasForMultipleLanguages()
@@ -1258,8 +1286,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationDowngradesOldEntryToHistory()
@@ -1330,9 +1358,9 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationSameAliasForMultipleLanguages
+     *
      * @group publish
      * @group downgrade
      */
@@ -1405,9 +1433,9 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationDowngradesOldEntryToHistory
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationReusesHistory()
@@ -1438,9 +1466,9 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationDowngradesOldEntryToHistory
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationReusesHistoryOfDifferentLanguage()
@@ -1491,8 +1519,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationReusesCustomAlias()
@@ -1515,7 +1543,6 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
      *
      * @depends testPublishUrlAliasForLocation
      */
@@ -1587,7 +1614,6 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationReusingNopElement
      */
@@ -1635,7 +1661,6 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
      *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationReusingNopElementChangesCustomPath
@@ -2814,10 +2839,10 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws DBALException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testLocationMovedReparentWithCustomAlias(): void
@@ -3082,8 +3107,10 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @dataProvider providerForTestLookupVirtualUrlAlias
      */
-    public function testLoadVirtualUrlAlias($url, $id)
-    {
+    public function testLoadVirtualUrlAlias(
+        $url,
+        $id
+    ) {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
 
@@ -3174,11 +3201,15 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @dataProvider providerForTestPublishUrlAliasForLocationSkipsReservedWord
+     *
      * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler::publishUrlAliasForLocation
+     *
      * @group publish
      */
-    public function testPublishUrlAliasForLocationSkipsReservedWord($text, $alias)
-    {
+    public function testPublishUrlAliasForLocationSkipsReservedWord(
+        $text,
+        $alias
+    ) {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
 
@@ -5234,6 +5265,7 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the locationSwapped() method.
      *
      * @depends testLocationSwappedWithReusingNopEntry
+     *
      * @group swap
      */
     public function testLocationSwappedWithReusingNopEntryCustomAliasIsDestroyed()
@@ -5321,19 +5353,19 @@ class UrlAliasHandlerTest extends TestCase
         return (int)$statement->fetchColumn();
     }
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
+    /** @var LocationGateway */
     protected $locationGateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler */
+    /** @var LanguageHandler */
     protected $languageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
+    /** @var LanguageMaskGenerator */
     protected $languageMaskGenerator;
 
     /**
      * @param array $methods
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return Handler|MockObject
      */
     protected function getPartlyMockedHandler(array $methods)
     {
@@ -5355,9 +5387,9 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
+     * @return Handler
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getHandler(): Handler
     {
@@ -5391,7 +5423,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getLanguageHandler(): LanguageHandler
     {
@@ -5408,7 +5440,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @return LanguageMaskGenerator
      */
     protected function getLanguageMaskGenerator()
     {
@@ -5422,7 +5454,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @return LocationGateway
      */
     protected function getLocationGateway()
     {
@@ -5439,7 +5471,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\TransformationProcessor
+     * @return TransformationProcessor
      */
     public function getProcessor()
     {

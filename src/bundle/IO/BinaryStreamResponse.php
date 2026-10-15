@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO;
 
 use DateTime;
@@ -22,10 +23,10 @@ class BinaryStreamResponse extends Response
 {
     protected static $trustXSendfileTypeHeader = false;
 
-    /** @var \Ibexa\Core\IO\Values\BinaryFile */
+    /** @var BinaryFile */
     protected $file;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     protected $ioService;
 
     protected $offset;
@@ -35,8 +36,8 @@ class BinaryStreamResponse extends Response
     /**
      * Constructor.
      *
-     * @param \Ibexa\Core\IO\Values\BinaryFile          $binaryFile         The name of the file to stream
-     * @param \Ibexa\Core\IO\IOServiceInterface  $ioService          The name of the file to stream
+     * @param BinaryFile          $binaryFile         The name of the file to stream
+     * @param IOServiceInterface  $ioService          The name of the file to stream
      * @param int                 $status             The response status code
      * @param array               $headers            An array of response headers
      * @param bool                $public             Files are public by default
@@ -44,8 +45,15 @@ class BinaryStreamResponse extends Response
      * @param bool                $autoEtag           Whether the ETag header should be automatically set
      * @param bool                $autoLastModified   Whether the Last-Modified header should be automatically set
      */
-    public function __construct(BinaryFile $binaryFile, IOServiceInterface $ioService, $status = 200, $headers = [], $public = true, $contentDisposition = null, $autoLastModified = true)
-    {
+    public function __construct(
+        BinaryFile $binaryFile,
+        IOServiceInterface $ioService,
+        $status = 200,
+        $headers = [],
+        $public = true,
+        $contentDisposition = null,
+        $autoLastModified = true
+    ) {
         $this->ioService = $ioService;
 
         parent::__construct(null, $status, $headers);
@@ -65,10 +73,13 @@ class BinaryStreamResponse extends Response
      * @param bool $autoEtag
      * @param bool $autoLastModified
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse
      */
-    public function setFile($file, $contentDisposition = null, $autoLastModified = true)
-    {
+    public function setFile(
+        $file,
+        $contentDisposition = null,
+        $autoLastModified = true
+    ) {
         $this->file = $file;
 
         if ($autoLastModified) {
@@ -85,7 +96,7 @@ class BinaryStreamResponse extends Response
     /**
      * Gets the file.
      *
-     * @return \Ibexa\Core\IO\Values\BinaryFile The file to stream
+     * @return BinaryFile The file to stream
      */
     public function getFile()
     {
@@ -111,8 +122,11 @@ class BinaryStreamResponse extends Response
      *
      * @return BinaryStreamResponse
      */
-    public function setContentDisposition($disposition, $filename = '', $filenameFallback = '')
-    {
+    public function setContentDisposition(
+        $disposition,
+        $filename = '',
+        $filenameFallback = ''
+    ) {
         if ($filename === '') {
             $filename = $this->file->id;
         }
@@ -221,7 +235,7 @@ class BinaryStreamResponse extends Response
     /**
      * {@inheritdoc}
      *
-     * @throws \LogicException when the content is not null
+     * @throws LogicException when the content is not null
      */
     public function setContent($content)
     {

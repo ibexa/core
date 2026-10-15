@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\ApiLoader;
 
+use Doctrine\DBAL\Connection;
 use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -14,7 +16,7 @@ class StorageConnectionFactory implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
+    /** @var RepositoryConfigurationProvider */
     protected $repositoryConfigurationProvider;
 
     public function __construct(RepositoryConfigurationProvider $repositoryConfigurationProvider)
@@ -25,9 +27,9 @@ class StorageConnectionFactory implements ContainerAwareInterface
     /**
      * Returns database connection used by database handler.
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @return \Doctrine\DBAL\Connection
+     * @return Connection
      */
     public function getConnection()
     {

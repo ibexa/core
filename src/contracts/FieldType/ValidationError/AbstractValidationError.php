@@ -33,8 +33,11 @@ abstract class AbstractValidationError implements ValidationError
      */
     protected $target;
 
-    public function __construct(string $message, array $parameters, string $target)
-    {
+    public function __construct(
+        string $message,
+        array $parameters,
+        string $target
+    ) {
         $this->message = $message;
         $this->parameters = $parameters;
         $this->target = $target;

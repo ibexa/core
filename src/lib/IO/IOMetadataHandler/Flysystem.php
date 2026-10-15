@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\IO\IOMetadataHandler;
 
 use DateTime;
 use Ibexa\Contracts\Core\IO\BinaryFile as IOBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\Exception\IOException;
 use Ibexa\Core\IO\IOMetadataHandler;
@@ -25,8 +27,10 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
 
     private FilesystemOperator $filesystem;
 
-    public function __construct(FilesystemOperator $filesystem, ?LoggerInterface $logger = null)
-    {
+    public function __construct(
+        FilesystemOperator $filesystem,
+        ?LoggerInterface $logger = null
+    ) {
         $this->filesystem = $filesystem;
         $this->logger = $logger ?? new NullLogger();
     }
@@ -39,7 +43,7 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
     /**
      * Only reads & returns metadata, since the binary data handler took care of creating the file already.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct): IOBinaryFile
     {
@@ -51,9 +55,7 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
      *
      * @param $spiBinaryFileId
      */
-    public function delete($spiBinaryFileId)
-    {
-    }
+    public function delete($spiBinaryFileId) {}
 
     public function load($spiBinaryFileId): IOBinaryFile
     {
@@ -98,12 +100,10 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
     /**
      * Does nothing, as the binary data handler takes care of it.
      */
-    public function deleteDirectory($spiPath)
-    {
-    }
+    public function deleteDirectory($spiPath) {}
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     private function getIOBinaryFile(string $spiBinaryFileId): IOBinaryFile
     {

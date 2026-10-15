@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
@@ -20,6 +21,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler as CommonCr
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
 use Ibexa\Core\Search\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Search\Legacy\Content\Handler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler as LocationCriterionHandler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler as LocationSortClauseHandler;
 
@@ -35,7 +37,7 @@ class HandlerLocationTest extends AbstractTestCase
      *
      * @param array $fullTextSearchConfiguration
      *
-     * @return \Ibexa\Core\Search\Legacy\Content\Handler
+     * @return Handler
      */
     protected function getContentSearchHandler(array $fullTextSearchConfiguration = [])
     {
@@ -66,7 +68,7 @@ class HandlerLocationTest extends AbstractTestCase
             $transformationProcessor
         );
 
-        return new Content\Handler(
+        return new Handler(
             $this->createMock(ContentGateway::class),
             new Content\Location\Gateway\DoctrineDatabase(
                 $connection,
@@ -168,7 +170,7 @@ class HandlerLocationTest extends AbstractTestCase
     /**
      * Returns a location mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @return LocationMapper
      */
     protected function getLocationMapperMock()
     {

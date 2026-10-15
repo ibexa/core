@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\ParameterType;
@@ -30,7 +31,7 @@ class Pattern implements CriterionHandler
         QueryBuilder $queryBuilder,
         Criterion $criterion
     ) {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\Pattern $criterion */
+        /** @var Criterion\Pattern $criterion */
         return $queryBuilder->expr()->like(
             'url',
             $queryBuilder->createNamedParameter(

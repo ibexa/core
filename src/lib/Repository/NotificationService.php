@@ -25,24 +25,28 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 
 class NotificationService implements NotificationServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Notification\Handler */
+    /** @var Handler */
     protected $persistenceHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     protected $permissionResolver;
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Notification\Handler $persistenceHandler
-     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $permissionResolver
+     * @param Handler $persistenceHandler
+     * @param PermissionResolver $permissionResolver
      */
-    public function __construct(Handler $persistenceHandler, PermissionResolver $permissionResolver)
-    {
+    public function __construct(
+        Handler $persistenceHandler,
+        PermissionResolver $permissionResolver
+    ) {
         $this->persistenceHandler = $persistenceHandler;
         $this->permissionResolver = $permissionResolver;
     }
 
-    public function loadNotifications(int $offset = 0, int $limit = 25): NotificationList
-    {
+    public function loadNotifications(
+        int $offset = 0,
+        int $limit = 25
+    ): NotificationList {
         $currentUserId = $this->getCurrentUserId();
 
         $list = new NotificationList();
@@ -188,9 +192,9 @@ class NotificationService implements NotificationServiceInterface
     /**
      * Builds Notification domain object from ValueObject returned by Persistence API.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Notification\Notification $spiNotification
+     * @param Notification $spiNotification
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\Notification
+     * @return APINotification
      */
     protected function buildDomainObject(Notification $spiNotification): APINotification
     {

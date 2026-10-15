@@ -30,8 +30,10 @@ final class RenderOptions implements MutableOptionsBag
      *
      * @return mixed|null
      */
-    public function get(string $key, $default = null)
-    {
+    public function get(
+        string $key,
+        $default = null
+    ) {
         if ($this->has($key)) {
             return $this->options[$key];
         }
@@ -42,8 +44,10 @@ final class RenderOptions implements MutableOptionsBag
     /**
      * @param mixed|null $value
      */
-    public function set(string $key, $value): void
-    {
+    public function set(
+        string $key,
+        $value
+    ): void {
         $this->options[$key] = $value;
     }
 

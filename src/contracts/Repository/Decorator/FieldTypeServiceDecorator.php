@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\FieldTypeService;
 
 abstract class FieldTypeServiceDecorator implements FieldTypeService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService */
+    /** @var FieldTypeService */
     protected $innerService;
 
     public function __construct(FieldTypeService $innerService)

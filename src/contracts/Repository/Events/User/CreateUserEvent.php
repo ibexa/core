@@ -14,13 +14,13 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 
 final class CreateUserEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct */
+    /** @var UserCreateStruct */
     private $userCreateStruct;
 
     /** @var array */
     private $parentGroups;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $user;
 
     public function __construct(

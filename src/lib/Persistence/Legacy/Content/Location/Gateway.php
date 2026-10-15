@@ -4,12 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Location;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
 /**
  * Base class for location gateways.
@@ -40,7 +43,7 @@ abstract class Gateway
     /**
      * Returns an array with basic node data.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      *
      * @param string[]|null $translations
      * @param bool $useAlwaysAvailable Respect always available flag on content when filtering on $translations.
@@ -62,7 +65,7 @@ abstract class Gateway
      *
      * @return array
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function getNodeDataList(
         array $locationIds,
@@ -73,7 +76,7 @@ abstract class Gateway
     /**
      * Returns an array with basic node data for the node with $remoteId.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      *
      * @param string[]|null $translations
      * @param bool $useAlwaysAvailable Respect always available flag on content when filtering on $translations.
@@ -99,7 +102,10 @@ abstract class Gateway
      *
      * @return string[]
      */
-    abstract public function loadLocationDataByTrashContent(int $contentId, ?int $rootLocationId = null): array;
+    abstract public function loadLocationDataByTrashContent(
+        int $contentId,
+        ?int $rootLocationId = null
+    ): array;
 
     /**
      * Loads data for all parent Locations for unpublished Content by given $contentId.
@@ -109,7 +115,10 @@ abstract class Gateway
     /**
      * Find all content in the given subtree.
      */
-    abstract public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array;
+    abstract public function getSubtreeContent(
+        int $sourceId,
+        bool $onlyIds = false
+    ): array;
 
     /**
      * Finds draft contents created under the given parent location.
@@ -136,7 +145,10 @@ abstract class Gateway
      * @param array $fromPathString
      * @param array $toPathString
      */
-    abstract public function moveSubtreeNodes(array $fromPathString, array $toPathString): void;
+    abstract public function moveSubtreeNodes(
+        array $fromPathString,
+        array $toPathString
+    ): void;
 
     /**
      * Updated subtree modification time for all nodes on path.
@@ -163,7 +175,7 @@ abstract class Gateway
      *
      * Convert existing node assignments into real locations.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if parent Location does not exist
+     * @throws NotFoundException if parent Location does not exist
      */
     abstract public function createLocationsFromNodeAssignments(
         int $contentId,
@@ -173,7 +185,10 @@ abstract class Gateway
     /**
      * Updates all Locations of content identified with $contentId with $versionNo.
      */
-    abstract public function updateLocationsContentVersionNo(int $contentId, int $versionNo): void;
+    abstract public function updateLocationsContentVersionNo(
+        int $contentId,
+        int $versionNo
+    ): void;
 
     /**
      * Sets a location to be hidden, and it self + all children to invisible.
@@ -206,14 +221,20 @@ abstract class Gateway
      * Make the location identified by $locationId1 refer to the Content
      * referred to by $locationId2 and vice versa.
      */
-    abstract public function swap(int $locationId1, int $locationId2): bool;
+    abstract public function swap(
+        int $locationId1,
+        int $locationId2
+    ): bool;
 
     /**
      * Creates a new location in the given `$parentNode`.
      *
      * @param array<string, mixed> $parentNode parent node raw data
      */
-    abstract public function create(CreateStruct $createStruct, array $parentNode): Location;
+    abstract public function create(
+        CreateStruct $createStruct,
+        array $parentNode
+    ): Location;
 
     /**
      * Create an entry in the node assignment table.
@@ -229,19 +250,25 @@ abstract class Gateway
      *
      * If $versionNo is not passed all node assignments for given $contentId are deleted
      */
-    abstract public function deleteNodeAssignment(int $contentId, ?int $versionNo = null): void;
+    abstract public function deleteNodeAssignment(
+        int $contentId,
+        ?int $versionNo = null
+    ): void;
 
     /**
      * Updates an existing location.
      *
      * Will not throw anything if location id is invalid or no entries are affected.
      */
-    abstract public function update(UpdateStruct $location, int $locationId): void;
+    abstract public function update(
+        UpdateStruct $location,
+        int $locationId
+    ): void;
 
     /**
      * Updates path identification string for given $locationId.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function updatePathIdentificationString(
         int $locationId,
@@ -261,14 +288,17 @@ abstract class Gateway
      * the node identified by given $locationId (current main node).
      * Assumes that content has more than one location.
      */
-    abstract public function getFallbackMainNodeData(int $contentId, int $locationId): array;
+    abstract public function getFallbackMainNodeData(
+        int $contentId,
+        int $locationId
+    ): array;
 
     /**
      * Sends a single location identified by given $locationId to the trash.
      *
      * The associated content object is left untouched.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function trashLocation(int $locationId): void;
 
@@ -280,14 +310,17 @@ abstract class Gateway
      * at the old position. If this is not possible ( because the old location
      * does not exist any more) and exception is thrown.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    abstract public function untrashLocation(int $locationId, ?int $newParentId = null): Location;
+    abstract public function untrashLocation(
+        int $locationId,
+        ?int $newParentId = null
+    ): Location;
 
     /**
      * Loads trash data specified by location ID.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     abstract public function loadTrashByLocation(int $locationId): array;
 
@@ -304,8 +337,8 @@ abstract class Gateway
      *
      * @param int $offset
      * @param int|null $limit
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|null $criterion
+     * @param SortClause[] $sort
+     * @param Criterion|null $criterion
      *
      * @return array entries from ezcontentobject_trash.
      */
@@ -332,7 +365,10 @@ abstract class Gateway
     /**
      * Set section on all content objects in the subtree.
      */
-    abstract public function setSectionForSubtree(string $pathString, int $sectionId): bool;
+    abstract public function setSectionForSubtree(
+        string $pathString,
+        int $sectionId
+    ): bool;
 
     /**
      * Returns how many locations given content object identified by $contentId has.
@@ -373,7 +409,10 @@ abstract class Gateway
      *
      * @return array
      */
-    abstract public function loadAllLocationsData(int $offset, int $limit): array;
+    abstract public function loadAllLocationsData(
+        int $offset,
+        int $limit
+    ): array;
 }
 
 class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway');

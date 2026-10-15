@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -28,7 +29,7 @@ class ContentDownloadRouteReferenceListener implements EventSubscriberInterface
     public const OPT_SITEACCESS = 'siteaccess';
     public const OPT_VERSION = 'version';
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
+    /** @var TranslationHelper */
     private $translationHelper;
 
     public function __construct(TranslationHelper $translationHelper)
@@ -44,7 +45,7 @@ class ContentDownloadRouteReferenceListener implements EventSubscriberInterface
     }
 
     /**
-     * @throws \InvalidArgumentException If the required arguments are not correct
+     * @throws InvalidArgumentException If the required arguments are not correct
      */
     public function onRouteReferenceGeneration(RouteReferenceGenerationEvent $event)
     {

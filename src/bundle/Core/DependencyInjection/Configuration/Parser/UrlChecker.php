@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
@@ -26,8 +27,11 @@ class UrlChecker extends AbstractParser
             ->end();
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ) {
         if (isset($scopeSettings['url_checker']) && !empty($scopeSettings['url_checker']['handlers'])) {
             foreach ($scopeSettings['url_checker']['handlers'] as $name => $options) {
                 $contextualizer->setContextualParameter('url_handler.' . $name . '.options', $currentScope, $options);

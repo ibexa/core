@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
 use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
@@ -15,11 +16,12 @@ use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $repositoryMock;
 
     protected function setUp(): void
@@ -31,7 +33,7 @@ abstract class BaseTest extends TestCase
     /**
      * @param array $matchingConfig
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getPartiallyMockedViewProvider(array $matchingConfig = [])
     {
@@ -48,7 +50,7 @@ abstract class BaseTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getRepositoryMock()
     {
@@ -69,7 +71,7 @@ abstract class BaseTest extends TestCase
     /**
      * @param array $properties
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getLocationMock(array $properties = [])
     {
@@ -82,7 +84,7 @@ abstract class BaseTest extends TestCase
     /**
      * @param array $properties
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function getContentInfoMock(array $properties = [])
     {

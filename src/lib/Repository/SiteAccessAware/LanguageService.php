@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Repository\SiteAccessAware;
 
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
@@ -17,13 +18,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
  */
 class LanguageService implements LanguageServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
+    /** @var LanguageServiceInterface */
     protected $service;
 
     /**
      * Construct service object from aggregated service.
      *
-     * @param \Ibexa\Contracts\Core\Repository\LanguageService $service
+     * @param LanguageServiceInterface $service
      */
     public function __construct(
         LanguageServiceInterface $service
@@ -36,8 +37,10 @@ class LanguageService implements LanguageServiceInterface
         return $this->service->createLanguage($languageCreateStruct);
     }
 
-    public function updateLanguageName(Language $language, string $newName): Language
-    {
+    public function updateLanguageName(
+        Language $language,
+        string $newName
+    ): Language {
         return $this->service->updateLanguageName($language, $newName);
     }
 

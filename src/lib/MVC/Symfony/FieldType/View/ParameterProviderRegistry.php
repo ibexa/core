@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\FieldType\View;
 
 use InvalidArgumentException;
@@ -29,9 +30,9 @@ class ParameterProviderRegistry implements ParameterProviderRegistryInterface
      *
      * @param string $fieldTypeIdentifier
      *
-     * @throws \InvalidArgumentException If no parameter provider is provided for $fieldTypeIdentifier.
+     * @throws InvalidArgumentException If no parameter provider is provided for $fieldTypeIdentifier.
      *
-     * @return \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface
+     * @return ParameterProviderInterface
      */
     public function getParameterProvider($fieldTypeIdentifier)
     {
@@ -45,11 +46,13 @@ class ParameterProviderRegistry implements ParameterProviderRegistryInterface
     /**
      * Sets a parameter provider for given field type identifier.
      *
-     * @param \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface $parameterProvider
+     * @param ParameterProviderInterface $parameterProvider
      * @param string $fieldTypeIdentifier
      */
-    public function setParameterProvider(ParameterProviderInterface $parameterProvider, $fieldTypeIdentifier)
-    {
+    public function setParameterProvider(
+        ParameterProviderInterface $parameterProvider,
+        $fieldTypeIdentifier
+    ) {
         $this->providers[$fieldTypeIdentifier] = $parameterProvider;
     }
 }

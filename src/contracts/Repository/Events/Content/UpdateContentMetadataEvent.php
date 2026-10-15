@@ -15,13 +15,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct;
 
 final class UpdateContentMetadataEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $content;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct */
+    /** @var ContentMetadataUpdateStruct */
     private $contentMetadataUpdateStruct;
 
     public function __construct(

@@ -4,8 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Routing;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter as BaseUrlAliasRouter;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +16,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class UrlAliasRouter extends BaseUrlAliasRouter
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
     public function setConfigResolver(ConfigResolverInterface $configResolver)
@@ -37,9 +40,9 @@ class UrlAliasRouter extends BaseUrlAliasRouter
      *
      * @param string $pathinfo
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
+     * @throws NotFoundException if the path does not exist or is not valid for the given language
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @return URLAlias
      */
     protected function getUrlAlias($pathinfo)
     {

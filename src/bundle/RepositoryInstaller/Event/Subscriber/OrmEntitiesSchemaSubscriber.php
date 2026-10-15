@@ -45,8 +45,10 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
     /**
      * @param list<class-string> $entityClasses
      */
-    public function __construct(EntityManagerInterface $entityManager, array $entityClasses)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        array $entityClasses
+    ) {
         $this->entityManager = $entityManager;
         $this->entityClasses = $entityClasses;
     }
@@ -129,8 +131,10 @@ final class OrmEntitiesSchemaSubscriber implements EventSubscriberInterface
      * SchemaImporter uses when building a table from a parsed Yaml array, just reading from an
      * already-built Table here instead.
      */
-    private function copyTable(Table $source, Table $target): void
-    {
+    private function copyTable(
+        Table $source,
+        Table $target
+    ): void {
         foreach ($source->getColumns() as $column) {
             $options = [
                 'length' => $column->getLength(),

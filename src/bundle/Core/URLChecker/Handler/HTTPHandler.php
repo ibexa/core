@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\URLChecker\Handler;
 
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
@@ -108,14 +109,18 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
     /**
      * Records the result of a finished request and returns the request to schedule next, if any.
      *
-     * @param array{url: \Ibexa\Contracts\Core\Repository\Values\URL\URL, method: string} $request
+     * @param array{url: URL, method: string} $request
      * @param array<string, mixed> $options
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL[] $queue URLs waiting to be checked
+     * @param URL[] $queue URLs waiting to be checked
      *
-     * @return array{url: \Ibexa\Contracts\Core\Repository\Values\URL\URL, method: string}|null
+     * @return array{url: URL, method: string}|null
      */
-    private function completeRequest(array $request, int $statusCode, array $options, array &$queue): ?array
-    {
+    private function completeRequest(
+        array $request,
+        int $statusCode,
+        array $options,
+        array &$queue
+    ): ?array {
         if ($this->shouldRetryWithGet($statusCode, $request['method'], $options)) {
             // Some servers and WAFs reject HEAD - recheck with GET before marking the URL as invalid
             return ['url' => $request['url'], 'method' => self::METHOD_GET];
@@ -132,12 +137,16 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
      * Initialize and return a cURL session for given URL.
      *
      * @param array<string, mixed> $options
-     * @param array<int, array{url: \Ibexa\Contracts\Core\Repository\Values\URL\URL, method: string}> $requests
+     * @param array<int, array{url: URL, method: string}> $requests
      *
      * @return resource
      */
-    private function createCurlHandlerForUrl(URL $url, string $method, array $options, array &$requests)
-    {
+    private function createCurlHandlerForUrl(
+        URL $url,
+        string $method,
+        array $options,
+        array &$requests
+    ) {
         $handler = curl_init();
         if ($handler === false) {
             throw new RuntimeException('Unable to initialize cURL handler.');
@@ -188,8 +197,11 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
     /**
      * @param array<string, mixed> $options
      */
-    private function shouldRetryWithGet(int $statusCode, string $requestMethod, array $options): bool
-    {
+    private function shouldRetryWithGet(
+        int $statusCode,
+        string $requestMethod,
+        array $options
+    ): bool {
         return $requestMethod === self::METHOD_HEAD
             && $options['fallback_to_get']
             && !$this->isSuccessful($statusCode);

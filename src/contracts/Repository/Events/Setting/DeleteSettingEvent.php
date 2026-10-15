@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Setting\Setting;
 
 final class DeleteSettingEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Setting\Setting */
+    /** @var Setting */
     private $setting;
 
     public function __construct(Setting $setting)

@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\TextLine\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
@@ -101,12 +103,14 @@ class StringLengthValidator extends Validator
      *
      * The range is determined by $maxStringLength and $minStringLength.
      *
-     * @param \Ibexa\Core\FieldType\TextLine\Value $value
+     * @param Value $value
      *
      * @return bool
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null)
-    {
+    public function validate(
+        BaseValue $value,
+        ?FieldDefinition $fieldDefinition = null
+    ) {
         $isValid = true;
 
         if ($this->constraints['maxStringLength'] !== false &&

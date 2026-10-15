@@ -77,7 +77,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Doctrine\DBAL\Platforms\AbstractPlatform}>
+     * @return iterable<string, array{AbstractPlatform}>
      */
     public static function providePlatforms(): iterable
     {
@@ -148,8 +148,10 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
     /**
      * @return array<string, array<string>>
      */
-    private function getCreateTablesSql(Schema $schema, AbstractPlatform $platform): array
-    {
+    private function getCreateTablesSql(
+        Schema $schema,
+        AbstractPlatform $platform
+    ): array {
         return array_map(
             static function (Table $table) use ($platform): array {
                 return $platform->getCreateTableSQL(

@@ -19,16 +19,17 @@ use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 
 trait DownloadControllerTestTrait
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentService&MockObject */
     private ContentService $contentService;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOServiceInterface&MockObject */
     private IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TranslationHelper&MockObject */
     private TranslationHelper $translationHelper;
 
     private function initializeServiceMocks(): void
@@ -47,8 +48,10 @@ trait DownloadControllerTestTrait
         );
     }
 
-    private function expectContentLoaded(int $contentId, Content $content): void
-    {
+    private function expectContentLoaded(
+        int $contentId,
+        Content $content
+    ): void {
         $this->contentService
             ->expects(self::once())
             ->method('loadContent')
@@ -56,8 +59,11 @@ trait DownloadControllerTestTrait
             ->willReturn($content);
     }
 
-    private function expectTranslatedField(Content $content, string $fieldIdentifier, ?Field $field): void
-    {
+    private function expectTranslatedField(
+        Content $content,
+        string $fieldIdentifier,
+        ?Field $field
+    ): void {
         $this->translationHelper
             ->expects(self::once())
             ->method('getTranslatedField')
@@ -91,8 +97,11 @@ trait DownloadControllerTestTrait
         ]);
     }
 
-    private function createContent(string $fileName, int $contentId = 42, string $contentName = 'Test content'): Content
-    {
+    private function createContent(
+        string $fileName,
+        int $contentId = 42,
+        string $contentName = 'Test content'
+    ): Content {
         return new Content([
             'internalFields' => [
                 new Field([

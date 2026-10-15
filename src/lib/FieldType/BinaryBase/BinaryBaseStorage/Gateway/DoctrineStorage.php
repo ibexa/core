@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
@@ -19,7 +20,7 @@ use PDO;
  */
 abstract class DoctrineStorage extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     public function __construct(Connection $connection)
@@ -64,12 +65,15 @@ abstract class DoctrineStorage extends Gateway
      * add additional columns to be fetched from the database. Please do not
      * forget to call the parent when overwriting this method.
      *
-     * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
+     * @param QueryBuilder $queryBuilder
      * @param int $fieldId
      * @param int $versionNo
      */
-    protected function setFetchColumns(QueryBuilder $queryBuilder, $fieldId, $versionNo)
-    {
+    protected function setFetchColumns(
+        QueryBuilder $queryBuilder,
+        $fieldId,
+        $versionNo
+    ) {
         $queryBuilder->select(
             $this->connection->quoteIdentifier('filename'),
             $this->connection->quoteIdentifier('mime_type'),
@@ -84,12 +88,15 @@ abstract class DoctrineStorage extends Gateway
      * add additional columns to be set in the database. Please do not forget
      * to call the parent when overwriting this method.
      *
-     * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param QueryBuilder $queryBuilder
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      */
-    protected function setInsertColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field)
-    {
+    protected function setInsertColumns(
+        QueryBuilder $queryBuilder,
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $queryBuilder
             ->setValue('contentobject_attribute_id', ':fieldId')
             ->setValue('filename', ':filename')
@@ -105,12 +112,15 @@ abstract class DoctrineStorage extends Gateway
     }
 
     /**
-     * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param QueryBuilder $queryBuilder
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      */
-    protected function setUpdateColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field)
-    {
+    protected function setUpdateColumns(
+        QueryBuilder $queryBuilder,
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $queryBuilder
             ->set('contentobject_attribute_id', ':fieldId')
             ->set('filename', ':filename')
@@ -128,13 +138,15 @@ abstract class DoctrineStorage extends Gateway
     /**
      * Store the file reference in $field for $versionNo.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      *
      * @return bool
      */
-    public function storeFileReference(VersionInfo $versionInfo, Field $field)
-    {
+    public function storeFileReference(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $referencedData = $this->getFileReferenceData($field->id, $versionInfo->versionNo);
 
         if ($referencedData === null) {
@@ -147,11 +159,13 @@ abstract class DoctrineStorage extends Gateway
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      */
-    protected function updateFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    protected function updateFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $updateQuery = $this->connection->createQueryBuilder();
         $updateQuery->update(
             $this->connection->quoteIdentifier($this->getStorageTable())
@@ -179,11 +193,13 @@ abstract class DoctrineStorage extends Gateway
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      */
-    protected function storeNewFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    protected function storeNewFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $insertQuery = $this->connection->createQueryBuilder();
         $insertQuery->insert(
             $this->connection->quoteIdentifier($this->getStorageTable())
@@ -216,8 +232,10 @@ abstract class DoctrineStorage extends Gateway
      *
      * @return array|null
      */
-    public function getFileReferenceData($fieldId, $versionNo)
-    {
+    public function getFileReferenceData(
+        $fieldId,
+        $versionNo
+    ) {
         $selectQuery = $this->connection->createQueryBuilder();
 
         $this->setFetchColumns($selectQuery, $fieldId, $versionNo);
@@ -282,8 +300,10 @@ abstract class DoctrineStorage extends Gateway
      *
      * @return mixed
      */
-    protected function castToPropertyValue($value, $columnName)
-    {
+    protected function castToPropertyValue(
+        $value,
+        $columnName
+    ) {
         $propertyMap = $this->getPropertyMapping();
         $castFunction = $propertyMap[$columnName]['cast'];
 
@@ -298,8 +318,10 @@ abstract class DoctrineStorage extends Gateway
      *
      * @return string
      */
-    public function prependMimeToPath($path, $mimeType)
-    {
+    public function prependMimeToPath(
+        $path,
+        $mimeType
+    ) {
         $res = substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
 
         return $res;
@@ -311,8 +333,10 @@ abstract class DoctrineStorage extends Gateway
      * @param array $fieldIds
      * @param int $versionNo
      */
-    public function removeFileReferences(array $fieldIds, $versionNo)
-    {
+    public function removeFileReferences(
+        array $fieldIds,
+        $versionNo
+    ) {
         if (empty($fieldIds)) {
             return;
         }
@@ -345,8 +369,10 @@ abstract class DoctrineStorage extends Gateway
      * @param int $fieldId
      * @param int $versionNo
      */
-    public function removeFileReference($fieldId, $versionNo)
-    {
+    public function removeFileReference(
+        $fieldId,
+        $versionNo
+    ) {
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
             ->delete($this->connection->quoteIdentifier($this->getStorageTable()))
@@ -376,8 +402,10 @@ abstract class DoctrineStorage extends Gateway
      *
      * @return array
      */
-    public function getReferencedFiles(array $fieldIds, $versionNo)
-    {
+    public function getReferencedFiles(
+        array $fieldIds,
+        $versionNo
+    ) {
         if (empty($fieldIds)) {
             return [];
         }

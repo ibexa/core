@@ -107,7 +107,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Return a ready to test DoctrineStorage gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway
+     * @return Gateway
      */
     protected function getGateway(): Gateway
     {

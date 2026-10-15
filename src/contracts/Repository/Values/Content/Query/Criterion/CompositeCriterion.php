@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
 abstract class CompositeCriterion extends Criterion
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion */
+    /** @var Criterion */
     public $criteria;
 
     public function __construct(Criterion $criteria)

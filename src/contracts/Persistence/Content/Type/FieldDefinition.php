@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints;
@@ -99,14 +100,14 @@ class FieldDefinition extends ValueObject
      *   - validators
      *   - fieldSettings.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints
+     * @var FieldTypeConstraints
      */
     public $fieldTypeConstraints;
 
     /**
      * Default value of the field.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @var FieldValue
      */
     public $defaultValue;
 

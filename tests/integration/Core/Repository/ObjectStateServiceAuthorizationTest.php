@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -12,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
  * Test case for operations in the ObjectStateService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService
+ *
  * @group integration
  * @group authorization
  */
@@ -21,6 +23,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      * Test for the createObjectStateGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::createObjectStateGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testCreateObjectStateGroup
      */
     public function testCreateObjectStateGroupThrowsUnauthorizedException()
@@ -65,6 +68,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      * Test for the updateObjectStateGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectStateGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testUpdateObjectStateGroup
      */
     public function testUpdateObjectStateGroupThrowsUnauthorizedException()
@@ -114,6 +118,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      * Test for the deleteObjectStateGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::deleteObjectStateGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testDeleteObjectStateGroup
      */
     public function testDeleteObjectStateGroupThrowsUnauthorizedException()
@@ -150,6 +155,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      * Test for the createObjectState() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::createObjectState()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testCreateObjectState
      */
     public function testCreateObjectStateThrowsUnauthorizedException()
@@ -201,6 +207,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      * Test for the updateObjectState() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::updateObjectState()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testUpdateObjectState
      */
     public function testUpdateObjectStateThrowsUnauthorizedException()
@@ -251,6 +258,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      * Test for the setPriorityOfObjectState() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::setPriorityOfObjectState()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testSetPriorityOfObjectState
      */
     public function testSetPriorityOfObjectStateThrowsUnauthorizedException()
@@ -289,6 +297,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      * Test for the deleteObjectState() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::deleteObjectState()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testDeleteObjectState
      */
     public function testDeleteObjectStateThrowsUnauthorizedException()
@@ -323,6 +332,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      * Test for the setContentState() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ObjectStateService::setContentState()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testSetContentState
      */
     public function testSetContentStateThrowsUnauthorizedException()

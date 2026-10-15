@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
+use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
@@ -21,7 +22,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
  * Normalization and querying capabilities might depend on the system
  * configuration or the used search engine and might differ. To find about
  * supported querying capabilities you can use
- * {@see \Ibexa\Contracts\Core\Repository\SearchService::supports()} method.
+ * {@see SearchService::supports()} method.
  *
  * If supported, advanced full text query has the following semantics:
  *
@@ -100,8 +101,10 @@ class FullText extends Criterion implements CustomFieldInterface
      */
     protected $customFields = [];
 
-    public function __construct($value, array $properties = [])
-    {
+    public function __construct(
+        $value,
+        array $properties = []
+    ) {
         parent::__construct(null, Operator::LIKE, $value);
 
         // Assign additional properties, ugly but with the existing constructor
@@ -131,8 +134,11 @@ class FullText extends Criterion implements CustomFieldInterface
      * @param string $field
      * @param string $customField
      */
-    public function setCustomField(string $type, string $field, string $customField): void
-    {
+    public function setCustomField(
+        string $type,
+        string $field,
+        string $customField
+    ): void {
         $this->customFields[$type][$field] = $customField;
     }
 
@@ -146,8 +152,10 @@ class FullText extends Criterion implements CustomFieldInterface
      *
      * @return mixed
      */
-    public function getCustomField(string $type, string $field): ?string
-    {
+    public function getCustomField(
+        string $type,
+        string $field
+    ): ?string {
         if (!isset($this->customFields[$type]) ||
              !isset($this->customFields[$type][$field])) {
             return null;

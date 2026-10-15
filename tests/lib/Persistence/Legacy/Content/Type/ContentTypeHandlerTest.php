@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -21,6 +22,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as UpdateHandler;
 use Ibexa\Core\Persistence\Legacy\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,25 +33,25 @@ class ContentTypeHandlerTest extends TestCase
     /**
      * Gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
     /**
      * Mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
     /**
      * Update\Handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
+     * @var UpdateHandler
      */
     protected $updateHandlerMock;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var StorageDispatcherInterface&MockObject */
     protected $storageDispatcherMock;
 
     public function testCreateGroup()
@@ -658,7 +660,7 @@ class ContentTypeHandlerTest extends TestCase
         $handlerMock->expects($this->once())
             ->method('load')
             ->with(
-                $this->equalTo($contentTypeId, Type::STATUS_DEFINED)
+                $this->equalTo($contentTypeId)
             )->will(
                 $this->returnValue(
                     new Type()
@@ -717,7 +719,7 @@ class ContentTypeHandlerTest extends TestCase
         $handlerMock->expects($this->once())
             ->method('load')
             ->with(
-                $this->equalTo($type->id, Type::STATUS_DEFINED)
+                $this->equalTo($type->id)
             )->willReturn(
                 $type
             );
@@ -1028,21 +1030,14 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getPartlyMockedHandler(['load']);
         $updateHandlerMock = $this->getUpdateHandlerMock();
 
-        $handler->expects($this->at(0))
+        $handler->expects($this->exactly(2))
             ->method('load')
-            ->with(
-                $this->equalTo(23),
-                $this->equalTo(1)
-            )->will(
-                $this->returnValue(new Type())
-            );
-
-        $handler->expects($this->at(1))
-            ->method('load')
-            ->with(
-                $this->equalTo(23),
-                $this->equalTo(0)
-            )->will(
+            ->withConsecutive(
+                [$this->equalTo(23), $this->equalTo(1)],
+                [$this->equalTo(23), $this->equalTo(0)]
+            )
+            ->willReturnOnConsecutiveCalls(
+                new Type(),
                 $this->throwException(new Exception\TypeNotFound(23, 0))
             );
 
@@ -1063,7 +1058,7 @@ class ContentTypeHandlerTest extends TestCase
     /**
      * Returns a handler to test, based on mock objects.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Handler
+     * @return Handler
      */
     protected function getHandler()
     {
@@ -1080,7 +1075,7 @@ class ContentTypeHandlerTest extends TestCase
      *
      * @param array $methods
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Handler
+     * @return Handler
      */
     protected function getPartlyMockedHandler(array $methods)
     {
@@ -1100,7 +1095,7 @@ class ContentTypeHandlerTest extends TestCase
     /**
      * Returns a gateway mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @return Gateway
      */
     protected function getGatewayMock()
     {
@@ -1118,7 +1113,7 @@ class ContentTypeHandlerTest extends TestCase
      *
      * @param array $methods
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
+     * @return Mapper
      */
     protected function getMapperMock($methods = [])
     {
@@ -1135,7 +1130,7 @@ class ContentTypeHandlerTest extends TestCase
     /**
      * Returns a Update\Handler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
+     * @return UpdateHandler
      */
     public function getUpdateHandlerMock()
     {
@@ -1150,7 +1145,7 @@ class ContentTypeHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return StorageDispatcherInterface|MockObject
      */
     public function getStorageDispatcherMock(): StorageDispatcherInterface
     {
@@ -1164,7 +1159,7 @@ class ContentTypeHandlerTest extends TestCase
     /**
      * Returns a CreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct
+     * @return CreateStruct
      */
     protected function getContentTypeCreateStructFixture()
     {

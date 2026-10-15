@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion;
 
 /**
@@ -31,8 +32,11 @@ class ConfigSuggestion
     /** @var bool */
     private $mandatory;
 
-    public function __construct($message = null, array $suggestion = [], $mandatory = false)
-    {
+    public function __construct(
+        $message = null,
+        array $suggestion = [],
+        $mandatory = false
+    ) {
         $this->message = $message;
         $this->suggestion = $suggestion;
         $this->mandatory = $mandatory;

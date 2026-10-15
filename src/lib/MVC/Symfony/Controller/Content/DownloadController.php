@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Ibexa\Bundle\IO\BinaryStreamResponse;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as RepositoryNotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -22,17 +24,20 @@ use Throwable;
 
 class DownloadController extends Controller
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $ioService;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
+    /** @var TranslationHelper */
     private $translationHelper;
 
-    public function __construct(ContentService $contentService, IOServiceInterface $ioService, TranslationHelper $translationHelper)
-    {
+    public function __construct(
+        ContentService $contentService,
+        IOServiceInterface $ioService,
+        TranslationHelper $translationHelper
+    ) {
         $this->contentService = $contentService;
         $this->ioService = $ioService;
         $this->translationHelper = $translationHelper;
@@ -42,11 +47,14 @@ class DownloadController extends Controller
      * Download binary file identified by field ID.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field $fieldId can't be found, or the translation can't be found.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content is trashed, or can't be found.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
+     * @throws RepositoryNotFoundException If the content is trashed, or can't be found.
+     * @throws UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
      */
-    public function downloadBinaryFileByIdAction(Request $request, int $contentId, int $fieldId): BinaryStreamResponse
-    {
+    public function downloadBinaryFileByIdAction(
+        Request $request,
+        int $contentId,
+        int $fieldId
+    ): BinaryStreamResponse {
         $versionNo = $request->query->has('version') ? $request->query->getInt('version') : null;
         $language = $request->query->has('inLanguage') ? $request->query->get('inLanguage') : null;
 
@@ -69,8 +77,10 @@ class DownloadController extends Controller
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field $fieldId can't be found, or the translation can't be found.
      */
-    protected function findFieldInContent(int $fieldId, Content $content): Field
-    {
+    protected function findFieldInContent(
+        int $fieldId,
+        Content $content
+    ): Field {
         foreach ($content->getFields() as $field) {
             if ($field->getId() === $fieldId) {
                 return $field;
@@ -87,11 +97,15 @@ class DownloadController extends Controller
      * Download binary file identified by field identifier.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field can't be found, or the translation can't be found.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content is trashed, or can't be found.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
+     * @throws RepositoryNotFoundException If the content is trashed, or can't be found.
+     * @throws UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
      */
-    public function downloadBinaryFileAction(int $contentId, string $fieldIdentifier, string $filename, Request $request): BinaryStreamResponse
-    {
+    public function downloadBinaryFileAction(
+        int $contentId,
+        string $fieldIdentifier,
+        string $filename,
+        Request $request
+    ): BinaryStreamResponse {
         try {
             if ($request->query->has('version')) {
                 $version = (int) $request->query->get('version');

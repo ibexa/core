@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,7 +30,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
 
     protected static $defaultDescription = 'Removes duplicate fields created as a result of faulty IBX-5388 performance fix.';
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     public function __construct(
@@ -67,8 +68,10 @@ final class VirtualFieldDuplicateFixCommand extends Command
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $style = new SymfonyStyle($input, $output);
         $stopwatch = new Stopwatch(true);
         $stopwatch->start('total', 'command');
@@ -248,7 +251,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
     /**
      * @param int[] $ids
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function deleteAttributes(array $ids): int
     {

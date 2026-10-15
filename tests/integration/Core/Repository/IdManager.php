@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 /**
@@ -22,7 +23,10 @@ abstract class IdManager
      *
      * @return mixed
      */
-    abstract public function generateId($type, $rawId);
+    abstract public function generateId(
+        $type,
+        $rawId
+    );
 
     /**
      * Parses the given $id for $type into its raw form.
@@ -35,7 +39,10 @@ abstract class IdManager
      *
      * @return mixed
      */
-    abstract public function parseId($type, $id);
+    abstract public function parseId(
+        $type,
+        $id
+    );
 }
 
 class_alias(IdManager::class, 'eZ\Publish\API\Repository\Tests\IdManager');

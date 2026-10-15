@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Helper\ContentInfoLocationLoader;
 
 use Exception;
@@ -17,7 +18,7 @@ use Ibexa\Core\Helper\ContentInfoLocationLoader;
  */
 class SudoMainLocationLoader implements ContentInfoLocationLoader
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\Ibexa\Core\Repository\Repository */
+    /** @var Repository|\Ibexa\Core\Repository\Repository */
     private $repository;
 
     public function __construct(Repository $repository)

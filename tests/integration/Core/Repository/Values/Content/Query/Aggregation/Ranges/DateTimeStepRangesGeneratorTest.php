@@ -96,8 +96,10 @@ final class DateTimeStepRangesGeneratorTest extends TestCase
         self::assertGeneratorResults([], $generator);
     }
 
-    private function createRange(?string $start, ?string $end): Range
-    {
+    private function createRange(
+        ?string $start,
+        ?string $end
+    ): Range {
         return Range::ofDateTime(
             $start !== null ? new DateTimeImmutable($start . ' 00:00:00') : null,
             $end !== null ? new DateTimeImmutable($end . ' 00:00:00') : null
@@ -105,10 +107,12 @@ final class DateTimeStepRangesGeneratorTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] $expectedResult
+     * @param Range[] $expectedResult
      */
-    private static function assertGeneratorResults(array $expectedResult, DateTimeStepRangesGenerator $generator): void
-    {
+    private static function assertGeneratorResults(
+        array $expectedResult,
+        DateTimeStepRangesGenerator $generator
+    ): void {
         self::assertEquals($expectedResult, $generator->generate());
     }
 }

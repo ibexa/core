@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Helper\FieldsGroups;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -24,11 +25,14 @@ final class ArrayTranslatorFieldsGroupsList implements FieldsGroupsList
     /** @var string */
     private $defaultGroup;
 
-    /** @var \Symfony\Contracts\Translation\TranslatorInterface */
+    /** @var TranslatorInterface */
     private $translator;
 
-    public function __construct(TranslatorInterface $translator, string $defaultGroup, array $groups)
-    {
+    public function __construct(
+        TranslatorInterface $translator,
+        string $defaultGroup,
+        array $groups
+    ) {
         $this->groups = $groups;
         $this->defaultGroup = $defaultGroup;
         $this->translator = $translator;

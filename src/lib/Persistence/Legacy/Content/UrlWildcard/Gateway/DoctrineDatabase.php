@@ -9,10 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\SortClause;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -25,7 +28,7 @@ use RuntimeException;
  *
  * @internal Gateway implementation is considered internal. Use Persistence UrlWildcard Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
@@ -35,10 +38,10 @@ final class DoctrineDatabase extends Gateway
      */
     private const MAX_LIMIT = 1073741824;
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter */
+    /** @var CriteriaConverter */
     protected $criteriaConverter;
 
     public const SORT_DIRECTION_MAP = [
@@ -46,8 +49,10 @@ final class DoctrineDatabase extends Gateway
         SortClause::SORT_DESC => 'DESC',
     ];
 
-    public function __construct(Connection $connection, CriteriaConverter $criteriaConverter)
-    {
+    public function __construct(
+        Connection $connection,
+        CriteriaConverter $criteriaConverter
+    ) {
         $this->connection = $connection;
         $this->criteriaConverter = $criteriaConverter;
     }
@@ -161,8 +166,10 @@ final class DoctrineDatabase extends Gateway
         return false !== $result ? $result : [];
     }
 
-    public function loadUrlWildcardsData(int $offset = 0, int $limit = -1): array
-    {
+    public function loadUrlWildcardsData(
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         $query = $this->buildLoadUrlWildcardDataQuery();
         $query
             ->setMaxResults($limit > 0 ? $limit : self::MAX_LIMIT)
@@ -242,11 +249,11 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion $criterion
+     * @param Criterion $criterion
      *
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws Exception
+     * @throws NotImplementedException
      */
     protected function doCount(Criterion $criterion): int
     {

@@ -27,8 +27,11 @@ final class CacheIndicesValidator implements CacheIndicesValidatorInterface, Log
     /**
      * @param mixed $object
      */
-    public function validate(string $keyPrefix, $object, callable $cacheIndices): void
-    {
+    public function validate(
+        string $keyPrefix,
+        $object,
+        callable $cacheIndices
+    ): void {
         if ($this->logger === null) {
             return;
         }

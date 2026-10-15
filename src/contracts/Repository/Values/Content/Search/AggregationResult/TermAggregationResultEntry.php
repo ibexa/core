@@ -18,8 +18,10 @@ final class TermAggregationResultEntry extends ValueObject
     /** @var int */
     private $count;
 
-    public function __construct($key, int $count)
-    {
+    public function __construct(
+        $key,
+        int $count
+    ) {
         parent::__construct();
 
         $this->key = $key;

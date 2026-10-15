@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\EventListener;
 
 use Ibexa\Bundle\IO\BinaryStreamResponse;
@@ -21,14 +22,16 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class StreamFileListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $ioService;
 
-    /** @var \Ibexa\Core\IO\IOConfigProvider */
+    /** @var IOConfigProvider */
     private $ioConfigResolver;
 
-    public function __construct(IOServiceInterface $ioService, IOConfigProvider $ioConfigResolver)
-    {
+    public function __construct(
+        IOServiceInterface $ioService,
+        IOConfigProvider $ioConfigResolver
+    ) {
         $this->ioService = $ioService;
         $this->ioConfigResolver = $ioConfigResolver;
     }
@@ -81,8 +84,10 @@ class StreamFileListener implements EventSubscriberInterface
      *
      * @return bool
      */
-    private function isIoUri($uri, $urlPrefix)
-    {
+    private function isIoUri(
+        $uri,
+        $urlPrefix
+    ) {
         return strpos(ltrim($uri, '/'), $urlPrefix) === 0;
     }
 }

@@ -4,21 +4,23 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Fragment;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
 
 class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccessAware
 {
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface */
+    /** @var FragmentRendererInterface */
     private $innerRenderer;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
     private SiteAccessSerializerInterface $siteAccessSerializer;
@@ -32,7 +34,7 @@ class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccess
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
+     * @param SiteAccess|null $siteAccess
      */
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
@@ -55,14 +57,17 @@ class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccess
     /**
      * Renders a URI and returns the Response content.
      *
-     * @param string|\Symfony\Component\HttpKernel\Controller\ControllerReference $uri A URI as a string or a ControllerReference instance
-     * @param \Symfony\Component\HttpFoundation\Request $request A Request instance
+     * @param string|ControllerReference $uri A URI as a string or a ControllerReference instance
+     * @param Request $request A Request instance
      * @param array $options An array of options
      *
-     * @return \Symfony\Component\HttpFoundation\Response A Response instance
+     * @return Response A Response instance
      */
-    public function render($uri, Request $request, array $options = [])
-    {
+    public function render(
+        $uri,
+        Request $request,
+        array $options = []
+    ) {
         if ($uri instanceof ControllerReference && $request->attributes->has('siteaccess')) {
             // Serialize a SiteAccess to get it back after.
             // @see \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener

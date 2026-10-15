@@ -4,12 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Comparable;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\Persistence\TransformationProcessor;
@@ -59,12 +61,12 @@ abstract class FieldType extends SPIFieldType implements Comparable
     /**
      * String transformation processor, used to normalize sort string as needed.
      *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
+     * @var TransformationProcessor
      */
     protected $transformationProcessor;
 
     /**
-     * @param \Ibexa\Core\Persistence\TransformationProcessor $transformationProcessor
+     * @param TransformationProcessor $transformationProcessor
      */
     public function setTransformationProcessor(TransformationProcessor $transformationProcessor)
     {
@@ -123,15 +125,17 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * that no validation errors occurred. Overwrite in derived types, if
      * validation is supported.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\Value $value The field value for which an action is performed
+     * @param FieldDefinition $fieldDefinition The field definition of the field
+     * @param Value $value The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $value)
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        SPIValue $value
+    ) {
         return [];
     }
 
@@ -173,7 +177,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * This is a base implementation, expecting best practice validator configuration format used by
      * field types in standard Ibexa installation. Overwrite in derived types if needed.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param mixed $validatorConfiguration
      */
@@ -232,7 +236,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * This is a base implementation, expecting best practice field settings format used by
      * field types in standard Ibexa installation. Overwrite in derived types if needed.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param mixed $fieldSettings
      */
@@ -264,7 +268,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * In case of multi value, values should be string and separated by "-" or ",".
      *
-     * @param \Ibexa\Core\FieldType\Value $value
+     * @param Value $value
      *
      * @return mixed
      */
@@ -276,9 +280,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
     /**
      * Converts a $value to a persistence value.
      *
-     * @param \Ibexa\Core\FieldType\Value $value
+     * @param Value $value
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @return PersistenceValue
      */
     public function toPersistenceValue(SPIValue $value)
     {
@@ -297,9 +301,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
     /**
      * Converts a persistence $fieldValue to a Value.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param PersistenceValue $fieldValue
      *
-     * @return \Ibexa\Core\FieldType\Value
+     * @return Value
      */
     public function fromPersistenceValue(PersistenceValue $fieldValue)
     {
@@ -343,7 +347,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * returned by {@link getEmptyValue()}. Overwrite in the specific field
      * type, if necessary.
      *
-     * @param \Ibexa\Core\FieldType\Value $value
+     * @param Value $value
      *
      * @return bool
      */
@@ -366,12 +370,12 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * Note that this method must also cope with the empty value for the field
      * type as e.g. returned by {@link getEmptyValue()}.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the parameter is not of the supported value sub type
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the value does not match the expected structure
+     * @throws InvalidArgumentException if the parameter is not of the supported value sub type
+     * @throws InvalidArgumentException if the value does not match the expected structure
      *
      * @param mixed $inputValue
      *
-     * @return \Ibexa\Core\FieldType\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     final public function acceptValue($inputValue)
     {
@@ -438,7 +442,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *  }
      * </code>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the parameter is not an instance of the supported value subtype.
+     * @throws InvalidArgumentException If the parameter is not an instance of the supported value subtype.
      *
      * @param mixed $value A value returned by {@see createValueFromInput()}.
      */
@@ -472,9 +476,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *  }
      * </code>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\Value $value
+     * @param Value $value
      */
     abstract protected function checkValueStructure(Value $value);
 
@@ -553,7 +557,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON type relations,
      * there is an API for handling those.
      *
-     * @param \Ibexa\Core\FieldType\Value $fieldValue
+     * @param Value $fieldValue
      *
      * @return array Hash with relation type as key and array of destination content ids as value.
      *
@@ -577,8 +581,10 @@ abstract class FieldType extends SPIFieldType implements Comparable
         return [];
     }
 
-    public function valuesEqual(SPIValue $value1, SPIValue $value2): bool
-    {
+    public function valuesEqual(
+        SPIValue $value1,
+        SPIValue $value2
+    ): bool {
         return $this->toHash($value1) === $this->toHash($value2);
     }
 }

@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Url;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
@@ -33,10 +35,13 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Url\Value|\Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value|SPIValue $value
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return (string)$value->text;
     }
 
@@ -44,7 +49,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return \Ibexa\Core\FieldType\Url\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
@@ -54,9 +59,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Inspects given $inputValue and potentially converts it into a dedicated value object.
      *
-     * @param string|\Ibexa\Core\FieldType\Url\Value $inputValue
+     * @param string|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\Url\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -70,9 +75,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\Url\Value $value
+     * @param Value $value
      */
     protected function checkValueStructure(BaseValue $value)
     {
@@ -106,7 +111,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param mixed $hash
      *
-     * @return \Ibexa\Core\FieldType\Url\Value $value
+     * @return Value $value
      */
     public function fromHash($hash)
     {
@@ -124,7 +129,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\Url\Value $value
+     * @param Value $value
      *
      * @return mixed
      */
@@ -166,9 +171,9 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * This method builds a field type value from the $data and $externalData properties.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param FieldValue $fieldValue
      *
-     * @return \Ibexa\Core\FieldType\Url\Value
+     * @return Value
      */
     public function fromPersistenceValue(FieldValue $fieldValue)
     {

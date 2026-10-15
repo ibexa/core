@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\VariationPurger;
 
 use ArrayIterator;
@@ -11,17 +12,18 @@ use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ImageFileVariationPurgerTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOServiceInterface|MockObject */
     protected $ioServiceMock;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var VariationPathGenerator|MockObject */
     protected $pathGeneratorMock;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger */
+    /** @var ImageFileVariationPurger */
     protected $purger;
 
     protected function setUp(): void

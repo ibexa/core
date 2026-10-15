@@ -11,8 +11,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 /**
  * Struct that stores extra target informations for a SortClause object.
  */
-abstract class Target
-{
-}
+abstract class Target {}
 
 class_alias(Target::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Target');

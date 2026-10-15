@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Search;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
@@ -13,7 +14,7 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
  *
  * @property-read string $name
  * @property-read mixed $value
- * @property-read \Ibexa\Contracts\Core\Search\FieldType $type
+ * @property-read FieldType $type
  */
 class Field extends ValueObject
 {
@@ -36,17 +37,20 @@ class Field extends ValueObject
     /**
      * Type of the search field.
      *
-     * @var \Ibexa\Contracts\Core\Search\FieldType
+     * @var FieldType
      */
     protected $type;
 
     /**
      * @param string $name
      * @param mixed $value
-     * @param \Ibexa\Contracts\Core\Search\FieldType $type
+     * @param FieldType $type
      */
-    public function __construct($name, $value, FieldType $type)
-    {
+    public function __construct(
+        $name,
+        $value,
+        FieldType $type
+    ) {
         parent::__construct();
         $this->name = $name;
         $this->value = $value;

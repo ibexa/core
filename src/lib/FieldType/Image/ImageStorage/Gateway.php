@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Image\ImageStorage;
 
 use Ibexa\Contracts\Core\FieldType\StorageGateway;
@@ -17,7 +18,7 @@ abstract class Gateway extends StorageGateway
     /**
      * Returns the node path string of $versionInfo.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      *
      * @return string
      */
@@ -29,7 +30,10 @@ abstract class Gateway extends StorageGateway
      * @param string $uri File IO uri
      * @param mixed $fieldId
      */
-    abstract public function storeImageReference($uri, $fieldId);
+    abstract public function storeImageReference(
+        $uri,
+        $fieldId
+    );
 
     /**
      * Returns a the XML content stored for the given $fieldIds.
@@ -39,7 +43,10 @@ abstract class Gateway extends StorageGateway
      *
      * @return array
      */
-    abstract public function getXmlForImages($versionNo, array $fieldIds);
+    abstract public function getXmlForImages(
+        $versionNo,
+        array $fieldIds
+    );
 
     /**
      * Removes all references from $fieldId to a path that starts with $path.
@@ -48,7 +55,11 @@ abstract class Gateway extends StorageGateway
      * @param int $versionNo
      * @param mixed $fieldId
      */
-    abstract public function removeImageReferences($uri, $versionNo, $fieldId);
+    abstract public function removeImageReferences(
+        $uri,
+        $versionNo,
+        $fieldId
+    );
 
     /**
      * Returns the number of recorded references to the given $path.
@@ -71,15 +82,29 @@ abstract class Gateway extends StorageGateway
 
     abstract public function getAllVersionsImageXmlForFieldId(int $fieldId): array;
 
-    abstract public function updateImageData(int $fieldId, int $versionNo, string $xml): void;
+    abstract public function updateImageData(
+        int $fieldId,
+        int $versionNo,
+        string $xml
+    ): void;
 
-    abstract public function getImagesData(int $offset, int $limit): array;
+    abstract public function getImagesData(
+        int $offset,
+        int $limit
+    ): array;
 
-    abstract public function updateImagePath(int $fieldId, string $oldPath, string $newPath): void;
+    abstract public function updateImagePath(
+        int $fieldId,
+        string $oldPath,
+        string $newPath
+    ): void;
 
     abstract public function countDistinctImagesData(): int;
 
-    abstract public function hasImageReference(string $uri, int $fieldId): bool;
+    abstract public function hasImageReference(
+        string $uri,
+        int $fieldId
+    ): bool;
 }
 
 class_alias(Gateway::class, 'eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway');

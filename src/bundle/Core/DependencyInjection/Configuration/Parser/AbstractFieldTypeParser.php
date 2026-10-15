@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
@@ -19,7 +20,7 @@ abstract class AbstractFieldTypeParser extends AbstractParser implements FieldTy
     /**
      * Adds semantic configuration definition.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.<system>.<siteaccess>
+     * @param NodeBuilder $nodeBuilder Node just under ezpublish.<system>.<siteaccess>
      */
     public function addSemanticConfig(NodeBuilder $nodeBuilder)
     {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
@@ -12,6 +13,7 @@ class MultipleValuedTest extends BaseTest
 {
     /**
      * @dataProvider matchingConfigProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::getValues
      */

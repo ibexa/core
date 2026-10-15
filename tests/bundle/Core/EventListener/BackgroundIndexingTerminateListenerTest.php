@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener;
@@ -13,6 +14,8 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
@@ -20,13 +23,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class BackgroundIndexingTerminateListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener */
+    /** @var BackgroundIndexingTerminateListener */
     protected $listener;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PersistenceHandler|MockObject */
     protected $persistenceMock;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SearchHandler|MockObject */
     protected $searchMock;
 
     protected function setUp(): void
@@ -79,10 +82,12 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
      * @dataProvider indexingProvider
      *
      * @param array|null $value
-     * @param \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject|null $logger
+     * @param LoggerInterface|MockObject|null $logger
      */
-    public function testIndexing(?array $values = null, $logger = null)
-    {
+    public function testIndexing(
+        ?array $values = null,
+        $logger = null
+    ) {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
             ->expects($this->once())
@@ -162,12 +167,15 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
     /**
      * @dataProvider indexDeleteProvider
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo|\Ibexa\Contracts\Core\Persistence\Content\Location $value
-     * @param \PHPUnit\Framework\MockObject\Stub $infoReturn
-     * @param \PHPUnit\Framework\MockObject\Stub|null $contentReturn
+     * @param ContentInfo|Location $value
+     * @param Stub $infoReturn
+     * @param Stub|null $contentReturn
      */
-    public function testIndexDelete($value, $infoReturn, $contentReturn = null)
-    {
+    public function testIndexDelete(
+        $value,
+        $infoReturn,
+        $contentReturn = null
+    ) {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
             ->expects($this->once())

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -20,6 +21,7 @@ use RuntimeException;
  * Test case for full text search in the SearchService.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SearchService
+ *
  * @group integration
  * @group search
  * @group fulltext
@@ -180,10 +182,14 @@ class SearchServiceFulltextTest extends BaseTest
      * @param array $idMap
      *
      * @depends testPrepareContent
+     *
      * @dataProvider providerForTestFulltextSearchSolr7
      */
-    public function testFulltextContentSearchSolr7(string $searchString, array $expectedKeys, array $idMap): void
-    {
+    public function testFulltextContentSearchSolr7(
+        string $searchString,
+        array $expectedKeys,
+        array $idMap
+    ): void {
         if (false === $this->isSolrMajorVersionInRange('7.0.0', '8.0.0')) {
             $this->markTestSkipped('This test is only relevant for Solr >= 7');
         }
@@ -191,8 +197,11 @@ class SearchServiceFulltextTest extends BaseTest
         $this->doTestFulltextContentSearch($searchString, $expectedKeys, $idMap);
     }
 
-    private function doTestFulltextContentSearch(string $searchString, array $expectedKeys, array $idMap): void
-    {
+    private function doTestFulltextContentSearch(
+        string $searchString,
+        array $expectedKeys,
+        array $idMap
+    ): void {
         $repository = $this->getRepository(false);
         $searchService = $repository->getSearchService();
 
@@ -210,10 +219,14 @@ class SearchServiceFulltextTest extends BaseTest
      * @param array $idMap
      *
      * @depends testPrepareContent
+     *
      * @dataProvider providerForTestFulltextSearchSolr7
      */
-    public function testFulltextLocationSearchSolr7($searchString, array $expectedKeys, array $idMap): void
-    {
+    public function testFulltextLocationSearchSolr7(
+        $searchString,
+        array $expectedKeys,
+        array $idMap
+    ): void {
         if (false === $this->isSolrMajorVersionInRange('7.0.0', '8.0.0')) {
             $this->markTestSkipped('This test is only relevant for Solr >= 7');
         }
@@ -221,8 +234,11 @@ class SearchServiceFulltextTest extends BaseTest
         $this->doTestFulltextLocationSearch($searchString, $expectedKeys, $idMap);
     }
 
-    private function doTestFulltextLocationSearch($searchString, array $expectedKeys, array $idMap): void
-    {
+    private function doTestFulltextLocationSearch(
+        $searchString,
+        array $expectedKeys,
+        array $idMap
+    ): void {
         $repository = $this->getRepository(false);
         $searchService = $repository->getSearchService();
 
@@ -235,16 +251,22 @@ class SearchServiceFulltextTest extends BaseTest
     /**
      * Assert given $searchResult using $expectedKeys and $idMap.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $searchResult
+     * @param SearchResult $searchResult
      * @param array $expectedKeys
      * @param array $idMap
      */
-    public function assertFulltextSearch(SearchResult $searchResult, array $expectedKeys, array $idMap)
-    {
+    public function assertFulltextSearch(
+        SearchResult $searchResult,
+        array $expectedKeys,
+        array $idMap
+    ) {
         $this->assertEquals(
             array_reduce(
                 $expectedKeys,
-                static function ($carry, $item) {
+                static function (
+                    $carry,
+                    $item
+                ) {
                     $carry += count((array)$item);
 
                     return $carry;
@@ -268,8 +290,10 @@ class SearchServiceFulltextTest extends BaseTest
      *
      * @return array
      */
-    private function mapKeysToIds(array $expectedKeys, array $idMap)
-    {
+    private function mapKeysToIds(
+        array $expectedKeys,
+        array $idMap
+    ) {
         $expectedIds = [];
 
         foreach ($expectedKeys as $keyGroup) {
@@ -297,7 +321,7 @@ class SearchServiceFulltextTest extends BaseTest
     /**
      * Map given $searchResult to an array of Content IDs, ordered and grouped by relevancy score.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $searchResult
+     * @param SearchResult $searchResult
      *
      * @return array
      */
@@ -339,8 +363,10 @@ class SearchServiceFulltextTest extends BaseTest
      *
      * @return bool
      */
-    private function isSolrMajorVersionInRange(string $minVersion, string $maxVersion): bool
-    {
+    private function isSolrMajorVersionInRange(
+        string $minVersion,
+        string $maxVersion
+    ): bool {
         $version = getenv('SOLR_VERSION');
         if (is_string($version) && !empty($version)) {
             return version_compare($version, $minVersion, '>=') && version_compare($version, $maxVersion, '<');

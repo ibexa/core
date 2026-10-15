@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
 final class BeforeDeleteContentTypeEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
+    /** @var ContentType */
     private $contentType;
 
     public function __construct(ContentType $contentType)

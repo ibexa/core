@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use Symfony\Component\Yaml\Yaml;
 
@@ -27,8 +30,8 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
     protected function setUp(): void
     {
@@ -38,7 +41,7 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testCreateContent(): void
     {
@@ -56,8 +59,8 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
     private function prepareMaxLanguages(): void
     {

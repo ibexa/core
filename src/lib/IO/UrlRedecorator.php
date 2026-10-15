@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\IO;
 
 /**
@@ -17,8 +18,10 @@ class UrlRedecorator implements UrlRedecoratorInterface
     /** @var UrlDecorator */
     private $targetDecorator;
 
-    public function __construct(UrlDecorator $sourceDecorator, UrlDecorator $targetDecorator)
-    {
+    public function __construct(
+        UrlDecorator $sourceDecorator,
+        UrlDecorator $targetDecorator
+    ) {
         $this->sourceDecorator = $sourceDecorator;
         $this->targetDecorator = $targetDecorator;
     }

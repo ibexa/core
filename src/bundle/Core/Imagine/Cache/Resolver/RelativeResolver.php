@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Cache\Resolver;
 
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver as ImagineProxyResolver;
@@ -15,7 +16,7 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 class RelativeResolver extends ImagineProxyResolver
 {
     /**
-     * @param \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface $resolver
+     * @param ResolverInterface $resolver
      */
     public function __construct(ResolverInterface $resolver)
     {

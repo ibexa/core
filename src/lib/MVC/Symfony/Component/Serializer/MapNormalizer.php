@@ -14,10 +14,13 @@ use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 final class MapNormalizer extends PropertyNormalizer
 {
     /**
-     * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map::__sleep
+     * @see Map::__sleep
      */
-    public function normalize($object, ?string $format = null, array $context = [])
-    {
+    public function normalize(
+        $object,
+        ?string $format = null,
+        array $context = []
+    ) {
         return [
             'key' => $object->getMapKey(),
             'map' => [],
@@ -25,8 +28,10 @@ final class MapNormalizer extends PropertyNormalizer
         ];
     }
 
-    public function supportsNormalization($data, ?string $format = null)
-    {
+    public function supportsNormalization(
+        $data,
+        ?string $format = null
+    ) {
         return $data instanceof Map;
     }
 }

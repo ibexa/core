@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Cache\Adapter;
 
+use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use Psr\Cache\CacheItemInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Cache\CacheItem;
@@ -20,10 +21,10 @@ use Symfony\Contracts\Cache\ItemInterface;
  */
 class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterface
 {
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
+    /** @var TagAwareAdapterInterface */
     protected $sharedPool;
 
-    /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache[] */
+    /** @var InMemoryCache[] */
     private $inMemoryPools;
 
     /** @var int */
@@ -39,8 +40,8 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     protected $setCacheItemAsMiss;
 
     /**
-     * @param \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface $sharedPool
-     * @param \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache[] $inMemoryPools
+     * @param TagAwareAdapterInterface $sharedPool
+     * @param InMemoryCache[] $inMemoryPools
      * @param int $transactionDepth
      * @param array $deferredTagsInvalidation
      * @param array $deferredItemsDeletion
@@ -251,9 +252,9 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     /**
      * For use by getItem(s) to mark items as a miss if it's going to be cleared on transaction commit.
      *
-     * @param \Symfony\Component\Cache\CacheItem[] $items
+     * @param CacheItem[] $items
      *
-     * @return \Symfony\Component\Cache\CacheItem[]
+     * @return CacheItem[]
      */
     private function markItemsAsDeferredMissIfNeeded(iterable $items)
     {
@@ -280,7 +281,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     }
 
     /**
-     * @param \Symfony\Component\Cache\CacheItem $item
+     * @param CacheItem $item
      *
      * @return bool
      */

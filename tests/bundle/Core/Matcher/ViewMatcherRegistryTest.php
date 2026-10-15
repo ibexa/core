@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Matcher;
 
 use Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry;
@@ -19,7 +20,7 @@ final class ViewMatcherRegistryTest extends TestCase
     private const MATCHER_NAME = 'test_matcher';
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testGetMatcher(): void
     {
@@ -30,7 +31,7 @@ final class ViewMatcherRegistryTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testSetMatcher(): void
     {
@@ -43,7 +44,7 @@ final class ViewMatcherRegistryTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testSetMatcherOverride(): void
     {

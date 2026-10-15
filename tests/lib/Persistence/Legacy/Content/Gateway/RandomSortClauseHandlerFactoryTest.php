@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom;
@@ -20,10 +21,10 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
     /**
      * @dataProvider getGateways
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom[] $gateways
+     * @param AbstractRandom[] $gateways
      *
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws DBALException
+     * @throws InvalidArgumentException
      */
     public function testGetGateway(array $gateways)
     {
@@ -49,10 +50,10 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
     /**
      * @dataProvider getGateways
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom[] $gateways
+     * @param AbstractRandom[] $gateways
      *
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws DBALException
+     * @throws InvalidArgumentException
      */
     public function testGetGatewayNotImplemented(array $gateways)
     {

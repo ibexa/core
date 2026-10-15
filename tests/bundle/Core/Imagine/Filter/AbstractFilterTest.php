@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter;
 
 use Ibexa\Bundle\Core\Imagine\Filter\AbstractFilter;
@@ -11,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class AbstractFilterTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\AbstractFilter */
+    /** @var AbstractFilter */
     protected $filter;
 
     protected function setUp(): void
@@ -36,8 +37,10 @@ class AbstractFilterTest extends TestCase
     /**
      * @dataProvider getSetOptionNoDefaulValueProvider
      */
-    public function testGetSetOptionNoDefaultValue($optionName, $value)
-    {
+    public function testGetSetOptionNoDefaultValue(
+        $optionName,
+        $value
+    ) {
         $this->assertFalse($this->filter->hasOption($optionName));
         $this->assertNull($this->filter->getOption($optionName));
         $this->filter->setOption($optionName, $value);
@@ -60,8 +63,11 @@ class AbstractFilterTest extends TestCase
     /**
      * @dataProvider getSetOptionWithDefaulValueProvider
      */
-    public function testGetSetOptionWithDefaultValue($optionName, $value, $defaultValue)
-    {
+    public function testGetSetOptionWithDefaultValue(
+        $optionName,
+        $value,
+        $defaultValue
+    ) {
         $this->assertFalse($this->filter->hasOption($optionName));
         $this->assertSame($defaultValue, $this->filter->getOption($optionName, $defaultValue));
         $this->filter->setOption($optionName, $value);

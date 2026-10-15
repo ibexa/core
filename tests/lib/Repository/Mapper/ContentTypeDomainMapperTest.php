@@ -17,6 +17,7 @@ use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,7 +27,7 @@ final class ContentTypeDomainMapperTest extends TestCase
 {
     private ContentTypeDomainMapper $mapper;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldTypeRegistry&MockObject */
     private FieldTypeRegistry $fieldTypeRegistry;
 
     protected function setUp(): void
@@ -34,8 +35,8 @@ final class ContentTypeDomainMapperTest extends TestCase
         $this->fieldTypeRegistry = $this->createMock(FieldTypeRegistry::class);
 
         $this->mapper = new ContentTypeDomainMapper(
-            $this->createMock(SPITypeHandler::class),
-            $this->createMock(SPILanguageHandler::class),
+            $this->createStub(SPITypeHandler::class),
+            $this->createStub(SPILanguageHandler::class),
             $this->fieldTypeRegistry,
         );
     }
@@ -113,8 +114,10 @@ final class ContentTypeDomainMapperTest extends TestCase
         ]);
     }
 
-    private function configureFieldTypeRegistry(TextLineValue $expectedInput, FieldValue $persistedValue): void
-    {
+    private function configureFieldTypeRegistry(
+        TextLineValue $expectedInput,
+        FieldValue $persistedValue
+    ): void {
         $fieldType = $this->createMock(FieldTypeInterface::class);
         $fieldType->method('validateValidatorConfiguration')->willReturn([]);
         $fieldType->method('validateFieldSettings')->willReturn([]);
@@ -130,6 +133,10 @@ final class ContentTypeDomainMapperTest extends TestCase
             ->with($expectedInput)
             ->willReturn($persistedValue);
 
-        $this->fieldTypeRegistry->method('getFieldType')->with('ezstring')->willReturn($fieldType);
+        $this->fieldTypeRegistry
+            ->expects(self::once())
+            ->method('getFieldType')
+            ->with('ezstring')
+            ->willReturn($fieldType);
     }
 }

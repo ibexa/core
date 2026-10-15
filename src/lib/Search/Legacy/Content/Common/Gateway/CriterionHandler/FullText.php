@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -77,18 +79,18 @@ class FullText extends CriterionHandler
     /**
      * Transformation processor to normalize search strings.
      *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
+     * @var TransformationProcessor
      */
     protected $processor;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
+    /** @var MaskGenerator */
     private $languageMaskGenerator;
 
     /**
      * @param array $configuration
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException On invalid $configuration values
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function __construct(
         Connection $connection,
@@ -116,7 +118,7 @@ class FullText extends CriterionHandler
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      *
      * @return bool
      */
@@ -144,8 +146,10 @@ class FullText extends CriterionHandler
      * converter wildcards are either transformed into the respective LIKE
      * queries, or everything is just compared using equal.
      */
-    protected function getWordExpression(QueryBuilder $query, string $token): string
-    {
+    protected function getWordExpression(
+        QueryBuilder $query,
+        string $token
+    ): string {
         if ($this->configuration['enableWildcards'] && $token[0] === '*') {
             return $query->expr()->like(
                 'word',
@@ -168,8 +172,10 @@ class FullText extends CriterionHandler
      *
      * @uses getStopWordThresholdValue To get threshold for words we would like to ignore in query.
      */
-    protected function getWordIdSubquery(QueryBuilder $query, string $string): string
-    {
+    protected function getWordIdSubquery(
+        QueryBuilder $query,
+        string $string
+    ): string {
         $subQuery = $this->connection->createQueryBuilder();
         $tokens = $this->tokenizeString(
             $this->processor->transform($string, $this->configuration['commands'])

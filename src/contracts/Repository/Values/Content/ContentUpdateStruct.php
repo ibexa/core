@@ -11,7 +11,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 /**
  * This class is used for updating the fields of a content object draft.
  *
- * @property \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields
+ * @property Field[] $fields
  */
 abstract class ContentUpdateStruct extends ContentStruct
 {

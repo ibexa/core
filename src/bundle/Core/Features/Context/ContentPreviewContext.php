@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -13,7 +14,7 @@ use PHPUnit\Framework\Assert as Assertion;
 
 class ContentPreviewContext extends RawMinkContext
 {
-    /** @var \Ibexa\Bundle\Core\Features\Context\ContentContext */
+    /** @var ContentContext */
     private $contentContext;
 
     /** @BeforeScenario */

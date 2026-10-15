@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler;
 
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
@@ -18,8 +19,10 @@ class LegacyDFSCluster implements ConfigurationFactory
         return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
     }
 
-    public function configureHandler(ServiceDefinition $definition, array $config)
-    {
+    public function configureHandler(
+        ServiceDefinition $definition,
+        array $config
+    ) {
         $definition->replaceArgument(0, new Reference($config['connection']));
     }
 

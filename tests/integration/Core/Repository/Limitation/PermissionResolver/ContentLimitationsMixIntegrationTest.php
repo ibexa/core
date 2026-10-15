@@ -8,6 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
@@ -72,11 +77,11 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
      * @param array $limitations
      * @param bool $expectedResult
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testCanUser(
         string $module,
@@ -105,7 +110,7 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
     /**
      * Get a list of Limitations common to all test cases.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     * @return Limitation[]
      */
     private function getCommonLimitations(): array
     {

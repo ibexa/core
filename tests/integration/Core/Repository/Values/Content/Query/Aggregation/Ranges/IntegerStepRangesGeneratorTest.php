@@ -82,10 +82,12 @@ final class IntegerStepRangesGeneratorTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] $expectedResult
+     * @param Range[] $expectedResult
      */
-    private static function assertGeneratorResults(array $expectedResult, IntegerStepRangesGenerator $generator): void
-    {
+    private static function assertGeneratorResults(
+        array $expectedResult,
+        IntegerStepRangesGenerator $generator
+    ): void {
         self::assertEquals(
             $expectedResult,
             iterator_to_array($generator->generate())

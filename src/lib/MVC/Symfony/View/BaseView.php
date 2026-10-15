@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\View;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
@@ -28,10 +29,10 @@ abstract class BaseView implements View
     /** @var string */
     private $viewType = 'full';
 
-    /** @var \Symfony\Component\HttpKernel\Controller\ControllerReference */
+    /** @var ControllerReference */
     private $controllerReference;
 
-    /** @var \Symfony\Component\HttpFoundation\Response */
+    /** @var Response */
     private $response;
 
     /** @var bool */
@@ -44,10 +45,13 @@ abstract class BaseView implements View
      * @param string $viewType
      * @param array $parameters Hash of parameters to pass to the template/closure.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
-    public function __construct($templateIdentifier = null, array $parameters = [], $viewType = 'full')
-    {
+    public function __construct(
+        $templateIdentifier = null,
+        array $parameters = [],
+        $viewType = 'full'
+    ) {
         if (isset($templateIdentifier)) {
             $this->setTemplateIdentifier($templateIdentifier);
         }
@@ -118,7 +122,7 @@ abstract class BaseView implements View
      *
      * @param string|\Closure $templateIdentifier
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     public function setTemplateIdentifier($templateIdentifier)
     {
@@ -179,7 +183,7 @@ abstract class BaseView implements View
     }
 
     /**
-     * @return \Symfony\Component\HttpKernel\Controller\ControllerReference
+     * @return ControllerReference
      */
     public function getControllerReference()
     {

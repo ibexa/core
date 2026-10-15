@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SlugConverterConfigurationPass;
@@ -43,7 +44,7 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         $definition->setArgument(1, $existingOldParameters);
         $definition->setPublic(true);
 
-        $this->setDefinition(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class, $definition);
+        $this->setDefinition(SlugConverter::class, $definition);
 
         $this->setParameter('ibexa.url_alias.slug_converter', [
             'transformation' => 'urlalias',
@@ -57,11 +58,11 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         ]);
         $this->compile();
 
-        /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter $slugConverter */
+        /** @var SlugConverter $slugConverter */
         $slugConverterRef = new ReflectionClass(SlugConverter::class);
         $configurationPropertyRef = $slugConverterRef->getProperty('configuration');
         $configurationPropertyRef->setAccessible(true);
-        $configuration = $configurationPropertyRef->getValue($this->container->get(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class));
+        $configuration = $configurationPropertyRef->getValue($this->container->get(SlugConverter::class));
 
         $this->assertEquals('urlalias', $configuration['transformation']);
         $this->assertEquals('underscore', $configuration['wordSeparatorName']);

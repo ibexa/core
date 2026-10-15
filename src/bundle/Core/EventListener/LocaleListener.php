@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -19,17 +20,20 @@ use Symfony\Component\HttpKernel\EventListener\LocaleListener as BaseLocaleListe
  */
 class LocaleListener implements EventSubscriberInterface
 {
-    /** @var \Symfony\Component\HttpKernel\EventListener\LocaleListener */
+    /** @var BaseLocaleListener */
     private $innerListener;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface */
+    /** @var LocaleConverterInterface */
     private $localeConverter;
 
-    public function __construct(BaseLocaleListener $innerListener, ConfigResolverInterface $configResolver, LocaleConverterInterface $localeConverter)
-    {
+    public function __construct(
+        BaseLocaleListener $innerListener,
+        ConfigResolverInterface $configResolver,
+        LocaleConverterInterface $localeConverter
+    ) {
         $this->innerListener = $innerListener;
         $this->configResolver = $configResolver;
         $this->localeConverter = $localeConverter;

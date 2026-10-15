@@ -19,14 +19,14 @@ class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 
     /**
      * ExceptionConversion constructor.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -36,8 +36,10 @@ class ExceptionConversion extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function getUserPreferenceByUserIdAndName(int $userId, string $name): array
-    {
+    public function getUserPreferenceByUserIdAndName(
+        int $userId,
+        string $name
+    ): array {
         try {
             return $this->innerGateway->getUserPreferenceByUserIdAndName($userId, $name);
         } catch (DBALException | PDOException $e) {
@@ -60,8 +62,11 @@ class ExceptionConversion extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function loadUserPreferences(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadUserPreferences(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         try {
             return $this->innerGateway->loadUserPreferences($userId, $offset, $limit);
         } catch (DBALException | PDOException $e) {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -15,7 +16,7 @@ class URI extends Map implements URILexer
     /**
      * Injects the request object to match against.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      */
     public function setRequest(SimplifiedRequest $request)
     {

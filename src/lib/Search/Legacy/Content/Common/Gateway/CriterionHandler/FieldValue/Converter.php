@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use RuntimeException;
@@ -18,25 +20,27 @@ class Converter
     /**
      * Criterion field value handler registry.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry
+     * @var HandlerRegistry
      */
     protected $registry;
 
     /**
      * Default Criterion field value handler.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
+     * @var Handler
      */
     protected $defaultHandler;
 
     /**
      * Construct from an array of Criterion field value handlers.
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry $registry
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler|null $defaultHandler
+     * @param HandlerRegistry $registry
+     * @param Handler|null $defaultHandler
      */
-    public function __construct(HandlerRegistry $registry, ?Handler $defaultHandler = null)
-    {
+    public function __construct(
+        HandlerRegistry $registry,
+        ?Handler $defaultHandler = null
+    ) {
         $this->registry = $registry;
         $this->defaultHandler = $defaultHandler;
     }
@@ -44,12 +48,12 @@ class Converter
     /**
      * Converts the criteria into query fragments.
      *
-     * @param \Doctrine\DBAL\Query\QueryBuilder $outerQuery to be used only for parameter binding
-     * @param \Doctrine\DBAL\Query\QueryBuilder $subQuery to modify Field Value query constraints
+     * @param QueryBuilder $outerQuery to be used only for parameter binding
+     * @param QueryBuilder $subQuery to modify Field Value query constraints
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return CompositeExpression|string
      *
-     * @throws \RuntimeException if Criterion is not applicable to its target
+     * @throws RuntimeException if Criterion is not applicable to its target
      */
     public function convertCriteria(
         string $fieldTypeIdentifier,

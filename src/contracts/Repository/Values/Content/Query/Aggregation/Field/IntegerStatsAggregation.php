@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field;
 
-final class IntegerStatsAggregation extends AbstractFieldStatsAggregation
-{
-}
+final class IntegerStatsAggregation extends AbstractFieldStatsAggregation {}
 
 class_alias(IntegerStatsAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\IntegerStatsAggregation');

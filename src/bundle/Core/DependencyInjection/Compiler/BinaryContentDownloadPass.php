@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage;
@@ -30,8 +31,11 @@ class BinaryContentDownloadPass implements CompilerPassInterface
         $this->addCall($container, $downloadUrlReference, BinaryFileStorage::class);
     }
 
-    private function addCall(ContainerBuilder $container, Reference $reference, $targetServiceName)
-    {
+    private function addCall(
+        ContainerBuilder $container,
+        Reference $reference,
+        $targetServiceName
+    ) {
         if (!$container->has($targetServiceName)) {
             return;
         }

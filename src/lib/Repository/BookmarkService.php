@@ -32,8 +32,11 @@ class BookmarkService implements BookmarkServiceInterface
 
     private LoggerInterface $logger;
 
-    public function __construct(RepositoryInterface $repository, BookmarkHandler $bookmarkHandler, ?LoggerInterface $logger = null)
-    {
+    public function __construct(
+        RepositoryInterface $repository,
+        BookmarkHandler $bookmarkHandler,
+        ?LoggerInterface $logger = null
+    ) {
         $this->repository = $repository;
         $this->bookmarkHandler = $bookmarkHandler;
         $this->logger = $logger ?? new NullLogger();
@@ -94,8 +97,10 @@ class BookmarkService implements BookmarkServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadBookmarks(int $offset = 0, int $limit = 25): BookmarkList
-    {
+    public function loadBookmarks(
+        int $offset = 0,
+        int $limit = 25
+    ): BookmarkList {
         $filter = new Filter();
         try {
             $filter

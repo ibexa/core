@@ -17,7 +17,7 @@ final class PasswordHashServiceTest extends TestCase
 {
     private const NON_EXISTING_PASSWORD_HASH = PHP_INT_MAX;
 
-    /** @var \Ibexa\Core\Repository\User\PasswordHashService */
+    /** @var PasswordHashService */
     private $passwordHashService;
 
     protected function setUp(): void

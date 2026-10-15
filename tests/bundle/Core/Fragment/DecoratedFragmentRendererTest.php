@@ -4,12 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\SiteAccessSerializer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
@@ -23,7 +26,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
 {
     use SerializerTrait;
 
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FragmentRendererInterface&MockObject */
     protected FragmentRendererInterface $innerRenderer;
 
     protected function setUp(): void
@@ -139,7 +142,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
     }
 
     /**
-     * @return \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface&\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware
+     * @return FragmentRendererInterface&SiteAccessAware
      */
     public function getRenderer(): FragmentRendererInterface
     {

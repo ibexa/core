@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony;
 
 /**
@@ -21,7 +22,10 @@ interface ConfigDumperInterface
      * @param array $configArray Hash of settings.
      * @param int $options A binary combination of options. See class OPT_* class constants in {@link \Ibexa\Core\MVC\Symfony\ConfigDumperInterface}
      */
-    public function dump(array $configArray, $options = self::OPT_DEFAULT);
+    public function dump(
+        array $configArray,
+        $options = self::OPT_DEFAULT
+    );
 }
 
 class_alias(ConfigDumperInterface::class, 'eZ\Publish\Core\MVC\Symfony\ConfigDumperInterface');

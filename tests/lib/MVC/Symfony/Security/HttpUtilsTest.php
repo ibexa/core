@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
@@ -17,8 +18,11 @@ class HttpUtilsTest extends TestCase
     /**
      * @dataProvider generateUriStandardProvider
      */
-    public function testGenerateUriStandard($uri, $isUriRouteName, $expected)
-    {
+    public function testGenerateUriStandard(
+        $uri,
+        $isUriRouteName,
+        $expected
+    ) {
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $httpUtils = new HttpUtils($urlGenerator);
         $httpUtils->setSiteAccess(new SiteAccess('test'));
@@ -52,8 +56,12 @@ class HttpUtilsTest extends TestCase
     /**
      * @dataProvider generateUriProvider
      */
-    public function testGenerateUri($uri, $isUriRouteName, $siteAccessUri, $expected)
-    {
+    public function testGenerateUri(
+        $uri,
+        $isUriRouteName,
+        $siteAccessUri,
+        $expected
+    ) {
         $siteAccess = new SiteAccess('test', 'test');
         if ($uri[0] === '/') {
             $matcher = $this->createMock(SiteAccess\URILexer::class);
@@ -107,8 +115,12 @@ class HttpUtilsTest extends TestCase
     /**
      * @dataProvider checkRequestPathProvider
      */
-    public function testCheckRequestPath($path, $siteAccessUri, $requestUri, $expected)
-    {
+    public function testCheckRequestPath(
+        $path,
+        $siteAccessUri,
+        $requestUri,
+        $expected
+    ) {
         $siteAccess = new SiteAccess('test', 'test');
         if ($siteAccessUri !== null) {
             $matcher = $this->createMock(SiteAccess\URILexer::class);

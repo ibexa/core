@@ -4,10 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Helper;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as PersistenceLocationHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
@@ -18,19 +21,19 @@ use Ibexa\Core\Repository\Values\Content\Location;
  */
 class PreviewLocationProvider
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
+    /** @var PersistenceLocationHandler */
     private $locationHandler;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\LocationService $locationService
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\Handler $locationHandler
+     * @param LocationService $locationService
+     * @param ContentService $contentService
+     * @param PersistenceLocationHandler $locationHandler
      */
     public function __construct(
         LocationService $locationService,
@@ -53,12 +56,12 @@ class PreviewLocationProvider
      * @deprecated Since 7.5.4, rather use loadMainLocationByContent.
      * @see loadMainLocationByContent
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      *
      * @param mixed $contentId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location|null
+     * @return APILocation|null
      */
     public function loadMainLocation($contentId)
     {
@@ -75,9 +78,9 @@ class PreviewLocationProvider
      *
      * If the content doesn't have a location nor a location draft, null is returned.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param APIContent $content
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location|null
+     * @return APILocation|null
      */
     public function loadMainLocationByContent(APIContent $content): ?APILocation
     {

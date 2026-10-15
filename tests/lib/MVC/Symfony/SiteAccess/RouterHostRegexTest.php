@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -78,7 +79,7 @@ class RouterHostRegexTest extends RouterBaseTest
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Router
+     * @return Router
      */
     protected function createRouter(): Router
     {
@@ -104,7 +105,7 @@ class RouterHostRegexTest extends RouterBaseTest
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

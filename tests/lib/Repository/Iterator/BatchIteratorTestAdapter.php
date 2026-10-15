@@ -26,8 +26,10 @@ final class BatchIteratorTestAdapter implements BatchIteratorAdapter
         $this->fetchCounter = 0;
     }
 
-    public function fetch(int $offset, int $limit): Iterator
-    {
+    public function fetch(
+        int $offset,
+        int $limit
+    ): Iterator {
         ++$this->fetchCounter;
 
         return new ArrayIterator(array_slice($this->data, $offset, $limit));

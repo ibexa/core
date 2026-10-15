@@ -8,8 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Test;
 
+use Ibexa\Contracts\Core\Test\Persistence\Fixture;
+
 /**
  * @internal
+ *
  * @experimental
  */
 interface IbexaTestKernelInterface
@@ -25,7 +28,7 @@ interface IbexaTestKernelInterface
     public function getSchemaFiles(): iterable;
 
     /**
-     * @return iterable<\Ibexa\Contracts\Core\Test\Persistence\Fixture>
+     * @return iterable<Fixture>
      */
     public function getFixtures(): iterable;
 }

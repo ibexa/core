@@ -16,27 +16,34 @@ use Ibexa\Contracts\Core\FieldType\ValidationError\UnknownValidatorValidationErr
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\FieldType\ValueSerializerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class Type extends FieldType
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface */
+    /** @var ValueSerializerInterface */
     protected $serializer;
 
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
+    /** @var ValidatorInterface */
     protected $validator;
 
-    public function __construct(ValueSerializerInterface $serializer, ValidatorInterface $validator)
-    {
+    public function __construct(
+        ValueSerializerInterface $serializer,
+        ValidatorInterface $validator
+    ) {
         $this->serializer = $serializer;
         $this->validator = $validator;
     }
 
-    public function getName(Value $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        Value $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return (string)$value;
     }
 
@@ -85,7 +92,7 @@ abstract class Type extends FieldType
     {
         $errors = [];
 
-        /** @var \Symfony\Component\Validator\ConstraintViolationInterface $constraintViolation */
+        /** @var ConstraintViolationInterface $constraintViolation */
         foreach ($constraintViolationList as $constraintViolation) {
             $errors[] = new ConstraintViolationAdapter($constraintViolation);
         }
@@ -103,8 +110,10 @@ abstract class Type extends FieldType
         return [];
     }
 
-    public function validate(FieldDefinition $fieldDefinition, Value $value): array
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        Value $value
+    ): array {
         if ($this->isEmptyValue($value)) {
             return [];
         }
@@ -322,7 +331,7 @@ abstract class Type extends FieldType
      *
      * @param mixed $value A value returned by {@see Type::createValueFromInput()}.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the parameter is not an instance of the supported value subtype.
+     * @throws InvalidArgumentException If the parameter is not an instance of the supported value subtype.
      */
     protected function checkValueType($value): void
     {

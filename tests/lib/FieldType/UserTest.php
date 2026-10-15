@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use DateTimeImmutable;
@@ -41,7 +42,7 @@ class UserTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Core\FieldType\User\Type
+     * @return UserType
      */
     protected function createFieldTypeUnderTest(): UserType
     {
@@ -345,7 +346,7 @@ class UserTest extends FieldTypeTest
      *
      * @dataProvider providerForTestValidate
      *
-     * @param \Ibexa\Core\FieldType\User\Value $userValue
+     * @param UserValue $userValue
      * @param array $expectedValidationErrors
      * @param callable|null $loadByLoginBehaviorCallback
      *
@@ -540,8 +541,10 @@ class UserTest extends FieldTypeTest
      *
      * @dataProvider providerForTestCreatePersistenceValue
      */
-    public function testCreatePersistenceValue(array $userValueDate, array $expectedFieldValueExternalData): void
-    {
+    public function testCreatePersistenceValue(
+        array $userValueDate,
+        array $expectedFieldValueExternalData
+    ): void {
         $passwordHashServiceMock = $this->createMock(PasswordHashService::class);
         $passwordHashServiceMock->method('getDefaultHashType')->willReturn(RepositoryUser::DEFAULT_PASSWORD_HASH);
         $userType = new UserType(

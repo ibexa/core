@@ -12,13 +12,18 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement;
 
 final class URIElementNormalizer extends AbstractPropertyWhitelistNormalizer
 {
-    public function supportsNormalization($data, ?string $format = null)
-    {
+    public function supportsNormalization(
+        $data,
+        ?string $format = null
+    ) {
         return $data instanceof URIElement;
     }
 
-    public function normalize($object, ?string $format = null, array $context = [])
-    {
+    public function normalize(
+        $object,
+        ?string $format = null,
+        array $context = []
+    ) {
         // Trigger lazy initialization of URIElement::$uriElements from the matched request,
         // so the serialized representation stays usable after deserialization, where
         // the request is not available (IBX-12102).
@@ -30,7 +35,7 @@ final class URIElementNormalizer extends AbstractPropertyWhitelistNormalizer
     }
 
     /**
-     * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement::__sleep
+     * @see URIElement::__sleep
      */
     protected function getAllowedProperties(): array
     {

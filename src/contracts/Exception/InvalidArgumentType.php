@@ -23,10 +23,14 @@ class InvalidArgumentType extends InvalidArgumentException
      * @param string $argumentName
      * @param string $expectedType
      * @param mixed|null $value Optionally to output the type that was received
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
-    public function __construct(string $argumentName, string $expectedType, $value = null, ?Exception $previous = null)
-    {
+    public function __construct(
+        string $argumentName,
+        string $expectedType,
+        $value = null,
+        ?Exception $previous = null
+    ) {
         if ($value !== null) {
             $actualType = is_object($value) ? get_class($value) : gettype($value);
             $whatIsWrong = sprintf("Received '%s' instead of expected value of type '%s'", $actualType, $expectedType);

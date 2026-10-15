@@ -10,12 +10,13 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot as LogicalNotCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot>
+ * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<LogicalNotCriterion>
  */
 final class LogicalNot implements CriterionHandlerInterface
 {
@@ -25,9 +26,9 @@ final class LogicalNot implements CriterionHandlerInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot $criterion
+     * @param LogicalNotCriterion $criterion
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function apply(
         CriterionVisitor $criterionVisitor,

@@ -13,13 +13,13 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 final class UpdateUserPasswordEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $user;
 
     /** @var string */
     private $newPassword;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $updatedUser;
 
     public function __construct(

@@ -17,9 +17,11 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use function sprintf;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use function sprintf;
 
 class ChainConfigResolverTest extends TestCase
 {
@@ -32,10 +34,10 @@ class ChainConfigResolverTest extends TestCase
     private const SCOPE_DEFAULT = 'default';
     private const SCOPE_GLOBAL = 'global';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SiteAccess|MockObject */
     private $siteAccess;
 
-    /** @var \Symfony\Component\DependencyInjection\ContainerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContainerInterface|MockObject */
     private $containerMock;
 
     protected function setUp(): void
@@ -49,8 +51,10 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterDefaultScope(string $paramName, $expectedValue): void
-    {
+    public function testGetParameterDefaultScope(
+        string $paramName,
+        $expectedValue
+    ): void {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
         $relativeScopeParameter = $this->getParameter($paramName, $this->siteAccess->name);
         $saGroupScopeParameter = $this->getParameter($paramName, self::SA_GROUP);
@@ -80,8 +84,10 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterRelativeScope(string $paramName, $expectedValue): void
-    {
+    public function testGetParameterRelativeScope(
+        string $paramName,
+        $expectedValue
+    ): void {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
         $relativeScopeParameter = $this->getParameter($paramName, $this->siteAccess->name);
         $this->containerMock
@@ -107,8 +113,10 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterSpecificScope(string $paramName, $expectedValue): void
-    {
+    public function testGetParameterSpecificScope(
+        string $paramName,
+        $expectedValue
+    ): void {
         $specificScopeParameter = $this->getParameter($paramName, self::FIRST_SA_NAME);
         $this->containerMock
              ->expects($this->exactly(2))
@@ -136,8 +144,10 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterGlobalScope(string $paramName, $expectedValue): void
-    {
+    public function testGetParameterGlobalScope(
+        string $paramName,
+        $expectedValue
+    ): void {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
         $this->containerMock
              ->expects($this->once())

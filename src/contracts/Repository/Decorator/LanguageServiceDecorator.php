@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
 
 abstract class LanguageServiceDecorator implements LanguageService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
+    /** @var LanguageService */
     protected $innerService;
 
     public function __construct(LanguageService $innerService)

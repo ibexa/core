@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class represents a location in the repository.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo Calls {@see Location::getContentInfo()}
+ * @property-read ContentInfo $contentInfo Calls {@see Location::getContentInfo()}
  * @property-read int $contentId Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getContentId()} instead.
  * @property-read int $id Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getId()} instead.
  * @property-read int $priority Position of the Location among its siblings when sorted using priority
@@ -191,20 +191,20 @@ abstract class Location extends ValueObject
      */
     protected $sortOrder;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+    /** @var Content */
     protected $content;
 
     /**
      * Returns the content info of the content object of this location.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      */
     abstract public function getContentInfo(): ContentInfo;
 
     /**
      * Return the parent location of this location.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location|null
+     * @return Location|null
      */
     abstract public function getParentLocation(): ?Location;
 
@@ -229,7 +229,7 @@ abstract class Location extends ValueObject
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
     public function getContent(): Content
     {
@@ -239,9 +239,9 @@ abstract class Location extends ValueObject
     /**
      * Get SortClause objects built from Locations' sort options.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException If sort field has a deprecated/unsupported value which does not have a Sort Clause.
+     * @throws NotImplementedException If sort field has a deprecated/unsupported value which does not have a Sort Clause.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
+     * @return SortClause[]
      */
     public function getSortClauses(): array
     {

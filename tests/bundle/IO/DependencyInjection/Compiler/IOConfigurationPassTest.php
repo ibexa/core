@@ -4,22 +4,24 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\Compiler;
 
 use ArrayObject;
 use Ibexa\Bundle\IO\DependencyInjection\Compiler\IOConfigurationPass;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
 class IOConfigurationPassTest extends AbstractCompilerPassTestCase
 {
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigurationFactory|MockObject */
     protected $metadataConfigurationFactoryMock;
 
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigurationFactory|MockObject */
     protected $binarydataConfigurationFactoryMock;
 
     protected function setUp(): void

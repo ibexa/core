@@ -4,13 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\URLChecker;
 
 use InvalidArgumentException;
 
 class URLHandlerRegistry implements URLHandlerRegistryInterface
 {
-    /** @var \Ibexa\Bundle\Core\URLChecker\URLHandlerInterface[] */
+    /** @var URLHandlerInterface[] */
     private $handlers = [];
 
     /**
@@ -24,8 +25,10 @@ class URLHandlerRegistry implements URLHandlerRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function addHandler($scheme, URLHandlerInterface $handler)
-    {
+    public function addHandler(
+        $scheme,
+        URLHandlerInterface $handler
+    ) {
         $this->handlers[$scheme] = $handler;
     }
 

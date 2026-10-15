@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Search;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
@@ -11,7 +12,7 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 /**
  * Base class for document field definitions.
  *
- * @property-read string $type [deprecated] The type name of the facet, deprecated - use {@see \Ibexa\Contracts\Core\Search\FieldType::getType} instead.
+ * @property-read string $type [deprecated] The type name of the facet, deprecated - use {@see FieldType::getType} instead.
  */
 abstract class FieldType extends ValueObject
 {

@@ -4,20 +4,22 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ConfigResolverTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $containerMock;
 
     protected function setUp(): void
@@ -32,10 +34,13 @@ class ConfigResolverTest extends TestCase
      * @param int $undefinedStrategy
      * @param array $groupsBySiteAccess
      *
-     * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver
+     * @return ConfigResolver
      */
-    private function getResolver($defaultNS = 'ibexa.site_access.config', $undefinedStrategy = ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION, array $groupsBySiteAccess = [])
-    {
+    private function getResolver(
+        $defaultNS = 'ibexa.site_access.config',
+        $undefinedStrategy = ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION,
+        array $groupsBySiteAccess = []
+    ) {
         $configResolver = new ConfigResolver(
             null,
             $groupsBySiteAccess,
@@ -107,8 +112,10 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterGlobalScope($paramName, $expectedValue)
-    {
+    public function testGetParameterGlobalScope(
+        $paramName,
+        $expectedValue
+    ) {
         $globalScopeParameter = "ibexa.site_access.config.global.$paramName";
         $this->containerMock
             ->expects($this->once())
@@ -127,8 +134,10 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterRelativeScope($paramName, $expectedValue)
-    {
+    public function testGetParameterRelativeScope(
+        $paramName,
+        $expectedValue
+    ) {
         $relativeScopeParameter = "ibexa.site_access.config.{$this->siteAccess->name}.$paramName";
         $this->containerMock
             ->expects($this->exactly(2))
@@ -153,8 +162,10 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterSpecificScope($paramName, $expectedValue)
-    {
+    public function testGetParameterSpecificScope(
+        $paramName,
+        $expectedValue
+    ) {
         $scope = 'some_siteaccess';
         $relativeScopeParameter = "ibexa.site_access.config.$scope.$paramName";
         $this->containerMock
@@ -183,8 +194,10 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterDefaultScope($paramName, $expectedValue)
-    {
+    public function testGetParameterDefaultScope(
+        $paramName,
+        $expectedValue
+    ) {
         $defaultScopeParameter = "ibexa.site_access.config.default.$paramName";
         $relativeScopeParameter = "ibexa.site_access.config.{$this->siteAccess->name}.$paramName";
         $this->containerMock
@@ -225,8 +238,13 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider hasParameterProvider
      */
-    public function testHasParameterNoNamespace($defaultMatch, $groupMatch, $scopeMatch, $globalMatch, $expectedResult)
-    {
+    public function testHasParameterNoNamespace(
+        $defaultMatch,
+        $groupMatch,
+        $scopeMatch,
+        $globalMatch,
+        $expectedResult
+    ) {
         $paramName = 'foo.bar';
         $groupName = 'my_group';
         $configResolver = $this->getResolver(
@@ -254,8 +272,13 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider hasParameterProvider
      */
-    public function testHasParameterWithNamespaceAndScope($defaultMatch, $groupMatch, $scopeMatch, $globalMatch, $expectedResult)
-    {
+    public function testHasParameterWithNamespaceAndScope(
+        $defaultMatch,
+        $groupMatch,
+        $scopeMatch,
+        $globalMatch,
+        $expectedResult
+    ) {
         $paramName = 'foo.bar';
         $namespace = 'my.namespace';
         $scope = 'another_siteaccess';

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\User\Gateway;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
@@ -20,7 +21,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $databaseGateway;
 
@@ -82,7 +83,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns a ready to test DoctrineDatabase gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

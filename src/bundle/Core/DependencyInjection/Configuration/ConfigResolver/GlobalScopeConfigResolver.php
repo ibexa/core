@@ -20,13 +20,19 @@ class GlobalScopeConfigResolver extends ContainerConfigResolver
         parent::__construct(self::SCOPE_NAME, $defaultNamespace);
     }
 
-    public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
-    {
+    public function hasParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): bool {
         return parent::hasParameter($paramName, $namespace, self::SCOPE_NAME);
     }
 
-    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
-    {
+    public function getParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ) {
         return parent::getParameter($paramName, $namespace, self::SCOPE_NAME);
     }
 }

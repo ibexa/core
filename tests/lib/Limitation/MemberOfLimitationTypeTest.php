@@ -121,8 +121,10 @@ final class MemberOfLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      */
-    public function testValidateError(MemberOfLimitation $limitation, int $errorCount): void
-    {
+    public function testValidateError(
+        MemberOfLimitation $limitation,
+        int $errorCount
+    ): void {
         $contentHandlerMock = $this->createMock(ContentHandlerInterface::class);
 
         if ($limitation->limitationValues !== null) {
@@ -348,7 +350,8 @@ final class MemberOfLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Repository\Values\User\User|\Ibexa\Core\Repository\Values\User\UserRoleAssignment $object
+     * @param User|UserRoleAssignment $object
+     *
      * @dataProvider providerForTestEvaluateSelfGroup
      */
     public function testEvaluateSelfGroup(
@@ -387,7 +390,7 @@ final class MemberOfLimitationTypeTest extends Base
             ->willReturnOnConsecutiveCalls(
                 new Location(['contentId' => 14]),
                 new Location(['contentId' => 44]),
-                ...$currentUserGroupLocations
+                ...array_values($currentUserGroupLocations)
             );
 
         $this->getPersistenceMock()

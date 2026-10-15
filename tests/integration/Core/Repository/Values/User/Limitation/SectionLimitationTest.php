@@ -4,13 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -29,7 +32,7 @@ class SectionLimitationTest extends BaseLimitationTest
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         $readPolicy = null;
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'read' != $policy->function) {
@@ -89,7 +92,7 @@ class SectionLimitationTest extends BaseLimitationTest
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         $readPolicy = null;
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'read' != $policy->function) {

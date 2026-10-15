@@ -4,7 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content\ObjectState;
+
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 /**
  * The Object State Handler interface provides managing of object states and groups.
@@ -14,9 +18,9 @@ interface Handler
     /**
      * Creates a new object state group.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     public function createGroup(InputStruct $input);
 
@@ -25,9 +29,9 @@ interface Handler
      *
      * @param mixed $groupId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the group was not found
+     * @throws NotFoundException if the group was not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     public function loadGroup($groupId);
 
@@ -36,9 +40,9 @@ interface Handler
      *
      * @param string $identifier
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the group was not found
+     * @throws NotFoundException if the group was not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     public function loadGroupByIdentifier($identifier);
 
@@ -48,16 +52,19 @@ interface Handler
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group[]
+     * @return Group[]
      */
-    public function loadAllGroups($offset = 0, $limit = -1);
+    public function loadAllGroups(
+        $offset = 0,
+        $limit = -1
+    );
 
     /**
      * This method returns the ordered list of object states of a group.
      *
      * @param mixed $groupId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState[]
+     * @return ObjectState[]
      */
     public function loadObjectStates($groupId);
 
@@ -65,11 +72,14 @@ interface Handler
      * Updates an object state group.
      *
      * @param mixed $groupId
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
-    public function updateGroup($groupId, InputStruct $input);
+    public function updateGroup(
+        $groupId,
+        InputStruct $input
+    );
 
     /**
      * Deletes a object state group including all states and links to content.
@@ -85,20 +95,23 @@ interface Handler
      * set to this state.
      *
      * @param mixed $groupId
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
-    public function create($groupId, InputStruct $input);
+    public function create(
+        $groupId,
+        InputStruct $input
+    );
 
     /**
      * Loads an object state.
      *
      * @param mixed $stateId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the state was not found
+     * @throws NotFoundException if the state was not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     public function load($stateId);
 
@@ -108,21 +121,27 @@ interface Handler
      * @param string $identifier
      * @param mixed $groupId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the state was not found
+     * @throws NotFoundException if the state was not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
-    public function loadByIdentifier($identifier, $groupId);
+    public function loadByIdentifier(
+        $identifier,
+        $groupId
+    );
 
     /**
      * Updates an object state.
      *
      * @param mixed $stateId
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
-    public function update($stateId, InputStruct $input);
+    public function update(
+        $stateId,
+        InputStruct $input
+    );
 
     /**
      * Changes the priority of the state.
@@ -130,7 +149,10 @@ interface Handler
      * @param mixed $stateId
      * @param int $priority
      */
-    public function setPriority($stateId, $priority);
+    public function setPriority(
+        $stateId,
+        $priority
+    );
 
     /**
      * Deletes a object state. The state of the content objects is reset to the
@@ -149,7 +171,11 @@ interface Handler
      *
      * @return bool
      */
-    public function setContentState($contentId, $groupId, $stateId);
+    public function setContentState(
+        $contentId,
+        $groupId,
+        $stateId
+    );
 
     /**
      * Gets the object-state of object identified by $contentId.
@@ -159,9 +185,12 @@ interface Handler
      * @param mixed $contentId
      * @param mixed $stateGroupId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
-    public function getContentState($contentId, $stateGroupId);
+    public function getContentState(
+        $contentId,
+        $stateGroupId
+    );
 
     /**
      * Returns the number of objects which are in this state.

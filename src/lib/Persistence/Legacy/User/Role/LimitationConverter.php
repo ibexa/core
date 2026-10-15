@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\User\Role;
 
 use Ibexa\Contracts\Core\Persistence\User\Policy;
@@ -15,13 +16,13 @@ use Ibexa\Contracts\Core\Persistence\User\Policy;
  */
 class LimitationConverter
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler[] */
+    /** @var LimitationHandler[] */
     protected $limitationHandlers;
 
     /**
      * Construct from LimitationConverter.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler[] $limitationHandlers
+     * @param LimitationHandler[] $limitationHandlers
      */
     public function __construct(array $limitationHandlers = [])
     {
@@ -31,7 +32,7 @@ class LimitationConverter
     /**
      * Adds handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler $handler
+     * @param LimitationHandler $handler
      */
     public function addHandler(LimitationHandler $handler)
     {
@@ -39,7 +40,7 @@ class LimitationConverter
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
+     * @param Policy $policy
      */
     public function toLegacy(Policy $policy)
     {
@@ -49,7 +50,7 @@ class LimitationConverter
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
+     * @param Policy $policy
      */
     public function toSPI(Policy $policy)
     {

@@ -15,17 +15,19 @@ use UnexpectedValueException;
 
 final class BeforeRemovePolicyByRoleDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
+    /** @var RoleDraft */
     private $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft */
+    /** @var PolicyDraft */
     private $policyDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft|null */
+    /** @var RoleDraft|null */
     private $updatedRoleDraft;
 
-    public function __construct(RoleDraft $roleDraft, PolicyDraft $policyDraft)
-    {
+    public function __construct(
+        RoleDraft $roleDraft,
+        PolicyDraft $policyDraft
+    ) {
         $this->roleDraft = $roleDraft;
         $this->policyDraft = $policyDraft;
     }

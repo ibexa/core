@@ -32,8 +32,11 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
     /**
      * @param array<mixed> $data
      */
-    public function __construct(?string $name = null, array $data = [], string $dataName = '')
-    {
+    public function __construct(
+        ?string $name = null,
+        array $data = [],
+        string $dataName = ''
+    ) {
         parent::__construct($name, $data, $dataName);
 
         $this->originalRemoteAddr = $_SERVER['REMOTE_ADDR'] ?? null;
@@ -134,7 +137,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             HttpKernelInterface::MAIN_REQUEST
         ), KernelEvents::REQUEST);
 
-        /** @var \Symfony\Component\HttpFoundation\Request $request */
+        /** @var Request $request */
         $request = $event->getRequest();
 
         self::assertEquals(self::PROXY_IP, $request->getClientIp());
@@ -170,7 +173,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             HttpKernelInterface::MAIN_REQUEST
         ), KernelEvents::REQUEST);
 
-        /** @var \Symfony\Component\HttpFoundation\Request $request */
+        /** @var Request $request */
         $request = $event->getRequest();
 
         self::assertEquals($expectedIp, $request->getClientIp());

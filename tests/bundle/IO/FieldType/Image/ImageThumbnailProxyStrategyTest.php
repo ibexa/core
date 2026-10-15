@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\IO\FieldType\Image;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -12,12 +13,13 @@ use Ibexa\Core\FieldType\Image\ImageThumbnailProxyStrategy;
 use Ibexa\Core\FieldType\Image\ImageThumbnailStrategy;
 use Ibexa\Core\Repository\ProxyFactory\ProxyGenerator;
 use Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 final class ImageThumbnailProxyStrategyTest extends TestCase
 {
-    /** @var \Ibexa\Core\FieldType\Image\ImageThumbnailStrategy&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ImageThumbnailStrategy&MockObject */
     private ImageThumbnailStrategy $imageThumbnailStrategyMock;
 
     private ProxyGeneratorInterface $proxyGeneratorMock;

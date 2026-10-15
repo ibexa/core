@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter;
 
 /**
@@ -19,13 +20,17 @@ abstract class AbstractFilter implements FilterInterface
         $this->options = $options;
     }
 
-    public function setOption($optionName, $value)
-    {
+    public function setOption(
+        $optionName,
+        $value
+    ) {
         $this->options[$optionName] = $value;
     }
 
-    public function getOption($optionName, $defaultValue = null)
-    {
+    public function getOption(
+        $optionName,
+        $defaultValue = null
+    ) {
         return isset($this->options[$optionName]) ? $this->options[$optionName] : $defaultValue;
     }
 

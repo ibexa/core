@@ -24,11 +24,16 @@ final class BeforeCreateGlobalUrlAliasEvent extends BeforeEvent
 
     private $alwaysAvailable;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias|null */
+    /** @var URLAlias|null */
     private $urlAlias;
 
-    public function __construct($resource, $path, $languageCode, $forwarding, $alwaysAvailable)
-    {
+    public function __construct(
+        $resource,
+        $path,
+        $languageCode,
+        $forwarding,
+        $alwaysAvailable
+    ) {
         $this->resource = $resource;
         $this->path = $path;
         $this->languageCode = $languageCode;

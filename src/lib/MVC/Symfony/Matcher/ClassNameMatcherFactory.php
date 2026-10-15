@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Matcher;
 
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -20,7 +21,7 @@ use SplObjectStorage;
  */
 class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
     /**
@@ -31,7 +32,7 @@ class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
      */
     protected $matchConfig;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface[] */
+    /** @var ViewMatcherInterface[] */
     protected $matchers = [];
 
     /**
@@ -43,12 +44,15 @@ class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
      * Already matched value objects with their config hash.
      * Key is the view type.
      *
-     * @var \SplObjectStorage[]
+     * @var SplObjectStorage[]
      */
     protected $alreadyMatched = [];
 
-    public function __construct(Repository $repository, ?string $relativeNamespace = null, array $matchConfig = [])
-    {
+    public function __construct(
+        Repository $repository,
+        ?string $relativeNamespace = null,
+        array $matchConfig = []
+    ) {
         $this->repository = $repository;
         $this->matcherRelativeNamespace = $relativeNamespace;
         $this->matchConfig = $matchConfig;
@@ -62,9 +66,9 @@ class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
      *                                  If it does not and a relative namespace is set, it is searched inside the
      *                                  relative namespace if set.
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @return \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface
+     * @return ViewMatcherInterface
      */
     protected function getMatcher($matcherIdentifier)
     {
@@ -95,7 +99,7 @@ class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
      * If so, the configuration hash will be returned.
      * $valueObject can be for example a Location or a Content object.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\View $view
+     * @param View $view
      *
      * @return array|null The matched configuration as a hash, containing template or controller to use, or null if not matched.
      */

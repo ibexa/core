@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
@@ -14,8 +15,10 @@ class LocationView extends View
     public const NODE_KEY = 'location_view';
     public const INFO = 'Template selection settings when displaying a location. Deprecated from 5.4.5/2015.09, use content_view instead.';
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {
         $scopes = array_merge(
             [ConfigResolver::SCOPE_GLOBAL],
             $config['siteaccess']['list'],

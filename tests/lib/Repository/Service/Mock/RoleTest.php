@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use ArrayIterator;
@@ -29,6 +30,7 @@ use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\RoleService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\RoleService
@@ -66,7 +68,7 @@ class RoleTest extends BaseServiceMockTest
 
         $roleServiceMock = $this->getPartlyMockedRoleService(['loadRoleByIdentifier'], $settings);
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct $roleCreateStructMock */
+        /** @var RoleCreateStruct $roleCreateStructMock */
         $roleCreateStructMock = $this->createMock(RoleCreateStruct::class);
         $policyCreateStructMock = $this->createMock(PolicyCreateStruct::class);
 
@@ -247,9 +249,9 @@ class RoleTest extends BaseServiceMockTest
         $this->expectException(UnauthorizedException::class);
 
         $roleServiceMock = $this->getPartlyMockedRoleService();
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
+        /** @var Role $roleMock */
         $roleMock = $this->createMock(Role::class);
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\User $userMock */
+        /** @var User $userMock */
         $userMock = $this->createMock(User::class);
 
         $permissionResolverMock = $this->getPermissionResolverMock();
@@ -293,9 +295,9 @@ class RoleTest extends BaseServiceMockTest
 
         $roleServiceMock = $this->getPartlyMockedRoleService(null, $settings);
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
+        /** @var Role $roleMock */
         $roleMock = $this->createMock(Role::class);
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\User $userMock */
+        /** @var User $userMock */
         $userMock = $this->createMock(User::class);
 
         $permissionResolverMock = $this->getPermissionResolverMock();
@@ -320,9 +322,9 @@ class RoleTest extends BaseServiceMockTest
         $this->expectException(BadStateException::class);
 
         $roleServiceMock = $this->getPartlyMockedRoleService();
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
+        /** @var Role $roleMock */
         $roleMock = $this->createMock(Role::class);
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\User $userMock */
+        /** @var User $userMock */
         $userMock = $this->createMock(User::class);
         $limitationMock = $this->createMock(RoleLimitation::class);
 
@@ -562,9 +564,9 @@ class RoleTest extends BaseServiceMockTest
 
         $repository = $this->getRepositoryMock();
         $roleServiceMock = $this->getPartlyMockedRoleService();
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
+        /** @var Role $roleMock */
         $roleMock = $this->createMock(Role::class);
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroupMock */
+        /** @var UserGroup $userGroupMock */
         $userGroupMock = $this->createMock(UserGroup::class);
 
         $permissionResolverMock = $this->getPermissionResolverMock();
@@ -609,9 +611,9 @@ class RoleTest extends BaseServiceMockTest
         $roleServiceMock = $this->getPartlyMockedRoleService(null, $settings);
 
         $repository = $this->getRepositoryMock();
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
+        /** @var Role $roleMock */
         $roleMock = $this->createMock(Role::class);
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroupMock */
+        /** @var UserGroup $userGroupMock */
         $userGroupMock = $this->createMock(UserGroup::class);
 
         $permissionResolverMock = $this->getPermissionResolverMock();
@@ -637,9 +639,9 @@ class RoleTest extends BaseServiceMockTest
 
         $repository = $this->getRepositoryMock();
         $roleServiceMock = $this->getPartlyMockedRoleService();
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role $roleMock */
+        /** @var Role $roleMock */
         $roleMock = $this->createMock(Role::class);
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroupMock */
+        /** @var UserGroup $userGroupMock */
         $userGroupMock = $this->createMock(UserGroup::class);
         $limitationMock = $this->createMock(RoleLimitation::class);
 
@@ -1035,7 +1037,7 @@ class RoleTest extends BaseServiceMockTest
         $roleServiceMock->removePolicyByRoleDraft($roleDraftMock, $policyDraftMock);
     }
 
-    /** @var \Ibexa\Core\Repository\RoleService */
+    /** @var RoleService */
     protected $partlyMockedRoleService;
 
     /**
@@ -1045,9 +1047,9 @@ class RoleTest extends BaseServiceMockTest
      *
      * @param string[] $methods
      * @param array $settings
-     * @param \Ibexa\Core\Repository\Mapper\RoleDomainMapper|null $roleDomainMapper
+     * @param RoleDomainMapper|null $roleDomainMapper
      *
-     * @return \Ibexa\Core\Repository\RoleService|\PHPUnit\Framework\MockObject\MockObject
+     * @return RoleService|MockObject
      */
     protected function getPartlyMockedRoleService(
         ?array $methods = null,
@@ -1083,7 +1085,7 @@ class RoleTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
+     * @return Repository|MockObject
      */
     protected function getRepositoryMock(): Repository
     {

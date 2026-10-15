@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 final class FixedSearchResultHitAdapter implements SearchResultAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult */
+    /** @var SearchResult */
     private $searchResult;
 
     public function __construct(SearchResult $searchResult)
@@ -26,8 +26,10 @@ final class FixedSearchResultHitAdapter implements SearchResultAdapter
         return $this->searchResult->totalCount ?? -1;
     }
 
-    public function getSlice($offset, $length)
-    {
+    public function getSlice(
+        $offset,
+        $length
+    ) {
         return $this->searchResult->searchHits;
     }
 

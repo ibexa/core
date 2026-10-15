@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
 
 final class PublishContentTypeDraftEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
+    /** @var ContentTypeDraft */
     private $contentTypeDraft;
 
     public function __construct(ContentTypeDraft $contentTypeDraft)

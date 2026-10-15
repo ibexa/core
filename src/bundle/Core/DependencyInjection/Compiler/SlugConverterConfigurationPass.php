@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
@@ -21,10 +22,10 @@ class SlugConverterConfigurationPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class)) {
+        if (!$container->has(SlugConverter::class)) {
             return;
         }
-        $slugConverterDefinition = $container->getDefinition(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class);
+        $slugConverterDefinition = $container->getDefinition(SlugConverter::class);
 
         $parameterConfiguration = $slugConverterDefinition->getArgument(1);
         $semanticConfiguration = $container->getParameter('ibexa.url_alias.slug_converter');

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Event;
 
 use Ibexa\Contracts\Core\Repository\Event\AfterEvent;
@@ -15,8 +16,10 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 abstract class AbstractServiceTest extends TestCase
 {
-    public function getEventDispatcher(string $beforeEventName, string $eventName): TraceableEventDispatcher
-    {
+    public function getEventDispatcher(
+        string $beforeEventName,
+        string $eventName
+    ): TraceableEventDispatcher {
         $eventDispatcher = new EventDispatcher();
         $eventDispatcher->addListener($beforeEventName, static function (BeforeEvent $event) {});
         $eventDispatcher->addListener($eventName, static function (AfterEvent $event) {});

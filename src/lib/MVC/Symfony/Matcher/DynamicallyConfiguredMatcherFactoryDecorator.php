@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Matcher;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -14,10 +15,10 @@ use Ibexa\Core\MVC\Symfony\View\View;
  */
 class DynamicallyConfiguredMatcherFactoryDecorator implements MatcherFactoryInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface|\Ibexa\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface */
+    /** @var MatcherFactoryInterface|ConfigurableMatcherFactoryInterface */
     private $innerConfigurableMatcherFactory;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     /** @var string */

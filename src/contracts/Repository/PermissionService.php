@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
-interface PermissionService extends PermissionResolver, PermissionCriterionResolver
-{
-}
+interface PermissionService extends PermissionResolver, PermissionCriterionResolver {}
 
 class_alias(PermissionService::class, 'eZ\Publish\API\Repository\PermissionService');

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\User;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
@@ -73,7 +74,7 @@ class Role extends ValueObject
     /**
      * Policies associated with the role.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\User\Policy[]
+     * @var Policy[]
      */
     public $policies = [];
 }

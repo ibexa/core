@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
@@ -61,7 +62,7 @@ class MapperTest extends TestCase
     /**
      * Returns reference for the extraction from rows.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
+     * @return Language[]
      */
     protected function getExtractReference()
     {
@@ -83,7 +84,7 @@ class MapperTest extends TestCase
     /**
      * Returns a Language CreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct
+     * @return CreateStruct
      */
     protected function getCreateStructFixture()
     {
@@ -99,7 +100,7 @@ class MapperTest extends TestCase
     /**
      * Returns a Language fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     protected function getLanguageFixture()
     {

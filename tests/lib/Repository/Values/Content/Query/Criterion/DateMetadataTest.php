@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Values\Content\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\DateMetadata;
@@ -14,14 +15,17 @@ final class DateMetadataTest extends TestCase
     /**
      * @dataProvider provideValidConstructorArguments
      */
-    public function testConstruction(string $target, string $operator, $value): void
-    {
+    public function testConstruction(
+        string $target,
+        string $operator,
+        $value
+    ): void {
         $criterion = new DateMetadata($target, $operator, $value);
         self::assertSame($target, $criterion->target);
     }
 
     /**
-     * @return iterable<array{non-empty-string, string, integer}>
+     * @return iterable<array{non-empty-string, string, int}>
      */
     public static function provideValidConstructorArguments(): iterable
     {

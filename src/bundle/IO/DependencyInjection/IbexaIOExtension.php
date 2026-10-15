@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\IO\DependencyInjection;
 
 use ArrayObject;
@@ -22,10 +23,10 @@ class IbexaIOExtension extends Extension
 {
     public const EXTENSION_NAME = 'ibexa_io';
 
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
+    /** @var ConfigurationFactory[]|ArrayObject */
     private $metadataHandlerFactories;
 
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
+    /** @var ConfigurationFactory[]|ArrayObject */
     private $binarydataHandlerFactories;
 
     public function __construct()
@@ -38,10 +39,12 @@ class IbexaIOExtension extends Extension
      * Registers a metadata handler configuration $factory for handler with $alias.
      *
      * @param string $alias
-     * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory $factory
+     * @param ConfigurationFactory $factory
      */
-    public function addMetadataHandlerFactory($alias, ConfigurationFactory $factory)
-    {
+    public function addMetadataHandlerFactory(
+        $alias,
+        ConfigurationFactory $factory
+    ) {
         $this->metadataHandlerFactories[$alias] = $factory;
     }
 
@@ -49,15 +52,17 @@ class IbexaIOExtension extends Extension
      * Registers a binarydata handler configuration $factory for handler with $alias.
      *
      * @param string $alias
-     * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory $factory
+     * @param ConfigurationFactory $factory
      */
-    public function addBinarydataHandlerFactory($alias, ConfigurationFactory $factory)
-    {
+    public function addBinarydataHandlerFactory(
+        $alias,
+        ConfigurationFactory $factory
+    ) {
         $this->binarydataHandlerFactories[$alias] = $factory;
     }
 
     /**
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject
+     * @return ConfigurationFactory[]|ArrayObject
      */
     public function getMetadataHandlerFactories()
     {
@@ -65,7 +70,7 @@ class IbexaIOExtension extends Extension
     }
 
     /**
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject
+     * @return ConfigurationFactory[]|ArrayObject
      */
     public function getBinarydataHandlerFactories()
     {
@@ -80,8 +85,10 @@ class IbexaIOExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
-    {
+    public function load(
+        array $configs,
+        ContainerBuilder $container
+    ) {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $configuration = $this->getConfiguration($configs, $container);
@@ -98,11 +105,14 @@ class IbexaIOExtension extends Extension
     /**
      * Processes the config key $key, and registers the result in ez_io.$key.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      * @param string $key Configuration key, either binarydata or metadata
      */
-    private function processHandlers(ContainerBuilder $container, $config, $key)
-    {
+    private function processHandlers(
+        ContainerBuilder $container,
+        $config,
+        $key
+    ) {
         $handlers = [];
         if (isset($config[$key])) {
             foreach ($config[$key] as $name => $value) {
@@ -118,8 +128,10 @@ class IbexaIOExtension extends Extension
         $container->setParameter("ibexa.io.{$key}", $handlers);
     }
 
-    public function getConfiguration(array $config, ContainerBuilder $container)
-    {
+    public function getConfiguration(
+        array $config,
+        ContainerBuilder $container
+    ) {
         $configuration = new Configuration();
         $configuration->setMetadataHandlerFactories($this->getMetadataHandlerFactories());
         $configuration->setBinarydataHandlerFactories($this->getBinarydataHandlerFactories());

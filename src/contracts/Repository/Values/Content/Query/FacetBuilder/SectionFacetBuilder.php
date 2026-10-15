@@ -18,8 +18,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
  *
  * @deprecated since eZ Platform 3.2.0, to be removed in Ibexa 4.0.0.
  */
-class SectionFacetBuilder extends FacetBuilder
-{
-}
+class SectionFacetBuilder extends FacetBuilder {}
 
 class_alias(SectionFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\SectionFacetBuilder');

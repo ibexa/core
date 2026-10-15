@@ -22,8 +22,10 @@ final class FloatStepRangesGenerator implements RangesGeneratorInterface
 
     private bool $isRightOpen = true;
 
-    public function __construct(float $start, float $end)
-    {
+    public function __construct(
+        float $start,
+        float $end
+    ) {
         $this->start = $start;
         $this->end = $end;
     }
@@ -89,7 +91,7 @@ final class FloatStepRangesGenerator implements RangesGeneratorInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
+     * @return Range[]
      */
     public function generate(): array
     {

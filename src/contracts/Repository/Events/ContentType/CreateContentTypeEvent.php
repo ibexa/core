@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
 
 final class CreateContentTypeEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
+    /** @var ContentTypeDraft */
     private $contentTypeDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct */
+    /** @var ContentTypeCreateStruct */
     private $contentTypeCreateStruct;
 
     /** @var array */

@@ -14,13 +14,13 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleCopyStruct;
 
 final class CopyRoleEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role */
+    /** @var Role */
     private $copiedRole;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role */
+    /** @var Role */
     private $role;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleCopyStruct */
+    /** @var RoleCopyStruct */
     private $roleCopyStruct;
 
     public function __construct(

@@ -4,11 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Keyword;
 
+use Ibexa\Contracts\Core\FieldType\FieldStorage;
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway;
 
 /**
  * Converter for Keyword field type external storage.
@@ -19,40 +22,49 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
  */
 class KeywordStorage extends GatewayBasedStorage
 {
-    /** @var \Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway */
+    /** @var Gateway */
     protected $gateway;
 
     /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
+     * @see FieldStorage
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      * @param array $context
      *
      * @return mixed
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         $contentTypeId = $this->gateway->getContentTypeId($field);
 
         return $this->gateway->storeFieldData($field, $contentTypeId);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         // @todo: This should already retrieve the ContentType ID
         return $this->gateway->getFieldData($field);
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      * @param array $fieldIds
      * @param array $context
      *
      * @return bool
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds,
+        array $context
+    ) {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->deleteFieldData($fieldId, $versionInfo->versionNo);
         }
@@ -71,14 +83,17 @@ class KeywordStorage extends GatewayBasedStorage
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      * @param array $context
      *
      * @return \Ibexa\Contracts\Core\Search\Field[]|null
      */
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
-    {
+    public function getIndexData(
+        VersionInfo $versionInfo,
+        Field $field,
+        array $context
+    ) {
         return null;
     }
 }

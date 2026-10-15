@@ -15,13 +15,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 
 final class CreateLocationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct */
+    /** @var LocationCreateStruct */
     private $locationCreateStruct;
 
     public function __construct(

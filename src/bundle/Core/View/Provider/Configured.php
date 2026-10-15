@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\View\Provider;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -15,7 +16,7 @@ class Configured extends BaseConfigured implements SiteAccessAware
     /**
      * Changes SiteAccess.
      *
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess
+     * @param SiteAccess $siteAccess
      */
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {

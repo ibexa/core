@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterInterface;
@@ -14,7 +15,7 @@ class SwirlFilterLoader implements LoaderInterface
 {
     public const IDENTIFIER = 'filter/swirl';
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
+    /** @var FilterInterface */
     private $filter;
 
     public function __construct(FilterInterface $filter)
@@ -22,8 +23,10 @@ class SwirlFilterLoader implements LoaderInterface
         $this->filter = $filter;
     }
 
-    public function load(ImageInterface $image, array $options = [])
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ) {
         if (!empty($options)) {
             $this->filter->setOption('degrees', $options[0]);
         }

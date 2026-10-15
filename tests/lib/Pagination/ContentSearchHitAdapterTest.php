@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Pagination;
 
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -16,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultColle
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Core\Pagination\Pagerfanta\ContentSearchHitAdapter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ContentSearchHitAdapterTest extends TestCase
@@ -30,7 +32,7 @@ class ContentSearchHitAdapterTest extends TestCase
     private const EXAMPLE_RESULT_MAX_SCORE = 5.123;
     private const EXAMPLE_RESULT_TIME = 30.0;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SearchService|MockObject */
     protected $searchService;
 
     protected function setUp(): void
@@ -42,14 +44,17 @@ class ContentSearchHitAdapterTest extends TestCase
     /**
      * Returns the adapter to test.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     * @param \Ibexa\Contracts\Core\Repository\SearchService $searchService
+     * @param Query $query
+     * @param SearchService $searchService
      * @param array $languageFilter
      *
-     * @return \Ibexa\Core\Pagination\Pagerfanta\ContentSearchHitAdapter
+     * @return ContentSearchHitAdapter
      */
-    protected function getAdapter(Query $query, SearchService $searchService, array $languageFilter = [])
-    {
+    protected function getAdapter(
+        Query $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         return new ContentSearchHitAdapter($query, $searchService, $languageFilter);
     }
 
@@ -172,8 +177,10 @@ class ContentSearchHitAdapterTest extends TestCase
         return $hits;
     }
 
-    private function createTestQuery(int $limit = 25, int $offset = 0): Query
-    {
+    private function createTestQuery(
+        int $limit = 25,
+        int $offset = 0
+    ): Query {
         $query = new Query();
         $query->query = $this->createMock(CriterionInterface::class);
         $query->aggregations[] = $this->createMock(Aggregation::class);

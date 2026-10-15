@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Fragment;
 
 use Ibexa\Core\MVC\Symfony\RequestStackAware;
@@ -17,8 +18,11 @@ class FragmentListenerFactory
 {
     use RequestStackAware;
 
-    public function buildFragmentListener(UriSigner $uriSigner, $fragmentPath, $fragmentListenerClass)
-    {
+    public function buildFragmentListener(
+        UriSigner $uriSigner,
+        $fragmentPath,
+        $fragmentListenerClass
+    ) {
         // no request when executing over CLI
         if (!$request = $this->getCurrentRequest()) {
             return null;

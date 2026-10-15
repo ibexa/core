@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Exception;
@@ -27,8 +28,15 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
      * Overrides the default implementation to use the chain loader so that
      * templates used internally are correctly loaded.
      */
-    protected function doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs, $deprecation = ''): void
-    {
+    protected function doIntegrationTest(
+        $file,
+        $message,
+        $condition,
+        $templates,
+        $exception,
+        $outputs,
+        $deprecation = ''
+    ): void {
         if ($condition) {
             eval('$ret = ' . $condition . ';');
             if (!$ret) {

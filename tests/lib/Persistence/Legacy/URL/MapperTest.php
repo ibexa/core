@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL;
 
 use Ibexa\Contracts\Core\Persistence\URL\URL;
@@ -13,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class MapperTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper */
+    /** @var Mapper */
     private $mapper;
 
     protected function setUp(): void

@@ -18,7 +18,10 @@ interface VersionTargetEvaluator
 {
     public function accept(Target\Version $targetVersion): bool;
 
-    public function evaluate(Target\Version $targetVersion, Limitation $limitationValue): ?bool;
+    public function evaluate(
+        Target\Version $targetVersion,
+        Limitation $limitationValue
+    ): ?bool;
 }
 
 class_alias(VersionTargetEvaluator::class, 'eZ\Publish\Core\Limitation\LanguageLimitation\VersionTargetEvaluator');

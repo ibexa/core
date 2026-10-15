@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -12,18 +13,28 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class SerializerStub implements SerializerInterface, NormalizerInterface
 {
-    public function serialize($data, $format, array $context = [])
-    {
+    public function serialize(
+        $data,
+        $format,
+        array $context = []
+    ) {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function deserialize($data, $type, $format, array $context = [])
-    {
+    public function deserialize(
+        $data,
+        $type,
+        $format,
+        array $context = []
+    ) {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function normalize($object, ?string $format = null, array $context = [])
-    {
+    public function normalize(
+        $object,
+        ?string $format = null,
+        array $context = []
+    ) {
         if (is_array($object)) {
             $result = [];
             foreach ($object as $key => $value) {
@@ -42,8 +53,10 @@ final class SerializerStub implements SerializerInterface, NormalizerInterface
         return $object;
     }
 
-    public function supportsNormalization($data, ?string $format = null)
-    {
+    public function supportsNormalization(
+        $data,
+        ?string $format = null
+    ) {
         return true;
     }
 }

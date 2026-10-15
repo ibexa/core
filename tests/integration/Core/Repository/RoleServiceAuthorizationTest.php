@@ -4,15 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Role;
 
 /**
  * Test case for operations in the RoleService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\RoleService
+ *
  * @group integration
  * @group authorization
  */
@@ -22,6 +25,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the createRole() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::createRole()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testCreateRole
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -53,6 +57,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the loadRole() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRole()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testLoadRole
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -81,6 +86,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the loadRoleByIdentifier() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoleByIdentifier()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testLoadRoleByIdentifier
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -162,6 +168,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the deleteRole() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::deleteRole()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testDeleteRole
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -190,6 +197,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the updatePolicy() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::updatePolicyByRoleDraft()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testUpdatePolicyByRoleDraft
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -237,6 +245,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the removePolicy() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::removePolicy()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemovePolicyByRoleDraft
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -279,6 +288,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the removePolicyByRoleDraft() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::removePolicyByRoleDraft()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemovePolicyByRoleDraft
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -312,6 +322,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the assignRoleToUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUserGroup
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -346,6 +357,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the assignRoleToUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUserGroup($role, $userGroup, $roleLimitation)
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUserGroup
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -387,6 +399,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the removeRoleAssignment() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::removeRoleAssignment()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemoveRoleAssignmentFromUserGroup
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -430,6 +443,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the assignRoleToUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUser
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -458,6 +472,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the assignRoleToUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::assignRoleToUser($role, $user, $roleLimitation)
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUser
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -493,6 +508,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the removeRoleAssignment() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::removeRoleAssignment()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemoveRoleAssignment
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -529,6 +545,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the getRoleAssignments() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignments()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testGetRoleAssignments
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -608,6 +625,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * Test for the getRoleAssignmentsForUserGroup() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUserGroup()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testGetRoleAssignmentsForUserGroup
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
@@ -641,7 +659,7 @@ class RoleServiceAuthorizationTest extends BaseTest
     /**
      * Create a role fixture in a variable named <b>$role</b>,.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
+     * @return Role
      */
     private function createRole()
     {

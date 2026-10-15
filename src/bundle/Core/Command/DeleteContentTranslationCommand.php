@@ -4,13 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Command;
 
 use Exception;
+use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -23,19 +26,19 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class DeleteContentTranslationCommand extends Command implements BackwardCompatibleCommand
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Symfony\Component\Console\Input\InputInterface */
+    /** @var InputInterface */
     private $input;
 
-    /** @var \Symfony\Component\Console\Output\OutputInterface */
+    /** @var OutputInterface */
     private $output;
 
-    /** @var \Symfony\Component\Console\Helper\QuestionHelper */
+    /** @var QuestionHelper */
     private $questionHelper;
 
     public function __construct(Repository $repository)
@@ -68,8 +71,10 @@ class DeleteContentTranslationCommand extends Command implements BackwardCompati
             ->setDescription('Deletes a translation from all versions of a Content item');
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
+    protected function initialize(
+        InputInterface $input,
+        OutputInterface $output
+    ) {
         parent::initialize($input, $output);
         $this->input = $input;
         $this->output = $output;
@@ -84,8 +89,10 @@ class DeleteContentTranslationCommand extends Command implements BackwardCompati
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $contentId = (int) ($input->getArgument('content-id'));
         $languageCode = $input->getArgument('language-code');
 
@@ -148,11 +155,11 @@ class DeleteContentTranslationCommand extends Command implements BackwardCompati
     /**
      * Interact with user to update main Language of a Content Object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      * @param string $languageCode language code of the Translation to be deleted
      * @param string[] $lastVersionLanguageCodes all Translations last Version has.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      */
     private function promptUserForMainLanguageChange(
         ContentInfo $contentInfo,

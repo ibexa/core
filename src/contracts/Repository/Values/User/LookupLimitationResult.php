@@ -18,15 +18,15 @@ final class LookupLimitationResult extends ValueObject
     /** @var bool */
     protected bool $hasAccess;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] */
+    /** @var Limitation[] */
     protected array $roleLimitations;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\LookupPolicyLimitations[] */
+    /** @var LookupPolicyLimitations[] */
     protected array $lookupPolicyLimitations;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $roleLimitations
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\LookupPolicyLimitations[] $lookupPolicyLimitations
+     * @param Limitation[] $roleLimitations
+     * @param LookupPolicyLimitations[] $lookupPolicyLimitations
      */
     public function __construct(
         bool $hasAccess,
@@ -46,7 +46,7 @@ final class LookupLimitationResult extends ValueObject
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     * @return Limitation[]
      */
     public function getRoleLimitations(): array
     {
@@ -54,7 +54,7 @@ final class LookupLimitationResult extends ValueObject
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\LookupPolicyLimitations[]
+     * @return LookupPolicyLimitations[]
      */
     public function getLookupPolicyLimitations(): array
     {

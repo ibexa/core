@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Exception;
@@ -27,7 +28,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExceptionListener implements EventSubscriberInterface
 {
-    /** @var \Symfony\Contracts\Translation\TranslatorInterface */
+    /** @var TranslatorInterface */
     private $translator;
 
     public function __construct(TranslatorInterface $translator)
@@ -68,7 +69,7 @@ class ExceptionListener implements EventSubscriberInterface
     /**
      * Translates the exception message if it is translatable.
      *
-     * @param \Exception $exception
+     * @param Exception $exception
      *
      * @return string
      */

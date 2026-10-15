@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Security\Authorization\Voter;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -16,7 +18,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class ValueObjectVoter implements VoterInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
     public function __construct(PermissionResolver $permissionResolver)
@@ -39,22 +41,25 @@ class ValueObjectVoter implements VoterInterface
      * Checks if user has access to a given action on a given value object.
      *
      * $attributes->limitations is a hash that contains:
-     *  - 'valueObject' - The {@see \Ibexa\Contracts\Core\Repository\Values\ValueObject} to check access on. e.g. Location or Content.
+     *  - 'valueObject' - The {@see ValueObject} to check access on. e.g. Location or Content.
      *  - 'targets' - The location, parent or "assignment" value object, or an array of the same.
      *
      * This method must return one of the following constants:
      * ACCESS_GRANTED, ACCESS_DENIED, or ACCESS_ABSTAIN.
      *
-     * @see \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     * @see PermissionResolver::canUser()
      *
-     * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token      A TokenInterface instance
+     * @param TokenInterface $token      A TokenInterface instance
      * @param object         $object     The object to secure
      * @param array          $attributes An array of attributes associated with the method being invoked
      *
      * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
-    {
+    public function vote(
+        TokenInterface $token,
+        $object,
+        array $attributes
+    ) {
         foreach ($attributes as $attribute) {
             if ($this->supportsAttribute($attribute)) {
                 $targets = isset($attribute->limitations['targets']) ? $attribute->limitations['targets'] : [];

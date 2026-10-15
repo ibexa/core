@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Author;
 
 use Ibexa\Contracts\Core\FieldType\Indexable;
@@ -17,8 +18,10 @@ use Ibexa\Contracts\Core\Search\FieldType\MultipleIdentifierField;
  */
 class SearchField implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
-    {
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    ) {
         $name = [];
         $id = [];
         $email = [];

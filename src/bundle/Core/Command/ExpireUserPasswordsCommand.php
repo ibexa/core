@@ -121,8 +121,10 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $iterationCount = $input->getOption('iteration-count');
         $userIds = $input->getOption('user-id');
         $userGroupIds = $input->getOption('user-group-id');
@@ -414,8 +416,10 @@ EOT
     /**
      * @param array<string> $processedContentTypes
      */
-    private function doesContentTypeNeedUpdate(ContentType $contentType, array $processedContentTypes): bool
-    {
+    private function doesContentTypeNeedUpdate(
+        ContentType $contentType,
+        array $processedContentTypes
+    ): bool {
         if (in_array($contentType->identifier, $processedContentTypes, true)) {
             return false;
         }

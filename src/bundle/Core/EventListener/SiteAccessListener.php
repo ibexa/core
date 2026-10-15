@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
@@ -17,7 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class SiteAccessListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteaccess;
 
     public function __construct(

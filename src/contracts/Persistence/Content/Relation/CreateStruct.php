@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence\Content\Relation;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 
 /**
  * CreateStruct representing a relation between content.
@@ -44,10 +46,10 @@ class CreateStruct extends ValueObject
     /**
      * Type bitmask.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD
+     * @see Relation::COMMON
+     * @see Relation::EMBED
+     * @see Relation::LINK
+     * @see Relation::FIELD
      *
      * @var int
      */

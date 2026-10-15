@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field;
 
-final class AuthorTermAggregation extends AbstractFieldTermAggregation
-{
-}
+final class AuthorTermAggregation extends AbstractFieldTermAggregation {}
 
 class_alias(AuthorTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\AuthorTermAggregation');

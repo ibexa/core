@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\Event;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -14,7 +15,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class ScopeChangeEvent extends Event
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
     public function __construct(SiteAccess $siteAccess)
@@ -23,7 +24,7 @@ class ScopeChangeEvent extends Event
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function getSiteAccess()
     {

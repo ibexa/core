@@ -13,7 +13,10 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
 interface PathGeneratorInterface
 {
-    public function getStoragePathForField(Field $field, VersionInfo $versionInfo);
+    public function getStoragePathForField(
+        Field $field,
+        VersionInfo $versionInfo
+    );
 }
 
 class_alias(PathGeneratorInterface::class, 'eZ\Publish\SPI\FieldType\BinaryBase\PathGeneratorInterface');

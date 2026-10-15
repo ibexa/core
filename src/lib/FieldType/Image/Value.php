@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType\Image;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
@@ -123,7 +124,7 @@ class Value extends BaseValue
      *
      * @param string $path
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      *
      * @return Value
      *
@@ -172,8 +173,10 @@ class Value extends BaseValue
         throw new PropertyNotFoundException($propertyName, static::class);
     }
 
-    public function __set($propertyName, $propertyValue)
-    {
+    public function __set(
+        $propertyName,
+        $propertyValue
+    ) {
         if ($propertyName === 'path') {
             $this->inputUri = $propertyValue;
 

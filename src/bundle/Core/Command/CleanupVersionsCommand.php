@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
@@ -43,10 +44,10 @@ EOT;
         self::VERSION_PUBLISHED => VersionInfo::STATUS_PUBLISHED,
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
+    /** @var RepositoryConfigurationProvider */
     private $repositoryConfigurationProvider;
 
     /** @var \Doctrine\DBAL\Driver\Connection */
@@ -114,8 +115,10 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         // We don't load repo services or config resolver before execute() to avoid loading before SiteAccess is set.
         $keep = $input->getOption('keep');
         if ($keep === 'config_default') {
@@ -204,7 +207,7 @@ EOT
                     (int) $contentId
                 ), OutputInterface::VERBOSITY_VERBOSE);
 
-                /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $version */
+                /** @var VersionInfo $version */
                 foreach ($versions as $version) {
                     $contentService->deleteVersion($version);
                     ++$removedVersionsCounter;
@@ -242,10 +245,13 @@ EOT
      *
      * @return array
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    protected function getObjectsIds($keep, $status, $excludedContentTypes = [])
-    {
+    protected function getObjectsIds(
+        $keep,
+        $status,
+        $excludedContentTypes = []
+    ) {
         $query = $this->connection->createQueryBuilder()
                 ->select('c.id')
                 ->from('ezcontentobject', 'c')
@@ -284,7 +290,7 @@ EOT
      *
      * @return int
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function mapStatusToVersionInfoStatus($status)
     {

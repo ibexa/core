@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue;
 
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound;
@@ -42,8 +43,10 @@ class ConverterRegistry
      * @param string $typeName
      * @param mixed $converter Callable or converter instance
      */
-    public function register($typeName, $converter)
-    {
+    public function register(
+        $typeName,
+        $converter
+    ) {
         $this->converterMap[$typeName] = $converter;
     }
 
@@ -52,10 +55,10 @@ class ConverterRegistry
      *
      * @param string $typeName
      *
-     * @throws \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
+     * @throws NotFound
      * @throws \RuntimeException When type is neither Converter instance or callable factory
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @return Converter
      */
     public function getConverter($typeName)
     {

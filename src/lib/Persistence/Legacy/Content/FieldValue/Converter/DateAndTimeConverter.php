@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use DateInterval;
@@ -27,7 +28,7 @@ class DateAndTimeConverter implements Converter
      *
      * @deprecated since 6.8, will be removed in 7.x, use default constructor instead.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter
+     * @return DateAndTimeConverter
      */
     public static function create()
     {
@@ -37,11 +38,13 @@ class DateAndTimeConverter implements Converter
     /**
      * Converts data from $value to $storageFieldValue.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
+     * @param FieldValue $value
+     * @param StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ) {
         // @todo: One should additionally store the timezone here. This could
         // be done in a backwards compatible way, I think…
         $storageFieldValue->dataInt = ($value->data !== null ? $value->data['timestamp'] : null);
@@ -51,11 +54,13 @@ class DateAndTimeConverter implements Converter
     /**
      * Converts data from $value to $fieldValue.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param StorageFieldValue $value
+     * @param FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ) {
         if ($value->dataInt === null) {
             return;
         }
@@ -70,11 +75,13 @@ class DateAndTimeConverter implements Converter
     /**
      * Converts field definition data in $fieldDef into $storageFieldDef.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ) {
         $fieldSettings = $fieldDef->fieldTypeConstraints->fieldSettings;
         if ($fieldSettings === null) {
             return;
@@ -91,11 +98,13 @@ class DateAndTimeConverter implements Converter
     /**
      * Converts field definition data in $storageDef into $fieldDef.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ) {
         $useSeconds = (bool)$storageDef->dataInt2;
         $dateInterval = $this->getDateIntervalFromXML($storageDef->dataText5);
 
@@ -154,7 +163,7 @@ class DateAndTimeConverter implements Converter
     /**
      * Generates the internal XML structure for $dateInterval, used for date adjustment.
      *
-     * @param \DateInterval $dateInterval
+     * @param DateInterval $dateInterval
      *
      * @return string The generated XML string
      */
@@ -204,7 +213,7 @@ class DateAndTimeConverter implements Converter
      *
      * @param string $xmlText
      *
-     * @return \DateInterval
+     * @return DateInterval
      */
     protected function getDateIntervalFromXML($xmlText)
     {

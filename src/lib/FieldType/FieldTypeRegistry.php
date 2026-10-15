@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
@@ -16,14 +17,14 @@ use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
  */
 class FieldTypeRegistry
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\FieldType[] Hash of SPI FieldTypes where key is identifier */
+    /** @var SPIFieldType[] Hash of SPI FieldTypes where key is identifier */
     protected $fieldTypes;
 
     /** @var string[] */
     private $concreteFieldTypesIdentifiers;
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType[] $fieldTypes Hash of SPI FieldTypes where key is identifier
+     * @param SPIFieldType[] $fieldTypes Hash of SPI FieldTypes where key is identifier
      */
     public function __construct(array $fieldTypes = [])
     {
@@ -33,7 +34,7 @@ class FieldTypeRegistry
     /**
      * Returns a list of all SPI FieldTypes.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldType[]
+     * @return SPIFieldType[]
      */
     public function getFieldTypes(): array
     {
@@ -43,11 +44,11 @@ class FieldTypeRegistry
     /**
      * Return a SPI FieldType object.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException If $identifier was not found
+     * @throws FieldTypeNotFoundException If $identifier was not found
      *
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldType
+     * @return SPIFieldType
      */
     public function getFieldType($identifier): SPIFieldType
     {
@@ -58,8 +59,10 @@ class FieldTypeRegistry
         return $this->fieldTypes[$identifier];
     }
 
-    public function registerFieldType(string $identifier, SPIFieldType $fieldType): void
-    {
+    public function registerFieldType(
+        string $identifier,
+        SPIFieldType $fieldType
+    ): void {
         $this->fieldTypes[$identifier] = $fieldType;
     }
 

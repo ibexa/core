@@ -66,8 +66,10 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         }
     }
 
-    private function createMetadataDriverDefinition($driverType, $driverPaths): Definition
-    {
+    private function createMetadataDriverDefinition(
+        $driverType,
+        $driverPaths
+    ): Definition {
         $metadataDriver = new Definition("%doctrine.orm.metadata.{$driverType}.class%");
         $arguments = [];
 
@@ -83,8 +85,10 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         return $metadataDriver;
     }
 
-    private function prepareMappingDriverConfig(array $entityManagerConfig, ContainerBuilder $container): array
-    {
+    private function prepareMappingDriverConfig(
+        array $entityManagerConfig,
+        ContainerBuilder $container
+    ): array {
         $bundles = $container->getParameter('kernel.bundles');
         $driverConfig = [];
         foreach ($entityManagerConfig as $mappingName => $config) {

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\RoleService;
@@ -21,6 +22,7 @@ use RuntimeException;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ChangeOwnerLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -43,7 +45,7 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTest
 
     /**
      * @return array<array{
-     *     0: \Ibexa\Contracts\Core\Repository\Values\User\User,
+     *     0: User,
      *     1: int,
      *     2: int[]
      * }>
@@ -64,7 +66,7 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTest
 
     /**
      * @return array<array{
-     *     0: \Ibexa\Contracts\Core\Repository\Values\User\User,
+     *     0: User,
      *     1: int,
      *     2: int[]
      * }>
@@ -86,8 +88,10 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTest
      *
      * @param int[] $limitationValues
      */
-    public function testChangeOwnerLimitationAllowed(?int $ownerId, array $limitationValues): void
-    {
+    public function testChangeOwnerLimitationAllowed(
+        ?int $ownerId,
+        array $limitationValues
+    ): void {
         $currentUser = $this->createUserVersion1('current_user', null, null, 42);
         $ownerId = $ownerId ?? $currentUser->id;
 
@@ -101,8 +105,10 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTest
      *
      * @param int[] $limitationValues
      */
-    public function testChangeOwnerLimitationDenied(?int $ownerId, array $limitationValues): void
-    {
+    public function testChangeOwnerLimitationDenied(
+        ?int $ownerId,
+        array $limitationValues
+    ): void {
         $currentUser = $this->createUserVersion1('current_user', null, null, 42);
         $ownerId = $ownerId ?? $currentUser->id;
 
@@ -113,7 +119,7 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTest
     /**
      * @param int[] $limitationValues
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     private function createTestCaseDraft(
         User $currentUser,
@@ -134,7 +140,7 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTest
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function getContentCreatePolicyDraft(RoleDraft $role): PolicyDraft
     {

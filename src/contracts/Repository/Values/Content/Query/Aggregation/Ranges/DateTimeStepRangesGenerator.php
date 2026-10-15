@@ -26,8 +26,10 @@ final class DateTimeStepRangesGenerator implements RangesGeneratorInterface
 
     private bool $isRightOpen = true;
 
-    public function __construct(DateTimeInterface $start, DateTimeInterface $end)
-    {
+    public function __construct(
+        DateTimeInterface $start,
+        DateTimeInterface $end
+    ) {
         $this->start = $start;
         $this->end = $end;
         $this->step = new DateInterval('P1D');
@@ -92,7 +94,7 @@ final class DateTimeStepRangesGenerator implements RangesGeneratorInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
+     * @return Range[]
      */
     public function generate(): array
     {
@@ -108,7 +110,7 @@ final class DateTimeStepRangesGenerator implements RangesGeneratorInterface
             $ranges[] = Range::ofDateTime(Range::INF, $this->start);
         }
 
-        /** @var \DateTimeImmutable $current */
+        /** @var DateTimeImmutable $current */
         $current = $this->start;
         if ($current instanceof DateTime) {
             $current = DateTimeImmutable::createFromMutable($current);

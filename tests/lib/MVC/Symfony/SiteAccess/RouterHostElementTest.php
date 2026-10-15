@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -84,8 +85,12 @@ class RouterHostElementTest extends RouterBaseTest
     /**
      * @dataProvider reverseMatchProvider
      */
-    public function testReverseMatch($siteAccessName, $elementNumber, SimplifiedRequest $request, $expectedHost)
-    {
+    public function testReverseMatch(
+        $siteAccessName,
+        $elementNumber,
+        SimplifiedRequest $request,
+        $expectedHost
+    ) {
         $matcher = new HostElement([$elementNumber]);
         $matcher->setRequest($request);
         $result = $matcher->reverseMatch($siteAccessName);
@@ -148,7 +153,7 @@ class RouterHostElementTest extends RouterBaseTest
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

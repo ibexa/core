@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Base\Exceptions\NotFound;
 
 use Exception;
@@ -24,10 +25,12 @@ class LimitationNotFoundException extends RuntimeException implements Httpable, 
      * Creates a Limitation Not Found exception with info on how to fix.
      *
      * @param string $limitation
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
-    public function __construct($limitation, ?Exception $previous = null)
-    {
+    public function __construct(
+        $limitation,
+        ?Exception $previous = null
+    ) {
         $this->setMessageTemplate(
             "Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%"
         );

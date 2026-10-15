@@ -64,8 +64,10 @@ abstract class AbstractImageRangeCriterion extends Criterion
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function validate($minValue, $maxValue): void
-    {
+    protected function validate(
+        $minValue,
+        $maxValue
+    ): void {
         if (
             null === $minValue
             && null === $maxValue

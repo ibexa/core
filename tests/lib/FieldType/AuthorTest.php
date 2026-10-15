@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Author\Author;
 use Ibexa\Core\FieldType\Author\AuthorCollection;
@@ -19,7 +21,7 @@ use Ibexa\Core\FieldType\Value;
  */
 class AuthorTest extends FieldTypeTest
 {
-    /** @var \Ibexa\Core\FieldType\Author\Author[] */
+    /** @var Author[] */
     private $authors;
 
     protected function setUp(): void
@@ -41,7 +43,7 @@ class AuthorTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldType
+     * @return FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -79,7 +81,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      *
-     * @return \Ibexa\Core\FieldType\Author\Value
+     * @return AuthorValue
      */
     protected function getEmptyValueExpectation()
     {
@@ -400,7 +402,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
+     * @covers \AuthorType::acceptValue
      */
     public function testAcceptValueInvalidType()
     {
@@ -411,7 +413,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
+     * @covers \AuthorType::acceptValue
      */
     public function testAcceptValueInvalidFormat()
     {
@@ -424,7 +426,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
+     * @covers \AuthorType::acceptValue
      */
     public function testAcceptValueValidFormat()
     {
@@ -438,7 +440,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Value::__construct
+     * @covers \AuthorValue::__construct
      */
     public function testBuildFieldValueWithoutParam()
     {
@@ -448,7 +450,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Value::__construct
+     * @covers \AuthorValue::__construct
      */
     public function testBuildFieldValueWithParam()
     {
@@ -458,7 +460,7 @@ class AuthorTest extends FieldTypeTest
     }
 
     /**
-     * @covers \Ibexa\Core\FieldType\Author\Value::__toString
+     * @covers \AuthorValue::__toString
      */
     public function testFieldValueToString()
     {

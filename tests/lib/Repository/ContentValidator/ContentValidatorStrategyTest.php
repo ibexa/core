@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\ContentValidator;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -82,8 +83,10 @@ class ContentValidatorStrategyTest extends TestCase
         ], $errors);
     }
 
-    private function buildContentValidator(string $classSupport, array $validationReturn): ContentValidator
-    {
+    private function buildContentValidator(
+        string $classSupport,
+        array $validationReturn
+    ): ContentValidator {
         return new class($classSupport, $validationReturn) implements ContentValidator {
             /** @var string */
             private $classSupport;

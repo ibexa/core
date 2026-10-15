@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints;
@@ -11,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition as Persistence
 use Ibexa\Core\FieldType\RelationList\Type;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class RelationTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter */
+    /** @var MockObject|RelationConverter */
     protected $converter;
 
     protected function setUp(): void

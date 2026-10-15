@@ -17,19 +17,19 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 final class CreateContentDraftEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $contentDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     private $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
+    /** @var VersionInfo */
     private $versionInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $creator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language|null */
+    /** @var Language|null */
     private $language;
 
     public function __construct(

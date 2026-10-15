@@ -27,7 +27,11 @@ interface CustomFieldInterface
      * @param string $field
      * @param string $customField
      */
-    public function setCustomField(string $type, string $field, string $customField): void;
+    public function setCustomField(
+        string $type,
+        string $field,
+        string $customField
+    ): void;
 
     /**
      * Return the custom field to query or sort on if set.
@@ -37,7 +41,10 @@ interface CustomFieldInterface
      *
      * @return string|null If no custom field is set, return null
      */
-    public function getCustomField(string $type, string $field): ?string;
+    public function getCustomField(
+        string $type,
+        string $field
+    ): ?string;
 }
 
 class_alias(CustomFieldInterface::class, 'eZ\Publish\API\Repository\Values\Content\Query\CustomFieldInterface');

@@ -4,7 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence;
+
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 
 /**
  * The field type interface which field types available to storage engines have to implement.
@@ -16,7 +19,7 @@ interface FieldType
     /**
      * Returns the empty value for the field type that can be processed by the storage engine.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @return FieldValue
      */
     public function getEmptyValue();
 }

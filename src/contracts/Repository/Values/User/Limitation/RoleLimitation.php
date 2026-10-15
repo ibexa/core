@@ -10,8 +10,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
-abstract class RoleLimitation extends Limitation
-{
-}
+abstract class RoleLimitation extends Limitation {}
 
 class_alias(RoleLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\RoleLimitation');

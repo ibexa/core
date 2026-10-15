@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory;
@@ -25,9 +26,9 @@ class RegisterStorageEnginePass implements CompilerPassInterface
      * Does:
      * - Registers all storage engines to ezpublish.api.storage_engine.factory
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function process(ContainerBuilder $container)
     {

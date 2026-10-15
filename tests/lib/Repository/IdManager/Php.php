@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\IdManager;
 
 use Ibexa\Tests\Integration\Core\Repository\IdManager;
@@ -24,8 +25,10 @@ class Php extends IdManager
      *
      * @return mixed
      */
-    public function generateId($type, $rawId)
-    {
+    public function generateId(
+        $type,
+        $rawId
+    ) {
         return $rawId;
     }
 
@@ -40,8 +43,10 @@ class Php extends IdManager
      *
      * @return mixed
      */
-    public function parseId($type, $id)
-    {
+    public function parseId(
+        $type,
+        $id
+    ) {
         return $id;
     }
 }

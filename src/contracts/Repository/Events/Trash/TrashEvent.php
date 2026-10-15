@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 
 final class TrashEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+    /** @var Location */
     private $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem|null */
+    /** @var TrashItem|null */
     private $trashItem;
 
     public function __construct(

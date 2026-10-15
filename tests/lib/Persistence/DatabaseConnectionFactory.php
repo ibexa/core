@@ -10,7 +10,9 @@ namespace Ibexa\Tests\Core\Persistence;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\DriverManager;
+use Ibexa\DoctrineSchema\Database\DbPlatform\DbPlatformInterface;
 
 /**
  * Database connection factory for integration tests.
@@ -24,7 +26,7 @@ class DatabaseConnectionFactory
      */
     private $databasePlatforms = [];
 
-    /** @var \Doctrine\Common\EventManager */
+    /** @var EventManager */
     private $eventManager;
 
     /**
@@ -32,16 +34,18 @@ class DatabaseConnectionFactory
      *
      * An associative array mapping database URL to Connection object.
      *
-     * @var \Doctrine\DBAL\Connection[]
+     * @var Connection[]
      */
     private static $connectionPool;
 
     /**
-     * @param \Ibexa\DoctrineSchema\Database\DbPlatform\DbPlatformInterface[] $databasePlatforms
-     * @param \Doctrine\Common\EventManager $eventManager
+     * @param DbPlatformInterface[] $databasePlatforms
+     * @param EventManager $eventManager
      */
-    public function __construct(iterable $databasePlatforms, EventManager $eventManager)
-    {
+    public function __construct(
+        iterable $databasePlatforms,
+        EventManager $eventManager
+    ) {
         $this->databasePlatforms = [];
         foreach ($databasePlatforms as $databasePlatform) {
             $this->databasePlatforms[$databasePlatform->getDriverName()] = $databasePlatform;
@@ -55,9 +59,9 @@ class DatabaseConnectionFactory
      *
      * @param string $databaseURL
      *
-     * @return \Doctrine\DBAL\Connection
+     * @return Connection
      *
-     * @throws \Doctrine\DBAL\DBALException if connection failed
+     * @throws DBALException if connection failed
      */
     public function createConnection(string $databaseURL): Connection
     {

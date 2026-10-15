@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\MVC\Symfony\View\Event;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -15,13 +16,13 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class FilterViewBuilderParametersEvent extends Event
 {
-    /** @var \Symfony\Component\HttpFoundation\Request */
+    /** @var Request */
     private $request;
 
     /**
      * Parameters the ViewBuilder will use.
      *
-     * @var \Symfony\Component\HttpFoundation\ParameterBag
+     * @var ParameterBag
      */
     private $parameters;
 
@@ -32,7 +33,7 @@ class FilterViewBuilderParametersEvent extends Event
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      */
     public function getRequest()
     {
@@ -42,7 +43,7 @@ class FilterViewBuilderParametersEvent extends Event
     /**
      * Returns the ParameterBag that holds the ViewBuilder's parameters.
      *
-     * @return \Symfony\Component\HttpFoundation\ParameterBag
+     * @return ParameterBag
      */
     public function getParameters()
     {

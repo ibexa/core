@@ -4,13 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -37,7 +40,7 @@ class ContentTypeLimitationTest extends BaseLimitationTest
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         $editPolicy = null;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'edit' != $policy->function) {
                 continue;
@@ -109,7 +112,7 @@ class ContentTypeLimitationTest extends BaseLimitationTest
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         $editPolicy = null;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'edit' != $policy->function) {
                 continue;
@@ -168,7 +171,7 @@ class ContentTypeLimitationTest extends BaseLimitationTest
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
         $policy = null;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         $editPolicy = null;
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'edit' != $policy->function) {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -12,6 +13,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Regist
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
 /**
  * Class to update content objects to a new type version.
@@ -21,34 +23,34 @@ class ContentUpdater
     /**
      * Content gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var ContentGateway
      */
     protected $contentGateway;
 
     /**
      * FieldValue converter registry.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @var Registry
      */
     protected $converterRegistry;
 
     /**
      * Storage handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $storageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var ContentMapper */
     protected $contentMapper;
 
     /**
      * Creates a new content updater.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry $converterRegistry
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageHandler $storageHandler
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Mapper $contentMapper
+     * @param ContentGateway $contentGateway
+     * @param Registry $converterRegistry
+     * @param StorageHandler $storageHandler
+     * @param ContentMapper $contentMapper
      */
     public function __construct(
         ContentGateway $contentGateway,
@@ -65,17 +67,19 @@ class ContentUpdater
     /**
      * Determines the necessary update actions.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type $fromType
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type $toType
+     * @param Type $fromType
+     * @param Type $toType
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action[]
+     * @return Action[]
      */
-    public function determineActions(Type $fromType, Type $toType)
-    {
+    public function determineActions(
+        Type $fromType,
+        Type $toType
+    ) {
         $actions = [];
         foreach ($fromType->fieldDefinitions as $fieldDef) {
             if (!$this->hasFieldDefinition($toType, $fieldDef)) {
-                $actions[] = new ContentUpdater\Action\RemoveField(
+                $actions[] = new Action\RemoveField(
                     $this->contentGateway,
                     $fieldDef,
                     $this->storageHandler,
@@ -85,7 +89,7 @@ class ContentUpdater
         }
         foreach ($toType->fieldDefinitions as $fieldDef) {
             if (!$this->hasFieldDefinition($fromType, $fieldDef)) {
-                $actions[] = new ContentUpdater\Action\AddField(
+                $actions[] = new Action\AddField(
                     $this->contentGateway,
                     $fieldDef,
                     $this->converterRegistry->getConverter(
@@ -103,13 +107,15 @@ class ContentUpdater
     /**
      * hasFieldDefinition.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type $type
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
+     * @param Type $type
+     * @param FieldDefinition $fieldDef
      *
      * @return bool
      */
-    protected function hasFieldDefinition(Type $type, FieldDefinition $fieldDef)
-    {
+    protected function hasFieldDefinition(
+        Type $type,
+        FieldDefinition $fieldDef
+    ) {
         foreach ($type->fieldDefinitions as $existFieldDef) {
             if ($existFieldDef->id == $fieldDef->id) {
                 return true;
@@ -123,10 +129,12 @@ class ContentUpdater
      * Applies all given updates.
      *
      * @param mixed $contentTypeId
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action[] $actions
+     * @param Action[] $actions
      */
-    public function applyUpdates($contentTypeId, array $actions)
-    {
+    public function applyUpdates(
+        $contentTypeId,
+        array $actions
+    ) {
         if (empty($actions)) {
             return;
         }

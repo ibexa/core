@@ -4,7 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\Persistence;
+
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
 /**
  * Content value object, bound to a version.
@@ -18,14 +22,14 @@ class Content extends ValueObject
     /**
      * VersionInfo object for this content's version.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
+     * @var VersionInfo
      */
     public $versionInfo;
 
     /**
      * Field objects for this content.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Field[]
+     * @var Field[]
      */
     public $fields;
 }
