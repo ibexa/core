@@ -328,7 +328,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Returns relation data extracted from value.
      *
-     * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON type relations,
+     * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::COMMON type relations,
      * there is an API for handling those.
      *
      * @param Value $fieldValue
@@ -338,15 +338,15 @@ class Type extends FieldType implements TranslationContainerInterface
      * Example:
      * <code>
      *  array(
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK => array(
+     *      \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::LINK->value => array(
      *          "contentIds" => array( 12, 13, 14 ),
      *          "locationIds" => array( 24 )
      *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED => array(
+     *      \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::EMBED->value => array(
      *          "contentIds" => array( 12 ),
      *          "locationIds" => array( 24, 45 )
      *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD => array( 12 )
+     *      \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::FIELD->value => array( 12 )
      *  )
      * </code>
      */

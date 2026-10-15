@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
  * @property-read string $sourceFieldDefinitionIdentifier the field definition identifier of the field where this relation is anchored if the relation is of type EMBED, LINK, or ATTRIBUTE
  * @property-read APIContentInfo $sourceContentInfo - calls {@link getSourceContentInfo()}
  * @property-read APIContentInfo $destinationContentInfo - calls {@link getDestinationContentInfo()}
- * @property-read int $type The relation type bitmask containing one or more of Relation::COMMON, Relation::EMBED, Relation::LINK, Relation::FIELD
+ * @property-read int $type The relation type bitmask containing one or more of \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::COMMON, \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::EMBED, \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::LINK, \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::FIELD
  *
  * @internal Meant for internal use by Repository, type hint against API object instead.
  */
