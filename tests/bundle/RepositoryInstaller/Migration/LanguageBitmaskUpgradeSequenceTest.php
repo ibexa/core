@@ -49,9 +49,9 @@ use Psr\Log\NullLogger;
 #[CoversClass(StripAlwaysAvailableBitFromLanguageIdsMigration::class)]
 final class LanguageBitmaskUpgradeSequenceTest extends TestCase
 {
-    private const ENG_US = 2;
-    private const GER_DE = 4;
-    private const ENG_GB = 8;
+    private const int ENG_US = 2;
+    private const int GER_DE = 4;
+    private const int ENG_GB = 8;
 
     protected function setUp(): void
     {

@@ -42,12 +42,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class VerifyLanguageTranslationsCommand extends Command
 {
-    private const TABLE_CONTENT = 'content';
-    private const TABLE_CONTENT_VERSION = 'content_version';
-    private const TABLE_URL_ALIAS = 'url_alias';
-    private const TABLE_ALL = 'all';
+    private const string TABLE_CONTENT = 'content';
+    private const string TABLE_CONTENT_VERSION = 'content_version';
+    private const string TABLE_URL_ALIAS = 'url_alias';
+    private const string TABLE_ALL = 'all';
 
-    private const VALID_TABLES = [
+    private const array VALID_TABLES = [
         self::TABLE_CONTENT,
         self::TABLE_CONTENT_VERSION,
         self::TABLE_URL_ALIAS,
@@ -58,7 +58,7 @@ final class VerifyLanguageTranslationsCommand extends Command
      *
      * @var array<string, array{0: string, 1: string}>
      */
-    private const SOURCE_TABLES = [
+    private const array SOURCE_TABLES = [
         self::TABLE_CONTENT => ['ibexa_content', 'language_mask'],
         self::TABLE_CONTENT_VERSION => ['ibexa_content_version', 'language_mask'],
         self::TABLE_URL_ALIAS => ['ibexa_url_alias_ml', 'lang_mask'],
