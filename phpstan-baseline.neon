@@ -1543,12 +1543,6 @@ parameters:
 			path: src/bundle/Core/EventListener/BackgroundIndexingTerminateListener.php
 
 		-
-			message: '#^Cannot call method getName\(\) on Symfony\\Component\\Console\\Command\\Command\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/Core/EventListener/BackwardCompatibleCommandListener.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\EventListener\\CacheViewResponseListener\:\:configureCache\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -19217,30 +19211,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventListener\\BackwardCompatibleCommandListenerTest\:\:createBackwardCompatibleCommand\(\) has parameter \$aliases with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
-
-		-
-			message: '#^Method Symfony\\Component\\Console\\Command\\Command@anonymous/tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest\.php\:118\:\:__construct\(\) has parameter \$deprecatedAliases with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
-
-		-
-			message: '#^PHPDoc tag @return with type Ibexa\\Bundle\\Core\\Command\\BackwardCompatibleCommand\|Symfony\\Component\\Console\\Command\\Command is not subtype of native type Symfony\\Component\\Console\\Command\\Command\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
-
-		-
-			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
 
 		-
 			message: '#^Argument of an invalid type PHPUnit\\Framework\\MockObject\\MockObject supplied for foreach, only iterables are supported\.$#'
