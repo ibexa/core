@@ -1,3 +1,0 @@
-services:
-    Ibexa\Core\Base\Utils\DeprecationWarner:
-        class: Ibexa\Core\Base\Utils\DeprecationWarner
