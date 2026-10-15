@@ -1916,7 +1916,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         if ($indexName === null) {
             self::assertNull($searchHit->index);
         } else {
-            self::assertRegExp('~^' . $indexName . '$~', (string)$searchHit->index);
+            self::assertMatchesRegularExpression('~^' . $indexName . '$~', (string)$searchHit->index);
         }
     }
 

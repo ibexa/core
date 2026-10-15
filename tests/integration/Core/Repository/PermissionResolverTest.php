@@ -1094,7 +1094,7 @@ class PermissionResolverTest extends BaseTestCase
                 new LookupPolicyLimitations(
                     [...$role->getPolicies()][1],
                     [
-                        1 => new Limitation\SectionLimitation(['limitationValues' => [2]]),
+                        new Limitation\SectionLimitation(['limitationValues' => [2]]),
                     ]
                 ),
             ]
