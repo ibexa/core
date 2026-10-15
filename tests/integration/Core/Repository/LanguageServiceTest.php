@@ -56,7 +56,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test for the createLanguage() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @return Language
      */
     #[Depends('testNewLanguageCreateStruct')]
     public function testCreateLanguage()
@@ -85,7 +85,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test for the createLanguage() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      */
     #[Depends('testCreateLanguage')]
     public function testCreateLanguageSetsIdPropertyOnReturnedLanguage($language): void
@@ -96,7 +96,7 @@ class LanguageServiceTest extends BaseTestCase
     /**
      * Test for the createLanguage() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      */
     #[Depends('testCreateLanguage')]
     public function testCreateLanguageSetsExpectedProperties($language): void

@@ -21,14 +21,14 @@ class RoleCopyStruct extends APIRoleCopyStruct
     /**
      * Policies associated with the role.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct[]
+     * @var APIPolicyCreateStruct[]
      */
     protected $policies = [];
 
     /**
      * Returns policies associated with the role.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct[]
+     * @return APIPolicyCreateStruct[]
      */
     public function getPolicies(): iterable
     {
@@ -38,7 +38,7 @@ class RoleCopyStruct extends APIRoleCopyStruct
     /**
      * Adds a policy to this role.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct $policyCreateStruct
+     * @param APIPolicyCreateStruct $policyCreateStruct
      */
     public function addPolicy(APIPolicyCreateStruct $policyCreateStruct): void
     {

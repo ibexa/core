@@ -13,6 +13,7 @@ use League\Flysystem\UnixVisibility\VisibilityConverter as FlysystemVisibilityCo
 use League\Flysystem\Visibility;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(BaseVisibilityConverter::class)]
@@ -25,7 +26,7 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
 
     protected BaseVisibilityConverter $visibilityConverter;
 
-    /** @var \League\Flysystem\UnixVisibility\VisibilityConverter&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FlysystemVisibilityConverter&MockObject */
     protected FlysystemVisibilityConverter $innerVisibilityConverterMock;
 
     abstract protected function buildVisibilityConverter(): BaseVisibilityConverter;
@@ -54,8 +55,10 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
     }
 
     #[DataProvider('getDataForTestForFile')]
-    final public function testForFile(string $visibility, int $expectedVisibilityFlags): void
-    {
+    final public function testForFile(
+        string $visibility,
+        int $expectedVisibilityFlags
+    ): void {
         self::assertSame(
             $expectedVisibilityFlags,
             $this->visibilityConverter->forFile($visibility)
@@ -63,8 +66,10 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
     }
 
     #[DataProvider('getDataForTestForDirectory')]
-    final public function testForDirectory(string $visibility, int $expectedVisibilityFlags): void
-    {
+    final public function testForDirectory(
+        string $visibility,
+        int $expectedVisibilityFlags
+    ): void {
         self::assertSame(
             $expectedVisibilityFlags,
             $this->visibilityConverter->forDirectory($visibility)
@@ -72,8 +77,10 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
     }
 
     #[DataProvider('getDataForTestInverseForFile')]
-    final public function testInverseForFile(int $fileVisibilityFlags, string $expectedVisibility): void
-    {
+    final public function testInverseForFile(
+        int $fileVisibilityFlags,
+        string $expectedVisibility
+    ): void {
         self::assertSame(
             $expectedVisibility,
             $this->visibilityConverter->inverseForFile($fileVisibilityFlags)
@@ -94,7 +101,7 @@ abstract class BaseVisibilityConverterTestCase extends TestCase
     final public function testDefaultForDirectories(): void
     {
         $this->innerVisibilityConverterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('defaultForDirectories')
             ->willReturn(self::FLYSYSTEM_DIRECTORY_FLAGS);
 

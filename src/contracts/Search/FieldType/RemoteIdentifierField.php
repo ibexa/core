@@ -17,7 +17,7 @@ final class RemoteIdentifierField extends FieldType
     /**
      * Search engine field type corresponding to remote ID. The same as IdentifierField due to BC.
      *
-     * @see \Ibexa\Contracts\Core\Search\FieldType\IdentifierField
+     * @see IdentifierField
      *
      * @var string
      */

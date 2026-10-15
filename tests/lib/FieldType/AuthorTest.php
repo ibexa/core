@@ -15,13 +15,14 @@ use Ibexa\Core\FieldType\Author\Value as AuthorValue;
 use Ibexa\Core\FieldType\Value;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
+use Random\RandomException;
 
 #[CoversClass(AuthorCollection::class)]
 #[Group('fieldType')]
 #[Group('ibexa_author')]
 class AuthorTest extends FieldTypeTestCase
 {
-    /** @var \Ibexa\Core\FieldType\Author\Author[] */
+    /** @var Author[] */
     private array $authors;
 
     protected function setUp(): void
@@ -302,7 +303,7 @@ class AuthorTest extends FieldTypeTestCase
     }
 
     /**
-     * @throws \Random\RandomException
+     * @throws RandomException
      */
     public function testRemoveAuthors(): void
     {

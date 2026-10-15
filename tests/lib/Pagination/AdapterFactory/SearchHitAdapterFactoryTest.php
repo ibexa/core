@@ -18,6 +18,7 @@ use Ibexa\Core\Pagination\Pagerfanta\ContentSearchHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\FixedSearchResultHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\LocationSearchHitAdapter;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class SearchHitAdapterFactoryTest extends TestCase
@@ -26,10 +27,10 @@ final class SearchHitAdapterFactoryTest extends TestCase
         'language' => 'eng-GB',
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SearchService|MockObject */
     private $searchService;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactory */
+    /** @var SearchHitAdapterFactory */
     private $searchHitAdapterFactory;
 
     protected function setUp(): void
@@ -67,8 +68,10 @@ final class SearchHitAdapterFactoryTest extends TestCase
     }
 
     #[DataProvider('dataProviderForCreateFixedAdapter')]
-    public function testCreateFixedAdapter(Query $query, string $expectedSearchMethod): void
-    {
+    public function testCreateFixedAdapter(
+        Query $query,
+        string $expectedSearchMethod
+    ): void {
         $hits = [
             new SearchHit(),
             new SearchHit(),
@@ -81,7 +84,7 @@ final class SearchHitAdapterFactoryTest extends TestCase
         ]);
 
         $this->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($expectedSearchMethod)
             ->with($query, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult);

@@ -7,6 +7,9 @@
 
 namespace Ibexa\Contracts\Core\Persistence;
 
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+
 /**
  * Content value object, bound to a version.
  * This object aggregates the following:
@@ -19,14 +22,14 @@ class Content extends ValueObject
     /**
      * VersionInfo object for this content's version.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
+     * @var VersionInfo
      */
     public $versionInfo;
 
     /**
      * Field objects for this content.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Field[]
+     * @var Field[]
      */
     public $fields;
 }

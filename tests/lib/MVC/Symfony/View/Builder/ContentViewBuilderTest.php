@@ -26,6 +26,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -35,25 +36,25 @@ class ContentViewBuilderTest extends TestCase
 {
     private const int EXAMPLE_LOCATION_ID = 743;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Repository\Repository|MockObject */
     private $repository;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Configurator|MockObject */
     private $viewConfigurator;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\ParametersInjector|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ParametersInjector|MockObject */
     private $parametersInjector;
 
-    /** @var \Ibexa\Core\Helper\ContentInfoLocationLoader|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentInfoLocationLoader|MockObject */
     private $contentInfoLocationLoader;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentViewBuilder|MockObject */
     private $contentViewBuilder;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
-    /** @var \Symfony\Component\HttpFoundation\RequestStack|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var RequestStack|MockObject */
     private $requestStack;
 
     protected function setUp(): void
@@ -74,7 +75,7 @@ class ContentViewBuilderTest extends TestCase
         $this->permissionResolver = $this->getMockBuilder(PermissionResolver::class)->getMock();
         $this->requestStack = $this->getMockBuilder(RequestStack::class)->getMock();
         $this->repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getPermissionResolver')
             ->willReturn($this->permissionResolver);
 
@@ -114,7 +115,7 @@ class ContentViewBuilderTest extends TestCase
         ];
 
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willThrowException(new NotFoundException('location', 865));
 
@@ -134,7 +135,7 @@ class ContentViewBuilderTest extends TestCase
         $location = new Location(['invisible' => true]);
 
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willReturn($location);
 
@@ -166,12 +167,12 @@ class ContentViewBuilderTest extends TestCase
 
         // It's call for LocationService::loadLocation()
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('canUser')
             ->willReturn(false);
 
@@ -207,12 +208,12 @@ class ContentViewBuilderTest extends TestCase
 
         // It's call for LocationService::loadLocation()
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('canUser')
             ->willReturn(false);
 
@@ -238,17 +239,17 @@ class ContentViewBuilderTest extends TestCase
         ];
 
         $this->requestStack
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMainRequest')
             ->willReturn(null);
 
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willReturn($content);
 
         $this->permissionResolver
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('canUser')
             ->willReturn(true);
 
@@ -278,17 +279,17 @@ class ContentViewBuilderTest extends TestCase
         ]);
 
         $this->requestStack
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMainRequest')
             ->willReturn($request);
 
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willReturn($content);
 
         $this->permissionResolver
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('canUser')
             ->willReturn(true);
 
@@ -301,7 +302,7 @@ class ContentViewBuilderTest extends TestCase
             [
                 'invisible' => false,
                 'contentInfo' => new ContentInfo([
-                   'id' => 120,
+                    'id' => 120,
                 ]),
                 'content' => new Content([
                     'versionInfo' => new VersionInfo([
@@ -321,12 +322,12 @@ class ContentViewBuilderTest extends TestCase
 
         // It's call for LocationService::loadLocation()
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('canUser')
             ->willReturn(true);
 
@@ -363,7 +364,7 @@ class ContentViewBuilderTest extends TestCase
 
         // No call for LocationService::loadLocation()
         $this->repository
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('sudo');
 
         $this->repository
@@ -403,12 +404,12 @@ class ContentViewBuilderTest extends TestCase
         ];
 
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('canUser')
             ->willReturn(true);
 
@@ -435,7 +436,7 @@ class ContentViewBuilderTest extends TestCase
         $parameters = ['viewType' => 'embed', 'contentId' => 120, '_controller' => null];
 
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willReturn($content);
 

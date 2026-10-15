@@ -13,13 +13,14 @@ use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Voter\ValueObjectVoter;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class ValueObjectVoterTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\Permission\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
     protected function setUp(): void
@@ -29,8 +30,10 @@ class ValueObjectVoterTest extends TestCase
     }
 
     #[DataProvider('supportsAttributeProvider')]
-    public function testSupportsAttribute($attribute, $expectedResult): void
-    {
+    public function testSupportsAttribute(
+        $attribute,
+        $expectedResult
+    ): void {
         $voter = new ValueObjectVoter($this->permissionResolver);
         self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
@@ -106,15 +109,18 @@ class ValueObjectVoterTest extends TestCase
     }
 
     #[DataProvider('voteProvider')]
-    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult): void
-    {
+    public function testVote(
+        Attribute $attribute,
+        $repositoryCanUser,
+        $expectedResult
+    ): void {
         $voter = new ValueObjectVoter($this->permissionResolver);
         $targets = isset($attribute->limitations['targets']) ? $attribute->limitations['targets'] : [];
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('canUser')
             ->with($attribute->module, $attribute->function, $attribute->limitations['valueObject'], $targets)
-            ->will(self::returnValue($repositoryCanUser));
+            ->will($this->returnValue($repositoryCanUser));
 
         self::assertSame(
             $expectedResult,

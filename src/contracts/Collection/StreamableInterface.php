@@ -19,7 +19,7 @@ interface StreamableInterface
      * Returns all the elements of this collection that satisfy the predicate.
      * The order of the elements is preserved.
      *
-     * @phpstan-param \Closure(TValue, array-key=): bool $predicate
+     * @phpstan-param Closure(TValue, array-key=): bool $predicate
      *
      * @phpstan-return static<TValue>
      */
@@ -29,7 +29,7 @@ interface StreamableInterface
      * Applies the given function to each element in the collection and returns
      * a new collection with the elements returned by the function.
      *
-     * @phpstan-param \Closure(TValue): mixed $function
+     * @phpstan-param Closure(TValue): mixed $function
      *
      * @phpstan-return static<TValue>
      */
@@ -38,14 +38,14 @@ interface StreamableInterface
     /**
      * Tests whether the given predicate holds for all elements of this collection.
      *
-     * @phpstan-param \Closure(TValue, array-key=): bool $predicate
+     * @phpstan-param Closure(TValue, array-key=): bool $predicate
      */
     public function forAll(Closure $predicate): bool;
 
     /**
      * Tests the existence of an element that satisfies the given predicate.
      *
-     * @phpstan-param \Closure(TValue, array-key=): bool $predicate
+     * @phpstan-param Closure(TValue, array-key=): bool $predicate
      */
     public function exists(Closure $predicate): bool;
 }

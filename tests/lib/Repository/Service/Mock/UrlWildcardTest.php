@@ -10,10 +10,12 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard as SPIURLWildcard;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Core\Base\Exceptions\NotFoundException as APINotFoundException;
@@ -21,6 +23,7 @@ use Ibexa\Core\Repository\URLWildcardService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Mock Test case for UrlWildcard Service.
@@ -30,10 +33,10 @@ class UrlWildcardTest extends BaseServiceMockTest
 {
     private const EXAMPLE_URL_WILDCARD_ID = 1;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $urlWildcardHandler;
 
     protected function setUp(): void
@@ -53,14 +56,14 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->permissionResolver->expects(
-            self::once()
+            $this->once()
         )->method(
             'hasAccess'
         )->with(
             self::equalTo('content'),
             self::equalTo('urltranslator')
         )->will(
-            self::returnValue(false)
+            $this->returnValue(false)
         );
 
         $this->expectException(UnauthorizedException::class);
@@ -78,18 +81,18 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->permissionResolver->expects(
-            self::once()
+            $this->once()
         )->method(
             'hasAccess'
         )->with(
             self::equalTo('content'),
             self::equalTo('urltranslator')
         )->will(
-            self::returnValue(true)
+            $this->returnValue(true)
         );
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'exactSourceUrlExists'
         )->willReturn(true);
@@ -115,25 +118,28 @@ class UrlWildcardTest extends BaseServiceMockTest
      * Test for the create() method.
      */
     #[DataProvider('providerForTestCreateThrowsContentValidationException')]
-    public function testCreateThrowsContentValidationException($sourceUrl, $destinationUrl, $forward): void
-    {
+    public function testCreateThrowsContentValidationException(
+        $sourceUrl,
+        $destinationUrl,
+        $forward
+    ): void {
         $this->expectException(ContentValidationException::class);
 
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->permissionResolver->expects(
-            self::once()
+            $this->once()
         )->method(
             'hasAccess'
         )->with(
             self::equalTo('content'),
             self::equalTo('urltranslator')
         )->will(
-            self::returnValue(true)
+            $this->returnValue(true)
         );
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'exactSourceUrlExists'
         )->willReturn(false);
@@ -163,36 +169,39 @@ class UrlWildcardTest extends BaseServiceMockTest
      * Test for the create() method.
      */
     #[DataProvider('providerForTestCreate')]
-    public function testCreate($sourceUrl, $destinationUrl, $forward): void
-    {
+    public function testCreate(
+        $sourceUrl,
+        $destinationUrl,
+        $forward
+    ): void {
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $sourceUrl = '/' . trim($sourceUrl, '/ ');
         $destinationUrl = '/' . trim($destinationUrl, '/ ');
 
         $this->permissionResolver->expects(
-            self::once()
+            $this->once()
         )->method(
             'hasAccess'
         )->with(
             self::equalTo('content'),
             self::equalTo('urltranslator')
         )->will(
-            self::returnValue(true)
+            $this->returnValue(true)
         );
 
         $repositoryMock = $this->getRepositoryMock();
-        $repositoryMock->expects(self::once())->method('beginTransaction');
-        $repositoryMock->expects(self::once())->method('commit');
+        $repositoryMock->expects($this->once())->method('beginTransaction');
+        $repositoryMock->expects($this->once())->method('commit');
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'exactSourceUrlExists'
         )->willReturn(false);
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'create'
         )->with(
@@ -200,7 +209,7 @@ class UrlWildcardTest extends BaseServiceMockTest
             self::equalTo($destinationUrl),
             self::equalTo($forward)
         )->will(
-            self::returnValue(
+            $this->returnValue(
                 new SPIURLWildcard(
                     [
                         'id' => 123456,
@@ -232,37 +241,37 @@ class UrlWildcardTest extends BaseServiceMockTest
      */
     public function testCreateWithRollback(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->permissionResolver->expects(
-            self::once()
+            $this->once()
         )->method(
             'hasAccess'
         )->with(
             self::equalTo('content'),
             self::equalTo('urltranslator')
         )->will(
-            self::returnValue(true)
+            $this->returnValue(true)
         );
 
         $repositoryMock = $this->getRepositoryMock();
-        $repositoryMock->expects(self::once())->method('beginTransaction');
-        $repositoryMock->expects(self::once())->method('rollback');
+        $repositoryMock->expects($this->once())->method('beginTransaction');
+        $repositoryMock->expects($this->once())->method('rollback');
 
         $sourceUrl = '/lorem';
         $destinationUrl = '/ipsum';
         $forward = true;
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'exactSourceUrlExists'
         )->willReturn(false);
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'create'
         )->with(
@@ -270,7 +279,7 @@ class UrlWildcardTest extends BaseServiceMockTest
             self::equalTo($destinationUrl),
             self::equalTo($forward)
         )->will(
-            self::throwException(new Exception())
+            $this->throwException(new Exception())
         );
 
         $this->expectException(Exception::class);
@@ -290,7 +299,7 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->permissionResolver->expects(
-            self::once()
+            $this->once()
         )->method(
             'canUser'
         )->with(
@@ -298,11 +307,11 @@ class UrlWildcardTest extends BaseServiceMockTest
             self::equalTo('urltranslator'),
             self::equalTo($wildcard)
         )->will(
-            self::returnValue(false)
+            $this->returnValue(false)
         );
 
         $repositoryMock = $this->getRepositoryMock();
-        $repositoryMock->expects(self::never())->method('beginTransaction');
+        $repositoryMock->expects($this->never())->method('beginTransaction');
 
         $this->expectException(UnauthorizedException::class);
 
@@ -319,7 +328,7 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->permissionResolver->expects(
-            self::once()
+            $this->once()
         )->method(
             'canUser'
         )->with(
@@ -327,15 +336,15 @@ class UrlWildcardTest extends BaseServiceMockTest
             self::equalTo('urltranslator'),
             self::equalTo($wildcard)
         )->will(
-            self::returnValue(true)
+            $this->returnValue(true)
         );
 
         $repositoryMock = $this->getRepositoryMock();
-        $repositoryMock->expects(self::once())->method('beginTransaction');
-        $repositoryMock->expects(self::once())->method('commit');
+        $repositoryMock->expects($this->once())->method('beginTransaction');
+        $repositoryMock->expects($this->once())->method('commit');
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'remove'
         )->with(
@@ -350,14 +359,14 @@ class UrlWildcardTest extends BaseServiceMockTest
      */
     public function testRemoveWithRollback(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $wildcard = new URLWildcard(['id' => self::EXAMPLE_URL_WILDCARD_ID]);
 
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->permissionResolver->expects(
-            self::once()
+            $this->once()
         )->method(
             'canUser'
         )->with(
@@ -365,21 +374,21 @@ class UrlWildcardTest extends BaseServiceMockTest
             self::equalTo('urltranslator'),
             self::equalTo($wildcard)
         )->will(
-            self::returnValue(true)
+            $this->returnValue(true)
         );
 
         $repositoryMock = $this->getRepositoryMock();
-        $repositoryMock->expects(self::once())->method('beginTransaction');
-        $repositoryMock->expects(self::once())->method('rollback');
+        $repositoryMock->expects($this->once())->method('beginTransaction');
+        $repositoryMock->expects($this->once())->method('rollback');
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'remove'
         )->with(
             self::equalTo(self::EXAMPLE_URL_WILDCARD_ID)
         )->will(
-            self::throwException(new Exception())
+            $this->throwException(new Exception())
         );
 
         $this->expectException(Exception::class);
@@ -392,18 +401,18 @@ class UrlWildcardTest extends BaseServiceMockTest
      */
     public function testLoadThrowsException(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'load'
         )->with(
             self::equalTo(self::EXAMPLE_URL_WILDCARD_ID)
         )->will(
-            self::throwException(new Exception())
+            $this->throwException(new Exception())
         );
 
         $this->expectException(Exception::class);
@@ -419,13 +428,13 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'load'
         )->with(
             self::equalTo(self::EXAMPLE_URL_WILDCARD_ID)
         )->will(
-            self::returnValue(
+            $this->returnValue(
                 new SPIURLWildcard(
                     [
                         'id' => self::EXAMPLE_URL_WILDCARD_ID,
@@ -460,14 +469,14 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'loadAll'
         )->with(
             self::equalTo(0),
             self::equalTo(-1)
         )->will(
-            self::returnValue([])
+            $this->returnValue([])
         );
 
         $mockedService->loadAll();
@@ -481,14 +490,14 @@ class UrlWildcardTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $this->urlWildcardHandler->expects(
-            self::once()
+            $this->once()
         )->method(
             'loadAll'
         )->with(
             self::equalTo(12),
             self::equalTo(34)
         )->will(
-            self::returnValue(
+            $this->returnValue(
                 [
                     new SPIURLWildcard(
                         [
@@ -564,8 +573,10 @@ class UrlWildcardTest extends BaseServiceMockTest
      * Test for the translate() method.
      */
     #[DataProvider('providerForTestTranslateThrowsNotFoundException')]
-    public function testTranslateThrowsNotFoundException($createArray, $url): void
-    {
+    public function testTranslateThrowsNotFoundException(
+        $createArray,
+        $url
+    ): void {
         $this->expectException(NotFoundException::class);
 
         $mockedService = $this->getPartlyMockedURLWildcardService();
@@ -573,7 +584,7 @@ class UrlWildcardTest extends BaseServiceMockTest
         $trimmedUrl = trim($url, '/ ');
 
         $this->urlWildcardHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('translate')
             ->with($trimmedUrl)
             ->willThrowException(new APINotFoundException('UrlWildcard', $trimmedUrl));
@@ -668,14 +679,17 @@ class UrlWildcardTest extends BaseServiceMockTest
      * Test for the translate() method.
      */
     #[DataProvider('providerForTestTranslate')]
-    public function testTranslate($createArray, $url, $uri): void
-    {
+    public function testTranslate(
+        $createArray,
+        $url,
+        $uri
+    ): void {
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
         $trimmedUrl = trim($url, '/ ');
 
         $this->urlWildcardHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('translate')
             ->with($trimmedUrl)
 
@@ -709,7 +723,7 @@ class UrlWildcardTest extends BaseServiceMockTest
         $trimmedUrl = trim($url, '/ ');
 
         $this->urlWildcardHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('translate')
             ->with($trimmedUrl)
             ->willReturn(new SPIURLWildcard([
@@ -737,7 +751,7 @@ class UrlWildcardTest extends BaseServiceMockTest
      *
      * @param string[] $methods
      *
-     * @return \Ibexa\Core\Repository\URLWildcardService|\PHPUnit\Framework\MockObject\MockObject
+     * @return URLWildcardService|MockObject
      */
     protected function getPartlyMockedURLWildcardService(?array $methods = null)
     {

@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\Integer\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
@@ -35,8 +36,10 @@ class IntegerValueValidator extends BaseNumericValidator
         ],
     ];
 
-    protected function getConstraintsValidationErrorMessage(string $name, mixed $value): ?string
-    {
+    protected function getConstraintsValidationErrorMessage(
+        string $name,
+        mixed $value
+    ): ?string {
         return match ($name) {
             'minIntegerValue', 'maxIntegerValue' => $value !== null && !is_int($value)
                 ? "Validator parameter '%parameter%' value must be of integer type"
@@ -46,10 +49,12 @@ class IntegerValueValidator extends BaseNumericValidator
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Integer\Value $value
+     * @param Value $value
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null): bool
-    {
+    public function validate(
+        BaseValue $value,
+        ?FieldDefinition $fieldDefinition = null
+    ): bool {
         $isValid = true;
 
         if ($this->constraints['maxIntegerValue'] !== null && $value->value > $this->constraints['maxIntegerValue']) {

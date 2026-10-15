@@ -12,11 +12,13 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\AliasCleanerInterface;
 use Ibexa\Core\FieldType\Image\ImageStorage;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\FieldType\Image\PathGenerator;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
+use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
@@ -34,9 +36,9 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     private UrlRedecoratorInterface & MockObject $redecorator;
 
-    private PathGenerator&Stub $pathGenerator;
+    private PathGenerator & Stub $pathGenerator;
 
-    private AliasCleanerInterface&Stub $aliasCleaner;
+    private AliasCleanerInterface & Stub $aliasCleaner;
 
     private FilePathNormalizerInterface & MockObject $filePathNormalizer;
 
@@ -44,7 +46,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     private ImageStorage $storage;
 
-    private FileExtensionBlackListValidator&Stub $fileExtensionBlackListValidator;
+    private FileExtensionBlackListValidator & Stub $fileExtensionBlackListValidator;
 
     protected function setUp(): void
     {
@@ -73,16 +75,18 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws InvalidArgumentException
+     * @throws InvalidBinaryFileIdException
      */
     #[DataProvider('providerOfFieldData')]
-    public function testStoreFieldDataDuringCreate(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataDuringCreate(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $binaryFile = $this->runCommonStoreFieldDataMocks($field);
 
         $this->redecorator
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('redecorateFromSource')
             ->with($binaryFile->uri)
             ->willReturn($binaryFile->uri);
@@ -94,12 +98,14 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     #[Depends('testStoreFieldDataDuringCreate')]
     #[DataProvider('providerOfFieldData')]
-    public function testStoreFieldDataDuringUpdate(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataDuringUpdate(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $binaryFile = $this->runCommonStoreFieldDataMocks($field);
 
         $this->redecorator
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('redecorateFromSource')
             ->with($binaryFile->uri)
             ->willReturn($binaryFile->uri);
@@ -111,8 +117,10 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     #[Depends('testStoreFieldDataDuringUpdate')]
     #[DataProvider('providerOfFieldData')]
-    public function testStoreFieldDataDuringUpdateWithDifferentImage(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataDuringUpdateWithDifferentImage(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $versionInfo->versionNo = 2;
         $field->versionNo = 2;
 
@@ -138,7 +146,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
         $binaryFile = $this->runCommonStoreFieldDataMocks($field);
 
         $this->redecorator
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('redecorateFromSource')
             ->with($binaryFile->uri)
             ->willReturn($binaryFile->uri);
@@ -149,8 +157,10 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
     }
 
     #[DataProvider('providerOfFieldData')]
-    public function testStoreFieldDataWithSameImageOnAutosave(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldDataWithSameImageOnAutosave(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $targetPath = '1/8/6/232-eng-US/' . $field->value->externalData['fileName'];
 
         $binaryFile = new BinaryFile([
@@ -159,23 +169,23 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
         ]);
 
         $this->filePathNormalizer
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('normalizePath')
             ->willReturn($targetPath);
 
         $this->ioService
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('newBinaryCreateStructFromLocalFile')
             ->with($field->value->externalData['inputUri'])
             ->willReturn(new BinaryFileCreateStruct());
 
         $this->ioService
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('createBinaryFile')
             ->willReturn($binaryFile);
 
         $this->ioService
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getMimeType')
             ->with($binaryFile->id)
             ->willReturn('image/jpeg');
@@ -214,18 +224,18 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
     private function runCommonStoreFieldDataMocks(Field $field): BinaryFile
     {
         $this->filePathNormalizer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('normalizePath')
             ->willReturn($targetPath = '1/8/6/232-eng-US/' . $field->value->externalData['fileName']);
 
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('newBinaryCreateStructFromLocalFile')
             ->with($field->value->externalData['inputUri'])
             ->willReturn($newBinaryFileCreateStruct = new BinaryFileCreateStruct());
 
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createBinaryFile')
             ->with($newBinaryFileCreateStruct)
             ->willReturn($binaryFile = new BinaryFile(
@@ -236,7 +246,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
             ));
 
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMimeType')
             ->with($binaryFile->id)
             ->willReturn('image/jpeg');
@@ -246,8 +256,8 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     /**
      * @return iterable<array{
-     *     \Ibexa\Contracts\Core\Persistence\Content\VersionInfo,
-     *     \Ibexa\Contracts\Core\Persistence\Content\Field
+     *     VersionInfo,
+     *     Field
      * }>
      */
     public static function providerOfFieldData(): iterable

@@ -23,7 +23,7 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  * @deprecated since ibexa/core 5.0, will be removed in 6.0. No route has referenced this controller since the
  * "ibexa.content.download.field_id" route started serving files directly.
- * Use {@see \Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController::downloadBinaryFileByIdAction} instead.
+ * Use {@see DownloadController::downloadBinaryFileByIdAction} instead.
  */
 class DownloadRedirectionController extends Controller
 {
@@ -51,8 +51,11 @@ class DownloadRedirectionController extends Controller
      * It redirects (permanently) to the standard ez_content_download route, based on the language of the field
      * passed as an argument, using the language switcher.
      */
-    public function redirectToContentDownloadAction(int $contentId, int $fieldId, Request $request): RedirectResponse
-    {
+    public function redirectToContentDownloadAction(
+        int $contentId,
+        int $fieldId,
+        Request $request
+    ): RedirectResponse {
         $content = $this->contentService->loadContent($contentId);
         $field = $this->findFieldInContent($fieldId, $content);
 
@@ -82,8 +85,10 @@ class DownloadRedirectionController extends Controller
     /**
      * Finds the field with id $fieldId in $content.
      */
-    protected function findFieldInContent(int $fieldId, Content $content): Field
-    {
+    protected function findFieldInContent(
+        int $fieldId,
+        Content $content
+    ): Field {
         foreach ($content->getFields() as $field) {
             if ($field->id == $fieldId) {
                 return $field;

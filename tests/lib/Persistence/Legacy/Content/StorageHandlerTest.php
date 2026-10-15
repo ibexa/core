@@ -17,16 +17,17 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(StorageHandler::class)]
 class StorageHandlerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var StorageRegistry&MockObject */
     protected StorageRegistry $storageRegistryMock;
 
     protected StorageHandler $storageHandler;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\FieldStorage&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldStorage&MockObject */
     protected FieldStorage $storageMock;
 
     protected VersionInfo $versionInfoMock;
@@ -36,17 +37,17 @@ class StorageHandlerTest extends TestCase
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
 
-        $storageMock->expects(self::once())
+        $storageMock->expects($this->once())
             ->method('storeFieldData')
             ->with(
                 self::isInstanceOf(VersionInfo::class),
                 self::isInstanceOf(Field::class)
             );
 
-        $storageRegistryMock->expects(self::once())
+        $storageRegistryMock->expects($this->once())
             ->method('getStorage')
             ->with(self::equalTo('foobar'))
-            ->will(self::returnValue($storageMock));
+            ->will($this->returnValue($storageMock));
 
         $field = new Field();
         $field->type = 'foobar';
@@ -61,20 +62,20 @@ class StorageHandlerTest extends TestCase
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
 
-        $storageMock->expects(self::once())
+        $storageMock->expects($this->once())
             ->method('hasFieldData')
-            ->will(self::returnValue(true));
-        $storageMock->expects(self::once())
+            ->will($this->returnValue(true));
+        $storageMock->expects($this->once())
             ->method('getFieldData')
             ->with(
                 self::isInstanceOf(VersionInfo::class),
                 self::isInstanceOf(Field::class)
             );
 
-        $storageRegistryMock->expects(self::once())
+        $storageRegistryMock->expects($this->once())
             ->method('getStorage')
             ->with(self::equalTo('foobar'))
-            ->will(self::returnValue($storageMock));
+            ->will($this->returnValue($storageMock));
 
         $field = new Field();
         $field->id = 123;
@@ -90,16 +91,16 @@ class StorageHandlerTest extends TestCase
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
 
-        $storageMock->expects(self::once())
+        $storageMock->expects($this->once())
             ->method('hasFieldData')
-            ->will(self::returnValue(false));
-        $storageMock->expects(self::never())
+            ->will($this->returnValue(false));
+        $storageMock->expects($this->never())
             ->method('getFieldData');
 
-        $storageRegistryMock->expects(self::once())
+        $storageRegistryMock->expects($this->once())
             ->method('getStorage')
             ->with(self::equalTo('foobar'))
-            ->will(self::returnValue($storageMock));
+            ->will($this->returnValue($storageMock));
 
         $field = new Field();
         $field->id = 123;
@@ -115,13 +116,13 @@ class StorageHandlerTest extends TestCase
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
 
-        $storageMock->expects(self::never())
+        $storageMock->expects($this->never())
             ->method('hasFieldData');
 
-        $storageMock->expects(self::never())
+        $storageMock->expects($this->never())
             ->method('getFieldData');
 
-        $storageRegistryMock->expects(self::once())
+        $storageRegistryMock->expects($this->once())
             ->method('getStorage')
             ->with(self::equalTo('foobar'))
             ->willReturn($storageMock);
@@ -139,17 +140,17 @@ class StorageHandlerTest extends TestCase
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
 
-        $storageMock->expects(self::once())
+        $storageMock->expects($this->once())
             ->method('deleteFieldData')
             ->with(
                 self::isInstanceOf(VersionInfo::class),
                 self::equalTo([1, 2, 3])
             );
 
-        $storageRegistryMock->expects(self::once())
+        $storageRegistryMock->expects($this->once())
             ->method('getStorage')
             ->with(self::equalTo('foobar'))
-            ->will(self::returnValue($storageMock));
+            ->will($this->returnValue($storageMock));
 
         $handler = $this->getStorageHandler();
         $handler->deleteFieldData('foobar', new VersionInfo(), [1, 2, 3]);
@@ -167,13 +168,13 @@ class StorageHandlerTest extends TestCase
         $originalField = clone $field;
 
         $storageRegistryMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getStorage')
             ->with(self::equalTo('foobar'))
             ->willReturn($referenceAwareStorageMock);
 
         $referenceAwareStorageMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('referenceLegacyField')
             ->with($versionInfo, $field, $originalField);
 
@@ -196,13 +197,13 @@ class StorageHandlerTest extends TestCase
         $originalField = clone $field;
 
         $storageRegistryMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getStorage')
             ->with(self::equalTo('foobar'))
             ->willReturn($storageMock);
 
         $storageMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('copyLegacyField')
             ->with($versionInfo, $field, $originalField);
 
@@ -213,7 +214,7 @@ class StorageHandlerTest extends TestCase
     /**
      * Returns the StorageHandler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @return StorageHandler
      */
     protected function getStorageHandler(): StorageHandler
     {
@@ -240,7 +241,7 @@ class StorageHandlerTest extends TestCase
     /**
      * Returns a StorageRegistry mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry&\PHPUnit\Framework\MockObject\MockObject
+     * @return StorageRegistry&MockObject
      */
     protected function getStorageRegistryMock(): StorageRegistry
     {
@@ -256,7 +257,7 @@ class StorageHandlerTest extends TestCase
     /**
      * Returns a Storage mock.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldStorage&\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldStorage&MockObject
      */
     protected function getStorageMock(): FieldStorage
     {
@@ -280,8 +281,6 @@ class StorageHandlerTest extends TestCase
 /**
  * Stub that combines FieldStorage and ReferenceAwareExternalStorage for mocking purposes.
  */
-abstract class ReferenceAwareFieldStorageStub implements FieldStorage, ReferenceAwareExternalStorage
-{
-}
+abstract class ReferenceAwareFieldStorageStub implements FieldStorage, ReferenceAwareExternalStorage {}
 
 class_alias(StorageHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\StorageHandlerTest');

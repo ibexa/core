@@ -7,10 +7,10 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use function array_filter;
 use Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -26,6 +26,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Group;
+
+use function array_filter;
 
 /**
  *  Test case for operations in the PermissionResolver.
@@ -746,15 +748,15 @@ class PermissionResolverTest extends BaseTestCase
      *
      *
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
+     * @param Limitation $limitation
      * @param string $module
      * @param string $function
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
+     * @param ValueObject $object
      * @param array $targets
      * @param bool $expectedResult expected result of canUser check
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('getDataForTestCanUserWithLimitations')]
     public function testCanUserWithLimitations(
@@ -796,7 +798,7 @@ class PermissionResolverTest extends BaseTestCase
      *
      * @return array
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public static function getDataForTestCanUserWithLimitations(): array
     {
@@ -932,11 +934,11 @@ class PermissionResolverTest extends BaseTestCase
      *
      *
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws LimitationValidationException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
@@ -968,23 +970,22 @@ class PermissionResolverTest extends BaseTestCase
         $roleService->assignRoleToUser($role, $user);
         $permissionResolver->setCurrentUserReference($user);
 
-        $expected = new LookupLimitationResult(
-            true,
-            [],
-            [
-                new LookupPolicyLimitations(
-                    [...$role->getPolicies()][1],
-                    [
-                        new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
-                        new Limitation\SectionLimitation(['limitationValues' => [2]]),
-                    ]
-                ),
-            ]
-        );
+        $result = $permissionResolver->lookupLimitations($module, $function, $this->getContentCreateStruct($repository), []);
 
-        self::assertEquals(
-            $expected,
-            $permissionResolver->lookupLimitations($module, $function, $this->getContentCreateStruct($repository), [])
+        self::assertTrue($result->hasAccess());
+        self::assertSame([], $result->getRoleLimitations());
+        self::assertCount(1, $result->getLookupPolicyLimitations());
+
+        // Order of limitations is not guaranteed by the persistence layer
+        $policy = [...$role->getPolicies()][1];
+        $languageLimitation = new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]);
+        $sectionLimitation = new Limitation\SectionLimitation(['limitationValues' => [2]]);
+        self::assertThat(
+            $result->getLookupPolicyLimitations()[0],
+            self::logicalOr(
+                self::equalTo(new LookupPolicyLimitations($policy, [$languageLimitation, $sectionLimitation])),
+                self::equalTo(new LookupPolicyLimitations($policy, [$sectionLimitation, $languageLimitation]))
+            )
         );
     }
 
@@ -993,11 +994,11 @@ class PermissionResolverTest extends BaseTestCase
      *
      *
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws LimitationValidationException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     #[DependsExternal(RepositoryTest::class, 'testGetUserService')]
     #[DependsExternal(RepositoryTest::class, 'testGetContentService')]
@@ -1036,7 +1037,7 @@ class PermissionResolverTest extends BaseTestCase
                 new LookupPolicyLimitations(
                     [...$role->getPolicies()][1],
                     [
-                        1 => new Limitation\SectionLimitation(['limitationValues' => [2]]),
+                        new Limitation\SectionLimitation(['limitationValues' => [2]]),
                     ]
                 ),
             ]
@@ -1052,11 +1053,11 @@ class PermissionResolverTest extends BaseTestCase
      * If the role limitation is set it should be taken into account. In this case, role limitation
      * will pass and ContentTypeLimitation should be returned.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws LimitationValidationException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testLookupLimitationsWithRoleLimitationsHasAccess(): void
     {
@@ -1109,11 +1110,11 @@ class PermissionResolverTest extends BaseTestCase
      *
      * @see https://issues.ibexa.co/browse/EZP-30728
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws LimitationValidationException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testLookupLimitationsWithRoleLimitationsWithoutPolicyLimitationsHasAccess(): void
     {
@@ -1166,11 +1167,11 @@ class PermissionResolverTest extends BaseTestCase
      * If the role limitation is set it should be taken into account. In this case, role limitation
      * will not pass and ContentTypeLimitation should not be returned.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws LimitationValidationException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testLookupLimitationsWithRoleLimitationsHasNoAccess(): void
     {
@@ -1301,14 +1302,14 @@ class PermissionResolverTest extends BaseTestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param string $contentTypeIdentifier
      * @param string $mainLanguageCode
      * @param int $sectionId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct
+     * @return ContentCreateStruct
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function getContentCreateStruct(
         Repository $repository,

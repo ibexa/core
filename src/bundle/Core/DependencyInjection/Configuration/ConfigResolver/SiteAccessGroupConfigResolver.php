@@ -35,8 +35,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         $this->siteAccessGroups = $siteAccessGroups;
     }
 
-    final public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
-    {
+    final public function hasParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): bool {
         [$namespace, $scope] = $this->resolveNamespaceAndScope($namespace, $scope);
 
         if ($this->isSiteAccessGroupScope($scope)) {
@@ -46,8 +49,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         return parent::hasParameter($paramName, $namespace, $scope);
     }
 
-    final public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
-    {
+    final public function getParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ) {
         [$namespace, $scope] = $this->resolveNamespaceAndScope($namespace, $scope);
 
         if ($this->isSiteAccessGroupScope($scope)) {
@@ -57,8 +63,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         return parent::getParameter($paramName, $namespace, $scope);
     }
 
-    protected function resolverHasParameter(SiteAccess $siteAccess, string $paramName, string $namespace): bool
-    {
+    protected function resolverHasParameter(
+        SiteAccess $siteAccess,
+        string $paramName,
+        string $namespace
+    ): bool {
         foreach ($siteAccess->groups as $group) {
             $groupScopeParamName = $this->resolveScopeRelativeParamName($paramName, $namespace, $group->getName());
             if ($this->container->hasParameter($groupScopeParamName)) {
@@ -69,15 +78,21 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         return false;
     }
 
-    protected function resolverHasParameterForGroup(SiteAccessGroup $siteAccessGroup, string $paramName, string $namespace): bool
-    {
+    protected function resolverHasParameterForGroup(
+        SiteAccessGroup $siteAccessGroup,
+        string $paramName,
+        string $namespace
+    ): bool {
         $groupScopeParamName = $this->resolveScopeRelativeParamName($paramName, $namespace, $siteAccessGroup->getName());
 
         return $this->container->hasParameter($groupScopeParamName);
     }
 
-    protected function getParameterFromResolver(SiteAccess $siteAccess, string $paramName, string $namespace)
-    {
+    protected function getParameterFromResolver(
+        SiteAccess $siteAccess,
+        string $paramName,
+        string $namespace
+    ) {
         $triedScopes = [];
 
         foreach ($siteAccess->groups as $group) {
@@ -92,8 +107,11 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         throw new ParameterNotFoundException($paramName, $namespace, $triedScopes);
     }
 
-    protected function getParameterFromResolverForGroup(SiteAccessGroup $siteAccessGroup, string $paramName, string $namespace)
-    {
+    protected function getParameterFromResolverForGroup(
+        SiteAccessGroup $siteAccessGroup,
+        string $paramName,
+        string $namespace
+    ) {
         $groupScopeParamName = $this->resolveScopeRelativeParamName($paramName, $namespace, $siteAccessGroup->getName());
 
         if (!$this->container->hasParameter($groupScopeParamName)) {

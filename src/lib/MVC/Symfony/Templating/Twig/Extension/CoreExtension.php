@@ -13,7 +13,7 @@ use Twig\Extension\GlobalsInterface;
 
 class CoreExtension extends AbstractExtension implements GlobalsInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\GlobalHelper */
+    /** @var GlobalHelper */
     private $globalHelper;
 
     public function __construct(GlobalHelper $globalHelper)

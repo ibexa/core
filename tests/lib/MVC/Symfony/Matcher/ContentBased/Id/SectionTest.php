@@ -8,17 +8,19 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Section;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Section as SectionIdMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(MultipleValued::class)]
 #[CoversClass(SectionIdMatcher::class)]
 class SectionTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Section */
+    /** @var Section */
     private $matcher;
 
     protected function setUp(): void
@@ -32,8 +34,11 @@ class SectionTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $sectionId, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        int $sectionId,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->generateLocationForSectionId($sectionId)));
     }
@@ -72,16 +77,16 @@ class SectionTest extends BaseTestCase
      *
      * @param int $sectionId
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateLocationForSectionId($sectionId)
     {
         $location = $this->getLocationMock();
         $location
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentInfo')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $this->getContentInfoMock(['sectionId' => $sectionId])
                 )
             );
@@ -94,8 +99,11 @@ class SectionTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $sectionId, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        int $sectionId,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchContentInfo($this->getContentInfoMock(['sectionId' => $sectionId])));
     }

@@ -211,7 +211,7 @@ class ImageAssetTest extends FieldTypeTestCase
         $invalidContentTypeIdentifier = 'article';
         $invalidContentType = $this->createMock(ContentType::class);
         $invalidContentType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('__get')
             ->with('identifier')
             ->willReturn($invalidContentTypeIdentifier);
@@ -221,13 +221,13 @@ class ImageAssetTest extends FieldTypeTestCase
             ->willReturn($invalidContentType);
 
         $this->contentServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContent')
             ->with($destinationContentId)
             ->willReturn($destinationContent);
 
         $this->assetMapperMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isAsset')
             ->with($destinationContent)
             ->willReturn(false);
@@ -256,7 +256,7 @@ class ImageAssetTest extends FieldTypeTestCase
     }
 
     /**
-     * @param array<\Ibexa\Core\FieldType\ValidationError> $expectedValidationErrors
+     * @param array<ValidationError> $expectedValidationErrors
      */
     #[DataProvider('provideDataForTestValidateValidNonEmptyAssetValue')]
     public function testValidateValidNonEmptyAssetValue(
@@ -267,13 +267,13 @@ class ImageAssetTest extends FieldTypeTestCase
         $destinationContent = self::createStub(Content::class);
 
         $this->contentServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContent')
             ->with($destinationContentId)
             ->willReturn($destinationContent);
 
         $this->assetMapperMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isAsset')
             ->with($destinationContent)
             ->willReturn(true);
@@ -284,7 +284,7 @@ class ImageAssetTest extends FieldTypeTestCase
             ->willReturn($fileSize);
 
         $this->assetMapperMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAssetValue')
             ->with($destinationContent)
             ->willReturn($assetValueMock);
@@ -314,7 +314,7 @@ class ImageAssetTest extends FieldTypeTestCase
     /**
      * @return iterable<array{
      *     int,
-     *     array<\Ibexa\Core\FieldType\ValidationError>,
+     *     array<ValidationError>,
      * }>
      */
     public static function provideDataForTestValidateValidNonEmptyAssetValue(): iterable
@@ -364,7 +364,7 @@ class ImageAssetTest extends FieldTypeTestCase
         array $fieldSettings = [],
         string $languageCode = 'en_GB'
     ): void {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject $fieldDefinitionMock */
+        /** @var FieldDefinition|MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(FieldDefinition::class);
         $fieldDefinitionMock->method('getFieldSettings')->willReturn($fieldSettings);
 

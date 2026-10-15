@@ -30,8 +30,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTestCase
             ]
         );
 
-        $valueObject = new class() extends ValueObject {
-        };
+        $valueObject = new class() extends ValueObject {};
         self::assertFalse($renderContentStrategy->supports($valueObject));
 
         $this->expectException(InvalidArgumentException::class);

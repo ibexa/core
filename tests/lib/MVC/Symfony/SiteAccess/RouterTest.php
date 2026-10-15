@@ -32,8 +32,10 @@ class RouterTest extends RouterBaseTestCase
     }
 
     #[DataProvider('matchProvider')]
-    public function testMatch(SimplifiedRequest $request, $siteAccess): void
-    {
+    public function testMatch(
+        SimplifiedRequest $request,
+        $siteAccess
+    ): void {
         $router = $this->createRouter();
         $sa = $router->match($request);
         self::assertInstanceOf(SiteAccess::class, $sa);
@@ -201,16 +203,16 @@ class RouterTest extends RouterBaseTestCase
         $matcherInitialSA = $this->createMock(SiteAccess\URILexer::class);
         $router->setSiteAccess(new SiteAccess('test', 'test', $matcherInitialSA));
         $matcherInitialSA
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('analyseURI')
             ->willReturn('');
 
         $matcher = $this->createMock(VersatileMatcher::class);
         $matcherBuilder
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('buildMatcher')
             ->will(
-                self::onConsecutiveCalls(
+                $this->onConsecutiveCalls(
                     self::createStub(Matcher::class),
                     $matcher
                 )
@@ -218,10 +220,10 @@ class RouterTest extends RouterBaseTestCase
 
         $reverseMatchedMatcher = self::createStub(VersatileMatcher::class);
         $matcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('reverseMatch')
             ->with($matchedSiteAccess)
-            ->will(self::returnValue($reverseMatchedMatcher));
+            ->will($this->returnValue($reverseMatchedMatcher));
 
         $siteAccess = $router->matchByName($matchedSiteAccess);
         self::assertInstanceOf(SiteAccess::class, $siteAccess);
@@ -250,13 +252,13 @@ class RouterTest extends RouterBaseTestCase
         $router->setSiteAccess(new SiteAccess('test', 'test'));
         $request = $router->getRequest();
         $matcherBuilder
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('buildMatcher')
             ->with($matcherClass, $matcherConfig, $request)
-            ->will(self::returnValue(self::createStub(Matcher::class)));
+            ->will($this->returnValue(self::createStub(Matcher::class)));
 
         $logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('notice');
         self::assertEquals(new SiteAccess($defaultSiteAccess, 'default'), $router->matchByName($defaultSiteAccess));
     }
@@ -307,7 +309,7 @@ class RouterTest extends RouterBaseTestCase
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

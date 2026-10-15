@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\TokenService;
 use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
@@ -36,7 +37,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('provideTokenData')]
     public function testGenerateToken(
@@ -54,7 +55,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testGenerateTokenThrowsTokenLengthException(): void
     {
@@ -72,7 +73,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('provideDataForTestCheckToken')]
     public function testCheckExistingToken(
@@ -103,7 +104,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('provideTokenData')]
     public function testGetToken(
@@ -121,7 +122,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testRevokeToken(): void
     {
@@ -137,7 +138,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testRevokeAllTokensByIdentifier(): void
     {
@@ -194,7 +195,7 @@ final class TokenServiceTest extends IbexaKernelTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testDeleteToken(): void
     {

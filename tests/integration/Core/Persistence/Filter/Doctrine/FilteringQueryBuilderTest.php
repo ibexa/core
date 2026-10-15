@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(FilteringQueryBuilder::class)]
 class FilteringQueryBuilderTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder */
+    /** @var FilteringQueryBuilder */
     private $queryBuilder;
 
     protected function setUp(): void

@@ -17,8 +17,10 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class CrowdinRequestLocaleSubscriberTest extends TestCase
 {
     #[DataProvider('provideSetRequests')]
-    public function testSetLocale(Request $request, $shouldHaveCustomLocale): void
-    {
+    public function testSetLocale(
+        Request $request,
+        $shouldHaveCustomLocale
+    ): void {
         $event = new RequestEvent(
             $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
             $request,

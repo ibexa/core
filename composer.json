@@ -68,7 +68,7 @@
         "dama/doctrine-test-bundle": "^8.0",
         "deptrac/deptrac": "^4.7",
         "friends-of-behat/mink-extension": "^3.0@alpha",
-        "ibexa/code-style": "~2.1.0",
+        "ibexa/code-style": "~2.3.1",
         "ibexa/phpstan": "~6.0.x-dev",
         "ibexa/rector": "~6.0.x-dev",
         "ibexa/test-core": "~6.0.x-dev",

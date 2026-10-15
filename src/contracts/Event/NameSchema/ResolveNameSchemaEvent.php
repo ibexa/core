@@ -8,6 +8,4 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Event\NameSchema;
 
-final class ResolveNameSchemaEvent extends AbstractNameSchemaEvent
-{
-}
+final class ResolveNameSchemaEvent extends AbstractNameSchemaEvent {}

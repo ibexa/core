@@ -11,17 +11,19 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\RepositoryAware;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth as DepthMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(DepthMatcher::class)]
 #[CoversClass(MultipleValued::class)]
 #[CoversClass(RepositoryAware::class)]
 class DepthTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth */
+    /** @var Depth */
     private $matcher;
 
     protected function setUp(): void
@@ -35,8 +37,11 @@ class DepthTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $depth, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        int $depth,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->getLocationMock(['depth' => $depth])));
     }
@@ -85,8 +90,11 @@ class DepthTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $depth, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        int $depth,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForDepth($depth));
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
@@ -129,29 +137,29 @@ class DepthTest extends BaseTestCase
      *
      * @param int $depth
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForDepth($depth)
     {
         $locationServiceMock = $this->createMock(LocationService::class);
-        $locationServiceMock->expects(self::once())
+        $locationServiceMock->expects($this->once())
             ->method('loadLocation')
             ->with(42)
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $this->getLocationMock(['depth' => $depth])
                 )
             );
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getLocationService')
-            ->will(self::returnValue($locationServiceMock));
+            ->will($this->returnValue($locationServiceMock));
         $repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getPermissionResolver')
-            ->will(self::returnValue($this->getPermissionResolverMock()));
+            ->will($this->returnValue($this->getPermissionResolverMock()));
 
         return $repository;
     }

@@ -50,14 +50,16 @@ final class UserLanguagePreferenceProviderTest extends TestCase
      * @param list<string> $expectedEzLanguageCodes
      */
     #[DataProvider('providerForTestGetPreferredLanguages')]
-    public function testGetPreferredLanguagesWithoutUserLanguage(array $userLanguages, array $expectedEzLanguageCodes): void
-    {
+    public function testGetPreferredLanguagesWithoutUserLanguage(
+        array $userLanguages,
+        array $expectedEzLanguageCodes
+    ): void {
         $request = new Request(server: [
             'HTTP_ACCEPT_LANGUAGE' => implode(', ', $userLanguages),
         ]);
         $this
             ->requestStackMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
@@ -65,7 +67,7 @@ final class UserLanguagePreferenceProviderTest extends TestCase
         $userPreferenceServiceMock
             ->method('getUserPreference')
             ->with(self::LANGUAGE_PREFERENCE_NAME)
-            ->will(self::throwException(new NotFoundException('User Preference', self::LANGUAGE_PREFERENCE_NAME)));
+            ->will($this->throwException(new NotFoundException('User Preference', self::LANGUAGE_PREFERENCE_NAME)));
 
         $userLanguagePreferenceProvider = new UserLanguagePreferenceProvider(
             $this->requestStackMock,
@@ -94,7 +96,7 @@ final class UserLanguagePreferenceProviderTest extends TestCase
         ]);
         $this
             ->requestStackMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
@@ -118,7 +120,7 @@ final class UserLanguagePreferenceProviderTest extends TestCase
         ]);
         $this
             ->requestStackMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
@@ -127,7 +129,7 @@ final class UserLanguagePreferenceProviderTest extends TestCase
             ->method('getUserPreference')
             ->with(self::LANGUAGE_PREFERENCE_NAME)
             ->will(
-                self::throwException(
+                $this->throwException(
                     new NotFoundException(
                         'User Preference',
                         self::LANGUAGE_PREFERENCE_NAME

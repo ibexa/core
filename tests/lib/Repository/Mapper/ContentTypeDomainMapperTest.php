@@ -112,8 +112,10 @@ final class ContentTypeDomainMapperTest extends TestCase
         ]);
     }
 
-    private function configureFieldTypeRegistry(TextLineValue $expectedInput, FieldValue $persistedValue): void
-    {
+    private function configureFieldTypeRegistry(
+        TextLineValue $expectedInput,
+        FieldValue $persistedValue
+    ): void {
         $fieldType = $this->createMock(FieldTypeInterface::class);
         $fieldType->method('validateValidatorConfiguration')->willReturn([]);
         $fieldType->method('validateFieldSettings')->willReturn([]);

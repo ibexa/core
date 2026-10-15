@@ -16,14 +16,14 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints;
  */
 final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints[] */
+    /** @var FieldTypeConstraints[] */
     private array $fieldConstraints;
 
     /** @var int[] */
     private array $published = [];
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints[]
+     * @param FieldTypeConstraints[]
      */
     public function __construct(array $fieldConstraints = [])
     {
@@ -68,8 +68,10 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
         return $this->fieldConstraints[$fieldDefinitionId] ?? null;
     }
 
-    public function deleteFieldConstraintsData(int $fieldDefinitionId, int $status): void
-    {
+    public function deleteFieldConstraintsData(
+        int $fieldDefinitionId,
+        int $status
+    ): void {
         unset($this->fieldConstraints[$fieldDefinitionId]);
     }
 }

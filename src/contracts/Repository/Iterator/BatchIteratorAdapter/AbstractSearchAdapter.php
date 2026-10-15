@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -46,8 +47,10 @@ abstract class AbstractSearchAdapter implements BatchIteratorAdapter
         $this->filterOnUserPermissions = $filterOnUserPermissions;
     }
 
-    final public function fetch(int $offset, int $limit): Iterator
-    {
+    final public function fetch(
+        int $offset,
+        int $limit
+    ): Iterator {
         $query = clone $this->query;
         $query->offset = $offset;
         $query->limit = $limit;
@@ -56,9 +59,9 @@ abstract class AbstractSearchAdapter implements BatchIteratorAdapter
     }
 
     /**
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<TSearchHitValueObject>
+     * @phpstan-return SearchResult<TSearchHitValueObject>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     abstract protected function executeSearch(Query $query): SearchResult;
 }

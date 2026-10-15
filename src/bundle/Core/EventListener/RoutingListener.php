@@ -19,17 +19,20 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class RoutingListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
+    /** @var RouterInterface */
     private $urlAliasRouter;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator */
+    /** @var Generator */
     private $urlAliasGenerator;
 
-    public function __construct(ConfigResolverInterface $configResolver, RouterInterface $urlAliasRouter, Generator $urlAliasGenerator)
-    {
+    public function __construct(
+        ConfigResolverInterface $configResolver,
+        RouterInterface $urlAliasRouter,
+        Generator $urlAliasGenerator
+    ) {
         $this->configResolver = $configResolver;
         $this->urlAliasRouter = $urlAliasRouter;
         $this->urlAliasGenerator = $urlAliasGenerator;

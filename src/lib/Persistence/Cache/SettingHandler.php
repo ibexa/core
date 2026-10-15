@@ -9,23 +9,31 @@ namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Setting\Setting;
+use Psr\Cache\CacheException;
+use Psr\Cache\InvalidArgumentException;
 
 final class SettingHandler extends AbstractInMemoryPersistenceHandler implements SettingHandlerInterface
 {
     private const SETTING_IDENTIFIER = 'setting';
 
-    public function create(string $group, string $identifier, string $serializedValue): Setting
-    {
+    public function create(
+        string $group,
+        string $identifier,
+        string $serializedValue
+    ): Setting {
         $this->logger->logCall(__METHOD__, ['group' => $group, 'identifier' => $identifier]);
 
         return $this->persistenceHandler->settingHandler()->create($group, $identifier, $serializedValue);
     }
 
     /**
-     * @throws \Psr\Cache\InvalidArgumentException&\Throwable
+     * @throws InvalidArgumentException&\Throwable
      */
-    public function update(string $group, string $identifier, string $serializedValue): Setting
-    {
+    public function update(
+        string $group,
+        string $identifier,
+        string $serializedValue
+    ): Setting {
         $this->logger->logCall(__METHOD__, ['group' => $group, 'identifier' => $identifier]);
 
         $setting = $this->persistenceHandler->settingHandler()->update($group, $identifier, $serializedValue);
@@ -36,10 +44,12 @@ final class SettingHandler extends AbstractInMemoryPersistenceHandler implements
     }
 
     /**
-     * @throws \Psr\Cache\CacheException&\Throwable
+     * @throws CacheException&\Throwable
      */
-    public function load(string $group, string $identifier): Setting
-    {
+    public function load(
+        string $group,
+        string $identifier
+    ): Setting {
         $cacheItem = $this->cache->getItem($this->getSettingTag($group, $identifier));
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
@@ -58,10 +68,12 @@ final class SettingHandler extends AbstractInMemoryPersistenceHandler implements
     }
 
     /**
-     * @throws (\Psr\Cache\InvalidArgumentException&\Throwable)
+     * @throws (InvalidArgumentException&\Throwable)
      */
-    public function delete(string $group, string $identifier): void
-    {
+    public function delete(
+        string $group,
+        string $identifier
+    ): void {
         $this->logger->logCall(__METHOD__, ['group' => $group, 'identifier' => $identifier]);
 
         $this->persistenceHandler->settingHandler()->delete($group, $identifier);
@@ -69,8 +81,10 @@ final class SettingHandler extends AbstractInMemoryPersistenceHandler implements
         $this->cache->invalidateTags([$this->getSettingTag($group, $identifier)]);
     }
 
-    private function getSettingTag(string $group, string $identifier): string
-    {
+    private function getSettingTag(
+        string $group,
+        string $identifier
+    ): string {
         return $this->cacheIdentifierGenerator->generateTag(
             self::SETTING_IDENTIFIER,
             [$group, $identifier],

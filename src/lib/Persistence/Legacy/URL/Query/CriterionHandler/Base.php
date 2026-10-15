@@ -28,8 +28,10 @@ abstract class Base implements CriterionHandler
      *
      * @return bool true if the table was not already joined (i.e. the caller still needs to perform the join)
      */
-    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
-    {
+    protected function markTableAsJoined(
+        QueryBuilder $queryBuilder,
+        string $tableIdentifier
+    ): bool {
         return $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
     }
 

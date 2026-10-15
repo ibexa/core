@@ -16,8 +16,8 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
 /**
  * Constraint violation validation error.
  *
- * Adapts {@see \Symfony\Component\Validator\ConstraintViolationInterface} to
- * {@see \Ibexa\Contracts\Core\FieldType\ValidationError}.
+ * Adapts {@see ConstraintViolationInterface} to
+ * {@see ValidationErrorInterface}.
  */
 final class ConstraintViolationAdapter implements ValidationErrorInterface
 {

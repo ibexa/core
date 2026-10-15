@@ -17,11 +17,13 @@ class SimplifiedRequestTest extends TestCase
 {
     /**
      * @param string $url
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $expectedRequest
+     * @param SimplifiedRequest $expectedRequest
      */
     #[DataProvider('fromUrlProvider')]
-    public function testFromUrl($url, $expectedRequest): void
-    {
+    public function testFromUrl(
+        $url,
+        $expectedRequest
+    ): void {
         self::assertEquals(
             $expectedRequest,
             SimplifiedRequest::fromUrl($url)

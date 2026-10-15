@@ -11,10 +11,10 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 class PlaceholderAliasGeneratorConfigurator
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry */
+    /** @var PlaceholderProviderRegistry */
     private $providerRegistry;
 
     /** @var array */

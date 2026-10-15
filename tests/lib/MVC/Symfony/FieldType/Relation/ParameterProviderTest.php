@@ -32,8 +32,10 @@ class ParameterProviderTest extends TestCase
     }
 
     #[DataProvider('providerForTestGetViewParameters')]
-    public function testGetViewParameters($status, array $expected): void
-    {
+    public function testGetViewParameters(
+        $status,
+        array $expected
+    ): void {
         $contentServiceMock = $this->createMock(ContentService::class);
         $contentServiceMock
             ->method('loadContentInfo')

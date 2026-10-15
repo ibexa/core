@@ -20,10 +20,12 @@ abstract class SortClause
     public string $target;
 
     /**
-     * @throws \InvalidArgumentException if the given sort order isn't one of SortClause::SORT_ASC or SortClause::SORT_DESC
+     * @throws InvalidArgumentException if the given sort order isn't one of SortClause::SORT_ASC or SortClause::SORT_DESC
      */
-    public function __construct(string $sortTarget, string $sortDirection)
-    {
+    public function __construct(
+        string $sortTarget,
+        string $sortDirection
+    ) {
         if ($sortDirection !== self::SORT_ASC && $sortDirection !== self::SORT_DESC) {
             throw new InvalidArgumentException(
                 'Sort direction must be either SortClause::SORT_ASC or SortClause::SORT_DESC'

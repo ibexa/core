@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
@@ -23,6 +24,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(FieldHandler::class)]
 class FieldHandlerTest extends LanguageAwareTestCase
@@ -30,35 +32,35 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGatewayMock;
 
     /**
      * Mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
     /**
      * Storage handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $storageHandlerMock;
 
     /**
      * Field type registry mock.
      *
-     * @var \Ibexa\Core\Persistence\FieldTypeRegistry
+     * @var FieldTypeRegistry
      */
     protected $fieldTypeRegistryMock;
 
     /**
      * Field type mock.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\FieldType
+     * @var FieldType
      */
     protected $fieldTypeMock;
 
@@ -71,17 +73,17 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $fieldTypeMock = $this->getFieldTypeMock();
         $storageHandlerMock = $this->getStorageHandlerMock();
 
-        $fieldTypeMock->expects(self::exactly(3))
+        $fieldTypeMock->expects($this->exactly(3))
             ->method('getEmptyValue')
-            ->will(self::returnValue(new FieldValue()));
+            ->will($this->returnValue(new FieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(6))
+        $contentGatewayMock->expects($this->exactly(6))
             ->method('insertNewField')
             ->with(
                 self::isInstanceOf(Content::class),
                 self::isInstanceOf(Field::class),
                 self::isInstanceOf(StorageFieldValue::class)
-            )->will(self::returnValue(42));
+            )->will($this->returnValue(42));
 
         $expectedStoreFields = [];
         $fieldValue = new FieldValue();
@@ -109,7 +111,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         }
 
         $invocationOrder = 0;
-        $storageHandlerMock->expects(self::exactly(5))
+        $storageHandlerMock->expects($this->exactly(5))
             ->method('storeFieldData')
             ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields): bool {
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
@@ -121,7 +123,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         /* @var $copyField */
         /* @var $originalField */
-        $storageHandlerMock->expects(self::once())
+        $storageHandlerMock->expects($this->once())
             ->method('copyFieldData')
             ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $copyField, $originalField, $storageHandlerUpdatesFields): bool {
                 self::assertSame(5, $invocationOrder);
@@ -141,10 +143,10 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertCreateNewFields(false);
 
-        $mapperMock->expects(self::exactly(6))
+        $mapperMock->expects($this->exactly(6))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
         $fieldHandler->createNewFields(
             $this->getContentPartialFieldsFixture(),
@@ -160,12 +162,12 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertCreateNewFields(true);
 
-        $mapperMock->expects(self::exactly(12))
+        $mapperMock->expects($this->exactly(12))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(6))
+        $contentGatewayMock->expects($this->exactly(6))
             ->method('updateField')
             ->with(
                 self::isInstanceOf(Field::class),
@@ -187,17 +189,17 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $fieldTypeMock = $this->getFieldTypeMock();
         $storageHandlerMock = $this->getStorageHandlerMock();
 
-        $fieldTypeMock->expects(self::exactly(3))
+        $fieldTypeMock->expects($this->exactly(3))
             ->method('getEmptyValue')
-            ->will(self::returnValue(new FieldValue()));
+            ->will($this->returnValue(new FieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(3))
+        $contentGatewayMock->expects($this->exactly(3))
             ->method('insertNewField')
             ->with(
                 self::isInstanceOf(Content::class),
                 self::isInstanceOf(Field::class),
                 self::isInstanceOf(StorageFieldValue::class)
-            )->will(self::returnValue(42));
+            )->will($this->returnValue(42));
 
         $expectedFields = [];
         $fieldValue = new FieldValue();
@@ -214,7 +216,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             );
         }
 
-        $matcher = self::exactly(3);
+        $matcher = $this->exactly(3);
         $storageHandlerMock->expects($matcher)
             ->method('storeFieldData')
             ->willReturnCallback(static function (...$parameters) use ($matcher, $expectedFields, $storageHandlerUpdatesFields): bool {
@@ -232,10 +234,10 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertCreateNewFieldsForMainLanguage(false);
 
-        $mapperMock->expects(self::exactly(3))
+        $mapperMock->expects($this->exactly(3))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
         $fieldHandler->createNewFields(
             $this->getContentNoFieldsFixture(),
@@ -251,12 +253,12 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertCreateNewFieldsForMainLanguage(true);
 
-        $mapperMock->expects(self::exactly(6))
+        $mapperMock->expects($this->exactly(6))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(3))
+        $contentGatewayMock->expects($this->exactly(3))
             ->method('updateField')
             ->with(
                 self::isInstanceOf(Field::class),
@@ -277,13 +279,13 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $contentGatewayMock = $this->getContentGatewayMock();
         $storageHandlerMock = $this->getStorageHandlerMock();
 
-        $contentGatewayMock->expects(self::exactly(6))
+        $contentGatewayMock->expects($this->exactly(6))
             ->method('insertExistingField')
             ->with(
                 self::isInstanceOf(Content::class),
                 self::isInstanceOf(Field::class),
                 self::isInstanceOf(StorageFieldValue::class)
-            )->will(self::returnValue(42));
+            )->will($this->returnValue(42));
 
         $expectedCopyCalls = [];
         $fieldValue = new FieldValue();
@@ -304,7 +306,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             }
         }
 
-        $matcher = self::exactly(6);
+        $matcher = $this->exactly(6);
         $storageHandlerMock->expects($matcher)
             ->method('copyFieldData')
             ->willReturnCallback(static function (...$parameters) use ($matcher, $expectedCopyCalls, $storageHandlerUpdatesFields): bool {
@@ -324,10 +326,10 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertCreateExistingFieldsInNewVersion(false);
 
-        $mapperMock->expects(self::exactly(6))
+        $mapperMock->expects($this->exactly(6))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
         $fieldHandler->createExistingFieldsInNewVersion($this->getContentFixture());
     }
@@ -340,12 +342,12 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertCreateExistingFieldsInNewVersion(true);
 
-        $mapperMock->expects(self::exactly(12))
+        $mapperMock->expects($this->exactly(12))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(6))
+        $contentGatewayMock->expects($this->exactly(6))
             ->method('updateField')
             ->with(
                 self::isInstanceOf(Field::class),
@@ -381,21 +383,21 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $totalFieldCount = $editedFieldCount + $untouchedFieldCount;
 
         $contentGatewayMock
-            ->expects(self::exactly($totalFieldCount))
+            ->expects($this->exactly($totalFieldCount))
             ->method('insertExistingField');
 
         $storageHandlerMock
-            ->expects(self::exactly($editedFieldCount))
+            ->expects($this->exactly($editedFieldCount))
             ->method('copyFieldData')
             ->willReturn(false);
 
         $storageHandlerMock
-            ->expects(self::exactly($untouchedFieldCount))
+            ->expects($this->exactly($untouchedFieldCount))
             ->method('referenceFieldData')
             ->willReturn(false);
 
         $mapperMock
-            ->expects(self::exactly($totalFieldCount))
+            ->expects($this->exactly($totalFieldCount))
             ->method('convertToStorageValue')
             ->willReturn(new StorageFieldValue());
 
@@ -411,11 +413,11 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $this->assertCreateExistingFieldsInNewVersion();
 
         $storageHandlerMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('referenceFieldData');
 
         $mapperMock
-            ->expects(self::exactly(6))
+            ->expects($this->exactly(6))
             ->method('convertToStorageValue')
             ->willReturn(new StorageFieldValue());
 
@@ -433,20 +435,20 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         // 3 real eng-GB fields, editing ger-DE which doesn't exist — all go through reference path
         $contentGatewayMock
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('insertExistingField');
 
         $storageHandlerMock
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('referenceFieldData')
             ->willReturn(false);
 
         $storageHandlerMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('copyFieldData');
 
         $mapperMock
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('convertToStorageValue')
             ->willReturn(new StorageFieldValue());
 
@@ -459,7 +461,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $storageHandlerMock = $this->getStorageHandlerMock();
 
-        $storageHandlerMock->expects(self::exactly(6))
+        $storageHandlerMock->expects($this->exactly(6))
             ->method('getFieldData')
             ->with(
                 self::isInstanceOf(VersionInfo::class),
@@ -478,11 +480,11 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $fieldTypeMock = $this->getFieldTypeMock();
         $storageHandlerMock = $this->getStorageHandlerMock();
 
-        $fieldTypeMock->expects(self::exactly(1))
+        $fieldTypeMock->expects($this->exactly(1))
             ->method('getEmptyValue')
-            ->will(self::returnValue(new FieldValue()));
+            ->will($this->returnValue(new FieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(3))
+        $contentGatewayMock->expects($this->exactly(3))
             ->method('insertNewField')
             ->with(
                 self::isInstanceOf(Content::class),
@@ -514,7 +516,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         }
 
         $invocationOrder = 0;
-        $storageHandlerMock->expects(self::exactly(2))
+        $storageHandlerMock->expects($this->exactly(2))
             ->method('storeFieldData')
             ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields): bool {
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
@@ -526,7 +528,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         /* @var $copyField */
         /* @var $originalField */
-        $storageHandlerMock->expects(self::once())
+        $storageHandlerMock->expects($this->once())
             ->method('copyFieldData')
             ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $copyField, $originalField, $storageHandlerUpdatesFields): bool {
                 self::assertSame(2, $invocationOrder);
@@ -546,10 +548,10 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertUpdateFieldsWithNewLanguage(false);
 
-        $mapperMock->expects(self::exactly(3))
+        $mapperMock->expects($this->exactly(3))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
         $field = new Field(
             [
@@ -579,12 +581,12 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertUpdateFieldsWithNewLanguage(true);
 
-        $mapperMock->expects(self::exactly(6))
+        $mapperMock->expects($this->exactly(6))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(3))
+        $contentGatewayMock->expects($this->exactly(3))
             ->method('updateField')
             ->with(
                 self::isInstanceOf(Field::class),
@@ -650,7 +652,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $invocationOrder = 0;
         $storeCount = count($expectedStoreFields);
-        $storageHandlerMock->expects(self::exactly($storeCount))
+        $storageHandlerMock->expects($this->exactly($storeCount))
             ->method('storeFieldData')
             ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields): bool {
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
@@ -660,7 +662,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 return $storageHandlerUpdatesFields;
             });
 
-        $storageHandlerMock->expects(self::exactly(count($fieldsToCopy)))
+        $storageHandlerMock->expects($this->exactly(count($fieldsToCopy)))
             ->method('copyFieldData')
             ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $fieldsToCopy, $storeCount, $storageHandlerUpdatesFields): bool {
                 $index = $invocationOrder - $storeCount;
@@ -681,12 +683,12 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertUpdateFieldsExistingLanguages(false);
 
-        $mapperMock->expects(self::exactly(6))
+        $mapperMock->expects($this->exactly(6))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(6))
+        $contentGatewayMock->expects($this->exactly(6))
             ->method('updateField')
             ->with(
                 self::isInstanceOf(Field::class),
@@ -708,12 +710,12 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertUpdateFieldsExistingLanguages(true);
 
-        $mapperMock->expects(self::exactly(12))
+        $mapperMock->expects($this->exactly(12))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(12))
+        $contentGatewayMock->expects($this->exactly(12))
             ->method('updateField')
             ->with(
                 self::isInstanceOf(Field::class),
@@ -765,7 +767,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $invocationOrder = 0;
         $storeCount = count($expectedStoreFields);
-        $storageHandlerMock->expects(self::exactly($storeCount))
+        $storageHandlerMock->expects($this->exactly($storeCount))
             ->method('storeFieldData')
             ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $expectedStoreFields, $storageHandlerUpdatesFields): bool {
                 self::assertInstanceOf(VersionInfo::class, $parameters[0]);
@@ -775,7 +777,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 return $storageHandlerUpdatesFields;
             });
 
-        $storageHandlerMock->expects(self::exactly(count($fieldsToCopy)))
+        $storageHandlerMock->expects($this->exactly(count($fieldsToCopy)))
             ->method('copyFieldData')
             ->willReturnCallback(static function (...$parameters) use (&$invocationOrder, $fieldsToCopy, $storeCount, $storageHandlerUpdatesFields): bool {
                 $index = $invocationOrder - $storeCount;
@@ -795,10 +797,10 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertUpdateFieldsForInitialLanguage(false);
 
-        $mapperMock->expects(self::exactly(3))
+        $mapperMock->expects($this->exactly(3))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
         $struct = new UpdateStruct();
         // Language with id=2 is eng-US
@@ -818,12 +820,12 @@ class FieldHandlerTest extends LanguageAwareTestCase
 
         $this->assertUpdateFieldsForInitialLanguage(true);
 
-        $mapperMock->expects(self::exactly(6))
+        $mapperMock->expects($this->exactly(6))
             ->method('convertToStorageValue')
             ->with(self::isInstanceOf(Field::class))
-            ->will(self::returnValue(new StorageFieldValue()));
+            ->will($this->returnValue(new StorageFieldValue()));
 
-        $contentGatewayMock->expects(self::exactly(3))
+        $contentGatewayMock->expects($this->exactly(3))
             ->method('updateField')
             ->with(
                 self::isInstanceOf(Field::class),
@@ -845,15 +847,15 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $fieldHandler = $this->getFieldHandler();
 
         $contentGatewayMock = $this->getContentGatewayMock();
-        $contentGatewayMock->expects(self::once())
+        $contentGatewayMock->expects($this->once())
             ->method('getFieldIdsByType')
             ->with(
                 self::equalTo(42),
                 self::equalTo(2)
-            )->will(self::returnValue(['some-type' => [2, 3]]));
+            )->will($this->returnValue(['some-type' => [2, 3]]));
 
         $storageHandlerMock = $this->getStorageHandlerMock();
-        $storageHandlerMock->expects(self::once())
+        $storageHandlerMock->expects($this->once())
             ->method('deleteFieldData')
             ->with(
                 self::equalTo('some-type'),
@@ -861,7 +863,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 self::equalTo([2, 3])
             );
 
-        $contentGatewayMock->expects(self::once())
+        $contentGatewayMock->expects($this->once())
             ->method('deleteFields')
             ->with(
                 self::equalTo(42),
@@ -874,7 +876,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentPartialFieldsFixture()
     {
@@ -912,7 +914,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentNoFieldsFixture()
     {
@@ -932,7 +934,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentSingleLanguageFixture()
     {
@@ -964,7 +966,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentFixture()
     {
@@ -1009,7 +1011,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a ContentType fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     protected function getContentTypeFixture()
     {
@@ -1047,7 +1049,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an UpdateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UpdateStruct
+     * @return UpdateStruct
      */
     protected function getUpdateStructFixture()
     {
@@ -1072,7 +1074,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a FieldHandler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @return FieldHandler
      */
     protected function getFieldHandler()
     {
@@ -1090,7 +1092,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a StorageHandler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageHandler|\PHPUnit\Framework\MockObject\MockObject
+     * @return StorageHandler|MockObject
      */
     protected function getStorageHandlerMock()
     {
@@ -1104,7 +1106,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper|\PHPUnit\Framework\MockObject\MockObject
+     * @return Mapper|MockObject
      */
     protected function getMapperMock()
     {
@@ -1118,7 +1120,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a mock object for the Content Gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Gateway|\PHPUnit\Framework\MockObject\MockObject
+     * @return Gateway|MockObject
      */
     protected function getContentGatewayMock()
     {
@@ -1130,7 +1132,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\FieldTypeRegistry|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldTypeRegistry|MockObject
      */
     protected function getFieldTypeRegistryMock()
     {
@@ -1138,13 +1140,13 @@ class FieldHandlerTest extends LanguageAwareTestCase
             $this->fieldTypeRegistryMock = $this->createMock(FieldTypeRegistry::class);
 
             $this->fieldTypeRegistryMock->expects(
-                self::any()
+                $this->any()
             )->method(
                 'getFieldType'
             )->with(
                 self::isString()
             )->will(
-                self::returnValue($this->getFieldTypeMock())
+                $this->returnValue($this->getFieldTypeMock())
             );
         }
 
@@ -1152,7 +1154,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\FieldType|\PHPUnit\Framework\MockObject\MockObject
+     * @return SPIFieldType|MockObject
      */
     protected function getFieldTypeMock()
     {

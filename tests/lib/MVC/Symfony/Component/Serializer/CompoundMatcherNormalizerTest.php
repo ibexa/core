@@ -17,6 +17,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -41,7 +42,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
     /**
      * @phpstan-return TNormalizedData
      *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function testNormalization(): array
     {
@@ -54,7 +55,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
         $normalizer = new CompoundMatcherNormalizer();
         $innerNormalizerMock = $this->createMock(NormalizerInterface::class);
         $innerNormalizerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('normalize')
             ->with($subMatchers, null, [])
             ->willReturn(
@@ -104,8 +105,11 @@ final class CompoundMatcherNormalizerTest extends TestCase
      * @phpstan-param class-string $type
      */
     #[DataProvider('getDataForSupportsNormalization')]
-    public function testSupportsDenormalization(array $data, string $type, bool $supports): void
-    {
+    public function testSupportsDenormalization(
+        array $data,
+        string $type,
+        bool $supports
+    ): void {
         $normalizer = new CompoundMatcherNormalizer();
 
         self::assertSame($supports, $normalizer->supportsDenormalization($data, $type));
@@ -114,7 +118,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
     /**
      * @phpstan-param array{type: class-string, subMatchers: array<mixed>, config: array{}, matchersMap: array{}} $data
      *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     #[Depends('testNormalization')]
     public function testDenormalization(array $data): void
@@ -123,7 +127,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
         $normalizer = new CompoundMatcherNormalizer();
         $innerDenormalizerMock = $this->createMock(DenormalizerInterface::class);
         $innerDenormalizerMock
-            ->expects(self::exactly(count($data['subMatchers'])))
+            ->expects($this->exactly(count($data['subMatchers'])))
             ->method('denormalize')
             ->willReturnCallback(
                 static fn (array $data): Matcher => new MatcherStub($data['data'] ?? [])
@@ -135,7 +139,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
     }
 
     /**
-     * @return array<string, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>
+     * @return array<string, Matcher>
      */
     private function getSubMatchers(): array
     {

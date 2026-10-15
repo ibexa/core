@@ -16,6 +16,7 @@ use Ibexa\Core\MVC\Symfony\View\View;
 use Ibexa\Core\Repository\Repository;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,10 +25,10 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ServiceAwareMatcherFactory::class)]
 final class ServiceAwareMatcherFactoryTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ViewMatcherRegistryInterface&MockObject */
     private ViewMatcherRegistryInterface $viewMatcherRegistryMock;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ViewMatcherInterface&MockObject */
     private ViewMatcherInterface $matcherMock;
 
     protected function setUp(): void
@@ -51,7 +52,7 @@ final class ServiceAwareMatcherFactoryTest extends TestCase
     }
 
     /**
-     * @phpstan-return iterable<string, array{\Ibexa\Core\MVC\Symfony\View\View, TMatchConfigArray, string}>
+     * @phpstan-return iterable<string, array{View, TMatchConfigArray, string}>
      */
     public static function getDataForTestMatch(): iterable
     {
@@ -88,8 +89,11 @@ final class ServiceAwareMatcherFactoryTest extends TestCase
      * @phpstan-param TMatchConfigArray $matchConfig
      */
     #[DataProvider('getDataForTestMatch')]
-    public function testMatch(View $view, array $matchConfig, string $matchedConfigValue): void
-    {
+    public function testMatch(
+        View $view,
+        array $matchConfig,
+        string $matchedConfigValue
+    ): void {
         $serviceMatcherFactory = new ServiceAwareMatcherFactory(
             $this->viewMatcherRegistryMock,
             self::createStub(Repository::class),

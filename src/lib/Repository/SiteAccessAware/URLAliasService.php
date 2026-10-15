@@ -18,17 +18,17 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
  */
 class URLAliasService implements URLAliasServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
+    /** @var URLAliasServiceInterface */
     protected $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
+    /** @var LanguageResolver */
     protected $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.
      *
-     * @param \Ibexa\Contracts\Core\Repository\URLAliasService $service
-     * @param \Ibexa\Contracts\Core\Repository\LanguageResolver $languageResolver
+     * @param URLAliasServiceInterface $service
+     * @param LanguageResolver $languageResolver
      */
     public function __construct(
         URLAliasServiceInterface $service,
@@ -74,8 +74,11 @@ class URLAliasService implements URLAliasServiceInterface
         );
     }
 
-    public function listGlobalAliases(?string $languageCode = null, int $offset = 0, int $limit = -1): iterable
-    {
+    public function listGlobalAliases(
+        ?string $languageCode = null,
+        int $offset = 0,
+        int $limit = -1
+    ): iterable {
         return $this->service->listGlobalAliases($languageCode, $offset, $limit);
     }
 
@@ -84,8 +87,10 @@ class URLAliasService implements URLAliasServiceInterface
         $this->service->removeAliases($aliasList);
     }
 
-    public function lookup(string $url, ?string $languageCode = null): URLAlias
-    {
+    public function lookup(
+        string $url,
+        ?string $languageCode = null
+    ): URLAlias {
         return $this->service->lookup($url, $languageCode);
     }
 

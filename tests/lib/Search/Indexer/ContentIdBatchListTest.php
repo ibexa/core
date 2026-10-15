@@ -69,8 +69,11 @@ final class ContentIdBatchListTest extends TestCase
      * @param array<int, array<int>> $expectedBatches
      */
     #[DataProvider('getDataForTestGetIterator')]
-    public function testGetIterator(iterable $list, int $totalCount, array $expectedBatches): void
-    {
+    public function testGetIterator(
+        iterable $list,
+        int $totalCount,
+        array $expectedBatches
+    ): void {
         $contentIdBatchList = new ContentIdBatchList($list, $totalCount);
         $unpackedActualBatches = [];
         foreach ($contentIdBatchList as $index => $items) {
@@ -91,19 +94,19 @@ final class ContentIdBatchListTest extends TestCase
         yield [4, 5];
     }
 
-    private static function buildEmptyGenerator(): \Generator
+    private static function buildEmptyGenerator(): Generator
     {
         yield from [];
     }
 
     /**
-     * @return \Traversable<int, array<int>>
+     * @return Traversable<int, array<int>>
      */
     private static function buildTraversableObject(): Traversable
     {
         return new class() implements IteratorAggregate {
             /**
-             * @return \ArrayIterator<int, array{int, int, int, int}|array{int}>
+             * @return ArrayIterator<int, array{int, int, int, int}|array{int}>
              */
             public function getIterator(): ArrayIterator
             {

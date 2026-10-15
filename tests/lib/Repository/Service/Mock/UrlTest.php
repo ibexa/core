@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use DateTime;
 use Ibexa\Contracts\Core\Persistence\URL\URL as SpiUrl;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query as ContentQuery;
@@ -26,6 +27,7 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\URLService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UrlTest extends BaseServiceMockTest
 {
@@ -33,10 +35,10 @@ class UrlTest extends BaseServiceMockTest
     private const URL_IBEXA_CO = 'http://ibexa.co';
     private const URL_IBEXA_COM = 'http://ibexa.com';
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Repository\URLService|MockObject */
     private $urlHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
     protected function setUp(): void
@@ -95,7 +97,7 @@ class UrlTest extends BaseServiceMockTest
         ]);
 
         $this->urlHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('find')
             ->with($query)
             ->willReturn($results);
@@ -128,7 +130,7 @@ class UrlTest extends BaseServiceMockTest
 
         $urlService = $this->createUrlService(['isUnique']);
         $urlService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isUnique')
             ->with($url->id, $struct->url)
             ->willReturn(false);
@@ -153,15 +155,18 @@ class UrlTest extends BaseServiceMockTest
 
         $urlService = $this->createUrlService(['isUnique']);
         $urlService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isUnique')
             ->with($apiUrl->id, $apiStruct->url)
             ->willReturn(true);
 
         $this->urlHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('updateUrl')
-            ->willReturnCallback(static function ($id, $struct) use ($apiUrl, $apiStruct): void {
+            ->willReturnCallback(static function (
+                $id,
+                $struct
+            ) use ($apiUrl, $apiStruct): void {
                 self::assertEquals($apiUrl->id, $id);
 
                 self::assertEquals($apiStruct->url, $struct->url);
@@ -219,9 +224,12 @@ class UrlTest extends BaseServiceMockTest
         $urlService = $this->createUrlService(['isUnique']);
 
         $this->urlHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('updateUrl')
-            ->willReturnCallback(static function ($id, $struct) use ($apiUrl, $apiStruct): void {
+            ->willReturnCallback(static function (
+                $id,
+                $struct
+            ) use ($apiUrl, $apiStruct): void {
                 self::assertEquals($apiUrl->id, $id);
 
                 self::assertEquals($apiUrl->url, $struct->url);
@@ -267,7 +275,7 @@ class UrlTest extends BaseServiceMockTest
         );
 
         $this->urlHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadById')
             ->with(self::URL_ID)
             ->willReturn(new SpiUrl([
@@ -286,7 +294,7 @@ class UrlTest extends BaseServiceMockTest
         $this->configureUrlViewPermission($url, true);
 
         $this->urlHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadById')
             ->with(self::URL_ID)
             ->willReturn(new SpiUrl([
@@ -310,7 +318,7 @@ class UrlTest extends BaseServiceMockTest
         );
 
         $this->urlHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUrl')
             ->with($url)
             ->willReturn(new SpiUrl([
@@ -331,7 +339,7 @@ class UrlTest extends BaseServiceMockTest
         $this->configureUrlViewPermission($apiUrl, true);
 
         $this->urlHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUrl')
             ->with($url)
             ->willReturn(new SpiUrl([
@@ -342,14 +350,18 @@ class UrlTest extends BaseServiceMockTest
     }
 
     #[DataProvider('dateProviderForFindUsages')]
-    public function testFindUsages($offset, $limit, ContentQuery $expectedQuery, array $usages): void
-    {
+    public function testFindUsages(
+        $offset,
+        $limit,
+        ContentQuery $expectedQuery,
+        array $usages
+    ): void {
         $url = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
 
         if (!empty($usages)) {
             $searchService = $this->createMock(SearchService::class);
             $searchService
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('findContentInfo')
                 ->willReturnCallback(static function ($query) use ($expectedQuery, $usages): ContentSearchResults {
                     self::assertEquals($expectedQuery, $query);
@@ -367,13 +379,13 @@ class UrlTest extends BaseServiceMockTest
                 });
 
             $this->getRepositoryMock()
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('getSearchService')
                 ->willReturn($searchService);
         }
 
         $this->urlHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findUsages')
             ->with($url->id)
             ->willReturn($usages);
@@ -429,41 +441,45 @@ class UrlTest extends BaseServiceMockTest
     protected function configureUrlViewPermissionForHasAccess($hasAccess = false)
     {
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('hasAccess')
             ->with('url', 'view')
             ->willReturn($hasAccess);
     }
 
-    protected function configureUrlViewPermission($object, $hasAccess = false)
-    {
+    protected function configureUrlViewPermission(
+        $object,
+        $hasAccess = false
+    ) {
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('canUser')
             ->with(
                 self::equalTo('url'),
                 self::equalTo('view'),
                 self::equalTo($object)
             )
-            ->will(self::returnValue($hasAccess));
+            ->will($this->returnValue($hasAccess));
     }
 
-    protected function configureUrlUpdatePermission($object, $hasAccess = false)
-    {
+    protected function configureUrlUpdatePermission(
+        $object,
+        $hasAccess = false
+    ) {
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('canUser')
             ->with(
                 self::equalTo('url'),
                 self::equalTo('update'),
                 self::equalTo($object)
             )
-            ->will(self::returnValue($hasAccess));
+            ->will($this->returnValue($hasAccess));
     }
 
     protected function configurePermissions(array $permissions)
     {
-        $matcher = self::exactly(count($permissions));
+        $matcher = $this->exactly(count($permissions));
         $this->permissionResolver
             ->expects($matcher)
             ->method('canUser')
@@ -475,7 +491,7 @@ class UrlTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Repository\URLService|MockObject
      */
     private function createUrlService(?array $methods = null)
     {
@@ -486,8 +502,10 @@ class UrlTest extends BaseServiceMockTest
             ->getMock();
     }
 
-    private function getApiUrl($id = null, $url = null)
-    {
+    private function getApiUrl(
+        $id = null,
+        $url = null
+    ) {
         return new URL(['id' => $id, 'url' => $url]);
     }
 }

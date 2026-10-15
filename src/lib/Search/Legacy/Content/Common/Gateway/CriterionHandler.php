@@ -8,7 +8,12 @@
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -33,17 +38,19 @@ abstract class CriterionHandler
         Operator::LIKE => 'like',
     ];
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform|null */
+    /** @var AbstractPlatform|null */
     protected $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
-    public function __construct(Connection $connection, JoinedTablesTracker $joinedTablesTracker)
-    {
+    public function __construct(
+        Connection $connection,
+        JoinedTablesTracker $joinedTablesTracker
+    ) {
         $this->connection = $connection;
         $this->dbPlatform = $connection->getDatabasePlatform();
         $this->joinedTablesTracker = $joinedTablesTracker;
@@ -54,15 +61,17 @@ abstract class CriterionHandler
      *
      * @return bool true if the table was not already joined (i.e. the caller still needs to perform the join)
      */
-    protected function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
-    {
+    protected function markTableAsJoined(
+        QueryBuilder $queryBuilder,
+        string $tableIdentifier
+    ): bool {
         return $this->joinedTablesTracker->markTableAsJoined($queryBuilder, $tableIdentifier);
     }
 
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $criterion
+     * @param CriterionInterface $criterion
      *
      * @return bool
      */
@@ -75,10 +84,10 @@ abstract class CriterionHandler
      *
      * @param array $languageSettings
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws NotImplementedException
+     * @throws InvalidArgumentException
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return CompositeExpression|string
      */
     abstract public function handle(
         CriteriaConverter $converter,

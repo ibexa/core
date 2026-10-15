@@ -17,7 +17,10 @@ interface ContentLocationMapper
 
     public function getMapping(int $locationId): int;
 
-    public function setMapping(int $locationId, int $contentId): void;
+    public function setMapping(
+        int $locationId,
+        int $contentId
+    ): void;
 
     public function removeMapping(int $locationId): void;
 }

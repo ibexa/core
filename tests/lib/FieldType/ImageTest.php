@@ -394,8 +394,11 @@ class ImageTest extends FieldTypeTestCase
      * @param array<string, mixed> $data
      */
     #[DataProvider('provideDataForFromPersistenceValue')]
-    public function testFromPersistenceValue(array $data, mixed $expectedWidth, mixed $expectedHeight): void
-    {
+    public function testFromPersistenceValue(
+        array $data,
+        mixed $expectedWidth,
+        mixed $expectedHeight
+    ): void {
         $fieldType = $this->getFieldTypeUnderTest();
 
         $fieldValue = new FieldValue(['data' => $data]);

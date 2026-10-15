@@ -20,8 +20,10 @@ abstract class StorageGateway implements StorageGatewayInterface
      *
      * @return string
      */
-    protected function getSequenceName($table, $column)
-    {
+    protected function getSequenceName(
+        $table,
+        $column
+    ) {
         return sprintf('%s_%s_seq', $table, $column);
     }
 }

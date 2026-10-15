@@ -28,7 +28,7 @@ use PHPUnit\Framework\Attributes\Depends;
 class BlockingLimitationTypeTest extends Base
 {
     /**
-     * @return \Ibexa\Core\Limitation\BlockingLimitationType
+     * @return BlockingLimitationType
      */
     public function testConstruct(): BlockingLimitationType
     {
@@ -47,13 +47,15 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param BlockingLimitation $limitation
+     * @param BlockingLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(BlockingLimitation $limitation, BlockingLimitationType $limitationType): void
-    {
+    public function testAcceptValue(
+        BlockingLimitation $limitation,
+        BlockingLimitationType $limitationType
+    ): void {
         $limitationType->acceptValue($limitation);
     }
 
@@ -68,13 +70,15 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param BlockingLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, BlockingLimitationType $limitationType): void
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        BlockingLimitationType $limitationType
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -92,7 +96,7 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
+     * @param BlockingLimitation $limitation
      */
     #[DataProvider('providerForTestValidatePass')]
     public function testValidatePass(BlockingLimitation $limitation): void
@@ -117,14 +121,16 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
+     * @param BlockingLimitation $limitation
      * @param int $errorCount
      */
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(BlockingLimitation $limitation, $errorCount): void
-    {
+    public function testValidateError(
+        BlockingLimitation $limitation,
+        $errorCount
+    ): void {
         $this->getPersistenceMock()
-                ->expects(self::never())
+                ->expects($this->never())
                 ->method(self::anything());
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -135,7 +141,7 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param BlockingLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testBuildValue(BlockingLimitationType $limitationType): void
@@ -203,12 +209,12 @@ class BlockingLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $value = $limitationType->evaluate(
@@ -249,12 +255,12 @@ class BlockingLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $v = $limitationType->evaluate(
@@ -267,7 +273,7 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param BlockingLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testGetCriterion(BlockingLimitationType $limitationType): void
@@ -281,7 +287,7 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param BlockingLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testValueSchema(BlockingLimitationType $limitationType): void

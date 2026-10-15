@@ -19,14 +19,14 @@ class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 
     /**
      * ExceptionConversion constructor.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -37,16 +37,21 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->updateUrl($url);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function find(Criterion $criterion, $offset, $limit, array $sortClauses = [], $doCount = true)
-    {
+    public function find(
+        Criterion $criterion,
+        $offset,
+        $limit,
+        array $sortClauses = [],
+        $doCount = true
+    ) {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $doCount);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -55,7 +60,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->findUsages($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -64,7 +69,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlData($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -73,7 +78,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlDataByUrl($url);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

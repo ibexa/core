@@ -73,7 +73,7 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
         $updateStruct = new URLUpdateStruct();
         $updateStruct->url = 'http://ibexa.co';
 
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
 
         $innerHandlerMock = $this->createMock(SpiURLHandler::class);
         $this->persistenceHandlerMock
@@ -81,17 +81,17 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findUsages')
             ->with($urlId)
             ->willReturn([2, 3, 5]);
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('updateUrl')
             ->with($urlId, $updateStruct)
             ->willReturn(true);
-        $matcher = self::exactly(4);
+        $matcher = $this->exactly(4);
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
@@ -128,7 +128,7 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
                 return null;
             });
 
-        $invalidateTagsMatcher = self::exactly(2);
+        $invalidateTagsMatcher = $this->exactly(2);
         $this->cacheMock
             ->expects($invalidateTagsMatcher)
             ->method('invalidateTags')
@@ -151,7 +151,7 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
         $urlId = 1;
         $updateStruct = new URLUpdateStruct();
 
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
 
         $innerHandlerMock = $this->createMock(SpiURLHandler::class);
         $this->persistenceHandlerMock
@@ -159,19 +159,19 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('updateUrl')
             ->with($urlId, $updateStruct)
             ->willReturn(true);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generateTag')
             ->with('url', [1], false)
             ->willReturn('url-1');
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with(['url-1']);
 

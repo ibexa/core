@@ -16,6 +16,4 @@ use Iterator;
  *
  * @extends \Iterator<array-key, string>
  */
-interface ImageFileList extends Countable, Iterator
-{
-}
+interface ImageFileList extends Countable, Iterator {}

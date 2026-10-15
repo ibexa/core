@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\LogicalNot;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
@@ -29,7 +30,7 @@ class LogicalNotTest extends CriterionHandlerTestCase
     /**
      * {@inheritdoc}
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function testHandle(): void
     {

@@ -218,12 +218,14 @@ class PureNegativeQueryTest extends BaseTestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param int $totalCount
      */
     #[DataProvider('providerForTestMatchAll')]
-    public function testMatchAllContentInfoQuery($criterion, $totalCount): void
-    {
+    public function testMatchAllContentInfoQuery(
+        $criterion,
+        $totalCount
+    ): void {
         $query = new Query(
             [
                 'query' => $criterion,
@@ -236,12 +238,14 @@ class PureNegativeQueryTest extends BaseTestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param int $totalCount
      */
     #[DataProvider('providerForTestMatchAll')]
-    public function testMatchAllContentInfoFilter($criterion, $totalCount): void
-    {
+    public function testMatchAllContentInfoFilter(
+        $criterion,
+        $totalCount
+    ): void {
         $query = new Query(
             [
                 'filter' => $criterion,
@@ -254,12 +258,14 @@ class PureNegativeQueryTest extends BaseTestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param int $totalCount
      */
     #[DataProvider('providerForTestMatchAll')]
-    public function testMatchAllLocationQuery($criterion, $totalCount): void
-    {
+    public function testMatchAllLocationQuery(
+        $criterion,
+        $totalCount
+    ): void {
         $query = new LocationQuery(
             [
                 'query' => $criterion,
@@ -272,12 +278,14 @@ class PureNegativeQueryTest extends BaseTestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param Criterion $criterion
      * @param int $totalCount
      */
     #[DataProvider('providerForTestMatchAll')]
-    public function testMatchAllLocationFilter($criterion, $totalCount): void
-    {
+    public function testMatchAllLocationFilter(
+        $criterion,
+        $totalCount
+    ): void {
         $query = new LocationQuery(
             [
                 'filter' => $criterion,

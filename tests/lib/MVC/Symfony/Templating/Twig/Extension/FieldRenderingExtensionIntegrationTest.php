@@ -65,8 +65,11 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
     /**
      * @param array<string, mixed> $settings
      */
-    public function getFieldDefinition(string $typeIdentifier, ?int $id = null, array $settings = []): FieldDefinition
-    {
+    public function getFieldDefinition(
+        string $typeIdentifier,
+        ?int $id = null,
+        array $settings = []
+    ): FieldDefinition {
         return new FieldDefinition(
             [
                 'id' => $id ?? self::EXAMPLE_FIELD_DEFINITION_ID,
@@ -83,8 +86,11 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
      *
      * @param array<string, string> $namesData
      */
-    protected function getContent(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): Content
-    {
+    protected function getContent(
+        string $contentTypeIdentifier,
+        array $fieldsData,
+        array $namesData = []
+    ): Content {
         $fields = $this->buildFieldsFromData($fieldsData, $contentTypeIdentifier);
 
         return new Content(

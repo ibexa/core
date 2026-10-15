@@ -46,14 +46,14 @@ class Document extends ValueObject
     /**
      * An array of fields.
      *
-     * @var \Ibexa\Contracts\Core\Search\Field[]
+     * @var Field[]
      */
     public $fields = [];
 
     /**
      * An array of sub-documents.
      *
-     * @var \Ibexa\Contracts\Core\Search\Document[]
+     * @var Document[]
      */
     public $documents = [];
 }

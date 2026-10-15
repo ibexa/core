@@ -11,9 +11,11 @@ use DateTime;
 use DateTimeImmutable;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Field as PersistenceContentField;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Type as PersistenceContentType;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
@@ -30,6 +32,7 @@ use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 #[CoversClass(ContentDomainMapper::class)]
@@ -50,7 +53,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     public function testBuildVersionInfo(SPIVersionInfo $spiVersionInfo): void
     {
         $languageHandlerMock = $this->getLanguageHandlerMock();
-        $languageHandlerMock->expects(self::never())->method('load');
+        $languageHandlerMock->expects($this->never())->method('load');
 
         $versionInfo = $this->getContentDomainMapper()->buildVersionInfoDomainObject($spiVersionInfo);
 
@@ -144,7 +147,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     #[Group('legacy')]
     public function testBuildDomainFieldsDeprecatedBehavior(): void
@@ -331,7 +334,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     ): void {
         $contentHandlerMock = $this->getContentHandlerMock();
         $contentHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContentInfoList')
             ->with($contentIds)
             ->willReturn($contentInfoList);
@@ -362,7 +365,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     /**
      * Returns ContentDomainMapper.
      *
-     * @return \Ibexa\Core\Repository\Mapper\ContentDomainMapper
+     * @return ContentDomainMapper
      */
     protected function getContentDomainMapper(): ContentDomainMapper
     {
@@ -380,7 +383,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return Handler|MockObject
      */
     protected function getContentHandlerMock()
     {
@@ -388,7 +391,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\Handler|MockObject
      */
     protected function getLanguageHandlerMock()
     {
@@ -396,7 +399,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return PersistenceContentType\Handler|MockObject
      */
     protected function getTypeHandlerMock()
     {

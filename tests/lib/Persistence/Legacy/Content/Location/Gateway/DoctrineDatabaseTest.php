@@ -586,8 +586,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     #[Depends('testCreateLocation')]
     #[DataProvider('getCreateLocationValues')]
-    public function testCreateLocationValues($field, $value): void
-    {
+    public function testCreateLocationValues(
+        $field,
+        $value
+    ): void {
         if ($value === null) {
             self::markTestIncomplete('Proper value setting yet unknown.');
         }
@@ -645,8 +647,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     #[Depends('testCreateLocation')]
     #[DataProvider('getCreateLocationReturnValues')]
-    public function testCreateLocationReturnValues($field, $value): void
-    {
+    public function testCreateLocationReturnValues(
+        $field,
+        $value
+    ): void {
         if ($value === null) {
             self::markTestIncomplete('Proper value setting yet unknown.');
         }
@@ -690,8 +694,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     #[DataProvider('getUpdateLocationData')]
-    public function testUpdateLocation($field, $value): void
-    {
+    public function testUpdateLocation(
+        $field,
+        $value
+    ): void {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
         $gateway->update(
@@ -800,8 +806,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      */
     #[Depends('testCreateLocation')]
     #[DataProvider('getNodeAssignmentValues')]
-    public function testCreateLocationNodeAssignmentCreation(string $field, array $expectedResult): void
-    {
+    public function testCreateLocationNodeAssignmentCreation(
+        string $field,
+        array $expectedResult
+    ): void {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
@@ -968,8 +976,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     #[Depends('testCreateLocationNodeAssignmentCreation')]
     #[DataProvider('getConvertNodeAssignmentsLocationValues')]
-    public function testConvertNodeAssignments($field, $value): void
-    {
+    public function testConvertNodeAssignments(
+        $field,
+        $value
+    ): void {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
         $gateway = $this->getLocationGateway();

@@ -13,6 +13,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -20,13 +21,13 @@ use Symfony\Component\Routing\RequestContext;
 
 class GeneratorTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Generator|MockObject */
     private $generator;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $siteAccessRouter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $logger;
 
     protected function setUp(): void
@@ -58,8 +59,11 @@ class GeneratorTest extends TestCase
     }
 
     #[DataProvider('generateProvider')]
-    public function testSimpleGenerate($urlResource, array $parameters, $referenceType): void
-    {
+    public function testSimpleGenerate(
+        $urlResource,
+        array $parameters,
+        $referenceType
+    ): void {
         $matcher = $this->createMock(URILexer::class);
         $this->generator->setSiteAccess(new SiteAccess('test', 'fake', $matcher));
 
@@ -69,17 +73,17 @@ class GeneratorTest extends TestCase
 
         $uri = '/some/thing';
         $this->generator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('doGenerate')
             ->with($urlResource, $parameters)
-            ->will(self::returnValue($uri));
+            ->will($this->returnValue($uri));
 
         $fullUri = $baseUrl . $uri;
         $matcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('analyseLink')
             ->with($uri)
-            ->will(self::returnValue($uri));
+            ->will($this->returnValue($uri));
 
         if ($referenceType === UrlGeneratorInterface::ABSOLUTE_URL) {
             $fullUri = $requestContext->getScheme() . '://' . $requestContext->getHost() . $baseUrl . $uri;
@@ -89,8 +93,11 @@ class GeneratorTest extends TestCase
     }
 
     #[DataProvider('generateProvider')]
-    public function testGenerateWithSiteAccessNoReverseMatch($urlResource, array $parameters, $referenceType): void
-    {
+    public function testGenerateWithSiteAccessNoReverseMatch(
+        $urlResource,
+        array $parameters,
+        $referenceType
+    ): void {
         $matcher = $this->createMock(URILexer::class);
         $this->generator->setSiteAccess(new SiteAccess('test', 'test', $matcher));
 
@@ -100,17 +107,17 @@ class GeneratorTest extends TestCase
 
         $uri = '/some/thing';
         $this->generator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('doGenerate')
             ->with($urlResource, $parameters)
-            ->will(self::returnValue($uri));
+            ->will($this->returnValue($uri));
 
         $fullUri = $baseUrl . $uri;
         $matcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('analyseLink')
             ->with($uri)
-            ->will(self::returnValue($uri));
+            ->will($this->returnValue($uri));
 
         if ($referenceType === UrlGeneratorInterface::ABSOLUTE_URL) {
             $fullUri = $requestContext->getScheme() . '://' . $requestContext->getHost() . $baseUrl . $uri;
@@ -118,12 +125,12 @@ class GeneratorTest extends TestCase
 
         $siteAccessName = 'fake';
         $this->siteAccessRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('matchByName')
             ->with($siteAccessName)
-            ->will(self::returnValue(null));
+            ->will($this->returnValue(null));
         $this->logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('notice');
         self::assertSame($fullUri, $this->generator->generate($urlResource, $parameters + ['siteaccess' => $siteAccessName], $referenceType));
     }

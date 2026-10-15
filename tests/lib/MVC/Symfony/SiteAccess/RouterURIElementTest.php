@@ -79,8 +79,10 @@ class RouterURIElementTest extends RouterBaseTestCase
      * @param string $expectedFixedUpURI
      */
     #[DataProvider('analyseProvider')]
-    public function testAnalyseURI($uri, $expectedFixedUpURI): void
-    {
+    public function testAnalyseURI(
+        $uri,
+        $expectedFixedUpURI
+    ): void {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $uri)
@@ -93,8 +95,10 @@ class RouterURIElementTest extends RouterBaseTestCase
      * @param string $linkUri
      */
     #[DataProvider('analyseProvider')]
-    public function testAnalyseLink($fullUri, $linkUri): void
-    {
+    public function testAnalyseLink(
+        $fullUri,
+        $linkUri
+    ): void {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $fullUri)
@@ -114,8 +118,10 @@ class RouterURIElementTest extends RouterBaseTestCase
     }
 
     #[DataProvider('reverseMatchProvider')]
-    public function testReverseMatch($siteAccessName, $originalPathinfo): void
-    {
+    public function testReverseMatch(
+        $siteAccessName,
+        $originalPathinfo
+    ): void {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, $originalPathinfo));
         $result = $matcher->reverseMatch($siteAccessName);
@@ -176,7 +182,7 @@ class RouterURIElementTest extends RouterBaseTestCase
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

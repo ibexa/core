@@ -28,10 +28,10 @@ class LegacyDFSClusterTest extends TestCase
 
     private Connection & MockObject $dbalMock;
 
-    /** @var \Doctrine\DBAL\Query\QueryBuilder&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var QueryBuilder&MockObject */
     private QueryBuilder & MockObject $qbMock;
 
-    private UrlDecorator&MockObject $urlDecoratorMock;
+    private UrlDecorator & MockObject $urlDecoratorMock;
 
     protected function setUp(): void
     {
@@ -51,7 +51,7 @@ class LegacyDFSClusterTest extends TestCase
     }
 
     /**
-     * @return iterable<array{string, string, int, \DateTime, \DateTime}>
+     * @return iterable<array{string, string, int, DateTime, DateTime}>
      */
     public static function providerCreate(): iterable
     {
@@ -63,10 +63,15 @@ class LegacyDFSClusterTest extends TestCase
     }
 
     #[DataProvider('providerCreate')]
-    public function testCreate(string $id, string $mimeType, int $size, \DateTime $mtime, \DateTime $mtimeExpected): void
-    {
+    public function testCreate(
+        string $id,
+        string $mimeType,
+        int $size,
+        DateTime $mtime,
+        DateTime $mtimeExpected
+    ): void {
         $this->dbalMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('insert')
             ->with(LegacyDFSCluster::DFS_FILE_TABLE);
 
@@ -84,7 +89,7 @@ class LegacyDFSClusterTest extends TestCase
     public function testDelete(): void
     {
         $this->dbalMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('delete')
             ->with(LegacyDFSCluster::DFS_FILE_TABLE)
             ->willReturn(1);
@@ -95,7 +100,7 @@ class LegacyDFSClusterTest extends TestCase
     public function testDeleteNotFound(): void
     {
         $this->dbalMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('delete')
             ->with(LegacyDFSCluster::DFS_FILE_TABLE)
             ->willReturn(0);
@@ -144,26 +149,26 @@ class LegacyDFSClusterTest extends TestCase
     public function testDeletedirectory(): void
     {
         $this->urlDecoratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('decorate')
             ->willReturn('prefix/images/_alias/subfolder');
 
         $this->qbMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('delete')
             ->with(LegacyDFSCluster::DFS_FILE_TABLE)
             ->willReturnSelf();
 
         $this->qbMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('where')
             ->with('name LIKE :spiPath ESCAPE :esc')
             ->willReturnSelf();
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
 
         $this->qbMock
             ->expects($matcher)
-            ->method('setParameter')->willReturnCallback(function (...$parameters) use ($matcher): QueryBuilder&MockObject {
+            ->method('setParameter')->willReturnCallback(function (...$parameters) use ($matcher): QueryBuilder & MockObject {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame('esc', $parameters[0]);
                     self::assertSame('\\', $parameters[1]);
@@ -177,7 +182,7 @@ class LegacyDFSClusterTest extends TestCase
             });
 
         $this->qbMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('executeStatement')
             ->willReturn(1);
 
@@ -185,7 +190,7 @@ class LegacyDFSClusterTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function createDbalStatementMock()
     {
@@ -195,32 +200,34 @@ class LegacyDFSClusterTest extends TestCase
     /**
      * @param array<mixed>|null $result
      */
-    private function setupQueryBuilderLoad(int $rowCount, ?array $result): void
-    {
+    private function setupQueryBuilderLoad(
+        int $rowCount,
+        ?array $result
+    ): void {
         $resultMock = $this->createMock(Result::class);
         $resultMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('rowCount')
             ->willReturn($rowCount);
 
         if ($result === null) {
             $resultMock
-                ->expects(self::never())
+                ->expects($this->never())
                 ->method('fetchAssociative');
         } else {
             $resultMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('fetchAssociative')
                 ->willReturn($result);
         }
 
         $this->qbMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('select')
             ->willReturnSelf();
 
         $this->qbMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('from')
             ->willReturnSelf();
 

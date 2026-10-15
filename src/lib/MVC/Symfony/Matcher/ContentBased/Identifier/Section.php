@@ -20,7 +20,7 @@ class Section extends MultipleValued
     /**
      * Checks if a Location object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
      * @return bool
      */
@@ -40,7 +40,7 @@ class Section extends MultipleValued
     /**
      * Checks if a ContentInfo object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      *
      * @return bool
      */

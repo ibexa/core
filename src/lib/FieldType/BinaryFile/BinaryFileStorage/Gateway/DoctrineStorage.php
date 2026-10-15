@@ -43,8 +43,11 @@ class DoctrineStorage extends BaseDoctrineStorage
     /**
      * {@inheritdoc}
      */
-    protected function setFetchColumns(QueryBuilder $queryBuilder, $fieldId, $versionNo)
-    {
+    protected function setFetchColumns(
+        QueryBuilder $queryBuilder,
+        $fieldId,
+        $versionNo
+    ) {
         parent::setFetchColumns($queryBuilder, $fieldId, $versionNo);
 
         $queryBuilder->addSelect(
@@ -55,8 +58,11 @@ class DoctrineStorage extends BaseDoctrineStorage
     /**
      * {@inheritdoc}
      */
-    protected function setInsertColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field)
-    {
+    protected function setInsertColumns(
+        QueryBuilder $queryBuilder,
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         parent::setInsertColumns($queryBuilder, $versionInfo, $field);
 
         $queryBuilder

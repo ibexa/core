@@ -12,8 +12,10 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -881,8 +883,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      * $expectedDefinitionCreates have been correctly created in
      * $actualDefinitions.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct[] $expectedDefinitionCreates
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $actualDefinitions
+     * @param FieldDefinitionCreateStruct[] $expectedDefinitionCreates
+     * @param FieldDefinition[] $actualDefinitions
      */
     protected function assertFieldDefinitionsCorrect(
         array $expectedDefinitionCreates,
@@ -894,7 +896,10 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
             'Count of field definition creates did not match count of field definitions.'
         );
 
-        $sorter = static function ($a, $b): int {
+        $sorter = static function (
+            $a,
+            $b
+        ): int {
             return strcmp($a->identifier, $b->identifier);
         };
 
@@ -930,12 +935,17 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Asserts that two sets of ContentTypeGroups are equal.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $expectedGroups
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $actualGroups
+     * @param ContentTypeGroup[] $expectedGroups
+     * @param ContentTypeGroup[] $actualGroups
      */
-    protected function assertContentTypeGroupsCorrect($expectedGroups, $actualGroups)
-    {
-        $sorter = static function ($a, $b): int {
+    protected function assertContentTypeGroupsCorrect(
+        $expectedGroups,
+        $actualGroups
+    ) {
+        $sorter = static function (
+            $a,
+            $b
+        ): int {
             return strcmp($a->id, $b->id);
         };
 
@@ -1381,9 +1391,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testUpdateContentTypeDraftWithNewTranslation(): void
     {
@@ -1952,7 +1962,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the removeFieldDefinition() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content[] $data
+     * @param Content[] $data
      */
     #[Depends('testRemoveFieldDefinitionRemovesFieldFromContent')]
     public function testRemoveFieldDefinitionRemovesFieldFromContentRemoved($data): void
@@ -2067,7 +2077,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the addFieldDefinition() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content[] $data
+     * @param Content[] $data
      */
     #[Depends('testAddFieldDefinitionAddsFieldToContent')]
     public function testAddFieldDefinitionAddsFieldToContentAdded(array $data): void
@@ -2127,7 +2137,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
      *
      *
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
+     * @param FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
      */
     #[Depends('testNewFieldDefinitionUpdateStruct')]
     public function testNewFieldDefinitionUpdateStructValues($fieldDefinitionUpdateStruct): void
@@ -2637,7 +2647,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $contentType = $contentTypeService->loadContentType($contentType->id, $languageCodes);
 
         $language = isset($languageCodes[0]) ? $languageCodes[0] : 'eng-GB';
-        /** @var \Ibexa\Core\FieldType\TextLine\Value $nameValue */
+        /** @var TextLineValue $nameValue */
         self::assertEquals(
             $contentType->getName($language),
             $contentType->getName()
@@ -2827,7 +2837,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the loadContentTypeByIdentifier() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     #[Depends('testLoadContentType')]
     #[Group('user')]
@@ -2852,7 +2862,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     /**
      * Test for the loadContentTypeByIdentifier() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      */
     #[Depends('testLoadContentTypeByIdentifier')]
     public function testLoadContentTypeByIdentifierReturnsCorrectInstance($contentType): void
@@ -2999,7 +3009,10 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         usort(
             $types,
-            static function ($a, $b): int {
+            static function (
+                $a,
+                $b
+            ): int {
                 if ($a->id == $b->id) {
                     return 0;
                 }
@@ -3238,12 +3251,15 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $originalType
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $copiedType
+     * @param ContentType $originalType
+     * @param ContentType $copiedType
      * @param array $excludedProperties
      */
-    private function assertCopyContentTypeValues($originalType, $copiedType, $excludedProperties = [])
-    {
+    private function assertCopyContentTypeValues(
+        $originalType,
+        $copiedType,
+        $excludedProperties = []
+    ) {
         $allProperties = [
             'names',
             'descriptions',
@@ -4119,10 +4135,10 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testRemoveContentTypeTranslation(): void
     {
@@ -4159,10 +4175,10 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testRemoveContentTypeTranslationWithMultilingualData(): void
     {
@@ -4220,9 +4236,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testUpdateContentTypeDraftWithNewTranslationWithMultilingualData(): void
     {

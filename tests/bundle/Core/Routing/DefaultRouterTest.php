@@ -30,9 +30,9 @@ final class DefaultRouterTest extends TestCase
 {
     private const array NON_SITEACCESS_AWARE_ROUTES = ['_dontwantsiteaccess'];
 
-    private Router&MockObject $innerRouter;
+    private Router & MockObject $innerRouter;
 
-    private SiteAccess\SiteAccessRouterInterface&MockObject $siteAccessRouter;
+    private SiteAccess\SiteAccessRouterInterface & MockObject $siteAccessRouter;
 
     private RequestContext $requestContext;
 
@@ -59,7 +59,7 @@ final class DefaultRouterTest extends TestCase
         $matchedParameters = ['_controller' => 'AcmeBundle:myAction'];
 
         $this->innerRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('matchRequest')
             ->with(self::callback(
                 static fn (Request $matchedRequest): bool => $matchedRequest->getPathInfo() === $semanticPathinfo
@@ -77,7 +77,7 @@ final class DefaultRouterTest extends TestCase
         $request = Request::create('/siteaccess/foo/bar');
 
         $this->innerRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('matchRequest')
             ->with(self::identicalTo($request))
             ->willReturn($matchedParameters);
@@ -89,7 +89,7 @@ final class DefaultRouterTest extends TestCase
     public function testGenerateNoSiteAccess(string $url): void
     {
         $this->innerRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generate')
             ->with(__METHOD__)
             ->willReturn($url);
@@ -130,7 +130,7 @@ final class DefaultRouterTest extends TestCase
     ): void {
         $routeName = $routeName ?: __METHOD__;
         $this->innerRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generate')
             ->with($routeName)
             ->willReturn($urlGenerated);
@@ -141,14 +141,14 @@ final class DefaultRouterTest extends TestCase
             // Route is siteaccess aware, we're expecting analyseLink() to be called
             if (!in_array($routeName, self::NON_SITEACCESS_AWARE_ROUTES, true)) {
                 $matcher
-                    ->expects(self::once())
+                    ->expects($this->once())
                     ->method('analyseLink')
                     ->with($relevantUri)
                     ->willReturn("/$saName$relevantUri");
             } else {
                 // Non-siteaccess aware route, it's not supposed to be analysed
                 $matcher
-                    ->expects(self::never())
+                    ->expects($this->never())
                     ->method('analyseLink');
             }
         } else {
@@ -209,7 +209,7 @@ final class DefaultRouterTest extends TestCase
             $contexts
         );
         $this->innerRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generate')
             ->with($routeName, [])
             ->willReturn($urlGenerated);
@@ -239,7 +239,7 @@ final class DefaultRouterTest extends TestCase
             $contexts
         );
         $this->innerRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generate')
             ->willThrowException(new InvalidParameterException());
 
@@ -261,7 +261,7 @@ final class DefaultRouterTest extends TestCase
             WarmableInterface::class,
         ]);
         $innerRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('warmUp')
             ->with('/cache', '/build')
             ->willReturn(['/cache/routes.php']);
@@ -277,7 +277,7 @@ final class DefaultRouterTest extends TestCase
     }
 
     /**
-     * @param \Symfony\Component\Routing\RequestContext[] $contexts
+     * @param RequestContext[] $contexts
      */
     private function expectReverseSiteAccessMatch(
         string $siteAccessName,
@@ -286,16 +286,16 @@ final class DefaultRouterTest extends TestCase
     ): void {
         $versatileMatcher = $this->createMock(SiteAccess\VersatileMatcher::class);
         $versatileMatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getRequest')
             ->willReturn($simplifiedRequest);
         $this->siteAccessRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('matchByName')
             ->with($siteAccessName)
             ->willReturn(new SiteAccess($siteAccessName, 'foo', $versatileMatcher));
         $this->innerRouter
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('setContext')
             ->willReturnCallback(static function (RequestContext $context) use (&$contexts): void {
                 $contexts[] = $context;

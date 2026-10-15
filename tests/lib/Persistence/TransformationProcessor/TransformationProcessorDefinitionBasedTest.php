@@ -22,7 +22,7 @@ class TransformationProcessorDefinitionBasedTest extends TestCase
         self::assertNotFalse($ruleFiles, 'Failed to find transformation files');
 
         return new DefinitionBased(
-            new Persistence\TransformationProcessor\DefinitionBased\Parser(),
+            new DefinitionBased\Parser(),
             new Persistence\TransformationProcessor\PcreCompiler(new Persistence\Utf8Converter()),
             $ruleFiles
         );

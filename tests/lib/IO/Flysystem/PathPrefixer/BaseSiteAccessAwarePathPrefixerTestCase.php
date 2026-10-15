@@ -44,8 +44,10 @@ abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
     }
 
     #[DataProvider('getDataForTestPrefixPath')]
-    final public function testPrefixPath(string $expectedPrefixedPath, string $path): void
-    {
+    final public function testPrefixPath(
+        string $expectedPrefixedPath,
+        string $path
+    ): void {
         self::assertSame(
             $expectedPrefixedPath,
             $this->getPrefixer()->prefixPath($path)
@@ -53,8 +55,10 @@ abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
     }
 
     #[DataProvider('getDataForTestPrefixDirectoryPath')]
-    final public function testPrefixDirectoryPath(string $expectedPrefixedPath, string $path): void
-    {
+    final public function testPrefixDirectoryPath(
+        string $expectedPrefixedPath,
+        string $path
+    ): void {
         self::assertSame(
             $expectedPrefixedPath,
             $this->getPrefixer()->prefixDirectoryPath($path)
@@ -62,8 +66,10 @@ abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
     }
 
     #[DataProvider('getDataForTestStripPrefixPath')]
-    final public function testStripPrefix(string $expectedStrippedPath, string $path): void
-    {
+    final public function testStripPrefix(
+        string $expectedStrippedPath,
+        string $path
+    ): void {
         self::assertSame(
             $expectedStrippedPath,
             $this->getPrefixer()->stripPrefix($path)
@@ -71,8 +77,10 @@ abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
     }
 
     #[DataProvider('getDataForTestStripDirectoryPrefix')]
-    final public function testStripDirectoryPrefix(string $expectedStrippedPath, string $path): void
-    {
+    final public function testStripDirectoryPrefix(
+        string $expectedStrippedPath,
+        string $path
+    ): void {
         self::assertSame(
             $expectedStrippedPath,
             $this->getPrefixer()->stripDirectoryPrefix($path)

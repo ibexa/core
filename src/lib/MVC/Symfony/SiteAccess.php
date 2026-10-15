@@ -8,6 +8,7 @@
 namespace Ibexa\Core\MVC\Symfony;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use JsonSerializable;
 
 /**
@@ -26,7 +27,7 @@ class SiteAccess extends ValueObject implements JsonSerializable
      */
     public $name;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccessGroup[] */
+    /** @var SiteAccessGroup[] */
     public $groups = [];
 
     /**
@@ -40,7 +41,7 @@ class SiteAccess extends ValueObject implements JsonSerializable
     /**
      * The matcher instance that has been used to discover the siteaccess.
      *
-     * @var \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher
+     * @var Matcher
      */
     public $matcher;
 

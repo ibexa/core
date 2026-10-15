@@ -16,13 +16,14 @@ use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias as UrlAliasMatcher;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(UrlAliasMatcher::class)]
 #[CoversClass(MultipleValued::class)]
 #[CoversClass(RepositoryAware::class)]
 class UrlAliasTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias */
+    /** @var UrlAliasMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -36,8 +37,10 @@ class UrlAliasTest extends BaseTestCase
      * @param string[] $expectedValues
      */
     #[DataProvider('setMatchingConfigProvider')]
-    public function testSetMatchingConfig($matchingConfig, $expectedValues): void
-    {
+    public function testSetMatchingConfig(
+        $matchingConfig,
+        $expectedValues
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
             $this->matcher->getValues(),
@@ -64,7 +67,7 @@ class UrlAliasTest extends BaseTestCase
      *
      * @param string $path
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForUrlAlias($path)
     {
@@ -79,10 +82,16 @@ class UrlAliasTest extends BaseTestCase
         ];
 
         $urlAliasServiceMock = $this->createMock(URLAliasService::class);
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
         $urlAliasServiceMock->expects($matcher)
             ->method('listLocationAliases')
-            ->willReturnCallback(static function (Location $location, bool $custom = true, ?string $languageCode = null, ?bool $showAllTranslations = null, ?array $prioritizedLanguages = null) use ($matcher, $urlAliasList): array {
+            ->willReturnCallback(static function (
+                Location $location,
+                bool $custom = true,
+                ?string $languageCode = null,
+                ?bool $showAllTranslations = null,
+                ?array $prioritizedLanguages = null
+            ) use ($matcher, $urlAliasList): array {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertTrue($custom);
 
@@ -96,9 +105,9 @@ class UrlAliasTest extends BaseTestCase
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getURLAliasService')
-            ->will(self::returnValue($urlAliasServiceMock));
+            ->will($this->returnValue($urlAliasServiceMock));
 
         return $repository;
     }
@@ -109,8 +118,11 @@ class UrlAliasTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, string $path, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        string $path,
+        $expectedResult
+    ): void {
         $repository = $this->generateRepositoryMockForUrlAlias($path);
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);

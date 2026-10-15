@@ -38,11 +38,13 @@ class GenericTest extends BaseFieldTypeTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('provideValidDataForValidate')]
-    public function testValidateValid(array $fieldDefinitionData, Value $value): void
-    {
+    public function testValidateValid(
+        array $fieldDefinitionData,
+        Value $value
+    ): void {
         $this->validator
             ->method('validate')
             ->with($value, null)
@@ -52,11 +54,14 @@ class GenericTest extends BaseFieldTypeTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('provideInvalidDataForValidate')]
-    public function testValidateInvalid(array $fieldDefinitionData, FieldTypeValue $value, array $errors): void
-    {
+    public function testValidateInvalid(
+        array $fieldDefinitionData,
+        FieldTypeValue $value,
+        array $errors
+    ): void {
         $constraintViolationList = new ConstraintViolationList(
             array_map(
                 static fn (ValidationError $error): ConstraintViolation => new ConstraintViolation(
@@ -185,7 +190,10 @@ class GenericTest extends BaseFieldTypeTestCase
 
         $serializer
             ->method('denormalize')
-            ->willReturnCallback(static function (array $data, string $valueClass): GenericFieldValueStub {
+            ->willReturnCallback(static function (
+                array $data,
+                string $valueClass
+            ): GenericFieldValueStub {
                 self::assertEquals(GenericFieldValueStub::class, $valueClass);
 
                 return new GenericFieldValueStub($data['value']);

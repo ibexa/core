@@ -10,6 +10,4 @@ namespace Ibexa\Bundle\Core\ApiLoader\Exception;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 
-final class InvalidSearchEngine extends InvalidArgumentException
-{
-}
+final class InvalidSearchEngine extends InvalidArgumentException {}

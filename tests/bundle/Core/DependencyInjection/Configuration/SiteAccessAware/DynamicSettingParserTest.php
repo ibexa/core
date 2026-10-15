@@ -14,8 +14,10 @@ use PHPUnit\Framework\TestCase;
 class DynamicSettingParserTest extends TestCase
 {
     #[DataProvider('isDynamicSettingProvider')]
-    public function testIsDynamicSetting($setting, $expected): void
-    {
+    public function testIsDynamicSetting(
+        $setting,
+        $expected
+    ): void {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->isDynamicSetting($setting));
     }
@@ -51,8 +53,10 @@ class DynamicSettingParserTest extends TestCase
     }
 
     #[DataProvider('parseDynamicSettingProvider')]
-    public function testParseDynamicSetting($setting, array $expected): void
-    {
+    public function testParseDynamicSetting(
+        $setting,
+        array $expected
+    ): void {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->parseDynamicSetting($setting));
     }

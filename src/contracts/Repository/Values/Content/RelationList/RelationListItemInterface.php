@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 interface RelationListItemInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation|null
+     * @return Relation|null
      */
     public function getRelation(): ?Relation;
 

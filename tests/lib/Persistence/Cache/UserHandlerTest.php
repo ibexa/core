@@ -521,20 +521,30 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             ->method('userHandler')
             ->willReturn($innerHandlerMock);
         $roleDraftId = 33;
+        $calls = [];
         $innerHandlerMock
             ->expects(self::once())
             ->method('loadRole')
             ->with($roleDraftId, Role::STATUS_DRAFT)
-            ->willReturn(new Role(['originalId' => -1]));
+            ->willReturnCallback(static function () use (&$calls): Role {
+                $calls[] = 'loadRole';
+
+                return new Role(['originalId' => -1]);
+            });
         $innerHandlerMock
             ->expects(self::once())
             ->method('publishRoleDraft')
-            ->with($roleDraftId);
+            ->with($roleDraftId)
+            ->willReturnCallback(static function () use (&$calls): void {
+                $calls[] = 'publishRoleDraft';
+            });
         $this->cacheMock
             ->expects(self::never())
             ->method(self::anything());
         $handler = $this->persistenceCacheHandler->userHandler();
         $handler->publishRoleDraft($roleDraftId);
+
+        self::assertSame(['loadRole', 'publishRoleDraft'], $calls);
     }
 
     public function testAssignRole(): void

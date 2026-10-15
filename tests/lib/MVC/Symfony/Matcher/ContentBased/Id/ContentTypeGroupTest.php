@@ -16,12 +16,13 @@ use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(ContentTypeGroupIdMatcher::class)]
 #[CoversClass(MultipleValued::class)]
 class ContentTypeGroupTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentTypeGroup */
+    /** @var ContentTypeGroupIdMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -35,8 +36,11 @@ class ContentTypeGroupTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $contentTypeGroupId, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        int $contentTypeGroupId,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeGroupId($contentTypeGroupId));
         $this->matcher->setMatchingConfig($matchingConfig);
 
@@ -85,16 +89,16 @@ class ContentTypeGroupTest extends BaseTestCase
     /**
      * Generates a Location mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateLocationMock()
     {
         $location = $this->getLocationMock();
         $location
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentInfo')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $this->getContentInfoMock(['contentTypeId' => 42])
                 )
             );
@@ -107,8 +111,11 @@ class ContentTypeGroupTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $contentTypeGroupId, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        int $contentTypeGroupId,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeGroupId($contentTypeGroupId));
         $this->matcher->setMatchingConfig($matchingConfig);
 
@@ -157,20 +164,20 @@ class ContentTypeGroupTest extends BaseTestCase
      *
      * @param int $contentTypeGroupId
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForContentTypeGroupId($contentTypeGroupId)
     {
         $contentTypeServiceMock = $this->createMock(ContentTypeService::class);
         $contentTypeMock = $this->getMockForAbstractClass(ContentType::class);
-        $contentTypeServiceMock->expects(self::once())
+        $contentTypeServiceMock->expects($this->once())
             ->method('loadContentType')
             ->with(42)
-            ->will(self::returnValue($contentTypeMock));
-        $contentTypeMock->expects(self::once())
+            ->will($this->returnValue($contentTypeMock));
+        $contentTypeMock->expects($this->once())
             ->method('getContentTypeGroups')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     [
                         // First a group that will never match, then the right group.
                         // This ensures to test even if the content type belongs to several groups at once.
@@ -182,9 +189,9 @@ class ContentTypeGroupTest extends BaseTestCase
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getContentTypeService')
-            ->will(self::returnValue($contentTypeServiceMock));
+            ->will($this->returnValue($contentTypeServiceMock));
 
         return $repository;
     }

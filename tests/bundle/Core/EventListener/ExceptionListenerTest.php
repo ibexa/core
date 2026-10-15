@@ -24,6 +24,7 @@ use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use Ibexa\Core\Base\Translatable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -42,7 +43,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExceptionListenerTest extends TestCase
 {
-    private TranslatorInterface&MockObject $translator;
+    private TranslatorInterface & MockObject $translator;
 
     private ExceptionListener $listener;
 
@@ -62,7 +63,7 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @return \Symfony\Component\HttpKernel\Event\ExceptionEvent
+     * @return ExceptionEvent
      */
     private function generateExceptionEvent(Exception $exception): ExceptionEvent
     {
@@ -115,7 +116,7 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @param \Exception&\Ibexa\Core\Base\Translatable $exception
+     * @param Exception&Translatable $exception
      */
     #[DataProvider('badRequestExceptionProvider')]
     public function testBadRequestException(Exception $exception): void
@@ -138,7 +139,7 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @param \Exception&\Ibexa\Core\Base\Translatable $exception
+     * @param Exception&Translatable $exception
      */
     #[DataProvider('provideDataForTestForbiddenException')]
     public function testForbiddenException(Exception $exception): void
@@ -165,7 +166,7 @@ class ExceptionListenerTest extends TestCase
         $exception = new RuntimeException('foo');
         $event = $this->generateExceptionEvent($exception);
         $this->translator
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('trans');
 
         $this->listener->onKernelException($event);
@@ -173,7 +174,7 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @param \Exception&\Ibexa\Core\Base\Translatable $exception
+     * @param Exception&Translatable $exception
      */
     #[DataProvider('otherExceptionProvider')]
     public function testOtherRepositoryException(Exception $exception): void
@@ -196,7 +197,7 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @return iterable<array{\Exception&\Ibexa\Core\Base\Translatable}>
+     * @return iterable<array{Exception&Translatable}>
      */
     public static function badRequestExceptionProvider(): iterable
     {
@@ -209,7 +210,7 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @return iterable<array{\Exception&\Ibexa\Core\Base\Translatable}>
+     * @return iterable<array{Exception&Translatable}>
      */
     public static function provideDataForTestForbiddenException(): iterable
     {
@@ -224,7 +225,7 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @return iterable<array{\Exception&\Ibexa\Core\Base\Translatable}>
+     * @return iterable<array{Exception&Translatable}>
      */
     public static function otherExceptionProvider(): iterable
     {
@@ -244,7 +245,7 @@ class ExceptionListenerTest extends TestCase
         string $translatedMessage
     ): void {
         $this->translator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('trans')
             ->with($messageTemplate, $translationParams)
             ->willReturn($translatedMessage);
@@ -252,7 +253,7 @@ class ExceptionListenerTest extends TestCase
 
     /**
      * @param class-string $expectedException
-     * @param \Exception&\Ibexa\Core\Base\Translatable $exception
+     * @param Exception&Translatable $exception
      */
     private function assertSameException(
         string $expectedException,

@@ -27,7 +27,7 @@ final class IdQueryBuilder extends BaseLocationCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId $criterion */
+        /** @var LocationId $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         return $queryBuilder->expr()->in(

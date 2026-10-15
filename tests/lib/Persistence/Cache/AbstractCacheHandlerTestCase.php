@@ -51,18 +51,18 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
     ): void {
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects(self::once())->method('logCall');
-        $this->loggerMock->expects(self::never())->method('logCacheHit');
-        $this->loggerMock->expects(self::never())->method('logCacheMiss');
+        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects($this->never())->method('logCacheHit');
+        $this->loggerMock->expects($this->never())->method('logCacheMiss');
 
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
         $invocationMocker = $innerHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($method)
             ->with(...$arguments);
         // workaround for mocking void-returning methods, null in this case denotes that, not null value
@@ -72,7 +72,7 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
 
         if ($tags || $key) {
             if ($tagGeneratingArguments) {
-                $matcher = self::exactly(count($tagGeneratingArguments));
+                $matcher = $this->exactly(count($tagGeneratingArguments));
                 $this->cacheIdentifierGeneratorMock
                     ->expects($matcher)
                     ->method('generateTag')
@@ -87,7 +87,7 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
                 $callsCount = count($keyGeneratingArguments);
 
                 if (is_array($key)) {
-                    $matcher = self::exactly($callsCount);
+                    $matcher = $this->exactly($callsCount);
                     $this->cacheIdentifierGeneratorMock
                         ->expects($matcher)
                         ->method('generateKey')
@@ -98,7 +98,7 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
                         });
                 } else {
                     $this->cacheIdentifierGeneratorMock
-                        ->expects(self::exactly($callsCount))
+                        ->expects($this->exactly($callsCount))
                         ->method('generateKey')
                         ->with($keyGeneratingArguments[0][0])
                         ->willReturn($key);
@@ -106,17 +106,17 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
             }
 
             $this->cacheMock
-                ->expects(!empty($tags) ? self::once() : self::never())
+                ->expects(!empty($tags) ? $this->once() : $this->never())
                 ->method('invalidateTags')
                 ->with($tags);
 
             $this->cacheMock
-                ->expects(!empty($key) && is_string($key) ? self::once() : self::never())
+                ->expects(!empty($key) && is_string($key) ? $this->once() : $this->never())
                 ->method('deleteItem')
                 ->with($key);
 
             $this->cacheMock
-                ->expects(!empty($key) && is_array($key) ? self::once() : self::never())
+                ->expects(!empty($key) && is_array($key) ? $this->once() : $this->never())
                 ->method('deleteItems')
                 ->with($key);
         }
@@ -161,10 +161,10 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
         $cacheItem = $this->getCacheItem($key, $multi ? reset($data) : $data);
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects(self::never())->method('logCall');
+        $this->loggerMock->expects($this->never())->method('logCall');
 
         if ($tagGeneratingArguments) {
-            $matcher = self::exactly(count($tagGeneratingArguments));
+            $matcher = $this->exactly(count($tagGeneratingArguments));
             $this->cacheIdentifierGeneratorMock
                 ->expects($matcher)
                 ->method('generateTag')
@@ -176,7 +176,7 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
         }
 
         if ($keyGeneratingArguments) {
-            $matcher = self::exactly(count($keyGeneratingArguments));
+            $matcher = $this->exactly(count($keyGeneratingArguments));
             $this->cacheIdentifierGeneratorMock
                 ->expects($matcher)
                 ->method('generateKey')
@@ -189,25 +189,25 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
 
         if ($multi) {
             $this->cacheMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('getItems')
                 ->with([$cacheItem->getKey()])
                 ->willReturn([$key => $cacheItem]);
         } else {
             $this->cacheMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('getItem')
                 ->with($cacheItem->getKey())
                 ->willReturn($cacheItem);
         }
 
         $this->persistenceHandlerMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method($handlerMethodName);
 
         foreach ($additionalCalls as $additionalCall) {
             $this->persistenceHandlerMock
-                ->expects(self::never())
+                ->expects($this->never())
                 ->method($additionalCall[0]);
         }
 
@@ -253,12 +253,12 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
 
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
         $this->loggerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('logCall')
             ->with(get_class($handler) . '::' . $method, self::isArray());
 
         if ($tagGeneratingArguments) {
-            $matcher = self::exactly(count($tagGeneratingArguments));
+            $matcher = $this->exactly(count($tagGeneratingArguments));
             $this->cacheIdentifierGeneratorMock
                 ->expects($matcher)
                 ->method('generateTag')
@@ -270,7 +270,7 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
         }
 
         if ($keyGeneratingArguments) {
-            $matcher = self::exactly(count($keyGeneratingArguments));
+            $matcher = $this->exactly(count($keyGeneratingArguments));
             $this->cacheIdentifierGeneratorMock
                 ->expects($matcher)
                 ->method('generateKey')
@@ -283,13 +283,13 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
 
         if ($multi) {
             $this->cacheMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('getItems')
                 ->with([$cacheItem->getKey()])
                 ->willReturn([$key => $cacheItem]);
         } else {
             $this->cacheMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('getItem')
                 ->with($cacheItem->getKey())
                 ->willReturn($cacheItem);
@@ -297,12 +297,12 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
 
         $innerHandlerMock = $this->createMock($this->getHandlerClassName());
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($handlerMethodName)
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($method)
             ->with(...$arguments)
             ->willReturn($data);
@@ -310,18 +310,18 @@ abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
         foreach ($additionalCalls as $additionalCall) {
             $innerHandlerMock = $this->createMock($additionalCall[1]);
             $this->persistenceHandlerMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method($additionalCall[0])
                 ->willReturn($innerHandlerMock);
 
             $innerHandlerMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method($additionalCall[2])
                 ->willReturn($additionalCall[3]);
         }
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('save')
             ->with($cacheItem);
 

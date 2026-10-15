@@ -85,7 +85,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             HttpKernelInterface::MAIN_REQUEST
         ), KernelEvents::REQUEST);
 
-        /** @var \Symfony\Component\HttpFoundation\Request $request */
+        /** @var Request $request */
         $request = $event->getRequest();
 
         self::assertEquals(self::PROXY_IP, $request->getClientIp());
@@ -115,7 +115,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             HttpKernelInterface::MAIN_REQUEST
         ), KernelEvents::REQUEST);
 
-        /** @var \Symfony\Component\HttpFoundation\Request $request */
+        /** @var Request $request */
         $request = $event->getRequest();
 
         self::assertEquals($expectedIp, $request->getClientIp());

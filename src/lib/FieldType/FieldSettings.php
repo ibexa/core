@@ -24,13 +24,15 @@ class FieldSettings extends ArrayObject
      *
      * This is so that only settings specified by a field type can be set.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException On non existing indexes
+     * @throws PropertyReadOnlyException On non existing indexes
      *
      * @param string|int $index
      * @param mixed $value
      */
-    public function offsetSet($index, $value): void
-    {
+    public function offsetSet(
+        $index,
+        $value
+    ): void {
         if (!parent::offsetExists($index)) {
             throw new PropertyReadOnlyException($index, __CLASS__);
         }
@@ -43,7 +45,7 @@ class FieldSettings extends ArrayObject
      *
      * @param string $index
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException If $index is not found
+     * @throws PropertyNotFoundException If $index is not found
      *
      * @return mixed
      */

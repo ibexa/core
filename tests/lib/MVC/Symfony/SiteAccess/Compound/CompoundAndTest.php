@@ -36,7 +36,7 @@ class CompoundAndTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalAnd
+     * @return LogicalAnd
      */
     private function buildMatcher(): LogicalAnd
     {
@@ -72,9 +72,9 @@ class CompoundAndTest extends TestCase
     {
         $this
             ->matcherBuilder
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('buildMatcher')
-            ->will(self::returnValue(self::createStub(Matcher::class)));
+            ->will($this->returnValue(self::createStub(Matcher::class)));
 
         $compoundMatcher->setRequest(self::createStub(SimplifiedRequest::class));
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
@@ -86,12 +86,14 @@ class CompoundAndTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      * @param $expectedMatch
      */
     #[DataProvider('matchProvider')]
-    public function testMatch(SimplifiedRequest $request, $expectedMatch): void
-    {
+    public function testMatch(
+        SimplifiedRequest $request,
+        $expectedMatch
+    ): void {
         $compoundMatcher = $this->buildMatcher();
         $compoundMatcher->setRequest($request);
         $compoundMatcher->setMatcherBuilder(new MatcherBuilder());
@@ -115,17 +117,17 @@ class CompoundAndTest extends TestCase
         $matcher1 = $this->createMock(Matcher::class);
         $matcher2 = $this->createMock(Matcher::class);
         $this->matcherBuilder
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('buildMatcher')
-            ->will(self::onConsecutiveCalls($matcher1, $matcher2));
+            ->will($this->onConsecutiveCalls($matcher1, $matcher2));
 
         $request = self::createStub(SimplifiedRequest::class);
         $matcher1
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setRequest')
             ->with($request);
         $matcher2
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setRequest')
             ->with($request);
 
@@ -152,9 +154,9 @@ class CompoundAndTest extends TestCase
     {
         $compoundMatcher = $this->buildMatcher();
         $this->matcherBuilder
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('buildMatcher')
-            ->will(self::returnValue(self::createStub(VersatileMatcher::class)));
+            ->will($this->returnValue(self::createStub(VersatileMatcher::class)));
 
         $compoundMatcher->setRequest(self::createStub(SimplifiedRequest::class));
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
@@ -187,10 +189,10 @@ class CompoundAndTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->matcherBuilder
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('buildMatcher')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['Map\URI', $mapUriConfig, $request, $matcher1],
                         ['Map\Host', $mapHostConfig, $request, $matcher2],
@@ -199,12 +201,12 @@ class CompoundAndTest extends TestCase
             );
 
         $matcher1
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will(self::returnValue(self::createStub(VersatileMatcher::class)));
+            ->will($this->returnValue(self::createStub(VersatileMatcher::class)));
         $matcher2
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('reverseMatch');
 
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
@@ -233,10 +235,10 @@ class CompoundAndTest extends TestCase
         $matcher1 = $this->createMock(VersatileMatcher::class);
         $matcher2 = $this->createMock(VersatileMatcher::class);
         $this->matcherBuilder
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('buildMatcher')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['Map\URI', $mapUriConfig, $request, $matcher1],
                         ['Map\Host', $mapHostConfig, $request, $matcher2],
@@ -245,15 +247,15 @@ class CompoundAndTest extends TestCase
             );
 
         $matcher1
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will(self::returnValue(self::createStub(VersatileMatcher::class)));
+            ->will($this->returnValue(self::createStub(VersatileMatcher::class)));
         $matcher2
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will(self::returnValue(null));
+            ->will($this->returnValue(null));
 
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
         self::assertNull($compoundMatcher->reverseMatch($siteAccessName));
@@ -281,10 +283,10 @@ class CompoundAndTest extends TestCase
         $matcher1 = $this->createMock(VersatileMatcher::class);
         $matcher2 = $this->createMock(VersatileMatcher::class);
         $this->matcherBuilder
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('buildMatcher')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['Map\URI', $mapUriConfig, $request, $matcher1],
                         ['Map\Host', $mapHostConfig, $request, $matcher2],
@@ -294,16 +296,16 @@ class CompoundAndTest extends TestCase
 
         $reverseMatchedMatcher1 = self::createStub(VersatileMatcher::class);
         $matcher1
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will(self::returnValue($reverseMatchedMatcher1));
+            ->will($this->returnValue($reverseMatchedMatcher1));
         $reverseMatchedMatcher2 = self::createStub(VersatileMatcher::class);
         $matcher2
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will(self::returnValue($reverseMatchedMatcher2));
+            ->will($this->returnValue($reverseMatchedMatcher2));
 
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
         $result = $compoundMatcher->reverseMatch($siteAccessName);

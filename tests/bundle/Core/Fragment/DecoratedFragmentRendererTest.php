@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\Fragment;
 use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\SiteAccessSerializer;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +36,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
         $matcher = $this->createMock(SiteAccess\URILexer::class);
         $siteAccess = new SiteAccess('test', 'test', $matcher);
         $matcher
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('analyseLink');
 
         $renderer = $this->getRenderer();
@@ -50,14 +51,14 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
         $matcher = $this->createMock(SiteAccess\URILexer::class);
         $siteAccess = new SiteAccess('test', 'test', $matcher);
         $matcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('analyseLink')
             ->with('/foo')
             ->willReturn('/bar/foo');
 
         $innerRenderer = $this->createMock(RoutableFragmentRenderer::class);
         $innerRenderer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setFragmentPath')
             ->with('/bar/foo');
         $renderer = new DecoratedFragmentRenderer($innerRenderer, new SiteAccessSerializer($this->getSerializer()));
@@ -69,7 +70,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
     {
         $name = 'test';
         $this->innerRenderer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
             ->willReturn($name);
 
@@ -84,7 +85,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
         $options = ['foo' => 'bar'];
         $expectedReturn = new Response('/_fragment?foo=bar');
         $this->innerRenderer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($url, $request, $options)
             ->willReturn($expectedReturn);
@@ -107,7 +108,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
         $options = ['foo' => 'bar'];
         $expectedReturn = new Response('/_fragment?foo=bar');
         $this->innerRenderer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($reference, $request, $options)
             ->willReturn($expectedReturn);
@@ -137,7 +138,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
     }
 
     /**
-     * @return \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface&\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware
+     * @return FragmentRendererInterface&SiteAccessAware
      */
     public function getRenderer(): FragmentRendererInterface
     {

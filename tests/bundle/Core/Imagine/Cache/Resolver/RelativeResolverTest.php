@@ -9,11 +9,12 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\Cache\Resolver;
 
 use Ibexa\Bundle\Core\Imagine\Cache\Resolver\RelativeResolver;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class RelativeResolverTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
+    /** @var MockObject|ResolverInterface */
     private $liipResolver;
 
     protected function setUp(): void

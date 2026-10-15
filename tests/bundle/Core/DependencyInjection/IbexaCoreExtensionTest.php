@@ -17,8 +17,10 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository\Storag
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
 use Ibexa\Bundle\Core\Features\Context\QueryControllerContext;
-use Ibexa\Contracts\Core\Repository\Values\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
+use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomCriterionQueryBuilder;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomSortClauseQueryBuilder;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryType\TestQueryType;
@@ -39,7 +41,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
 
     private $siteaccessConfig = [];
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension */
+    /** @var IbexaCoreExtension */
     private $extension;
 
     protected function setUp(): void
@@ -257,6 +259,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         self::assertTrue($this->container->hasParameter('ibexa.default_router.non_site_access_aware_routes'));
         $nonSiteaccessAwareRoutes = $this->container->getParameter('ibexa.default_router.non_site_access_aware_routes');
         // See ezpublish_minimal_no_siteaccess.yml fixture
+        self::assertIsArray($nonSiteaccessAwareRoutes);
         self::assertContains('foo_route', $nonSiteaccessAwareRoutes);
         self::assertContains('my_prefix_', $nonSiteaccessAwareRoutes);
     }
@@ -266,8 +269,10 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
      * @param string $expectedPurgeType
      */
     #[DataProvider('cacheConfigurationProvider')]
-    public function testCacheConfiguration(array $customCacheConfig, $expectedPurgeType): void
-    {
+    public function testCacheConfiguration(
+        array $customCacheConfig,
+        $expectedPurgeType
+    ): void {
         $this->load($customCacheConfig);
 
         $this->assertContainerBuilderHasParameter('ibexa.http_cache.purge_type', $expectedPurgeType);
@@ -385,8 +390,10 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     }
 
     #[DataProvider('repositoriesConfigurationFieldGroupsProvider')]
-    public function testRepositoriesConfigurationFieldGroups($repositories, $expectedRepositories): void
-    {
+    public function testRepositoriesConfigurationFieldGroups(
+        $repositories,
+        $expectedRepositories
+    ): void {
         $this->load(['repositories' => $repositories]);
         self::assertTrue($this->container->hasParameter('ibexa.repositories'));
 
@@ -410,28 +417,28 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             [
                 ['main' => null],
                 ['main' => [
-                        'fields_groups' => [
-                            'list' => ['content', 'metadata'],
-                            'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
-                        ],
+                    'fields_groups' => [
+                        'list' => ['content', 'metadata'],
+                        'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                     ],
+                ],
                 ],
             ],
             //single item with custom fields
             [
                 ['foo' => [
-                        'fields_groups' => [
-                            'list' => ['bar', 'baz', 'john'],
-                            'default' => 'bar',
-                        ],
+                    'fields_groups' => [
+                        'list' => ['bar', 'baz', 'john'],
+                        'default' => 'bar',
                     ],
                 ],
+                ],
                 ['foo' => [
-                        'fields_groups' => [
-                            'list' => ['bar', 'baz', 'john'],
-                            'default' => 'bar',
-                        ],
+                    'fields_groups' => [
+                        'list' => ['bar', 'baz', 'john'],
+                        'default' => 'bar',
                     ],
+                ],
                 ],
             ],
             //mixed item with custom config and empty item
@@ -840,7 +847,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     /**
      * Test automatic configuration of services implementing QueryType interface.
      *
-     * @see \Ibexa\Core\QueryType\QueryType
+     * @see QueryType
      */
     public function testQueryTypeAutomaticConfiguration(): void
     {
@@ -863,8 +870,8 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
      * Builders.
      *
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder
-     * @see \Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder
+     * @see CriterionQueryBuilder
+     * @see SortClauseQueryBuilder
      */
     #[DataProvider('getFilteringQueryBuilderData')]
     public function testFilteringQueryBuildersAutomaticConfiguration(
@@ -890,12 +897,12 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
      */
     public static function getFilteringQueryBuilderData(): iterable
     {
-        yield Filter\CriterionQueryBuilder::class => [
+        yield CriterionQueryBuilder::class => [
             CustomCriterionQueryBuilder::class,
             ServiceTags::FILTERING_CRITERION_QUERY_BUILDER,
         ];
 
-        yield Filter\SortClauseQueryBuilder::class => [
+        yield SortClauseQueryBuilder::class => [
             CustomSortClauseQueryBuilder::class,
             ServiceTags::FILTERING_SORT_CLAUSE_QUERY_BUILDER,
         ];

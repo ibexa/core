@@ -8,11 +8,14 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(RemoveField::class)]
@@ -21,24 +24,24 @@ class RemoveFieldTest extends TestCase
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGatewayMock;
 
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $contentStorageHandlerMock;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var Mapper */
     protected $contentMapperMock;
 
     /**
      * RemoveField action to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField
+     * @var RemoveField
      */
     protected $removeFieldAction;
 
@@ -51,35 +54,35 @@ class RemoveFieldTest extends TestCase
         $content = $this->getContentFixture(1, ['cro-HR' => $fieldId]);
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listVersionNumbers')
             ->with(self::equalTo($contentId))
-            ->will(self::returnValue($versionNumbers));
+            ->will($this->returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionedNameData')
             ->with(self::equalTo([['id' => $contentId, 'version' => 1]]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($contentId, 1)
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $this->getContentMapperMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractContentFromRows')
             ->with([], [])
-            ->will(self::returnValue([$content]));
+            ->will($this->returnValue([$content]));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteField')
             ->with(self::equalTo($fieldId));
 
-        $this->getContentStorageHandlerMock()->expects(self::once())
+        $this->getContentStorageHandlerMock()->expects($this->once())
             ->method('deleteFieldData')
             ->with(
                 self::equalTo('ibexa_string'),
@@ -100,18 +103,18 @@ class RemoveFieldTest extends TestCase
         $content2 = $this->getContentFixture(2, ['cro-HR' => $fieldId]);
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listVersionNumbers')
             ->with(self::equalTo($contentId))
-            ->will(self::returnValue($versionNumbers));
+            ->will($this->returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionedNameData')
             ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
-        $loadMatcher = self::exactly(2);
+        $loadMatcher = $this->exactly(2);
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
@@ -121,7 +124,7 @@ class RemoveFieldTest extends TestCase
                 return [];
             });
 
-        $extractMatcher = self::exactly(2);
+        $extractMatcher = $this->exactly(2);
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
@@ -132,11 +135,11 @@ class RemoveFieldTest extends TestCase
             });
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteField')
             ->with(self::equalTo($fieldId));
 
-        $deleteFieldDataMatcher = self::exactly(2);
+        $deleteFieldDataMatcher = $this->exactly(2);
         $this->getContentStorageHandlerMock()
             ->expects($deleteFieldDataMatcher)
             ->method('deleteFieldData')
@@ -161,18 +164,18 @@ class RemoveFieldTest extends TestCase
         $content2 = $this->getContentFixture(2, ['cro-HR' => $fieldId1, 'hun-HU' => $fieldId2]);
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listVersionNumbers')
             ->with(self::equalTo($contentId))
-            ->will(self::returnValue($versionNumbers));
+            ->will($this->returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionedNameData')
             ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
-        $loadMatcher = self::exactly(2);
+        $loadMatcher = $this->exactly(2);
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
@@ -182,7 +185,7 @@ class RemoveFieldTest extends TestCase
                 return [];
             });
 
-        $extractMatcher = self::exactly(2);
+        $extractMatcher = $this->exactly(2);
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
@@ -192,7 +195,7 @@ class RemoveFieldTest extends TestCase
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
             });
 
-        $deleteFieldMatcher = self::exactly(2);
+        $deleteFieldMatcher = $this->exactly(2);
         $this->getContentGatewayMock()
             ->expects($deleteFieldMatcher)
             ->method('deleteField')
@@ -201,7 +204,7 @@ class RemoveFieldTest extends TestCase
                 self::assertSame([$expected], $parameters);
             });
 
-        $deleteFieldDataMatcher = self::exactly(2);
+        $deleteFieldDataMatcher = $this->exactly(2);
         $this->getContentStorageHandlerMock()
             ->expects($deleteFieldDataMatcher)
             ->method('deleteFieldData')
@@ -213,15 +216,17 @@ class RemoveFieldTest extends TestCase
             });
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('removeRelationsByFieldDefinitionId')
             ->with(self::equalTo(42));
 
         $action->apply($contentId);
     }
 
-    protected function getContentFixture(int $versionNo, array $languageCodes): Content
-    {
+    protected function getContentFixture(
+        int $versionNo,
+        array $languageCodes
+    ): Content {
         $fields = [];
 
         foreach ($languageCodes as $languageCode => $fieldId) {
@@ -255,7 +260,7 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns a Content Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @return MockObject|Gateway
      */
     protected function getContentGatewayMock()
     {
@@ -269,7 +274,7 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns a Content StorageHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @return MockObject|StorageHandler
      */
     protected function getContentStorageHandlerMock()
     {
@@ -283,7 +288,7 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns a Content mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return MockObject|Mapper
      */
     protected function getContentMapperMock()
     {
@@ -297,11 +302,11 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns a FieldDefinition fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      */
     protected function getFieldDefinitionFixture()
     {
-        $fieldDef = new Content\Type\FieldDefinition();
+        $fieldDef = new FieldDefinition();
         $fieldDef->id = 42;
         $fieldDef->fieldType = 'ibexa_string';
         $fieldDef->defaultValue = new Content\FieldValue();
@@ -312,7 +317,7 @@ class RemoveFieldTest extends TestCase
     /**
      * Returns the RemoveField action to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField
+     * @return RemoveField
      */
     protected function getRemoveFieldAction()
     {

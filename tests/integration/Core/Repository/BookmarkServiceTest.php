@@ -9,8 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -261,8 +264,8 @@ class BookmarkServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     private function loadMainLocation(Content $content): Location
     {
@@ -275,7 +278,7 @@ class BookmarkServiceTest extends BaseTestCase
     /**
      * Asserts both that the bookmark is no longer listed and that its row is actually gone.
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \ErrorException
      */
     private function assertBookmarkGone(int $locationId): void
@@ -294,7 +297,7 @@ class BookmarkServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private static function assertBookmarkRowCount(
         int $expectedCount,

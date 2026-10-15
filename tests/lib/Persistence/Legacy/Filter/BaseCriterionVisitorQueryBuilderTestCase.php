@@ -11,8 +11,8 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Filter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
-use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder;
@@ -27,7 +27,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(CriterionVisitor::class)]
 abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor */
+    /** @var CriterionVisitor */
     private $criterionVisitor;
 
     /**
@@ -52,7 +52,7 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     #[DataProvider('getFilteringCriteriaQueryData')]
     public function testVisitCriteriaProducesQuery(
@@ -101,9 +101,9 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
     private function getBaseCriterionQueryBuilders(CriterionVisitor $criterionVisitor): iterable
     {
         return [
-            new CriterionQueryBuilder\LogicalAndQueryBuilder($criterionVisitor),
-            new CriterionQueryBuilder\LogicalOrQueryBuilder($criterionVisitor),
-            new CriterionQueryBuilder\LogicalNotQueryBuilder($criterionVisitor),
+            new LogicalAndQueryBuilder($criterionVisitor),
+            new LogicalOrQueryBuilder($criterionVisitor),
+            new LogicalNotQueryBuilder($criterionVisitor),
         ];
     }
 }

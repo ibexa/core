@@ -27,7 +27,7 @@ final class ParentLocationIdQueryBuilder extends BaseLocationCriterionQueryBuild
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId $criterion */
+        /** @var ParentLocationId $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         return $queryBuilder->expr()->in(

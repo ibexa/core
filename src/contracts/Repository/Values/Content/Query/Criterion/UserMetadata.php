@@ -50,14 +50,17 @@ class UserMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     /**
      * Creates a new UserMetadata criterion.
      *
-     * @throws \InvalidArgumentException If target is unknown
+     * @throws InvalidArgumentException If target is unknown
      *
      * @param string $target One of {@see UserMetadata::OWNER}, {@see UserMetadata::GROUP}, or {@see UserMetadata::MODIFIER}.
      * @param string|null $operator The operator the Criterion uses. If null is given, will default to {@see Operator::IN} if $value is an array, {@see Operator::EQ} if it isn't.
      * @param int|int[] $value The match value, either as an array of as a single value, depending on the operator.
      */
-    public function __construct(string $target, ?string $operator, int|array $value)
-    {
+    public function __construct(
+        string $target,
+        ?string $operator,
+        int | array $value
+    ) {
         switch ($target) {
             case self::OWNER:
             case self::GROUP:

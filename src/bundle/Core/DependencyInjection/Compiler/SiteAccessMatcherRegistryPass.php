@@ -21,7 +21,7 @@ final class SiteAccessMatcherRegistryPass implements CompilerPassInterface
     public const MATCHER_TAG = 'ibexa.site_access.matcher';
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container): void
     {

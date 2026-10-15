@@ -16,8 +16,10 @@ use PHPUnit\Framework\TestCase;
 final class SortSpecLexerTest extends TestCase
 {
     #[DataProvider('dataProviderForTokenize')]
-    public function testTokenize(string $input, iterable $expectedTokens): void
-    {
+    public function testTokenize(
+        string $input,
+        iterable $expectedTokens
+    ): void {
         $lexer = new SortSpecLexer();
         $lexer->tokenize($input);
 

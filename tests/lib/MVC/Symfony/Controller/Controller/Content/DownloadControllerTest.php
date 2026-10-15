@@ -87,12 +87,12 @@ final class DownloadControllerTest extends TestCase
         $request = new Request(['inLanguage' => 'eng-GB']);
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContent')
             ->with(393)
             ->willThrowException(new BaseNotFoundException('Content', 393));
         $this->translationHelper
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getTranslatedField');
         $this->expectBinaryFileNotLoaded();
 
@@ -111,7 +111,7 @@ final class DownloadControllerTest extends TestCase
             ->method('loadContent')
             ->willReturn($content);
         $this->translationHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getTranslatedField')
             ->with($content, 'file', null)
             ->willReturn($field);
@@ -124,17 +124,19 @@ final class DownloadControllerTest extends TestCase
     }
 
     #[DataProvider('provideNotFoundCases')]
-    public function testDownloadBinaryFileByIdActionReturnsNotFound(int $fieldId, string $filename): void
-    {
+    public function testDownloadBinaryFileByIdActionReturnsNotFound(
+        int $fieldId,
+        string $filename
+    ): void {
         $content = $this->createContent(self::FILENAME);
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContent')
             ->with(42, null, null)
             ->willReturn($content);
         $this->translationHelper
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getTranslatedField');
         $this->expectBinaryFileNotLoaded();
 

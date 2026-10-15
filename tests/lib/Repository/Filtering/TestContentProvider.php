@@ -8,7 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Filtering;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
@@ -28,22 +31,24 @@ class TestContentProvider
         'article3' => 'remote-id-article-3',
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
-    /** @var \Ibexa\Tests\Integration\Core\Repository\BaseTestCase */
+    /** @var BaseTestCase */
     private $testInstance;
 
-    public function __construct(Repository $repository, BaseTestCase $testInstance)
-    {
+    public function __construct(
+        Repository $repository,
+        BaseTestCase $testInstance
+    ) {
         $this->repository = $repository;
         $this->testInstance = $testInstance;
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function createSharedContentStructure(): Content
     {
@@ -120,9 +125,9 @@ class TestContentProvider
      * ]
      * </code>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function createContentDraft(
         string $contentTypeIdentifier,
@@ -153,9 +158,9 @@ class TestContentProvider
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     private function createArticle(
         string $title,
@@ -183,8 +188,8 @@ class TestContentProvider
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
     private function createSection(string $sectionIdentifier): Section
     {

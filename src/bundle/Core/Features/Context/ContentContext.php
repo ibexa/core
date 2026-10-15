@@ -15,13 +15,13 @@ use RuntimeException;
 
 class ContentContext implements Context
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $currentContent;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $currentDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
     public function __construct(Repository $repository)
@@ -59,10 +59,12 @@ class ContentContext implements Context
      * @param string $contentTypeIdentifier
      * @param array $fields Hash of field def identifier => field value
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content the created content item.
+     * @return Content the created content item.
      */
-    public function createContentItem($contentTypeIdentifier, array $fields)
-    {
+    public function createContentItem(
+        $contentTypeIdentifier,
+        array $fields
+    ) {
         $draft = $this->createDraft($contentTypeIdentifier, $fields);
 
         $this->currentContent = $this->repository->sudo(
@@ -122,10 +124,12 @@ class ContentContext implements Context
      * @param string $contentTypeIdentifier
      * @param array $fields Hash of field def identifier => field value
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content the created draft.
+     * @return Content the created draft.
      */
-    public function createDraft($contentTypeIdentifier, array $fields)
-    {
+    public function createDraft(
+        $contentTypeIdentifier,
+        array $fields
+    ) {
         $contentService = $this->repository->getContentService();
 
         $createStruct = $contentService->newContentCreateStruct(

@@ -13,6 +13,4 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 /**
  * Marker for Content & Location filtering Criterion.
  */
-interface FilteringCriterion extends CriterionInterface
-{
-}
+interface FilteringCriterion extends CriterionInterface {}

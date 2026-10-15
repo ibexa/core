@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 final class ValidationErrorFileVisitorTest extends BaseMessageExtractorPhpFileVisitorTestCase
 {
     /**
-     * @return iterable<string, array{string, array<\JMS\TranslationBundle\Model\Message>}>
+     * @return iterable<string, array{string, array<Message>}>
      */
     public static function getDataForTestExtractTranslation(): iterable
     {
@@ -33,8 +33,10 @@ final class ValidationErrorFileVisitorTest extends BaseMessageExtractorPhpFileVi
         ];
     }
 
-    protected function buildVisitor(DocParser $docParser, FileSourceFactory $fileSourceFactory): FileVisitorInterface
-    {
+    protected function buildVisitor(
+        DocParser $docParser,
+        FileSourceFactory $fileSourceFactory
+    ): FileVisitorInterface {
         return new ValidationErrorFileVisitor(
             $docParser,
             $fileSourceFactory

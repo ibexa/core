@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\EventListener\ConsoleCommandListener;
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\TestOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
@@ -26,22 +27,22 @@ class ConsoleCommandListenerTest extends TestCase
 {
     private const INVALID_SA_NAME = 'foo';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EventDispatcherInterface|MockObject */
     private $dispatcher;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\ConsoleCommandListener */
+    /** @var ConsoleCommandListener */
     private $listener;
 
-    /** @var \Symfony\Component\Console\Input\InputDefinition */
+    /** @var InputDefinition */
     private $inputDefinition;
 
-    /** @var \Symfony\Component\Console\Output\Output */
+    /** @var Output */
     private $testOutput;
 
-    private Command&Stub $command;
+    private Command & Stub $command;
 
     protected function setUp(): void
     {
@@ -71,7 +72,7 @@ class ConsoleCommandListenerTest extends TestCase
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\. Valid SiteAccesses are/');
 
-        $this->dispatcher->expects(self::never())
+        $this->dispatcher->expects($this->never())
             ->method('dispatch');
         $input = new ArrayInput(['--siteaccess' => 'foo'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
@@ -84,7 +85,7 @@ class ConsoleCommandListenerTest extends TestCase
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\.$/');
 
-        $this->dispatcher->expects(self::never())
+        $this->dispatcher->expects($this->never())
             ->method('dispatch');
         $input = new ArrayInput(['--siteaccess' => 'foo'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
@@ -94,7 +95,7 @@ class ConsoleCommandListenerTest extends TestCase
 
     public function testValidSiteAccess(): void
     {
-        $this->dispatcher->expects(self::once())
+        $this->dispatcher->expects($this->once())
             ->method('dispatch');
         $input = new ArrayInput(['--siteaccess' => 'site1'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
@@ -104,7 +105,7 @@ class ConsoleCommandListenerTest extends TestCase
 
     public function testDefaultSiteAccess(): void
     {
-        $this->dispatcher->expects(self::once())
+        $this->dispatcher->expects($this->once())
             ->method('dispatch');
         $input = new ArrayInput([], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);

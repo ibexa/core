@@ -50,7 +50,7 @@ abstract class BaseProviderTestCase extends TestCase
     }
 
     /**
-     * @phpstan-return list<array{class-string<\Symfony\Component\Security\Core\User\UserInterface>, bool}>
+     * @phpstan-return list<array{class-string<SymfonyUserInterface>, bool}>
      */
     public static function supportsClassProvider(): array
     {
@@ -62,11 +62,13 @@ abstract class BaseProviderTestCase extends TestCase
     }
 
     /**
-     * @phpstan-param class-string<\Symfony\Component\Security\Core\User\UserInterface> $class
+     * @phpstan-param class-string<SymfonyUserInterface> $class
      */
     #[DataProvider('supportsClassProvider')]
-    public function testSupportsClass(string $class, bool $supports): void
-    {
+    public function testSupportsClass(
+        string $class,
+        bool $supports
+    ): void {
         self::assertSame($supports, $this->userProvider->supportsClass($class));
     }
 
@@ -87,12 +89,12 @@ abstract class BaseProviderTestCase extends TestCase
         $apiUser = $this->buildUserValueObjectStub($userId);
         $user = $this->createMock(UserInterface::class);
         $user
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAPIUser')
             ->willReturn($apiUser);
 
         $this->userService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUser')
             ->with($userId)
             ->willThrowException(new NotFoundException('user', 'foo'));
@@ -109,23 +111,25 @@ abstract class BaseProviderTestCase extends TestCase
         $this->userProvider->refreshUser($user);
     }
 
-    protected function createUserWrapperMockFromAPIUser(User $apiUser, int $userId): UserInterface & MockObject
-    {
+    protected function createUserWrapperMockFromAPIUser(
+        User $apiUser,
+        int $userId
+    ): UserInterface & MockObject {
         $refreshedAPIUser = clone $apiUser;
         $user = $this->createMock(UserInterface::class);
         $user
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAPIUser')
             ->willReturn($apiUser)
         ;
         $user
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setAPIUser')
             ->with($refreshedAPIUser)
         ;
 
         $this->userService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUser')
             ->with($userId)
             ->willReturn($refreshedAPIUser)
@@ -141,7 +145,7 @@ abstract class BaseProviderTestCase extends TestCase
         $user = $this->createUserWrapperMockFromAPIUser($apiUser, $userId);
 
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setCurrentUserReference')
             ->with(new UserReference($apiUser->getUserId()));
 
@@ -154,7 +158,7 @@ abstract class BaseProviderTestCase extends TestCase
         $apiUser = self::createStub(APIUser::class);
 
         $this->userService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($this->getUserServiceMethod())
             ->with($username)
             ->willReturn($apiUser);
@@ -169,7 +173,7 @@ abstract class BaseProviderTestCase extends TestCase
     {
         $username = $this->getUserIdentifier();
         $this->userService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($this->getUserServiceMethod())
             ->with($username)
             ->willThrowException(new NotFoundException('user', $username));

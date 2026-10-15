@@ -26,8 +26,12 @@ class InvalidArgumentType extends InvalidArgumentException
      *
      * @param mixed|null $value Optionally to output the type that was received
      */
-    public function __construct(string $argumentName, string $expectedType, mixed $value = null, ?Exception $previous = null)
-    {
+    public function __construct(
+        string $argumentName,
+        string $expectedType,
+        mixed $value = null,
+        ?Exception $previous = null
+    ) {
         parent::__construct($argumentName, "Argument $argumentName is invalid", $previous);
         // override parent constructor message template and parameters
         $parameters = ['%argumentName%' => $argumentName, '%expectedType%' => $expectedType];

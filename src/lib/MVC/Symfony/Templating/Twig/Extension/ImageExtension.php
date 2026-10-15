@@ -10,6 +10,7 @@ namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\MVC\Exception\SourceImageNotFoundException;
@@ -23,14 +24,16 @@ class ImageExtension extends AbstractExtension implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
+    /** @var VariationHandler */
     private $imageVariationService;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper */
+    /** @var AssetMapper */
     protected $assetMapper;
 
-    public function __construct(VariationHandler $imageVariationService, AssetMapper $assetMapper)
-    {
+    public function __construct(
+        VariationHandler $imageVariationService,
+        AssetMapper $assetMapper
+    ) {
         $this->imageVariationService = $imageVariationService;
         $this->assetMapper = $assetMapper;
     }
@@ -54,14 +57,17 @@ class ImageExtension extends AbstractExtension implements LoggerAwareInterface
     /**
      * Returns the image variation object for $field/$versionInfo.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
+     * @param Field $field
+     * @param VersionInfo $versionInfo
      * @param string $variationName
      *
-     * @return \Ibexa\Contracts\Core\Variation\Values\Variation|null
+     * @return Variation|null
      */
-    public function getImageVariation(Field $field, VersionInfo $versionInfo, $variationName)
-    {
+    public function getImageVariation(
+        Field $field,
+        VersionInfo $versionInfo,
+        $variationName
+    ) {
         try {
             return $this->imageVariationService->getVariation($field, $versionInfo, $variationName);
         } catch (InvalidVariationException $e) {

@@ -17,18 +17,26 @@ class DefaultScopeConfigResolver extends ContainerConfigResolver
 {
     private const SCOPE_NAME = 'default';
 
-    public function __construct(ContainerInterface $container, string $defaultNamespace)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        string $defaultNamespace
+    ) {
         parent::__construct($container, self::SCOPE_NAME, $defaultNamespace);
     }
 
-    public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
-    {
+    public function hasParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): bool {
         return parent::hasParameter($paramName, $namespace, self::SCOPE_NAME);
     }
 
-    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
-    {
+    public function getParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ) {
         return parent::getParameter($paramName, $namespace, self::SCOPE_NAME);
     }
 }

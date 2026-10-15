@@ -148,7 +148,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
     }
 
     private function getCheckPassportEvent(
-        (User & MockObject)|null $user = null,
+        (User & MockObject) | null $user = null,
         ?Passport $passport = null,
     ): CheckPassportEvent {
         $user = $user ?? $this->createMock(User::class);

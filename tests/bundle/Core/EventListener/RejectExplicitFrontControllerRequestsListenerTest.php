@@ -21,10 +21,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener */
+    /** @var RejectExplicitFrontControllerRequestsListener */
     private $eventListener;
 
-    private HttpKernelInterface&Stub $httpKernel;
+    private HttpKernelInterface & Stub $httpKernel;
 
     protected function setUp(): void
     {

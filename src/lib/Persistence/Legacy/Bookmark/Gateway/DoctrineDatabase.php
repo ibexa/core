@@ -24,7 +24,7 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_LOCATION_ID = 'node_id';
     public const COLUMN_NAME = 'name';
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     public function __construct(Connection $connection)
@@ -84,8 +84,10 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationIds): array
-    {
+    public function loadBookmarkDataByUserIdAndLocationId(
+        int $userId,
+        array $locationIds
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(...$this->getColumns())
@@ -124,8 +126,11 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadUserBookmarks(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(...$this->getColumns())
@@ -161,8 +166,10 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function locationSwapped(int $location1Id, int $location2Id): void
-    {
+    public function locationSwapped(
+        int $location1Id,
+        int $location2Id
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::TABLE_BOOKMARKS)

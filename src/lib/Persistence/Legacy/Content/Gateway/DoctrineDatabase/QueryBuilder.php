@@ -18,7 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
  */
 final class QueryBuilder
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     public function __construct(Connection $connection)
@@ -93,10 +93,10 @@ final class QueryBuilder
     /**
      * Create a select query to load Content Info data.
      *
-     * @see \Ibexa\Core\Persistence\Legacy\Content\Gateway::loadContentInfo()
-     * @see \Ibexa\Core\Persistence\Legacy\Content\Gateway::loadContentInfoList()
-     * @see \Ibexa\Core\Persistence\Legacy\Content\Gateway::loadContentInfoByRemoteId()
-     * @see \Ibexa\Core\Persistence\Legacy\Content\Gateway::loadContentInfoByLocationId()
+     * @see Gateway::loadContentInfo()
+     * @see Gateway::loadContentInfoList()
+     * @see Gateway::loadContentInfoByRemoteId()
+     * @see Gateway::loadContentInfoByLocationId()
      */
     public function createLoadContentInfoQueryBuilder(
         bool $joinMainLocation = true

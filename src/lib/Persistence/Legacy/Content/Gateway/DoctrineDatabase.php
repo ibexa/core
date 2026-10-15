@@ -9,6 +9,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -20,6 +21,7 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
@@ -45,7 +47,7 @@ use RuntimeException;
  *
  * @internal Gateway implementation is considered internal. Use Persistence Content Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
@@ -61,11 +63,12 @@ final class DoctrineDatabase extends Gateway
         protected QueryBuilder $queryBuilder,
         protected LanguageHandler $languageHandler,
         protected LanguageMaskGenerator $languageMaskGenerator
-    ) {
-    }
+    ) {}
 
-    public function insertContentObject(CreateStruct $struct, int $currentVersionNo = 1): int
-    {
+    public function insertContentObject(
+        CreateStruct $struct,
+        int $currentVersionNo = 1
+    ): int {
         $initialLanguageId = !empty($struct->mainLanguageId) ? $struct->mainLanguageId : $struct->initialLanguageId;
         $initialLanguageCode = $this->languageHandler->load($initialLanguageId)->languageCode;
 
@@ -120,8 +123,10 @@ final class DoctrineDatabase extends Gateway
         return (int)$this->connection->lastInsertId();
     }
 
-    public function insertVersion(VersionInfo $versionInfo, array $fields): int
-    {
+    public function insertVersion(
+        VersionInfo $versionInfo,
+        array $fields
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $query
             ->insert(self::CONTENT_VERSION_TABLE)
@@ -259,8 +264,11 @@ final class DoctrineDatabase extends Gateway
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function updateVersion(int $contentId, int $versionNo, UpdateStruct $struct): void
-    {
+    public function updateVersion(
+        int $contentId,
+        int $versionNo,
+        UpdateStruct $struct
+    ): void {
         $query = $this->connection->createQueryBuilder();
 
         $query
@@ -299,8 +307,10 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function updateAlwaysAvailableFlag(int $contentId, ?bool $alwaysAvailable = null): void
-    {
+    public function updateAlwaysAvailableFlag(
+        int $contentId,
+        ?bool $alwaysAvailable = null
+    ): void {
         // We will need to know some info on the current language mask to update the flag
         // everywhere needed
         $contentInfoRow = $this->loadContentInfo($contentId);
@@ -457,8 +467,11 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    public function setStatus(int $contentId, int $version, int $status): bool
-    {
+    public function setStatus(
+        int $contentId,
+        int $version,
+        int $status
+    ): bool {
         if ($status !== APIVersionInfo::STATUS_PUBLISHED) {
             $query = $this->queryBuilder->getSetVersionStatusQuery($contentId, $version, $status);
             $rowCount = $query->executeStatement();
@@ -472,8 +485,10 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    public function setPublishedStatus(int $contentId, int $versionNo): void
-    {
+    public function setPublishedStatus(
+        int $contentId,
+        int $versionNo
+    ): void {
         $query = $this->queryBuilder->getSetVersionStatusQuery(
             $contentId,
             $versionNo,
@@ -500,8 +515,10 @@ final class DoctrineDatabase extends Gateway
         $this->markContentAsPublished($contentId, $versionNo);
     }
 
-    private function markContentAsPublished(int $contentId, int $versionNo): void
-    {
+    private function markContentAsPublished(
+        int $contentId,
+        int $versionNo
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(Gateway::CONTENT_ITEM_TABLE)
@@ -519,8 +536,11 @@ final class DoctrineDatabase extends Gateway
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function insertNewField(Content $content, Field $field, StorageFieldValue $value): int
-    {
+    public function insertNewField(
+        Content $content,
+        Field $field,
+        StorageFieldValue $value
+    ): int {
         $query = $this->connection->createQueryBuilder();
 
         $this->setInsertFieldValues($query, $content, $field, $value);
@@ -618,16 +638,20 @@ final class DoctrineDatabase extends Gateway
     /**
      * Check if $languageCode is always available in $content.
      */
-    private function isLanguageAlwaysAvailable(Content $content, string $languageCode): bool
-    {
+    private function isLanguageAlwaysAvailable(
+        Content $content,
+        string $languageCode
+    ): bool {
         return
             $content->versionInfo->contentInfo->alwaysAvailable &&
             $content->versionInfo->contentInfo->mainLanguageCode === $languageCode
         ;
     }
 
-    public function updateField(Field $field, StorageFieldValue $value): void
-    {
+    public function updateField(
+        Field $field,
+        StorageFieldValue $value
+    ): void {
         // Note, no need to care for language_id here, since Content->$alwaysAvailable
         // cannot change on update
         $query = $this->connection->createQueryBuilder();
@@ -686,13 +710,18 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function load(int $contentId, ?int $version = null, ?array $translations = null): array
-    {
+    public function load(
+        int $contentId,
+        ?int $version = null,
+        ?array $translations = null
+    ): array {
         return $this->internalLoadContent([$contentId], $version, $translations);
     }
 
-    public function loadContentList(array $contentIds, ?array $translations = null): array
-    {
+    public function loadContentList(
+        array $contentIds,
+        ?array $translations = null
+    ): array {
         return $this->internalLoadContent($contentIds, null, $translations);
     }
 
@@ -849,8 +878,10 @@ final class DoctrineDatabase extends Gateway
         return $results[0];
     }
 
-    public function loadVersionInfo(int $contentId, ?int $versionNo = null): array
-    {
+    public function loadVersionInfo(
+        int $contentId,
+        ?int $versionNo = null
+    ): array {
         $queryBuilder = $this->queryBuilder->createVersionInfoFindQueryBuilder();
         $expr = $queryBuilder->expr();
 
@@ -888,8 +919,10 @@ final class DoctrineDatabase extends Gateway
     /**
      * @return array<int,array<string,mixed>>
      */
-    public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
-    {
+    public function loadVersionNoArchivedWithin(
+        int $contentId,
+        int $seconds
+    ): array {
         $cutoffTimestamp = time() - $seconds;
         if ($cutoffTimestamp < 0) {
             return [];
@@ -930,8 +963,10 @@ final class DoctrineDatabase extends Gateway
         return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
-    public function countVersionsForUser(int $userId, int $status = VersionInfo::STATUS_DRAFT): int
-    {
+    public function countVersionsForUser(
+        int $userId,
+        int $status = VersionInfo::STATUS_DRAFT
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
@@ -963,8 +998,10 @@ final class DoctrineDatabase extends Gateway
      *
      * @return string[][]
      */
-    public function listVersionsForUser(int $userId, int $status = VersionInfo::STATUS_DRAFT): array
-    {
+    public function listVersionsForUser(
+        int $userId,
+        int $status = VersionInfo::STATUS_DRAFT
+    ): array {
         $query = $this->queryBuilder->createVersionInfoFindQueryBuilder();
         $query
             ->where('v.status = :status')
@@ -1005,8 +1042,11 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    public function listVersions(int $contentId, ?int $status = null, int $limit = -1): array
-    {
+    public function listVersions(
+        int $contentId,
+        ?int $status = null,
+        int $limit = -1
+    ): array {
         $query = $this->queryBuilder->createVersionInfoFindQueryBuilder();
         $query
             ->where('v.contentobject_id = :content_id')
@@ -1112,8 +1152,10 @@ final class DoctrineDatabase extends Gateway
         return $result;
     }
 
-    public function deleteRelations(int $contentId, ?int $versionNo = null): void
-    {
+    public function deleteRelations(
+        int $contentId,
+        ?int $versionNo = null
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete(self::CONTENT_RELATION_TABLE)
@@ -1194,8 +1236,10 @@ final class DoctrineDatabase extends Gateway
      *
      * @param array $row
      */
-    private function removeRelationFromRelationListField(int $contentId, array $row): void
-    {
+    private function removeRelationFromRelationListField(
+        int $contentId,
+        array $row
+    ): void {
         $document = new DOMDocument('1.0', 'utf-8');
         $document->loadXML($row['data_text']);
 
@@ -1283,8 +1327,10 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function deleteFields(int $contentId, ?int $versionNo = null): void
-    {
+    public function deleteFields(
+        int $contentId,
+        ?int $versionNo = null
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete(self::CONTENT_FIELD_TABLE)
@@ -1300,8 +1346,10 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function deleteVersions(int $contentId, ?int $versionNo = null): void
-    {
+    public function deleteVersions(
+        int $contentId,
+        ?int $versionNo = null
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete(self::CONTENT_VERSION_TABLE)
@@ -1317,8 +1365,10 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function deleteNames(int $contentId, ?int $versionNo = null): void
-    {
+    public function deleteNames(
+        int $contentId,
+        ?int $versionNo = null
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete(self::CONTENT_NAME_TABLE)
@@ -1337,8 +1387,11 @@ final class DoctrineDatabase extends Gateway
     /**
      * Query Content name table to find if a name record for the given parameters exists.
      */
-    private function contentNameExists(int $contentId, int $version, string $languageCode): bool
-    {
+    private function contentNameExists(
+        int $contentId,
+        int $version,
+        string $languageCode
+    ): bool {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('COUNT(contentobject_id)')
@@ -1355,8 +1408,12 @@ final class DoctrineDatabase extends Gateway
         return (int)$stmt->fetchOne() > 0;
     }
 
-    public function setName(int $contentId, int $version, string $name, string $languageCode): void
-    {
+    public function setName(
+        int $contentId,
+        int $version,
+        string $name,
+        string $languageCode
+    ): void {
         $language = $this->languageHandler->loadByLanguageCode($languageCode);
 
         $query = $this->connection->createQueryBuilder();
@@ -1530,8 +1587,10 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
-    public function countReverseRelations(int $toContentId, ?int $relationType = null): int
-    {
+    public function countReverseRelations(
+        int $toContentId,
+        ?int $relationType = null
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
@@ -1570,8 +1629,10 @@ final class DoctrineDatabase extends Gateway
         return (int)$query->executeQuery()->fetchOne();
     }
 
-    public function loadReverseRelations(int $toContentId, ?int $relationType = null): array
-    {
+    public function loadReverseRelations(
+        int $toContentId,
+        ?int $relationType = null
+    ): array {
         $query = $this->queryBuilder->createRelationFindQueryBuilder();
         $expr = $query->expr();
         $query
@@ -1698,7 +1759,7 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function loadRelation(int $relationId): array
@@ -1725,8 +1786,10 @@ final class DoctrineDatabase extends Gateway
         return current($result);
     }
 
-    public function deleteRelation(int $relationId, int $type): void
-    {
+    public function deleteRelation(
+        int $relationId,
+        int $type
+    ): void {
         // Legacy Storage stores COMMON, LINK and EMBED types using bitmask, therefore first load
         // existing relation type by given $relationId for comparison
         $query = $this->connection->createQueryBuilder();
@@ -1817,7 +1880,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function copyRelations(
         int $originalContentId,
@@ -1867,11 +1930,13 @@ final class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      *
-     * @throws \Doctrine\DBAL\ConnectionException
-     * @throws \Doctrine\DBAL\Exception
+     * @throws ConnectionException
+     * @throws Exception
      */
-    public function deleteTranslationFromContent(int $contentId, string $languageCode): void
-    {
+    public function deleteTranslationFromContent(
+        int $contentId,
+        string $languageCode
+    ): void {
         $language = $this->languageHandler->loadByLanguageCode($languageCode);
 
         $this->connection->beginTransaction();
@@ -1881,7 +1946,7 @@ final class DoctrineDatabase extends Gateway
             $this->deleteTranslationFromContentObject($contentId, $language->id);
 
             $this->connection->commit();
-        } catch (\Doctrine\DBAL\Exception $e) {
+        } catch (Exception $e) {
             $this->connection->rollBack();
             throw $e;
         }
@@ -1918,7 +1983,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function deleteTranslationFromVersion(
         int $contentId,
@@ -1933,7 +1998,7 @@ final class DoctrineDatabase extends Gateway
             $this->deleteTranslationFromContentNames($contentId, $languageCode, $versionNo);
 
             $this->connection->commit();
-        } catch (\Doctrine\DBAL\Exception $e) {
+        } catch (Exception $e) {
             $this->connection->rollBack();
             throw $e;
         }
@@ -1978,10 +2043,12 @@ final class DoctrineDatabase extends Gateway
      * @param int $contentId
      * @param int $languageId
      *
-     * @throws \Ibexa\Core\Base\Exceptions\BadStateException
+     * @throws BadStateException
      */
-    private function deleteTranslationFromContentObject($contentId, $languageId)
-    {
+    private function deleteTranslationFromContentObject(
+        $contentId,
+        $languageId
+    ) {
         $query = $this->connection->createQueryBuilder();
         $query->update(Gateway::CONTENT_ITEM_TABLE)
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
@@ -2101,7 +2168,7 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function loadVersionInfoList(array $contentIds): array
     {

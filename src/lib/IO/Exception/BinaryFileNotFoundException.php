@@ -13,8 +13,10 @@ use Throwable;
 
 class BinaryFileNotFoundException extends BaseNotFoundException
 {
-    public function __construct(string $path, ?Throwable $previous = null)
-    {
+    public function __construct(
+        string $path,
+        ?Throwable $previous = null
+    ) {
         parent::__construct('BinaryFile', $path, $previous);
     }
 }

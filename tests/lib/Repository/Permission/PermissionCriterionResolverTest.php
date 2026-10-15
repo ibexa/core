@@ -17,6 +17,7 @@ use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionCriterionResolver;
 use Ibexa\Core\Repository\Values\User\Policy;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -226,8 +227,11 @@ class PermissionCriterionResolverTest extends TestCase
         ];
     }
 
-    protected function mockServices($criterionMock, $limitationCount, $permissionSets)
-    {
+    protected function mockServices(
+        $criterionMock,
+        $limitationCount,
+        $permissionSets
+    ) {
         $userMock = $this->getMockBuilder(User::class)->getMockForAbstractClass();
         $limitationServiceMock = $this->getLimitationServiceMock(['getLimitationType']);
         $limitationTypeMock = $this->getMockBuilder(Type::class)->getMockForAbstractClass();
@@ -240,20 +244,20 @@ class PermissionCriterionResolverTest extends TestCase
         );
 
         $limitationTypeMock
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getCriterion')
             ->with(
                 self::isInstanceOf(Limitation::class),
                 self::equalTo($userMock)
             )
-            ->will(self::returnValue($criterionMock));
+            ->will($this->returnValue($criterionMock));
 
         $targetOnlyLimitationTypeMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getCriterion');
 
         $targetOnlyLimitationTypeMock
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getCriterionByTarget')
             ->with(
                 self::isInstanceOf(Limitation::class),
@@ -263,7 +267,7 @@ class PermissionCriterionResolverTest extends TestCase
             ->willReturn($criterionMock);
 
         $limitationServiceMock
-            ->expects(self::exactly($limitationCount))
+            ->expects($this->exactly($limitationCount))
             ->method('getLimitationType')
             ->willReturnMap([
                 ['limitationIdentifier', $limitationTypeMock],
@@ -271,15 +275,15 @@ class PermissionCriterionResolverTest extends TestCase
             ]);
 
         $permissionResolverMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('hasAccess')
             ->with(self::equalTo('content'), self::equalTo('read'))
-            ->will(self::returnValue($permissionSets));
+            ->will($this->returnValue($permissionSets));
 
         $permissionResolverMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getCurrentUserReference')
-            ->will(self::returnValue($userMock));
+            ->will($this->returnValue($userMock));
     }
 
     /**
@@ -319,10 +323,10 @@ class PermissionCriterionResolverTest extends TestCase
     {
         $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
         $permissionResolverMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('hasAccess')
             ->with(self::equalTo('testModule'), self::equalTo('testFunction'))
-            ->will(self::returnValue($permissionSets));
+            ->will($this->returnValue($permissionSets));
 
         $criterionResolver = $this->getPermissionCriterionResolverMock(null);
 
@@ -336,7 +340,7 @@ class PermissionCriterionResolverTest extends TestCase
      *
      * @param string[]|null $methods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Permission\PermissionCriterionResolver
+     * @return MockObject|PermissionCriterionResolver
      */
     protected function getPermissionCriterionResolverMock($methods = [])
     {

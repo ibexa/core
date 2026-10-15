@@ -25,8 +25,10 @@ class FieldTarget extends Target
      */
     public string $fieldIdentifier;
 
-    public function __construct(string $typeIdentifier, string $fieldIdentifier)
-    {
+    public function __construct(
+        string $typeIdentifier,
+        string $fieldIdentifier
+    ) {
         $this->typeIdentifier = $typeIdentifier;
         $this->fieldIdentifier = $fieldIdentifier;
     }

@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -23,9 +24,9 @@ class SubtreeLimitationTest extends BaseLimitationTestCase
      * Tests a combination of SubtreeLimitation, SectionLimitation and
      * the ContentTypeLimitation.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
+     * @see ContentTypeLimitation
+     * @see SectionLimitation
+     * @see SubtreeLimitation
      */
     public function testSubtreeLimitationAllow(): void
     {
@@ -63,9 +64,9 @@ class SubtreeLimitationTest extends BaseLimitationTestCase
      * Tests a combination of SubtreeLimitation, SectionLimitation and
      * the ContentTypeLimitation.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
-     * @see \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
+     * @see ContentTypeLimitation
+     * @see SectionLimitation
+     * @see SubtreeLimitation
      */
     public function testSubtreeLimitationForbid(): void
     {
@@ -113,7 +114,7 @@ class SubtreeLimitationTest extends BaseLimitationTestCase
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         $editPolicy = null;
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'read' != $policy->function) {

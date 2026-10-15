@@ -8,17 +8,19 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+
 /**
  * An implementation of this class provides access to FieldTypes.
  *
- * @see \Ibexa\Contracts\Core\Repository\FieldType
+ * @see FieldType
  */
 interface FieldTypeService
 {
     /**
      * Returns a list of all field types.
      *
-     * @return \Ibexa\Contracts\Core\Repository\FieldType[]
+     * @return FieldType[]
      */
     public function getFieldTypes(): iterable;
 
@@ -27,9 +29,9 @@ interface FieldTypeService
      *
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Repository\FieldType
+     * @return FieldType
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if there is no FieldType registered with $identifier
+     * @throws NotFoundException if there is no FieldType registered with $identifier
      */
     public function getFieldType(string $identifier): FieldType;
 

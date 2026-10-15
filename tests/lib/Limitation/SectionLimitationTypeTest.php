@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
 use Ibexa\Contracts\Core\Persistence\Content\Section as SPISection;
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SPISectionHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -28,13 +29,14 @@ use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo as CoreVersionInfo;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
  */
 class SectionLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Section\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $sectionHandlerMock;
 
     /**
@@ -56,7 +58,7 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\SectionLimitationType
+     * @return SectionLimitationType
      */
     public function testConstruct(): SectionLimitationType
     {
@@ -76,13 +78,15 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation $limitation
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitation $limitation
+     * @param SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(SectionLimitation $limitation, SectionLimitationType $limitationType): void
-    {
+    public function testAcceptValue(
+        SectionLimitation $limitation,
+        SectionLimitationType $limitationType
+    ): void {
         $limitationType->acceptValue($limitation);
     }
 
@@ -101,13 +105,15 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, SectionLimitationType $limitationType): void
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        SectionLimitationType $limitationType
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -126,19 +132,19 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation $limitation
+     * @param SectionLimitation $limitation
      */
     #[DataProvider('providerForTestValidatePass')]
     public function testValidatePass(SectionLimitation $limitation): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects(self::any())
+                ->expects($this->any())
                 ->method('sectionHandler')
-                ->will(self::returnValue($this->sectionHandlerMock));
+                ->will($this->returnValue($this->sectionHandlerMock));
 
             $limitationValues = $limitation->limitationValues;
-            $matcher = self::exactly(count($limitationValues));
+            $matcher = $this->exactly(count($limitationValues));
             $this->sectionHandlerMock
                 ->expects($matcher)
                 ->method('load')
@@ -170,20 +176,22 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation $limitation
+     * @param SectionLimitation $limitation
      * @param int $errorCount
      */
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(SectionLimitation $limitation, $errorCount): void
-    {
+    public function testValidateError(
+        SectionLimitation $limitation,
+        $errorCount
+    ): void {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects(self::any())
+                ->expects($this->any())
                 ->method('sectionHandler')
-                ->will(self::returnValue($this->sectionHandlerMock));
+                ->will($this->returnValue($this->sectionHandlerMock));
 
             $limitationValues = $limitation->limitationValues;
-            $matcher = self::exactly(count($limitationValues));
+            $matcher = $this->exactly(count($limitationValues));
             $this->sectionHandlerMock
                 ->expects($matcher)
                 ->method('load')
@@ -195,7 +203,7 @@ class SectionLimitationTypeTest extends Base
                 });
         } else {
             $this->getPersistenceMock()
-                ->expects(self::never())
+                ->expects($this->never())
                 ->method(self::anything());
         }
 
@@ -207,7 +215,7 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testBuildValue(SectionLimitationType $limitationType): void
@@ -349,11 +357,11 @@ class SectionLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $this->getPersistenceMock()
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $value = $limitationType->evaluate(
@@ -394,11 +402,11 @@ class SectionLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $this->getPersistenceMock()
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $v = $limitationType->evaluate(
@@ -411,7 +419,7 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testGetCriterionInvalidValue(SectionLimitationType $limitationType): void
@@ -425,7 +433,7 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testGetCriterionSingleValue(SectionLimitationType $limitationType): void
@@ -443,7 +451,7 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testGetCriterionMultipleValues(SectionLimitationType $limitationType): void
@@ -461,7 +469,7 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testValueSchema(SectionLimitationType $limitationType): void

@@ -51,8 +51,10 @@ abstract class FieldTypeTestCase extends BaseFieldTypeTestCase
     }
 
     #[DataProvider('provideInputForValuesEqual')]
-    public function testValuesEqual(mixed $inputValue1Hash, SPIValue $inputValue2): void
-    {
+    public function testValuesEqual(
+        mixed $inputValue1Hash,
+        SPIValue $inputValue2
+    ): void {
         $fieldType = $this->getFieldTypeUnderTest();
 
         $inputValue1 = $fieldType->fromHash($inputValue1Hash);

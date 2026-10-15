@@ -8,13 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Indexer;
 
+use Ibexa\Bundle\Core\Command\ReindexCommand;
 use IteratorAggregate;
 use Traversable;
 
 /**
  * @internal content id batch list for ReindexCommand
  *
- * @see \Ibexa\Bundle\Core\Command\ReindexCommand
+ * @see ReindexCommand
  *
  * @implements \IteratorAggregate<int, array<int>>
  */
@@ -28,8 +29,10 @@ final class ContentIdBatchList implements IteratorAggregate
     /**
      * @param iterable<int, array<int>> $list
      */
-    public function __construct(iterable $list, int $totalCount)
-    {
+    public function __construct(
+        iterable $list,
+        int $totalCount
+    ) {
         $this->list = $list;
         $this->totalCount = $totalCount;
     }

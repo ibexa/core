@@ -17,13 +17,15 @@ use PHPUnit\Framework\TestCase;
 final class ValidationErrorTest extends TestCase
 {
     #[DataProvider('getDataForTestGetTranslatableMessage')]
-    public function testGetTranslatableMessage(ValidationError $validationError, string $expectedMessage): void
-    {
+    public function testGetTranslatableMessage(
+        ValidationError $validationError,
+        string $expectedMessage
+    ): void {
         self::assertSame($expectedMessage, (string)$validationError->getTranslatableMessage());
     }
 
     /**
-     * @phpstan-return iterable<string, array{0: \Ibexa\Core\FieldType\ValidationError, 1: string}>
+     * @phpstan-return iterable<string, array{0: ValidationError, 1: string}>
      */
     public static function getDataForTestGetTranslatableMessage(): iterable
     {

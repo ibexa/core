@@ -108,7 +108,7 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     }
 
     /**
-     * @return \Symfony\Contracts\Translation\TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return TranslatorInterface|MockObject
      */
     private function getTranslatorMock(): MockObject
     {
@@ -135,7 +135,7 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     /**
      * @param array $constructorArgs
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldDefinition|MockObject
      */
     private function getFieldDefinitionMock(array $constructorArgs = []): MockObject
     {

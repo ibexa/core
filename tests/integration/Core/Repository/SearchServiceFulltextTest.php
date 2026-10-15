@@ -185,8 +185,11 @@ class SearchServiceFulltextTest extends BaseTestCase
      */
     #[Depends('testPrepareContent')]
     #[DataProvider('providerForTestFulltextSearchSolr7')]
-    public function testFulltextContentSearchSolr7(string $searchString, array $expectedKeys, array $idMap): void
-    {
+    public function testFulltextContentSearchSolr7(
+        string $searchString,
+        array $expectedKeys,
+        array $idMap
+    ): void {
         if (false === $this->isSolrMajorVersionInRange('7.0.0', '8.0.0')) {
             self::markTestSkipped('This test is only relevant for Solr >= 7');
         }
@@ -194,8 +197,11 @@ class SearchServiceFulltextTest extends BaseTestCase
         $this->doTestFulltextContentSearch($searchString, $expectedKeys, $idMap);
     }
 
-    private function doTestFulltextContentSearch(string $searchString, array $expectedKeys, array $idMap): void
-    {
+    private function doTestFulltextContentSearch(
+        string $searchString,
+        array $expectedKeys,
+        array $idMap
+    ): void {
         $repository = $this->getRepository(false);
         $searchService = $repository->getSearchService();
 
@@ -214,8 +220,11 @@ class SearchServiceFulltextTest extends BaseTestCase
      */
     #[Depends('testPrepareContent')]
     #[DataProvider('providerForTestFulltextSearchSolr7')]
-    public function testFulltextLocationSearchSolr7($searchString, array $expectedKeys, array $idMap): void
-    {
+    public function testFulltextLocationSearchSolr7(
+        $searchString,
+        array $expectedKeys,
+        array $idMap
+    ): void {
         if (false === $this->isSolrMajorVersionInRange('7.0.0', '8.0.0')) {
             self::markTestSkipped('This test is only relevant for Solr >= 7');
         }
@@ -223,8 +232,11 @@ class SearchServiceFulltextTest extends BaseTestCase
         $this->doTestFulltextLocationSearch($searchString, $expectedKeys, $idMap);
     }
 
-    private function doTestFulltextLocationSearch($searchString, array $expectedKeys, array $idMap): void
-    {
+    private function doTestFulltextLocationSearch(
+        $searchString,
+        array $expectedKeys,
+        array $idMap
+    ): void {
         $repository = $this->getRepository(false);
         $searchService = $repository->getSearchService();
 
@@ -237,16 +249,22 @@ class SearchServiceFulltextTest extends BaseTestCase
     /**
      * Assert given $searchResult using $expectedKeys and $idMap.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $searchResult
+     * @param SearchResult $searchResult
      * @param array $expectedKeys
      * @param array $idMap
      */
-    public function assertFulltextSearch(SearchResult $searchResult, array $expectedKeys, array $idMap)
-    {
+    public function assertFulltextSearch(
+        SearchResult $searchResult,
+        array $expectedKeys,
+        array $idMap
+    ) {
         self::assertEquals(
             array_reduce(
                 $expectedKeys,
-                static function ($carry, $item): int {
+                static function (
+                    $carry,
+                    $item
+                ): int {
                     $carry += count((array)$item);
 
                     return $carry;
@@ -270,8 +288,10 @@ class SearchServiceFulltextTest extends BaseTestCase
      *
      * @return array
      */
-    private function mapKeysToIds(array $expectedKeys, array $idMap)
-    {
+    private function mapKeysToIds(
+        array $expectedKeys,
+        array $idMap
+    ) {
         $expectedIds = [];
 
         foreach ($expectedKeys as $keyGroup) {
@@ -299,7 +319,7 @@ class SearchServiceFulltextTest extends BaseTestCase
     /**
      * Map given $searchResult to an array of Content IDs, ordered and grouped by relevancy score.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $searchResult
+     * @param SearchResult $searchResult
      *
      * @return array
      */
@@ -320,7 +340,7 @@ class SearchServiceFulltextTest extends BaseTestCase
         }
 
         return array_map(
-            static function (array $idGroup): array|int {
+            static function (array $idGroup): array | int {
                 if (count($idGroup) === 1) {
                     return reset($idGroup);
                 }
@@ -341,8 +361,10 @@ class SearchServiceFulltextTest extends BaseTestCase
      *
      * @return bool
      */
-    private function isSolrMajorVersionInRange(string $minVersion, string $maxVersion): bool
-    {
+    private function isSolrMajorVersionInRange(
+        string $minVersion,
+        string $maxVersion
+    ): bool {
         $version = getenv('SOLR_VERSION');
         if (is_string($version) && !empty($version)) {
             return version_compare($version, $minVersion, '>=') && version_compare($version, $maxVersion, '<');

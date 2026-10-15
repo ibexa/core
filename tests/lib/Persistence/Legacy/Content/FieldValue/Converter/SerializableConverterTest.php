@@ -17,6 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SerializableConve
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(SerializableConverter::class)]
@@ -29,10 +30,10 @@ class SerializableConverterTest extends TestCase
 
     private const EXAMPLE_JSON = '{"foo":"foo","bar":"bar"}';
 
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ValueSerializerInterface|MockObject */
     private $serializer;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SerializableConverter */
+    /** @var SerializableConverter */
     private $converter;
 
     protected function setUp(): void
@@ -50,7 +51,7 @@ class SerializableConverterTest extends TestCase
         $fieldValue->sortKey = 'key';
 
         $this->serializer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('encode')
             ->with($fieldValue->data)
             ->willReturn(self::EXAMPLE_JSON);
@@ -66,7 +67,7 @@ class SerializableConverterTest extends TestCase
     public function testEmptyToStorageValue(): void
     {
         $this->serializer
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('encode');
 
         $storageValue = new StorageFieldValue();
@@ -83,7 +84,7 @@ class SerializableConverterTest extends TestCase
         $storageValue->dataText = self::EXAMPLE_JSON;
 
         $this->serializer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('decode')
             ->with(self::EXAMPLE_JSON)
             ->willReturn(self::EXAMPLE_DATA);
@@ -100,7 +101,7 @@ class SerializableConverterTest extends TestCase
     public function testEmptyToFieldValue(): void
     {
         $this->serializer
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('decode');
 
         $fieldValue = new FieldValue();
@@ -120,7 +121,7 @@ class SerializableConverterTest extends TestCase
         ]);
 
         $this->serializer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('encode')
             ->with(self::EXAMPLE_DATA)
             ->willReturn(self::EXAMPLE_JSON);
@@ -135,7 +136,7 @@ class SerializableConverterTest extends TestCase
     public function testEmptyToStorageFieldDefinition(): void
     {
         $this->serializer
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('encode');
 
         $storageFieldDefinition = new StorageFieldDefinition();
@@ -151,7 +152,7 @@ class SerializableConverterTest extends TestCase
         $storageFieldDefinition->dataText5 = self::EXAMPLE_JSON;
 
         $this->serializer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('decode')
             ->with(self::EXAMPLE_JSON)
             ->willReturn(self::EXAMPLE_DATA);
@@ -169,7 +170,7 @@ class SerializableConverterTest extends TestCase
     public function testEmptyToFieldDefinition(): void
     {
         $this->serializer
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('decode');
 
         $fieldDefinition = new FieldDefinition();

@@ -17,6 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Tree Handler.
@@ -28,16 +29,16 @@ class TreeHandlerTest extends TestCase
         $contentInfoData = [new ContentInfo()];
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContentInfo')
             ->with(42)
-            ->will(self::returnValue([42]));
+            ->will($this->returnValue([42]));
 
         $this->getContentMapperMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractContentInfoFromRow')
             ->with(self::equalTo([42]))
-            ->will(self::returnValue($contentInfoData));
+            ->will($this->returnValue($contentInfoData));
 
         self::assertSame(
             $contentInfoData,
@@ -48,22 +49,22 @@ class TreeHandlerTest extends TestCase
     public function testListVersions(): void
     {
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listVersions')
             ->with(self::equalTo(23))
-            ->will(self::returnValue([['content_version_version' => 2]]));
+            ->will($this->returnValue([['content_version_version' => 2]]));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionedNameData')
             ->with(self::equalTo([['id' => 23, 'version' => 2]]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $this->getContentMapperMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractVersionInfoListFromRows')
             ->with(self::equalTo([['content_version_version' => 2]]), [])
-            ->will(self::returnValue([new VersionInfo()]));
+            ->will($this->returnValue([new VersionInfo()]));
 
         $versions = $this->getTreeHandler()->listVersions(23);
 
@@ -83,17 +84,17 @@ class TreeHandlerTest extends TestCase
         );
 
         $treeHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listVersions')
-            ->will(self::returnValue([new VersionInfo(), new VersionInfo()]));
+            ->will($this->returnValue([new VersionInfo(), new VersionInfo()]));
         $treeHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContentInfo')
             ->with(23)
-            ->will(self::returnValue(new ContentInfo(['mainLocationId' => 42])));
+            ->will($this->returnValue(new ContentInfo(['mainLocationId' => 42])));
 
         $this->getFieldHandlerMock()
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('deleteFields')
             ->with(
                 self::equalTo(23),
@@ -101,24 +102,24 @@ class TreeHandlerTest extends TestCase
             );
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteRelations')
             ->with(self::equalTo(23));
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteVersions')
             ->with(self::equalTo(23));
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteNames')
             ->with(self::equalTo(23));
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteContent')
             ->with(self::equalTo(23));
 
         $this->getLocationGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('removeElementFromTrash')
             ->with(self::equalTo(42));
 
@@ -140,7 +141,7 @@ class TreeHandlerTest extends TestCase
         $invocationOrder = 0;
 
         $this->getLocationGatewayMock()
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('getBasicNodeData')
             ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder): array {
                 $order = $invocationOrder++;
@@ -172,7 +173,7 @@ class TreeHandlerTest extends TestCase
             });
 
         $this->getLocationGatewayMock()
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('getChildren')
             ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder): array {
                 $order = $invocationOrder++;
@@ -198,7 +199,7 @@ class TreeHandlerTest extends TestCase
             });
 
         $this->getLocationGatewayMock()
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('countLocationsByContentId')
             ->willReturnCallback(static function (int $contentId) use (&$invocationOrder): int {
                 $order = $invocationOrder++;
@@ -217,12 +218,12 @@ class TreeHandlerTest extends TestCase
             });
 
         $treeHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('removeRawContent')
             ->with(101);
 
         $this->getLocationGatewayMock()
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('removeLocation')
             ->willReturnCallback(static function (int $nodeId) use (&$invocationOrder): void {
                 $order = $invocationOrder++;
@@ -242,7 +243,7 @@ class TreeHandlerTest extends TestCase
             });
 
         $this->getLocationGatewayMock()
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('deleteNodeAssignment')
             ->willReturnCallback(static function (int $contentId) use (&$invocationOrder): void {
                 $order = $invocationOrder++;
@@ -262,7 +263,7 @@ class TreeHandlerTest extends TestCase
             });
 
         $this->getLocationGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFallbackMainNodeData')
             ->with(102, 202)
             ->willReturnCallback(static function () use (&$invocationOrder): array {
@@ -275,7 +276,7 @@ class TreeHandlerTest extends TestCase
                 ];
             });
         $treeHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('changeMainLocation')
             ->with(102, 203);
 
@@ -288,11 +289,11 @@ class TreeHandlerTest extends TestCase
         $treeHandler = $this->getTreeHandler();
 
         $this->getLocationGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getBasicNodeData')
             ->with(69)
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     [
                         'node_id' => 69,
                         'path_string' => '/1/2/69/',
@@ -302,7 +303,7 @@ class TreeHandlerTest extends TestCase
             );
 
         $this->getLocationGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setSectionForSubtree')
             ->with('/1/2/69/', 3);
 
@@ -324,7 +325,7 @@ class TreeHandlerTest extends TestCase
         $invocationOrder = 0;
 
         $treeHandler
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('loadLocation')
             ->willReturnCallback(static function (int $locationId) use (&$invocationOrder): Location {
                 $order = $invocationOrder++;
@@ -343,7 +344,7 @@ class TreeHandlerTest extends TestCase
             });
 
         $treeHandler
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('loadContentInfo')
             ->willReturnCallback(static function ($contentId) use (&$invocationOrder): ContentInfo {
                 $order = $invocationOrder++;
@@ -362,12 +363,12 @@ class TreeHandlerTest extends TestCase
             });
 
         $this->getLocationGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('changeMainLocation')
             ->with(12, 34, 1, 42);
 
         $treeHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setSectionForSubtree')
             ->with(34, 4);
 
@@ -389,7 +390,7 @@ class TreeHandlerTest extends TestCase
         $invocationOrder = 0;
 
         $treeHandler
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('loadLocation')
             ->willReturnCallback(static function (int $locationId) use (&$invocationOrder): Location {
                 $order = $invocationOrder++;
@@ -408,7 +409,7 @@ class TreeHandlerTest extends TestCase
             });
 
         $treeHandler
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('loadContentInfo')
             ->willReturnCallback(static function ($contentId) use (&$invocationOrder): ContentInfo {
                 $order = $invocationOrder++;
@@ -427,7 +428,7 @@ class TreeHandlerTest extends TestCase
             });
 
         $this->getLocationGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('changeMainLocation')
             ->with(12, 34, 1, 1);
 
@@ -439,11 +440,11 @@ class TreeHandlerTest extends TestCase
         $treeHandler = $this->getTreeHandler();
 
         $this->getLocationGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getBasicNodeData')
             ->with(77)
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     [
                         'node_id' => 77,
                     ]
@@ -451,10 +452,10 @@ class TreeHandlerTest extends TestCase
             );
 
         $this->getLocationMapperMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createLocationFromRow')
             ->with(['node_id' => 77])
-            ->will(self::returnValue(new Location()));
+            ->will($this->returnValue(new Location()));
 
         $location = $treeHandler->loadLocation(77);
 
@@ -468,7 +469,7 @@ class TreeHandlerTest extends TestCase
         $contentMapperMock = $this->getContentMapperMock();
 
         $locationGatewayMock
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('getChildren')
             ->willReturnMap([
                 [42, [
@@ -480,7 +481,7 @@ class TreeHandlerTest extends TestCase
             ]);
 
         $locationGatewayMock
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('getSubtreeChildrenDraftContentIds')
             ->willReturnMap([
                 [201, [101]],
@@ -489,7 +490,7 @@ class TreeHandlerTest extends TestCase
             ]);
 
         $contentGatewayMock
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('loadContentInfo')
             ->willReturnMap([
                 [101, ['main_node_id' => 201]],
@@ -498,14 +499,14 @@ class TreeHandlerTest extends TestCase
             ]);
 
         $contentMapperMock
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('extractContentInfoFromRow')
             ->willReturnCallback(static function (array $row): ContentInfo {
                 return new ContentInfo(['mainLocationId' => $row['main_node_id']]);
             });
 
         $contentGatewayMock
-            ->expects(self::exactly(3))
+            ->expects($this->exactly(3))
             ->method('deleteContent')
             ->willReturnCallback(static function (int $contentId): void {
                 self::assertContains($contentId, [99, 101, 102]);
@@ -516,13 +517,13 @@ class TreeHandlerTest extends TestCase
         $treeHandler->deleteChildrenDrafts(42);
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
+    /** @var MockObject|LocationGateway */
     protected $locationGatewayMock;
 
     /**
      * Returns Location Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @return MockObject|LocationGateway
      */
     protected function getLocationGatewayMock()
     {
@@ -533,13 +534,13 @@ class TreeHandlerTest extends TestCase
         return $this->locationGatewayMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Mapper */
+    /** @var MockObject|LocationMapper */
     protected $locationMapperMock;
 
     /**
      * Returns a Location Mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @return MockObject|LocationMapper
      */
     protected function getLocationMapperMock()
     {
@@ -550,13 +551,13 @@ class TreeHandlerTest extends TestCase
         return $this->locationMapperMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway */
+    /** @var MockObject|Gateway */
     protected $contentGatewayMock;
 
     /**
      * Returns Content Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @return MockObject|Gateway
      */
     protected function getContentGatewayMock()
     {
@@ -567,13 +568,13 @@ class TreeHandlerTest extends TestCase
         return $this->contentGatewayMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var MockObject|Mapper */
     protected $contentMapper;
 
     /**
      * Returns a Content Mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return MockObject|Mapper
      */
     protected function getContentMapperMock()
     {
@@ -584,13 +585,13 @@ class TreeHandlerTest extends TestCase
         return $this->contentMapper;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldHandler */
+    /** @var MockObject|FieldHandler */
     protected $fieldHandlerMock;
 
     /**
      * Returns a FieldHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @return MockObject|FieldHandler
      */
     protected function getFieldHandlerMock()
     {
@@ -604,7 +605,7 @@ class TreeHandlerTest extends TestCase
     /**
      * @param array $methods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @return MockObject|TreeHandler
      */
     protected function getPartlyMockedTreeHandler(array $methods)
     {
@@ -623,7 +624,7 @@ class TreeHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
+     * @return TreeHandler
      */
     protected function getTreeHandler()
     {

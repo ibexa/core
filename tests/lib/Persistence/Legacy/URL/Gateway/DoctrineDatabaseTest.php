@@ -21,7 +21,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     private $gateway;
 

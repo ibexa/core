@@ -15,12 +15,13 @@ use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(ContentTypeIdentifierMatcher::class)]
 #[CoversClass(MultipleValued::class)]
 class ContentTypeTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType */
+    /** @var ContentTypeIdentifierMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -34,8 +35,11 @@ class ContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, string $contentTypeIdentifier, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        string $contentTypeIdentifier,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
 
@@ -82,16 +86,16 @@ class ContentTypeTest extends BaseTestCase
     /**
      * Generates a Location object in respect of a given content type identifier.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateLocationMock()
     {
         $location = $this->getLocationMock();
         $location
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentInfo')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $this->getContentInfoMock(['contentTypeId' => 42])
                 )
             );
@@ -104,8 +108,11 @@ class ContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, string $contentTypeIdentifier, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        string $contentTypeIdentifier,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
 
@@ -156,7 +163,7 @@ class ContentTypeTest extends BaseTestCase
      *
      * @param int $contentTypeIdentifier
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier)
     {
@@ -167,18 +174,18 @@ class ContentTypeTest extends BaseTestCase
             )
             ->getMockForAbstractClass();
         $contentTypeServiceMock = $this->createMock(ContentTypeService::class);
-        $contentTypeServiceMock->expects(self::once())
+        $contentTypeServiceMock->expects($this->once())
             ->method('loadContentType')
             ->with(42)
             ->will(
-                self::returnValue($contentTypeMock)
+                $this->returnValue($contentTypeMock)
             );
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentTypeService')
-            ->will(self::returnValue($contentTypeServiceMock));
+            ->will($this->returnValue($contentTypeServiceMock));
 
         return $repository;
     }

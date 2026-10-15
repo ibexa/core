@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -24,10 +25,10 @@ final class HTTPHandlerTest extends TestCase
 {
     private const PARAMETER_NAME = 'url_handler.http.options';
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var URLService&MockObject */
     private URLService $urlService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface&MockObject */
     private ConfigResolverInterface $configResolver;
 
     protected function setUp(): void
@@ -57,7 +58,7 @@ final class HTTPHandlerTest extends TestCase
     public function testGetOptionsUsesInjectedParameterName(): void
     {
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('url_handler.https.options', null, null)
             ->willReturn([]);
@@ -105,8 +106,10 @@ final class HTTPHandlerTest extends TestCase
     }
 
     #[DataProvider('provideDataForTestIsSuccessful')]
-    public function testIsSuccessful(int $statusCode, bool $expected): void
-    {
+    public function testIsSuccessful(
+        int $statusCode,
+        bool $expected
+    ): void {
         $handler = $this->createHandler([]);
 
         self::assertSame(
@@ -168,7 +171,7 @@ final class HTTPHandlerTest extends TestCase
         $url = new URL(['id' => 1, 'url' => 'https://example.com']);
         $queue = [new URL(['id' => 2, 'url' => 'https://example.org'])];
 
-        $this->urlService->expects(self::never())->method('updateUrl');
+        $this->urlService->expects($this->never())->method('updateUrl');
 
         $next = $this->invokeCompleteRequest(
             ['url' => $url, 'method' => 'HEAD'],
@@ -192,7 +195,7 @@ final class HTTPHandlerTest extends TestCase
         $queue = [$nextUrl];
 
         $this->urlService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('updateUrl')
             ->with($url, self::callback(static fn ($struct): bool => $struct->isValid === $expectedValid));
 
@@ -232,14 +235,18 @@ final class HTTPHandlerTest extends TestCase
     }
 
     /**
-     * @param array{url: \Ibexa\Contracts\Core\Repository\Values\URL\URL, method: string} $request
+     * @param array{url: URL, method: string} $request
      * @param array<string, mixed> $options
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL[] $queue
+     * @param URL[] $queue
      *
-     * @return array{url: \Ibexa\Contracts\Core\Repository\Values\URL\URL, method: string}|null
+     * @return array{url: URL, method: string}|null
      */
-    private function invokeCompleteRequest(array $request, int $statusCode, array $options, array &$queue): ?array
-    {
+    private function invokeCompleteRequest(
+        array $request,
+        int $statusCode,
+        array $options,
+        array &$queue
+    ): ?array {
         return $this->invokePrivateMethod(
             $this->createHandler([]),
             'completeRequest',
@@ -254,7 +261,7 @@ final class HTTPHandlerTest extends TestCase
         ]);
 
         $this->urlService
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('updateUrl');
 
         $handler->validate([
@@ -287,8 +294,11 @@ final class HTTPHandlerTest extends TestCase
      *
      * @return mixed
      */
-    private function invokePrivateMethod(HTTPHandler $handler, string $method, array $arguments)
-    {
+    private function invokePrivateMethod(
+        HTTPHandler $handler,
+        string $method,
+        array $arguments
+    ) {
         $reflection = new ReflectionMethod(HTTPHandler::class, $method);
 
         return $reflection->invokeArgs($handler, $arguments);

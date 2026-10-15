@@ -22,6 +22,7 @@ use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo as CoreVersionInfo;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -30,7 +31,7 @@ class ParentDepthLimitationTypeTest extends Base
 {
     public const int EXAMPLE_CONTENT_INFO_ID = 12;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPILocationHandler|MockObject */
     private $locationHandlerMock;
 
     /**
@@ -52,7 +53,7 @@ class ParentDepthLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\ParentDepthLimitationType
+     * @return ParentDepthLimitationType
      */
     public function testConstruct(): ParentDepthLimitationType
     {
@@ -72,13 +73,15 @@ class ParentDepthLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
-     * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
+     * @param ParentDepthLimitation $limitation
+     * @param ParentDepthLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType): void
-    {
+    public function testAcceptValue(
+        ParentDepthLimitation $limitation,
+        ParentDepthLimitationType $limitationType
+    ): void {
         $limitationType->acceptValue($limitation);
     }
 
@@ -94,13 +97,15 @@ class ParentDepthLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param ParentDepthLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, ParentDepthLimitationType $limitationType): void
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        ParentDepthLimitationType $limitationType
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -119,18 +124,20 @@ class ParentDepthLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
+     * @param ParentDepthLimitation $limitation
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestValidatePass')]
-    public function testValidatePass(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType): void
-    {
+    public function testValidatePass(
+        ParentDepthLimitation $limitation,
+        ParentDepthLimitationType $limitationType
+    ): void {
         $validationErrors = $limitationType->validate($limitation);
         self::assertEmpty($validationErrors);
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
+     * @param ParentDepthLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testBuildValue(ParentDepthLimitationType $limitationType): void
@@ -305,13 +312,13 @@ class ParentDepthLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         if (empty($persistenceLocations)) {
             $persistenceMock
-                ->expects(self::never())
+                ->expects($this->never())
                 ->method(self::anything());
         } elseif ($object instanceof ContentCreateStruct) {
             $parentLocationIds = array_map(
@@ -320,11 +327,11 @@ class ParentDepthLimitationTypeTest extends Base
             );
 
             $this->getPersistenceMock()
-                ->expects(self::exactly(count($parentLocationIds)))
+                ->expects($this->exactly(count($parentLocationIds)))
                 ->method('locationHandler')
                 ->willReturn($this->locationHandlerMock);
 
-            $matcher = self::exactly(count($parentLocationIds));
+            $matcher = $this->exactly(count($parentLocationIds));
             $this->locationHandlerMock
                 ->expects($matcher)
                 ->method('load')
@@ -335,19 +342,19 @@ class ParentDepthLimitationTypeTest extends Base
                 });
         } else {
             $this->getPersistenceMock()
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('locationHandler')
-                ->will(self::returnValue($this->locationHandlerMock));
+                ->will($this->returnValue($this->locationHandlerMock));
 
             $this->locationHandlerMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method(
                     $object instanceof ContentInfo && $object->published ?
                         'loadLocationsByContent' :
                         'loadParentLocationsForDraftContent'
                 )
                 ->with($object->id)
-                ->will(self::returnValue($persistenceLocations));
+                ->will($this->returnValue($persistenceLocations));
         }
 
         $value = $limitationType->evaluate(
@@ -412,12 +419,12 @@ class ParentDepthLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         $v = $limitationType->evaluate(

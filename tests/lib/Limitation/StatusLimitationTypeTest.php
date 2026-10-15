@@ -11,6 +11,8 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
@@ -28,7 +30,7 @@ use PHPUnit\Framework\Attributes\Depends;
 class StatusLimitationTypeTest extends Base
 {
     /**
-     * @return \Ibexa\Core\Limitation\StatusLimitationType
+     * @return StatusLimitationType
      */
     public function testConstruct(): StatusLimitationType
     {
@@ -58,13 +60,15 @@ class StatusLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation $limitation
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitation $limitation
+     * @param StatusLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValue')]
-    public function testAcceptValue(StatusLimitation $limitation, StatusLimitationType $limitationType): void
-    {
+    public function testAcceptValue(
+        StatusLimitation $limitation,
+        StatusLimitationType $limitationType
+    ): void {
         $limitationType->acceptValue($limitation);
     }
 
@@ -80,13 +84,15 @@ class StatusLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param StatusLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestAcceptValueException')]
-    public function testAcceptValueException(Limitation $limitation, StatusLimitationType $limitationType): void
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        StatusLimitationType $limitationType
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -147,20 +153,23 @@ class StatusLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation $limitation
+     * @param StatusLimitation $limitation
      * @param int $errorCount
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(StatusLimitation $limitation, $errorCount, StatusLimitationType $limitationType): void
-    {
+    public function testValidateError(
+        StatusLimitation $limitation,
+        $errorCount,
+        StatusLimitationType $limitationType
+    ): void {
         $validationErrors = $limitationType->validate($limitation);
         self::assertCount($errorCount, $validationErrors);
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testBuildValue(StatusLimitationType $limitationType): void
@@ -182,13 +191,13 @@ class StatusLimitationTypeTest extends Base
 
         if ($shouldBeCalled) {
             $versionInfoMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('__get')
                 ->with('status')
-                ->will(self::returnValue(24));
+                ->will($this->returnValue(24));
         } else {
             $versionInfoMock
-                ->expects(self::never())
+                ->expects($this->never())
                 ->method('__get')
                 ->with('status');
         }
@@ -203,9 +212,9 @@ class StatusLimitationTypeTest extends Base
             ->getMock();
 
         $contentMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVersionInfo')
-            ->will(self::returnValue($this->getVersionInfoMock($shouldBeCalled)));
+            ->will($this->returnValue($this->getVersionInfoMock($shouldBeCalled)));
 
         return $contentMock;
     }
@@ -273,7 +282,7 @@ class StatusLimitationTypeTest extends Base
         $object = $objectType === 'versionInfo' ? $this->getVersionInfoMock($shouldBeCalled) : $this->getContentMock($shouldBeCalled);
 
         $userMock = $this->getUserMock();
-        $userMock->expects(self::never())
+        $userMock->expects($this->never())
             ->method(self::anything());
 
         $userMock = new User();
@@ -293,9 +302,9 @@ class StatusLimitationTypeTest extends Base
     public static function providerForTestEvaluateInvalidArgument(): array
     {
         $versionInfoStub = new class() extends APIVersionInfo {
-            public function getContentInfo(): \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+            public function getContentInfo(): ContentInfo
             {
-                return new \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo();
+                return new ContentInfo();
             }
 
             public function getCreator(): User
@@ -303,9 +312,9 @@ class StatusLimitationTypeTest extends Base
                 return new User();
             }
 
-            public function getInitialLanguage(): \Ibexa\Contracts\Core\Repository\Values\Content\Language
+            public function getInitialLanguage(): Language
             {
-                return new \Ibexa\Contracts\Core\Repository\Values\Content\Language();
+                return new Language();
             }
 
             public function getLanguages(): iterable
@@ -348,7 +357,7 @@ class StatusLimitationTypeTest extends Base
         $this->expectException(InvalidArgumentException::class);
 
         $userMock = $this->getUserMock();
-        $userMock->expects(self::never())->method(self::anything());
+        $userMock->expects($this->never())->method(self::anything());
 
         $userMock = new User();
         $limitationType->evaluate(
@@ -359,7 +368,7 @@ class StatusLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testGetCriterion(StatusLimitationType $limitationType): void
@@ -370,7 +379,7 @@ class StatusLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\StatusLimitationType $limitationType
+     * @param StatusLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testValueSchema(StatusLimitationType $limitationType): void

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\FieldType\Image\IO;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\IO\Legacy as LegacyIOService;
@@ -86,7 +87,7 @@ final class LegacyTest extends TestCase
     /**
      * Standard binary file, with regular id.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFile(): void
     {
@@ -110,7 +111,7 @@ final class LegacyTest extends TestCase
     /**
      * Load from an internal draft binary file path.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFileDraftInternalPath(): void
     {
@@ -135,7 +136,7 @@ final class LegacyTest extends TestCase
     /**
      * Load from an internal published binary file path.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFilePublishedInternalPath(): void
     {
@@ -160,7 +161,7 @@ final class LegacyTest extends TestCase
     /**
      * Load from an external draft binary file path.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFileDraftExternalPath(): void
     {
@@ -186,7 +187,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFileByUriWithPublishedFile(): void
     {
@@ -205,7 +206,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFileByUriWithDraftFile(): void
     {
@@ -231,7 +232,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetFileContents(): void
     {
@@ -260,7 +261,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetFileContentsOfDraft(): void
     {
@@ -289,7 +290,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetMimeType(): void
     {
@@ -317,7 +318,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetMimeTypeOfDraft(): void
     {
@@ -345,7 +346,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testCreateBinaryFile(): void
     {
@@ -384,7 +385,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetFileInputStream(): void
     {
@@ -404,7 +405,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testDeleteBinaryFile(): void
     {
@@ -420,7 +421,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testNewBinaryCreateStructFromUploadedFile(): void
     {

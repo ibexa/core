@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 final class UserWrappedTest extends TestCase
 {
-    private APIUser&Stub $apiUser;
+    private APIUser & Stub $apiUser;
 
     protected function setUp(): void
     {
@@ -63,18 +63,18 @@ final class UserWrappedTest extends TestCase
         self::assertTrue($user->isEqualTo(self::createStub(SymfonyUserInterface::class)));
 
         $originalUser
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('eraseCredentials');
         $user->eraseCredentials();
 
         $username = 'lolautruche';
         $roles = ['ROLE_USER', 'ROLE_TEST'];
         $originalUser
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getUserIdentifier')
             ->willReturn($username);
         $originalUser
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getRoles')
             ->willReturn($roles);
 
@@ -90,10 +90,10 @@ final class UserWrappedTest extends TestCase
         $user = new UserWrapped($originalUser, $this->apiUser);
         $otherUser = self::createStub(SymfonyUserInterface::class);
         $originalUser
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isEqualTo')
             ->with($otherUser)
-            ->will(self::returnValue(false));
+            ->will($this->returnValue(false));
         self::assertFalse($user->isEqualTo($otherUser));
     }
 
@@ -111,9 +111,7 @@ final class UserWrappedTest extends TestCase
 /**
  * @internal For use with tests only
  */
-interface UserEquatableInterface extends UserInterface, EquatableInterface
-{
-}
+interface UserEquatableInterface extends UserInterface, EquatableInterface {}
 
 /**
  * @internal For use with tests only.

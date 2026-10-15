@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
+use Ibexa\Core\FieldType\BinaryFile\Value;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\FileSizeValidator;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -36,7 +37,7 @@ class FileSizeValidatorTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFoundException
      */
     public function testConstraintsInitializeGet(): void
     {
@@ -119,7 +120,7 @@ class FileSizeValidatorTest extends TestCase
     /**
      * @param int $size
      *
-     * @return \Ibexa\Core\FieldType\BinaryFile\Value
+     * @return Value
      */
     protected function getBinaryFileValue($size)
     {
@@ -146,8 +147,11 @@ class FileSizeValidatorTest extends TestCase
      * Tests validating a wrong value.
      */
     #[DataProvider('providerForValidateKO')]
-    public function testValidateWrongValues($size, $message, $values): void
-    {
+    public function testValidateWrongValues(
+        $size,
+        $message,
+        $values
+    ): void {
         self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
         $validator->maxFileSize = $this->getMaxFileSize();
@@ -231,8 +235,11 @@ class FileSizeValidatorTest extends TestCase
      * @param array<string, scalar> $values
      */
     #[DataProvider('providerForValidateConstraintsKO')]
-    public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages, array $values): void
-    {
+    public function testValidateConstraintsWrongValues(
+        array $constraints,
+        array $expectedMessages,
+        array $values
+    ): void {
         $validator = new FileSizeValidator();
         $messages = $validator->validateConstraints($constraints);
 

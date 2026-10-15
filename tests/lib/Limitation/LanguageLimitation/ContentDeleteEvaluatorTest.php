@@ -17,8 +17,10 @@ use PHPUnit\Framework\TestCase;
 final class ContentDeleteEvaluatorTest extends TestCase
 {
     #[DataProvider('dataProviderForAccept')]
-    public function testAccept(Target\Version $targetVersion, bool $expected): void
-    {
+    public function testAccept(
+        Target\Version $targetVersion,
+        bool $expected
+    ): void {
         self::assertSame(
             $expected,
             (new ContentDeleteEvaluator())->accept($targetVersion)
@@ -44,8 +46,11 @@ final class ContentDeleteEvaluatorTest extends TestCase
     }
 
     #[DataProvider('dataProviderForEvaluate')]
-    public function testEvaluate(Target\Version $targetVersion, Limitation $limitationValue, bool $expected): void
-    {
+    public function testEvaluate(
+        Target\Version $targetVersion,
+        Limitation $limitationValue,
+        bool $expected
+    ): void {
         self::assertSame(
             $expected,
             (new ContentDeleteEvaluator())->evaluate($targetVersion, $limitationValue)

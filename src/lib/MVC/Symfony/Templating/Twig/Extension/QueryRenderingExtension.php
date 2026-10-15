@@ -18,7 +18,7 @@ class QueryRenderingExtension extends AbstractExtension
 {
     private const VALID_TYPES = ['content', 'location'];
 
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentHandler */
+    /** @var FragmentHandler */
     private $fragmentHandler;
 
     public function __construct(FragmentHandler $fragmentHandler)
@@ -28,7 +28,10 @@ class QueryRenderingExtension extends AbstractExtension
 
     public function getFunctions(): array
     {
-        $typeCallable = function (string $type, array $options): ?string {
+        $typeCallable = function (
+            string $type,
+            array $options
+        ): ?string {
             $this->assertTypeIsValid($type);
 
             return $this->fragmentHandler->render(
@@ -36,7 +39,11 @@ class QueryRenderingExtension extends AbstractExtension
             );
         };
 
-        $typeAndRendererCallable = function (string $type, string $renderer, array $options): ?string {
+        $typeAndRendererCallable = function (
+            string $type,
+            string $renderer,
+            array $options
+        ): ?string {
             $this->assertTypeIsValid($type);
 
             return $this->fragmentHandler->render(

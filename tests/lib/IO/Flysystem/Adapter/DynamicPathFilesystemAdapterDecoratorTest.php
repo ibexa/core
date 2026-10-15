@@ -10,9 +10,12 @@ namespace Ibexa\Tests\Core\IO\Flysystem\Adapter;
 
 use Ibexa\Core\IO\Flysystem\Adapter\DynamicPathFilesystemAdapterDecorator;
 use Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface;
+use Ibexa\Tests\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixerTest;
+use Ibexa\Tests\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverterTestCase;
 use League\Flysystem\Config;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\Visibility;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Depends;
@@ -22,8 +25,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * Note: SiteAccess-aware dynamic settings resolving aspect has been tested via PathPrefixer
  * and Visibility converter test cases:
- * {@see \Ibexa\Tests\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverterTestCase}
- * {@see \Ibexa\Tests\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixerTest}.
+ * {@see BaseVisibilityConverterTestCase}
+ * {@see DFSSiteAccessAwarePathPrefixerTest}.
  */
 #[CoversClass(DynamicPathFilesystemAdapterDecorator::class)]
 final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
@@ -38,7 +41,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 
     private Config $config;
 
-    /** @var \League\Flysystem\FilesystemAdapter&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FilesystemAdapter&MockObject */
     private FilesystemAdapter $innerAdapterMock;
 
     protected function setUp(): void
@@ -58,13 +61,13 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testWrite(): void
     {
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('write')
             ->with(
                 $this->buildAbsolutePath(self::FOO_BAR_FILE),
@@ -76,7 +79,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testWriteStream(): void
     {
@@ -84,7 +87,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('writeStream')
             ->with(
                 $this->buildAbsolutePath(self::FOO_BAR_FILE),
@@ -102,7 +105,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testFileSize(): void
     {
@@ -111,7 +114,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('fileSize')
             ->with(
                 $this->buildAbsolutePath(self::FOO_BAR_FILE)
@@ -125,13 +128,13 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testFileExists(): void
     {
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('fileExists')
             ->with(
                 $this->buildAbsolutePath(self::FOO_BAR_FILE)
@@ -142,7 +145,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testLastModified(): void
     {
@@ -151,7 +154,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('lastModified')
             ->with(
                 $this->buildAbsolutePath(self::FOO_BAR_FILE)
@@ -165,7 +168,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testCopy(): void
     {
@@ -173,7 +176,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('copy')
             ->with(
                 $this->buildAbsolutePath(self::FOO_BAR_FILE),
@@ -185,13 +188,13 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testMove(): void
     {
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('move')
             ->with(
                 $this->buildAbsolutePath(self::FOO_BAR_FILE),
@@ -203,7 +206,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testListContents(): void
     {
@@ -218,7 +221,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
                 $this->buildAbsolutePath($relativeFilePath)
             );
             $fileAttributesMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('withPath')
                 ->willReturn($this->createFileAttributesPathMock($relativeFilePath));
 
@@ -227,7 +230,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listContents')
             ->with(
                 $this->buildAbsolutePath('/'),
@@ -241,13 +244,13 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testRead(): void
     {
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('read')
             ->with(
                 $this->buildAbsolutePath(self::FOO_BAR_FILE)
@@ -258,7 +261,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     #[Depends('testWrite')]
     public function testReadStream(): void
@@ -266,7 +269,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
         $fileHandle = tmpfile();
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('readStream')
             ->with(
                 $this->buildAbsolutePath(self::FOO_BAR_FILE)
@@ -279,13 +282,13 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testCreateDirectory(): void
     {
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createDirectory')
             ->with(
                 $this->buildAbsolutePath(self::MY_DIR_NAME),
@@ -296,13 +299,13 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testDeleteDirectory(): void
     {
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteDirectory')
             ->with(
                 $this->buildAbsolutePath(self::MY_DIR_NAME)
@@ -312,7 +315,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testVisibility(): void
     {
@@ -324,7 +327,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 
         $this
             ->innerAdapterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('visibility')
             ->with(
                 $this->buildAbsolutePath($relativeFilePath)
@@ -376,11 +379,13 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     /**
      * @param string|int $returnValue
      */
-    private function createFileAttributesMock(string $methodName, $returnValue): MockObject
-    {
+    private function createFileAttributesMock(
+        string $methodName,
+        $returnValue
+    ): MockObject {
         $fileAttributesMock = $this->createMock(FileAttributes::class);
         $fileAttributesMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($methodName)
             ->willReturn($returnValue);
 

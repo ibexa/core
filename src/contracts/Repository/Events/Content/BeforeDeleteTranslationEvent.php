@@ -17,8 +17,10 @@ final class BeforeDeleteTranslationEvent extends BeforeEvent
 
     private string $languageCode;
 
-    public function __construct(ContentInfo $contentInfo, string $languageCode)
-    {
+    public function __construct(
+        ContentInfo $contentInfo,
+        string $languageCode
+    ) {
         $this->contentInfo = $contentInfo;
         $this->languageCode = $languageCode;
     }

@@ -12,11 +12,13 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\MVC\RepositoryAware;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ParentContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ParentContentType as ParentContentTypeMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(ParentContentTypeMatcher::class)]
 #[CoversClass(MultipleValued::class)]
@@ -26,7 +28,7 @@ class ParentContentTypeTest extends BaseTestCase
     private const EXAMPLE_LOCATION_ID = 54;
     private const EXAMPLE_PARENT_LOCATION_ID = 2;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ParentContentType */
+    /** @var ParentContentType */
     private $matcher;
 
     protected function setUp(): void
@@ -40,7 +42,7 @@ class ParentContentTypeTest extends BaseTestCase
      *
      * @param string $contentTypeIdentifier
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier)
     {
@@ -51,31 +53,31 @@ class ParentContentTypeTest extends BaseTestCase
         $parentLocation = $this->getLocationMock([
             'parentLocationId' => self::EXAMPLE_PARENT_LOCATION_ID,
         ]);
-        $parentLocation->expects(self::once())
+        $parentLocation->expects($this->once())
             ->method('getContentInfo')
             ->will(
-                self::returnValue($parentContentInfo)
+                $this->returnValue($parentContentInfo)
             );
 
         $locationServiceMock = $this->createMock(LocationService::class);
-        $locationServiceMock->expects(self::atLeastOnce())
+        $locationServiceMock->expects($this->atLeastOnce())
             ->method('loadLocation')
             ->will(
-                self::returnValue($parentLocation)
+                $this->returnValue($parentLocation)
             );
         // The following is used in the case of a match by contentInfo
-        $locationServiceMock->expects(self::any())
+        $locationServiceMock->expects($this->any())
             ->method('loadLocation')
             ->will(
-                self::returnValue($this->getLocationMock())
+                $this->returnValue($this->getLocationMock())
             );
 
         $contentTypeServiceMock = $this->createMock(ContentTypeService::class);
-        $contentTypeServiceMock->expects(self::once())
+        $contentTypeServiceMock->expects($this->once())
             ->method('loadContentType')
             ->with(42)
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $this
                         ->getMockBuilder(ContentType::class)
                         ->setConstructorArgs(
@@ -89,17 +91,17 @@ class ParentContentTypeTest extends BaseTestCase
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getLocationService')
-            ->will(self::returnValue($locationServiceMock));
+            ->will($this->returnValue($locationServiceMock));
         $repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getContentTypeService')
-            ->will(self::returnValue($contentTypeServiceMock));
+            ->will($this->returnValue($contentTypeServiceMock));
         $repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getPermissionResolver')
-            ->will(self::returnValue($this->getPermissionResolverMock()));
+            ->will($this->returnValue($this->getPermissionResolverMock()));
 
         return $repository;
     }
@@ -109,8 +111,11 @@ class ParentContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, string $contentTypeIdentifier, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        string $contentTypeIdentifier,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
@@ -155,8 +160,11 @@ class ParentContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchContentInfo($matchingConfig, string $contentTypeIdentifier, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        string $contentTypeIdentifier,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(

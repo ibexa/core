@@ -19,7 +19,7 @@ use Pagerfanta\Pagerfanta as BasePagerfanta;
 final class Pagerfanta extends BasePagerfanta
 {
     /**
-     * @phpstan-param \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter<TSearchResultAdapter> $searchResultAdapter
+     * @phpstan-param SearchResultAdapter<TSearchResultAdapter> $searchResultAdapter
      */
     public function __construct(private readonly SearchResultAdapter $searchResultAdapter)
     {

@@ -19,7 +19,7 @@ use Ibexa\Core\Helper\ContentInfoLocationLoader;
  */
 class SudoMainLocationLoader implements ContentInfoLocationLoader
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\Ibexa\Core\Repository\Repository */
+    /** @var Repository|\Ibexa\Core\Repository\Repository */
     private $repository;
 
     public function __construct(Repository $repository)

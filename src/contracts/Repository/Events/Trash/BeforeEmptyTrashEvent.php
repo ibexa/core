@@ -16,9 +16,7 @@ final class BeforeEmptyTrashEvent extends BeforeEvent
 {
     private ?TrashItemDeleteResultList $resultList = null;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function getResultList(): TrashItemDeleteResultList
     {

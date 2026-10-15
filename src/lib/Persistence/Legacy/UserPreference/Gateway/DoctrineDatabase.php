@@ -22,9 +22,7 @@ class DoctrineDatabase extends Gateway
     public const string COLUMN_USER_ID = 'user_id';
     public const string COLUMN_VALUE = 'value';
 
-    public function __construct(protected Connection $connection)
-    {
-    }
+    public function __construct(protected Connection $connection) {}
 
     public function setUserPreference(UserPreferenceSetStruct $userPreference): int
     {
@@ -64,8 +62,10 @@ class DoctrineDatabase extends Gateway
         return (int) $this->connection->lastInsertId();
     }
 
-    public function getUserPreferenceByUserIdAndName(int $userId, string $name): array
-    {
+    public function getUserPreferenceByUserIdAndName(
+        int $userId,
+        string $name
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(...$this->getColumns())
@@ -79,8 +79,11 @@ class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    public function loadUserPreferences(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadUserPreferences(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(...$this->getColumns())

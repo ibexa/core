@@ -13,6 +13,7 @@ use Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator;
 use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RouteReferenceGeneratorTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $dispatcher;
 
     protected function setUp(): void
@@ -41,7 +42,7 @@ class RouteReferenceGeneratorTest extends TestCase
 
         $event = new RouteReferenceGenerationEvent(new RouteReference($currentRouteName, $currentRouteParams), $request);
         $this->dispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(self::equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
 
@@ -67,7 +68,7 @@ class RouteReferenceGeneratorTest extends TestCase
 
         $event = new RouteReferenceGenerationEvent(new RouteReference($currentRouteName, $expectedParams), $request);
         $this->dispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(self::equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
 
@@ -80,8 +81,10 @@ class RouteReferenceGeneratorTest extends TestCase
     }
 
     #[DataProvider('generateGenerator')]
-    public function testGenerate($resource, array $params): void
-    {
+    public function testGenerate(
+        $resource,
+        array $params
+    ): void {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
 
@@ -92,7 +95,7 @@ class RouteReferenceGeneratorTest extends TestCase
 
         $event = new RouteReferenceGenerationEvent(new RouteReference($resource, $params), $request);
         $this->dispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(self::equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
 
@@ -114,7 +117,7 @@ class RouteReferenceGeneratorTest extends TestCase
 
         $event = new RouteReferenceGenerationEvent(new RouteReference(null, []), $request);
         $this->dispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(self::equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
 

@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
  */
 class EntityManagerFactory
 {
-    /** @phpstan-var \Symfony\Component\DependencyInjection\ServiceLocator<\Doctrine\ORM\EntityManagerInterface> */
+    /** @phpstan-var ServiceLocator<EntityManagerInterface> */
     private ServiceLocator $serviceLocator;
 
     /** @var string */
@@ -27,7 +27,7 @@ class EntityManagerFactory
     private array $entityManagers;
 
     /**
-     * @phpstan-param \Symfony\Component\DependencyInjection\ServiceLocator<\Doctrine\ORM\EntityManagerInterface> $serviceLocator
+     * @phpstan-param ServiceLocator<EntityManagerInterface> $serviceLocator
      */
     public function __construct(
         private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,

@@ -16,17 +16,18 @@ use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway;
 use Ibexa\Core\Persistence\Legacy\URL\Handler;
 use Ibexa\Core\Persistence\Legacy\URL\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Mapper|MockObject */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Handler */
+    /** @var Handler */
     private $handler;
 
     protected function setUp(): void
@@ -192,8 +193,10 @@ class HandlerTest extends TestCase
         self::assertEquals($ids, $this->handler->findUsages($url->id));
     }
 
-    private function getUrl($id = 1, $urlAddr = 'http://ibexa.co')
-    {
+    private function getUrl(
+        $id = 1,
+        $urlAddr = 'http://ibexa.co'
+    ) {
         $url = new URL();
         $url->id = $id;
         $url->url = $url;

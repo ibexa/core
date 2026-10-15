@@ -11,6 +11,4 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Locat
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\AbstractTermAggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\LocationAggregation;
 
-final class LocationChildrenTermAggregation extends AbstractTermAggregation implements LocationAggregation
-{
-}
+final class LocationChildrenTermAggregation extends AbstractTermAggregation implements LocationAggregation {}

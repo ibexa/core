@@ -16,16 +16,18 @@ use PHPUnit\Framework\TestCase;
 final class RangeTest extends TestCase
 {
     /**
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed> $range
+     * @phpstan-param Range<mixed> $range
      */
     #[DataProvider('dataProviderForTestToString')]
-    public function testToString(Range $range, string $expected): void
-    {
+    public function testToString(
+        Range $range,
+        string $expected
+    ): void {
         self::assertEquals($expected, (string)$range);
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed>, string}>
+     * @return iterable<string, array{Range<mixed>, string}>
      */
     public static function dataProviderForTestToString(): iterable
     {
@@ -78,18 +80,21 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed> $rangeA
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed> $rangeB
+     * @phpstan-param Range<mixed> $rangeA
+     * @phpstan-param Range<mixed> $rangeB
      */
     #[DataProvider('dataProviderForEqualsTo')]
-    public function testEqualsTo(Range $rangeA, Range $rangeB, bool $expectedResult): void
-    {
+    public function testEqualsTo(
+        Range $rangeA,
+        Range $rangeB,
+        bool $expectedResult
+    ): void {
         self::assertEquals($expectedResult, $rangeA->equalsTo($rangeB));
         self::assertEquals($expectedResult, $rangeB->equalsTo($rangeA));
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed>, \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed>, bool}>
+     * @return iterable<string, array{Range<mixed>, Range<mixed>, bool}>
      */
     public static function dataProviderForEqualsTo(): iterable
     {

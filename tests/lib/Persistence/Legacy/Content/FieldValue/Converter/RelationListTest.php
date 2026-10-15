@@ -16,12 +16,13 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(RelationListConverter::class)]
 class RelationListTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter */
+    /** @var MockObject|RelationListConverter */
     protected $converter;
 
     protected function setUp(): void
@@ -53,11 +54,11 @@ EOT;
         $actualStorageFieldValue = new StorageFieldValue();
 
         $this->converter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getRelationXmlHashFromDB')
             ->with($destinationContentIds)
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     [
                         '1' => [
                             [
@@ -120,10 +121,10 @@ EOT;
         $actualStorageFieldValue = new StorageFieldValue();
 
         $this->converter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getRelationXmlHashFromDB')
             ->with($destinationContentIds)
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $this->converter->toStorageValue($fieldValue, $actualStorageFieldValue);
 

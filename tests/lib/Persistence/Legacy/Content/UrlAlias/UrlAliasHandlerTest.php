@@ -7,8 +7,11 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
+use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -24,6 +27,7 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
+use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased;
 use Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased\Parser;
 use Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler;
@@ -34,6 +38,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(Handler::class)]
 #[Group('urlalias-handler')]
@@ -806,8 +811,10 @@ class UrlAliasHandlerTest extends TestCase
     #[Depends('testLookup')]
     #[Group('virtual')]
     #[DataProvider('providerForTestLookupVirtualUrlAlias')]
-    public function testLookupVirtualUrlAlias($url, $id): void
-    {
+    public function testLookupVirtualUrlAlias(
+        $url,
+        $id
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
 
@@ -964,8 +971,10 @@ class UrlAliasHandlerTest extends TestCase
         self::assertInstanceOf(UrlAlias::class, $urlAlias);
     }
 
-    protected function assertVirtualUrlAliasValid(UrlAlias $urlAlias, $id)
-    {
+    protected function assertVirtualUrlAliasValid(
+        UrlAlias $urlAlias,
+        $id
+    ) {
         self::assertInstanceOf(UrlAlias::class, $urlAlias);
         self::assertEquals($id, $urlAlias->id);
         self::assertEquals(UrlAlias::VIRTUAL, $urlAlias->type);
@@ -1865,7 +1874,7 @@ class UrlAliasHandlerTest extends TestCase
         $handlerMock = $this->getPartlyMockedHandler(['createUrlAlias']);
 
         $handlerMock->expects(
-            self::once()
+            $this->once()
         )->method(
             'createUrlAlias'
         )->with(
@@ -1875,7 +1884,7 @@ class UrlAliasHandlerTest extends TestCase
             self::equalTo(null),
             self::equalTo(false)
         )->will(
-            self::returnValue(
+            $this->returnValue(
                 new UrlAlias()
             )
         );
@@ -1896,7 +1905,7 @@ class UrlAliasHandlerTest extends TestCase
         $handlerMock = $this->getPartlyMockedHandler(['createUrlAlias']);
 
         $handlerMock->expects(
-            self::once()
+            $this->once()
         )->method(
             'createUrlAlias'
         )->with(
@@ -1906,7 +1915,7 @@ class UrlAliasHandlerTest extends TestCase
             self::equalTo(null),
             self::equalTo(false)
         )->will(
-            self::returnValue(
+            $this->returnValue(
                 new UrlAlias()
             )
         );
@@ -2762,10 +2771,10 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws Exception
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testLocationMovedReparentWithCustomAlias(): void
@@ -3024,8 +3033,10 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the loadUrlAlias() method.
      */
     #[DataProvider('providerForTestLookupVirtualUrlAlias')]
-    public function testLoadVirtualUrlAlias($url, $id): void
-    {
+    public function testLoadVirtualUrlAlias(
+        $url,
+        $id
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
 
@@ -3120,8 +3131,10 @@ class UrlAliasHandlerTest extends TestCase
      */
     #[Group('publish')]
     #[DataProvider('providerForTestPublishUrlAliasForLocationSkipsReservedWord')]
-    public function testPublishUrlAliasForLocationSkipsReservedWord($text, $alias): void
-    {
+    public function testPublishUrlAliasForLocationSkipsReservedWord(
+        $text,
+        $alias
+    ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
 
@@ -5245,19 +5258,19 @@ class UrlAliasHandlerTest extends TestCase
         return (int)$statement->fetchOne();
     }
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
+    /** @var LocationGateway */
     protected $locationGateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler */
+    /** @var LanguageHandler */
     protected $languageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
+    /** @var LanguageMaskGenerator */
     protected $languageMaskGenerator;
 
     /**
      * @param array $methods
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return Handler|MockObject
      */
     protected function getPartlyMockedHandler(array $methods)
     {
@@ -5279,9 +5292,9 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
+     * @return Handler
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     protected function getHandler(): Handler
     {
@@ -5329,7 +5342,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @return LanguageMaskGenerator
      */
     protected function getLanguageMaskGenerator()
     {
@@ -5343,7 +5356,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @return LocationGateway
      */
     protected function getLocationGateway()
     {
@@ -5361,7 +5374,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\TransformationProcessor
+     * @return TransformationProcessor
      */
     public function getProcessor()
     {

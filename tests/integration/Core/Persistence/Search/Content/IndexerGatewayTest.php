@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Persistence\Search\Content;
 
 use DateTimeImmutable;
+use Doctrine\DBAL\Exception;
 use Ibexa\Core\Search\Legacy\Content\IndexerGateway;
 use Ibexa\Tests\Integration\Core\BaseGatewayTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -20,7 +21,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(IndexerGateway::class)]
 final class IndexerGatewayTest extends BaseGatewayTestCase
 {
-    /** @var \Ibexa\Core\Search\Legacy\Content\IndexerGateway */
+    /** @var IndexerGateway */
     private $gateway;
 
     /**
@@ -64,7 +65,7 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     #[DataProvider('getDataForContentSince')]
     public function testGetContentSince(
@@ -76,7 +77,7 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     #[DataProvider('getDataForContentSince')]
     public function testCountContentSince(
@@ -91,7 +92,7 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     #[DataProvider('getDataForContentInSubtree')]
     public function testGetContentInSubtree(
@@ -106,7 +107,7 @@ final class IndexerGatewayTest extends BaseGatewayTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     #[DataProvider('getDataForContentInSubtree')]
     public function testCountContentInSubtree(

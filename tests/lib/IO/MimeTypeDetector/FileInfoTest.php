@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\IO\MimeTypeDetector;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\IO\MimeTypeDetector\FileInfo as MimeTypeDetector;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +27,7 @@ class FileInfoTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testGetFromPath(): void
     {
@@ -39,7 +40,7 @@ class FileInfoTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testGetFromBuffer(): void
     {

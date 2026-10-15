@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandl
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler;
@@ -22,12 +23,15 @@ final class LogicalAnd implements CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion\LogicalAnd $criterion
+     * @param Criterion\LogicalAnd $criterion
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
-    public function handle(CriteriaConverter $converter, QueryBuilder $queryBuilder, Criterion $criterion): CompositeExpression
-    {
+    public function handle(
+        CriteriaConverter $converter,
+        QueryBuilder $queryBuilder,
+        Criterion $criterion
+    ): CompositeExpression {
         $subexpressions = [];
         foreach ($criterion->criteria as $subCriterion) {
             $subexpressions[] = $converter->convertCriteria($queryBuilder, $subCriterion);

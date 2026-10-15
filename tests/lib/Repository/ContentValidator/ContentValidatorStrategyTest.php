@@ -83,8 +83,10 @@ class ContentValidatorStrategyTest extends TestCase
         ], $errors);
     }
 
-    private function buildContentValidator(string $classSupport, array $validationReturn): ContentValidator
-    {
+    private function buildContentValidator(
+        string $classSupport,
+        array $validationReturn
+    ): ContentValidator {
         return new class($classSupport, $validationReturn) implements ContentValidator {
             /** @var string */
             private $classSupport;

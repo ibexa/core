@@ -36,16 +36,16 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
         self::EDIT => 'fieldDefinitionEditResources',
     ];
 
-    /** @var \Twig\Environment */
+    /** @var Environment */
     private $twig;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProviderInterface */
+    /** @var ResourceProviderInterface */
     private $resourceProvider;
 
     /**
      * A \Twig\Template instance used to render template blocks, or path to the template to use.
      *
-     * @var \Twig\Template|string
+     * @var Template|string
      */
     private $baseTemplate;
 
@@ -57,9 +57,9 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
     private $blocks;
 
     /**
-     * @param \Twig\Environment $twig
-     * @param \Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProviderInterface $resourceProvider
-     * @param string|\Twig\Template $baseTemplate
+     * @param Environment $twig
+     * @param ResourceProviderInterface $resourceProvider
+     * @param string|Template $baseTemplate
      * @param array $blocks
      */
     public function __construct(
@@ -75,35 +75,45 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
     }
 
     /**
-     * @param \Twig\Environment $twig
+     * @param Environment $twig
      */
     public function setTwig(Environment $twig)
     {
         $this->twig = $twig;
     }
 
-    public function renderContentFieldView(Field $field, $fieldTypeIdentifier, array $params = []): string
-    {
+    public function renderContentFieldView(
+        Field $field,
+        $fieldTypeIdentifier,
+        array $params = []
+    ): string {
         return $this->renderContentField($field, $fieldTypeIdentifier, $params, self::VIEW);
     }
 
-    public function renderContentFieldEdit(Field $field, $fieldTypeIdentifier, array $params = []): string
-    {
+    public function renderContentFieldEdit(
+        Field $field,
+        $fieldTypeIdentifier,
+        array $params = []
+    ): string {
         return $this->renderContentField($field, $fieldTypeIdentifier, $params, self::EDIT);
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      * @param string $fieldTypeIdentifier
      * @param array $params
      * @param int $type Either self::VIEW or self::EDIT
      *
-     * @throws \Ibexa\Core\MVC\Symfony\Templating\Exception\MissingFieldBlockException If no template block can be found for $field
+     * @throws MissingFieldBlockException If no template block can be found for $field
      *
      * @return string
      */
-    private function renderContentField(Field $field, $fieldTypeIdentifier, array $params, $type): string
-    {
+    private function renderContentField(
+        Field $field,
+        $fieldTypeIdentifier,
+        array $params,
+        $type
+    ): string {
         $localTemplate = null;
         if (isset($params['template'])) {
             // local override of the template
@@ -132,25 +142,32 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
         return $this->baseTemplate->renderBlock($blockName, $context, $blocks);
     }
 
-    public function renderFieldDefinitionView(FieldDefinition $fieldDefinition, array $params = []): string
-    {
+    public function renderFieldDefinitionView(
+        FieldDefinition $fieldDefinition,
+        array $params = []
+    ): string {
         return $this->renderFieldDefinition($fieldDefinition, $params, self::VIEW);
     }
 
-    public function renderFieldDefinitionEdit(FieldDefinition $fieldDefinition, array $params = []): string
-    {
+    public function renderFieldDefinitionEdit(
+        FieldDefinition $fieldDefinition,
+        array $params = []
+    ): string {
         return $this->renderFieldDefinition($fieldDefinition, $params, self::EDIT);
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param FieldDefinition $fieldDefinition
      * @param array $params
      * @param int $type Either self::VIEW or self::EDIT
      *
      * @return string
      */
-    private function renderFieldDefinition(FieldDefinition $fieldDefinition, array $params, $type): string
-    {
+    private function renderFieldDefinition(
+        FieldDefinition $fieldDefinition,
+        array $params,
+        $type
+    ): string {
         if (is_string($this->baseTemplate)) {
             $this->baseTemplate = $this->twig->loadTemplate(
                 $this->twig->getTemplateClass($this->baseTemplate),
@@ -178,12 +195,14 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      * found, returns null.
      *
      * @param string $blockName
-     * @param \Twig\Template $tpl
+     * @param Template $tpl
      *
      * @return array|null
      */
-    private function searchBlock(string $blockName, Template $tpl): ?array
-    {
+    private function searchBlock(
+        string $blockName,
+        Template $tpl
+    ): ?array {
         // Current template might have parents, so we need to loop against
         // them to find a matching block
         do {
@@ -204,12 +223,15 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @param string $fieldTypeIdentifier
      * @param int $type Either self::VIEW or self::EDIT
-     * @param string|\Twig\Template|null $localTemplate a file where to look for the block first
+     * @param string|Template|null $localTemplate a file where to look for the block first
      *
      * @return array
      */
-    private function getBlocksByField($fieldTypeIdentifier, $type, $localTemplate = null): array
-    {
+    private function getBlocksByField(
+        $fieldTypeIdentifier,
+        $type,
+        $localTemplate = null
+    ): array {
         $fieldBlockName = $this->getRenderFieldBlockName($fieldTypeIdentifier, $type);
         if ($localTemplate !== null) {
             // $localTemplate might be a \Twig\Template instance already (e.g. using _self Twig keyword)
@@ -232,13 +254,15 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
     /**
      * Returns the template block for the settings of the field definition $definition.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $definition
+     * @param FieldDefinition $definition
      * @param int $type Either self::VIEW or self::EDIT
      *
      * @return array
      */
-    private function getBlocksByFieldDefinition(FieldDefinition $definition, $type): array
-    {
+    private function getBlocksByFieldDefinition(
+        FieldDefinition $definition,
+        $type
+    ): array {
         return $this->getBlockByName(
             $this->getRenderFieldDefinitionBlockName($definition->fieldTypeIdentifier, $type),
             self::FIELD_DEFINITION_RESOURCES_MAP[$type]
@@ -254,8 +278,10 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return array
      */
-    private function getBlockByName($name, $resourcesName): array
-    {
+    private function getBlockByName(
+        $name,
+        $resourcesName
+    ): array {
         if (isset($this->blocks[$name])) {
             return [$name => $this->blocks[$name]];
         }
@@ -289,8 +315,10 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return string
      */
-    private function getRenderFieldBlockName($fieldTypeIdentifier, $type): string
-    {
+    private function getRenderFieldBlockName(
+        $fieldTypeIdentifier,
+        $type
+    ): string {
         $suffix = $type === self::EDIT ? self::FIELD_EDIT_SUFFIX : self::FIELD_VIEW_SUFFIX;
 
         return $fieldTypeIdentifier . $suffix;
@@ -305,15 +333,17 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return string
      */
-    private function getRenderFieldDefinitionBlockName($fieldTypeIdentifier, $type): string
-    {
+    private function getRenderFieldDefinitionBlockName(
+        $fieldTypeIdentifier,
+        $type
+    ): string {
         $suffix = $type === self::EDIT ? self::FIELD_DEFINITION_EDIT_SUFFIX : self::FIELD_DEFINITION_VIEW_SUFFIX;
 
         return $fieldTypeIdentifier . $suffix;
     }
 
     /**
-     * @return array|\Twig\Template[]
+     * @return array|Template[]
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
@@ -338,7 +368,10 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
 
     private function sortResources(array $resources): array
     {
-        usort($resources, static function (array $a, array $b): int {
+        usort($resources, static function (
+            array $a,
+            array $b
+        ): int {
             return $b['priority'] - $a['priority'];
         });
 

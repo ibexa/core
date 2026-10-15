@@ -15,13 +15,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
+use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Restores the parent request's SiteAccess when a sub-request finishes, by re-dispatching
  * MVCEvents::SITEACCESS — its listeners mutate shared state for every sub-request. Mirrors
- * {@see \Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelFinishRequest()}.
+ * {@see RouterListener::onKernelFinishRequest()}.
  */
 final class SiteAccessRestoreListener implements EventSubscriberInterface
 {

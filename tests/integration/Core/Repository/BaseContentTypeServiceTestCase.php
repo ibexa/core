@@ -7,7 +7,14 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 
 /**
  * Base class for content type specific tests.
@@ -17,14 +24,14 @@ abstract class BaseContentTypeServiceTestCase extends BaseTestCase
     /**
      * Creates a fully functional ContentTypeDraft and returns it.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct[] $additionalFieldDefinitionsCreateStruct
+     * @param FieldDefinitionCreateStruct[] $additionalFieldDefinitionsCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
+     * @return ContentTypeDraft
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ContentTypeFieldDefinitionValidationException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     protected function createContentTypeDraft(array $additionalFieldDefinitionsCreateStruct = [])
     {
@@ -119,7 +126,7 @@ abstract class BaseContentTypeServiceTestCase extends BaseTestCase
     /**
      * Creates a fresh clean content draft.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
     protected function createContentDraft()
     {

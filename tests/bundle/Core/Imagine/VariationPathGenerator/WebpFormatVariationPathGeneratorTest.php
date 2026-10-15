@@ -16,9 +16,9 @@ use PHPUnit\Framework\TestCase;
 
 final class WebpFormatVariationPathGeneratorTest extends TestCase
 {
-    private VariationPathGenerator&MockObject $innerVariationPathGenerator;
+    private VariationPathGenerator & MockObject $innerVariationPathGenerator;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FilterConfiguration|MockObject */
     private FilterConfiguration $filterConfiguration;
 
     protected function setUp(): void

@@ -18,24 +18,20 @@ class LocationRemote extends MultipleValued
     /**
      * Checks if a Location object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param APILocation $location
      *
      * @return bool
      */
-    public function matchLocation(APILocation $location)
-    {
-    }
+    public function matchLocation(APILocation $location) {}
 
     /**
      * Checks if a ContentInfo object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      *
      * @return bool
      */
-    public function matchContentInfo(ContentInfo $contentInfo)
-    {
-    }
+    public function matchContentInfo(ContentInfo $contentInfo) {}
 
     public function match(View $view): bool
     {

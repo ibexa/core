@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Setting;
 
+use Doctrine\DBAL\Exception;
+
 /**
  * @internal For internal use by Persistence Handlers.
  */
@@ -16,7 +18,7 @@ abstract class Gateway
     public const SETTING_TABLE = 'ibexa_setting';
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     abstract public function insertSetting(
         string $group,
@@ -25,7 +27,7 @@ abstract class Gateway
     ): int;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     abstract public function updateSetting(
         string $group,
@@ -34,7 +36,7 @@ abstract class Gateway
     ): void;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     abstract public function loadSetting(
         string $group,
@@ -42,14 +44,14 @@ abstract class Gateway
     ): ?array;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     abstract public function loadSettingById(
         int $id
     ): ?array;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     abstract public function deleteSetting(
         string $group,

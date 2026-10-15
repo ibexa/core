@@ -13,12 +13,13 @@ use Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(MatcherBuilder::class)]
 class MatcherBuilderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $siteAccessMatcherRegistry;
 
     protected function setUp(): void
@@ -30,7 +31,7 @@ class MatcherBuilderTest extends TestCase
     public function testBuildMatcherNoService(): void
     {
         $this->siteAccessMatcherRegistry
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getMatcher');
         $matcherBuilder = new MatcherBuilder($this->siteAccessMatcherRegistry);
         $matcher = self::createStub(Matcher::class);
@@ -44,10 +45,10 @@ class MatcherBuilderTest extends TestCase
 
         $serviceId = 'foo';
         $this->siteAccessMatcherRegistry
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMatcher')
             ->with($serviceId)
-            ->will(self::returnValue(self::createStub(Matcher::class)));
+            ->will($this->returnValue(self::createStub(Matcher::class)));
         $matcherBuilder = new MatcherBuilder($this->siteAccessMatcherRegistry);
         $matcherBuilder->buildMatcher("@$serviceId", [], new SimplifiedRequest());
     }
@@ -57,19 +58,19 @@ class MatcherBuilderTest extends TestCase
         $serviceId = 'foo';
         $matcher = $this->createMock(CoreMatcher::class);
         $this->siteAccessMatcherRegistry
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMatcher')
             ->with($serviceId)
-            ->will(self::returnValue($matcher));
+            ->will($this->returnValue($matcher));
 
         $matchingConfig = ['foo' => 'bar'];
         $request = new SimplifiedRequest();
         $matcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setMatchingConfiguration')
             ->with($matchingConfig);
         $matcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setRequest')
             ->with($request);
 

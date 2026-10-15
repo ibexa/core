@@ -19,10 +19,10 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class SiteAccessListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\SiteAccessListener */
+    /** @var SiteAccessListener */
     private $listener;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $defaultSiteaccess;
 
     protected function setUp(): void
@@ -77,10 +77,10 @@ class SiteAccessListenerTest extends TestCase
             $semanticPathinfo = substr($uri, $semanticPathinfoPos);
             $matcher = $this->createMock(SiteAccess\URILexer::class);
             $matcher
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('analyseURI')
                 ->with($uri)
-                ->will(self::returnValue($semanticPathinfo));
+                ->will($this->returnValue($semanticPathinfo));
         } else {
             $matcher = $this->createMock(SiteAccess\Matcher::class);
         }
@@ -100,8 +100,12 @@ class SiteAccessListenerTest extends TestCase
     }
 
     #[DataProvider('siteAccessMatchProvider')]
-    public function testOnSiteAccessMatchSubRequest($uri, $semanticPathinfo, $vpString, $expectedViewParameters): void
-    {
+    public function testOnSiteAccessMatchSubRequest(
+        $uri,
+        $semanticPathinfo,
+        $vpString,
+        $expectedViewParameters
+    ): void {
         $siteAccess = new SiteAccess('test', 'test', self::createStub(SiteAccess\Matcher::class));
         $request = Request::create($uri);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);

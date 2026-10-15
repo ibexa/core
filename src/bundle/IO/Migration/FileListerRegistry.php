@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration;
 
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+
 /**
  * A registry of FileListerInterfaces.
  */
@@ -18,9 +20,9 @@ interface FileListerRegistry
      *
      * @param string $identifier An identifier string.
      *
-     * @return \Ibexa\Bundle\IO\Migration\FileListerInterface The FileListerInterface given by the identifier.
+     * @return FileListerInterface The FileListerInterface given by the identifier.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException If no FileListerInterface exists with this identifier
+     * @throws NotFoundException If no FileListerInterface exists with this identifier
      */
     public function getItem(string $identifier): FileListerInterface;
 

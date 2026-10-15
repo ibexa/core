@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\IO;
 
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 
 /**
  * Provides reading & writing of files binary data.
@@ -18,7 +20,7 @@ interface IOBinarydataHandler
     /**
      * Creates a new file with data from $binaryFileCreateStruct.
      *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $binaryFileCreateStruct
+     * @param BinaryFileCreateStruct $binaryFileCreateStruct
      *
      * @throws \RuntimeException if an error occurred creating the file
      */
@@ -27,14 +29,14 @@ interface IOBinarydataHandler
     /**
      * Deletes the file by its $binaryFileId.
      *
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If the file is not found
+     * @throws BinaryFileNotFoundException If the file is not found
      */
     public function delete(string $binaryFileId): void;
 
     /**
      * Returns the binary content from $path.
      *
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If $path is not found
+     * @throws BinaryFileNotFoundException If $path is not found
      */
     public function getContents(string $spiBinaryFileId): string;
 
@@ -45,7 +47,7 @@ interface IOBinarydataHandler
      *
      * @return resource A read-only binary resource to $path
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function getResource(string $spiBinaryFileId): mixed;
 

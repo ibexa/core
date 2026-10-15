@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ViewRendererListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Renderer */
+    /** @var ViewRenderer */
     private $viewRenderer;
 
     public function __construct(ViewRenderer $viewRenderer)

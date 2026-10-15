@@ -66,17 +66,20 @@ class CachedPermissionServiceTest extends TestCase
      * @param $expectedReturn
      */
     #[DataProvider('providerForTestPermissionResolverPassTrough')]
-    public function testPermissionResolverPassTrough($method, array $arguments, $expectedReturn): void
-    {
+    public function testPermissionResolverPassTrough(
+        $method,
+        array $arguments,
+        $expectedReturn
+    ): void {
         if ($expectedReturn !== null) {
             $this->getPermissionResolverMock([$method])
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method($method)
                 ->with(...$arguments)
                 ->willReturn($expectedReturn);
         } else {
             $this->getPermissionResolverMock([$method])
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method($method)
                 ->with(...$arguments);
         }
@@ -95,7 +98,7 @@ class CachedPermissionServiceTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->getPermissionCriterionResolverMock(['getPermissionsCriterion'])
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getPermissionsCriterion')
             ->with('content', 'remove')
             ->willReturn($criterionMock);
@@ -114,7 +117,7 @@ class CachedPermissionServiceTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->getPermissionCriterionResolverMock(['getPermissionsCriterion'])
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
             ->willReturn($criterionMock);
@@ -141,7 +144,7 @@ class CachedPermissionServiceTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->getPermissionCriterionResolverMock(['getPermissionsCriterion'])
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
             ->willReturn($criterionMock);
@@ -162,7 +165,7 @@ class CachedPermissionServiceTest extends TestCase
      *
      * @param int $ttl
      *
-     * @return \Ibexa\Core\Repository\Permission\CachedPermissionService
+     * @return CachedPermissionService
      */
     protected function getCachedPermissionService($ttl = 5)
     {

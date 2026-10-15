@@ -21,8 +21,7 @@ final readonly class LimitedCountQueryBuilder implements CountQueryBuilder
 {
     public function __construct(
         private readonly Connection $connection
-    ) {
-    }
+    ) {}
 
     /**
      * Takes a QueryBuilder and wraps it in a count query with a limit if a limit is provided.
@@ -33,7 +32,7 @@ final readonly class LimitedCountQueryBuilder implements CountQueryBuilder
      *
      * @phpstan-param positive-int $limit
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function wrap(
         QueryBuilder $queryBuilder,

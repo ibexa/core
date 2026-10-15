@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class ComplexSettingParserTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParser */
+    /** @var ComplexSettingParser */
     private $parser;
 
     protected function setUp(): void
@@ -22,14 +22,18 @@ class ComplexSettingParserTest extends TestCase
     }
 
     #[DataProvider('provideSettings')]
-    public function testContainsDynamicSettings($setting, $expected): void
-    {
+    public function testContainsDynamicSettings(
+        $setting,
+        $expected
+    ): void {
         self::assertEquals($expected[0], $this->parser->containsDynamicSettings($setting), 'string');
     }
 
     #[DataProvider('provideSettings')]
-    public function testParseComplexSetting($setting, $expected): void
-    {
+    public function testParseComplexSetting(
+        $setting,
+        $expected
+    ): void {
         self::assertEquals($expected[1], $this->parser->parseComplexSetting($setting), 'string');
     }
 

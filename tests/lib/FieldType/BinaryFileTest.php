@@ -41,8 +41,8 @@ class BinaryFileTest extends BinaryBaseTestCase
         yield from parent::provideInvalidInputForAcceptValue();
 
         yield [
-                new BinaryFileValue(['id' => '/foo/bar']),
-                InvalidArgumentValue::class,
+            new BinaryFileValue(['id' => '/foo/bar']),
+            InvalidArgumentValue::class,
         ];
     }
 
@@ -541,7 +541,10 @@ class BinaryFileTest extends BinaryBaseTestCase
     {
         $mock = $this->createMock(RouteAwarePathGenerator::class);
         $mock->method('generate')
-            ->willReturnCallback(static function (string $route, array $routeParameters = []): string {
+            ->willReturnCallback(static function (
+                string $route,
+                array $routeParameters = []
+            ): string {
                 if ($routeParameters) {
                     return '__GENERATED_URI_WITH_PARAMS__';
                 }

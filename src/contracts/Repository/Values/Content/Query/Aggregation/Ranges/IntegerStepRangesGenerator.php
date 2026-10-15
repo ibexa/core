@@ -28,8 +28,10 @@ final class IntegerStepRangesGenerator implements RangesGeneratorInterface
 
     private bool $isRightOpen = true;
 
-    public function __construct(int $start, int $end)
-    {
+    public function __construct(
+        int $start,
+        int $end
+    ) {
         $this->start = $start;
         $this->end = $end;
     }
@@ -95,7 +97,7 @@ final class IntegerStepRangesGenerator implements RangesGeneratorInterface
     }
 
     /**
-     * @phpstan-return \Generator<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<int>>
+     * @phpstan-return Generator<Range<int>>
      */
     public function generate(): Generator
     {

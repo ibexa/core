@@ -35,8 +35,10 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
     }
 
     #[DataProvider('addViewProviderProvider')]
-    public function testAddViewProvider($declaredPriority, $expectedPriority): void
-    {
+    public function testAddViewProvider(
+        $declaredPriority,
+        $expectedPriority
+    ): void {
         $def = new Definition();
 
         $attributes = ['type' => 'Test\View'];

@@ -11,7 +11,9 @@ namespace Ibexa\Core\IO\IOMetadataHandler;
 use DateTime;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
+use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOMetadataHandler;
@@ -33,11 +35,13 @@ class LegacyDFSCluster implements IOMetadataHandler
     private ?UrlDecorator $urlDecorator;
 
     /**
-     * @param \Doctrine\DBAL\Connection $connection Doctrine DBAL connection
-     * @param \Ibexa\Core\IO\UrlDecorator|null $urlDecorator The URL decorator used to add a prefix to files path
+     * @param Connection $connection Doctrine DBAL connection
+     * @param UrlDecorator|null $urlDecorator The URL decorator used to add a prefix to files path
      */
-    public function __construct(Connection $connection, ?UrlDecorator $urlDecorator = null)
-    {
+    public function __construct(
+        Connection $connection,
+        ?UrlDecorator $urlDecorator = null
+    ) {
         $this->db = $connection;
         $this->urlDecorator = $urlDecorator;
     }
@@ -45,11 +49,11 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * Inserts a new reference to file $spiBinaryFileId.
      *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $spiBinaryFileCreateStruct
+     * @param BinaryFileCreateStruct $spiBinaryFileCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
+     * @return BinaryFile
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct): SPIBinaryFile
     {
@@ -85,8 +89,8 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @param string $binaryFileId
      *
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If $spiBinaryFileId is not found
+     * @throws Exception
+     * @throws BinaryFileNotFoundException If $spiBinaryFileId is not found
      */
     public function delete(string $binaryFileId): void
     {
@@ -107,8 +111,8 @@ class LegacyDFSCluster implements IOMetadataHandler
      * Loads and returns metadata for $spiBinaryFileId.
      *
      * @throws \DateMalformedStringException
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException if no row is found for $spiBinaryFileId
-     * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
+     * @throws BinaryFileNotFoundException if no row is found for $spiBinaryFileId
+     * @throws Exception Any unhandled DBAL exception
      */
     public function load(string $spiBinaryFileId): SPIBinaryFile
     {
@@ -148,7 +152,7 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * Checks if a file $spiBinaryFileId exists.
      *
-     * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
+     * @throws Exception Any unhandled DBAL exception
      */
     public function exists(string $spiBinaryFileId): bool
     {
@@ -189,7 +193,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      * Note that this is slightly incorrect, as it will return binaryfile for media files as well. It is a bit
      * of an issue, but shouldn't be a blocker given that this meta field isn't used that much.
      *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $binaryFileCreateStruct
+     * @param BinaryFileCreateStruct $binaryFileCreateStruct
      *
      * @return string
      */
@@ -220,8 +224,8 @@ class LegacyDFSCluster implements IOMetadataHandler
     }
 
     /**
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException
-     * @throws \Doctrine\DBAL\Exception
+     * @throws BinaryFileNotFoundException
+     * @throws Exception
      */
     public function getMimeType(string $spiBinaryFileId): string
     {
@@ -251,7 +255,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @param string $path persistence path, not prefixed by URL decoration
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function deleteDirectory(string $path): void
     {

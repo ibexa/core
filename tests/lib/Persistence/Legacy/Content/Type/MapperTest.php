@@ -26,6 +26,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(Mapper::class)]
 class MapperTest extends TestCase
@@ -67,7 +68,7 @@ class MapperTest extends TestCase
     /**
      * Returns a GroupCreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct
+     * @return GroupCreateStruct
      */
     protected function getGroupCreateStructFixture()
     {
@@ -128,7 +129,7 @@ class MapperTest extends TestCase
     /**
      * Returns a CreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct
+     * @return CreateStruct
      */
     protected function getContentTypeCreateStructFixture()
     {
@@ -172,7 +173,7 @@ class MapperTest extends TestCase
     /**
      * Returns a CreateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct
+     * @return UpdateStruct
      */
     protected function getContentTypeUpdateStructFixture(): UpdateStruct
     {
@@ -222,7 +223,7 @@ class MapperTest extends TestCase
     /**
      * Returns a Type fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     protected function getContentTypeFixture()
     {
@@ -385,7 +386,7 @@ class MapperTest extends TestCase
     public function testToStorageFieldDefinition(): void
     {
         $converterMock = $this->createMock(Converter::class);
-        $converterMock->expects(self::once())
+        $converterMock->expects($this->once())
             ->method('toStorageFieldDefinition')
             ->with(
                 self::isInstanceOf(
@@ -424,14 +425,14 @@ class MapperTest extends TestCase
         $fieldDef->fieldType = 'some_type';
 
         $converterMock = $this->createMock(Converter::class);
-        $converterMock->expects(self::once())
+        $converterMock->expects($this->once())
             ->method('toFieldDefinition')
             ->with($storageFieldDef, $fieldDef);
 
         $converterRegistry = new ConverterRegistry(['some_type' => $converterMock]);
         $storageDispatcher = $this->getStorageDispatcherMock();
         $storageDispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadFieldConstraintsData')
             ->with($fieldDef);
 
@@ -448,7 +449,7 @@ class MapperTest extends TestCase
     /**
      * Returns a Mapper with conversion methods mocked.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
+     * @return Mapper
      */
     protected function getNonConvertingMapper()
     {
@@ -463,14 +464,14 @@ class MapperTest extends TestCase
             ->getMock();
 
         // Dedicatedly tested test
-        $mapper->expects(self::atLeastOnce())
+        $mapper->expects($this->atLeastOnce())
             ->method('toFieldDefinition')
             ->with(
                 self::isInstanceOf(
                     StorageFieldDefinition::class
                 )
             )->will(
-                self::returnCallback(
+                $this->returnCallback(
                     static function (): FieldDefinition {
                         return new FieldDefinition();
                     }
@@ -483,7 +484,7 @@ class MapperTest extends TestCase
     /**
      * Returns a converter registry mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @return ConverterRegistry
      */
     protected function getConverterRegistryMock()
     {
@@ -516,7 +517,7 @@ class MapperTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return StorageDispatcherInterface|MockObject
      */
     private function getStorageDispatcherMock(): StorageDispatcherInterface
     {

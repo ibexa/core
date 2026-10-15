@@ -20,8 +20,7 @@ class TrashServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): TrashService
     {
-        return new class($service) extends TrashServiceDecorator {
-        };
+        return new class($service) extends TrashServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

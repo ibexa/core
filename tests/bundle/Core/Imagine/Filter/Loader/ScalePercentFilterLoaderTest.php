@@ -13,14 +13,15 @@ use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ScalePercentFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScalePercentFilterLoader */
+    /** @var ScalePercentFilterLoader */
     private $loader;
 
     protected function setUp(): void
@@ -63,15 +64,15 @@ class ScalePercentFilterLoaderTest extends TestCase
         $box = new Box($origWidth, $origHeight);
         $image = $this->createMock(ImageInterface::class);
         $image
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getSize')
-            ->will(self::returnValue($box));
+            ->will($this->returnValue($box));
 
         $this->innerLoader
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($image, self::equalTo(['size' => [$expectedWidth, $expectedHeight]]))
-            ->will(self::returnValue($image));
+            ->will($this->returnValue($image));
 
         self::assertSame($image, $this->loader->load($image, [$widthPercent, $heightPercent]));
     }

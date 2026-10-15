@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(LegacyStorageImageFileList::class)]
 final class LegacyStorageImageFileListTest extends TestCase
 {
-    protected ImageFileRowReader&MockObject $rowReaderMock;
+    protected ImageFileRowReader & MockObject $rowReaderMock;
 
     protected LegacyStorageImageFileList $fileList;
 

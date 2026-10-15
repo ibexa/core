@@ -47,83 +47,86 @@ class BorderFilterLoaderTest extends TestCase
 
         $palette = $this->createMock(PaletteInterface::class);
         $image
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('palette')
-            ->will(self::returnValue($palette));
+            ->will($this->returnValue($palette));
         $palette
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('color')
             ->with(BorderFilterLoader::DEFAULT_BORDER_COLOR)
-            ->will(self::returnValue(self::createStub(ColorInterface::class)));
+            ->will($this->returnValue(self::createStub(ColorInterface::class)));
 
         $box = $this->createMock(BoxInterface::class);
         $image
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getSize')
-            ->will(self::returnValue($box));
+            ->will($this->returnValue($box));
         $box
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getWidth')
-            ->will(self::returnValue(100));
+            ->will($this->returnValue(100));
         $box
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getHeight')
-            ->will(self::returnValue(100));
+            ->will($this->returnValue(100));
 
         $drawer = $this->createMock(DrawerInterface::class);
         $image
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('draw')
-            ->will(self::returnValue($drawer));
+            ->will($this->returnValue($drawer));
         $drawer
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('line')
-            ->will(self::returnValue($drawer));
+            ->will($this->returnValue($drawer));
 
         $loader = new BorderFilterLoader();
         self::assertSame($image, $loader->load($image, $options));
     }
 
     #[DataProvider('loadProvider')]
-    public function testLoad($thickX, $thickY, $color): void
-    {
+    public function testLoad(
+        $thickX,
+        $thickY,
+        $color
+    ): void {
         $image = $this->createMock(ImageInterface::class);
         $options = [$thickX, $thickY, $color];
 
         $palette = $this->createMock(PaletteInterface::class);
         $image
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('palette')
-            ->will(self::returnValue($palette));
+            ->will($this->returnValue($palette));
         $palette
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('color')
             ->with($color)
-            ->will(self::returnValue(self::createStub(ColorInterface::class)));
+            ->will($this->returnValue(self::createStub(ColorInterface::class)));
 
         $box = $this->createMock(BoxInterface::class);
         $image
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getSize')
-            ->will(self::returnValue($box));
+            ->will($this->returnValue($box));
         $box
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getWidth')
-            ->will(self::returnValue(1000));
+            ->will($this->returnValue(1000));
         $box
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getHeight')
-            ->will(self::returnValue(1000));
+            ->will($this->returnValue(1000));
 
         $drawer = $this->createMock(DrawerInterface::class);
         $image
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('draw')
-            ->will(self::returnValue($drawer));
+            ->will($this->returnValue($drawer));
         $drawer
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('line')
-            ->will(self::returnValue($drawer));
+            ->will($this->returnValue($drawer));
 
         $loader = new BorderFilterLoader();
         self::assertSame($image, $loader->load($image, $options));

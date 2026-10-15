@@ -17,8 +17,7 @@ final readonly class OnAuthenticationTokenCreatedRepositoryUserSubscriber implem
 {
     public function __construct(
         private PermissionResolver $permissionResolver,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

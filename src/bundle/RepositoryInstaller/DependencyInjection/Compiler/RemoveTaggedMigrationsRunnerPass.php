@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler;
 
+use Doctrine\Migrations\DependencyFactory;
 use Ibexa\Bundle\RepositoryInstaller\Bootstrapper\DoctrineMigrationsSchemaHook;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
@@ -19,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * {@see DoctrineMigrationsSchemaHook}, which cannot be built without it - when
  * {@see IbexaOnlyDependencyFactory::SERVICE_ID} isn't available - i.e. "ibexa/doctrine-migrations"
  * isn't installed/enabled - since {@see TaggedMigrationsRunner} requires a real
- * {@see \Doctrine\Migrations\DependencyFactory} and can no longer be built with none available.
+ * {@see DependencyFactory} and can no longer be built with none available.
  *
  * Runs before the reference-validity check (which happens in the "before removing" compiler pass
  * stage), so the still-mandatory "$dependencyFactory" argument on the (now-removed) definition

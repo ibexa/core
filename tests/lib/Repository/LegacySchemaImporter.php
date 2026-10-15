@@ -29,7 +29,7 @@ use RuntimeException;
  */
 final class LegacySchemaImporter
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;

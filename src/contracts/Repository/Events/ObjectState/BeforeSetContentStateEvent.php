@@ -21,8 +21,11 @@ final class BeforeSetContentStateEvent extends BeforeEvent
 
     private ObjectState $objectState;
 
-    public function __construct(ContentInfo $contentInfo, ObjectStateGroup $objectStateGroup, ObjectState $objectState)
-    {
+    public function __construct(
+        ContentInfo $contentInfo,
+        ObjectStateGroup $objectStateGroup,
+        ObjectState $objectState
+    ) {
         $this->contentInfo = $contentInfo;
         $this->objectStateGroup = $objectStateGroup;
         $this->objectState = $objectState;

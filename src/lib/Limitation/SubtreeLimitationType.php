@@ -11,6 +11,8 @@ use Ibexa\Contracts\Core\Limitation\Limitation;
 use Ibexa\Contracts\Core\Limitation\Target\Version;
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
@@ -21,6 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation as APISubtreeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
@@ -37,7 +40,7 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      */
@@ -61,7 +64,7 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -107,7 +110,7 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @param mixed[] $limitationValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
+     * @return APILimitationValue
      */
     public function buildValue(array $limitationValues): APILimitationValue
     {
@@ -117,20 +120,24 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
     /**
      * Evaluate permission against content & target(placement/parent/assignment).
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param UserReference $currentUser
      * @param object $object
      * @param object[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
      * @return bool|null
      *
-     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *@throws BadStateException If value of the LimitationValue is unsupported
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
      *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, ?array $targets = null): ?bool
-    {
+    public function evaluate(
+        APILimitationValue $value,
+        APIUserReference $currentUser,
+        object $object,
+        ?array $targets = null
+    ): ?bool {
         $targets = $targets ?? [];
 
         if (!$value instanceof APISubtreeLimitation) {
@@ -188,15 +195,17 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $targets does not contain
      *         objects of type LocationCreateStruct
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
+     * @param APILimitationValue $value
      * @param array $targets
      *
      * @return bool
      */
-    protected function evaluateForContentCreateStruct(APILimitationValue $value, array $targets): bool
-    {
+    protected function evaluateForContentCreateStruct(
+        APILimitationValue $value,
+        array $targets
+    ): bool {
         // If targets is empty/null return false as user does not have access
         // to content w/o location with this limitation
         if (empty($targets)) {
@@ -238,13 +247,15 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param UserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
+     * @return CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface
-    {
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    ): CriterionInterface {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues store
             throw new \RuntimeException('$value->limitationValues is empty');
@@ -259,7 +270,7 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
         return new PermissionSubtree($value->limitationValues);
     }
 
-    public function valueSchema(): array|int
+    public function valueSchema(): array | int
     {
         return self::VALUE_SCHEMA_LOCATION_PATH;
     }

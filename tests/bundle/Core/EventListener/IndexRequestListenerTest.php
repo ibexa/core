@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 use Ibexa\Bundle\Core\EventListener\IndexRequestListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,19 +20,19 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class IndexRequestListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\IndexRequestListener */
+    /** @var IndexRequestListener */
     private $indexRequestEventListener;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
+    /** @var Request */
     private $request;
 
-    /** @var \Symfony\Component\HttpKernel\Event\RequestEvent */
+    /** @var RequestEvent */
     private $event;
 
-    private HttpKernelInterface&Stub $httpKernel;
+    private HttpKernelInterface & Stub $httpKernel;
 
     protected function setUp(): void
     {
@@ -67,13 +68,16 @@ class IndexRequestListenerTest extends TestCase
     }
 
     #[DataProvider('indexPageProvider')]
-    public function testOnKernelRequestIndexOnIndexPage($requestPath, $configuredIndexPath, $expectedIndexPath): void
-    {
+    public function testOnKernelRequestIndexOnIndexPage(
+        $requestPath,
+        $configuredIndexPath,
+        $expectedIndexPath
+    ): void {
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('index_page')
-            ->will(self::returnValue($configuredIndexPath));
+            ->will($this->returnValue($configuredIndexPath));
         $this->request->attributes->set('semanticPathinfo', $requestPath);
         $this->indexRequestEventListener->onKernelRequestIndex($this->event);
         self::assertEquals($expectedIndexPath, $this->request->attributes->get('semanticPathinfo'));

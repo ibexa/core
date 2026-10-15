@@ -23,8 +23,10 @@ final class NewDraftEvaluator implements VersionTargetEvaluator
         return $targetVersion->newStatus === VersionInfo::STATUS_DRAFT;
     }
 
-    public function evaluate(Target\Version $targetVersion, Limitation $limitationValue): ?bool
-    {
+    public function evaluate(
+        Target\Version $targetVersion,
+        Limitation $limitationValue
+    ): ?bool {
         return LanguageLimitationType::ACCESS_GRANTED;
     }
 }

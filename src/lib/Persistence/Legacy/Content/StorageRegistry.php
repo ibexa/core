@@ -15,7 +15,7 @@ use Ibexa\Core\FieldType\NullStorage;
  */
 class StorageRegistry
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\FieldStorage[] */
+    /** @var FieldStorage[] */
     protected $storageMap;
 
     /**
@@ -27,8 +27,10 @@ class StorageRegistry
         $this->storageMap = $storageMap;
     }
 
-    public function register(string $typeName, FieldStorage $storage): void
-    {
+    public function register(
+        string $typeName,
+        FieldStorage $storage
+    ): void {
         $this->storageMap[$typeName] = $storage;
     }
 

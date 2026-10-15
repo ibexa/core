@@ -18,8 +18,10 @@ final class BeforeAssignSectionEvent extends BeforeEvent
 
     private Section $section;
 
-    public function __construct(ContentInfo $contentInfo, Section $section)
-    {
+    public function __construct(
+        ContentInfo $contentInfo,
+        Section $section
+    ) {
         $this->contentInfo = $contentInfo;
         $this->section = $section;
     }

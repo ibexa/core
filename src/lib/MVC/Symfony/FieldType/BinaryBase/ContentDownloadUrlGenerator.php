@@ -21,26 +21,34 @@ class ContentDownloadUrlGenerator implements RouteAwarePathGenerator
         $this->router = $router;
     }
 
-    public function getStoragePathForField(Field $field, VersionInfo $versionInfo): string
-    {
+    public function getStoragePathForField(
+        Field $field,
+        VersionInfo $versionInfo
+    ): string {
         return $this->generate(
             $this->getRoute($field, $versionInfo),
             $this->getParameters($field, $versionInfo)
         );
     }
 
-    public function generate(string $route, ?array $parameters = []): string
-    {
+    public function generate(
+        string $route,
+        ?array $parameters = []
+    ): string {
         return $this->router->generate($route, $parameters ?? []);
     }
 
-    public function getRoute(Field $field, VersionInfo $versionInfo): string
-    {
+    public function getRoute(
+        Field $field,
+        VersionInfo $versionInfo
+    ): string {
         return 'ibexa.content.download.field_id.filename';
     }
 
-    public function getParameters(Field $field, VersionInfo $versionInfo): array
-    {
+    public function getParameters(
+        Field $field,
+        VersionInfo $versionInfo
+    ): array {
         return [
             'contentId' => $versionInfo->contentInfo->id,
             'fieldId' => $field->id,

@@ -20,6 +20,7 @@ use Ibexa\Core\Limitation\ObjectStateLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -28,10 +29,10 @@ class ObjectStateLimitationTypeTest extends Base
 {
     public const int EXAMPLE_MAIN_LOCATION_ID = 879;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPIHandler|MockObject */
     private $objectStateHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group[] */
+    /** @var Group[] */
     private $allObjectStateGroups;
 
     /** @var array */
@@ -80,7 +81,7 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\ObjectStateLimitationType
+     * @return ObjectStateLimitationType
      */
     public function testConstruct(): ObjectStateLimitationType
     {
@@ -216,13 +217,13 @@ class ObjectStateLimitationTypeTest extends Base
                 ->willReturnMap($getContentStateMap);
         } else {
             $this->getPersistenceMock()
-                 ->expects(self::never())
+                 ->expects($this->never())
                  ->method(self::anything());
         }
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -238,7 +239,7 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
+     * @param ObjectStateLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType): void
@@ -252,7 +253,7 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
+     * @param ObjectStateLimitationType $limitationType
      */
     #[Depends('testConstruct')]
     public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType): void

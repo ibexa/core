@@ -25,7 +25,7 @@ interface ConfigBuilderInterface
     /**
      * Adds given resource, which would typically be added to container resources.
      *
-     * @param \Symfony\Component\Config\Resource\ResourceInterface $resource
+     * @param ResourceInterface $resource
      */
     public function addResource(ResourceInterface $resource);
 }

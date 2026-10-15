@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -30,7 +31,7 @@ class BookmarkTest extends BaseServiceMockTest
     public const CURRENT_USER_ID = 7;
     public const LOCATION_ID = 1;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Bookmark\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $bookmarkHandler;
 
     protected function setUp(): void
@@ -102,7 +103,7 @@ class BookmarkTest extends BaseServiceMockTest
 
     public function testCreateBookmarkWithRollback(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -150,7 +151,7 @@ class BookmarkTest extends BaseServiceMockTest
 
     public function testDeleteBookmarkWithRollback(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -293,8 +294,10 @@ class BookmarkTest extends BaseServiceMockTest
         $repository->expects(self::once())->method('rollback');
     }
 
-    private function createLocation(int $id = self::CURRENT_USER_ID, string $name = 'Lorem ipsum...'): Location
-    {
+    private function createLocation(
+        int $id = self::CURRENT_USER_ID,
+        string $name = 'Lorem ipsum...'
+    ): Location {
         return new Location([
             'id' => $id,
             'contentInfo' => new ContentInfo([
@@ -304,7 +307,7 @@ class BookmarkTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\BookmarkService|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Repository\BookmarkService|MockObject
      */
     private function createBookmarkService(?array $methods = null)
     {

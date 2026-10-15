@@ -139,8 +139,10 @@ abstract class BaseNumericValidatorTestCase extends TestCase
      * @param array<int, string> $expectedMessages
      */
     #[DataProvider('providerForValidateConstraintsKO')]
-    final public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages): void
-    {
+    final public function testValidateConstraintsWrongValues(
+        array $constraints,
+        array $expectedMessages
+    ): void {
         $validator = $this->getValidatorInstance();
         $messages = $validator->validateConstraints($constraints);
 
@@ -198,7 +200,7 @@ abstract class BaseNumericValidatorTestCase extends TestCase
     /**
      * @param array<string, scalar> $constraints
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFoundException
      */
     #[DataProvider('providerForConstraintsInitializeSetGet')]
     final public function testConstraintsInitializeGet(array $constraints): void
@@ -229,10 +231,12 @@ abstract class BaseNumericValidatorTestCase extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\ValidationError[] $actualMessages
+     * @param ValidationError[] $actualMessages
      */
-    protected static function assertWrongValueValidationMessage(array $actualMessages, string $expectedMessage): void
-    {
+    protected static function assertWrongValueValidationMessage(
+        array $actualMessages,
+        string $expectedMessage
+    ): void {
         self::assertCount(1, $actualMessages);
         self::assertInstanceOf(
             ValidationError::class,

@@ -23,10 +23,13 @@ final class DateMetadataRangeAggregation extends AbstractRangeAggregation
     private string $type;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<covariant \DateTimeInterface>[] $ranges
+     * @param Range<covariant \DateTimeInterface>[] $ranges
      */
-    public function __construct(string $name, string $type, array $ranges = [])
-    {
+    public function __construct(
+        string $name,
+        string $type,
+        array $ranges = []
+    ) {
         parent::__construct($name, $ranges);
         $this->type = $type;
     }
@@ -37,7 +40,7 @@ final class DateMetadataRangeAggregation extends AbstractRangeAggregation
     }
 
     /**
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface<covariant \DateTimeInterface> $generator
+     * @phpstan-param RangesGeneratorInterface<covariant \DateTimeInterface> $generator
      */
     public static function fromGenerator(
         string $name,

@@ -20,8 +20,11 @@ class NotImplementedException extends ForbiddenException
     /**
      * Generates: Intentionally not implemented: {$feature}.
      */
-    public function __construct(string $feature, int $code = 0, ?Throwable $previous = null)
-    {
+    public function __construct(
+        string $feature,
+        int $code = 0,
+        ?Throwable $previous = null
+    ) {
         parent::__construct("Intentionally not implemented: {$feature}", $code, $previous);
     }
 }
