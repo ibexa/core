@@ -271,7 +271,6 @@ EOT;
                                 )
                             ->end()
                         ->end()
-                        ->scalarNode('timeout')->info('DEPRECATED')->end()
                     ->end()
                 ->end()
             ->end();
