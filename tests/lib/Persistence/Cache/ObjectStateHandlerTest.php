@@ -39,8 +39,34 @@ class ObjectStateHandlerTest extends AbstractCacheHandlerTestCase
             ['setPriority', [7, 99], [['state', [7], false]], null, ['s-7']],
             ['delete', [7], [['state', [7], false]], null, ['s-7']],
             ['setContentState', [4, 5, 7], null, [['state_by_group_on_content', [5, 4], true]], [], 'ibx-sbg-5-oc-4'],
-            ['loadDefaultObjectState', [5], null, null, null, null, new SPIObjectState(['id' => 7])],
         ];
+    }
+
+    public function testLoadDefaultObjectStateResolvesLowestPriorityFromCachedStateList(): void
+    {
+        $default = new SPIObjectState(['id' => 7, 'priority' => 0]);
+
+        $this->cacheIdentifierGeneratorMock
+            ->expects($this->once())
+            ->method('generateKey')
+            ->with('state_list_by_group', [], true)
+            ->willReturn('ibx-slbg');
+
+        $this->cacheMock
+            ->expects($this->once())
+            ->method('getItem')
+            ->with('ibx-slbg-5')
+            ->willReturn($this->getCacheItem('ibx-slbg-5', [
+                new SPIObjectState(['id' => 9, 'priority' => 2]),
+                $default,
+                new SPIObjectState(['id' => 8, 'priority' => 1]),
+            ]));
+
+        $this->persistenceHandlerMock
+            ->expects($this->never())
+            ->method('objectStateHandler');
+
+        self::assertSame($default, $this->persistenceCacheHandler->objectStateHandler()->loadDefaultObjectState(5));
     }
 
     public static function providerForCachedLoadMethodsHit(): array
