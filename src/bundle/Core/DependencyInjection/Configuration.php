@@ -88,33 +88,6 @@ class Configuration extends SiteAccessConfiguration
                     ->prototype('array')
                         ->beforeNormalization()
                             ->always(
-                                // Handling deprecated structure by mapping it to new one
-                                static function ($v): mixed {
-                                    if (isset($v['storage'])) {
-                                        return $v;
-                                    }
-
-                                    if (isset($v['engine'])) {
-                                        $v['storage']['engine'] = $v['engine'];
-                                        unset($v['engine']);
-                                    }
-
-                                    if (isset($v['connection'])) {
-                                        $v['storage']['connection'] = $v['connection'];
-                                        unset($v['connection']);
-                                    }
-
-                                    if (isset($v['config'])) {
-                                        $v['storage']['config'] = $v['config'];
-                                        unset($v['config']);
-                                    }
-
-                                    return $v;
-                                }
-                            )
-                        ->end()
-                        ->beforeNormalization()
-                            ->always(
                                 // Setting default values
                                 static function ($v): mixed {
                                     if ($v === null) {
