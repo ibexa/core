@@ -34,8 +34,8 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  */
 final class AddUrlAliasAlwaysAvailableColumnMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    private const TABLE = 'ibexa_url_alias_ml';
-    private const ALWAYS_AVAILABLE_COLUMN = 'is_always_available';
+    private const string TABLE = 'ibexa_url_alias_ml';
+    private const string ALWAYS_AVAILABLE_COLUMN = 'is_always_available';
 
     public function getDescription(): string
     {

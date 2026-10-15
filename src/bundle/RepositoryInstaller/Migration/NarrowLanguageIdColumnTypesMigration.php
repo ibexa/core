@@ -55,9 +55,9 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
  */
 final class NarrowLanguageIdColumnTypesMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    private const OLD_LANGUAGE_TABLE = 'ibexa_content_language';
-    private const LANGUAGE_TABLE = 'ibexa_language';
-    private const LANGUAGE_TABLE_ID_COLUMN = 'id';
+    private const string OLD_LANGUAGE_TABLE = 'ibexa_content_language';
+    private const string LANGUAGE_TABLE = 'ibexa_language';
+    private const string LANGUAGE_TABLE_ID_COLUMN = 'id';
 
     public function getDescription(): string
     {

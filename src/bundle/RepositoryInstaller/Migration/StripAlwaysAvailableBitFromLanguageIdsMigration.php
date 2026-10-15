@@ -44,14 +44,14 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  */
 final class StripAlwaysAvailableBitFromLanguageIdsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    private const BATCH_SIZE = 5000;
+    private const int BATCH_SIZE = 5000;
 
-    private const LANGUAGE_TABLE = 'ibexa_language';
+    private const string LANGUAGE_TABLE = 'ibexa_language';
 
     /**
      * Table => column to chunk by, or null for tables small enough for a single statement.
      */
-    private const TABLES = [
+    private const array TABLES = [
         'ibexa_content_field' => 'id',
         'ibexa_content_name' => 'contentobject_id',
         'ibexa_content_type_name' => null,

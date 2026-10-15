@@ -35,9 +35,9 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  */
 final class AddContentAlwaysAvailableColumnsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    private const CONTENT_TABLE = 'ibexa_content';
-    private const CONTENT_VERSION_TABLE = 'ibexa_content_version';
-    private const ALWAYS_AVAILABLE_COLUMN = 'always_available';
+    private const string CONTENT_TABLE = 'ibexa_content';
+    private const string CONTENT_VERSION_TABLE = 'ibexa_content_version';
+    private const string ALWAYS_AVAILABLE_COLUMN = 'always_available';
 
     public function getDescription(): string
     {
