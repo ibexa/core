@@ -15,24 +15,9 @@ class ImageTest extends AbstractParserTestCase
 {
     private $config;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
-            self::markTestSkipped('Missing or mis-configured Imagemagick convert path.');
-        }
-    }
-
     protected function getMinimalConfiguration(): array
     {
         $this->config = Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_image.yml'));
-        $this->config += [
-            'imagemagick' => [
-                'enabled' => true,
-                'path' => $_ENV['imagemagickConvertPath'],
-            ],
-        ];
 
         return $this->config;
     }
@@ -69,24 +54,6 @@ class ImageTest extends AbstractParserTestCase
             $expected + $expectedParsedVariations['fre'],
             'fre',
             false
-        );
-    }
-
-    public function testPrePostParameters(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $this->load(
-            [
-                'system' => [
-                    'ibexa_demo_site' => [
-                        'imagemagick' => [
-                            'pre_parameters' => '-foo -bar',
-                            'post_parameters' => '-baz',
-                        ],
-                    ],
-                ],
-            ]
         );
     }
 }

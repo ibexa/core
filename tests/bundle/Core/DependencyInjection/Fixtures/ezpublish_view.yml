@@ -98,9 +98,6 @@ system:
                     match:
                         Identifier\ContentType: [blog_post]
 
-imagemagick:
-    enabled: false
-
 http_cache:
     purge_type: local
 
