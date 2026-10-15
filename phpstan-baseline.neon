@@ -4657,18 +4657,6 @@ parameters:
 			path: src/lib/Base/ServiceContainer.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Base\\Utils\\DeprecationWarner\:\:log\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Base/Utils/DeprecationWarner.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Base\\Utils\\DeprecationWarnerInterface\:\:log\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Base/Utils/DeprecationWarnerInterface.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Event\\TokenService\:\:getToken\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\Token\\Token but returns Ibexa\\Contracts\\Core\\Repository\\Values\\Token\\Token\|string\.$#'
 			identifier: return.type
 			count: 1

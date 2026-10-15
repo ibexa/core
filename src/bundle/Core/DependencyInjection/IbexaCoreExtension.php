@@ -409,7 +409,6 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $coreLoader->load('storage_engines/legacy.yml');
         $coreLoader->load('storage_engines/shortcuts.yml');
         $coreLoader->load('search_engines/common.yml');
-        $coreLoader->load('utils.yml');
         $coreLoader->load('io.yml');
         $coreLoader->load('policies.yml');
         $coreLoader->load('notification.yml');
