@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Tests\Integration\Core\LegacyFieldTypeIdentifierTestTrait;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
@@ -44,6 +45,8 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
  */
 abstract class BaseIntegrationTestCase extends BaseTestCase
 {
+    use LegacyFieldTypeIdentifierTestTrait;
+
     /**
      * Content version archive limit (default).
      * Note: currently there is no way to retrieve this setting from the ContentService.

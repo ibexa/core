@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core;
 
+use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
@@ -16,6 +17,8 @@ use InvalidArgumentException;
 
 abstract class RepositoryTestCase extends IbexaKernelTestCase
 {
+    use LegacyFieldTypeIdentifierTestTrait;
+
     public const CONTENT_TREE_ROOT_ID = 2;
     public const ADMIN_USER_ID = 14;
 
@@ -99,5 +102,10 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
                 $locationService->newLocationCreateStruct($parentLocationId),
             ]
         );
+    }
+
+    protected function getRawDatabaseConnection(): Connection
+    {
+        return $this->getIbexaTestCore()->getDoctrineConnection();
     }
 }
