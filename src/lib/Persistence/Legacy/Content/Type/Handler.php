@@ -764,6 +764,6 @@ class Handler implements BaseContentTypeHandler
         int $userId,
         int $status
     ): void {
-        $this->contentTypeGateway->removeByUserAndVersion($userId, $status);
+        $this->contentTypeGateway->removeByUserAndStatus($userId, $status);
     }
 }
