@@ -36,10 +36,10 @@ class FilterConfigurationTest extends TestCase
         $this->filterConfiguration->set('bar', $barConfig);
 
         $this->configResolver
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         self::assertSame($fooConfig, $this->filterConfiguration->get('foo'));
         self::assertSame($barConfig, $this->filterConfiguration->get('bar'));
@@ -55,10 +55,10 @@ class FilterConfigurationTest extends TestCase
         $this->filterConfiguration->set('bar', $barConfig);
 
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $this->filterConfiguration->get('foobar');
     }
@@ -74,10 +74,10 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => null,
         ];
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->will($this->returnValue($variations));
 
         self::assertSame(
             [
@@ -103,10 +103,10 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => ['filters' => $filters],
         ];
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->will($this->returnValue($variations));
 
         self::assertSame(
             [
@@ -133,10 +133,10 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => ['filters' => $filters, 'reference' => $reference],
         ];
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->will($this->returnValue($variations));
 
         self::assertSame(
             [
@@ -161,10 +161,10 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => ['reference' => $reference],
         ];
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->will($this->returnValue($variations));
 
         self::assertSame(
             [
@@ -192,10 +192,10 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => ['reference' => $reference, 'filters' => $filters],
         ];
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->will($this->returnValue($variations));
 
         self::assertSame(
             [
@@ -224,10 +224,10 @@ class FilterConfigurationTest extends TestCase
         $eZVariationConfig = ['filters' => $filters, 'reference' => $reference];
         $variations = ['some_variation' => $eZVariationConfig];
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->will($this->returnValue($variations));
 
         self::assertEquals(
             [

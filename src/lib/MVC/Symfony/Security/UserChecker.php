@@ -40,8 +40,10 @@ final class UserChecker implements UserCheckerInterface
         }
     }
 
-    public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void
-    {
+    public function checkPostAuth(
+        UserInterface $user,
+        ?TokenInterface $token = null
+    ): void {
         if (!$user instanceof IbexaUserInterface) {
             return;
         }

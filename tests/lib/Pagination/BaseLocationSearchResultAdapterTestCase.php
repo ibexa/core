@@ -41,7 +41,7 @@ abstract class BaseLocationSearchResultAdapterTestCase extends BaseSearchResultA
         );
 
         $this->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findLocations')
             ->with($countQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -87,7 +87,7 @@ abstract class BaseLocationSearchResultAdapterTestCase extends BaseSearchResultA
 
         $this
             ->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findLocations')
             ->with($searchQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -117,7 +117,7 @@ abstract class BaseLocationSearchResultAdapterTestCase extends BaseSearchResultA
 
         $this
             ->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findLocations')
             ->with($aggregationQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)

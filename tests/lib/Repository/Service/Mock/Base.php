@@ -271,49 +271,49 @@ abstract class Base extends TestCase
         if (!isset($this->persistenceMock)) {
             $this->persistenceMock = $this->createMock(Handler::class);
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('contentHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('Content\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('contentTypeHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Type\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('Content\\Type\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('contentLanguageHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Language\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('Content\\Language\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('locationHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Location\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('Content\\Location\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('objectStateHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\ObjectState\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('Content\\ObjectState\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('trashHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Location\\Trash\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('Content\\Location\\Trash\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('userHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('User\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('User\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('sectionHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Section\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('Content\\Section\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('urlAliasHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\UrlAlias\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('Content\\UrlAlias\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('urlWildcardHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\UrlWildcard\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('Content\\UrlWildcard\\Handler')));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock->expects($this->any())
                 ->method('urlWildcardHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('URL\\Handler')));
+                ->will($this->returnValue($this->getPersistenceMockHandler('URL\\Handler')));
         }
 
         return $this->persistenceMock;

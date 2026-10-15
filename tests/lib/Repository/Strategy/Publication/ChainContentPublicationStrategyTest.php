@@ -24,30 +24,30 @@ final class ChainContentPublicationStrategyTest extends TestCase
 
         $notSupportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
         $notSupportingStrategy
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('supports')
             ->willReturn(false);
         $notSupportingStrategy
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('publishVersion');
 
         $supportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
         $supportingStrategy
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('supports')
             ->willReturn(true);
         $supportingStrategy
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('publishVersion')
             ->with(self::identicalTo($versionInfo), ['eng-GB'])
             ->willReturn($result);
 
         $neverConsultedStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
         $neverConsultedStrategy
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('supports');
         $neverConsultedStrategy
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('publishVersion');
 
         $chain = new ChainContentPublicationStrategy([
@@ -63,13 +63,13 @@ final class ChainContentPublicationStrategyTest extends TestCase
     {
         $notSupportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
         $notSupportingStrategy
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('supports')
             ->willReturn(false);
 
         $supportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
         $supportingStrategy
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('supports')
             ->willReturn(true);
 
@@ -89,11 +89,11 @@ final class ChainContentPublicationStrategyTest extends TestCase
     {
         $notSupportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
         $notSupportingStrategy
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('supports')
             ->willReturn(false);
         $notSupportingStrategy
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('publishVersion');
 
         $chain = new ChainContentPublicationStrategy([$notSupportingStrategy]);

@@ -37,10 +37,10 @@ class DoctrineDatabaseTest extends TestCase
 
         $updaterMock = $this->getContentUpdaterMock();
 
-        $updaterMock->expects(self::never())
+        $updaterMock->expects($this->never())
             ->method('determineActions');
 
-        $updaterMock->expects(self::never())
+        $updaterMock->expects($this->never())
             ->method('applyUpdates');
 
         $types = $this->getTypeFixtures();
@@ -54,7 +54,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('delete')
             ->with(
                 self::equalTo(23),
@@ -73,7 +73,7 @@ class DoctrineDatabaseTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $updaterMock = $this->getContentUpdaterMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('publishTypeAndFields')
             ->with(self::equalTo(23), self::equalTo(1), self::equalTo(0));
 

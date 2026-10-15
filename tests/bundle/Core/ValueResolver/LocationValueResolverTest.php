@@ -49,7 +49,7 @@ final class LocationValueResolverTest extends TestCase
             ->willReturn(true);
 
         $this->locationServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->with(456, Language::ALL)
             ->willReturn($mockLocation);
@@ -66,7 +66,7 @@ final class LocationValueResolverTest extends TestCase
         $argumentMetadata->method('getType')->willReturn(Location::class);
 
         $this->locationServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadLocation');
 
         $result = iterator_to_array($this->resolver->resolve($request, $argumentMetadata));
@@ -81,7 +81,7 @@ final class LocationValueResolverTest extends TestCase
         $argumentMetadata->method('getType')->willReturn('OtherClass');
 
         $this->locationServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadLocation');
 
         $result = iterator_to_array($this->resolver->resolve($request, $argumentMetadata));

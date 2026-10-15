@@ -43,7 +43,7 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
         $versionInfo = self::createStub(VersionInfo::class);
 
         $this->imageThumbnailStrategyMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getThumbnail')
             ->with($field, $versionInfo)
             ->willReturn(null);

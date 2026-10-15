@@ -50,7 +50,7 @@ final class StreamFileListenerTest extends TestCase
 
         $this->configureIoUrlPrefix('var/test/storage');
         $this->ioServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadBinaryFileByUri');
 
         $this->eventListener->onKernelRequest($event);
@@ -68,7 +68,7 @@ final class StreamFileListenerTest extends TestCase
 
         $this->configureIoUrlPrefix('http://foo.com/var/test/storage');
         $this->ioServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadBinaryFileByUri');
 
         $this->eventListener->onKernelRequest($event);
@@ -142,7 +142,7 @@ final class StreamFileListenerTest extends TestCase
         $binaryFile = new BinaryFile(['mtime' => new DateTime()]);
 
         $this->ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFileByUri')
             ->with($binaryFileUri)
             ->willReturn($binaryFile)

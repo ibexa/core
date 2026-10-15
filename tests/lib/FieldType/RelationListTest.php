@@ -419,7 +419,7 @@ class RelationListTest extends FieldTypeTestCase
     {
         $invalidDestinationContentId = (int) 'invalid';
         $invalidDestinationContentId2 = (int) 'invalid-second';
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
 
         $this->targetContentValidator
             ->expects($matcher)
@@ -449,7 +449,7 @@ class RelationListTest extends FieldTypeTestCase
         $destinationContentId = 12;
         $destinationContentId2 = 13;
         $allowedContentTypes = ['article', 'folder'];
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
 
         $this->targetContentValidator->expects($matcher)
             ->method('validate')->willReturnCallback(function (...$parameters) use ($matcher, $destinationContentId, $allowedContentTypes, $destinationContentId2): ?ValidationError {

@@ -52,7 +52,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(UserGroup::class),
         ];
 
-        $serviceMock->expects(self::once())->method('createUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('createUserGroup')->with(...$parameters);
 
         $decoratedService->createUserGroup(...$parameters);
     }
@@ -67,7 +67,7 @@ class UserServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce176389.48271998'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadUserGroup')->with(...$parameters);
 
         $decoratedService->loadUserGroup(...$parameters);
     }
@@ -82,7 +82,7 @@ class UserServiceDecoratorTest extends TestCase
             [self::EXAMPLE_LANGUAGE_CODE],
         ];
 
-        $serviceMock->expects(self::once())->method('loadUserGroupByRemoteId')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadUserGroupByRemoteId')->with(...$parameters);
 
         $decoratedService->loadUserGroupByRemoteId(...$parameters);
     }
@@ -99,7 +99,7 @@ class UserServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce176401.55725588'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadSubUserGroups')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadSubUserGroups')->with(...$parameters);
 
         $decoratedService->loadSubUserGroups(...$parameters);
     }
@@ -111,7 +111,7 @@ class UserServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(UserGroup::class)];
 
-        $serviceMock->expects(self::once())->method('deleteUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('deleteUserGroup')->with(...$parameters);
 
         $decoratedService->deleteUserGroup(...$parameters);
     }
@@ -126,7 +126,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(UserGroup::class),
         ];
 
-        $serviceMock->expects(self::once())->method('moveUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('moveUserGroup')->with(...$parameters);
 
         $decoratedService->moveUserGroup(...$parameters);
     }
@@ -141,7 +141,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(UserGroupUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updateUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('updateUserGroup')->with(...$parameters);
 
         $decoratedService->updateUserGroup(...$parameters);
     }
@@ -156,7 +156,7 @@ class UserServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce177102.13726421'],
         ];
 
-        $serviceMock->expects(self::once())->method('createUser')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('createUser')->with(...$parameters);
 
         $decoratedService->createUser(...$parameters);
     }
@@ -171,7 +171,7 @@ class UserServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce177174.42173129'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadUser')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadUser')->with(...$parameters);
 
         $decoratedService->loadUser(...$parameters);
     }
@@ -186,7 +186,7 @@ class UserServiceDecoratorTest extends TestCase
             'random_value_5ced05ce1771c7.58152750',
         ];
 
-        $serviceMock->expects(self::once())->method('checkUserCredentials')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('checkUserCredentials')->with(...$parameters);
 
         $decoratedService->checkUserCredentials(...$parameters);
     }
@@ -201,7 +201,7 @@ class UserServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce177226.14195829'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadUserByLogin')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadUserByLogin')->with(...$parameters);
 
         $decoratedService->loadUserByLogin(...$parameters);
     }
@@ -216,7 +216,7 @@ class UserServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce177252.76037474'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadUsersByEmail')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadUsersByEmail')->with(...$parameters);
 
         $decoratedService->loadUsersByEmail(...$parameters);
     }
@@ -231,7 +231,7 @@ class UserServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce177287.80858763'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadUserByToken')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadUserByToken')->with(...$parameters);
 
         $decoratedService->loadUserByToken(...$parameters);
     }
@@ -243,7 +243,7 @@ class UserServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(User::class)];
 
-        $serviceMock->expects(self::once())->method('deleteUser')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('deleteUser')->with(...$parameters);
 
         $decoratedService->deleteUser(...$parameters);
     }
@@ -258,7 +258,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(UserUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updateUser')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('updateUser')->with(...$parameters);
 
         $decoratedService->updateUser(...$parameters);
     }
@@ -273,7 +273,7 @@ class UserServiceDecoratorTest extends TestCase
             'H@xi0r!',
         ];
 
-        $serviceMock->expects(self::once())->method('updateUserPassword')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('updateUserPassword')->with(...$parameters);
 
         $decoratedService->updateUserPassword(...$parameters);
     }
@@ -288,7 +288,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(UserTokenUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updateUserToken')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('updateUserToken')->with(...$parameters);
 
         $decoratedService->updateUserToken(...$parameters);
     }
@@ -300,7 +300,7 @@ class UserServiceDecoratorTest extends TestCase
 
         $parameters = ['random_value_5ced05ce177e70.34830190'];
 
-        $serviceMock->expects(self::once())->method('expireUserToken')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('expireUserToken')->with(...$parameters);
 
         $decoratedService->expireUserToken(...$parameters);
     }
@@ -315,7 +315,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(UserGroup::class),
         ];
 
-        $serviceMock->expects(self::once())->method('assignUserToUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('assignUserToUserGroup')->with(...$parameters);
 
         $decoratedService->assignUserToUserGroup(...$parameters);
     }
@@ -330,7 +330,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(UserGroup::class),
         ];
 
-        $serviceMock->expects(self::once())->method('unAssignUserFromUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('unAssignUserFromUserGroup')->with(...$parameters);
 
         $decoratedService->unAssignUserFromUserGroup(...$parameters);
     }
@@ -347,7 +347,7 @@ class UserServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce177f66.49237325'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadUserGroupsOfUser')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadUserGroupsOfUser')->with(...$parameters);
 
         $decoratedService->loadUserGroupsOfUser(...$parameters);
     }
@@ -364,7 +364,7 @@ class UserServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce177fc8.32448790'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadUsersOfUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadUsersOfUserGroup')->with(...$parameters);
 
         $decoratedService->loadUsersOfUserGroup(...$parameters);
     }
@@ -376,7 +376,7 @@ class UserServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(Content::class)];
 
-        $serviceMock->expects(self::once())->method('isUser')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('isUser')->with(...$parameters);
 
         $decoratedService->isUser(...$parameters);
     }
@@ -388,7 +388,7 @@ class UserServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(Content::class)];
 
-        $serviceMock->expects(self::once())->method('isUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('isUserGroup')->with(...$parameters);
 
         $decoratedService->isUserGroup(...$parameters);
     }
@@ -406,7 +406,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(ContentType::class),
         ];
 
-        $serviceMock->expects(self::once())->method('newUserCreateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newUserCreateStruct')->with(...$parameters);
 
         $decoratedService->newUserCreateStruct(...$parameters);
     }
@@ -421,7 +421,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(ContentType::class),
         ];
 
-        $serviceMock->expects(self::once())->method('newUserGroupCreateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newUserGroupCreateStruct')->with(...$parameters);
 
         $decoratedService->newUserGroupCreateStruct(...$parameters);
     }
@@ -433,7 +433,7 @@ class UserServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('newUserUpdateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newUserUpdateStruct')->with(...$parameters);
 
         $decoratedService->newUserUpdateStruct(...$parameters);
     }
@@ -445,7 +445,7 @@ class UserServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('newUserGroupUpdateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newUserGroupUpdateStruct')->with(...$parameters);
 
         $decoratedService->newUserGroupUpdateStruct(...$parameters);
     }
@@ -460,7 +460,7 @@ class UserServiceDecoratorTest extends TestCase
             self::createStub(PasswordValidationContext::class),
         ];
 
-        $serviceMock->expects(self::once())->method('validatePassword')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('validatePassword')->with(...$parameters);
 
         $decoratedService->validatePassword(...$parameters);
     }

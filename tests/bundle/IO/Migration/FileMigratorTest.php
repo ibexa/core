@@ -58,7 +58,7 @@ final class FileMigratorTest extends TestCase
     public function testMigrateFile(): void
     {
         $this->metadataHandlerRegistry
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getConfiguredHandler')
             ->willReturnMap(
                 [
@@ -68,7 +68,7 @@ final class FileMigratorTest extends TestCase
             );
 
         $this->binaryHandlerRegistry
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getConfiguredHandler')
             ->willReturnMap(
                 [
@@ -86,11 +86,11 @@ final class FileMigratorTest extends TestCase
         $binaryFile->uri = '1/1234.jpg';
 
         $this->binaryFlysystemTo
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('create');
 
         $this->metadataLegacyDFSCluster
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('create');
 
         $flag = $this->fileMigrator->migrateFile($binaryFile);
@@ -101,13 +101,13 @@ final class FileMigratorTest extends TestCase
     public function testSkipMigratingIfSameHandlers(): void
     {
         $this->metadataHandlerRegistry
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getConfiguredHandler')
             ->with('default')
             ->willReturn($this->metadataFlysystem);
 
         $this->binaryHandlerRegistry
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getConfiguredHandler')
             ->with('default')->willReturn($this->binaryFlysystemFrom);
 
@@ -117,11 +117,11 @@ final class FileMigratorTest extends TestCase
         $binaryFile->id = 'foo/bar.pdf';
 
         $this->binaryFlysystemFrom
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('create');
 
         $this->metadataFlysystem
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('create');
 
         $flag = $this->fileMigrator->migrateFile($binaryFile);

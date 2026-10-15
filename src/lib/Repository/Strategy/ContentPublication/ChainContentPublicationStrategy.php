@@ -27,8 +27,7 @@ final readonly class ChainContentPublicationStrategy implements ContentPublicati
      */
     public function __construct(
         private iterable $strategies,
-    ) {
-    }
+    ) {}
 
     public function supports(): bool
     {
@@ -41,8 +40,10 @@ final readonly class ChainContentPublicationStrategy implements ContentPublicati
         return false;
     }
 
-    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): ContentPublicationResult
-    {
+    public function publishVersion(
+        VersionInfo $versionInfo,
+        array $translations = Language::ALL
+    ): ContentPublicationResult {
         foreach ($this->strategies as $strategy) {
             if ($strategy->supports()) {
                 return $strategy->publishVersion($versionInfo, $translations);

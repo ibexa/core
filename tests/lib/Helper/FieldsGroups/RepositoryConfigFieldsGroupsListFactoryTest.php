@@ -22,7 +22,7 @@ class RepositoryConfigFieldsGroupsListFactoryTest extends TestCase
     public function testBuild(): void
     {
         $this->getRepositoryConfigMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getRepositoryConfig')
             ->willReturn(['fields_groups' => ['list' => ['group_a', 'group_b'], 'default' => 'group_a']]);
 

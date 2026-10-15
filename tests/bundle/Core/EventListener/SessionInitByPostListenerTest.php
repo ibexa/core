@@ -53,7 +53,7 @@ final class SessionInitByPostListenerTest extends TestCase
     {
         $session = $this->createMock(SessionInterface::class);
         $session
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getName');
 
         $request = new Request();
@@ -70,16 +70,16 @@ final class SessionInitByPostListenerTest extends TestCase
         $session = $this->createMock(SessionInterface::class);
         $session
             ->method('getName')
-            ->will(self::returnValue($sessionName));
+            ->will($this->returnValue($sessionName));
         $session
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isStarted')
-            ->will(self::returnValue(false));
+            ->will($this->returnValue(false));
         $session
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('setId');
         $session
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('start');
 
         $request = new Request();
@@ -98,17 +98,17 @@ final class SessionInitByPostListenerTest extends TestCase
 
         $session
             ->method('getName')
-            ->will(self::returnValue($sessionName));
+            ->will($this->returnValue($sessionName));
         $session
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isStarted')
-            ->will(self::returnValue(false));
+            ->will($this->returnValue(false));
         $session
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setId')
             ->with($sessionId);
         $session
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('start');
 
         $request = new Request();

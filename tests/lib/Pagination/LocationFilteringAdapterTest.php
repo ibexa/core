@@ -40,7 +40,7 @@ final class LocationFilteringAdapterTest extends TestCase
 
         // Make sure that count query doesn't fetch results
         $this->locationService
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('find');
 
         $this->locationService

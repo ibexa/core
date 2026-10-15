@@ -119,7 +119,7 @@ abstract class BaseRenderStrategyTestCase extends TestCase
         $fragmentRendererMock
             ->method('getName')
             ->willReturn('fragment_render_mock');
-        $fragmentRendererMock->expects(self::once())
+        $fragmentRendererMock->expects($this->once())
             ->method('render')
             ->with(
                 self::callback(static function ($controllerReference) use ($params): bool {

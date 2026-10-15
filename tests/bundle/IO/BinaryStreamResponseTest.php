@@ -32,7 +32,7 @@ final class BinaryStreamResponseTest extends TestCase
         $in = fopen('php://input', 'rb');
 
         $ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFileInputStream')
             ->with($binaryStreamResponse->getFile())
             ->willReturn($in);
@@ -48,7 +48,7 @@ final class BinaryStreamResponseTest extends TestCase
         $binaryStreamResponse = new BinaryStreamResponse($binaryFile, $ioServiceMock);
 
         $ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMimeType')
             ->with('foo.jpg')
             ->willReturn('image/jpeg');

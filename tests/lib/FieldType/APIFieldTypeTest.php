@@ -35,7 +35,7 @@ class APIFieldTypeTest extends TestCase
         $validatorConfig = ['foo' => 'bar'];
         $validationErrors = [];
         $this->innerFieldType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validateValidatorConfiguration')
             ->with($validatorConfig)
             ->willReturn($validationErrors);
@@ -52,7 +52,7 @@ class APIFieldTypeTest extends TestCase
             self::createStub(ValidationError::class),
         ];
         $this->innerFieldType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validateValidatorConfiguration')
             ->with($validatorConfig)
             ->willReturn($validationErrors);
@@ -65,7 +65,7 @@ class APIFieldTypeTest extends TestCase
         $fieldSettings = ['foo' => 'bar'];
         $validationErrors = [];
         $this->innerFieldType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validateFieldSettings')
             ->with($fieldSettings)
             ->willReturn($validationErrors);
@@ -82,7 +82,7 @@ class APIFieldTypeTest extends TestCase
             self::createStub(ValidationError::class),
         ];
         $this->innerFieldType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validateFieldSettings')
             ->with($fieldSettings)
             ->willReturn($validationErrors);
@@ -96,7 +96,7 @@ class APIFieldTypeTest extends TestCase
         $value = $this->getMockForAbstractClass(Value::class);
         $validationErrors = [];
         $this->innerFieldType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validate')
             ->with($fieldDefinition, $value)
             ->willReturn($validationErrors);
@@ -114,7 +114,7 @@ class APIFieldTypeTest extends TestCase
             self::createStub(ValidationError::class),
         ];
         $this->innerFieldType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validate')
             ->with($fieldDefinition, $value)
             ->willReturn($validationErrors);

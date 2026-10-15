@@ -48,7 +48,7 @@ abstract class AbstractSearchAdapterTestCase extends TestCase
 
         $searchService = $this->createMock(SearchService::class);
         $searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($this->getExpectedFindMethod())
             ->with($expectedQuery, self::EXAMPLE_LANGUAGE_FILTER, true)
             ->willReturn($searchResults);

@@ -42,10 +42,10 @@ class ScaleHeightDownOnlyFilterLoaderTest extends TestCase
         $height = 123;
         $image = self::createStub(ImageInterface::class);
         $this->innerLoader
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($image, self::equalTo(['size' => [null, $height], 'mode' => 'inset']))
-            ->will(self::returnValue($image));
+            ->will($this->returnValue($image));
 
         self::assertSame($image, $this->loader->load($image, [$height]));
     }

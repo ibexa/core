@@ -38,18 +38,18 @@ class ValidityTest extends CriterionHandlerTestCase
 
         $expressionBuilder = $this->createMock(ExpressionBuilder::class);
         $expressionBuilder
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('eq')
             ->with('is_valid', ':is_valid')
             ->willReturn($expected);
 
         $queryBuilder = $this->createMock(QueryBuilder::class);
         $queryBuilder
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('expr')
             ->willReturn($expressionBuilder);
         $queryBuilder
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('createNamedParameter')
             ->with((int)$criterion->isValid, ParameterType::INTEGER, ':is_valid')
             ->willReturn(':is_valid');

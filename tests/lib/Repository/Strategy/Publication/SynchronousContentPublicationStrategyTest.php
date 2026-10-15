@@ -41,7 +41,7 @@ final class SynchronousContentPublicationStrategyTest extends TestCase
 
         $contentService = $this->createMock(ContentService::class);
         $contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('publishVersion')
             ->with(self::identicalTo($versionInfo), $expectedTranslations)
             ->willReturn($content);

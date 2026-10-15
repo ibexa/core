@@ -54,10 +54,10 @@ class RoutingListenerTest extends TestCase
         $rootLocationId = 123;
         $excludedUriPrefixes = ['/foo/bar', '/baz'];
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['content.tree_root.location_id', null, null, $rootLocationId],
                         ['content.tree_root.excluded_uri_prefixes', null, null, $excludedUriPrefixes],
@@ -66,15 +66,15 @@ class RoutingListenerTest extends TestCase
             );
 
         $this->urlAliasRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setRootLocationId')
             ->with($rootLocationId);
         $this->urlAliasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setRootLocationId')
             ->with($rootLocationId);
         $this->urlAliasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setExcludedUriPrefixes')
             ->with($excludedUriPrefixes);
 

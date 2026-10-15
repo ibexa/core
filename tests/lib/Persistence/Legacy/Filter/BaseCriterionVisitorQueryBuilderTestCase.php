@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder;
@@ -31,7 +32,7 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
     private $criterionVisitor;
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder[]
+     * @return CriterionQueryBuilder[]
      */
     abstract protected function getCriterionQueryBuilders(): iterable;
 

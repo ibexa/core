@@ -59,7 +59,7 @@ final class ContentDownloadUrlGeneratorTest extends TestCase
     public function testGetStoragePathForFieldGeneratesFilenameAwareUrl(): void
     {
         $this->router
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generate')
             ->with(
                 self::ROUTE,

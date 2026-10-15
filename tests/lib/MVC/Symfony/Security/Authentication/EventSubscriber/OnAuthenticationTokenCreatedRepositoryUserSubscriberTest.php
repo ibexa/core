@@ -45,7 +45,7 @@ final class OnAuthenticationTokenCreatedRepositoryUserSubscriberTest extends Tes
     ): void {
         $permissionResolver = $this->createMock(PermissionResolver::class);
         $permissionResolver
-            ->expects($isPermissionResolverInvoked === true ? self::once() : self::never())
+            ->expects($isPermissionResolverInvoked === true ? $this->once() : $this->never())
             ->method('setCurrentUserReference');
 
         $subscriber = new OnAuthenticationTokenCreatedRepositoryUserSubscriber($permissionResolver);

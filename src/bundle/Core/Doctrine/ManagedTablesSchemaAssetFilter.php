@@ -42,14 +42,12 @@ final class ManagedTablesSchemaAssetFilter
     /** @var array<string, true>|null */
     private ?array $managedTableNames = null;
 
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
-    {
-    }
+    public function __construct(private readonly ManagerRegistry $managerRegistry) {}
 
     /**
-     * @param string|\Doctrine\DBAL\Schema\AbstractAsset<covariant \Doctrine\DBAL\Schema\Name> $asset
+     * @param string|AbstractAsset<covariant \Doctrine\DBAL\Schema\Name> $asset
      */
-    public function __invoke(string|AbstractAsset $asset): bool
+    public function __invoke(string | AbstractAsset $asset): bool
     {
         $tableName = $asset instanceof AbstractAsset ? $asset->getName() : $asset;
 

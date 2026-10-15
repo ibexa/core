@@ -40,7 +40,7 @@ final class SubtreeTermAggregationTest extends TestCase
     public function testFromLocation(): void
     {
         $location = $this->createMock(Location::class);
-        $location->expects(self::once())->method('__get')->with('pathString')->willReturn(self::EXAMPLE_PATH_STRING);
+        $location->expects($this->once())->method('__get')->with('pathString')->willReturn(self::EXAMPLE_PATH_STRING);
 
         $aggregation = SubtreeTermAggregation::fromLocation(self::EXAMPLE_AGGREGATION_NAME, $location);
 

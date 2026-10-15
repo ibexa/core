@@ -134,7 +134,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTestCase
         });
 
         $fragmentRendererMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($controllerReferenceCallback, $requestCallback)
             ->willReturn(new Response('some_rendered_content'));

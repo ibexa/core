@@ -78,14 +78,14 @@ final class LegacyStorageImageFileListTest extends TestCase
 
         $index = 0;
         $this->rowReaderMock
-            ->expects(self::exactly($expectedIteratorInvocationsCount))
+            ->expects($this->exactly($expectedIteratorInvocationsCount))
             ->method('getRow')
             ->willReturnCallback(static function () use (&$index, $fileList): ?string {
                 return $fileList[$index++] ?? null;
             });
 
         $this->rowReaderMock
-            ->expects(self::exactly($expectedIteratorInvocationsCount))
+            ->expects($this->exactly($expectedIteratorInvocationsCount))
             ->method('getCount')
             ->willReturn($fileListCount);
     }

@@ -55,7 +55,7 @@ final class ContentFilteringAdapterTest extends TestCase
 
         $contentService = $this->createMock(ContentService::class);
         $contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('find')
             ->with($expectedFilter, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($contentList);

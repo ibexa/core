@@ -71,19 +71,19 @@ class AliasGeneratorTest extends TestCase
         $expectedVariation = new Variation();
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContent')
             ->with($assetField->value->destinationContentId)
             ->willReturn($imageContent);
 
         $this->assetMapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAssetField')
             ->with($imageContent)
             ->willReturn($imageField);
 
         $this->innerAliasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVariation')
             ->with($imageField, $imageVersionInfo, $variationName, $parameters)
             ->willReturn($expectedVariation);
@@ -113,15 +113,15 @@ class AliasGeneratorTest extends TestCase
         $expectedVariation = new Variation();
 
         $this->contentService
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadContent');
 
         $this->assetMapper
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getAssetField');
 
         $this->innerAliasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVariation')
             ->with($imageField, $imageVersionInfo, $variationName, $parameters)
             ->willReturn($expectedVariation);

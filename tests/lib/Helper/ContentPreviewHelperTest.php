@@ -43,14 +43,14 @@ class ContentPreviewHelperTest extends TestCase
         $newSiteAccess = new SiteAccess($newSiteAccessName);
 
         $this->siteAccessRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('matchByName')
             ->with(self::equalTo($newSiteAccessName))
             ->willReturn($newSiteAccess);
 
         $event = new ScopeChangeEvent($newSiteAccess);
         $this->eventDispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(self::equalTo($event), MVCEvents::CONFIG_SCOPE_CHANGE);
 
@@ -67,7 +67,7 @@ class ContentPreviewHelperTest extends TestCase
         $originalSiteAccess = new SiteAccess('foo', 'bar');
         $event = new ScopeChangeEvent($originalSiteAccess);
         $this->eventDispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(self::equalTo($event), MVCEvents::CONFIG_SCOPE_RESTORE);
 

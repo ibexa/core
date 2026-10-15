@@ -15,10 +15,10 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Tests\Integration\Core\Repository\Filtering\Fixtures\LegacyLocationSortClause;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 use function array_map;
 use function iterator_to_array;
-use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Integration BC check for legacy location sort clauses wired through the container.

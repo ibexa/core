@@ -115,7 +115,7 @@ final class UserCheckerTest extends TestCase
         );
 
         $this->userServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getPasswordInfo')
             ->with(self::identicalTo($apiUser))
             ->willReturn(new PasswordInfo());
@@ -148,7 +148,7 @@ final class UserCheckerTest extends TestCase
         );
 
         $this->userServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getPasswordInfo')
             ->with(self::identicalTo($apiUser))
             ->willReturn(

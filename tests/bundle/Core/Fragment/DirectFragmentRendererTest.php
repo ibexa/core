@@ -31,7 +31,7 @@ final class DirectFragmentRendererTest extends TestCase
     {
         $controllerResolver = $this->getControllerResolverInterfaceMock();
         $controllerResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getController')
             ->with(self::callback(static function (Request $request): bool {
                 self::assertEquals('/_fragment', $request->getPathInfo());
@@ -102,7 +102,7 @@ final class DirectFragmentRendererTest extends TestCase
 
         $templateRendererMock = $this->getTemplateRendererMock();
         $templateRendererMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($contentView)
             ->willReturn('rendered_' . $contentView->getTemplateIdentifier());

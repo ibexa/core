@@ -29,7 +29,7 @@ final class SettingHandlerTest extends TestCase
         $handler = $this->getSettingHandler();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('insertSetting')
             ->with(
                 self::identicalTo('group_a1'),
@@ -37,7 +37,7 @@ final class SettingHandlerTest extends TestCase
                 self::identicalTo('value_c3')
             )->willReturn(123);
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadSettingById')
             ->with(
                 self::identicalTo(123)
@@ -71,7 +71,7 @@ final class SettingHandlerTest extends TestCase
         $handler = $this->getSettingHandler();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('insertSetting')
             ->with(
                 self::identicalTo('group_a1'),
@@ -79,7 +79,7 @@ final class SettingHandlerTest extends TestCase
                 self::identicalTo('value_c3')
             )->willReturn(123);
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadSettingById')
             ->with(
                 self::identicalTo(123)
@@ -109,7 +109,7 @@ final class SettingHandlerTest extends TestCase
         $handler = $this->getSettingHandler();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('updateSetting')
             ->with(
                 self::identicalTo('group_d1'),
@@ -117,13 +117,13 @@ final class SettingHandlerTest extends TestCase
                 self::identicalTo('value_f3')
             );
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadSetting')
             ->with(
                 self::identicalTo('group_d1'),
                 self::identicalTo('identifier_e2')
             )
-            ->will(self::returnValue([
+            ->will($this->returnValue([
                 'group' => 'group_d1',
                 'identifier' => 'identifier_e2',
                 'value' => 'value_f3',
@@ -152,7 +152,7 @@ final class SettingHandlerTest extends TestCase
         $handler = $this->getSettingHandler();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('updateSetting')
             ->with(
                 self::identicalTo('group_d1'),
@@ -160,13 +160,13 @@ final class SettingHandlerTest extends TestCase
                 self::identicalTo('value_f3')
             );
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadSetting')
             ->with(
                 self::identicalTo('group_d1'),
                 self::identicalTo('identifier_e2')
             )
-            ->will(self::returnValue(null));
+            ->will($this->returnValue(null));
 
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage(<<<ERROR
@@ -192,7 +192,7 @@ final class SettingHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadSetting')
             ->with(
                 self::identicalTo('group_a1'),
@@ -229,7 +229,7 @@ final class SettingHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadSetting')
             ->with(
                 self::identicalTo('group_a1'),
@@ -255,7 +255,7 @@ final class SettingHandlerTest extends TestCase
         $handler = $this->getSettingHandler();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('deleteSetting')
             ->with(
                 self::identicalTo('group_a1'),

@@ -53,18 +53,18 @@ final class TrashEventSubscriberTest extends TestCase
         );
 
         $this->persistenceHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('contentHandler')
             ->willReturn($contentHandler = $this->createMock(Handler::class));
 
         $contentHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($reverseRelationContentId)
             ->willReturn($content = new PersistenceContent());
 
         $this->searchHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('indexContent')
             ->with($content);
 

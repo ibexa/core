@@ -67,13 +67,13 @@ final class TargetContentValidatorTest extends TestCase
         $contentType = new Content\Type(['id' => $contentTypeId, 'identifier' => 'article']);
 
         $this->contentHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($contentId)
             ->willReturn($content);
 
         $this->contentTypeHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($contentInfo->contentTypeId)
             ->willReturn($contentType);

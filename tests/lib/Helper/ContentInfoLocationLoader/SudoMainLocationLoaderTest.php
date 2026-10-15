@@ -38,7 +38,7 @@ class SudoMainLocationLoaderTest extends TestCase
         $contentInfo = new ContentInfo(['id' => 123]);
 
         $this->getLocationServiceMock()
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadLocation');
 
         $this->loader->loadLocation($contentInfo);
@@ -53,20 +53,20 @@ class SudoMainLocationLoaderTest extends TestCase
         $location = new Location(['id' => 42]);
 
         $this->getRepositoryMock()
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getPermissionResolver')
-            ->will(self::returnValue($this->getPermissionResolverMock()));
+            ->will($this->returnValue($this->getPermissionResolverMock()));
 
         $this->getRepositoryMock()
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getLocationService')
-            ->will(self::returnValue($this->getLocationServiceMock()));
+            ->will($this->returnValue($this->getLocationServiceMock()));
 
         $this->getLocationServiceMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->with(42)
-            ->will(self::returnValue($location));
+            ->will($this->returnValue($location));
 
         self::assertSame($location, $this->loader->loadLocation($contentInfo));
     }
@@ -79,21 +79,21 @@ class SudoMainLocationLoaderTest extends TestCase
         $location = new Location(['id' => 42]);
 
         $this->getRepositoryMock()
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getPermissionResolver')
-            ->will(self::returnValue($this->getPermissionResolverMock()));
+            ->will($this->returnValue($this->getPermissionResolverMock()));
 
         $this->getRepositoryMock()
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getLocationService')
-            ->will(self::returnValue($this->getLocationServiceMock()));
+            ->will($this->returnValue($this->getLocationServiceMock()));
 
         $this->getLocationServiceMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->with(42)
             ->will(
-                self::throwException(new NotFoundException('main location of content', 42))
+                $this->throwException(new NotFoundException('main location of content', 42))
             );
 
         self::assertSame($location, $this->loader->loadLocation($contentInfo));

@@ -33,7 +33,7 @@ final class MapDistanceSortClauseParserTest extends TestCase
     public function testParse(): void
     {
         $parser = $this->createMock(SortSpecParserInterface::class);
-        $matcher = self::exactly(5);
+        $matcher = $this->exactly(5);
         $parser->expects($matcher)
             ->method('match')->willReturnCallback(static function (...$parameters) use ($matcher): ?Token {
                 if ($matcher->numberOfInvocations() === 1) {

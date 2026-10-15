@@ -46,7 +46,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(RoleCreateStruct::class)];
 
-        $serviceMock->expects(self::once())->method('createRole')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('createRole')->with(...$parameters);
 
         $decoratedService->createRole(...$parameters);
     }
@@ -58,7 +58,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(Role::class)];
 
-        $serviceMock->expects(self::once())->method('createRoleDraft')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('createRoleDraft')->with(...$parameters);
 
         $decoratedService->createRoleDraft(...$parameters);
     }
@@ -70,7 +70,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::ROLE_ID];
 
-        $serviceMock->expects(self::once())->method('loadRoleDraft')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadRoleDraft')->with(...$parameters);
 
         $decoratedService->loadRoleDraft(...$parameters);
     }
@@ -82,7 +82,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::ROLE_ID];
 
-        $serviceMock->expects(self::once())->method('loadRoleDraftByRoleId')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadRoleDraftByRoleId')->with(...$parameters);
 
         $decoratedService->loadRoleDraftByRoleId(...$parameters);
     }
@@ -97,7 +97,7 @@ class RoleServiceDecoratorTest extends TestCase
             self::createStub(RoleUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updateRoleDraft')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('updateRoleDraft')->with(...$parameters);
 
         $decoratedService->updateRoleDraft(...$parameters);
     }
@@ -112,7 +112,7 @@ class RoleServiceDecoratorTest extends TestCase
             self::createStub(PolicyCreateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('addPolicyByRoleDraft')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('addPolicyByRoleDraft')->with(...$parameters);
 
         $decoratedService->addPolicyByRoleDraft(...$parameters);
     }
@@ -127,7 +127,7 @@ class RoleServiceDecoratorTest extends TestCase
             self::createStub(PolicyDraft::class),
         ];
 
-        $serviceMock->expects(self::once())->method('removePolicyByRoleDraft')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('removePolicyByRoleDraft')->with(...$parameters);
 
         $decoratedService->removePolicyByRoleDraft(...$parameters);
     }
@@ -143,7 +143,7 @@ class RoleServiceDecoratorTest extends TestCase
             self::createStub(PolicyUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updatePolicyByRoleDraft')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('updatePolicyByRoleDraft')->with(...$parameters);
 
         $decoratedService->updatePolicyByRoleDraft(...$parameters);
     }
@@ -155,7 +155,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(RoleDraft::class)];
 
-        $serviceMock->expects(self::once())->method('deleteRoleDraft')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('deleteRoleDraft')->with(...$parameters);
 
         $decoratedService->deleteRoleDraft(...$parameters);
     }
@@ -167,7 +167,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(RoleDraft::class)];
 
-        $serviceMock->expects(self::once())->method('publishRoleDraft')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('publishRoleDraft')->with(...$parameters);
 
         $decoratedService->publishRoleDraft(...$parameters);
     }
@@ -179,7 +179,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::ROLE_ID];
 
-        $serviceMock->expects(self::once())->method('loadRole')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadRole')->with(...$parameters);
 
         $decoratedService->loadRole(...$parameters);
     }
@@ -191,7 +191,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = ['random_value_5ced05ce14b742.13672543'];
 
-        $serviceMock->expects(self::once())->method('loadRoleByIdentifier')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadRoleByIdentifier')->with(...$parameters);
 
         $decoratedService->loadRoleByIdentifier(...$parameters);
     }
@@ -203,7 +203,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('loadRoles')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadRoles')->with(...$parameters);
 
         $decoratedService->loadRoles(...$parameters);
     }
@@ -215,7 +215,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(Role::class)];
 
-        $serviceMock->expects(self::once())->method('deleteRole')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('deleteRole')->with(...$parameters);
 
         $decoratedService->deleteRole(...$parameters);
     }
@@ -231,7 +231,7 @@ class RoleServiceDecoratorTest extends TestCase
             self::createStub(RoleLimitation::class),
         ];
 
-        $serviceMock->expects(self::once())->method('assignRoleToUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('assignRoleToUserGroup')->with(...$parameters);
 
         $decoratedService->assignRoleToUserGroup(...$parameters);
     }
@@ -247,7 +247,7 @@ class RoleServiceDecoratorTest extends TestCase
             self::createStub(RoleLimitation::class),
         ];
 
-        $serviceMock->expects(self::once())->method('assignRoleToUser')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('assignRoleToUser')->with(...$parameters);
 
         $decoratedService->assignRoleToUser(...$parameters);
     }
@@ -259,7 +259,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::ROLE_ASSIGNMENT_ID];
 
-        $serviceMock->expects(self::once())->method('loadRoleAssignment')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadRoleAssignment')->with(...$parameters);
 
         $decoratedService->loadRoleAssignment(...$parameters);
     }
@@ -271,7 +271,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(Role::class)];
 
-        $serviceMock->expects(self::once())->method('getRoleAssignments')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('getRoleAssignments')->with(...$parameters);
 
         $decoratedService->getRoleAssignments(...$parameters);
     }
@@ -286,7 +286,7 @@ class RoleServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('getRoleAssignmentsForUser')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('getRoleAssignmentsForUser')->with(...$parameters);
 
         $decoratedService->getRoleAssignmentsForUser(...$parameters);
     }
@@ -298,7 +298,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(UserGroup::class)];
 
-        $serviceMock->expects(self::once())->method('getRoleAssignmentsForUserGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('getRoleAssignmentsForUserGroup')->with(...$parameters);
 
         $decoratedService->getRoleAssignmentsForUserGroup(...$parameters);
     }
@@ -310,7 +310,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(RoleAssignment::class)];
 
-        $serviceMock->expects(self::once())->method('removeRoleAssignment')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('removeRoleAssignment')->with(...$parameters);
 
         $decoratedService->removeRoleAssignment(...$parameters);
     }
@@ -322,7 +322,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = ['random_value_5ced05ce14d674.30093215'];
 
-        $serviceMock->expects(self::once())->method('newRoleCreateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newRoleCreateStruct')->with(...$parameters);
 
         $decoratedService->newRoleCreateStruct(...$parameters);
     }
@@ -337,7 +337,7 @@ class RoleServiceDecoratorTest extends TestCase
             'random_value_5ced05ce14d6b6.22048821',
         ];
 
-        $serviceMock->expects(self::once())->method('newPolicyCreateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newPolicyCreateStruct')->with(...$parameters);
 
         $decoratedService->newPolicyCreateStruct(...$parameters);
     }
@@ -349,7 +349,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('newPolicyUpdateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newPolicyUpdateStruct')->with(...$parameters);
 
         $decoratedService->newPolicyUpdateStruct(...$parameters);
     }
@@ -361,7 +361,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('newRoleUpdateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newRoleUpdateStruct')->with(...$parameters);
 
         $decoratedService->newRoleUpdateStruct(...$parameters);
     }
@@ -373,7 +373,7 @@ class RoleServiceDecoratorTest extends TestCase
 
         $parameters = ['random_value_5ced05ce14d714.69905914'];
 
-        $serviceMock->expects(self::once())->method('getLimitationType')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('getLimitationType')->with(...$parameters);
 
         $decoratedService->getLimitationType(...$parameters);
     }
@@ -388,7 +388,7 @@ class RoleServiceDecoratorTest extends TestCase
             'random_value_5ced05ce14d743.90303575',
         ];
 
-        $serviceMock->expects(self::once())->method('getLimitationTypesByModuleFunction')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('getLimitationTypesByModuleFunction')->with(...$parameters);
 
         $decoratedService->getLimitationTypesByModuleFunction(...$parameters);
     }

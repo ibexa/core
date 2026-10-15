@@ -34,7 +34,7 @@ class RelativeResolverTest extends TestCase
         $expected = '/var/site/storage/images/_aliases/big/7/4/2/0/247-1-eng-GB/test.png';
 
         $this->liipResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('resolve')
             ->with($path, $filter)
             ->willReturn($absolute);

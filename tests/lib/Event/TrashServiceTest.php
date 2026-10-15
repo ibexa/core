@@ -231,7 +231,7 @@ class TrashServiceTest extends AbstractServiceTestCase
         ];
 
         $innerServiceMock = $this->createMock(TrashServiceInterface::class);
-        $innerServiceMock->expects(self::never())->method('trash');
+        $innerServiceMock->expects($this->never())->method('trash');
 
         $traceableEventDispatcher->addListener(BeforeTrashEvent::class, static function (BeforeTrashEvent $event): void {
             $event->setResult(null);

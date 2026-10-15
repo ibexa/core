@@ -96,7 +96,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
     }
 
     /**
-     * @deprecated since Symfony 7.3, {@see \Symfony\Component\Security\Core\User\UserInterface::eraseCredentials()} is removed in Symfony 8.0
+     * @deprecated since Symfony 7.3, {@see UserInterface::eraseCredentials()} is removed in Symfony 8.0
      */
     #[\Deprecated]
     public function eraseCredentials(): void

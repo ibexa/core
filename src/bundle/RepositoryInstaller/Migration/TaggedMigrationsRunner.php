@@ -93,7 +93,7 @@ final class TaggedMigrationsRunner
                 // With the connection's schema assets filter lifted: it hides every table without an
                 // ORM entity behind it (i.e. nearly all of them) from the schema the executor
                 // introspects, which would make migrations' hasTable() guards think they don't exist.
-                /** @var array<string, \Doctrine\Migrations\Query\Query[]> $queriesByVersion */
+                /** @var array<string, Query[]> $queriesByVersion */
                 $queriesByVersion = $this->schemaAssetsFilterBypass->call(
                     $connection,
                     static fn (): array => $migrator->migrate(

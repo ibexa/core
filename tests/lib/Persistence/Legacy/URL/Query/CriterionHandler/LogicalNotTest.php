@@ -42,7 +42,7 @@ class LogicalNotTest extends CriterionHandlerTestCase
 
         $converter = $this->createMock(CriteriaConverter::class);
         $converter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('convertCriteria')
             ->with($queryBuilder, $foo)
             ->willReturn($fooExpr);

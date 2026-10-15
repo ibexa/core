@@ -40,7 +40,7 @@ class LanguageSwitchListenerTest extends TestCase
     public function testOnRouteReferenceGenerationNoLanguage(): void
     {
         $this->translationHelper
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getTranslationSiteAccess');
 
         $event = new RouteReferenceGenerationEvent(new RouteReference('foo'), new Request());
@@ -55,10 +55,10 @@ class LanguageSwitchListenerTest extends TestCase
         $event = new RouteReferenceGenerationEvent($routeReference, new Request());
         $expectedSiteAccess = 'phoenix_rises';
         $this->translationHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getTranslationSiteAccess')
             ->with($language)
-            ->will(self::returnValue($expectedSiteAccess));
+            ->will($this->returnValue($expectedSiteAccess));
 
         $listener = new LanguageSwitchListener($this->translationHelper);
         $listener->onRouteReferenceGeneration($event);
@@ -73,10 +73,10 @@ class LanguageSwitchListenerTest extends TestCase
         $routeReference = new RouteReference('foo', ['language' => $language]);
         $event = new RouteReferenceGenerationEvent($routeReference, new Request());
         $this->translationHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getTranslationSiteAccess')
             ->with($language)
-            ->will(self::returnValue(null));
+            ->will($this->returnValue(null));
 
         $listener = new LanguageSwitchListener($this->translationHelper);
         $listener->onRouteReferenceGeneration($event);

@@ -34,16 +34,16 @@ class UrlRedecoratorTest extends TestCase
     public function testRedecorateFromSource(): void
     {
         $this->sourceDecoratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('undecorate')
             ->with('http://static.example.com/images/file.png')
-            ->will(self::returnValue('images/file.png'));
+            ->will($this->returnValue('images/file.png'));
 
         $this->targetDecoratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('decorate')
             ->with('images/file.png')
-            ->will(self::returnValue('/var/test/storage/images/file.png'));
+            ->will($this->returnValue('/var/test/storage/images/file.png'));
 
         self::assertEquals(
             '/var/test/storage/images/file.png',
@@ -54,16 +54,16 @@ class UrlRedecoratorTest extends TestCase
     public function testRedecorateFromTarget(): void
     {
         $this->targetDecoratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('undecorate')
             ->with('/var/test/storage/images/file.png')
-            ->will(self::returnValue('images/file.png'));
+            ->will($this->returnValue('images/file.png'));
 
         $this->sourceDecoratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('decorate')
             ->with('images/file.png')
-            ->will(self::returnValue('http://static.example.com/images/file.png'));
+            ->will($this->returnValue('http://static.example.com/images/file.png'));
 
         self::assertEquals(
             'http://static.example.com/images/file.png',

@@ -40,7 +40,7 @@ class SearchServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('findContent')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('findContent')->with(...$parameters);
 
         $decoratedService->findContent(...$parameters);
     }
@@ -56,7 +56,7 @@ class SearchServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('findContentInfo')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('findContentInfo')->with(...$parameters);
 
         $decoratedService->findContentInfo(...$parameters);
     }
@@ -72,7 +72,7 @@ class SearchServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('findSingle')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('findSingle')->with(...$parameters);
 
         $decoratedService->findSingle(...$parameters);
     }
@@ -89,7 +89,7 @@ class SearchServiceDecoratorTest extends TestCase
             self::createStub(Criterion::class),
         ];
 
-        $serviceMock->expects(self::once())->method('suggest')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('suggest')->with(...$parameters);
 
         $decoratedService->suggest(...$parameters);
     }
@@ -105,7 +105,7 @@ class SearchServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('findLocations')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('findLocations')->with(...$parameters);
 
         $decoratedService->findLocations(...$parameters);
     }
@@ -119,7 +119,7 @@ class SearchServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $serviceMock->expects(self::once())->method('supports')->with($capability);
+        $serviceMock->expects($this->once())->method('supports')->with($capability);
 
         $decoratedService->supports($capability);
     }

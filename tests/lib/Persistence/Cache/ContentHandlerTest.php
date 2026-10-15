@@ -438,16 +438,16 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
     public function testDeleteContent(): void
     {
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
 
         $innerHandlerMock = $this->createMock(SPIContentHandler::class);
         $this->persistenceHandlerMock
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('contentHandler')
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadReverseRelations')
             ->with(2, RelationType::FIELD->value | RelationType::ASSET->value)
             ->willReturn(
@@ -457,15 +457,15 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             );
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteContent')
             ->with(2)
             ->willReturn(true);
 
         $this->cacheMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('deleteItem');
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
@@ -489,7 +489,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             });
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with(['c-42', 'c-2']);
 

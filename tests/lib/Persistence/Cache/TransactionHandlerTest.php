@@ -52,25 +52,25 @@ class TransactionHandlerTest extends AbstractCacheHandlerTestCase
     public function testRollback(): void
     {
         $this->loggerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('logCall');
 
         $this->cacheMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('clear');
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('rollbackTransaction');
 
         $innerHandlerMock = $this->createMock(TransactionHandler::class);
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('transactionHandler')
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('rollback');
 
         $handler = $this->persistenceCacheHandler->transactionHandler();
@@ -80,21 +80,21 @@ class TransactionHandlerTest extends AbstractCacheHandlerTestCase
     public function testCommitStopsCacheTransaction(): void
     {
         $this->loggerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('logCall');
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('commitTransaction');
 
         $innerHandlerMock = $this->createMock(TransactionHandler::class);
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('transactionHandler')
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('commit');
 
         $handler = $this->persistenceCacheHandler->transactionHandler();
@@ -104,21 +104,21 @@ class TransactionHandlerTest extends AbstractCacheHandlerTestCase
     public function testBeginTransactionStartsCacheTransaction(): void
     {
         $this->loggerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('logCall');
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('beginTransaction');
 
         $innerHandlerMock = $this->createMock(TransactionHandler::class);
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('transactionHandler')
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('beginTransaction');
 
         $handler = $this->persistenceCacheHandler->transactionHandler();

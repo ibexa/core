@@ -132,7 +132,7 @@ final class ContentTest extends TestCase
     {
         $name = 'Translated name';
         $versionInfoMock = $this->createMock(VersionInfo::class);
-        $versionInfoMock->expects(self::once())
+        $versionInfoMock->expects($this->once())
             ->method('getName')
             ->willReturn($name);
 

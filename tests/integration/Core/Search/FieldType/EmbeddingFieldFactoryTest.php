@@ -19,7 +19,7 @@ final class EmbeddingFieldFactoryTest extends TestCase
         $suffix = 'model_123';
         $config = $this->createMock(EmbeddingConfigurationInterface::class);
         $config
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getDefaultModelFieldSuffix')
             ->willReturn($suffix);
 
@@ -38,7 +38,7 @@ final class EmbeddingFieldFactoryTest extends TestCase
     {
         $config = $this->createMock(EmbeddingConfigurationInterface::class);
         $config
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getDefaultModelFieldSuffix');
 
         $factory = new EmbeddingFieldFactory($config);

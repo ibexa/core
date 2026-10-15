@@ -46,10 +46,10 @@ class FieldHelperTest extends TestCase
         $contentInfo = new ContentInfo(['contentTypeId' => $contentTypeId]);
         $content = $this->createMock(APIContent::class);
         $content
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('__get')
             ->with('contentInfo')
-            ->will(self::returnValue($contentInfo));
+            ->will($this->returnValue($contentInfo));
 
         $fieldDefIdentifier = 'my_field_definition';
         $textLineFT = new TextLineType();
@@ -61,27 +61,27 @@ class FieldHelperTest extends TestCase
             ->setConstructorArgs([['fieldTypeIdentifier' => 'ibexa_string']])
             ->getMockForAbstractClass();
         $contentType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFieldDefinition')
             ->with($fieldDefIdentifier)
-            ->will(self::returnValue($fieldDefinition));
+            ->will($this->returnValue($fieldDefinition));
 
         $content
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentType')
             ->willReturn($contentType);
 
         $this->translationHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getTranslatedField')
             ->with($content, $fieldDefIdentifier)
-            ->will(self::returnValue($emptyField));
+            ->will($this->returnValue($emptyField));
 
         $this->fieldTypeServiceMock
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getFieldType')
             ->with('ibexa_string')
-            ->will(self::returnValue(new FieldType($textLineFT)));
+            ->will($this->returnValue(new FieldType($textLineFT)));
 
         self::assertTrue($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
     }
@@ -92,10 +92,10 @@ class FieldHelperTest extends TestCase
         $contentInfo = new ContentInfo(['contentTypeId' => $contentTypeId]);
         $content = $this->createMock(APIContent::class);
         $content
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('__get')
             ->with('contentInfo')
-            ->will(self::returnValue($contentInfo));
+            ->will($this->returnValue($contentInfo));
 
         $fieldDefIdentifier = 'my_field_definition';
         $textLineFT = new TextLineType();
@@ -107,27 +107,27 @@ class FieldHelperTest extends TestCase
             ->setConstructorArgs([['fieldTypeIdentifier' => 'ibexa_string']])
             ->getMockForAbstractClass();
         $contentType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFieldDefinition')
             ->with($fieldDefIdentifier)
-            ->will(self::returnValue($fieldDefinition));
+            ->will($this->returnValue($fieldDefinition));
 
         $content
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentType')
             ->willReturn($contentType);
 
         $this->translationHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getTranslatedField')
             ->with($content, $fieldDefIdentifier)
-            ->will(self::returnValue($emptyField));
+            ->will($this->returnValue($emptyField));
 
         $this->fieldTypeServiceMock
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getFieldType')
             ->with('ibexa_string')
-            ->will(self::returnValue(new FieldType($textLineFT)));
+            ->will($this->returnValue(new FieldType($textLineFT)));
 
         self::assertFalse($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
     }

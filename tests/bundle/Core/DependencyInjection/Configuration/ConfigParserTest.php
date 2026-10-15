@@ -88,7 +88,7 @@ final class ConfigParserTest extends TestCase
         foreach ($parsers as $parser) {
             /* @var \PHPUnit\Framework\MockObject\MockObject $parser */
             $parser
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('mapConfig')
                 ->with($scopeSettings, $currentScope, $contextualizer);
         }
@@ -116,11 +116,11 @@ final class ConfigParserTest extends TestCase
         foreach ($parsers as $parser) {
             /* @var \PHPUnit\Framework\MockObject\MockObject $parser */
             $parser
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('preMap')
                 ->with($config, $contextualizer);
             $parser
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('postMap')
                 ->with($config, $contextualizer);
         }
@@ -145,7 +145,7 @@ final class ConfigParserTest extends TestCase
 
         foreach ($parsers as $parser) {
             $parser
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('addSemanticConfig')
                 ->with($nodeBuilder);
         }

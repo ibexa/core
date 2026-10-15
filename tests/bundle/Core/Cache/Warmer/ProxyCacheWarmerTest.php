@@ -35,7 +35,7 @@ final class ProxyCacheWarmerTest extends TestCase
     public function testWarmUp(): void
     {
         $this->proxyGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('warmUp')
             ->with(ProxyCacheWarmer::PROXY_CLASSES);
 

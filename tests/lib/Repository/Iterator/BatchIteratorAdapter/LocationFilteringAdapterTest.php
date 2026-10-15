@@ -58,7 +58,7 @@ final class LocationFilteringAdapterTest extends TestCase
 
         $locationService = $this->createMock(LocationService::class);
         $locationService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('find')
             ->with($expectedFilter, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($locationList);

@@ -26,8 +26,7 @@ final class UniqueIdentifierTest extends TestCase
             message: 'Already exists',
             groups: ['custom'],
             payload: $payload
-        ) extends UniqueIdentifier {
-        };
+        ) extends UniqueIdentifier {};
 
         self::assertSame('identifier', $constraint->identifierPath);
         self::assertSame('id', $constraint->existingIdPath);
@@ -39,8 +38,7 @@ final class UniqueIdentifierTest extends TestCase
 
     public function testIdentifierPathIsTheOnlyRequiredArgument(): void
     {
-        $constraint = new class('identifier') extends UniqueIdentifier {
-        };
+        $constraint = new class('identifier') extends UniqueIdentifier {};
 
         self::assertSame('identifier', $constraint->identifierPath);
         self::assertNull($constraint->existingIdPath);

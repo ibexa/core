@@ -103,9 +103,9 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
 
         $this
             ->translationHelperMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getTranslatedField')
-            ->will(self::returnValue($content->getField('file', 'eng-GB')));
+            ->will($this->returnValue($content->getField('file', 'eng-GB')));
         $eventListener->onRouteReferenceGeneration($event);
 
         self::assertEquals('42', $routeReference->get(ContentDownloadRouteReferenceListener::OPT_CONTENT_ID));

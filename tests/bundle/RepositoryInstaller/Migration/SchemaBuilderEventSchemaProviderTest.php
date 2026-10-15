@@ -22,7 +22,7 @@ final class SchemaBuilderEventSchemaProviderTest extends TestCase
         $schema = new Schema();
 
         $schemaBuilder = $this->createMock(SchemaBuilderInterface::class);
-        $schemaBuilder->expects(self::once())
+        $schemaBuilder->expects($this->once())
             ->method('buildSchema')
             ->willReturn($schema);
 

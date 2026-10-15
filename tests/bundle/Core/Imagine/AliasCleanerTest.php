@@ -31,7 +31,7 @@ class AliasCleanerTest extends TestCase
     {
         $originalPath = 'foo/bar/test.jpg';
         $this->resolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('remove')
             ->with([$originalPath], []);
 

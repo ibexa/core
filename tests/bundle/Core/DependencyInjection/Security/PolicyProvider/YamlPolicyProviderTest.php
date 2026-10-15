@@ -32,12 +32,12 @@ class YamlPolicyProviderTest extends TestCase
         $configBuilder = $this->createMock(ConfigBuilderInterface::class);
         foreach ($files as $file) {
             $configBuilder
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('addResource')
                 ->with(self::equalTo(new FileResource($file)));
         }
         $configBuilder
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('addConfig')
             ->with($expectedConfig);
 
@@ -68,14 +68,14 @@ class YamlPolicyProviderTest extends TestCase
 
         $configBuilder = $this->createMock(ConfigBuilderInterface::class);
         $configBuilder
-            ->expects(self::exactly(count($files)))
+            ->expects($this->exactly(count($files)))
             ->method('addResource')
             ->willReturnMap([
                 [self::equalTo(new FileResource($file1)), null],
                 [self::equalTo(new FileResource($file2)), null],
             ]);
         $configBuilder
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('addConfig')
             ->with($expectedConfig);
 

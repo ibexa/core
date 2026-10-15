@@ -59,7 +59,7 @@ class SymfonySerializerAdapterTest extends TestCase
         $data = ['value' => 'test'];
 
         $this->normalizer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('normalize')
             ->with($value, self::TEST_FORMAT, self::TEST_CONTEXT)
             ->willReturn($data);
@@ -73,7 +73,7 @@ class SymfonySerializerAdapterTest extends TestCase
         $value = self::createStub(Value::class);
 
         $this->denomalizer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('denormalize')
             ->with($data, Value::class, self::TEST_FORMAT, self::TEST_CONTEXT)
             ->willReturn($value);
@@ -87,7 +87,7 @@ class SymfonySerializerAdapterTest extends TestCase
         $json = '{"value": "test"}';
 
         $this->encoder
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('encode')
             ->with($data, self::TEST_FORMAT, self::TEST_CONTEXT)
             ->willReturn($json);
@@ -101,7 +101,7 @@ class SymfonySerializerAdapterTest extends TestCase
         $json = '{"value": "test"}';
 
         $this->decoder
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('decode')
             ->with($json, self::TEST_FORMAT, self::TEST_CONTEXT)
             ->willReturn($data);

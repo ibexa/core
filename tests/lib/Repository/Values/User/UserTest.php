@@ -27,11 +27,11 @@ final class UserTest extends TestCase
         $contentMock = $this->createMock(Content::class);
         $versionInfoMock = $this->createMock(VersionInfo::class);
 
-        $contentMock->expects(self::once())
+        $contentMock->expects($this->once())
             ->method('getVersionInfo')
             ->willReturn($versionInfoMock);
 
-        $versionInfoMock->expects(self::once())
+        $versionInfoMock->expects($this->once())
             ->method('getName')
             ->willReturn($name);
 

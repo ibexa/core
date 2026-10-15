@@ -40,10 +40,10 @@ class BinaryLoaderTest extends TestCase
 
         $path = 'something.jpg';
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will(self::throwException(new NotFoundException('foo', 'bar')));
+            ->will($this->throwException(new NotFoundException('foo', 'bar')));
 
         $this->binaryLoader->find($path);
     }
@@ -54,10 +54,10 @@ class BinaryLoaderTest extends TestCase
 
         $path = 'something.jpg';
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will(self::returnValue(new MissingBinaryFile()));
+            ->will($this->returnValue(new MissingBinaryFile()));
 
         $this->binaryLoader->find($path);
     }
@@ -66,10 +66,10 @@ class BinaryLoaderTest extends TestCase
     {
         $path = 'var/site/storage/images/1/2/3/123-name/name.png';
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will(self::throwException(new InvalidBinaryFileIdException($path)));
+            ->will($this->throwException(new InvalidBinaryFileIdException($path)));
 
         try {
             $this->binaryLoader->find($path);

@@ -235,11 +235,11 @@ class HandlerContentTest extends AbstractTestCase
             )
             ->onlyMethods(['extractContentInfoFromRows'])
             ->getMock();
-        $mapperMock->expects(self::any())
+        $mapperMock->expects($this->any())
             ->method('extractContentInfoFromRows')
             ->with(self::isArray())
             ->will(
-                self::returnCallback(
+                $this->returnCallback(
                     static function ($rows): array {
                         $contentInfoObjs = [];
                         foreach ($rows as $row) {

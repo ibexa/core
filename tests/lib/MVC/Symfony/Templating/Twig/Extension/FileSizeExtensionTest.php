@@ -85,10 +85,10 @@ class FileSizeExtensionTest extends IntegrationTestCase
     protected function getConfigResolverInterfaceMock()
     {
         $configResolverInterfaceMock = $this->createMock(ConfigResolverInterface::class);
-        $configResolverInterfaceMock->expects(self::any())
+        $configResolverInterfaceMock->expects($this->any())
             ->method('getParameter')
             ->with('languages')
-            ->will(self::returnValue($this->getLocale()));
+            ->will($this->returnValue($this->getLocale()));
 
         return $configResolverInterfaceMock;
     }
@@ -99,10 +99,10 @@ class FileSizeExtensionTest extends IntegrationTestCase
     protected function getLocaleConverterInterfaceMock()
     {
         $this->localeConverterInterfaceMock = $this->createMock(LocaleConverterInterface::class);
-        $this->localeConverterInterfaceMock->expects(self::any())
+        $this->localeConverterInterfaceMock->expects($this->any())
         ->method('convertToPOSIX')
         ->will(
-            self::returnValueMap(
+            $this->returnValueMap(
                 [
                     ['fre-FR', 'fr-FR'],
                     ['eng-GB', 'en-GB'],
@@ -121,8 +121,8 @@ class FileSizeExtensionTest extends IntegrationTestCase
         $that = $this;
         $this->translatorMock = $this->createMock(TranslatorInterface::class);
         $this->translatorMock
-            ->expects(self::any())->method('trans')->will(
-                self::returnCallback(
+            ->expects($this->any())->method('trans')->will(
+                $this->returnCallback(
                     static function ($suffixes) use ($that): ?string {
                         foreach ($that->getLocale() as $value) {
                             if ($value === 'fre-FR') {

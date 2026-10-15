@@ -44,7 +44,7 @@ class ResolverFactoryTest extends TestCase
     {
         $calls = [];
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('hasParameter')
             ->with('image_host')
             ->willReturnCallback(static function () use (&$calls): bool {
@@ -56,7 +56,7 @@ class ResolverFactoryTest extends TestCase
         $host = 'http://ibexa.co';
 
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('image_host')
             ->willReturnCallback(static function () use (&$calls, $host): string {
@@ -75,7 +75,7 @@ class ResolverFactoryTest extends TestCase
     {
         $calls = [];
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('hasParameter')
             ->with('image_host')
             ->willReturnCallback(static function () use (&$calls): bool {
@@ -87,7 +87,7 @@ class ResolverFactoryTest extends TestCase
         $host = '/';
 
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('image_host')
             ->willReturnCallback(static function () use (&$calls, $host): string {

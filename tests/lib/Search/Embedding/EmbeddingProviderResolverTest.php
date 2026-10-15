@@ -88,7 +88,7 @@ final class EmbeddingProviderResolverTest extends TestCase
         $mockProvider = self::createStub(EmbeddingProviderInterface::class);
 
         $this->configuration
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getModel')
             ->with($modelIdentifier)
             ->willReturn([
@@ -99,13 +99,13 @@ final class EmbeddingProviderResolverTest extends TestCase
             ]);
 
         $this->registry
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('hasEmbeddingProvider')
             ->with($embeddingProviderIdentifier)
             ->willReturn(true);
 
         $this->registry
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getEmbeddingProvider')
             ->with($embeddingProviderIdentifier)
             ->willReturn($mockProvider);

@@ -40,7 +40,7 @@ final class ContentFilteringAdapterTest extends TestCase
 
         // Make sure that count query doesn't fetch results
         $this->contentService
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('find');
 
         $this->contentService

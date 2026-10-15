@@ -40,7 +40,7 @@ final class StructValidatorTest extends TestCase
         $errors->method('count')->willReturn(0);
 
         $this->validator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validate')
             ->with(
                 $struct,

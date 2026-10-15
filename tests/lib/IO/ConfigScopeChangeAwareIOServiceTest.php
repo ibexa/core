@@ -53,7 +53,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
     public function testConstructorDoesNotResolvePrefixEagerly(): void
     {
         $this->innerIOService
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('setPrefix')
         ;
 
@@ -69,7 +69,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
     public function testPrefixIsResolvedLazilyOnFirstUse(): void
     {
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setPrefix')
             ->with(self::PREFIX)
         ;
@@ -84,7 +84,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
     public function testSetPrefix(): void
     {
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setPrefix')
         ;
 
@@ -97,7 +97,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $localFile = '/path/to/local/file.txt';
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('newBinaryCreateStructFromLocalFile')
             ->with($localFile)
             ->willReturn($expectedBinaryFileCreateStruct)
@@ -113,7 +113,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $binaryFileId = 'test-id';
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with($binaryFileId)
             ->willReturn(true)
@@ -128,7 +128,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $binaryFileId = 'test-id';
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($binaryFileId)
             ->willReturn($expectedBinaryFile)
@@ -145,7 +145,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $uri = 'http://example.com/file.pdf';
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFileByUri')
             ->with($uri)
             ->willReturn($expectedBinaryFile)
@@ -162,7 +162,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $expectedContents = 'test';
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFileContents')
             ->with($binaryFile)
             ->willReturn($expectedContents)
@@ -179,7 +179,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $binaryFileCreateStruct = new BinaryFileCreateStruct();
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createBinaryFile')
             ->with($binaryFileCreateStruct)
             ->willReturn($expectedBinaryFile)
@@ -196,7 +196,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $binaryFileId = 'file-id';
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUri')
             ->with($binaryFileId)
             ->willReturn($expectedUri)
@@ -213,7 +213,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $binaryFileId = 'file-id';
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMimeType')
             ->with($binaryFileId)
             ->willReturn($expectedMimeType)
@@ -230,7 +230,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $binaryFile = new BinaryFile();
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFileInputStream')
             ->with($binaryFile)
             ->willReturn($expectedFileInputStream)
@@ -246,7 +246,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $binaryFile = new BinaryFile();
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteBinaryFile')
             ->with($binaryFile)
         ;
@@ -266,7 +266,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         ];
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('newBinaryCreateStructFromUploadedFile')
             ->with($uploadedFile)
             ->willReturn($expectedBinaryFileCreateStruct)
@@ -282,7 +282,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $path = '/path/to/directory';
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteDirectory')
             ->with($path)
         ;
@@ -301,7 +301,7 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $this->ioService->onConfigScopeChange($event);
 
         $this->innerIOService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setPrefix')
             ->with(self::PREFIX);
 

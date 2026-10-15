@@ -223,7 +223,7 @@ class RelationTest extends FieldTypeTestCase
         $destinationContentId = 'invalid';
 
         $this->targetContentValidator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validate')
             ->with((int) $destinationContentId)
             ->willReturn($this->generateValidationError($destinationContentId));
@@ -240,7 +240,7 @@ class RelationTest extends FieldTypeTestCase
         $allowedContentTypes = ['article', 'folder'];
 
         $this->targetContentValidator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validate')
             ->with($destinationContentId, $allowedContentTypes)
             ->willReturn($this->generateContentTypeValidationError('test'));

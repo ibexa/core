@@ -45,7 +45,7 @@ class TemplateRendererTest extends TestCase
         $view->setTemplateIdentifier('path/to/template.html.twig');
 
         $this->eventDispatcherMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(
                 self::isInstanceOf(PreContentViewEvent::class),
@@ -53,7 +53,7 @@ class TemplateRendererTest extends TestCase
             );
 
         $this->templateEngineMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with(
                 'path/to/template.html.twig',

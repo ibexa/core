@@ -26,7 +26,7 @@ class RepositoryTest extends BaseServiceMockTest
         $transactionHandlerMock = $this->getTransactionHandlerMock();
 
         $transactionHandlerMock->expects(
-            self::once()
+            $this->once()
         )->method(
             'beginTransaction'
         );
@@ -43,7 +43,7 @@ class RepositoryTest extends BaseServiceMockTest
         $transactionHandlerMock = $this->getTransactionHandlerMock();
 
         $transactionHandlerMock->expects(
-            self::once()
+            $this->once()
         )->method(
             'commit'
         );
@@ -62,11 +62,11 @@ class RepositoryTest extends BaseServiceMockTest
         $transactionHandlerMock = $this->getTransactionHandlerMock();
 
         $transactionHandlerMock->expects(
-            self::once()
+            $this->once()
         )->method(
             'commit'
         )->will(
-            self::throwException(new \Exception())
+            $this->throwException(new \Exception())
         );
 
         $mockedRepository->commit();
@@ -81,7 +81,7 @@ class RepositoryTest extends BaseServiceMockTest
         $transactionHandlerMock = $this->getTransactionHandlerMock();
 
         $transactionHandlerMock->expects(
-            self::once()
+            $this->once()
         )->method(
             'rollback'
         );
@@ -100,11 +100,11 @@ class RepositoryTest extends BaseServiceMockTest
         $transactionHandlerMock = $this->getTransactionHandlerMock();
 
         $transactionHandlerMock->expects(
-            self::once()
+            $this->once()
         )->method(
             'rollback'
         )->will(
-            self::throwException(new \Exception())
+            $this->throwException(new \Exception())
         );
 
         $mockedRepository->rollback();

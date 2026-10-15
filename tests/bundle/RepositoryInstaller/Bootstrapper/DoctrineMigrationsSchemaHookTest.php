@@ -40,7 +40,7 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     public function testRunsTaggedMigrationsWhenEnabled(): void
     {
         $metadataStorage = $this->createMock(MetadataStorage::class);
-        $metadataStorage->expects(self::once())->method('ensureInitialized');
+        $metadataStorage->expects($this->once())->method('ensureInitialized');
 
         $hook = new DoctrineMigrationsSchemaHook($this->createRunner($metadataStorage));
 
@@ -50,7 +50,7 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     public function testDoesNotRunTaggedMigrationsWhenLeftAtItsDefault(): void
     {
         $metadataStorage = $this->createMock(MetadataStorage::class);
-        $metadataStorage->expects(self::never())->method('ensureInitialized');
+        $metadataStorage->expects($this->never())->method('ensureInitialized');
 
         $hook = new DoctrineMigrationsSchemaHook($this->createRunner($metadataStorage));
 

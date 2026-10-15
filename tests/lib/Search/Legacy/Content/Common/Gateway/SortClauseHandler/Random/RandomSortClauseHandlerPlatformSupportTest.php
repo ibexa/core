@@ -31,7 +31,7 @@ use PHPUnit\Framework\TestCase;
 final class RandomSortClauseHandlerPlatformSupportTest extends TestCase
 {
     /**
-     * @phpstan-param class-string<\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom> $handlerClass
+     * @phpstan-param class-string<AbstractRandom> $handlerClass
      */
     #[DataProvider('providePlatformSupport')]
     public function testSupportsPlatform(
@@ -46,7 +46,7 @@ final class RandomSortClauseHandlerPlatformSupportTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{class-string<\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom>, AbstractPlatform, bool}>
+     * @return iterable<string, array{class-string<AbstractRandom>, AbstractPlatform, bool}>
      */
     public static function providePlatformSupport(): iterable
     {
@@ -66,10 +66,12 @@ final class RandomSortClauseHandlerPlatformSupportTest extends TestCase
     }
 
     /**
-     * @phpstan-param class-string<\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom> $handlerClass
+     * @phpstan-param class-string<AbstractRandom> $handlerClass
      */
-    private function createHandler(string $handlerClass, AbstractPlatform $platform): AbstractRandom
-    {
+    private function createHandler(
+        string $handlerClass,
+        AbstractPlatform $platform
+    ): AbstractRandom {
         $connection = self::createStub(Connection::class);
         $connection
             ->method('getDatabasePlatform')

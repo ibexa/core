@@ -56,7 +56,7 @@ final class StorageEngineFactoryTest extends BaseRepositoryConfigurationProvider
         }
 
         $configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('repository')
             ->willReturn($repositoryAlias)
@@ -89,7 +89,7 @@ final class StorageEngineFactoryTest extends BaseRepositoryConfigurationProvider
         }
 
         $configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('repository')
             ->willReturn($repositoryAlias)

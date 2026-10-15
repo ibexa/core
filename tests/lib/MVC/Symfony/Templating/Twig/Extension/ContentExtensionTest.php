@@ -132,7 +132,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         $field = new Field(['fieldDefIdentifier' => 'testfield', 'value' => null]);
 
         $this->fieldHelperMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isFieldEmpty')
             ->willReturn($isEmpty);
 

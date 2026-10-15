@@ -17,6 +17,5 @@ final readonly class ContentPublicationResult
 {
     public function __construct(
         public ?Content $publishedContent,
-    ) {
-    }
+    ) {}
 }

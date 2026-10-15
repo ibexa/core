@@ -36,9 +36,9 @@ class UserTest extends TestCase
 
         $roles = ['ROLE_USER'];
         $apiUser
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUserId')
-            ->will(self::returnValue(42));
+            ->will($this->returnValue(42));
 
         $user = new User($apiUser, $roles);
         self::assertSame($apiUser, $user->getAPIUser());
@@ -52,18 +52,18 @@ class UserTest extends TestCase
         $userId = 123;
         $apiUser = $this->createMock(APIUser::class);
         $apiUser
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUserId')
-            ->will(self::returnValue($userId));
+            ->will($this->returnValue($userId));
         $roles = ['ROLE_USER'];
 
         $user = new User($apiUser, $roles);
 
         $apiUser2 = $this->createMock(APIUser::class);
         $apiUser2
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUserId')
-            ->will(self::returnValue($userId));
+            ->will($this->returnValue($userId));
         $user2 = new User($apiUser2, []);
 
         self::assertTrue($user->isEqualTo($user2));
@@ -73,18 +73,18 @@ class UserTest extends TestCase
     {
         $apiUser = $this->createMock(APIUser::class);
         $apiUser
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUserId')
-            ->will(self::returnValue(123));
+            ->will($this->returnValue(123));
         $roles = ['ROLE_USER'];
 
         $user = new User($apiUser, $roles);
 
         $apiUser2 = $this->createMock(APIUser::class);
         $apiUser2
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUserId')
-            ->will(self::returnValue(456));
+            ->will($this->returnValue(456));
         $user2 = new User($apiUser2, []);
 
         self::assertFalse($user->isEqualTo($user2));
@@ -95,7 +95,7 @@ class UserTest extends TestCase
         $user = new User(self::createStub(APIUser::class));
         $user2 = $this->createMock(ReferenceUserInterface::class);
         $user2
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAPIUserReference')
             ->willReturn(new UserReference(456));
         self::assertFalse($user->isEqualTo($user2));

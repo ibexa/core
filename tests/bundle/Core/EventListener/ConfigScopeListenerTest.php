@@ -55,17 +55,17 @@ class ConfigScopeListenerTest extends TestCase
         $siteAccess = new SiteAccess('test');
         $event = new ScopeChangeEvent($siteAccess);
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setDefaultScope')
             ->with($siteAccess->name);
         $this->viewManager
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setSiteAccess')
             ->with($siteAccess);
 
         foreach ($this->viewProviders as $viewProvider) {
             $viewProvider
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('setSiteAccess')
                 ->with($siteAccess);
         }

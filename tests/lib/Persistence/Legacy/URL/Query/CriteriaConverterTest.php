@@ -37,24 +37,24 @@ class CriteriaConverterTest extends TestCase
         $selectQuery = self::createStub(QueryBuilder::class);
 
         $fooCriterionHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('accept')
             ->with($barCriterion)
             ->willReturn(false);
 
         $fooCriterionHandler
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('handle');
 
         $barCriterionHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('accept')
             ->with($barCriterion)
             ->willReturn(true);
 
         $sqlExpression = 'SQL EXPRESSION';
         $barCriterionHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('handle')
             ->with($criteriaConverter, $selectQuery, $barCriterion)
             ->willReturn($sqlExpression);

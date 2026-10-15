@@ -39,7 +39,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(ObjectStateGroupCreateStruct::class)];
 
-        $serviceMock->expects(self::once())->method('createObjectStateGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('createObjectStateGroup')->with(...$parameters);
 
         $decoratedService->createObjectStateGroup(...$parameters);
     }
@@ -54,7 +54,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             ['eng-GB'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadObjectStateGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadObjectStateGroup')->with(...$parameters);
 
         $decoratedService->loadObjectStateGroup(...$parameters);
     }
@@ -71,7 +71,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         ];
 
         $serviceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadObjectStateGroupByIdentifier')
             ->with(...$parameters)
             ->willReturn($expectedObjectStateGroup);
@@ -95,7 +95,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             ['eng-GB'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadObjectStateGroups')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadObjectStateGroups')->with(...$parameters);
 
         $decoratedService->loadObjectStateGroups(...$parameters);
     }
@@ -110,7 +110,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce168263.48122762'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadObjectStates')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadObjectStates')->with(...$parameters);
 
         $decoratedService->loadObjectStates(...$parameters);
     }
@@ -125,7 +125,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             self::createStub(ObjectStateGroupUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updateObjectStateGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('updateObjectStateGroup')->with(...$parameters);
 
         $decoratedService->updateObjectStateGroup(...$parameters);
     }
@@ -137,7 +137,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(ObjectStateGroup::class)];
 
-        $serviceMock->expects(self::once())->method('deleteObjectStateGroup')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('deleteObjectStateGroup')->with(...$parameters);
 
         $decoratedService->deleteObjectStateGroup(...$parameters);
     }
@@ -152,7 +152,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             self::createStub(ObjectStateCreateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('createObjectState')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('createObjectState')->with(...$parameters);
 
         $decoratedService->createObjectState(...$parameters);
     }
@@ -167,7 +167,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             ['eng-GB'],
         ];
 
-        $serviceMock->expects(self::once())->method('loadObjectState')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadObjectState')->with(...$parameters);
 
         $decoratedService->loadObjectState(...$parameters);
     }
@@ -185,7 +185,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         ];
 
         $serviceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadObjectStateByIdentifier')
             ->with(...$parameters)
             ->willReturn($expectedObjectState);
@@ -208,7 +208,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             self::createStub(ObjectStateUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updateObjectState')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('updateObjectState')->with(...$parameters);
 
         $decoratedService->updateObjectState(...$parameters);
     }
@@ -223,7 +223,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             100,
         ];
 
-        $serviceMock->expects(self::once())->method('setPriorityOfObjectState')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('setPriorityOfObjectState')->with(...$parameters);
 
         $decoratedService->setPriorityOfObjectState(...$parameters);
     }
@@ -235,7 +235,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(ObjectState::class)];
 
-        $serviceMock->expects(self::once())->method('deleteObjectState')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('deleteObjectState')->with(...$parameters);
 
         $decoratedService->deleteObjectState(...$parameters);
     }
@@ -251,7 +251,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             self::createStub(ObjectState::class),
         ];
 
-        $serviceMock->expects(self::once())->method('setContentState')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('setContentState')->with(...$parameters);
 
         $decoratedService->setContentState(...$parameters);
     }
@@ -266,7 +266,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
             self::createStub(ObjectStateGroup::class),
         ];
 
-        $serviceMock->expects(self::once())->method('getContentState')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('getContentState')->with(...$parameters);
 
         $decoratedService->getContentState(...$parameters);
     }
@@ -278,7 +278,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(ObjectState::class)];
 
-        $serviceMock->expects(self::once())->method('getContentCount')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('getContentCount')->with(...$parameters);
 
         $decoratedService->getContentCount(...$parameters);
     }
@@ -290,7 +290,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
 
         $parameters = ['random_value_5ced05ce169c83.55416136'];
 
-        $serviceMock->expects(self::once())->method('newObjectStateGroupCreateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newObjectStateGroupCreateStruct')->with(...$parameters);
 
         $decoratedService->newObjectStateGroupCreateStruct(...$parameters);
     }
@@ -302,7 +302,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('newObjectStateGroupUpdateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newObjectStateGroupUpdateStruct')->with(...$parameters);
 
         $decoratedService->newObjectStateGroupUpdateStruct(...$parameters);
     }
@@ -314,7 +314,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
 
         $parameters = ['random_value_5ced05ce169cc9.01447563'];
 
-        $serviceMock->expects(self::once())->method('newObjectStateCreateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newObjectStateCreateStruct')->with(...$parameters);
 
         $decoratedService->newObjectStateCreateStruct(...$parameters);
     }
@@ -326,7 +326,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('newObjectStateUpdateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('newObjectStateUpdateStruct')->with(...$parameters);
 
         $decoratedService->newObjectStateUpdateStruct(...$parameters);
     }

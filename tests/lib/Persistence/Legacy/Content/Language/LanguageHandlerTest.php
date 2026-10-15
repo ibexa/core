@@ -45,22 +45,22 @@ class LanguageHandlerTest extends TestCase
         $handler = $this->getLanguageHandler();
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects(self::once())
+        $mapperMock->expects($this->once())
             ->method('createLanguageFromCreateStruct')
             ->with(
                 self::isInstanceOf(
                     SPILanguageCreateStruct::class
                 )
-            )->will(self::returnValue(new Language()));
+            )->will($this->returnValue(new Language()));
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('insertLanguage')
             ->with(
                 self::isInstanceOf(
                     Language::class
                 )
-            )->will(self::returnValue(2));
+            )->will($this->returnValue(2));
 
         $createStruct = $this->getCreateStructFixture();
 
@@ -91,7 +91,7 @@ class LanguageHandlerTest extends TestCase
         $handler = $this->getLanguageHandler();
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('updateLanguage')
             ->with(self::isInstanceOf(Language::class));
 
@@ -114,15 +114,15 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadLanguageListData')
             ->with(self::equalTo([2]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
-        $mapperMock->expects(self::once())
+        $mapperMock->expects($this->once())
             ->method('extractLanguagesFromRows')
             ->with(self::equalTo([]))
-            ->will(self::returnValue([new Language()]));
+            ->will($this->returnValue([new Language()]));
 
         $result = $handler->load(2);
 
@@ -140,16 +140,16 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadLanguageListData')
             ->with(self::equalTo([2]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
-        $mapperMock->expects(self::once())
+        $mapperMock->expects($this->once())
             ->method('extractLanguagesFromRows')
             ->with(self::equalTo([]))
             // No language extracted
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $result = $handler->load(2);
     }
@@ -160,15 +160,15 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadLanguageListDataByLanguageCode')
             ->with(self::equalTo(['eng-US']))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
-        $mapperMock->expects(self::once())
+        $mapperMock->expects($this->once())
             ->method('extractLanguagesFromRows')
             ->with(self::equalTo([]))
-            ->will(self::returnValue([new Language()]));
+            ->will($this->returnValue([new Language()]));
 
         $result = $handler->loadByLanguageCode('eng-US');
 
@@ -186,16 +186,16 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadLanguageListDataByLanguageCode')
             ->with(self::equalTo(['eng-US']))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
-        $mapperMock->expects(self::once())
+        $mapperMock->expects($this->once())
             ->method('extractLanguagesFromRows')
             ->with(self::equalTo([]))
             // No language extracted
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $result = $handler->loadByLanguageCode('eng-US');
     }
@@ -206,14 +206,14 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadAllLanguagesData')
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
-        $mapperMock->expects(self::once())
+        $mapperMock->expects($this->once())
             ->method('extractLanguagesFromRows')
             ->with(self::equalTo([]))
-            ->will(self::returnValue([new Language()]));
+            ->will($this->returnValue([new Language()]));
 
         $result = $handler->loadAll();
 
@@ -227,11 +227,11 @@ class LanguageHandlerTest extends TestCase
         $handler = $this->getLanguageHandler();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('canDeleteLanguage')
             ->with(self::equalTo(2))
-            ->will(self::returnValue(true));
-        $gatewayMock->expects(self::once())
+            ->will($this->returnValue(true));
+        $gatewayMock->expects($this->once())
             ->method('deleteLanguage')
             ->with(self::equalTo(2));
 
@@ -245,11 +245,11 @@ class LanguageHandlerTest extends TestCase
         $handler = $this->getLanguageHandler();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('canDeleteLanguage')
             ->with(self::equalTo(2))
-            ->will(self::returnValue(false));
-        $gatewayMock->expects(self::never())
+            ->will($this->returnValue(false));
+        $gatewayMock->expects($this->never())
             ->method('deleteLanguage');
 
         $result = $handler->delete(2);

@@ -43,7 +43,7 @@ class FlysystemTest extends TestCase
         $spiBinaryFileCreateStruct->setInputStream($stream);
 
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('writeStream')
             ->with(
                 self::equalTo($spiBinaryFileCreateStruct->id),
@@ -63,7 +63,7 @@ class FlysystemTest extends TestCase
     public function testDelete(): void
     {
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('delete')
             ->with('prefix/my/file.png');
 
@@ -75,7 +75,7 @@ class FlysystemTest extends TestCase
         // Note: technically Flysystem's v2+ Local Adapter silently skips non-existent file
         $filePath = 'prefix/my/file.png';
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('delete')
             ->with($filePath)
             ->willThrowException(UnableToDeleteFile::atLocation($filePath));
@@ -93,7 +93,7 @@ class FlysystemTest extends TestCase
         $filePath = 'prefix/my/file.png';
         $fileContents = 'This is my contents';
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('read')
             ->with($filePath)
             ->willReturn($fileContents);
@@ -108,7 +108,7 @@ class FlysystemTest extends TestCase
     {
         $filePath = 'prefix/my/file.png';
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('read')
             ->with($filePath)
             ->willThrowException(UnableToReadFile::fromLocation($filePath));
@@ -126,7 +126,7 @@ class FlysystemTest extends TestCase
 
         $filePath = 'prefix/my/file.png';
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('readStream')
             ->with($filePath)
             ->willReturn($resource);
@@ -144,7 +144,7 @@ class FlysystemTest extends TestCase
     {
         $filePath = 'prefix/my/file.png';
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('readStream')
             ->with($filePath)
             ->willThrowException(UnableToReadFile::fromLocation($filePath));
@@ -164,7 +164,7 @@ class FlysystemTest extends TestCase
     public function testDeleteDirectory(): void
     {
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteDirectory')
             ->with('some/path');
 

@@ -19,13 +19,13 @@ class GrayscaleFilterLoaderTest extends TestCase
         $image = $this->createMock(ImageInterface::class);
         $effects = $this->createMock(EffectsInterface::class);
         $image
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('effects')
-            ->will(self::returnValue($effects));
+            ->will($this->returnValue($effects));
         $effects
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('grayscale')
-            ->will(self::returnValue($effects));
+            ->will($this->returnValue($effects));
 
         $loader = new GrayscaleFilterLoader();
         self::assertSame($image, $loader->load($image));

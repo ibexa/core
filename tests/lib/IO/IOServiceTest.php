@@ -62,7 +62,7 @@ class IOServiceTest extends TestCase
         $file = __FILE__;
 
         $this->mimeTypeDetectorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFromPath')
             ->with(self::equalTo($file))
             ->willReturn(self::MIME_TYPE_TEXT_PHP);
@@ -94,7 +94,7 @@ class IOServiceTest extends TestCase
         $spiBinaryFile->mtime = new \DateTime('now');
 
         $this->binarydataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('create')
             ->with(
                 self::callback(
@@ -109,7 +109,7 @@ class IOServiceTest extends TestCase
             );
 
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('create')
             ->with(self::callback($this->getSPIBinaryFileCreateStructCallback($id)))
             ->willReturn($spiBinaryFile);
@@ -132,7 +132,7 @@ class IOServiceTest extends TestCase
         $spiBinaryFile->mtime = new \DateTime('now');
 
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($spiId)
             ->willReturn($spiBinaryFile);
@@ -157,7 +157,7 @@ class IOServiceTest extends TestCase
         $spiBinaryFile->mtime = new \DateTime('now');
 
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($spiId)
             ->willReturn($spiBinaryFile);
@@ -200,13 +200,13 @@ class IOServiceTest extends TestCase
         $spiBinaryFile->mtime = new \DateTime('now');
 
         $this->binarydataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getIdFromUri')
             ->with($spiId)
             ->willReturn($spiId);
 
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($spiId)
             ->willReturn($spiBinaryFile);
@@ -234,7 +234,7 @@ class IOServiceTest extends TestCase
         $expectedContents = file_get_contents(__FILE__);
 
         $this->binarydataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getContents')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)))
             ->willReturn($expectedContents);
@@ -249,7 +249,7 @@ class IOServiceTest extends TestCase
     public function testExists(BinaryFile $binaryFile): void
     {
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)))
             ->willReturn(true);
@@ -264,7 +264,7 @@ class IOServiceTest extends TestCase
     public function testExistsNot(): void
     {
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with(self::equalTo($this->getPrefixedUri(__METHOD__)))
             ->willReturn(false);
@@ -280,7 +280,7 @@ class IOServiceTest extends TestCase
     public function testGetMimeType(BinaryFile $binaryFile): void
     {
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMimeType')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)))
             ->willReturn(self::MIME_TYPE_TEXT_PHP);
@@ -297,12 +297,12 @@ class IOServiceTest extends TestCase
     public function testDeleteBinaryFile(BinaryFile $binaryFile): void
     {
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('delete')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)));
 
         $this->binarydataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('delete')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)));
 
@@ -315,12 +315,12 @@ class IOServiceTest extends TestCase
         $spiId = $this->getPrefixedUri($id);
 
         $this->binarydataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteDirectory')
             ->with($spiId);
 
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteDirectory')
             ->with($spiId);
 
@@ -371,7 +371,7 @@ class IOServiceTest extends TestCase
         $prefixedUri = $this->getPrefixedUri($id);
 
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($prefixedUri)
             ->willThrowException(new BinaryFileNotFoundException($prefixedUri));
@@ -390,7 +390,7 @@ class IOServiceTest extends TestCase
 
         $prefixedId = $this->getPrefixedUri($binaryFile->id);
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('delete')
             ->with(self::equalTo($prefixedId))
             ->willThrowException(new BinaryFileNotFoundException($prefixedId));
@@ -408,13 +408,13 @@ class IOServiceTest extends TestCase
         $spiId = $this->getPrefixedUri($id);
 
         $this->binarydataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getIdFromUri')
             ->with($spiId)
             ->willReturn($spiId);
 
         $this->metadataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($spiId)
             ->willThrowException(new BinaryFileNotFoundException($spiId));
@@ -426,7 +426,7 @@ class IOServiceTest extends TestCase
     {
         $prefixedUri = $this->getPrefixedUri($uri);
         $this->binarydataHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUri')
             ->with($prefixedUri)
             ->willReturn($prefixedUri);

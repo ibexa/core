@@ -22,9 +22,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\Criterio
  */
 final class IsSystem implements CriterionHandlerInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function supports(CriterionInterface $criterion): bool
     {

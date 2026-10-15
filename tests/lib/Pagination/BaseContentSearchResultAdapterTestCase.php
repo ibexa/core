@@ -36,7 +36,7 @@ abstract class BaseContentSearchResultAdapterTestCase extends BaseSearchResultAd
 
         $searchResult = new SearchResult(['totalCount' => $nbResults]);
         $this->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findContent')
             ->with($countQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -82,7 +82,7 @@ abstract class BaseContentSearchResultAdapterTestCase extends BaseSearchResultAd
 
         $this
             ->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findContent')
             ->with($searchQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -111,7 +111,7 @@ abstract class BaseContentSearchResultAdapterTestCase extends BaseSearchResultAd
 
         $this
             ->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findContent')
             ->with($aggregationQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)

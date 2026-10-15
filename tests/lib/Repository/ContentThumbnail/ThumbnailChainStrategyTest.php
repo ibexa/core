@@ -30,12 +30,12 @@ class ThumbnailChainStrategyTest extends TestCase
         ];
 
         $firstStrategyMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getThumbnail')
             ->willReturn(null);
 
         $secondStrategyMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getThumbnail')
             ->willReturn(new Thumbnail());
 
@@ -66,19 +66,19 @@ class ThumbnailChainStrategyTest extends TestCase
         ];
 
         $firstStrategyMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getThumbnail')
             ->willReturn(null);
 
         $secondStrategyMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getThumbnail')
             ->willReturn(new Thumbnail([
                 'resource' => 'second',
             ]));
 
         $thirdStrategyMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getThumbnail')
             ->willReturn(new Thumbnail([
                 'resource' => 'third',
