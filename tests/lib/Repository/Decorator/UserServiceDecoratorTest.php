@@ -13,11 +13,17 @@ use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\User\Login;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\UserGroup\ParentUserGroupId;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupQuery;
+use Ibexa\Contracts\Core\Repository\Values\User\Query\UserQuery;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -32,13 +38,13 @@ class UserServiceDecoratorTest extends TestCase
     private const EXAMPLE_OFFSET = 10;
     private const EXAMPLE_LIMIT = 100;
 
-    protected function createDecorator(MockObject $service): UserService
+    protected function createDecorator(UserService&MockObject $service): UserService
     {
         return new class($service) extends UserServiceDecorator {
         };
     }
 
-    protected function createServiceMock(): MockObject
+    protected function createServiceMock(): UserService&MockObject
     {
         return $this->createMock(UserService::class);
     }
@@ -368,6 +374,42 @@ class UserServiceDecoratorTest extends TestCase
         $serviceMock->expects(self::once())->method('loadUsersOfUserGroup')->with(...$parameters);
 
         $decoratedService->loadUsersOfUserGroup(...$parameters);
+    }
+
+    public function testFindUsersDecorator(): void
+    {
+        $serviceMock = $this->createServiceMock();
+        $decoratedService = $this->createDecorator($serviceMock);
+
+        $query = new UserQuery(new Login('admin'));
+        $languages = [self::EXAMPLE_LANGUAGE_CODE];
+        $userList = new UserList(1, [$this->createStub(User::class)]);
+
+        $serviceMock
+            ->expects(self::once())
+            ->method('findUsers')
+            ->with($query, $languages)
+            ->willReturn($userList);
+
+        self::assertSame($userList, $decoratedService->findUsers($query, $languages));
+    }
+
+    public function testFindUserGroupsDecorator(): void
+    {
+        $serviceMock = $this->createServiceMock();
+        $decoratedService = $this->createDecorator($serviceMock);
+
+        $query = new UserGroupQuery(new ParentUserGroupId(self::EXAMPLE_USER_GROUP_ID));
+        $languages = [self::EXAMPLE_LANGUAGE_CODE];
+        $userGroupList = new UserGroupList(1, [$this->createStub(UserGroup::class)]);
+
+        $serviceMock
+            ->expects(self::once())
+            ->method('findUserGroups')
+            ->with($query, $languages)
+            ->willReturn($userGroupList);
+
+        self::assertSame($userGroupList, $decoratedService->findUserGroups($query, $languages));
     }
 
     public function testIsUserDecorator()
