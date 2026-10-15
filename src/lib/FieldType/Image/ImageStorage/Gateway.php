@@ -105,6 +105,11 @@ abstract class Gateway extends StorageGateway
         string $uri,
         int $fieldId
     ): bool;
+
+    /**
+     * @return string[]
+     */
+    abstract public function getImageReferenceUris(int $fieldId): array;
 }
 
 class_alias(Gateway::class, 'eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway');
