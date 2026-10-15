@@ -291,6 +291,44 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         }
     }
 
+    public function testStripMigrationRemovesStaleObjectStateTranslations(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        // Legacy eZ Publish, changing this state's default language from ger-DE to eng-GB, inserted
+        // the rows with the flipped bit next to the old ones instead of updating them.
+        $connection->insert('ibexa_object_state', [
+            'id' => 1,
+            'group_id' => 1,
+            'identifier' => 'state',
+            'default_language_id' => self::ENG_GB,
+            'language_mask' => self::ENG_GB | self::GER_DE | 1,
+        ]);
+        foreach ([['stale default', self::ENG_GB], ['stale other', self::GER_DE | 1]] as [$name, $languageId]) {
+            $connection->insert('ibexa_object_state_language', [
+                'contentobject_state_id' => 1,
+                'language_id' => $languageId,
+                'name' => $name,
+                'description' => '',
+            ]);
+        }
+
+        $this->runMigration(new AddContentAlwaysAvailableColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddLanguageTranslationTablesMigration($connection, new NullLogger()));
+        $this->runMigration(new BackfillLanguageTranslationsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
+        $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new NarrowLanguageIdColumnTypesMigration($connection, new NullLogger()));
+        $this->runMigration(new StripAlwaysAvailableBitFromLanguageIdsMigration($connection, new NullLogger()));
+
+        self::assertSame(
+            ['default' => self::ENG_GB, 'other' => self::GER_DE],
+            $this->fetchLanguageIdMap($connection, 'SELECT name AS k, language_id FROM ibexa_object_state_language')
+        );
+    }
+
     public function testDropMigrationAbortsIfBackfillWasSkipped(): void
     {
         $connection = $this->getDatabaseConnection();
